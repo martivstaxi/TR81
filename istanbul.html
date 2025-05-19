@@ -181,13 +181,18 @@
     </div>
   </div>
   
-  <!-- Bilgi mesajı (Türkiye'ye dön linki yerine) -->
-  <div class="info-banner" id="info-banner"></div>
+  <!-- Bilgi mesajı (sabit HTML olarak) -->
+  <div class="info-banner" id="info-banner">
+    Şu anda web sitemizin ücretsiz demo sürümünü görüntülüyorsunuz. Bu sürümde en fazla 3 konuma erişebilirsiniz. Tüm konumlara ulaşmak için <a href="https://www.duflat.com">➤ www.duflat.com</a> adresini ziyaret edin ve erişim hakkı satın alarak giriş yapın.
+  </div>
 
   <script>
-    // Sayfa yüklendiğinde çalışacak kod
+    // Sayfa yüklendiğinde çalışacak basit dil kontrolü
     document.addEventListener("DOMContentLoaded", function() {
-      // Dil kontrolü ve bilgi mesajını ayarla
+      const infoBanner = document.getElementById('info-banner');
+      if (!infoBanner) return;
+      
+      // Dil mesajları
       const messages = {
         'tr': 'Şu anda web sitemizin ücretsiz demo sürümünü görüntülüyorsunuz. Bu sürümde en fazla 3 konuma erişebilirsiniz. Tüm konumlara ulaşmak için <a href="https://www.duflat.com">➤ www.duflat.com</a> adresini ziyaret edin ve erişim hakkı satın alarak giriş yapın.',
         'en': 'You are currently viewing the free demo version of our website. You can access up to 3 locations in this version. To unlock all locations, please visit <a href="https://www.duflat.com">➤ www.duflat.com</a> and purchase access.',
@@ -206,35 +211,36 @@
         'it': 'Stai visualizzando la versione demo gratuita del nostro sito web. In questa versione puoi accedere a un massimo di 3 località. Per sbloccare tutte le località, visita <a href="https://www.duflat.com">➤ www.duflat.com</a> e acquista l'accesso.',
         'pl': 'Obecnie przeglądasz bezpłatną wersję demonstracyjną naszej strony internetowej. W tej wersji możesz uzyskać dostęp maksymalnie do 3 lokalizacji. Aby odblokować wszystkie lokalizacje, odwiedź <a href="https://www.duflat.com">➤ www.duflat.com</a> i wykup dostęp.'
       };
-
-      // Tarayıcı dilini al
-      let browserLang = navigator.language || navigator.userLanguage;
-      if (browserLang) {
-        browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
-      } else {
-        browserLang = 'en'; // Varsayılan dil
-      }
-
-      console.log("Tarayıcı dili:", browserLang); // Hata ayıklama için
-
-      // Mesajı belirle
-      let messageToShow = messages[browserLang];
-      if (!messageToShow) {
-        messageToShow = messages['en']; // Eşleşen dil yoksa İngilizce göster
-      }
       
-      // Sağdan sola yazılan diller için ayar
-      const rtlLangs = ['ar', 'fa'];
-      const infoBanner = document.getElementById('info-banner');
-      
-      if (rtlLangs.includes(browserLang)) {
-        infoBanner.setAttribute('dir', 'rtl');
-      } else {
-        infoBanner.setAttribute('dir', 'ltr');
+      try {
+        // Varsayılan olarak Türkçe göster (sayfa zaten Türkçe)
+        let browserLang = 'tr';
+        
+        // Tarayıcı dilini al (hata kontrolü ile)
+        if (navigator && (navigator.language || navigator.userLanguage)) {
+          browserLang = (navigator.language || navigator.userLanguage).split('-')[0];
+        }
+        
+        // Mesajı belirle
+        let messageToShow = messages[browserLang];
+        if (!messageToShow) {
+          messageToShow = messages['en']; // Eşleşen dil yoksa İngilizce göster
+        }
+        
+        // Sağdan sola yazılan diller için ayar
+        const rtlLangs = ['ar', 'fa'];
+        if (rtlLangs.includes(browserLang)) {
+          infoBanner.setAttribute('dir', 'rtl');
+        } else {
+          infoBanner.setAttribute('dir', 'ltr');
+        }
+        
+        // Mesajı göster
+        infoBanner.innerHTML = messageToShow;
+      } catch (error) {
+        // Hata durumunda varsayılan mesajı bırak (Türkçe)
+        console.error("Dil algılama hatası:", error);
       }
-      
-      // Mesajı göster
-      infoBanner.innerHTML = messageToShow;
     });
   </script>
 </body>
