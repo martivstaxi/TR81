@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Şehir</title>
+  <title id="page-title">Şehir</title>
   <style>
     body {
       font-family: sans-serif;
@@ -185,7 +185,7 @@
 </head>
 <body>
   <!-- Çok dilli bilgi mesajı -->
-  <div class="info-banner" id="info-banner" dir="auto"></div>
+  <div class="info-banner" id="info-banner" dir="auto">Şu anda web sitemizin deneme sürümünü görüntülüyorsunuz. Tam sürüme ulaşmak için <a href="https://www.duflat.com">www.duflat.com</a> adresine gidebilirsiniz.</div>
   
   <h1 id="city-header">📸 <span id="city-name"></span></h1>
   
@@ -212,8 +212,6 @@
   </div>
 
   <script>
-    // Erişim kontrolü kaldırıldı
-
     // URL'den şehir ismi al
     function getCityFromUrl() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -305,49 +303,6 @@
       }
     }
 
-    // Dil kontrolü ve bilgi mesajını ayarla
-    function setLanguageMessage() {
-      const messages = {
-        'tr': 'Şu anda web sitemizin deneme sürümünü görüntülüyorsunuz. Tam sürüme ulaşmak için <a href="https://www.duflat.com">www.duflat.com</a> adresine gidebilirsiniz.',
-        'en': 'You are currently viewing the demo version of our website. To access the full version, please visit <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'zh': '您当前正在浏览我们网站的演示版本。要访问完整版本，请访问 <a href="https://www.duflat.com">www.duflat.com</a>。',
-        'hi': 'आप वर्तमान में हमारी वेबसाइट का डेमो संस्करण देख रहे हैं। पूर्ण संस्करण तक पहुंचने के लिए कृपया <a href="https://www.duflat.com">www.duflat.com</a> पर जाएं।',
-        'es': 'Actualmente estás viendo la versión de demostración de nuestro sitio web. Para acceder a la versión completa, visita <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'fr': 'Vous consultez actuellement la version de démonstration de notre site web. Pour accéder à la version complète, veuillez visiter <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'ar': 'أنت تشاهد حالياً النسخة التجريبية من موقعنا الإلكتروني. للوصول إلى النسخة الكاملة، يرجى زيارة <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'de': 'Sie sehen derzeit die Demoversion unserer Website. Um die Vollversion zu nutzen, besuchen Sie bitte <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'ru': 'Вы просматриваете демонстрационную версию нашего сайта. Чтобы получить доступ к полной версии, посетите <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'pt': 'Você está visualizando a versão de demonstração do nosso site. Para acessar a versão completa, visite <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'id': 'Anda sedang melihat versi demo dari situs web kami. Untuk mengakses versi lengkapnya, silakan kunjungi <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'ja': '現在、当社ウェブサイトのデモ版をご覧いただいています。完全版にアクセスするには、<a href="https://www.duflat.com">www.duflat.com</a> にアクセスしてください。',
-        'ko': '현재 당사 웹사이트의 데모 버전을 보고 계십니다. 전체 버전에 접속하려면 <a href="https://www.duflat.com">www.duflat.com</a>을 방문해 주세요.',
-        'fa': 'شما در حال مشاهده نسخه نمایشی وب‌سایت ما هستید. برای دسترسی به نسخه کامل، لطفاً به <a href="https://www.duflat.com">www.duflat.com</a> مراجعه کنید.',
-        'it': 'Stai visualizzando la versione demo del nostro sito web. Per accedere alla versione completa, visita <a href="https://www.duflat.com">www.duflat.com</a>.',
-        'pl': 'Obecnie przeglądasz wersję demonstracyjną naszej strony internetowej. Aby uzyskać dostęp do pełnej wersji, odwiedź <a href="https://www.duflat.com">www.duflat.com</a>.'
-      };
-
-      // Tarayıcı dilini al ve uygun gösterim için hazırla
-      let browserLang = navigator.language || navigator.userLanguage;
-      browserLang = browserLang.split('-')[0]; // Sadece ana dil kodunu al (örn: 'en-US' -> 'en')
-
-      // İstenilen dillerden biri mi kontrol et
-      let messageToShow = messages[browserLang];
-      
-      // Eğer desteklenen bir dil değilse veya bulunamadıysa, İngilizce göster
-      if (!messageToShow) {
-        messageToShow = messages['en'];
-      }
-      
-      // Sağdan sola yazılan diller için dir özniteliğini ayarla
-      const rtlLangs = ['ar', 'fa'];
-      if (rtlLangs.includes(browserLang)) {
-        document.getElementById('info-banner').setAttribute('dir', 'rtl');
-      }
-      
-      // Mesajı göster
-      document.getElementById('info-banner').innerHTML = messageToShow;
-    }
-
     // HTML kodunu dışa aktar ve direkt kopyala
     function exportHTML() {
       const cityName = loadCityName();
@@ -381,10 +336,136 @@
         locationsHTML += '  </div>\n';
       }
 
-      // Dil desteği için JavaScript kodu
-      const languageScriptText = `  <script>
-    // Dil kontrolü ve bilgi mesajını ayarla
+      // Sabit HTML içeriğini oluştur
+      var staticHTML = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${cityName}</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f5f5f5;
+    }
+    .info-banner {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 14px;
+      color: #555;
+      max-width: 300px;
+      text-align: left;
+      line-height: 1.4;
+    }
+    .info-banner a {
+      color: #0077cc;
+      text-decoration: underline;
+    }
+    
+    h1 {
+      font-size: 26px;
+      margin-top: 80px;
+      margin-bottom: 30px;
+    }
+    
+    .city-section {
+      margin-bottom: 30px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .city-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: 20px;
+      color: #0077cc;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding: 5px 0;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 200px;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .back-link {
+      margin-top: 30px;
+      display: inline-block;
+      color: #0077cc;
+      text-decoration: none;
+    }
+    
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    
+    .location-link {
+      text-decoration: underline;
+      color: #0077cc;
+      display: flex;
+      align-items: center;
+    }
+    
+    .location-link:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+    
+    .click-icon {
+      margin-right: 5px;
+      display: inline-block;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+    }
+  </style>
+  <script>
     window.onload = function() {
+      // Dil kontrolü ve bilgi mesajını ayarla
       const messages = {
         'tr': 'Şu anda web sitemizin deneme sürümünü görüntülüyorsunuz. Tam sürüme ulaşmak için <a href="https://www.duflat.com">www.duflat.com</a> adresine gidebilirsiniz.',
         'en': 'You are currently viewing the demo version of our website. To access the full version, please visit <a href="https://www.duflat.com">www.duflat.com</a>.',
@@ -404,19 +485,17 @@
         'pl': 'Obecnie przeglądasz wersję demonstracyjną naszej strony internetowej. Aby uzyskać dostęp do pełnej wersji, odwiedź <a href="https://www.duflat.com">www.duflat.com</a>.'
       };
 
-      // Tarayıcı dilini al ve uygun gösterim için hazırla
+      // Tarayıcı dilini al
       let browserLang = navigator.language || navigator.userLanguage;
-      browserLang = browserLang.split('-')[0]; // Sadece ana dil kodunu al (örn: 'en-US' -> 'en')
+      browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
 
-      // İstenilen dillerden biri mi kontrol et
+      // Mesajı belirle
       let messageToShow = messages[browserLang];
-      
-      // Eğer desteklenen bir dil değilse veya bulunamadıysa, İngilizce göster
       if (!messageToShow) {
         messageToShow = messages['en'];
       }
       
-      // Sağdan sola yazılan diller için dir özniteliğini ayarla
+      // Sağdan sola yazılan diller için ayar
       const rtlLangs = ['ar', 'fa'];
       if (rtlLangs.includes(browserLang)) {
         document.getElementById('info-banner').setAttribute('dir', 'rtl');
@@ -425,149 +504,20 @@
       // Mesajı göster
       document.getElementById('info-banner').innerHTML = messageToShow;
     };
-  </script>`;
-
-      // Tam HTML oluştur
-      const fullHTML = '<!DOCTYPE html>\n' +
-'<html lang="tr">\n' +
-'<head>\n' +
-'  <meta charset="UTF-8">\n' +
-'  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-'  <title>' + cityName + '</title>\n' +
-'  <style>\n' +
-'    body {\n' +
-'      font-family: sans-serif;\n' +
-'      text-align: center;\n' +
-'      padding: 20px;\n' +
-'      overflow-y: auto;\n' +
-'      background-color: #f5f5f5;\n' +
-'    }\n' +
-'    .info-banner {\n' +
-'      position: absolute;\n' +
-'      top: 20px;\n' +
-'      left: 20px;\n' +
-'      font-size: 14px;\n' +
-'      color: #555;\n' +
-'      max-width: 300px;\n' +
-'      text-align: left;\n' +
-'      line-height: 1.4;\n' +
-'    }\n' +
-'    .info-banner a {\n' +
-'      color: #0077cc;\n' +
-'      text-decoration: underline;\n' +
-'    }\n' +
-'    \n' +
-'    h1 {\n' +
-'      font-size: 26px;\n' +
-'      margin-top: 80px;\n' +
-'      margin-bottom: 30px;\n' +
-'    }\n' +
-'    \n' +
-'    .city-section {\n' +
-'      margin-bottom: 30px;\n' +
-'      background-color: white;\n' +
-'      border-radius: 10px;\n' +
-'      padding: 15px;\n' +
-'      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);\n' +
-'      max-width: 1000px;\n' +
-'      margin-left: auto;\n' +
-'      margin-right: auto;\n' +
-'    }\n' +
-'    \n' +
-'    .city-header {\n' +
-'      display: flex;\n' +
-'      justify-content: space-between;\n' +
-'      align-items: center;\n' +
-'      margin-bottom: 15px;\n' +
-'      padding-bottom: 10px;\n' +
-'      border-bottom: 1px solid #eee;\n' +
-'    }\n' +
-'    \n' +
-'    .city-title {\n' +
-'      margin: 0;\n' +
-'      font-size: 20px;\n' +
-'      color: #0077cc;\n' +
-'    }\n' +
-'    \n' +
-'    .city-photos {\n' +
-'      display: flex;\n' +
-'      gap: 15px;\n' +
-'      overflow-x: auto;\n' +
-'      padding: 5px 0;\n' +
-'      scroll-snap-type: x mandatory;\n' +
-'      scrollbar-width: none;\n' +
-'    }\n' +
-'    \n' +
-'    .city-photos::-webkit-scrollbar {\n' +
-'      display: none;\n' +
-'    }\n' +
-'    \n' +
-'    .photo-card {\n' +
-'      flex: 0 0 auto;\n' +
-'      width: 200px;\n' +
-'      height: 200px;\n' +
-'      border-radius: 8px;\n' +
-'      overflow: hidden;\n' +
-'      box-shadow: 0 1px 3px rgba(0,0,0,0.12);\n' +
-'      scroll-snap-align: start;\n' +
-'      background-color: white;\n' +
-'      position: relative;\n' +
-'    }\n' +
-'    \n' +
-'    .photo-card img {\n' +
-'      width: 100%;\n' +
-'      height: 100%;\n' +
-'      object-fit: cover;\n' +
-'      display: block;\n' +
-'    }\n' +
-'    \n' +
-'    .back-link {\n' +
-'      margin-top: 30px;\n' +
-'      display: inline-block;\n' +
-'      color: #0077cc;\n' +
-'      text-decoration: none;\n' +
-'    }\n' +
-'    \n' +
-'    .back-link:hover {\n' +
-'      text-decoration: underline;\n' +
-'    }\n' +
-'    \n' +
-'    .location-link {\n' +
-'      text-decoration: underline;\n' +
-'      color: #0077cc;\n' +
-'      display: flex;\n' +
-'      align-items: center;\n' +
-'    }\n' +
-'    \n' +
-'    .location-link:hover {\n' +
-'      text-decoration: underline;\n' +
-'      text-decoration-thickness: 2px;\n' +
-'    }\n' +
-'    \n' +
-'    .click-icon {\n' +
-'      margin-right: 5px;\n' +
-'      display: inline-block;\n' +
-'    }\n' +
-'    \n' +
-'    .click-icon::before {\n' +
-'      content: "➤";\n' +
-'      display: inline-block;\n' +
-'    }\n' +
-'  </style>\n' + languageScriptText +
-'</head>\n' +
-'<body>\n' +
-'  <!-- Bilgi mesajı -->\n' +
-'  <div class="info-banner" id="info-banner" dir="auto"></div>\n' +
-'  \n' +
-'  <h1>📸 ' + cityName + '</h1>\n' +
-locationsHTML +
-'  \n' +
-'  <p><a href="turkiye.html" class="back-link">← Türkiye\'ye dön</a></p>\n' +
-'</body>\n' +
-'</html>';
+  <\/script>
+</head>
+<body>
+  <!-- Bilgi mesajı -->
+  <div class="info-banner" id="info-banner" dir="auto"></div>
+  
+  <h1>📸 ${cityName}</h1>
+${locationsHTML}  
+  <p><a href="turkiye.html" class="back-link">← Türkiye'ye dön</a></p>
+</body>
+</html>`;
 
       // HTML kodunu direkt kopyala
-      navigator.clipboard.writeText(fullHTML).then(function() {
+      navigator.clipboard.writeText(staticHTML).then(function() {
         alert('HTML kodu kopyalandı!');
       }).catch(function(err) {
         console.error('Kopyalama hatası:', err);
@@ -657,6 +607,47 @@ locationsHTML +
       const cityName = loadCityName();
       document.getElementById('city-name').textContent = cityName;
       document.getElementById('page-title').textContent = cityName;
+    }
+
+    // Dil kontrolü ve bilgi mesajını ayarla
+    function setLanguageMessage() {
+      const messages = {
+        'tr': 'Şu anda web sitemizin deneme sürümünü görüntülüyorsunuz. Tam sürüme ulaşmak için <a href="https://www.duflat.com">www.duflat.com</a> adresine gidebilirsiniz.',
+        'en': 'You are currently viewing the demo version of our website. To access the full version, please visit <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'zh': '您当前正在浏览我们网站的演示版本。要访问完整版本，请访问 <a href="https://www.duflat.com">www.duflat.com</a>。',
+        'hi': 'आप वर्तमान में हमारी वेबसाइट का डेमो संस्करण देख रहे हैं। पूर्ण संस्करण तक पहुंचने के लिए कृपया <a href="https://www.duflat.com">www.duflat.com</a> पर जाएं।',
+        'es': 'Actualmente estás viendo la versión de demostración de nuestro sitio web. Para acceder a la versión completa, visita <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'fr': 'Vous consultez actuellement la version de démonstration de notre site web. Pour accéder à la version complète, veuillez visiter <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'ar': 'أنت تشاهد حالياً النسخة التجريبية من موقعنا الإلكتروني. للوصول إلى النسخة الكاملة، يرجى زيارة <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'de': 'Sie sehen derzeit die Demoversion unserer Website. Um die Vollversion zu nutzen, besuchen Sie bitte <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'ru': 'Вы просматриваете демонстрационную версию нашего сайта. Чтобы получить доступ к полной версии, посетите <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'pt': 'Você está visualizando a versão de demonstração do nosso site. Para acessar a versão completa, visite <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'id': 'Anda sedang melihat versi demo dari situs web kami. Untuk mengakses versi lengkapnya, silakan kunjungi <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'ja': '現在、当社ウェブサイトのデモ版をご覧いただいています。完全版にアクセスするには、<a href="https://www.duflat.com">www.duflat.com</a> にアクセスしてください。',
+        'ko': '현재 당사 웹사이트의 데모 버전을 보고 계십니다. 전체 버전에 접속하려면 <a href="https://www.duflat.com">www.duflat.com</a>을 방문해 주세요.',
+        'fa': 'شما در حال مشاهده نسخه نمایشی وب‌سایت ما هستید. برای دسترسی به نسخه کامل، لطفاً به <a href="https://www.duflat.com">www.duflat.com</a> مراجعه کنید.',
+        'it': 'Stai visualizzando la versione demo del nostro sito web. Per accedere alla versione completa, visita <a href="https://www.duflat.com">www.duflat.com</a>.',
+        'pl': 'Obecnie przeglądasz wersję demonstracyjną naszej strony internetowej. Aby uzyskać dostęp do pełnej wersji, odwiedź <a href="https://www.duflat.com">www.duflat.com</a>.'
+      };
+
+      // Tarayıcı dilini al
+      let browserLang = navigator.language || navigator.userLanguage;
+      browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
+
+      // Mesajı belirle
+      let messageToShow = messages[browserLang];
+      if (!messageToShow) {
+        messageToShow = messages['en'];
+      }
+      
+      // Sağdan sola yazılan diller için ayar
+      const rtlLangs = ['ar', 'fa'];
+      if (rtlLangs.includes(browserLang)) {
+        document.getElementById('info-banner').setAttribute('dir', 'rtl');
+      }
+      
+      // Mesajı göster
+      document.getElementById('info-banner').innerHTML = messageToShow;
     }
 
     // Sayfa yüklendikinde çalıştır
