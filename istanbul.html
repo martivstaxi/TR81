@@ -121,7 +121,7 @@
     }
   </style>
   <script>
-    window.onload = function() {
+    document.addEventListener("DOMContentLoaded", function() {
       // Dil kontrolü ve bilgi mesajını ayarla
       const messages = {
         'tr': 'Şu anda web sitemizin ücretsiz demo sürümünü görüntülüyorsunuz. Bu sürümde en fazla 3 konuma erişebilirsiniz. Tüm konumlara ulaşmak için <a href="https://www.duflat.com">➤ www.duflat.com</a> adresini ziyaret edin ve erişim hakkı satın alarak giriş yapın.',
@@ -144,34 +144,42 @@
 
       // Tarayıcı dilini al
       let browserLang = navigator.language || navigator.userLanguage;
-      browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
+      if (browserLang) {
+        browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
+      } else {
+        browserLang = 'en'; // Varsayılan dil
+      }
 
       // Mesajı belirle
       let messageToShow = messages[browserLang];
       if (!messageToShow) {
-        messageToShow = messages['en'];
+        messageToShow = messages['en']; // Eşleşen dil yoksa İngilizce göster
       }
       
       // Sağdan sola yazılan diller için ayar
       const rtlLangs = ['ar', 'fa'];
+      const infoBanner = document.getElementById('info-banner');
+      
       if (rtlLangs.includes(browserLang)) {
-        document.getElementById('info-banner').setAttribute('dir', 'rtl');
+        infoBanner.setAttribute('dir', 'rtl');
+      } else {
+        infoBanner.setAttribute('dir', 'ltr');
       }
       
       // Mesajı göster
-      document.getElementById('info-banner').innerHTML = messageToShow;
-    };
+      infoBanner.innerHTML = messageToShow;
+    });
   </script>
 </head>
 <body>
   <!-- Bilgi mesajı -->
-  <div class="info-banner" id="info-banner" dir="auto"></div>
+  <div class="info-banner" id="info-banner"></div>
   
   <h1>📸 İstanbul</h1>
   <div class="city-section">
     <div class="city-header">
       <h2 class="city-title">
-        <a href="https://maps.google.com/?q=Beylerbeyi+Saray%C4%B1%2C+Istanbul)" target="_blank" class="location-link">
+        <a href="https://maps.google.com/?q=Beylerbeyi+Saray%C4%B1%2C+Istanbul" target="_blank" class="location-link">
           <span class="click-icon"></span>
           Beylerbeyi Sarayı 📍
         </a>
@@ -193,7 +201,7 @@
   <div class="city-section">
     <div class="city-header">
       <h2 class="city-title">
-        <a href="https://maps.google.com/?q=Ulus+29%2C+Istanbul)" target="_blank" class="location-link">
+        <a href="https://maps.google.com/?q=Ulus+29%2C+Istanbul" target="_blank" class="location-link">
           <span class="click-icon"></span>
           Ulus 29 Restaurant 📍
         </a>
@@ -215,7 +223,7 @@
   <div class="city-section">
     <div class="city-header">
       <h2 class="city-title">
-        <a href="https://maps.google.com/?q=Aydos+Tepesi%2C+Istanbul)" target="_blank" class="location-link">
+        <a href="https://maps.google.com/?q=Aydos+Tepesi%2C+Istanbul" target="_blank" class="location-link">
           <span class="click-icon"></span>
           Aydos Tepesi 📍
         </a>
