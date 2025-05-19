@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>  
 <html lang="tr">
 <head>
@@ -27,7 +28,7 @@
       margin: 30px auto;
     }
     .info-banner a {
-      color: #0077cc;
+      color: #555;
       text-decoration: underline;
       font-weight: bold;
     }
@@ -39,29 +40,12 @@
     }
     
     h1.city-title {
-      cursor: pointer;
-      background: #0077cc;
+      background: #555;
       color: white;
       padding: 10px;
       border-radius: 10px;
       max-width: 1000px;
       margin: 40px auto 30px auto;
-      position: relative;
-    }
-    
-    h1.city-title:hover {
-      background: #005fa3;
-    }
-    
-    h1.city-title::after {
-      content: "▼";
-      position: absolute;
-      right: 20px;
-      transition: transform 0.3s;
-    }
-    
-    h1.city-title.collapsed::after {
-      transform: rotate(-90deg);
     }
     
     .city-container {
@@ -70,13 +54,6 @@
     
     .city-content {
       display: block;
-      transition: max-height 0.3s ease-out;
-      overflow: hidden;
-      max-height: 5000px;
-    }
-    
-    .city-content.collapsed {
-      max-height: 0;
     }
     
     .city-section {
@@ -102,7 +79,7 @@
     .city-title {
       margin: 0;
       font-size: 20px;
-      color: #0077cc;
+      color: #555;
     }
     
     .city-photos {
@@ -141,7 +118,7 @@
       margin-top: 30px;
       margin-bottom: 30px;
       display: inline-block;
-      color: #0077cc;
+      color: #555;
       text-decoration: none;
     }
     
@@ -151,7 +128,7 @@
     
     .location-link {
       text-decoration: underline;
-      color: #0077cc;
+      color: #555;
       display: flex;
       align-items: center;
     }
@@ -204,7 +181,7 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #0077cc;
+      background: #555;
       color: white;
       border: none;
       border-radius: 50%;
@@ -231,7 +208,7 @@
     }
     
     .add-city-btn {
-      background: #0077cc;
+      background: #555;
       color: white;
       border: none;
       border-radius: 5px;
@@ -276,7 +253,7 @@
     }
     
     .tab-button.active {
-      background: #0077cc;
+      background: #555;
       color: white;
     }
     
@@ -290,8 +267,6 @@
   </style>
 </head>
 <body>
-  <h1>📸 Şehir Rehberi</h1>
-  
   <!-- Şehirler dinamik olarak burada görünecek -->
   <div id="cities-container"></div>
   
@@ -446,7 +421,6 @@
         const cityTitle = document.createElement('h1');
         cityTitle.className = 'city-title';
         cityTitle.textContent = '📸 ' + displayName;
-        cityTitle.onclick = function() { toggleCityContent(city); };
         
         // İçerik div
         const cityContent = document.createElement('div');
@@ -490,20 +464,6 @@
       });
       
       updateSelectors();
-    }
-    
-    // Şehir içeriğini aç/kapat
-    function toggleCityContent(city) {
-      const content = document.getElementById('content-' + city);
-      const title = document.querySelector('#city-' + city + ' .city-title');
-      
-      if (content.classList.contains('collapsed')) {
-        content.classList.remove('collapsed');
-        title.classList.remove('collapsed');
-      } else {
-        content.classList.add('collapsed');
-        title.classList.add('collapsed');
-      }
     }
     
     // ===== EDIT PANEL İŞLEMLERİ =====
@@ -572,478 +532,10 @@
       
       // Sayfayı yenile
       renderCities();
-      
-      alert(newCity + ' şehri başarıyla eklendi!');
     }
     
     // Şehir seç
-    function selectCity() {
-      const selector = document.getElementById('citySelector');
-      const cityNameInput = document.getElementById('cityName');
-      const selectedCity = selector.value;
-      
-      if (selectedCity) {
-        cityNameInput.value = getCityDisplayName(selectedCity);
-      } else {
-        cityNameInput.value = '';
-      }
-    }
-    
-    // Şehir adını güncelleme
-    function updateCityName() {
-      const selector = document.getElementById('citySelector');
-      const cityNameInput = document.getElementById('cityName');
-      const selectedCity = selector.value;
-      const newName = cityNameInput.value.trim();
-      
-      if (!selectedCity) {
-        alert('Lütfen bir şehir seçin!');
-        return;
-      }
-      
-      if (!newName) {
-        alert('Lütfen bir şehir adı girin!');
-        return;
-      }
-      
-      // Şehir görüntüleme adını güncelle
-      saveCityDisplayName(selectedCity, newName);
-      
-      // Sayfayı yenile
-      renderCities();
-      
-      alert('Şehir adı başarıyla güncellendi!');
-    }
-    
-    // Şehri silme
-    function deleteCity() {
-      const selector = document.getElementById('citySelector');
-      const selectedCity = selector.value;
-      
-      if (!selectedCity) {
-        alert('Lütfen bir şehir seçin!');
-        return;
-      }
-      
-      if (!confirm(selectedCity + ' şehrini ve tüm konumlarını silmek istediğinizden emin misiniz?')) {
-        return;
-      }
-      
-      // Şehir verilerini sil
-      localStorage.removeItem('locations_' + selectedCity);
-      localStorage.removeItem('cityName_' + selectedCity);
-      
-      // Şehri listeden çıkar
-      const cities = getCities();
-      const index = cities.indexOf(selectedCity);
-      if (index > -1) {
-        cities.splice(index, 1);
-        saveCities(cities);
-      }
-      
-      // Sayfayı yenile
-      renderCities();
-      
-      alert(selectedCity + ' şehri başarıyla silindi!');
-    }
-    
-    // Şehri taşıma
-    function moveCity(direction) {
-      const selector = document.getElementById('citySelector');
-      const selectedCity = selector.value;
-      
-      if (!selectedCity) {
-        alert('Lütfen bir şehir seçin!');
-        return;
-      }
-      
-      const cities = getCities();
-      const index = cities.indexOf(selectedCity);
-      
-      if (index === -1) return;
-      
-      const newIndex = index + direction;
-      
-      // Sınırları kontrol et
-      if (newIndex < 0 || newIndex >= cities.length) {
-        return;
-      }
-      
-      // Şehirlerin yerini değiştir
-      [cities[index], cities[newIndex]] = [cities[newIndex], cities[index]];
-      
-      // Kaydet ve yenile
-      saveCities(cities);
-      renderCities();
-      
-      // Seçimi koru
-      document.getElementById('citySelector').value = selectedCity;
-    }
-    
-    // Toplu konum ekleme
-    function addBulkLocations() {
-      const citySelector = document.getElementById('locationCitySelector');
-      const selectedCity = citySelector.value;
-      const bulkText = document.getElementById('bulkLocations').value;
-      
-      if (!selectedCity) {
-        alert('Lütfen bir şehir seçin!');
-        return;
-      }
-      
-      if (!bulkText.trim()) {
-        alert('Lütfen konum bilgilerini girin!');
-        return;
-      }
-      
-      const lines = bulkText.split('\n');
-      let successCount = 0;
-      const locations = getLocationsForCity(selectedCity);
-      
-      for(var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        if (!line.trim()) continue;
-        
-        let cleanedLine = line.replace(/^\d+\.\s*/, '');
-        const parts = cleanedLine.split('@@');
-        
-        if (parts.length < 2) {
-          console.log('Satır ' + (i + 1) + ': Eksik veri - "' + cleanedLine + '"');
-          continue;
-        }
-        
-        const name = parts[0].trim();
-        const link = parts[1].trim();
-        const photos = [];
-        
-        for (let j = 2; j < parts.length && j < 5; j++) {
-          if (parts[j].trim() && parts[j].trim().startsWith('https://')) {
-            photos.push(parts[j].trim());
-          }
-        }
-        
-        if (!name || !link) {
-          console.log('Satır ' + (i + 1) + ': Ad veya link eksik - "' + cleanedLine + '"');
-          continue;
-        }
-        
-        const newLocation = {
-          name: name,
-          photos: photos,
-          link: link
-        };
-        
-        locations.push(newLocation);
-        successCount++;
-        console.log('Satır ' + (i + 1) + ': Başarıyla eklendi - "' + name + '"');
-      }
-      
-      saveLocationsForCity(selectedCity, locations);
-      renderCities();
-      document.getElementById('bulkLocations').value = '';
-      
-      alert('Toplam ' + successCount + ' konum eklendi.');
-    }
-    
-    // Konumları temizleme
-    function clearLocations() {
-      const citySelector = document.getElementById('locationCitySelector');
-      const selectedCity = citySelector.value;
-      
-      if (!selectedCity) {
-        alert('Lütfen bir şehir seçin!');
-        return;
-      }
-      
-      if (!confirm(selectedCity + ' şehri için tüm konumları silmek istediğinizden emin misiniz?')) {
-        return;
-      }
-      
-      // Konumları temizle
-      saveLocationsForCity(selectedCity, []);
-      
-      // Sayfayı yenile
-      renderCities();
-      
-      alert(selectedCity + ' şehri için tüm konumlar silindi!');
-    }
-    
-    // HTML kodunu dışa aktar ve kopyala
-    function exportHTML() {
-      const exportSelector = document.getElementById('exportCitySelector');
-      const selected = exportSelector.value;
-      let cities = [];
-      
-      if (selected === 'all') {
-        cities = getCities();
-      } else {
-        cities = [selected];
-      }
-      
-      // HTML'i oluştur
-      let locationsHTML = '';
-      
-      cities.forEach(city => {
-        const displayName = getCityDisplayName(city);
-        const locations = getLocationsForCity(city);
-        
-        // Şehir başlığı
-        locationsHTML += '  <h1 class="city-header">📸 ' + displayName + '</h1>\n\n';
-        
-        // Şehir konumları
-        if (locations.length > 0) {
-          locations.forEach(location => {
-            // Her konum için HTML oluştur
-            locationsHTML += '  <div class="city-section">\n';
-            locationsHTML += '    <div class="city-header">\n';
-            locationsHTML += '      <h2 class="city-title">\n';
-            locationsHTML += '        <a href="' + location.link + '" target="_blank" class="location-link">\n';
-            locationsHTML += '          <span class="click-icon"></span>\n';
-            locationsHTML += '          ' + location.name + ' 📍\n';
-            locationsHTML += '        </a>\n';
-            locationsHTML += '      </h2>\n';
-            locationsHTML += '    </div>\n';
-            locationsHTML += '    \n';
-            locationsHTML += '    <div class="city-photos">\n';
-            
-            // Fotoğrafları ekle
-            for(var j = 0; j < location.photos.length; j++) {
-              locationsHTML += '      <div class="photo-card">\n';
-              locationsHTML += '        <img src="' + location.photos[j] + '" alt="' + location.name + '">\n';
-              locationsHTML += '      </div>\n';
-            }
-            
-            locationsHTML += '    </div>\n';
-            locationsHTML += '  </div>\n\n';
-          });
-        } else {
-          locationsHTML += '  <div class="city-section">\n';
-          locationsHTML += '    <p>Bu şehir için henüz konum eklenmemiş.</p>\n';
-          locationsHTML += '  </div>\n\n';
-        }
-        
-        // Bilgi mesajı
-        locationsHTML += '  <div class="info-banner" dir="auto">' + getLanguageMessage() + '</div>\n\n';
-      });
-      
-      const staticHTML = `<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Şehir Rehberi</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 20px;
-      overflow-y: auto;
-      background-color: #f5f5f5;
-    }
-    .info-banner {
-      font-size: 18px;
-      color: #444;
-      max-width: 1000px;
-      text-align: left;
-      line-height: 1.5;
-      font-weight: 500;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      z-index: 100;
-      margin: 30px auto;
-    }
-    .info-banner a {
-      color: #0077cc;
-      text-decoration: underline;
-      font-weight: bold;
-    }
-    
-    h1 {
-      font-size: 26px;
-      margin-top: 30px;
-      margin-bottom: 30px;
-    }
-    
-    .city-header {
-      font-size: 26px;
-      background: #0077cc;
-      color: white;
-      padding: 10px;
-      border-radius: 10px;
-      max-width: 1000px;
-      margin: 40px auto 30px auto;
-    }
-    
-    .city-section {
-      margin-bottom: 30px;
-      background-color: white;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .city-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .city-title {
-      margin: 0;
-      font-size: 20px;
-      color: #0077cc;
-    }
-    
-    .city-photos {
-      display: flex;
-      gap: 15px;
-      overflow-x: auto;
-      padding: 5px 0;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-    }
-    
-    .city-photos::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .photo-card {
-      flex: 0 0 auto;
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-      scroll-snap-align: start;
-      background-color: white;
-      position: relative;
-    }
-    
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    
-    .back-link {
-      margin-top: 30px;
-      margin-bottom: 30px;
-      display: inline-block;
-      color: #0077cc;
-      text-decoration: none;
-    }
-    
-    .back-link:hover {
-      text-decoration: underline;
-    }
-    
-    .location-link {
-      text-decoration: underline;
-      color: #0077cc;
-      display: flex;
-      align-items: center;
-    }
-    
-    .location-link:hover {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
-    }
-    
-    .click-icon {
-      margin-right: 5px;
-      display: inline-block;
-    }
-    
-    .click-icon::before {
-      content: "➤";
-      display: inline-block;
-    }
-  </style>
-</head>
-<body>
-  <h1>📸 Şehir Rehberi</h1>
-
-${locationsHTML}
-  <p><a href="https://www.duflat.com" class="back-link">← www.duflat.com</a></p>
-
-  <script>
-    // Dil kontrolü ve bilgi mesajını ayarla
-    function setLanguageMessage() {
-      const messages = {
-        'tr': 'Şu anda web sitemizin ücretsiz demo sürümünü görüntülüyorsunuz. Bu sürümde en fazla 3 konuma erişebilirsiniz. Tüm konumlara ulaşmak için <a href="https://www.duflat.com">➤ duflat.com</a> adresini ziyaret edin ve erişim hakkı satın alarak giriş yapın.',
-        'en': 'You are currently viewing the free demo version of our website. You can access up to 3 locations in this version. To unlock all locations, please visit <a href="https://www.duflat.com">➤ duflat.com</a> and purchase access.',
-        'zh': '您当前正在浏览我们网站的免费演示版本。在此版本中，您最多可以访问 3 个位置。要解锁所有位置，请访问 <a href="https://www.duflat.com">➤ duflat.com</a> 并购买访问权限。',
-        'hi': 'आप वर्तमान में हमारी वेबसाइट का मुफ्त डेमो संस्करण देख रहे हैं। इस संस्करण में आप अधिकतम 3 स्थानों तक पहुंच सकते हैं। सभी स्थानों को अनलॉक करने के लिए कृपया <a href="https://www.duflat.com">➤ duflat.com</a> पर जाएं और एक्सेस खरीदें।',
-        'es': 'Actualmente estás viendo la versión demo gratuita de nuestro sitio web. En esta versión puedes acceder a un máximo de 3 ubicaciones. Para desbloquear todas las ubicaciones, visita <a href="https://www.duflat.com">➤ duflat.com</a> y compra el acceso.',
-        'fr': 'Vous consultez actuellement la version démo gratuite de notre site web. Dans cette version, vous pouvez accéder à un maximum de 3 emplacements. Pour débloquer tous les emplacements, veuillez visiter <a href="https://www.duflat.com">➤ duflat.com</a> et acheter l\\'accès.',
-        'ar': 'أنت تشاهد حالياً النسخة التجريبية المجانية من موقعنا الإلكتروني. يمكنك الوصول إلى 3 مواقع كحد أقصى في هذه النسخة. للوصول إلى جميع المواقع، يرجى زيارة <a href="https://www.duflat.com">➤ duflat.com</a> وشراء حق الوصول.',
-        'de': 'Sie sehen derzeit die kostenlose Demoversion unserer Website. In dieser Version können Sie auf maximal 3 Standorte zugreifen. Um alle Standorte freizuschalten, besuchen Sie bitte <a href="https://www.duflat.com">➤ duflat.com</a> und kaufen Sie den Zugang.',
-        'ru': 'Вы просматриваете бесплатную демонстрационную версию нашего сайта. В этой версии доступно не более 3 локаций. Чтобы открыть доступ ко всем локациям, посетите <a href="https://www.duflat.com">➤ duflat.com</a> и приобретите доступ.',
-        'pt': 'Você está visualizando a versão demo gratuita do nosso site. Nesta versão, é possível acessar até 3 locais. Para desbloquear todos os locais, visite <a href="https://www.duflat.com">➤ duflat.com</a> e adquira o acesso.',
-        'id': 'Anda sedang melihat versi demo gratis dari situs web kami. Dalam versi ini, Anda dapat mengakses maksimal 3 lokasi. Untuk membuka semua lokasi, silakan kunjungi <a href="https://www.duflat.com">➤ duflat.com</a> dan beli aksesnya.',
-        'ja': '現在、当社ウェブサイトの無料デモ版をご覧いただいています。このバージョンでは最大3か所までアクセスできます。すべての場所にアクセスするには、<a href="https://www.duflat.com">➤ duflat.com</a> にアクセスし、アクセス権を購入してください。',
-        'ko': '현재 당사 웹사이트의 무료 데모 버전을 보고 계십니다. 이 버전에서는 최대 3개의 위치에 접근할 수 있습니다. 모든 위치를 이용하려면 <a href="https://www.duflat.com">➤ duflat.com</a>을 방문해 접근 권한을 구매하세요.',
-        'fa': 'شما در حال مشاهده نسخه دمو رایگان وب‌سایت ما هستید. در این نسخه می‌توانید حداکثر به ۳ مکان دسترسی داشته باشید. برای دسترسی به تمام مکان‌ها، لطفاً به <a href="https://www.duflat.com">➤ duflat.com</a> مراجعه کرده و دسترسی خریداری کنید.',
-        'it': 'Stai visualizzando la versione demo gratuita del nostro sito web. In questa versione puoi accedere a un massimo di 3 località. Per sbloccare tutte le località, visita <a href="https://www.duflat.com">➤ duflat.com</a> e acquista l\\'accesso.',
-        'pl': 'Obecnie przeglądasz bezpłatną wersję demonstracyjną naszej strony internetowej. W tej wersji możesz uzyskać dostęp maksymalnie do 3 lokalizacji. Aby odblokować wszystkie lokalizacje, odwiedź <a href="https://www.duflat.com">➤ duflat.com</a> i wykup dostęp.'
-      };
-
-      // Tarayıcı dilini al
-      let browserLang = navigator.language || navigator.userLanguage;
-      browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
-
-      // Mesajı belirle
-      let messageToShow = messages[browserLang];
-      if (!messageToShow) {
-        messageToShow = messages['en'];
-      }
-      
-      // Sağdan sola yazılan diller için ayar
-      const rtlLangs = ['ar', 'fa'];
-      if (rtlLangs.includes(browserLang)) {
-        document.querySelectorAll('.info-banner').forEach(banner => {
-          banner.setAttribute('dir', 'rtl');
-        });
-      }
-      
-      // Tüm mesaj alanlarına uygula
-      document.querySelectorAll('.info-banner').forEach(banner => {
-        banner.innerHTML = messageToShow;
-      });
-    }
-
-    // Sayfa yüklendiğinde dil mesajını ayarla
-    setLanguageMessage();
-  <\/script>
-</body>
-</html>`;
-
-      // HTML kodunu direkt kopyala
-      navigator.clipboard.writeText(staticHTML).then(function() {
-        alert('HTML kodu kopyalandı!');
-      }).catch(function(err) {
-        console.error('Kopyalama hatası:', err);
-        alert('Kod kopyalanırken bir hata oluştu!');
-        
-        // Kopyalama başarısız olursa textarea yöntemi dene
-        const textArea = document.createElement('textarea');
-        textArea.value = staticHTML;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        alert('HTML kodu alternatif yöntemle kopyalandı!');
-      });
-    }
+    function
     
     // Seçicileri güncelle
     function updateSelectors() {
