@@ -127,10 +127,72 @@
       margin: 0 auto 40px auto;
       border-bottom: 1px solid var(--divider);
       padding-bottom: 30px;
+      position: relative;
     }
     
     .city-container:last-child {
       border-bottom: none;
+    }
+    
+    /* Tıklanabilir olmayan iller için stil */
+    .city-container.not-clickable {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    .city-container.not-clickable .city-header {
+      color: #94a3b8 !important;
+      cursor: not-allowed !important;
+    }
+    
+    .city-container.not-clickable::after {
+      content: "Yakında...";
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Tıklanabilir iller için belirgin stil */
+    .city-container.clickable {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%);
+      border: 2px solid #0ea5e9;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.15);
+      transition: all 0.3s ease;
+    }
+    
+    .city-container.clickable:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(14, 165, 233, 0.25);
+    }
+    
+    .city-container.clickable::after {
+      content: "Tıkla! 🎯";
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
     
     .city-header {
@@ -143,23 +205,16 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      border: 2px solid transparent;
+      transition: color 0.3s ease;
     }
     
-    .city-header:hover {
-      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    .clickable .city-header {
+      color: #0369a1 !important;
+      font-weight: 700;
     }
     
-    .city-header::before {
-      content: "🏛️";
-      font-size: 20px;
+    .clickable .city-header:hover {
+      color: #0284c7 !important;
     }
     
     .location-item {
@@ -236,32 +291,54 @@
     }
     
     .info-banner {
-      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+      border: 2px solid #f59e0b;
       padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
       margin: 30px auto;
-      max-width: 900px;
+      max-width: 1000px;
       text-align: center;
       font-size: 18px;
       line-height: 1.6;
-      border: 2px solid var(--primary);
-      font-weight: 500;
+      font-weight: 600;
+      color: #92400e;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .info-banner::before {
+      content: "⚠️ DEMİR SÜRÜM";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 0 0 15px 15px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
     
     .info-banner a {
-      color: var(--primary-dark);
+      color: #c2410c;
       text-decoration: none;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: all 0.2s;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fed7aa, #fdba74);
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 2px solid #f97316;
+      display: inline-block;
+      margin: 10px 5px;
+      transition: all 0.3s ease;
     }
     
     .info-banner a:hover {
-      background: rgba(255, 255, 255, 1);
-      text-decoration: underline;
+      background: linear-gradient(135deg, #fdba74, #fb923c);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
     }
     
     .back-link {
@@ -278,33 +355,6 @@
     
     .back-link:hover {
       background-color: rgba(59, 130, 246, 0.1);
-    }
-    
-    .simple-city {
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      margin: 10px auto;
-      padding: 18px 25px;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--primary-dark);
-      max-width: 600px;
-      width: 80%;
-    }
-    
-    .simple-city:hover {
-      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-    }
-    
-    .simple-city::before {
-      content: "🏛️ ";
-      margin-right: 10px;
     }
     
     @media (max-width: 640px) {
@@ -331,6 +381,15 @@
       .info-banner {
         font-size: 16px;
         padding: 20px;
+        margin: 20px 10px;
+      }
+      
+      .city-container.clickable::after,
+      .city-container.not-clickable::after {
+        font-size: 11px;
+        padding: 4px 8px;
+        top: 5px;
+        right: 10px;
       }
     }
   </style></head>
@@ -343,7 +402,7 @@
 <input id="searchInput" placeholder="İl ara... / Search city..." type="text"/>
 <div id="citiesContainer">
 <!-- Cities will be dynamically added here -->
-<div class="city-container" data-search="mugla" style="cursor:pointer">
+<div class="city-container clickable" data-search="mugla" style="cursor:pointer">
 <h1 class="city-header" onclick="window.location.href='mugla.html'" style="cursor:pointer">Muğla</h1>
 <div class="location-item">
 <h2 class="location-title">
@@ -396,105 +455,512 @@
 </div>
 </div>
 </div>
+</div><div class="city-container clickable" data-search="mardin" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='mardin.html'" style="cursor:pointer">Mardin</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Dara+Antik+Kenti+Mardin" target="_blank">➤
+          Dara Antik Kenti 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Dara Antik Kenti" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747052420/photo_2025-05-12_15-15-28_jbg60f.jpg"/>
 </div>
-
-<div class="info-banner" dir="auto">
-🌟 <strong>Demo Sürümü</strong> 🌟<br/>
-Bu web sitesinin ücretsiz demo sürümünü görüntülüyorsunuz. Demo sürümde sadece Muğla ili için detaylı fotoğraflar ve konum bilgileri bulunmaktadır. Türkiye'nin tüm illerindeki turistik yerlerin fotoğraflarına ve detaylarına erişmek için <a href="https://www.duflat.com">➤ duflat.com</a> adresini ziyaret edin.
+<div class="photo-card">
+<img alt="Dara Antik Kenti" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747052419/photo_2025-05-12_15-15-10_otwcgf.jpg"/>
 </div>
-
-<!-- Alfabetik sırayla tüm iller -->
-<div class="simple-city" data-search="adana" onclick="window.location.href='adana.html'">Adana</div>
-<div class="simple-city" data-search="adiyaman" onclick="window.location.href='adiyaman.html'">Adıyaman</div>
-<div class="simple-city" data-search="afyonkarahisar" onclick="window.location.href='afyonkarahisar.html'">Afyonkarahisar</div>
-<div class="simple-city" data-search="agri" onclick="window.location.href='agri.html'">Ağrı</div>
-<div class="simple-city" data-search="aksaray" onclick="window.location.href='aksaray.html'">Aksaray</div>
-<div class="simple-city" data-search="amasya" onclick="window.location.href='amasya.html'">Amasya</div>
-<div class="simple-city" data-search="ankara" onclick="window.location.href='ankara.html'">Ankara</div>
-<div class="simple-city" data-search="antalya" onclick="window.location.href='antalya.html'">Antalya</div>
-<div class="simple-city" data-search="ardahan" onclick="window.location.href='ardahan.html'">Ardahan</div>
-<div class="simple-city" data-search="artvin" onclick="window.location.href='artvin.html'">Artvin</div>
-<div class="simple-city" data-search="aydin" onclick="window.location.href='aydin.html'">Aydın</div>
-<div class="simple-city" data-search="balikesir" onclick="window.location.href='balikesir.html'">Balıkesir</div>
-<div class="simple-city" data-search="bartin" onclick="window.location.href='bartin.html'">Bartın</div>
-<div class="simple-city" data-search="batman" onclick="window.location.href='batman.html'">Batman</div>
-<div class="simple-city" data-search="bayburt" onclick="window.location.href='bayburt.html'">Bayburt</div>
-<div class="simple-city" data-search="bilecik" onclick="window.location.href='bilecik.html'">Bilecik</div>
-<div class="simple-city" data-search="bingol" onclick="window.location.href='bingol.html'">Bingöl</div>
-<div class="simple-city" data-search="bitlis" onclick="window.location.href='bitlis.html'">Bitlis</div>
-<div class="simple-city" data-search="bolu" onclick="window.location.href='bolu.html'">Bolu</div>
-<div class="simple-city" data-search="burdur" onclick="window.location.href='burdur.html'">Burdur</div>
-<div class="simple-city" data-search="bursa" onclick="window.location.href='bursa.html'">Bursa</div>
-<div class="simple-city" data-search="canakkale" onclick="window.location.href='canakkale.html'">Çanakkale</div>
-<div class="simple-city" data-search="cankiri" onclick="window.location.href='cankiri.html'">Çankırı</div>
-<div class="simple-city" data-search="corum" onclick="window.location.href='corum.html'">Çorum</div>
-<div class="simple-city" data-search="denizli" onclick="window.location.href='denizli.html'">Denizli</div>
-<div class="simple-city" data-search="diyarbakir" onclick="window.location.href='diyarbakir.html'">Diyarbakır</div>
-<div class="simple-city" data-search="duzce" onclick="window.location.href='duzce.html'">Düzce</div>
-<div class="simple-city" data-search="edirne" onclick="window.location.href='edirne.html'">Edirne</div>
-<div class="simple-city" data-search="elazig" onclick="window.location.href='elazig.html'">Elazığ</div>
-<div class="simple-city" data-search="erzincan" onclick="window.location.href='erzincan.html'">Erzincan</div>
-<div class="simple-city" data-search="erzurum" onclick="window.location.href='erzurum.html'">Erzurum</div>
-<div class="simple-city" data-search="eskisehir" onclick="window.location.href='eskisehir.html'">Eskişehir</div>
-<div class="simple-city" data-search="gaziantep" onclick="window.location.href='gaziantep.html'">Gaziantep</div>
-<div class="simple-city" data-search="giresun" onclick="window.location.href='giresun.html'">Giresun</div>
-<div class="simple-city" data-search="gumushane" onclick="window.location.href='gumushane.html'">Gümüşhane</div>
-<div class="simple-city" data-search="hakkari" onclick="window.location.href='hakkari.html'">Hakkari</div>
-<div class="simple-city" data-search="hatay" onclick="window.location.href='hatay.html'">Hatay</div>
-<div class="simple-city" data-search="igdir" onclick="window.location.href='igdir.html'">Iğdır</div>
-<div class="simple-city" data-search="isparta" onclick="window.location.href='isparta.html'">Isparta</div>
-<div class="simple-city" data-search="istanbul" onclick="window.location.href='istanbul.html'">İstanbul</div>
-<div class="simple-city" data-search="izmir" onclick="window.location.href='izmir.html'">İzmir</div>
-<div class="simple-city" data-search="kahramanmaras" onclick="window.location.href='kahramanmaras.html'">Kahramanmaraş</div>
-<div class="simple-city" data-search="karabuk" onclick="window.location.href='karabuk.html'">Karabük</div>
-<div class="simple-city" data-search="karaman" onclick="window.location.href='karaman.html'">Karaman</div>
-<div class="simple-city" data-search="kars" onclick="window.location.href='kars.html'">Kars</div>
-<div class="simple-city" data-search="kastamonu" onclick="window.location.href='kastamonu.html'">Kastamonu</div>
-<div class="simple-city" data-search="kayseri" onclick="window.location.href='kayseri.html'">Kayseri</div>
-<div class="simple-city" data-search="kilis" onclick="window.location.href='kilis.html'">Kilis</div>
-<div class="simple-city" data-search="kirikkale" onclick="window.location.href='kirikkale.html'">Kırıkkale</div>
-<div class="simple-city" data-search="kirklareli" onclick="window.location.href='kirklareli.html'">Kırklareli</div>
-<div class="simple-city" data-search="kirsehir" onclick="window.location.href='kirsehir.html'">Kırşehir</div>
-<div class="simple-city" data-search="kocaeli" onclick="window.location.href='kocaeli.html'">Kocaeli</div>
-<div class="simple-city" data-search="konya" onclick="window.location.href='konya.html'">Konya</div>
-<div class="simple-city" data-search="kutahya" onclick="window.location.href='kutahya.html'">Kütahya</div>
-<div class="simple-city" data-search="malatya" onclick="window.location.href='malatya.html'">Malatya</div>
-<div class="simple-city" data-search="manisa" onclick="window.location.href='manisa.html'">Manisa</div>
-<div class="simple-city" data-search="mardin" onclick="window.location.href='mardin.html'">Mardin</div>
-<div class="simple-city" data-search="mersin" onclick="window.location.href='mersin.html'">Mersin</div>
-<div class="simple-city" data-search="mus" onclick="window.location.href='mus.html'">Muş</div>
-<div class="simple-city" data-search="nevsehir" onclick="window.location.href='nevsehir.html'">Nevşehir</div>
-<div class="simple-city" data-search="nigde" onclick="window.location.href='nigde.html'">Niğde</div>
-<div class="simple-city" data-search="ordu" onclick="window.location.href='ordu.html'">Ordu</div>
-<div class="simple-city" data-search="osmaniye" onclick="window.location.href='osmaniye.html'">Osmaniye</div>
-<div class="simple-city" data-search="rize" onclick="window.location.href='rize.html'">Rize</div>
-<div class="simple-city" data-search="sakarya" onclick="window.location.href='sakarya.html'">Sakarya</div>
-<div class="simple-city" data-search="samsun" onclick="window.location.href='samsun.html'">Samsun</div>
-<div class="simple-city" data-search="sanliurfa" onclick="window.location.href='sanliurfa.html'">Şanlıurfa</div>
-<div class="simple-city" data-search="siirt" onclick="window.location.href='siirt.html'">Siirt</div>
-<div class="simple-city" data-search="sinop" onclick="window.location.href='sinop.html'">Sinop</div>
-<div class="simple-city" data-search="sirnak" onclick="window.location.href='sirnak.html'">Şırnak</div>
-<div class="simple-city" data-search="sivas" onclick="window.location.href='sivas.html'">Sivas</div>
-<div class="simple-city" data-search="tekirdag" onclick="window.location.href='tekirdag.html'">Tekirdağ</div>
-<div class="simple-city" data-search="tokat" onclick="window.location.href='tokat.html'">Tokat</div>
-<div class="simple-city" data-search="trabzon" onclick="window.location.href='trabzon.html'">Trabzon</div>
-<div class="simple-city" data-search="tunceli" onclick="window.location.href='tunceli.html'">Tunceli</div>
-<div class="simple-city" data-search="usak" onclick="window.location.href='usak.html'">Uşak</div>
-<div class="simple-city" data-search="van" onclick="window.location.href='van.html'">Van</div>
-<div class="simple-city" data-search="yalova" onclick="window.location.href='yalova.html'">Yalova</div>
-<div class="simple-city" data-search="yozgat" onclick="window.location.href='yozgat.html'">Yozgat</div>
-<div class="simple-city" data-search="zonguldak" onclick="window.location.href='zonguldak.html'">Zonguldak</div>
-
+<div class="photo-card">
+<img alt="Dara Antik Kenti" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747052420/photo_2025-05-12_15-19-15_fz4oox.jpg"/>
 </div>
-<p><a class="back-link" href="index.html">← Türkiye'ye dön</a></p>
-<script>
-document.getElementById('searchInput').addEventListener('input', function () {
-  const value = this.value.toLowerCase();
-  document.querySelectorAll('[data-search]').forEach(section => {
-    const searchText = section.getAttribute('data-search');
-    section.classList.toggle('hidden', !searchText.includes(value));
-  });
-});
-</script>
-</body>
-</html>
+</div>
+</div>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Kas%C4%B1miye+Medresesi+Mardin" target="_blank">➤
+          Kasımiye Medresesi 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Kasımiye Medresesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747053873/1_bjg4fz.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kasımiye Medresesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747053866/2_ic4yv2.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kasımiye Medresesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747053866/3_bowgdl.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="antalya" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='antalya.html'" style="cursor:pointer">Antalya</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=D%C3%BCden+%C5%9eelalesi%2C+Antalya" target="_blank">➤
+          Düden Şelalesi 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Düden Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746382569/4_dskf4i.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Düden Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746382569/5_l6iji1.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Düden Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746382569/6_ioneki.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="konya" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='konya.html'" style="cursor:pointer">Konya</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Meke+Krater+G%C3%B6l%C3%BC+Konya" target="_blank">➤
+          Meke Krater Gölü 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Meke Krater Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388912/1_il2pf3.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Meke Krater Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/2_z3zolt.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Meke Krater Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/3_xgq8r0.jpg"/>
+</div>
+</div>
+</div>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Yerk%C3%B6pr%C3%BC+%C5%9Eelalesi+Konya" target="_blank">➤
+          Yerköprü Şelalesi 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Yerköprü Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389680/1_s760mk.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Yerköprü Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/3_m3o9dk.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Yerköprü Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/2_b3j3k8.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="bursa" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='bursa.html'" style="cursor:pointer">Bursa</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Suu%C3%A7tu+%C5%9Eelalesi%2C+Bursa" target="_blank">➤
+          Suuçtu Şelalesi 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Suuçtu Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746306305/1_sdfqg4.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Suuçtu Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746306305/2_egwcm7.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Suuçtu Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746306305/3_efqv3x.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="gaziantep" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='gaziantep.html'" style="cursor:pointer">Gaziantep</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Rumkale+Gaziantep" target="_blank">➤
+          Rumkale 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Rumkale" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746445779/1_ibezgn.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Rumkale" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746445779/2_qjvzc3.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Rumkale" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746445779/3_huipsc.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="kocaeli" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='kocaeli.html'" style="cursor:pointer">Kocaeli</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/Ayri+Gezegen+Glass+Terrace/@40.6627882,30.1532432,13z/data=!4m15!1m8!3m7!1s0x14cb57f03e439a1b:0x51eae9ad95c87ea4!2sMa%C5%9Fukiye,+Kartepe%2FKocaeli!3b1!8m2!3d40.7096172!4d30.1416089!16s%2Fg%2F11dxb2hfl3!3m5!1s0x14cb595e7719f80f:0x8724eb6ffe887c70!8m2!3d40.6627882!4d30.1532432!16s%2Fg%2F11fn95ztwf?entry=ttu&amp;g_ep=EgoyMDI1MDUwMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">➤
+          Ayrı Gezegen Cam Teras 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Ayrı Gezegen Cam Teras" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746648344/1_wjjqg1.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Ayrı Gezegen Cam Teras" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746648339/2_irtuqh.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Ayrı Gezegen Cam Teras" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746648340/3_tuefxu.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="kayseri" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='kayseri.html'" style="cursor:pointer">Kayseri</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Sultan+Sazl%C4%B1%C4%9F%C4%B1+Kayseri" target="_blank">➤
+          Sultan Sazlığı Milli Parkı 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Sultan Sazlığı Milli Parkı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746732157/1_zxagb5.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Sultan Sazlığı Milli Parkı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746732159/2_okdqxc.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Sultan Sazlığı Milli Parkı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746732159/3_ylvgdd.jpg"/>
+</div>
+</div>
+</div>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=H%C3%BCrmet%C3%A7i+Sazl%C4%B1%C4%9F%C4%B1+Kayseri" target="_blank">➤
+          Hürmetçi Sazlığı 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Hürmetçi Sazlığı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746733286/2_gccc19.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Hürmetçi Sazlığı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746733287/3_ngnjtd.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Hürmetçi Sazlığı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746733285/1_jhb4tc.jpg"/>
+</div>
+</div>
+</div>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Kapuzba%C5%9F%C4%B1+%C5%9Eelaleleri+Kayseri" target="_blank">➤
+          Kapuzbaşı Şelaleleri 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Kapuzbaşı Şelaleleri" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746734146/4_gmc5xp.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kapuzbaşı Şelaleleri" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746734145/3_pqo36i.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kapuzbaşı Şelaleleri" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746734143/1_wjjpdl.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="balikesir" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='balikesir.html'" style="cursor:pointer">Balıkesir</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=%C5%9Eeytan+Sofras%C4%B1%2C+Bal%C4%B1kesir" target="_blank">➤
+          Şeytan Sofrası 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Şeytan Sofrası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746819213/1_vekfsz.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Şeytan Sofrası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746819213/2_fkdqwo.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Şeytan Sofrası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746819214/photo_2025-05-09_22-30-22_hrvvgc.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="aydin" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='aydin.html'" style="cursor:pointer">Aydın</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Arapap%C4%B1%C5%9Ft%C4%B1+Kanyonu%2C+Ayd%C4%B1n" target="_blank">➤
+          Arapapıştı Kanyonu 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Arapapıştı Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746884234/photo_2025-05-10_16-36-10_x6yacy.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Arapapıştı Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746884232/1_ml4ybi.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Arapapıştı Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746884232/photo_2025-05-10_16-36-07_ghuvxo.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="sakarya" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='sakarya.html'" style="cursor:pointer">Sakarya</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Do%C4%9Fanca%C5%9F+%C5%9eelalesi%2C+Sakarya" target="_blank">➤
+          Doğançay Şelalesi 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Doğançay Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746973013/photo_2025-05-11_17-16-14_moheat.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Doğançay Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746973013/photo_2025-05-11_17-16-18_dv37p2.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Doğançay Şelalesi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746973014/photo_2025-05-11_17-16-26_holvwa.jpg"/>
+</div>
+</div>
+</div>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Poyrazlar+G%C3%B6l%C3%BC%2C+Sakarya" target="_blank">➤
+          Poyrazlar Gölü 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Poyrazlar Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746973411/1_mrpujz.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Poyrazlar Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746973411/2_ul6g9d.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Poyrazlar Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746973412/3_okeaos.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="eskisehir" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='eskisehir.html'" style="cursor:pointer">Eskişehir</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/Sakarya+Ba%C5%9F%C4%B1+Piknik+Alan%C4%B1/@39.3523152,31.0580542,15z/data=!4m15!1m8!3m7!1s0x14ce79ca3d01e18f:0x8bf96a227ecdff66!2zU2FrYXJ5YSBCYcWfxLEgUGlrbmlrIEFsYW7EsQ!8m2!3d39.3523152!4d31.0580542!10e5!16s%2Fg%2F11c1pv1pg7!3m5!1s0x14ce79ca3d01e18f:0x8bf96a227ecdff66!8m2!3d39.3523152!4d31.0580542!16s%2Fg%2F11c1pv1pg7?entry=ttu&amp;g_ep=EgoyMDI1MDUwNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">➤
+          Sakarya Başı Piknik Alanı 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Sakarya Başı Piknik Alanı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747043543/photo_2025-05-12_12-50-56_vmttdb.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Sakarya Başı Piknik Alanı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747043543/4_odsbmr.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Sakarya Başı Piknik Alanı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747043542/photo_2025-05-12_12-51-01_fqfc9h.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="trabzon" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='trabzon.html'" style="cursor:pointer">Trabzon</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Hamsik%C3%B6y%2C+Trabzon" target="_blank">➤
+          Hamsiköy 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Hamsiköy" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747116804/1_rzinpq.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Hamsiköy" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747116804/2_jidwsk.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Hamsiköy" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747116804/3_agqd2m.jpg"/>
+</div>
+</div>
+</div>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Sultan+Murat+Yaylas%C4%B1%2C+Trabzon" target="_blank">➤
+          Sultan Murat Yaylası 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Sultan Murat Yaylası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747117344/1_gzssfw.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Sultan Murat Yaylası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747117344/3_abcnuf.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Sultan Murat Yaylası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747117344/2_ogxaue.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="malatya" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='malatya.html'" style="cursor:pointer">Malatya</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Karaleylek+Kanyonu+Malatya" target="_blank">➤
+          Karaleylek Kanyonu 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Karaleylek Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747120324/1_ugvydp.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Karaleylek Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747120325/photo_2025-05-13_10-07-52_y4q5vq.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Karaleylek Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747120324/3_yt1hno.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="erzurum" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='erzurum.html'" style="cursor:pointer">Erzurum</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Narman+Peribacalar%C4%B1+Erzurum" target="_blank">➤
+          Narman Peribacaları 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Narman Peribacaları" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747128052/3_rkl8pj.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Narman Peribacaları" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747128049/2_mf9vhp.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Narman Peribacaları" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747128048/1_awzjds.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="tokat" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='tokat.html'" style="cursor:pointer">Tokat</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Kaz+G%C3%B6l%C3%BC%2C+Tokat" target="_blank">➤
+          Kaz Gölü 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Kaz Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747156478/photo_2025-05-13_20-12-38_fhlxgl.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kaz Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747156473/2_xm6igx.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kaz Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747156472/1_nthnha.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="elazig" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='elazig.html'" style="cursor:pointer">Elazığ</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Hazar+G%C3%B6l%C3%BC+Elaz%C4%B1%C4%9F" target="_blank">➤
+          Hazar Gölü 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Hazar Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747163244/1_auccua.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Hazar Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747163245/2_aipxzd.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Hazar Gölü" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747163245/3_pyxfof.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="kutahya" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='kutahya.html'" style="cursor:pointer">Kütahya</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/Aizanoi/@39.2018074,29.6100373,16z/data=!4m6!3m5!1s0x14c8e2a9036963eb:0xfea56c85a802ccb!8m2!3d39.2011599!4d29.609599!16s%2Fg%2F1tmhtkwl?entry=ttu&amp;g_ep=EgoyMDI1MDUxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">➤
+          Aizanoi Antik Kenti 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Aizanoi Antik Kenti" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747165992/3_ugorzv.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Aizanoi Antik Kenti" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747165991/2_wv8rz3.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Aizanoi Antik Kenti" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747165991/1_ponyjh.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="isparta" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='isparta.html'" style="cursor:pointer">Isparta</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/Ispartamdan+(Kuyucak+Isparta+Lavanta+K%C3%B6y%C3%BC)/@37.844934,30.254479,15z/data=!4m6!3m5!1s0x14c5d38fa9c3d92d:0x65b2d12840212b74!8m2!3d37.8458802!4d30.2625695!16s%2Fg%2F11dxbwhtdd?entry=ttu&amp;g_ep=EgoyMDI1MDUxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">➤
+          Kuyucak Köyü (Lavanta Tarlaları) 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Kuyucak Köyü (Lavanta Tarlaları)" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747234854/photo_2025-05-14_17-58-18_xueaav.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kuyucak Köyü (Lavanta Tarlaları)" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747234853/1_amsulz.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Kuyucak Köyü (Lavanta Tarlaları)" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747234853/2_nfedpo.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="kastamonu" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='kastamonu.html'" style="cursor:pointer">Kastamonu</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=%C3%87atak+Kanyonu%2C+Kastamonu" target="_blank">➤
+          Çatak Kanyonu 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Çatak Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747321932/photo_2025-05-15_18-06-06_jwxbjv.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Çatak Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747321932/photo_2025-05-15_18-09-29_ep6bvt.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Çatak Kanyonu" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747321932/photo_2025-05-15_18-09-46_v4vyz3.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="rize" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='rize.html'" style="cursor:pointer">Rize</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/Gito+Plateau/@40.9028252,40.9075309,15.68z/data=!4m7!3m6!1s0x40663f01e1ac5865:0x930c9495808323bb!8m2!3d40.9047617!4d40.9132817!15sChNHaXRvIFlheWxhc8SxLCBSaXplWhQiEmdpdG8geWF5bGFzxLEgcml6ZZIBC3NjZW5pY19zcG90qgE6EAEyHhABIhoRdHaXXlva7VBUSacw5l7Uh0q_yr_XY8hyYjIWEAIiEmdpdG8geWF5bGFzxLEgcml6ZeABAA!16s%2Fg%2F11g9jmvpcb?entry=tts&amp;g_ep=EgoyMDI1MDUxMy4xIPu8ASoASAFQAw%3D%3D&amp;skid=3b9f8a5d-ed8f-46b0-aaa5-dc4b6e81a7cf" target="_blank">➤
+          Gito Yaylası 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Gito Yaylası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747386694/photo_2025-05-16_12-11-18_epyts8.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Gito Yaylası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747386694/photo_2025-05-16_12-11-14_d4o54p.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Gito Yaylası" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747386700/photo_2025-05-16_12-11-08_wsy2e9.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="nevsehir" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='nevsehir.html'" style="cursor:pointer">Nevşehir</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/Love+Valley/@38.6565186,34.8068626,14z/data=!4m7!3m6!1s0x152a688616a4b4b1:0x244f6fe87b1c6b52!8m2!3d38.6422981!4d34.8135471!15sChZBxZ9rIFZhZGlzaSwgTmV2xZ9laGlyWhciFWHFn2sgdmFkaXNpIG5ldsWfZWhpcpIBC2hpa2luZ19hcmVhmgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVU5IY21WUWJWcG5FQUWqAV4KDS9nLzExdjBqZ202NGQQASoPIgthxZ9rIHZhZGlzaSghMh8QASIblwGD64-j8_xn9K1xNEP5M2RvJOrYS35QULM0MhkQAiIVYcWfayB2YWRpc2kgbmV2xZ9laGly4AEA-gEECAAQEA!16s%2Fg%2F113dn36v5?entry=tts&amp;g_ep=EgoyMDI1MDUxMy4xIPu8ASoASAFQAw%3D%3D&amp;skid=21e86381-55b8-425d-bd16-91d9889e6b2a" target="_blank">➤
+          Aşk Vadisi 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="Aşk Vadisi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747418109/photo_2025-05-16_20-54-04_bcdrvp.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Aşk Vadisi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747418109/reklamde%C4%9Fil_1_xb5aq3.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="Aşk Vadisi" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747418108/1_kgp5g4.jpg"/>
+</div>
+</div>
+</div>
+</div><div class="city-container clickable" data-search="yalova" style="cursor:pointer">
+<h1 class="city-header" onclick="window.location.href='yalova.html'" style="cursor:pointer">Yalova</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://maps.google.com/?q=Sud%C3%BC%C5%9Fen+%C5%9felalesi%2C+Yalova" target="_blank">➤
+          Sudüşen Şelalesi 📍</a>
+</h2>
+<div
