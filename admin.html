@@ -12,29 +12,18 @@
       overflow-y: auto;
       background-color: #f5f5f5;
     }
-    .info-banner {
-      font-size: 18px;
-      color: #444;
-      max-width: 1000px;
-      text-align: left;
-      line-height: 1.5;
-      font-weight: 500;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      z-index: 100;
-      margin: 30px auto;
-    }
-    .info-banner a {
-      color: #0077cc;
-      text-decoration: underline;
-      font-weight: bold;
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
+      text-decoration: none;
+      color: black;
     }
     
-    h1 {
-      font-size: 26px;
-      margin-top: 30px; /* Reduced from 120px */
+    h1 { 
+      font-size: 26px; 
+      margin-top: 80px;
       margin-bottom: 30px;
     }
     
@@ -98,7 +87,6 @@
     
     .back-link {
       margin-top: 30px;
-      margin-bottom: 30px;
       display: inline-block;
       color: #0077cc;
       text-decoration: none;
@@ -144,16 +132,18 @@
       max-height: 80vh;
       overflow-y: auto;
       display: none;
+      width: 400px;
     }
     
     .edit-panel h3 {
       margin-top: 0;
       color: #333;
+      font-size: 16px;
     }
     
-    .edit-panel input, .edit-panel button {
+    .edit-panel textarea, .edit-panel button {
       margin: 5px 0;
-      padding: 5px;
+      padding: 8px;
       width: 100%;
       box-sizing: border-box;
     }
@@ -183,41 +173,84 @@
       cursor: pointer;
     }
     
-    #bulkLocations {
+    .clear-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px;
+      cursor: pointer;
+    }
+    
+    .process-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    #cityData {
       font-family: monospace;
       resize: vertical;
+      height: 200px;
+    }
+    
+    .info-box {
+      background: #e9ecef;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 12px;
+      text-align: left;
+    }
+    
+    .info-box code {
+      background: #f8f9fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
+  <!-- 🌐 Logo bağlantısı -->
+  <a href="https://tr81.tr/index.html" class="logo">🌐</a>
   <h1 id="city-header">📸 <span id="city-name"></span></h1>
   
   <!-- Konumlar dinamik olarak burada görünecek -->
   <div id="locations-container"></div>
   
-  <!-- Çok dilli bilgi mesajı - artık sayfanın en altında -->
-  <div class="info-banner" id="info-banner" dir="auto">Şu anda web sitemizin deneme sürümünü görüntülüyorsunuz. Tam sürüme ulaşmak için <a href="https://www.duflat.com">www.duflat.com</a> adresine gidebilirsiniz.</div>
-  
-  <p><a href="https://www.duflat.com" target="_blank" class="back-link">www.duflat.com →</a></p>
+  <p><a href="https://www.instagram.com/liveanuar/" class="back-link">"Harika" bir yer biliyorsanız, fotoğraf ve konumunu bize gönderin, burada paylaşalım! Instagram: @liveanuar</a></p>
 
   <!-- EDİTOR PANEL -->
   <button class="edit-btn" onclick="toggleEditPanel()">✎</button>
   
   <div class="edit-panel" id="editPanel">
-    <h3>⚙️ Şehir Ayarları</h3>
-    <input type="text" id="cityName" placeholder="Şehir Adı">
-    <button onclick="updateCityName()">Şehir Adını Güncelle</button>
-    <button onclick="resetLocalStorage()" style="background: #dc3545; color: white;">Tüm Veriyi Sıfırla</button>
+    <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
     
-    <h3>📝 Konum Ekle</h3>
-    <textarea id="bulkLocations" rows="10" placeholder="Her satıra bir konum ekleyin. Format: KonumAdı@@GoogleMapsLink@@Foto1@@Foto2@@Foto3" style="width: 100%; margin-bottom: 10px; box-sizing: border-box;"></textarea>
-    <button onclick="addBulkLocations()">Toplu Ekle</button>
-    <button onclick="clearAll()">Tümünü Temizle</button>
-    <button class="export-btn" onclick="exportHTML()">HTML Kodunu Kopyala</button>
-    <button onclick="toggleEditPanel()">Kapat</button>
+    <div class="info-box">
+      <strong>Format:</strong><br>
+      <code>ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3</code>
+    </div>
+    
+    <textarea id="cityData" placeholder="Örnek:
+İstanbul@@@Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://example.com/foto1.jpg@@https://example.com/foto2.jpg@@https://example.com/foto3.jpg@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://example.com/foto1.jpg@@https://example.com/foto2.jpg@@https://example.com/foto3.jpg"></textarea>
+    
+    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
+    <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
+    <button class="clear-btn" onclick="clearAll()">🗑️ Tümünü Temizle</button>
+    <button onclick="toggleEditPanel()">❌ Kapat</button>
   </div>
 
   <script>
+    // Erişim kontrolü
+    if (localStorage.getItem("duflat-access") !== "granted") {
+      window.location.href = "index.html";
+    }
+
     // URL'den şehir ismi al
     function getCityFromUrl() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -248,25 +281,6 @@
       localStorage.setItem(storageKey, cityName);
     }
 
-    // localStorage'ı tamamen sıfırla
-    function resetLocalStorage() {
-      if (confirm('Tüm kaydedilen veriyi silmek istediğinizden emin misiniz?')) {
-        const city = getCityFromUrl();
-        localStorage.removeItem('locations_' + city);
-        localStorage.removeItem('cityName_' + city);
-        location.reload();
-      }
-    }
-
-    // Şehir adını güncelle
-    function updateCityName() {
-      const newName = document.getElementById('cityName').value;
-      if (newName) {
-        saveCityName(newName);
-        updatePageTitle();
-      }
-    }
-
     // Konumları yükle
     function loadLocations() {
       const storageKey = getStorageKey();
@@ -283,6 +297,88 @@
     function saveLocations(locations) {
       const storageKey = getStorageKey();
       localStorage.setItem(storageKey, JSON.stringify(locations));
+    }
+
+    // Şehir verilerini işle
+    function processCityData() {
+      const cityDataText = document.getElementById('cityData').value;
+      if (!cityDataText.trim()) {
+        alert('Lütfen şehir verilerini girin!');
+        return;
+      }
+
+      try {
+        // İlk olarak şehir adını ve konumları ayır
+        const parts = cityDataText.split('@@@');
+        
+        if (parts.length < 2) {
+          alert('Geçersiz format! Şehir adı ve en az bir konum olmalı.');
+          return;
+        }
+
+        const cityName = parts[0].trim();
+        if (!cityName) {
+          alert('Şehir adı boş olamaz!');
+          return;
+        }
+
+        // Şehir adını kaydet
+        saveCityName(cityName);
+
+        // Konumları işle
+        const locations = [];
+        for (let i = 1; i < parts.length; i++) {
+          const locationData = parts[i].trim();
+          if (!locationData) continue;
+
+          const locationParts = locationData.split('@@');
+          
+          if (locationParts.length < 2) {
+            console.log('Konum ' + i + ': Eksik veri - "' + locationData + '"');
+            continue;
+          }
+
+          const name = locationParts[0].trim();
+          const link = locationParts[1].trim();
+          const photos = [];
+
+          // Fotoğrafları topla
+          for (let j = 2; j < locationParts.length && j < 5; j++) {
+            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
+              photos.push(locationParts[j].trim());
+            }
+          }
+
+          if (!name || !link) {
+            console.log('Konum ' + i + ': Ad veya link eksik - "' + locationData + '"');
+            continue;
+          }
+
+          const newLocation = {
+            name: name,
+            photos: photos,
+            link: link
+          };
+
+          locations.push(newLocation);
+        }
+
+        // Konumları kaydet
+        saveLocations(locations);
+        
+        // Sayfayı güncelle
+        updatePageTitle();
+        renderLocations();
+        
+        // Text alanını temizle
+        document.getElementById('cityData').value = '';
+        
+        alert(cityName + ' şehri için ' + locations.length + ' konum başarıyla eklendi!');
+        
+      } catch (error) {
+        console.error('Veri işleme hatası:', error);
+        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
+      }
     }
 
     // Konumları render et
@@ -314,6 +410,11 @@
       const cityName = loadCityName();
       const locations = loadLocations();
       
+      if (locations.length === 0) {
+        alert('Önce konum ekleyin!');
+        return;
+      }
+      
       // HTML'i güzel formatlamak için locationsHTML'i adım adım oluşturuyoruz
       var locationsHTML = '';
       for(var i = 0; i < locations.length; i++) {
@@ -342,267 +443,154 @@
         locationsHTML += '  </div>\n';
       }
 
-      // Sabit HTML içeriğini oluştur - Bilgilendirme mesajı sayfanın en altında
-      var staticHTML = `<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${cityName}</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 20px;
-      overflow-y: auto;
-      background-color: #f5f5f5;
-    }
-    .info-banner {
-      font-size: 18px;
-      color: #444;
-      max-width: 1000px;
-      text-align: left;
-      line-height: 1.5;
-      font-weight: 500;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      z-index: 100;
-      margin: 30px auto;
-    }
-    .info-banner a {
-      color: #0077cc;
-      text-decoration: underline;
-      font-weight: bold;
-    }
-    h1 {
-      font-size: 26px;
-      margin-top: 30px;
-      margin-bottom: 30px;
-    }
-    
-    .city-section {
-      margin-bottom: 30px;
-      background-color: white;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .city-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .city-title {
-      margin: 0;
-      font-size: 20px;
-      color: #0077cc;
-    }
-    
-    .city-photos {
-      display: flex;
-      gap: 15px;
-      overflow-x: auto;
-      padding: 5px 0;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-    }
-    
-    .city-photos::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .photo-card {
-      flex: 0 0 auto;
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-      scroll-snap-align: start;
-      background-color: white;
-      position: relative;
-    }
-    
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    
-    .back-link {
-      margin-top: 30px;
-      margin-bottom: 30px;
-      display: inline-block;
-      color: #0077cc;
-      text-decoration: none;
-    }
-    
-    .back-link:hover {
-      text-decoration: underline;
-    }
-    
-    .location-link {
-      text-decoration: underline;
-      color: #0077cc;
-      display: flex;
-      align-items: center;
-    }
-    
-    .location-link:hover {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
-    }
-    
-    .click-icon {
-      margin-right: 5px;
-      display: inline-block;
-    }
-    
-    .click-icon::before {
-      content: "➤";
-      display: inline-block;
-    }
-  </style>
-</head>
-<body>
-  <h1>📸 ${cityName}</h1>
-${locationsHTML}  
-  <!-- Bilgi mesajı sayfanın en altında -->
-  <div class="info-banner" id="info-banner" dir="auto"></div>
-  
-  <p><a href="https://www.duflat.com" class="back-link">← www.duflat.com</a></p>
-
-  <script>
-    // Dil kontrolü ve bilgi mesajını ayarla (DÜZELTME BURADA - Bu fonksiyon doğrudan çağrılıyor)
-    function setLanguageMessage() {
-      const messages = {
-        'tr': 'Şu anda web sitemizin ücretsiz demo sürümünü görüntülüyorsunuz. Bu sürümde en fazla 3 konuma erişebilirsiniz. Tüm konumlara ulaşmak için <a href="https://www.duflat.com">➤ duflat.com</a> adresini ziyaret edin ve erişim hakkı satın alarak giriş yapın.',
-        'en': 'You are currently viewing the free demo version of our website. You can access up to 3 locations in this version. To unlock all locations, please visit <a href="https://www.duflat.com">➤ duflat.com</a> and purchase access.',
-        'zh': '您当前正在浏览我们网站的免费演示版本。在此版本中，您最多可以访问 3 个位置。要解锁所有位置，请访问 <a href="https://www.duflat.com">➤ duflat.com</a> 并购买访问权限。',
-        'hi': 'आप वर्तमान में हमारी वेबसाइट का मुफ्त डेमो संस्करण देख रहे हैं। इस संस्करण में आप अधिकतम 3 स्थानों तक पहुंच सकते हैं। सभी स्थानों को अनलॉक करने के लिए कृपया <a href="https://www.duflat.com">➤ duflat.com</a> पर जाएं और एक्सेस खरीदें।',
-        'es': 'Actualmente estás viendo la versión demo gratuita de nuestro sitio web. En esta versión puedes acceder a un máximo de 3 ubicaciones. Para desbloquear todas las ubicaciones, visita <a href="https://www.duflat.com">➤ duflat.com</a> y compra el acceso.',
-        'fr': 'Vous consultez actuellement la version démo gratuite de notre site web. Dans cette version, vous pouvez accéder à un maximum de 3 emplacements. Pour débloquer tous les emplacements, veuillez visiter <a href="https://www.duflat.com">➤ duflat.com</a> et acheter l\\'accès.',
-        'ar': 'أنت تشاهد حالياً النسخة التجريبية المجانية من موقعنا الإلكتروني. يمكنك الوصول إلى 3 مواقع كحد أقصى في هذه النسخة. للوصول إلى جميع المواقع، يرجى زيارة <a href="https://www.duflat.com">➤ duflat.com</a> وشراء حق الوصول.',
-        'de': 'Sie sehen derzeit die kostenlose Demoversion unserer Website. In dieser Version können Sie auf maximal 3 Standorte zugreifen. Um alle Standorte freizuschalten, besuchen Sie bitte <a href="https://www.duflat.com">➤ duflat.com</a> und kaufen Sie den Zugang.',
-        'ru': 'Вы просматриваете бесплатную демонстрационную версию нашего сайта. В этой версии доступно не более 3 локаций. Чтобы открыть доступ ко всем локациям, посетите <a href="https://www.duflat.com">➤ duflat.com</a> и приобретите доступ.',
-        'pt': 'Você está visualizando a versão demo gratuita do nosso site. Nesta versão, é possível acessar até 3 locais. Para desbloquear todos os locais, visite <a href="https://www.duflat.com">➤ duflat.com</a> e adquira o acesso.',
-        'id': 'Anda sedang melihat versi demo gratis dari situs web kami. Dalam versi ini, Anda dapat mengakses maksimal 3 lokasi. Untuk membuka semua lokasi, silakan kunjungi <a href="https://www.duflat.com">➤ duflat.com</a> dan beli aksesnya.',
-        'ja': '現在、当社ウェブサイトの無料デモ版をご覧いただいています。このバージョンでは最大3か所までアクセスできます。すべての場所にアクセスするには、<a href="https://www.duflat.com">➤ duflat.com</a> にアクセスし、アクセス権を購入してください。',
-        'ko': '현재 당사 웹사이트의 무료 데모 버전을 보고 계십니다. 이 버전에서는 최대 3개의 위치에 접근할 수 있습니다. 모든 위치를 이용하려면 <a href="https://www.duflat.com">➤ duflat.com</a>을 방문해 접근 권한을 구매하세요.',
-        'fa': 'شما در حال مشاهده نسخه دمو رایگان وب‌سایت ما هستید. در این نسخه می‌توانید حداکثر به ۳ مکان دسترسی داشته باشید. برای دسترسی به تمام مکان‌ها، لطفاً به <a href="https://www.duflat.com">➤ duflat.com</a> مراجعه کرده و دسترسی خریداری کنید.',
-        'it': 'Stai visualizzando la versione demo gratuita del nostro sito web. In questa versione puoi accedere a un massimo di 3 località. Per sbloccare tutte le località, visita <a href="https://www.duflat.com">➤ duflat.com</a> e acquista l\\'accesso.',
-        'pl': 'Obecnie przeglądasz bezpłatną wersję demonstracyjną naszej strony internetowej. W tej wersji możesz uzyskać dostęp maksymalnie do 3 lokalizacji. Aby odblokować wszystkie lokalizacje, odwiedź <a href="https://www.duflat.com">➤ duflat.com</a> i wykup dostęp.'
-      };
-
-      // Tarayıcı dilini al
-      let browserLang = navigator.language || navigator.userLanguage;
-      browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
-
-      // Mesajı belirle
-      let messageToShow = messages[browserLang];
-      if (!messageToShow) {
-        messageToShow = messages['en'];
-      }
-      
-      // Sağdan sola yazılan diller için ayar
-      const rtlLangs = ['ar', 'fa'];
-      if (rtlLangs.includes(browserLang)) {
-        document.getElementById('info-banner').setAttribute('dir', 'rtl');
-      }
-      
-      // Mesajı göster
-      document.getElementById('info-banner').innerHTML = messageToShow;
-    }
-
-    // Sayfa yüklendiğinde dil mesajını ayarla
-    setLanguageMessage();
-  <\/script>
-</body>
-</html>`;
+      // Tam HTML oluştur
+      const fullHTML = '<!DOCTYPE html>\n' +
+'<html lang="tr">\n' +
+'<head>\n' +
+'  <meta charset="UTF-8">\n' +
+'  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'  <title>' + cityName + '</title>\n' +
+'  <style>\n' +
+'    body {\n' +
+'      font-family: sans-serif;\n' +
+'      text-align: center;\n' +
+'      padding: 20px;\n' +
+'      overflow-y: auto;\n' +
+'      background-color: #f5f5f5;\n' +
+'    }\n' +
+'    .logo {\n' +
+'      position: absolute;\n' +
+'      top: 20px;\n' +
+'      left: 20px;\n' +
+'      font-size: 28px;\n' +
+'      text-decoration: none;\n' +
+'      color: black;\n' +
+'    }\n' +
+'    \n' +
+'    h1 {\n' +
+'      font-size: 26px;\n' +
+'      margin-top: 80px;\n' +
+'      margin-bottom: 30px;\n' +
+'    }\n' +
+'    \n' +
+'    .city-section {\n' +
+'      margin-bottom: 30px;\n' +
+'      background-color: white;\n' +
+'      border-radius: 10px;\n' +
+'      padding: 15px;\n' +
+'      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);\n' +
+'      max-width: 1000px;\n' +
+'      margin-left: auto;\n' +
+'      margin-right: auto;\n' +
+'    }\n' +
+'    \n' +
+'    .city-header {\n' +
+'      display: flex;\n' +
+'      justify-content: space-between;\n' +
+'      align-items: center;\n' +
+'      margin-bottom: 15px;\n' +
+'      padding-bottom: 10px;\n' +
+'      border-bottom: 1px solid #eee;\n' +
+'    }\n' +
+'    \n' +
+'    .city-title {\n' +
+'      margin: 0;\n' +
+'      font-size: 20px;\n' +
+'      color: #0077cc;\n' +
+'    }\n' +
+'    \n' +
+'    .city-photos {\n' +
+'      display: flex;\n' +
+'      gap: 15px;\n' +
+'      overflow-x: auto;\n' +
+'      padding: 5px 0;\n' +
+'      scroll-snap-type: x mandatory;\n' +
+'      scrollbar-width: none;\n' +
+'    }\n' +
+'    \n' +
+'    .city-photos::-webkit-scrollbar {\n' +
+'      display: none;\n' +
+'    }\n' +
+'    \n' +
+'    .photo-card {\n' +
+'      flex: 0 0 auto;\n' +
+'      width: 200px;\n' +
+'      height: 200px;\n' +
+'      border-radius: 8px;\n' +
+'      overflow: hidden;\n' +
+'      box-shadow: 0 1px 3px rgba(0,0,0,0.12);\n' +
+'      scroll-snap-align: start;\n' +
+'      background-color: white;\n' +
+'      position: relative;\n' +
+'    }\n' +
+'    \n' +
+'    .photo-card img {\n' +
+'      width: 100%;\n' +
+'      height: 100%;\n' +
+'      object-fit: cover;\n' +
+'      display: block;\n' +
+'    }\n' +
+'    \n' +
+'    .back-link {\n' +
+'      margin-top: 30px;\n' +
+'      display: inline-block;\n' +
+'      color: #0077cc;\n' +
+'      text-decoration: none;\n' +
+'    }\n' +
+'    \n' +
+'    .back-link:hover {\n' +
+'      text-decoration: underline;\n' +
+'    }\n' +
+'    \n' +
+'    .location-link {\n' +
+'      text-decoration: underline;\n' +
+'      color: #0077cc;\n' +
+'      display: flex;\n' +
+'      align-items: center;\n' +
+'    }\n' +
+'    \n' +
+'    .location-link:hover {\n' +
+'      text-decoration: underline;\n' +
+'      text-decoration-thickness: 2px;\n' +
+'    }\n' +
+'    \n' +
+'    .click-icon {\n' +
+'      margin-right: 5px;\n' +
+'      display: inline-block;\n' +
+'    }\n' +
+'    \n' +
+'    .click-icon::before {\n' +
+'      content: "➤";\n' +
+'      display: inline-block;\n' +
+'    }\n' +
+'  </style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <!-- 🌐 Logo bağlantısı -->\n' +
+'  <a href="https://tr81.tr/login.html" class="logo">🌐</a>\n' +
+'  <h1>📸 ' + cityName + '</h1>\n' +
+locationsHTML +
+'  \n' +
+'  <p><a href="https://www.instagram.com/liveanuar/" class="back-link">"Harika" bir yer biliyorsanız, fotoğraf ve konumunu bize gönderin, burada paylaşalım! Instagram: @liveanuar</a></p>\n' +
+'</body>\n' +
+'</html>';
 
       // HTML kodunu direkt kopyala
-      navigator.clipboard.writeText(staticHTML).then(function() {
+      navigator.clipboard.writeText(fullHTML).then(function() {
         alert('HTML kodu kopyalandı!');
       }).catch(function(err) {
         console.error('Kopyalama hatası:', err);
         alert('Kod kopyalanırken bir hata oluştu!');
       });
     }
-    
-    // Toplu konum ekle
-    function addBulkLocations() {
-      const bulkText = document.getElementById('bulkLocations').value;
-      if (!bulkText.trim()) {
-        alert('Lütfen konum bilgilerini girin!');
-        return;
-      }
-      
-      const lines = bulkText.split('\n');
-      let successCount = 0;
-      const locations = loadLocations();
-      
-      for(var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        if (!line.trim()) continue;
-        
-        let cleanedLine = line.replace(/^\d+\.\s*/, '');
-        const parts = cleanedLine.split('@@');
-        
-        if (parts.length < 2) {
-          console.log('Satır ' + (i + 1) + ': Eksik veri - "' + cleanedLine + '"');
-          continue;
-        }
-        
-        const name = parts[0].trim();
-        const link = parts[1].trim();
-        const photos = [];
-        
-        for (let j = 2; j < parts.length && j < 5; j++) {
-          if (parts[j].trim() && parts[j].trim().startsWith('https://')) {
-            photos.push(parts[j].trim());
-          }
-        }
-        
-        if (!name || !link) {
-          console.log('Satır ' + (i + 1) + ': Ad veya link eksik - "' + cleanedLine + '"');
-          continue;
-        }
-        
-        const newLocation = {
-          name: name,
-          photos: photos,
-          link: link
-        };
-        
-        locations.push(newLocation);
-        successCount++;
-        console.log('Satır ' + (i + 1) + ': Başarıyla eklendi - "' + name + '"');
-      }
-      
-      saveLocations(locations);
-      renderLocations();
-      document.getElementById('bulkLocations').value = '';
-      
-      console.log('Toplam ' + successCount + ' konum eklendi.');
-    }
 
     // Tümünü temizle
     function clearAll() {
-      if (confirm('Tüm konumları silmek istediğinizden emin misiniz?')) {
-        const storageKey = getStorageKey();
-        localStorage.removeItem(storageKey);
-        renderLocations();
+      if (confirm('Tüm konumları ve şehir bilgisini silmek istediğinizden emin misiniz?')) {
+        const city = getCityFromUrl();
+        localStorage.removeItem('locations_' + city);
+        localStorage.removeItem('cityName_' + city);
+        location.reload();
       }
     }
 
@@ -611,10 +599,6 @@ ${locationsHTML}
       const panel = document.getElementById('editPanel');
       const isHidden = panel.style.display === 'none';
       panel.style.display = isHidden ? 'block' : 'none';
-      
-      if (isHidden) {
-        document.getElementById('cityName').value = loadCityName();
-      }
     }
 
     // Sayfa başlığını güncelle
@@ -624,52 +608,10 @@ ${locationsHTML}
       document.getElementById('page-title').textContent = cityName;
     }
 
-    // Dil kontrolü ve bilgi mesajını ayarla
-    function setLanguageMessage() {
-      const messages = {
-        'tr': 'Şu anda web sitemizin ücretsiz demo sürümünü görüntülüyorsunuz. Bu sürümde en fazla 3 konuma erişebilirsiniz. Tüm konumlara ulaşmak için <a href="https://www.duflat.com">➤ duflat.com</a> adresini ziyaret edin ve erişim hakkı satın alarak giriş yapın.',
-        'en': 'You are currently viewing the free demo version of our website. You can access up to 3 locations in this version. To unlock all locations, please visit <a href="https://www.duflat.com">➤ duflat.com</a> and purchase access.',
-        'zh': '您当前正在浏览我们网站的免费演示版本。在此版本中，您最多可以访问 3 个位置。要解锁所有位置，请访问 <a href="https://www.duflat.com">➤ duflat.com</a> 并购买访问权限。',
-        'hi': 'आप वर्तमान में हमारी वेबसाइट का मुफ्त डेमो संस्करण देख रहे हैं। इस संस्करण में आप अधिकतम 3 स्थानों तक पहुंच सकते हैं। सभी स्थानों को अनलॉक करने के लिए कृपया <a href="https://www.duflat.com">➤ duflat.com</a> पर जाएं और एक्सेस खरीदें।',
-        'es': 'Actualmente estás viendo la versión demo gratuita de nuestro sitio web. En esta versión puedes acceder a un máximo de 3 ubicaciones. Para desbloquear todas las ubicaciones, visita <a href="https://www.duflat.com">➤ duflat.com</a> y compra el acceso.',
-        'fr': 'Vous consultez actuellement la version démo gratuite de notre site web. Dans cette version, vous pouvez accéder à un maximum de 3 emplacements. Pour débloquer tous les emplacements, veuillez visiter <a href="https://www.duflat.com">➤ duflat.com</a> et acheter l\'accès.',
-        'ar': 'أنت تشاهد حالياً النسخة التجريبية المجانية من موقعنا الإلكتروني. يمكنك الوصول إلى 3 مواقع كحد أقصى في هذه النسخة. للوصول إلى جميع المواقع، يرجى زيارة <a href="https://www.duflat.com">➤ duflat.com</a> وشراء حق الوصول.',
-        'de': 'Sie sehen derzeit die kostenlose Demoversion unserer Website. In dieser Version können Sie auf maximal 3 Standorte zugreifen. Um alle Standorte freizuschalten, besuchen Sie bitte <a href="https://www.duflat.com">➤ duflat.com</a> und kaufen Sie den Zugang.',
-        'ru': 'Вы просматриваете бесплатную демонстрационную версию нашего сайта. В этой версии доступно не более 3 локаций. Чтобы открыть доступ ко всем локациям, посетите <a href="https://www.duflat.com">➤ duflat.com</a> и приобретите доступ.',
-        'pt': 'Você está visualizando a versão demo gratuita do nosso site. Nesta versão, é possível acessar até 3 locais. Para desbloquear todos os locais, visite <a href="https://www.duflat.com">➤ duflat.com</a> e adquira o acesso.',
-        'id': 'Anda sedang melihat versi demo gratis dari situs web kami. Dalam versi ini, Anda dapat mengakses maksimal 3 lokasi. Untuk membuka semua lokasi, silakan kunjungi <a href="https://www.duflat.com">➤ duflat.com</a> dan beli aksesnya.',
-        'ja': '現在、当社ウェブサイトの無料デモ版をご覧いただいています。このバージョンでは最大3か所までアクセスできます。すべての場所にアクセスするには、<a href="https://www.duflat.com">➤ duflat.com</a> にアクセスし、アクセス権を購入してください。',
-        'ko': '현재 당사 웹사이트의 무료 데모 버전을 보고 계십니다. 이 버전에서는 최대 3개의 위치에 접근할 수 있습니다. 모든 위치를 이용하려면 <a href="https://www.duflat.com">➤ duflat.com</a>을 방문해 접근 권한을 구매하세요.',
-        'fa': 'شما در حال مشاهده نسخه دمو رایگان وب‌سایت ما هستید. در این نسخه می‌توانید حداکثر به ۳ مکان دسترسی داشته باشید. برای دسترسی به تمام مکان‌ها، لطفاً به <a href="https://www.duflat.com">➤ duflat.com</a> مراجعه کرده و دسترسی خریداری کنید.',
-        'it': 'Stai visualizzando la versione demo gratuita del nostro sito web. In questa versione puoi accedere a un massimo di 3 località. Per sbloccare tutte le località, visita <a href="https://www.duflat.com">➤ duflat.com</a> e acquista l\'accesso.',
-        'pl': 'Obecnie przeglądasz bezpłatną wersję demonstracyjną naszej strony internetowej. W tej wersji możesz uzyskać dostęp maksymalnie do 3 lokalizacji. Aby odblokować wszystkie lokalizacje, odwiedź <a href="https://www.duflat.com">➤ duflat.com</a> i wykup dostęp.'
-      };
-
-      // Tarayıcı dilini al
-      let browserLang = navigator.language || navigator.userLanguage;
-      browserLang = browserLang.split('-')[0]; // Örn: 'en-US' -> 'en'
-
-      // Mesajı belirle
-      let messageToShow = messages[browserLang];
-      if (!messageToShow) {
-        messageToShow = messages['en'];
-      }
-      
-      // Sağdan sola yazılan diller için ayar
-      const rtlLangs = ['ar', 'fa'];
-      if (rtlLangs.includes(browserLang)) {
-        document.getElementById('info-banner').setAttribute('dir', 'rtl');
-      }
-      
-      // Mesajı göster
-      document.getElementById('info-banner').innerHTML = messageToShow;
-    }
-
     // Sayfa yüklendikinde çalıştır
     window.onload = function() {
       updatePageTitle();
       renderLocations();
-      setLanguageMessage();
     }
   </script>
 </body>
