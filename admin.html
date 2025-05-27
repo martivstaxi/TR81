@@ -241,7 +241,6 @@
     
     <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
     <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
-    <button class="clear-btn" onclick="clearAll()">🗑️ Tümünü Temizle</button>
     <button onclick="toggleEditPanel()">❌ Kapat</button>
   </div>
 
@@ -325,7 +324,7 @@
         // Şehir adını kaydet
         saveCityName(cityName);
 
-        // Konumları işle
+        // Konumları işle (önce temizle)
         const locations = [];
         for (let i = 1; i < parts.length; i++) {
           const locationData = parts[i].trim();
@@ -582,16 +581,6 @@ locationsHTML +
         console.error('Kopyalama hatası:', err);
         alert('Kod kopyalanırken bir hata oluştu!');
       });
-    }
-
-    // Tümünü temizle
-    function clearAll() {
-      if (confirm('Tüm konumları ve şehir bilgisini silmek istediğinizden emin misiniz?')) {
-        const city = getCityFromUrl();
-        localStorage.removeItem('locations_' + city);
-        localStorage.removeItem('cityName_' + city);
-        location.reload();
-      }
     }
 
     // Edit panelini aç/kapat
