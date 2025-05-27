@@ -107,6 +107,8 @@
       --shadow: rgba(0, 0, 0, 0.05); /* Hafif gölge */
       --demo-bg: #fef3c7;       /* Demo banner arka planı */
       --demo-border: #f59e0b;   /* Demo banner kenarlık */
+      --premium-bg: #dcfce7;    /* Premium banner arka planı */
+      --premium-border: #16a34a; /* Premium banner kenarlık */
     }
 
     * {
@@ -253,9 +255,23 @@
       font-weight: 500;
       color: #92400e;
     }
+
+    .info-banner.premium {
+      background-color: var(--premium-bg);
+      border-color: var(--premium-border);
+      color: #15803d;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+    }
     
     .info-banner::before {
       content: "⭐ ";
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .info-banner.premium::before {
+      content: "✅ ";
       font-size: 24px;
       vertical-align: middle;
       margin-right: 8px;
@@ -322,14 +338,11 @@
 </head>
 <body>
 <!-- 🌐 Logo bağlantısı -->
-<a class="logo" href="https://duflat.com/main.html">🌐</a>
+<a class="logo" href="https://tr81.tr/login.html">🌐</a>
 <br/>
 <br/>
 <h1>Bir il seç → Manzaralı konumları keşfet📍</h1>
 <input id="searchInput" placeholder="İl ara... / Search city..." type="text"/>
-
-<!-- Info banner - sadece granted değilse gösterilecek -->
-<div id="infoBanner" class="info-banner"> Her ilin 3 muhteşem manzara noktasını ÜCRETSİZ keşfedin! Daha fazla konum kilidini açma için<a href="https://www.tr81.tr/login.html">➤ PREMIUM</a> satın alın.</div>
 
 <div id="citiesContainer">
 <!-- Muğla with photos -->
@@ -387,6 +400,9 @@
 </div>
 </div>
 </div>
+
+<!-- Info banner - Muğla'dan sonra -->
+<div id="infoBanner" class="info-banner">Her ilin 3 muhteşem manzara noktasını ÜCRETSİZ keşfedin! Daha fazla konum kilidini açma için<a href="https://www.tr81.tr/login.html">➤ PREMIUM</a> satın alın.</div>
 
 <!-- All other cities in alphabetical order -->
 <div class="city-container" data-search="adana" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('adana')" style="cursor:pointer">Adana</h1></div>
@@ -489,11 +505,13 @@ function checkAccess() {
     const infoBanner = document.getElementById('infoBanner');
     
     if (accessGranted) {
-        // Erişim varsa banner'ı gizle
-        infoBanner.style.display = 'none';
+        // Erişim varsa premium mesajını göster
+        infoBanner.innerHTML = 'PREMIUM konumların kilidini açtınız';
+        infoBanner.className = 'info-banner premium';
     } else {
-        // Erişim yoksa banner'ı göster
-        infoBanner.style.display = 'block';
+        // Erişim yoksa normal mesajı göster
+        infoBanner.innerHTML = 'Her ilin 3 muhteşem manzara noktasını ÜCRETSİZ keşfedin! Daha fazla konum kilidini açma için<a href="https://www.tr81.tr/login.html">➤ PREMIUM</a> satın alın.';
+        infoBanner.className = 'info-banner';
     }
 }
 
