@@ -246,7 +246,7 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-      margin: 30px auto;
+      margin: 30px auto 30px auto;
       max-width: 1000px;
       text-align: center;
       font-size: 17px;
@@ -254,6 +254,11 @@
       border: 2px solid var(--demo-border);
       font-weight: 500;
       color: #92400e;
+    }
+    
+    .info-banner + .city-container {
+      border-top: 1px solid var(--divider);
+      padding-top: 30px;
     }
 
     .info-banner.premium {
@@ -401,8 +406,8 @@
 </div>
 </div>
 
-<!-- Info banner - Muğla'dan sonra -->
-<div id="infoBanner" class="info-banner">Her ilin 3 muhteşem manzara noktasını ÜCRETSİZ keşfedin! Daha fazla konum kilidini açma için<a href="https://www.tr81.tr/login.html">➤ PREMIUM</a> satın alın.</div>
+<!-- Info banner - Muğla'dan sonra, diğer illerden önce -->
+<div id="infoBanner" class="info-banner" data-search="infobanner">Her ilin 3 muhteşem manzara noktasını ÜCRETSİZ keşfedin! Daha fazla konum kilidini açma için<a href="https://www.tr81.tr/login.html">➤ PREMIUM</a> satın alın.</div>
 
 <!-- All other cities in alphabetical order -->
 <div class="city-container" data-search="adana" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('adana')" style="cursor:pointer">Adana</h1></div>
@@ -490,7 +495,12 @@
 
 <script>
 // Gerçek localStorage kontrolü
-let accessGranted = localStorage.getItem("duflat-access") === "granted";
+let accessGranted = false;
+try {
+    accessGranted = localStorage.getItem("duflat-access") === "granted";
+} catch(e) {
+    accessGranted = false;
+}
 
 // Sayfa yüklendiğinde erişim kontrolünü yap
 window.addEventListener('DOMContentLoaded', function() {
@@ -527,6 +537,11 @@ document.getElementById('searchInput').addEventListener('input', function () {
     const searchText = section.getAttribute('data-search');
     section.classList.toggle('hidden', !searchText.includes(value));
   });
+  
+  // Info banner'ı da aramaya dahil et
+  const infoBanner = document.getElementById('infoBanner');
+  const infoBannerSearchText = infoBanner.getAttribute('data-search');
+  infoBanner.classList.toggle('hidden', !infoBannerSearchText.includes(value));
 });
 
 // Test için - konsola mesaj yaz
