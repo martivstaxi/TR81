@@ -5,61 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Batman</title>
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 20px;
-      overflow-y: auto;
-      background-color: #f5f5f5;
+    :root {
+      --primary: #3b82f6;       /* Ana mavi */
+      --primary-dark: #2563eb;  /* Koyu mavi */
+      --accent: #f97316;        /* Turuncu aksan */
+      --background: #f8fafc;    /* Açık arka plan */
+      --card-bg: #ffffff;       /* Kart arka planı */
+      --text: #334155;          /* Ana metin */
+      --text-light: #64748b;    /* Açık metin */
+      --border: #e2e8f0;        /* Kenarlık */
+      --divider: #cbd5e1;       /* Ayırıcı */
+      --shadow: rgba(0, 0, 0, 0.05); /* Hafif gölge */
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Genesis, Verdana, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 10px;
+      overflow-y: auto;
+      padding-bottom: 120px; /* Premium butonunun altına çok boşluk */
+    }
+    
     .logo {
       position: absolute;
       top: 20px;
       left: 20px;
-      font-size: 28px;
+      font-size: 34px;
       text-decoration: none;
-      color: black;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    
+    .logo:hover {
+      color: var(--primary);
     }
     
     h1 {
-      font-size: 26px;
-      margin-top: 80px;
-      margin-bottom: 30px;
+      font-size: 32px;
+      margin-top: 0px;
+      margin-bottom: 65px;
+      text-align: center;
+      color: var(--primary-dark);
+      font-weight: 600;
+      position: relative;
+      top: 35px;
     }
     
     .city-section {
-      margin-bottom: 30px;
-      background-color: white;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      margin-bottom: 40px;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 2px 8px var(--shadow);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
+      overflow: hidden;
+      border: 1px solid var(--border);
     }
     
     .city-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
+      padding: 16px 20px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
     }
     
     .city-title {
       margin: 0;
       font-size: 20px;
-      color: #0077cc;
+      color: var(--primary-dark);
+      font-weight: 600;
     }
     
     .city-photos {
       display: flex;
       gap: 15px;
       overflow-x: auto;
-      padding: 5px 0;
+      padding: 7px 15px 15px 15px;
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
     
     .city-photos::-webkit-scrollbar {
@@ -68,14 +103,19 @@
     
     .photo-card {
       flex: 0 0 auto;
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
+      width: 280px;
+      height: 220px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 8px var(--shadow);
       scroll-snap-align: start;
       background-color: white;
       position: relative;
+      transition: transform 0.2s;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.02);
     }
     
     .photo-card img {
@@ -86,28 +126,46 @@
     }
     
     .premium-info {
-      margin-top: 30px;
-      font-weight: bold;
-      color: #333;
-      font-size: 20px;
-      margin-bottom: 20px;
+      margin-top: 40px;
+      margin-bottom: 30px;
+      text-align: center;
+      background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 16px;
+      line-height: 1.5;
+      border: 2px solid #16a34a;
+      font-weight: 500;
+      color: #15803d;
+    }
+    
+    .premium-info::before {
+      content: "✨ ";
+      font-size: 22px;
+      vertical-align: middle;
+      margin-right: 8px;
     }
     
     .premium-link {
-      margin-top: 10px;
+      margin-top: 20px;
+      margin-bottom: 80px;
       display: inline-block;
       background: linear-gradient(135deg, #FFD700, #FFA500);
       color: #000;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 700;
       font-size: 18px;
-      padding: 15px 30px;
-      border-radius: 25px;
+      padding: 16px 32px;
+      border-radius: 12px;
       box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
       transition: all 0.3s ease;
       border: 2px solid #FFD700;
-      font-family: 'Georgia', 'Times New Roman', serif;
-      letter-spacing: 1px;
+      font-family: inherit;
+      letter-spacing: 0.5px;
     }
     
     .premium-link:hover {
@@ -118,25 +176,106 @@
     }
     
     .location-link {
-      text-decoration: underline;
-      color: #0077cc;
-      display: flex;
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
       align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 24px;
+      background: rgba(59, 130, 246, 0.08);
+      transition: all 0.2s ease;
+      font-size: 16px;
+      font-weight: 600;
+      max-width: fit-content;
     }
     
     .location-link:hover {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-1px);
     }
     
     .click-icon {
-      margin-right: 5px;
-      display: inline-block;
+      color: var(--accent);
+      display: inline-flex;
     }
     
     .click-icon::before {
       content: "➤";
       display: inline-block;
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px;
+        padding-bottom: 60px;
+      }
+      
+      .logo {
+        top: 16px;
+        left: 16px;
+        font-size: 29px;
+      }
+      
+      h1 {
+        font-size: 24px;
+        margin-top: 0px;
+        margin-bottom: 50px;
+        position: relative;
+        top: 30px;
+      }
+      
+      .city-section {
+        margin-bottom: 32px;
+        border-radius: 16px;
+      }
+      
+      .city-header {
+        padding: 6px 8px 0px 8px;
+        text-align: left;
+      }
+      
+      .city-title {
+        font-size: 18px;
+      }
+      
+      .city-photos {
+        padding: 8px 16px 16px 16px;
+        gap: 12px;
+      }
+      
+      .photo-card {
+        width: 216px;
+        height: 216px;
+        border-radius: 12px;
+      }
+      
+      .premium-info {
+        font-size: 15px;
+        padding: 20px;
+        margin: 32px 16px 24px 16px;
+        border-radius: 16px;
+      }
+      
+      .premium-link {
+        font-size: 16px;
+        padding: 14px 28px;
+        margin-bottom: 40px;
+        border-radius: 12px;
+      }
+      
+      .location-link {
+        padding: 8px 14px;
+        font-size: 16px;
+        border-radius: 20px;
+      }
+      
+      .click-icon::before {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -144,6 +283,7 @@
   <!-- 🌐 Logo bağlantısı -->
   <a href="https://tr81.tr/login.html" class="logo">🌐</a>
   <h1>📸 Batman</h1>
+  
   <div class="city-section">
     <div class="city-header">
       <h2 class="city-title">
@@ -166,6 +306,7 @@
       </div>
     </div>
   </div>
+
   <div class="city-section">
     <div class="city-header">
       <h2 class="city-title">
@@ -188,6 +329,7 @@
       </div>
     </div>
   </div>
+
   <div class="city-section">
     <div class="city-header">
       <h2 class="city-title">
@@ -210,8 +352,14 @@
       </div>
     </div>
   </div>
+
   
-  <p class="premium-info">Burada 3 özel yerin konum bilgisine ulaşabiliyorsunuz. **Daha fazla konum kilidini 🔓 açmak için premium satın alın**</p>
-  <p><a href="login.html" class="premium-link">PREMIUM</a></p>
+  <div class="premium-info">
+    Gizli konumları 🔓 açmak için Premium üyeliği alın veya Instagram hikayenizde → tanıtım videomuzu paylaşarak → 🎁 Premium kazanın! Bize ulaşın 📩 @tr81.tr
+  </div>
+  
+  <p style="text-align: center;">
+    <a href="https://www.shopier.com/35589307" class="premium-link">PREMIUM 10$</a>
+  </p>
 </body>
 </html>
