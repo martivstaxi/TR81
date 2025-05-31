@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -6,60 +6,106 @@
   <title>Bolu</title>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #334155;
+      line-height: 1.6;
+      padding: 12px;
       overflow-y: auto;
-      background-color: #f5f5f5;
+      padding-bottom: 100px;
+      min-height: 100vh;
     }
     .logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 28px;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      font-size: 26px;
       text-decoration: none;
-      color: black;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
     }
     
-    h1 {
-      font-size: 26px;
-      margin-top: 80px;
-      margin-bottom: 30px;
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    h1 { 
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 70px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .camera-emoji {
+      color: #000;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 8px;
     }
     
     .city-section {
-      margin-bottom: 30px;
-      background-color: white;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
     }
     
     .city-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
     }
     
     .city-title {
       margin: 0;
-      font-size: 20px;
-      color: #0077cc;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #1e293b;
+      font-weight: 700;
     }
     
     .city-photos {
       display: flex;
-      gap: 15px;
+      gap: 16px;
       overflow-x: auto;
-      padding: 5px 0;
+      padding: 12px 22px 22px 22px;
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
     
     .city-photos::-webkit-scrollbar {
@@ -68,14 +114,20 @@
     
     .photo-card {
       flex: 0 0 auto;
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
       scroll-snap-align: start;
       background-color: white;
       position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
     }
     
     .photo-card img {
@@ -83,179 +135,257 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.4s ease;
     }
     
-    .back-link {
-      margin-top: 30px;
-      display: inline-block;
-      color: #0077cc;
-      text-decoration: none;
-    }
-    
-    .back-link:hover {
-      text-decoration: underline;
+    .photo-card:hover img {
+      transform: scale(1.1);
     }
     
     .location-link {
-      text-decoration: underline;
-      color: #0077cc;
-      display: flex;
+      text-decoration: none;
+      color: #3b82f6;
+      display: inline-flex;
       align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
     }
     
     .location-link:hover {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: #1e293b;
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
     }
-    
-    .click-icon {
-      margin-right: 5px;
-      display: inline-block;
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 8px;
+        padding-bottom: 80px;
+      }
+      
+      .logo {
+        top: 12px;
+        left: 12px;
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+      }
+      
+      h1 {
+        margin: 50px 0 24px 0;
+      }
+      
+      .city-section {
+        margin-bottom: 24px;
+        border-radius: 16px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      
+      .city-header {
+        padding: 12px 16px 8px 16px;
+      }
+      
+      .location-link {
+        padding: 6px 12px;
+        border-radius: 20px;
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+      
+      .city-photos {
+        padding: 8px 16px 16px 16px;
+        gap: 12px;
+      }
+      
+      .photo-card {
+        width: 180px;
+        height: 180px;
+        border-radius: 10px;
+        min-width: 180px;
+      }
     }
-    
-    .click-icon::before {
-      content: "➤";
+
+    @media (max-width: 480px) {
+      body {
+        padding: 6px;
+        padding-bottom: 60px;
+      }
+      
+      .logo {
+        font-size: 18px;
+        top: 8px;
+        left: 8px;
+        width: 36px;
+        height: 36px;
+      }
+      
+      h1 {
+        margin: 40px 0 20px 0;
+      }
+      
+      .city-section {
+        margin-bottom: 18px;
+        border-radius: 12px;
+      }
+      
+      .city-header {
+        padding: 10px 12px 6px 12px;
+      }
+      
+      .location-link {
+        padding: 5px 10px;
+        border-radius: 16px;
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        box-sizing: border-box;
+      }
+      
+      .city-photos {
+        padding: 6px 12px 12px 12px;
+        gap: 10px;
+      }
+      
+      .photo-card {
+        width: 150px;
+        height: 150px;
+        border-radius: 8px;
+        min-width: 150px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card {
+        width: 120px;
+        height: 120px;
+        min-width: 120px;
+      }
+      
+      .location-link {
+        font-size: 11px;
+        padding: 4px 8px;
+      }
+      
+      .city-header {
+        padding: 8px 10px 4px 10px;
+      }
+      
+      .city-photos {
+        padding: 4px 10px 10px 10px;
+        gap: 8px;
+      }
+    }
+
+    /* Contact Section */
+    .contact-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      color: #334155;
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 1000px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-text {
+      font-size: clamp(16px, 2.5vw, 18px);
+      line-height: 1.6;
+      margin: 0 0 20px 0;
+      color: #475569;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
       display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    /* Mobile Contact Styles */
+    @media (max-width: 768px) {
+      .contact-section {
+        margin: 24px auto;
+        padding: 16px 12px;
+        border-radius: 16px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      
+      .contact-text {
+        margin: 0 0 16px 0;
+      }
+      
+      .instagram-btn {
+        padding: 8px 16px;
+        border-radius: 20px;
+        width: auto;
+        max-width: 240px;
+        box-sizing: border-box;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contact-section {
+        margin: 16px auto;
+        padding: 12px 8px;
+        border-radius: 12px;
+      }
+      
+      .contact-text {
+        margin: 0 0 12px 0;
+      }
+      
+      .instagram-btn {
+        padding: 6px 12px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- 🌐 Logo bağlantısı -->
-  <a href="https://tr81.tr/login.html" class="logo">🌐</a>
-  <h1>📸 Bolu</h1>
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://maps.google.com/?q=G%C3%B6lc%C3%BCk+Tabiat+Park%C4%B1%2C+Bolu" target="_blank" class="location-link">
-          <span class="click-icon"></span>
-          Gölcük Tabiat Parkı 📍
-        </a>
-      </h2>
-    </div>
-    
-    <div class="city-photos">
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747396864/photo_2025-05-16_14-58-51_cfsmot.jpg" alt="Gölcük Tabiat Parkı">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747397400/photo_2025-05-16_15-08-44_vvpwlj.jpg" alt="Gölcük Tabiat Parkı">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747397401/photo_2025-05-16_15-09-34_xc0v2d.jpg" alt="Gölcük Tabiat Parkı">
-      </div>
-    </div>
-  </div>
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://maps.google.com/?q=Abant+G%C3%B6l%C3%BC%2C+Bolu" target="_blank" class="location-link">
-          <span class="click-icon"></span>
-          Abant Gölü 📍
-        </a>
-      </h2>
-    </div>
-    
-    <div class="city-photos">
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747396865/photo_2025-05-16_14-58-55_qymo2q.jpg" alt="Abant Gölü">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747397616/photo_2025-05-16_15-12-11_vdaz1u.jpg" alt="Abant Gölü">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747396860/photo_2025-05-16_14-58-48_xnkqmv.jpg" alt="Abant Gölü">
-      </div>
-    </div>
-  </div>
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://www.google.com/maps/place/Yedig%C3%B6ller+National+Park/@40.9316643,31.7152337,14z/data=!4m6!3m5!1s0x409d3f1a5817d7f1:0xf6f21dfa4d0fa933!8m2!3d40.9373071!4d31.7407502!16zL20vMGdzMGQy?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link">
-          <span class="click-icon"></span>
-          Yedigöller 📍
-        </a>
-      </h2>
-    </div>
-    
-    <div class="city-photos">
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398074/photo_2025-05-16_15-20-14_wy2z8l.jpg" alt="Yedigöller">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398074/photo_2025-05-16_15-20-15_npyzyu.jpg" alt="Yedigöller">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398075/photo_2025-05-16_15-20-18_kdzrgb.jpg" alt="Yedigöller">
-      </div>
-    </div>
-  </div>
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://maps.google.com/?q=S%C3%BCnnet+G%C3%B6l%C3%BC%2C+Bolu" target="_blank" class="location-link">
-          <span class="click-icon"></span>
-          Sünnet Gölü 📍
-        </a>
-      </h2>
-    </div>
-    
-    <div class="city-photos">
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747399056/photo_2025-05-16_15-36-41_h2sdtz.jpg" alt="Sünnet Gölü">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747399053/photo_2025-05-16_15-36-38_aw1cmb.jpg" alt="Sünnet Gölü">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747399050/photo_2025-05-16_15-36-36_u2cifh.jpg" alt="Sünnet Gölü">
-      </div>
-    </div>
-  </div>
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://www.google.com/maps/place/Kartalkaya+Ski+Center/@40.5908617,31.8010145,16z/data=!4m6!3m5!1s0x409d4bb0a3e260cb:0x91c61f9ee9d30fd2!8m2!3d40.5876428!4d31.8061283!16s%2Fg%2F11mpd173qn?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link">
-          <span class="click-icon"></span>
-          Kartalkaya 📍
-        </a>
-      </h2>
-    </div>
-    
-    <div class="city-photos">
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398354/photo_2025-05-16_15-25-30_blrcns.jpg" alt="Kartalkaya">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398353/photo_2025-05-16_15-25-13_cmozsy.jpg" alt="Kartalkaya">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398354/photo_2025-05-16_15-25-17_f8tnig.jpg" alt="Kartalkaya">
-      </div>
-    </div>
-  </div>
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://www.google.com/maps/place/Burj+Al+Babas/@40.4444011,31.2029726,14z/data=!4m6!3m5!1s0x14cd36ee7b9820ab:0x33aaad8a5d159abf!8m2!3d40.4444011!4d31.2029726!16s%2Fg%2F1yfj43hpk?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link">
-          <span class="click-icon"></span>
-          Mudurnu Şato Evleri 📍
-        </a>
-      </h2>
-    </div>
-    
-    <div class="city-photos">
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398894/photo_2025-05-16_15-33-58_advf1k.jpg" alt="Mudurnu Şato Evleri">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398891/photo_2025-05-16_15-33-47_o8ncmf.jpg" alt="Mudurnu Şato Evleri">
-      </div>
-      <div class="photo-card">
-        <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398886/photo_2025-05-16_15-33-40_vba55s.jpg" alt="Mudurnu Şato Evleri">
-      </div>
-    </div>
-  </div>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Bolu</span></h1>
   
-  <p><a href="https://www.instagram.com/liveanuar/" class="back-link">"Harika" bir yer biliyorsanız, fotoğraf ve konumunu bize gönderin, burada paylaşalım! Instagram: @liveanuar</a></p>
+  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://maps.google.com/?q=G%C3%B6lc%C3%BCk+Tabiat+Park%C4%B1%2C+Bolu" target="_blank" class="location-link"><span class="click-icon"></span>Gölcük Tabiat Parkı 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747396864/photo_2025-05-16_14-58-51_cfsmot.jpg" alt="Gölcük Tabiat Parkı"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747397400/photo_2025-05-16_15-08-44_vvpwlj.jpg" alt="Gölcük Tabiat Parkı"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747397401/photo_2025-05-16_15-09-34_xc0v2d.jpg" alt="Gölcük Tabiat Parkı"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://maps.google.com/?q=Abant+G%C3%B6l%C3%BC%2C+Bolu" target="_blank" class="location-link"><span class="click-icon"></span>Abant Gölü 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747396865/photo_2025-05-16_14-58-55_qymo2q.jpg" alt="Abant Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747397616/photo_2025-05-16_15-12-11_vdaz1u.jpg" alt="Abant Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747396860/photo_2025-05-16_14-58-48_xnkqmv.jpg" alt="Abant Gölü"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/place/Yedig%C3%B6ller+National+Park/@40.9316643,31.7152337,14z/data=!4m6!3m5!1s0x409d3f1a5817d7f1:0xf6f21dfa4d0fa933!8m2!3d40.9373071!4d31.7407502!16zL20vMGdzMGQy?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link"><span class="click-icon"></span>Yedigöller 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398074/photo_2025-05-16_15-20-14_wy2z8l.jpg" alt="Yedigöller"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398074/photo_2025-05-16_15-20-15_npyzyu.jpg" alt="Yedigöller"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398075/photo_2025-05-16_15-20-18_kdzrgb.jpg" alt="Yedigöller"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://maps.google.com/?q=S%C3%BCnnet+G%C3%B6l%C3%BC%2C+Bolu" target="_blank" class="location-link"><span class="click-icon"></span>Sünnet Gölü 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747399056/photo_2025-05-16_15-36-41_h2sdtz.jpg" alt="Sünnet Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747399053/photo_2025-05-16_15-36-38_aw1cmb.jpg" alt="Sünnet Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747399050/photo_2025-05-16_15-36-36_u2cifh.jpg" alt="Sünnet Gölü"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/place/Kartalkaya+Ski+Center/@40.5908617,31.8010145,16z/data=!4m6!3m5!1s0x409d4bb0a3e260cb:0x91c61f9ee9d30fd2!8m2!3d40.5876428!4d31.8061283!16s%2Fg%2F11mpd173qn?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link"><span class="click-icon"></span>Kartalkaya 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398354/photo_2025-05-16_15-25-30_blrcns.jpg" alt="Kartalkaya"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398353/photo_2025-05-16_15-25-13_cmozsy.jpg" alt="Kartalkaya"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398354/photo_2025-05-16_15-25-17_f8tnig.jpg" alt="Kartalkaya"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/place/Burj+Al+Babas/@40.4444011,31.2029726,14z/data=!4m6!3m5!1s0x14cd36ee7b9820ab:0x33aaad8a5d159abf!8m2!3d40.4444011!4d31.2029726!16s%2Fg%2F1yfj43hpk?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link"><span class="click-icon"></span>Mudurnu Şato Evleri 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398894/photo_2025-05-16_15-33-58_advf1k.jpg" alt="Mudurnu Şato Evleri"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398891/photo_2025-05-16_15-33-47_o8ncmf.jpg" alt="Mudurnu Şato Evleri"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747398886/photo_2025-05-16_15-33-40_vba55s.jpg" alt="Mudurnu Şato Evleri"></div></div></div>  
+  <div class="contact-section">
+    <p class="contact-text">"Harika" bir konum biliyorsanız fotoğrafıyla birlikte bize gönderin, burada paylaşalım! Sitemizi güncel tutalım :)</p>
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn">
+      📩 Bir tıkla bize ulaşın: @tr81.tr
+    </a>
+  </div>
 </body>
 </html>
