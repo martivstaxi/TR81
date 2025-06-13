@@ -662,15 +662,19 @@ function normalizeText(text) {
 document.getElementById('searchInput').addEventListener('input', function () {
     const searchValue = normalizeText(this.value);
     
+    // Arama değeri varsa info banner'ı gizle, yoksa göster
+    const infoBanner = document.getElementById('infoBanner');
+    if (searchValue.length > 0) {
+        infoBanner.style.display = 'none';
+    } else {
+        infoBanner.style.display = '';
+    }
+    
     document.querySelectorAll('.city-container').forEach(section => {
         const searchText = normalizeText(section.getAttribute('data-search') || '');
         const isVisible = searchText.includes(searchValue);
         section.style.display = isVisible ? '' : 'none';
     });
-    
-    // Info banner'ı her zaman göster
-    const infoBanner = document.getElementById('infoBanner');
-    infoBanner.style.display = '';
 });
 
 // Test için - konsola mesaj yaz
