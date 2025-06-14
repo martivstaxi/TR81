@@ -838,58 +838,91 @@
 
     // Dil algılama fonksiyonu
     function detectLanguage() {
-      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-      
-      // Önce localStorage'dan kontrol et
+      // 1. Önce localStorage'dan kontrol et
       const savedLang = localStorage.getItem('preferred-language');
       if (savedLang && translations[savedLang]) {
         return savedLang;
       }
       
-      // Tam eşleşme kontrolü
+      // 2. Tarayıcı dilini al
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      // 3. Eğer tarayıcı dili Türkçe ise veya kayıtlı dil yoksa Türkçe döndür
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      // 4. Tarayıcı dili Türkçe değilse, desteklenen bir dil mi kontrol et
       for (const lang in translations) {
         if (browserLang.startsWith(lang)) {
           return lang;
         }
       }
       
-      // Varsayılan olarak İngilizce
+      // 5. Desteklenen 20 dilden biri değilse İngilizce döndür
       return 'en';
     }
 
     // UI güncelleme fonksiyonu
     function updateLanguageUI(lang) {
       const t = translations[lang];
-      if (!t) return;
+      if (!t) {
+        console.error('Dil bulunamadı:', lang);
+        return;
+      }
       
-      // Sayfa içeriği güncelleme
-      document.getElementById('aboutTitle').textContent = t.aboutTitle;
-      document.getElementById('aboutText1').textContent = t.aboutText1;
-      document.getElementById('aboutUs').textContent = t.aboutUs;
-      document.getElementById('aboutText2').textContent = t.aboutText2;
-      document.getElementById('aboutText3').textContent = t.aboutText3;
-      document.getElementById('aboutText4').textContent = t.aboutText4;
-      
-      document.getElementById('authTitle').textContent = t.authTitle;
-      document.getElementById('authSubtitle').textContent = t.authSubtitle;
-      document.getElementById('usernameInput').placeholder = t.username;
-      document.getElementById('passwordInput').placeholder = t.password;
-      document.getElementById('loginButton').innerHTML = t.loginButton;
-      document.getElementById('purchaseBtn').innerHTML = t.purchaseBtn;
-      document.getElementById('promoTitle').innerHTML = t.promoTitle;
-      document.getElementById('promoText').textContent = t.promoText;
-      document.getElementById('instagramBtn').innerHTML = t.instagramBtn;
-      document.getElementById('promoMessage').textContent = t.promoMessage;
-      document.getElementById('errorMessage').textContent = t.errorMessage;
-      document.getElementById('successMessage').textContent = t.successMessage;
-      document.getElementById('manualLinkTitle').textContent = t.manualLinkTitle;
-      document.getElementById('manualLinkText').textContent = t.manualLinkText;
-      
-      // HTML lang attribute güncelleme
-      document.documentElement.lang = lang;
-      
-      // LocalStorage'a kaydet
-      localStorage.setItem('preferred-language', lang);
+      try {
+        // Sayfa içeriği güncelleme
+        const elements = {
+          'aboutTitle': t.aboutTitle,
+          'aboutText1': t.aboutText1,
+          'aboutUs': t.aboutUs,
+          'aboutText2': t.aboutText2,
+          'aboutText3': t.aboutText3,
+          'aboutText4': t.aboutText4,
+          'authTitle': t.authTitle,
+          'authSubtitle': t.authSubtitle,
+          'loginButton': t.loginButton,
+          'purchaseBtn': t.purchaseBtn,
+          'promoTitle': t.promoTitle,
+          'promoText': t.promoText,
+          'instagramBtn': t.instagramBtn,
+          'promoMessage': t.promoMessage,
+          'errorMessage': t.errorMessage,
+          'successMessage': t.successMessage,
+          'manualLinkTitle': t.manualLinkTitle,
+          'manualLinkText': t.manualLinkText
+        };
+        
+        // Elementleri güncelle
+        for (const [id, text] of Object.entries(elements)) {
+          const element = document.getElementById(id);
+          if (element) {
+            if (id === 'loginButton' || id === 'purchaseBtn' || id === 'promoTitle' || id === 'instagramBtn') {
+              element.innerHTML = text;
+            } else {
+              element.textContent = text;
+            }
+          }
+        }
+        
+        // Input placeholder'ları güncelle
+        const usernameInput = document.getElementById('usernameInput');
+        const passwordInput = document.getElementById('passwordInput');
+        
+        if (usernameInput) usernameInput.placeholder = t.username;
+        if (passwordInput) passwordInput.placeholder = t.password;
+        
+        // HTML lang attribute güncelleme
+        document.documentElement.lang = lang;
+        
+        // LocalStorage'a kaydet
+        localStorage.setItem('preferred-language', lang);
+        
+        console.log('Dil güncellendi:', lang); // Debug için
+      } catch (error) {
+        console.error('Dil güncellenirken hata:', error);
+      }
     }
 
     // Instagram DM açma fonksiyonu
@@ -904,7 +937,7 @@
       const password = document.getElementById('passwordInput').value;
       
       // Basit doğrulama (gerçek uygulamada sunucu tarafında yapılmalı)
-      if (username === "duflat" && password === "duflat2025") {
+      if (username === "global" && password === "global2025") {
         document.getElementById('errorMessage').style.display = 'none';
         document.getElementById('successMessage').style.display = 'block';
         document.getElementById('manualLink').style.display = 'block';
@@ -923,24 +956,49 @@
       }
     }
 
-    // Enter tuşu ile giriş yapma
+    // Enter tuşu ile giriş yapma ve dil ayarlama
     document.addEventListener('DOMContentLoaded', function() {
-      // Otomatik dil algılama ve uygulama
-      const detectedLang = detectLanguage();
-      updateLanguageUI(detectedLang);
+      // Tüm DOM elementlerinin yüklenmesini bekle
+      setTimeout(function() {
+        // Otomatik dil algılama ve uygulama
+        const detectedLang = detectLanguage();
+        console.log('Algılanan dil:', detectedLang); // Debug için
+        updateLanguageUI(detectedLang);
+      }, 100); // 100ms gecikme ekleyerek DOM'un tamamen hazır olmasını garantile
       
       // Enter tuşu dinleyicisi
-      document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          login();
-        }
-      });
+      const passwordInput = document.getElementById('passwordInput');
+      const usernameInput = document.getElementById('usernameInput');
       
-      document.getElementById('usernameInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          document.getElementById('passwordInput').focus();
+      if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            login();
+          }
+        });
+      }
+      
+      if (usernameInput) {
+        usernameInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const passInput = document.getElementById('passwordInput');
+            if (passInput) passInput.focus();
+          }
+        });
+      }
+    });
+    
+    // Sayfa tamamen yüklendikten sonra da kontrol et (backup)
+    window.addEventListener('load', function() {
+      // Eğer dil henüz ayarlanmadıysa tekrar dene
+      const htmlLang = document.documentElement.lang;
+      if (!htmlLang || htmlLang === 'tr') {
+        const detectedLang = detectLanguage();
+        if (detectedLang !== 'tr' || !localStorage.getItem('language-set')) {
+          updateLanguageUI(detectedLang);
+          localStorage.setItem('language-set', 'true');
         }
-      });
+      }
     });
   </script>
 </body>
