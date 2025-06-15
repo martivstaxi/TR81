@@ -289,7 +289,7 @@
       }
     }
 
-    /* Promotion Section - Görünürlük sorunu için güncellendi */
+    /* Promotion Section */
     .promotion-section {
       background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
       color: #92400e;
@@ -302,7 +302,6 @@
       box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
       position: relative;
       overflow: hidden;
-      /* Görünürlük sorununu çözmek için */
       opacity: 1 !important;
       visibility: visible !important;
       display: block !important;
@@ -331,7 +330,6 @@
       color: #92400e;
       position: relative;
       z-index: 1;
-      /* Görünürlük için */
       opacity: 1 !important;
       visibility: visible !important;
     }
@@ -368,7 +366,6 @@
       position: relative;
       z-index: 1;
       line-height: 1.6;
-      /* Görünürlük için */
       opacity: 1 !important;
       visibility: visible !important;
     }
@@ -493,6 +490,10 @@
   </div>
 
   <script>
+    // Debug için console log ekleyelim
+    console.log('Navigator language:', navigator.language);
+    console.log('User Agent:', navigator.userAgent);
+    
     // Dil verileri
     const translations = {
       'tr': {
@@ -623,32 +624,50 @@
       }
     };
 
-    // Dil algılama fonksiyonu
+    // Dil algılama fonksiyonu - DÜZELTME BURADA
     function detectLanguage() {
+      // Önce localStorage kontrol et
       const savedLang = localStorage.getItem('preferred-language');
       if (savedLang && translations[savedLang]) {
+        console.log('Saved language found:', savedLang);
         return savedLang;
       }
       
-      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      // Tarayıcı dilini al
+      const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      console.log('Browser language detected:', browserLang);
       
-      if (browserLang.startsWith('tr')) {
+      // Türkçe kontrolleri - daha geniş
+      if (browserLang === 'tr' || 
+          browserLang === 'tr-tr' || 
+          browserLang.startsWith('tr-') ||
+          browserLang.includes('tr')) {
+        console.log('Turkish language detected');
         return 'tr';
       }
       
+      // Diğer diller için kontrol
       for (const lang in translations) {
-        if (browserLang.startsWith(lang)) {
+        if (browserLang.startsWith(lang + '-') || browserLang === lang) {
+          console.log('Language matched:', lang);
           return lang;
         }
       }
       
+      // Varsayılan olarak İngilizce döndür
+      console.log('No language match, defaulting to English');
       return 'en';
     }
 
     // UI güncelleme fonksiyonu
     function updateLanguageUI(lang) {
+      console.log('Updating UI to language:', lang);
+      
       const t = translations[lang];
-      if (!t) return;
+      if (!t) {
+        console.error('No translation found for:', lang);
+        return;
+      }
       
       // Elementleri güncelle
       const elements = {
@@ -667,23 +686,30 @@
           } else {
             element.textContent = text;
           }
+          console.log('Updated element:', id);
+        } else {
+          console.error('Element not found:', id);
         }
       }
       
+      // HTML lang attribute güncelle
       document.documentElement.lang = lang;
+      
+      // Kaydet
       localStorage.setItem('preferred-language', lang);
+      console.log('Language saved to localStorage:', lang);
     }
 
     // Görünürlük sorununu çözen fonksiyon
     function ensurePromotionVisibility() {
       const promotionSection = document.querySelector('.promotion-section');
       if (promotionSection) {
-        // Force reflow
-        promotionSection.style.display = 'none';
-        promotionSection.offsetHeight; // Trigger reflow
+        // Force display
         promotionSection.style.display = 'block';
+        promotionSection.style.opacity = '1';
+        promotionSection.style.visibility = 'visible';
         
-        // Elementleri görünür yap
+        // Tüm child elementleri de görünür yap
         const allElements = promotionSection.querySelectorAll('*');
         allElements.forEach(el => {
           if (el.style) {
@@ -694,27 +720,35 @@
       }
     }
 
-    // Sayfa yüklendiğinde
-    document.addEventListener('DOMContentLoaded', function() {
-      // Dil ayarla
+    // Ana yükleme fonksiyonu
+    function initializeLanguage() {
       const detectedLang = detectLanguage();
+      console.log('Initializing with language:', detectedLang);
       updateLanguageUI(detectedLang);
-      
-      // Görünürlük sorununu çöz
-      setTimeout(ensurePromotionVisibility, 100);
-      setTimeout(ensurePromotionVisibility, 500);
-      setTimeout(ensurePromotionVisibility, 1000);
-    });
+      ensurePromotionVisibility();
+    }
+
+    // Sayfa yüklendiğinde çalıştır
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeLanguage);
+    } else {
+      // DOM zaten yüklendiyse hemen çalıştır
+      initializeLanguage();
+    }
     
-    // Sayfa tamamen yüklendikten sonra da kontrol et
+    // Ekstra güvenlik için window.onload'da da kontrol et
     window.addEventListener('load', function() {
+      console.log('Window loaded, checking language again...');
       ensurePromotionVisibility();
       
-      // Dil kontrolü
-      const htmlLang = document.documentElement.lang;
-      if (!htmlLang || htmlLang === 'tr') {
+      // Eğer hala İngilizce görünüyorsa tekrar dene
+      const currentTitle = document.getElementById('promoTitle');
+      if (currentTitle && currentTitle.textContent.includes('First 20')) {
+        console.log('English detected after load, retrying Turkish...');
         const detectedLang = detectLanguage();
-        updateLanguageUI(detectedLang);
+        if (detectedLang === 'tr') {
+          updateLanguageUI('tr');
+        }
       }
     });
     
@@ -724,6 +758,16 @@
         ensurePromotionVisibility();
       }
     });
+
+    // Manuel dil değiştirme fonksiyonu (test için)
+    window.changeLanguage = function(lang) {
+      if (translations[lang]) {
+        updateLanguageUI(lang);
+        console.log('Language manually changed to:', lang);
+      } else {
+        console.error('Language not supported:', lang);
+      }
+    };
   </script>
 </body>
 </html>
