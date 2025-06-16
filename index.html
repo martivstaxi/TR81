@@ -635,12 +635,21 @@ function checkAccess() {
 }
 
 function navigateToCity(cityName) {
+    // Demo erişimi olan şehirler listesi
+    const demoAccessCities = ['istanbul', 'ankara', 'izmir', 'bursa', 'antalya', 'konya', 'adana', 'gaziantep', 'mugla'];
+    
     if (accessGranted) {
         // Erişim varsa normal sayfaya git
         window.location.href = cityName + '.html';
     } else {
-        // Erişim yoksa demo sayfasına git
-        window.location.href = cityName + '_demo.html';
+        // Erişim yoksa kontrolü yap
+        if (demoAccessCities.includes(cityName)) {
+            // Demo erişimi olan şehirler için demo sayfasına git
+            window.location.href = cityName + '_demo.html';
+        } else {
+            // Diğer şehirler için login sayfasına yönlendir
+            window.location.href = 'login.html';
+        }
     }
 }
 
