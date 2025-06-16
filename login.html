@@ -306,11 +306,11 @@
       font-size: 17px;
     }
 
-    /* Instagram Embed Stili */
+    /* Instagram Embed Stili - GÜNCELLEME */
     .instagram-embed-container {
       margin: 40px auto;
       max-width: 500px;
-      padding: 30px;
+      padding: 20px;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-radius: 20px;
@@ -318,52 +318,55 @@
         0 15px 35px rgba(0,0,0,0.1),
         0 5px 15px rgba(0,0,0,0.05);
       border: 1px solid rgba(255, 255, 255, 0.9);
-      overflow: hidden;
     }
 
     .instagram-embed-container h3 {
       color: #343a40;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-size: 22px;
       font-weight: 600;
       text-align: center;
     }
 
-    /* Instagram embed wrapper */
+    /* Instagram iframe için tam ekran ayarları */
     .instagram-embed-wrapper {
       position: relative;
       width: 100%;
+      padding-bottom: 177.78%; /* 9:16 aspect ratio için */
+      height: 0;
       overflow: hidden;
       border-radius: 12px;
-      background: #ffffff;
+      background: #000;
     }
 
-    /* Instagram iframe responsive ayarları */
-    .instagram-media {
-      background: #FFF !important;
-      border: 0 !important;
-      border-radius: 12px !important;
-      box-shadow: none !important;
-      margin: 0 auto !important;
-      max-width: 100% !important;
-      min-width: 100% !important;
-      padding: 0 !important;
+    .instagram-embed-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100% !important;
-    }
-
-    /* Instagram embed içerik düzenlemeleri */
-    .instagram-embed-container iframe {
-      max-width: 100% !important;
-      width: 100% !important;
-      margin: 0 !important;
+      height: 100% !important;
+      border: none !important;
+      border-radius: 12px;
     }
 
     /* Mobil optimizasyon */
-    @media (max-width: 550px) {
+    @media (max-width: 768px) {
       .instagram-embed-container {
         max-width: 100%;
         margin: 30px 10px;
-        padding: 20px;
+        padding: 15px;
+      }
+      
+      .instagram-embed-wrapper {
+        padding-bottom: 177.78%; /* 9:16 aspect ratio korunur */
+      }
+    }
+
+    @media (max-width: 550px) {
+      .instagram-embed-container {
+        margin: 20px 5px;
+        padding: 10px;
+        border-radius: 15px;
       }
     }
 
@@ -464,7 +467,13 @@
   <div class="instagram-embed-container">
     <h3>🎥 Manzara Videomuz</h3>
     <div class="instagram-embed-wrapper">
-      <iframe src="https://www.instagram.com/p/DKUwWaeMp3O/embed/" width="100%" height="650" frameborder="0" scrolling="no" allowtransparency="true" style="background: white; border: none; border-radius: 12px; max-width: 100%;"></iframe>
+      <iframe 
+        src="https://www.instagram.com/p/DKUwWaeMp3O/embed/" 
+        frameborder="0" 
+        scrolling="no" 
+        allowtransparency="true"
+        loading="lazy">
+      </iframe>
     </div>
   </div>
 
@@ -1070,6 +1079,54 @@
       }
       
       // Instagram embed'i yeniden yükle (dil değiştiğinde)
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    });
+
+    // Instagram embed yüklendiğinde boyutları optimize et
+    window.addEventListener('load', function() {
+      // Instagram embed iframe'ini bul
+      const instagramIframes = document.querySelectorAll('.instagram-embed-wrapper iframe');
+      
+      instagramIframes.forEach(function(iframe) {
+        // Iframe yüklendikten sonra
+        iframe.onload = function() {
+          // Instagram'ın kendi stillerini override et
+          try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const style = iframeDoc.createElement('style');
+            style.textContent = `
+              .EmbedFrame, .EmbedVideo, .EmbedVideoWrapper {
+                width: 100% !important;
+                height: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+              }
+              .EmbedFrame > div:first-child {
+                padding-bottom: 0 !important;
+                height: 100% !important;
+              }
+              /* Siyah kenarlıkları kaldır */
+              .VideoPresentationContainer {
+                background: transparent !important;
+              }
+              video {
+                object-fit: cover !important;
+                width: 100% !important;
+                height: 100% !important;
+              }
+            `;
+            iframeDoc.head.appendChild(style);
+          } catch(e) {
+            // Cross-origin hatası durumunda sessizce devam et
+            console.log('Instagram embed stil güncellemesi yapılamadı (cross-origin)');
+          }
+        };
+      });
+      
+      // Instagram embed script'ini yeniden yükle
       if (window.instgrm) {
         window.instgrm.Embeds.process();
       }
