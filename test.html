@@ -835,8 +835,62 @@
       ]
     };
 
+    // BÖLÜM 1: Editör Panel Fonksiyonları ve Event Handling
+    function toggleEditPanel() {
+      console.log('🔧 toggleEditPanel çağrıldı!');
+      const panel = document.getElementById('editPanel');
+      
+      if (!panel) {
+        console.error('❌ editPanel bulunamadı!');
+        alert('Panel bulunamadı! Sayfa yeniden yüklenecek.');
+        location.reload();
+        return;
+      }
+      
+      const isVisible = panel.style.display === 'block';
+      panel.style.display = isVisible ? 'none' : 'block';
+      
+      console.log('✅ Panel durumu:', isVisible ? 'Kapatıldı' : 'Açıldı');
+    }
+
+    // Multiple event binding for edit button
+    function setupEditButton() {
+      console.log('🔧 Edit button kurulumu başlatılıyor...');
+      
+      const editBtn = document.getElementById('editButton');
+      if (!editBtn) {
+        console.error('❌ editButton bulunamadı!');
+        return;
+      }
+      
+      // Method 1: onclick property
+      editBtn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('🖱️ onclick method çalıştı!');
+        toggleEditPanel();
+        return false;
+      };
+      
+      // Method 2: addEventListener
+      editBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('🖱️ addEventListener çalıştı!');
+        toggleEditPanel();
+      });
+      
+      // Method 3: Direct style forcing
+      editBtn.style.cursor = 'pointer';
+      editBtn.style.pointerEvents = 'auto';
+      editBtn.style.zIndex = '999999';
+      
+      console.log('✅ Edit button kurulumu tamamlandı!');
+    }
+
     // Lightbox fonksiyonları
     function openLightbox(imageSrc) {
+      console.log('🖼️ Lightbox açılıyor:', imageSrc);
       const lightbox = document.getElementById('lightbox');
       const lightboxImage = document.getElementById('lightbox-image');
       
@@ -845,6 +899,7 @@
         lightboxImage.src = highResSrc;
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
+        console.log('✅ Lightbox açıldı!');
       }
     }
 
@@ -856,22 +911,11 @@
       }
     }
 
-    // Editör panel fonksiyonu
-    function toggleEditPanel() {
-      const panel = document.getElementById('editPanel');
-      if (panel) {
-        if (panel.style.display === 'none' || panel.style.display === '') {
-          panel.style.display = 'block';
-        } else {
-          panel.style.display = 'none';
-        }
-      }
-    }
-
     // Şehir verilerini işleme
     function processCityData() {
       const cityDataText = document.getElementById('cityData').value;
       if (!cityDataText.trim()) {
+    // BÖLÜM 2: Data Processing ve Initialization
     function processCityData() {
       const cityDataText = document.getElementById('cityData').value;
       if (!cityDataText.trim()) {
@@ -900,9 +944,7 @@
 
           const locationParts = locationData.split('@@');
           
-          if (locationParts.length < 2) {
-            continue;
-          }
+          if (locationParts.length < 2) continue;
 
           const name = locationParts[0].trim();
           const link = locationParts[1].trim();
@@ -914,22 +956,12 @@
             }
           }
 
-          if (!name || !link) {
-            continue;
-          }
+          if (!name || !link) continue;
 
-          locations.push({
-            name: name,
-            photos: photos,
-            link: link
-          });
+          locations.push({ name: name, photos: photos, link: link });
         }
 
-        cityData = {
-          cityName: cityName,
-          locations: locations
-        };
-        
+        cityData = { cityName: cityName, locations: locations };
         updatePageTitle();
         renderLocations();
         document.getElementById('cityData').value = '';
@@ -954,9 +986,7 @@
           photosHTML += '<div class="photo-card" onclick="openLightbox(\'' + photoSrc + '\')"><img src="' + photoSrc + '" alt="' + location.name + '"></div>';
         }
         
-        section.innerHTML = 
-          '<div class="city-header"><h2 class="city-title"><a href="' + location.link + '" target="_blank" class="location-link"><span class="click-icon"></span>' + location.name + ' 📍</a></h2></div><div class="city-photos">' + photosHTML + '</div>';
-        
+        section.innerHTML = '<div class="city-header"><h2 class="city-title"><a href="' + location.link + '" target="_blank" class="location-link"><span class="click-icon"></span>' + location.name + ' 📍</a></h2></div><div class="city-photos">' + photosHTML + '</div>';
         container.appendChild(section);
       }
     }
@@ -967,20 +997,7 @@
         return;
       }
       
-      let locationsHTML = '';
-      for(let i = 0; i < cityData.locations.length; i++) {
-        const location = cityData.locations[i];
-        let photosHTML = '';
-        
-        for(let j = 0; j < location.photos.length; j++) {
-          const photoSrc = location.photos[j];
-          photosHTML += '        <div class="photo-card" onclick="openLightbox(\'' + photoSrc + '\')"><img src="' + photoSrc + '" alt="' + location.name + '"></div>\\n';
-        }
-        
-        locationsHTML += '    <div class="city-section">\\n      <div class="city-header">\\n        <h2 class="city-title">\\n          <a href="' + location.link + '" target="_blank" class="location-link">\\n            <span class="click-icon"></span>' + location.name + ' 📍\\n          </a>\\n        </h2>\\n      </div>\\n      <div class="city-photos">\\n' + photosHTML + '      </div>\\n    </div>\\n\\n';
-      }
-
-      const fullHTML = 'TAM HTML KODU HAZIRLANACAK';
+      const fullHTML = '<!DOCTYPE html><html><head><title>' + cityData.cityName + '</title></head><body><h1>' + cityData.cityName + '</h1></body></html>';
       
       try {
         navigator.clipboard.writeText(fullHTML);
@@ -995,17 +1012,39 @@
       document.getElementById('page-title').textContent = cityData.cityName;
     }
 
-    // ESC tuşu ile lightbox'ı kapat
+    // INITIALIZATION - Multiple Methods for Maximum Compatibility
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 DOMContentLoaded başlatılıyor...');
+      setupEditButton();
+      updatePageTitle();
+      renderLocations();
+      console.log('✅ DOMContentLoaded tamamlandı!');
+    });
+
+    window.addEventListener('load', function() {
+      console.log('🚀 Window load başlatılıyor...');
+      setupEditButton();
+      console.log('✅ Window load tamamlandı!');
+    });
+
+    // Fallback timeout initialization
+    setTimeout(function() {
+      console.log('🚀 Timeout fallback başlatılıyor...');
+      setupEditButton();
+      console.log('✅ Timeout fallback tamamlandı!');
+    }, 100);
+
+    // ESC key handler
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closeLightbox();
       }
     });
 
-    // Sayfa yüklendiğinde çalışacak
-    window.onload = function() {
-      updatePageTitle();
-      renderLocations();
+    // Global click test function
+    window.testEditButton = function() {
+      console.log('🧪 Test fonksiyonu çalışıyor...');
+      toggleEditPanel();
     };
   </script>
 </body>
