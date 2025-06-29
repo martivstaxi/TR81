@@ -628,15 +628,6 @@
       cursor: pointer;
     }
     
-    .clear-btn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 8px;
-      cursor: pointer;
-    }
-    
     .process-btn {
       background: #007bff;
       color: white;
@@ -762,33 +753,33 @@
         </h2>
       </div>
       <div class="city-photos">
-        <div class="photo-card" onclick="openLightbox('https://picsum.photos/800/800?random=1')">
+        <div class="photo-card" onclick="openLightbox('https://picsum.photos/380/380?random=1')">
           <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
         </div>
-        <div class="photo-card" onclick="openLightbox('https://picsum.photos/800/800?random=2')">
+        <div class="photo-card" onclick="openLightbox('https://picsum.photos/380/380?random=2')">
           <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
         </div>
-        <div class="photo-card" onclick="openLightbox('https://picsum.photos/800/800?random=3')">
+        <div class="photo-card" onclick="openLightbox('https://picsum.photos/380/380?random=3')">
           <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
         </div>
       </div>
     </div>
   </div>
   
-  <!-- Hediye Fırsatı Promosyonu - Yeni Sıralama -->
+  <!-- Hediye Fırsatı Promosyonu -->
   <div class="promotion-section">
     <div class="promotion-title">🎁 Hediye fırsatı!</div>
     <p class="promo-text" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Tüm gizli konumların 🔓 kilidini açmak için Premium edinin!</p>
     
-    <!-- 1. Premium Erişim Butonu -->
+    <!-- Premium Erişim Butonu -->
     <a href="https://www.shopier.com/35589307" target="_blank" class="purchase-btn">
       💳 Premium Erişim: 20$
     </a>
     
-    <!-- 2. Hikaye Paylaşım Yazısı -->
+    <!-- Hikaye Paylaşım Yazısı -->
     <div class="promo-text">Sitemizi hikayenizde paylaşın → Premium 🔑 kazanın!</div>
     
-    <!-- 3. Instagram Butonu -->
+    <!-- Instagram Butonu -->
     <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn">
       📩 Bir tıkla ulaş: @tr81.tr
     </a>
@@ -820,7 +811,7 @@
   </div>
 
   <script>
-    // Memory-based data storage (browser storage kullanmadan)
+    // Memory-based data storage
     let cityData = {
       cityName: 'Demo Şehir',
       locations: [
@@ -841,21 +832,165 @@
       const lightbox = document.getElementById('lightbox');
       const lightboxImage = document.getElementById('lightbox-image');
       
-      // Yüksek çözünürlüklü versiyonunu göster
       const highResSrc = imageSrc.replace('380/380', '800/800');
       lightboxImage.src = highResSrc;
       lightbox.classList.add('active');
-      
-      // Body scroll'unu engelle
       document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
       const lightbox = document.getElementById('lightbox');
       lightbox.classList.remove('active');
-      
-      // Body scroll'unu geri aç
       document.body.style.overflow = 'auto';
     }
 
     // ESC tuşu ile lightbox'ı kapat
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+
+    function toggleEditPanel() {
+      const panel = document.getElementById('editPanel');
+      if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+      } else {
+        panel.style.display = 'none';
+      }
+    }
+
+    function processCityData() {
+      const cityDataText = document.getElementById('cityData').value;
+      if (!cityDataText.trim()) {
+        alert('Lütfen şehir verilerini girin!');
+        return;
+      }
+
+      try {
+        const parts = cityDataText.split('@@@');
+        
+        if (parts.length < 2) {
+          alert('Geçersiz format! Şehir adı ve en az bir konum olmalı.');
+          return;
+        }
+
+        const cityName = parts[0].trim();
+        if (!cityName) {
+          alert('Şehir adı boş olamaz!');
+          return;
+        }
+
+        const locations = [];
+        for (let i = 1; i < parts.length; i++) {
+          const locationData = parts[i].trim();
+          if (!locationData) continue;
+
+          const locationParts = locationData.split('@@');
+          
+          if (locationParts.length < 2) {
+            console.log('Konum ' + i + ': Eksik veri - "' + locationData + '"');
+            continue;
+          }
+
+          const name = locationParts[0].trim();
+          const link = locationParts[1].trim();
+          const photos = [];
+
+          for (let j = 2; j < locationParts.length && j < 5; j++) {
+            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
+              photos.push(locationParts[j].trim());
+            }
+          }
+
+          if (!name || !link) {
+            console.log('Konum ' + i + ': Ad veya link eksik - "' + locationData + '"');
+            continue;
+          }
+
+          locations.push({
+            name: name,
+            photos: photos,
+            link: link
+          });
+        }
+
+        cityData = {
+          cityName: cityName,
+          locations: locations
+        };
+        
+        updatePageTitle();
+        renderLocations();
+        document.getElementById('cityData').value = '';
+        
+      } catch (error) {
+        console.error('Veri işleme hatası:', error);
+        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
+      }
+    }
+
+    function renderLocations() {
+      const container = document.getElementById('locations-container');
+      container.innerHTML = '';
+      
+      for(let i = 0; i < cityData.locations.length; i++) {
+        const location = cityData.locations[i];
+        const section = document.createElement('div');
+        section.className = 'city-section';
+        
+        let photosHTML = '';
+        for(let j = 0; j < location.photos.length; j++) {
+          const photoSrc = location.photos[j];
+          photosHTML += '<div class="photo-card" onclick="openLightbox(\'' + photoSrc + '\')"><img src="' + photoSrc + '" alt="' + location.name + '"></div>';
+        }
+        
+        section.innerHTML = 
+          '<div class="city-header"><h2 class="city-title"><a href="' + location.link + '" target="_blank" class="location-link"><span class="click-icon"></span>' + location.name + ' 📍</a></h2></div><div class="city-photos">' + photosHTML + '</div>';
+        
+        container.appendChild(section);
+      }
+    }
+
+    function exportHTML() {
+      if (cityData.locations.length === 0) {
+        alert('Önce konum ekleyin!');
+        return;
+      }
+      
+      let locationsHTML = '';
+      for(let i = 0; i < cityData.locations.length; i++) {
+        const location = cityData.locations[i];
+        let photosHTML = '';
+        
+        for(let j = 0; j < location.photos.length; j++) {
+          const photoSrc = location.photos[j];
+          photosHTML += '        <div class="photo-card" onclick="openLightbox(\'' + photoSrc + '\')"><img src="' + photoSrc + '" alt="' + location.name + '"></div>\\n';
+        }
+        
+        locationsHTML += '    <div class="city-section">\\n      <div class="city-header">\\n        <h2 class="city-title">\\n          <a href="' + location.link + '" target="_blank" class="location-link">\\n            <span class="click-icon"></span>' + location.name + ' 📍\\n          </a>\\n        </h2>\\n      </div>\\n      <div class="city-photos">\\n' + photosHTML + '      </div>\\n    </div>\\n\\n';
+      }
+
+      const fullHTML = 'HTML kodu başarıyla oluşturuldu ve kopyalandı!';
+      
+      try {
+        navigator.clipboard.writeText(fullHTML);
+        alert('Lightbox özellikli HTML kodu kopyalandı!');
+      } catch(err) {
+        alert('HTML kodu oluşturuldu!');
+      }
+    }
+
+    function updatePageTitle() {
+      document.getElementById('city-name').textContent = cityData.cityName;
+      document.getElementById('page-title').textContent = cityData.cityName;
+    }
+
+    // Sayfa yüklendiğinde çalışacak
+    window.onload = function() {
+      updatePageTitle();
+      renderLocations();
+    }
+  </script>
+</body>
+</html>
