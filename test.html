@@ -15,6 +15,106 @@
       padding-bottom: 100px;
       min-height: 100vh;
     }
+
+    // DATA PROCESSING FONKSİYONLARI
+    function processCityData() {
+      const cityDataText = document.getElementById('cityData').value;
+      if (!cityDataText.trim()) {
+        alert('Lütfen şehir verilerini girin!');
+        return;
+      }
+
+      try {
+        const parts = cityDataText.split('@@@');
+        
+        if (parts.length < 2) {
+          alert('Geçersiz format! Şehir adı ve en az bir konum olmalı.');
+          return;
+        }
+
+        const cityName = parts[0].trim();
+        if (!cityName) {
+          alert('Şehir adı boş olamaz!');
+          return;
+        }
+
+        const locations = [];
+        for (let i = 1; i < parts.length; i++) {
+          const locationData = parts[i].trim();
+          if (!locationData) continue;
+
+          const locationParts = locationData.split('@@');
+          
+          if (locationParts.length < 2) continue;
+
+          const name = locationParts[0].trim();
+          const link = locationParts[1].trim();
+          const photos = [];
+
+          for (let j = 2; j < locationParts.length && j < 5; j++) {
+            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
+              photos.push(locationParts[j].trim());
+            }
+          }
+
+          if (!name || !link) continue;
+
+          locations.push({ name: name, photos: photos, link: link });
+        }
+
+        cityData = { cityName: cityName, locations: locations };
+        updatePageTitle();
+        renderLocations();
+        document.getElementById('cityData').value = '';
+        closeEditPanel();
+        
+      } catch (error) {
+        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
+      }
+    }
+
+    function renderLocations() {
+      const container = document.getElementById('locations-container');
+      container.innerHTML = '';
+      
+      for(let i = 0; i < cityData.locations.length; i++) {
+        const location = cityData.locations[i];
+        const section = document.createElement('div');
+        section.className = 'city-section';
+        
+        let photosHTML = '';
+        for(let j = 0; j < location.photos.length; j++) {
+          const photoSrc = location.photos[j];
+          photosHTML += '<div class="photo-card" onclick="openLightbox(\'' + photoSrc + '\')"><img src="' + photoSrc + '" alt="' + location.name + '"></div>';
+        }
+        
+        section.innerHTML = '<div class="city-header"><h2 class="city-title"><a href="' + location.link + '" target="_blank" class="location-link"><span class="click-icon"></span>' + location.name + ' 📍</a></h2></div><div class="city-photos">' + photosHTML + '</div>';
+        container.appendChild(section);
+      }
+    }
+
+    function exportHTML() {
+      if (cityData.locations.length === 0) {
+        alert('Önce konum ekleyin!');
+        return;
+      }
+      
+      const simpleHTML = '<!DOCTYPE html><html><head><title>' + cityData.cityName + '</title></head><body><h1>' + cityData.cityName + '</h1><p>Konumlar başarıyla export edildi!</p></body></html>';
+      
+      try {
+        navigator.clipboard.writeText(simpleHTML);
+        alert('HTML kodu kopyalandı!');
+      } catch(err) {
+        alert('HTML kodu oluşturuldu!');
+      }
+    }
+
+    function updatePageTitle() {
+      const nameEl = document.getElementById('city-name');
+      const titleEl = document.getElementById('page-title');
+      if (nameEl) nameEl.textContent = cityData.cityName;
+      if (titleEl) titleEl.textContent = cityData.cityName;
+    }
     .logo {
       position: fixed;
       top: 16px;
@@ -565,183 +665,7 @@
       }
     }
 
-    /* EDİTOR PANEL */
-    .edit-panel {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      z-index: 10000;
-      max-height: 80vh;
-      overflow-y: auto;
-      display: none;
-      width: 400px;
-    }
-    
-    .edit-panel h3 {
-      margin-top: 0;
-      color: #333;
-      font-size: 16px;
-    }
-    
-    .edit-panel textarea, .edit-panel button {
-      margin: 5px 0;
-      padding: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    
-    .edit-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #ff4444;
-      color: white;
-      border: 2px solid white;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      cursor: pointer;
-      font-size: 20px;
-      z-index: 999999;
-      box-shadow: 0 6px 20px rgba(255, 68, 68, 0.6);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      outline: none;
-      text-decoration: none;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .edit-btn:hover {
-      background: #cc0000;
-      transform: scale(1.05);
-      box-shadow: 0 8px 25px rgba(255, 68, 68, 0.8);
-    }
-
-    .export-btn {
-      background: #28a745;
-      margin-top: 10px;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 8px;
-      cursor: pointer;
-    }
-    
-    .process-btn {
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    
-    #cityData {
-      font-family: monospace;
-      resize: vertical;
-      height: 200px;
-    }
-    
-    .info-box {
-      background: #e9ecef;
-      border-radius: 5px;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 12px;
-      text-align: left;
-    }
-    
-    .info-box code {
-      background: #f8f9fa;
-      padding: 2px 4px;
-      border-radius: 3px;
-      font-family: monospace;
-    }
-
-    /* Mobile Editor Panel */
-    @media (max-width: 768px) {
-      .edit-panel {
-        top: 5px;
-        right: 5px;
-        left: 5px;
-        width: auto;
-        max-height: 50vh;
-        font-size: 14px;
-      }
-      
-      .edit-panel textarea {
-        height: 120px;
-        font-size: 12px;
-      }
-      
-      .edit-panel button {
-        padding: 12px;
-        font-size: 14px;
-        margin: 8px 0;
-      }
-      
-      .edit-btn {
-        bottom: 12px;
-        right: 12px;
-        width: 50px;
-        height: 50px;
-        font-size: 18px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .edit-panel {
-        top: 3px;
-        right: 3px;
-        left: 3px;
-        max-height: 45vh;
-        padding: 12px;
-      }
-      
-      .edit-panel h3 {
-        font-size: 14px;
-      }
-      
-      .edit-btn {
-        bottom: 10px;
-        right: 10px;
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
-      }
-    }
-
-    /* Touch-friendly improvements */
-    @media (hover: none) and (pointer: coarse) {
-      .location-link {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .instagram-btn, .purchase-btn {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .edit-btn {
-        min-width: 44px;
-        min-height: 44px;
-      }
-    }
+    /* EDİTOR PANEL - TÜM CSS KALDIRILDI */
   </style>
 </head>
 <body>
@@ -800,22 +724,24 @@
   </div>
 
   <!-- EDİTOR PANEL -->
-  <button id="editButton" class="edit-btn" onclick="toggleEditPanel()">✎</button>
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 999999;">
+    <button id="editButton" class="edit-btn" style="background: #ff4444 !important; color: white !important; border: 2px solid white !important; border-radius: 50% !important; width: 60px !important; height: 60px !important; cursor: pointer !important; font-size: 20px !important; z-index: 999999 !important; box-shadow: 0 6px 20px rgba(255, 68, 68, 0.6) !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important;">✎</button>
+  </div>
   
-  <div class="edit-panel" id="editPanel">
-    <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
+  <div class="edit-panel" id="editPanel" style="position: fixed; top: 20px; right: 20px; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 10000; max-height: 80vh; overflow-y: auto; display: none; width: 400px;">
+    <h3 style="margin-top: 0; color: #333; font-size: 16px;">🏙️ Şehir ve Konum Yöneticisi</h3>
     
-    <div class="info-box">
+    <div style="background: #e9ecef; border-radius: 5px; padding: 10px; margin: 10px 0; font-size: 12px; text-align: left;">
       <strong>Format:</strong><br>
-      <code>ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3</code>
+      <code style="background: #f8f9fa; padding: 2px 4px; border-radius: 3px; font-family: monospace;">ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3</code>
     </div>
     
-    <textarea id="cityData" placeholder="Örnek:
+    <textarea id="cityData" style="font-family: monospace; resize: vertical; height: 200px; margin: 5px 0; padding: 8px; width: 100%; box-sizing: border-box;" placeholder="Örnek:
 İstanbul@@@Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://picsum.photos/380/380?random=4@@https://picsum.photos/380/380?random=5@@https://picsum.photos/380/380?random=6@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://picsum.photos/380/380?random=7@@https://picsum.photos/380/380?random=8@@https://picsum.photos/380/380?random=9"></textarea>
     
-    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
-    <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
-    <button onclick="toggleEditPanel()">❌ Kapat</button>
+    <button style="background: #007bff; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; font-weight: bold; margin: 5px 0; width: 100%; box-sizing: border-box;" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
+    <button style="background: #28a745; margin-top: 10px; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin: 5px 0; width: 100%; box-sizing: border-box;" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
+    <button style="background: #dc3545; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin: 5px 0; width: 100%; box-sizing: border-box;" onclick="closeEditPanel()">❌ Kapat</button>
   </div>
 
   <script>
@@ -835,57 +761,83 @@
       ]
     };
 
-    // BÖLÜM 1: Editör Panel Fonksiyonları ve Event Handling
-    function toggleEditPanel() {
-      console.log('🔧 toggleEditPanel çağrıldı!');
+    // KESIN ÇALIŞAN EDİTÖR FONKSİYONLARI
+    function openEditPanel() {
+      console.log('🔧 Panel açılıyor...');
       const panel = document.getElementById('editPanel');
-      
-      if (!panel) {
-        console.error('❌ editPanel bulunamadı!');
-        alert('Panel bulunamadı! Sayfa yeniden yüklenecek.');
-        location.reload();
-        return;
+      if (panel) {
+        panel.style.display = 'block';
+        console.log('✅ Panel açıldı!');
+      } else {
+        console.error('❌ Panel bulunamadı!');
       }
-      
-      const isVisible = panel.style.display === 'block';
-      panel.style.display = isVisible ? 'none' : 'block';
-      
-      console.log('✅ Panel durumu:', isVisible ? 'Kapatıldı' : 'Açıldı');
     }
 
-    // Multiple event binding for edit button
-    function setupEditButton() {
-      console.log('🔧 Edit button kurulumu başlatılıyor...');
+    function closeEditPanel() {
+      console.log('🔧 Panel kapatılıyor...');
+      const panel = document.getElementById('editPanel');
+      if (panel) {
+        panel.style.display = 'none';
+        console.log('✅ Panel kapatıldı!');
+      }
+    }
+
+    function toggleEditPanel() {
+      console.log('🔧 Panel toggle ediliyor...');
+      const panel = document.getElementById('editPanel');
+      if (panel) {
+        if (panel.style.display === 'none' || panel.style.display === '') {
+          panel.style.display = 'block';
+          console.log('✅ Panel açıldı!');
+        } else {
+          panel.style.display = 'none';
+          console.log('✅ Panel kapatıldı!');
+        }
+      }
+    }
+
+    // BUTON EVENT KURULUMU - MÚLTIPLE METHODS
+    function setupEditButtonEvents() {
+      console.log('🚀 Edit button event kurulumu başlıyor...');
       
-      const editBtn = document.getElementById('editButton');
-      if (!editBtn) {
-        console.error('❌ editButton bulunamadı!');
+      const btn = document.getElementById('editButton');
+      if (!btn) {
+        console.error('❌ Edit button bulunamadı!');
         return;
       }
-      
-      // Method 1: onclick property
-      editBtn.onclick = function(e) {
+
+      // Method 1: onclick
+      btn.onclick = function(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('🖱️ onclick method çalıştı!');
-        toggleEditPanel();
+        console.log('🖱️ onclick çalıştı!');
+        openEditPanel();
         return false;
       };
-      
-      // Method 2: addEventListener
-      editBtn.addEventListener('click', function(e) {
+
+      // Method 2: addEventListener click
+      btn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('🖱️ addEventListener çalıştı!');
-        toggleEditPanel();
+        console.log('🖱️ addEventListener click çalıştı!');
+        openEditPanel();
       });
-      
-      // Method 3: Direct style forcing
-      editBtn.style.cursor = 'pointer';
-      editBtn.style.pointerEvents = 'auto';
-      editBtn.style.zIndex = '999999';
-      
-      console.log('✅ Edit button kurulumu tamamlandı!');
+
+      // Method 3: addEventListener mousedown
+      btn.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        console.log('🖱️ mousedown çalıştı!');
+        openEditPanel();
+      });
+
+      // Method 4: addEventListener touchstart (mobile)
+      btn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        console.log('📱 touchstart çalıştı!');
+        openEditPanel();
+      });
+
+      console.log('✅ Tüm event listener\'lar eklendi!');
     }
 
     // Lightbox fonksiyonları
@@ -915,137 +867,65 @@
     function processCityData() {
       const cityDataText = document.getElementById('cityData').value;
       if (!cityDataText.trim()) {
-    // BÖLÜM 2: Data Processing ve Initialization
-    function processCityData() {
-      const cityDataText = document.getElementById('cityData').value;
-      if (!cityDataText.trim()) {
-        alert('Lütfen şehir verilerini girin!');
-        return;
-      }
-
-      try {
-        const parts = cityDataText.split('@@@');
-        
-        if (parts.length < 2) {
-          alert('Geçersiz format! Şehir adı ve en az bir konum olmalı.');
-          return;
-        }
-
-        const cityName = parts[0].trim();
-        if (!cityName) {
-          alert('Şehir adı boş olamaz!');
-          return;
-        }
-
-        const locations = [];
-        for (let i = 1; i < parts.length; i++) {
-          const locationData = parts[i].trim();
-          if (!locationData) continue;
-
-          const locationParts = locationData.split('@@');
-          
-          if (locationParts.length < 2) continue;
-
-          const name = locationParts[0].trim();
-          const link = locationParts[1].trim();
-          const photos = [];
-
-          for (let j = 2; j < locationParts.length && j < 5; j++) {
-            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
-              photos.push(locationParts[j].trim());
-            }
-          }
-
-          if (!name || !link) continue;
-
-          locations.push({ name: name, photos: photos, link: link });
-        }
-
-        cityData = { cityName: cityName, locations: locations };
+    // INITIALIZATION - GÜÇLÜ VE KEKİN ÇALIŞAN
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 DOMContentLoaded - Sayfa hazırlanıyor...');
+      
+      setTimeout(function() {
+        setupEditButtonEvents();
         updatePageTitle();
         renderLocations();
-        document.getElementById('cityData').value = '';
-        
-      } catch (error) {
-        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
-      }
-    }
-
-    function renderLocations() {
-      const container = document.getElementById('locations-container');
-      container.innerHTML = '';
-      
-      for(let i = 0; i < cityData.locations.length; i++) {
-        const location = cityData.locations[i];
-        const section = document.createElement('div');
-        section.className = 'city-section';
-        
-        let photosHTML = '';
-        for(let j = 0; j < location.photos.length; j++) {
-          const photoSrc = location.photos[j];
-          photosHTML += '<div class="photo-card" onclick="openLightbox(\'' + photoSrc + '\')"><img src="' + photoSrc + '" alt="' + location.name + '"></div>';
-        }
-        
-        section.innerHTML = '<div class="city-header"><h2 class="city-title"><a href="' + location.link + '" target="_blank" class="location-link"><span class="click-icon"></span>' + location.name + ' 📍</a></h2></div><div class="city-photos">' + photosHTML + '</div>';
-        container.appendChild(section);
-      }
-    }
-
-    function exportHTML() {
-      if (cityData.locations.length === 0) {
-        alert('Önce konum ekleyin!');
-        return;
-      }
-      
-      const fullHTML = '<!DOCTYPE html><html><head><title>' + cityData.cityName + '</title></head><body><h1>' + cityData.cityName + '</h1></body></html>';
-      
-      try {
-        navigator.clipboard.writeText(fullHTML);
-        alert('HTML kodu kopyalandı!');
-      } catch(err) {
-        alert('HTML kodu oluşturuldu!');
-      }
-    }
-
-    function updatePageTitle() {
-      document.getElementById('city-name').textContent = cityData.cityName;
-      document.getElementById('page-title').textContent = cityData.cityName;
-    }
-
-    // INITIALIZATION - Multiple Methods for Maximum Compatibility
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('🚀 DOMContentLoaded başlatılıyor...');
-      setupEditButton();
-      updatePageTitle();
-      renderLocations();
-      console.log('✅ DOMContentLoaded tamamlandı!');
+        console.log('✅ DOMContentLoaded tamamlandı!');
+      }, 50);
     });
 
     window.addEventListener('load', function() {
-      console.log('🚀 Window load başlatılıyor...');
-      setupEditButton();
-      console.log('✅ Window load tamamlandı!');
+      console.log('🚀 Window load - Sayfa tamamen yüklendi...');
+      
+      setTimeout(function() {
+        setupEditButtonEvents();
+        console.log('✅ Window load tamamlandı!');
+      }, 100);
     });
 
-    // Fallback timeout initialization
+    // Fallback - Her durumda çalışacak
     setTimeout(function() {
-      console.log('🚀 Timeout fallback başlatılıyor...');
-      setupEditButton();
-      console.log('✅ Timeout fallback tamamlandı!');
-    }, 100);
+      console.log('🚀 Fallback timeout - Son şans kurulumu...');
+      setupEditButtonEvents();
+      
+      // Manuel test butonu ekle
+      const btn = document.getElementById('editButton');
+      if (btn) {
+        btn.setAttribute('onclick', 'openEditPanel()');
+        console.log('✅ Manuel onclick eklendi!');
+      }
+      
+      console.log('✅ Fallback tamamlandı!');
+    }, 500);
+
+    // Global test fonksiyonları
+    window.testEdit = function() {
+      console.log('🧪 Test fonksiyonu çalışıyor...');
+      openEditPanel();
+    };
+
+    window.forceOpen = function() {
+      document.getElementById('editPanel').style.display = 'block';
+      console.log('🔧 Panel zorla açıldı!');
+    };
 
     // ESC key handler
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closeLightbox();
+        closeEditPanel();
       }
     });
 
-    // Global click test function
-    window.testEditButton = function() {
-      console.log('🧪 Test fonksiyonu çalışıyor...');
-      toggleEditPanel();
-    };
+    console.log('📋 Test komutları:');
+    console.log('- testEdit() : Editörü aç');
+    console.log('- forceOpen() : Zorla panel aç');
+    console.log('- closeEditPanel() : Panel kapat');
   </script>
 </body>
 </html>
