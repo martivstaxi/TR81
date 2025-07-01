@@ -577,26 +577,7 @@
   <h1><span class="camera-emoji">📸</span><span class="gradient-text">Demo Şehir</span></h1>
   
   <div id="locations-container">
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Demo+Konum" target="_blank" class="location-link">
-            <span class="click-icon"></span>Demo Konum 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" onclick="openPhotoModal('https://picsum.photos/800/800?random=1', 'Demo Konum')">
-          <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
-        </div>
-        <div class="photo-card" onclick="openPhotoModal('https://picsum.photos/800/800?random=2', 'Demo Konum')">
-          <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
-        </div>
-        <div class="photo-card" onclick="openPhotoModal('https://picsum.photos/800/800?random=3', 'Demo Konum')">
-          <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
-        </div>
-      </div>
-    </div>
+    <!-- Locations will be rendered here by JavaScript -->
   </div>
   
   <div class="promotion-section">
@@ -643,7 +624,7 @@
   </div>
 
   <script>
-    // Memory-based data storage (browser storage kullanmadan)
+    // Memory-based data storage
     let cityData = {
       cityName: 'Demo Şehir',
       locations: [
@@ -659,14 +640,23 @@
       ]
     };
 
+    // FIX 3: Helper function to escape special characters for safe HTML injection
+    function escapeHTML(str) {
+        if (typeof str !== 'string') return '';
+        return str.replace(/&/g, '&')
+                  .replace(/</g, '<')
+                  .replace(/>/g, '>')
+                  .replace(/"/g, '"')
+                  .replace(/'/g, ''');
+    }
+
     // Modal İşlevleri
     function openPhotoModal(imageUrl, locationName) {
       const modal = document.getElementById('photoModal');
       const modalImage = document.getElementById('modalImage');
       const modalInfo = document.getElementById('modalInfo');
       
-      // Yüksek çözünürlüklü URL kullan
-      const highResUrl = imageUrl.replace('380/380', '800/800');
+      const highResUrl = imageUrl.replace(/(\d+)\/(\d+)/, '800/800');
       
       modalImage.src = highResUrl;
       modalImage.alt = locationName;
@@ -675,7 +665,6 @@
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       
-      // Smooth animation
       setTimeout(() => {
         modal.classList.add('show');
       }, 10);
@@ -747,43 +736,28 @@
           const locationParts = locationData.split('@@');
           
           if (locationParts.length < 2) {
-            console.log('Konum ' + i + ': Eksik veri - "' + locationData + '"');
+            console.warn('Konum ' + i + ': Eksik veri (ad/link) - "' + locationData + '"');
             continue;
           }
 
           const name = locationParts[0].trim();
           const link = locationParts[1].trim();
-          const photos = [];
-
-          for (let j = 2; j < locationParts.length && j < 5; j++) {
-            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
-              photos.push(locationParts[j].trim());
-            }
-          }
+          const photos = locationParts.slice(2).filter(p => p && p.trim().startsWith('https://')).map(p => p.trim());
 
           if (!name || !link) {
-            console.log('Konum ' + i + ': Ad veya link eksik - "' + locationData + '"');
+            console.warn('Konum ' + i + ': Ad veya link eksik - "' + locationData + '"');
             continue;
           }
 
-          locations.push({
-            name: name,
-            photos: photos,
-            link: link
-          });
+          locations.push({ name, photos, link });
         }
 
-        // Memory'de sakla
-        cityData = {
-          cityName: cityName,
-          locations: locations
-        };
+        cityData = { cityName, locations };
         
         updatePageTitle();
         renderLocations();
         
         document.getElementById('cityData').value = '';
-        
         alert('✅ Şehir verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
         
       } catch (error) {
@@ -797,24 +771,24 @@
       const container = document.getElementById('locations-container');
       container.innerHTML = '';
       
-      for(let i = 0; i < cityData.locations.length; i++) {
-        const location = cityData.locations[i];
+      cityData.locations.forEach(location => {
         const section = document.createElement('div');
         section.className = 'city-section';
         
         let photosHTML = '';
-        for(let j = 0; j < location.photos.length; j++) {
-          const photoUrl = location.photos[j];
-          photosHTML += `<div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${location.name}')">
-            <img src="${photoUrl}" alt="${location.name}">
+        location.photos.forEach(photoUrl => {
+          const safeName = escapeHTML(location.name); // FIX 3: Use escaped name
+          photosHTML += `<div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${safeName}')">
+            <img src="${photoUrl}" alt="${safeName}">
           </div>`;
-        }
+        });
         
+        const safeName = escapeHTML(location.name); // FIX 3: Use escaped name for link too
         section.innerHTML = `
           <div class="city-header">
             <h2 class="city-title">
               <a href="${location.link}" target="_blank" class="location-link">
-                <span class="click-icon"></span>${location.name} 📍
+                <span class="click-icon"></span>${safeName} 📍
               </a>
             </h2>
           </div>
@@ -822,129 +796,146 @@
         `;
         
         container.appendChild(section);
-      }
+      });
     }
 
     // Sayfa Başlığını Güncelleme
     function updatePageTitle() {
-      document.getElementById('page-title').textContent = cityData.cityName;
-      document.querySelector('.gradient-text').textContent = cityData.cityName;
+      const safeCityName = escapeHTML(cityData.cityName);
+      document.getElementById('page-title').textContent = safeCityName;
+      document.querySelector('.gradient-text').textContent = safeCityName;
     }
 
-    // HTML Export
+    // FIX 1: Fully functional HTML Export
     function exportHTML() {
       if (cityData.locations.length === 0) {
-        alert('Önce konum ekleyin!');
+        alert('Önce işlenecek konum verisi ekleyin!');
         return;
       }
       
       let locationsHTML = '';
-      for(let i = 0; i < cityData.locations.length; i++) {
-        const location = cityData.locations[i];
+      cityData.locations.forEach(location => {
         let photosHTML = '';
+        const safeName = escapeHTML(location.name);
         
-        for(let j = 0; j < location.photos.length; j++) {
-          const photoUrl = location.photos[j];
-          photosHTML += `        <div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${location.name}')">
-          <img src="${photoUrl}" alt="${location.name}">
-        </div>\n`;
-        }
+        location.photos.forEach(photoUrl => {
+          photosHTML += `
+        <div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${safeName}')">
+          <img src="${photoUrl}" alt="${safeName}">
+        </div>`;
+        });
         
-        locationsHTML += `    <div class="city-section">
+        locationsHTML += `
+    <div class="city-section">
       <div class="city-header">
         <h2 class="city-title">
           <a href="${location.link}" target="_blank" class="location-link">
-            <span class="click-icon"></span>${location.name} 📍
+            <span class="click-icon"></span>${safeName} 📍
           </a>
         </h2>
       </div>
-      <div class="city-photos">
-${photosHTML}      </div>
-    </div>\n`;
-      }
+      <div class="city-photos">${photosHTML}
+      </div>
+    </div>`;
+      });
 
+      const cssStyles = document.querySelector('style').innerHTML;
+      const promotionHTML = document.querySelector('.promotion-section').outerHTML;
+      const modalHTML = document.querySelector('.photo-modal').outerHTML;
+      // Get the entire script content to ensure all functions are preserved
+      const scriptContent = document.querySelector('script').innerHTML;
+      
       const fullHTML = `<!DOCTYPE html>  
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">${cityData.cityName}</title>
-  <!-- CSS buraya kopyalanacak -->
+  <title id="page-title">${escapeHTML(cityData.cityName)}</title>
+  <style>
+    ${cssStyles}
+  </style>
 </head>
 <body>
   <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
-  <h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">${escapeHTML(cityData.cityName)}</span></h1>
   
-  <div id="locations-container">
-${locationsHTML}  </div>
+  <div id="locations-container">${locationsHTML}
+  </div>
   
-  <!-- Promotion section buraya kopyalanacak -->
-  <!-- Modal HTML buraya kopyalanacak -->
-  <!-- JavaScript buraya kopyalanacak -->
+  ${promotionHTML}
+  
+  ${modalHTML}
+
+  <script>
+    // NOTE: This script includes editor functions, but they are inactive 
+    // because the editor HTML is not included in the exported file.
+    ${scriptContent}
+  <\/script>
 </body>
 </html>`;
       
-      try {
-        navigator.clipboard.writeText(fullHTML);
-        alert('✅ HTML kodu kopyalandı! (Mobil responsive ile birlikte)');
-      } catch(err) {
-        // Fallback for older browsers
+      navigator.clipboard.writeText(fullHTML).then(() => {
+        alert('✅ Tam HTML kodu panoya kopyalandı!');
+      }).catch(err => {
+        console.error('Kopyalama hatası:', err);
+        alert('Otomatik kopyalama başarısız oldu. Lütfen konsolu kontrol edin.');
+        // Fallback
         const textarea = document.createElement('textarea');
         textarea.value = fullHTML;
         document.body.appendChild(textarea);
         textarea.select();
-        try {
-          document.execCommand('copy');
-          alert('✅ HTML kodu kopyalandı!');
-        } catch(e) {
-          prompt('HTML kodu (Ctrl+C ile kopyalayın):', fullHTML);
-        }
+        document.execCommand('copy');
         document.body.removeChild(textarea);
-      }
+        alert('✅ Fallback: HTML kodu kopyalandı!');
+      });
     }
 
     // Verileri Temizleme
     function clearCityData() {
-      if (confirm('Tüm şehir verilerini temizlemek istediğinizden emin misiniz?')) {
+      if (confirm('Tüm şehir verilerini temizleyip demo durumuna dönmek istediğinizden emin misiniz?')) {
         cityData = {
           cityName: 'Demo Şehir',
-          locations: [
-            {
+          locations: [{
               name: 'Demo Konum',
-              photos: [
-                'https://picsum.photos/380/380?random=1',
-                'https://picsum.photos/380/380?random=2', 
-                'https://picsum.photos/380/380?random=3'
-              ],
+              photos: ['https://picsum.photos/380/380?random=1', 'https://picsum.photos/380/380?random=2', 'https://picsum.photos/380/380?random=3'],
               link: 'https://maps.google.com/?q=Demo+Konum'
-            }
-          ]
+          }]
         };
-        
         updatePageTitle();
         renderLocations();
         document.getElementById('cityData').value = '';
-        
         alert('🗑️ Veriler temizlendi ve demo verileri yüklendi.');
       }
     }
 
-    // Touch event optimizations for mobile
-    if ('ontouchstart' in window) {
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.photo-card').forEach(card => {
-          card.addEventListener('touchstart', function() {
-            this.style.transform = 'scale(0.95)';
-          });
-          
-          card.addEventListener('touchend', function() {
-            this.style.transform = '';
-          });
-        });
+    // FIX 2: Touch event optimizations using event delegation (more robust)
+    const locationsContainer = document.getElementById('locations-container');
+    if ('ontouchstart' in window && locationsContainer) {
+      locationsContainer.addEventListener('touchstart', (e) => {
+        const card = e.target.closest('.photo-card');
+        if (card) {
+          // Add a visual feedback for the touch
+          card.style.transition = 'transform 0.1s ease-out';
+          card.style.transform = 'scale(0.97)';
+        }
+      });
+      locationsContainer.addEventListener('touchend', (e) => {
+        const card = e.target.closest('.photo-card');
+        if (card) {
+          // Reset to original state, allowing CSS hover effects to take over
+          card.style.transform = ''; 
+          setTimeout(() => card.style.transition = '', 150); // Reset transition property
+        }
+      });
+      locationsContainer.addEventListener('touchcancel', (e) => {
+         const card = e.target.closest('.photo-card');
+         if (card) {
+           card.style.transform = '';
+         }
       });
     }
 
-    // Sayfa yüklendiğinde çalışacak
+    // Sayfa yüklendiğinde demo verilerini render et
     window.onload = function() {
       updatePageTitle();
       renderLocations();
