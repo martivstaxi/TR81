@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Şehir</title>
+  <title id="page-title">Şehir</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -179,6 +179,7 @@
       font-size: 10px;
     }
 
+    /* MODAL STYLES */
     .photo-modal {
       position: fixed;
       top: 0;
@@ -193,18 +194,12 @@
       align-items: center;
       padding: 20px;
       box-sizing: border-box;
-      animation: modalFadeIn 0.3s ease-out;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
     }
 
-    @keyframes modalFadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+    .photo-modal.show {
+      opacity: 1;
     }
 
     .modal-content {
@@ -214,6 +209,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
     }
 
     .modal-image {
@@ -267,6 +268,7 @@
       text-align: center;
     }
 
+    /* Mobile Responsive Styles */
     @media (max-width: 768px) {
       body { padding: 8px; padding-bottom: 80px; }
       .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
@@ -302,6 +304,7 @@
       .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
     }
 
+    /* Promotion Section */
     .promotion-section {
       background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
       color: #92400e;
@@ -405,6 +408,7 @@
       background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
     }
 
+    /* Mobile Promotion Styles */
     @media (max-width: 768px) {
       .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
       .promotion-title { margin-bottom: 8px; }
@@ -421,6 +425,7 @@
       .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
     }
 
+    /* Editor Panel */
     .edit-panel {
       position: fixed;
       top: 20px;
@@ -460,32 +465,6 @@
       font-size: 14px;
     }
     
-    .edit-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 1500;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .edit-btn:hover {
-      background: linear-gradient(135deg, #1d4ed8, #1e40af);
-      transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-    }
-
     .export-btn {
       background: linear-gradient(135deg, #10b981, #047857);
       margin-top: 10px;
@@ -555,6 +534,32 @@
       color: #1e40af;
       word-break: break-all;
     }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
 
     @media (max-width: 768px) {
       .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
@@ -581,40 +586,13 @@
         </h2>
       </div>
       <div class="city-photos">
-        <div class="photo-card" onclick="
-          var modal = document.getElementById('photoModal');
-          var modalImage = document.getElementById('modalImage');
-          var modalInfo = document.getElementById('modalInfo');
-          modalImage.src = 'https://picsum.photos/380/380?random=1';
-          modalImage.alt = 'Demo Konum';
-          modalInfo.textContent = 'Demo Konum';
-          modal.style.display = 'flex';
-          document.body.style.overflow = 'hidden';
-        ">
+        <div class="photo-card" onclick="openPhotoModal('https://picsum.photos/800/800?random=1', 'Demo Konum')">
           <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
         </div>
-        <div class="photo-card" onclick="
-          var modal = document.getElementById('photoModal');
-          var modalImage = document.getElementById('modalImage');
-          var modalInfo = document.getElementById('modalInfo');
-          modalImage.src = 'https://picsum.photos/380/380?random=2';
-          modalImage.alt = 'Demo Konum';
-          modalInfo.textContent = 'Demo Konum';
-          modal.style.display = 'flex';
-          document.body.style.overflow = 'hidden';
-        ">
+        <div class="photo-card" onclick="openPhotoModal('https://picsum.photos/800/800?random=2', 'Demo Konum')">
           <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
         </div>
-        <div class="photo-card" onclick="
-          var modal = document.getElementById('photoModal');
-          var modalImage = document.getElementById('modalImage');
-          var modalInfo = document.getElementById('modalInfo');
-          modalImage.src = 'https://picsum.photos/380/380?random=3';
-          modalImage.alt = 'Demo Konum';
-          modalInfo.textContent = 'Demo Konum';
-          modal.style.display = 'flex';
-          document.body.style.overflow = 'hidden';
-        ">
+        <div class="photo-card" onclick="openPhotoModal('https://picsum.photos/800/800?random=3', 'Demo Konum')">
           <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
         </div>
       </div>
@@ -636,21 +614,7 @@
     </a>
   </div>
 
-  <button class="edit-btn" onclick="
-    var panel = document.getElementById('editPanel');
-    var button = this;
-    if (panel.style.display === 'none' || panel.style.display === '') {
-      panel.style.display = 'block';
-      button.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
-      button.innerHTML = '✕';
-      button.title = 'Editörü Kapat';
-    } else {
-      panel.style.display = 'none';
-      button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
-      button.innerHTML = '✎';
-      button.title = 'Editörü Aç';
-    }
-  " title="Editörü Aç">✎</button>
+  <button class="edit-btn" onclick="toggleEditPanel()" title="Editörü Aç">✎</button>
   
   <div class="edit-panel" id="editPanel">
     <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
@@ -663,33 +627,328 @@
     <textarea id="cityData" placeholder="Örnek:
 İstanbul@@@Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://picsum.photos/380/380?random=4@@https://picsum.photos/380/380?random=5@@https://picsum.photos/380/380?random=6@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://picsum.photos/380/380?random=7@@https://picsum.photos/380/380?random=8@@https://picsum.photos/380/380?random=9"></textarea>
     
-    <button class="process-btn" onclick="alert('Demo sürümde işlev devre dışı')">🔄 Şehir Verilerini İşle</button>
-    <button class="export-btn" onclick="alert('Demo sürümde export devre dışı')">📁 HTML Kodunu Kopyala</button>
-    <button class="clear-btn" onclick="alert('Demo sürümde temizleme devre dışı')">🗑️ Verileri Temizle</button>
-    <button onclick="
-      var panel = document.getElementById('editPanel');
-      var button = document.querySelector('.edit-btn');
-      panel.style.display = 'none';
-      button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
-      button.innerHTML = '✎';
-      button.title = 'Editörü Aç';
-    ">❌ Paneli Kapat</button>
+    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
+    <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
+    <button class="clear-btn" onclick="clearCityData()">🗑️ Verileri Temizle</button>
+    <button onclick="toggleEditPanel()">❌ Paneli Kapat</button>
   </div>
 
-  <div class="photo-modal" id="photoModal" onclick="
-    var modal = document.getElementById('photoModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-  ">
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="
-        var modal = document.getElementById('photoModal');
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      " title="Kapat (ESC)">✕</button>
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
       <img class="modal-image" id="modalImage" src="" alt="">
       <div class="modal-info" id="modalInfo">Konum Adı</div>
     </div>
   </div>
+
+  <script>
+    // Memory-based data storage (browser storage kullanmadan)
+    let cityData = {
+      cityName: 'Demo Şehir',
+      locations: [
+        {
+          name: 'Demo Konum',
+          photos: [
+            'https://picsum.photos/380/380?random=1',
+            'https://picsum.photos/380/380?random=2', 
+            'https://picsum.photos/380/380?random=3'
+          ],
+          link: 'https://maps.google.com/?q=Demo+Konum'
+        }
+      ]
+    };
+
+    // Modal İşlevleri
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      // Yüksek çözünürlüklü URL kullan
+      const highResUrl = imageUrl.replace('380/380', '800/800');
+      
+      modalImage.src = highResUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      // Smooth animation
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Editor Panel Toggle
+    function toggleEditPanel() {
+      const panel = document.getElementById('editPanel');
+      const button = document.querySelector('.edit-btn');
+      
+      if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+        button.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+        button.innerHTML = '✕';
+        button.title = 'Editörü Kapat';
+      } else {
+        panel.style.display = 'none';
+        button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+        button.innerHTML = '✎';
+        button.title = 'Editörü Aç';
+      }
+    }
+
+    // Şehir Verilerini İşleme
+    function processCityData() {
+      const cityDataText = document.getElementById('cityData').value;
+      if (!cityDataText.trim()) {
+        alert('Lütfen şehir verilerini girin!');
+        return;
+      }
+
+      try {
+        const parts = cityDataText.split('@@@');
+        
+        if (parts.length < 2) {
+          alert('Geçersiz format! Şehir adı ve en az bir konum olmalı.');
+          return;
+        }
+
+        const cityName = parts[0].trim();
+        if (!cityName) {
+          alert('Şehir adı boş olamaz!');
+          return;
+        }
+
+        const locations = [];
+        for (let i = 1; i < parts.length; i++) {
+          const locationData = parts[i].trim();
+          if (!locationData) continue;
+
+          const locationParts = locationData.split('@@');
+          
+          if (locationParts.length < 2) {
+            console.log('Konum ' + i + ': Eksik veri - "' + locationData + '"');
+            continue;
+          }
+
+          const name = locationParts[0].trim();
+          const link = locationParts[1].trim();
+          const photos = [];
+
+          for (let j = 2; j < locationParts.length && j < 5; j++) {
+            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
+              photos.push(locationParts[j].trim());
+            }
+          }
+
+          if (!name || !link) {
+            console.log('Konum ' + i + ': Ad veya link eksik - "' + locationData + '"');
+            continue;
+          }
+
+          locations.push({
+            name: name,
+            photos: photos,
+            link: link
+          });
+        }
+
+        // Memory'de sakla
+        cityData = {
+          cityName: cityName,
+          locations: locations
+        };
+        
+        updatePageTitle();
+        renderLocations();
+        
+        document.getElementById('cityData').value = '';
+        
+        alert('✅ Şehir verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
+        
+      } catch (error) {
+        console.error('Veri işleme hatası:', error);
+        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
+      }
+    }
+
+    // Konumları Render Etme
+    function renderLocations() {
+      const container = document.getElementById('locations-container');
+      container.innerHTML = '';
+      
+      for(let i = 0; i < cityData.locations.length; i++) {
+        const location = cityData.locations[i];
+        const section = document.createElement('div');
+        section.className = 'city-section';
+        
+        let photosHTML = '';
+        for(let j = 0; j < location.photos.length; j++) {
+          const photoUrl = location.photos[j];
+          photosHTML += `<div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${location.name}')">
+            <img src="${photoUrl}" alt="${location.name}">
+          </div>`;
+        }
+        
+        section.innerHTML = `
+          <div class="city-header">
+            <h2 class="city-title">
+              <a href="${location.link}" target="_blank" class="location-link">
+                <span class="click-icon"></span>${location.name} 📍
+              </a>
+            </h2>
+          </div>
+          <div class="city-photos">${photosHTML}</div>
+        `;
+        
+        container.appendChild(section);
+      }
+    }
+
+    // Sayfa Başlığını Güncelleme
+    function updatePageTitle() {
+      document.getElementById('page-title').textContent = cityData.cityName;
+      document.querySelector('.gradient-text').textContent = cityData.cityName;
+    }
+
+    // HTML Export
+    function exportHTML() {
+      if (cityData.locations.length === 0) {
+        alert('Önce konum ekleyin!');
+        return;
+      }
+      
+      let locationsHTML = '';
+      for(let i = 0; i < cityData.locations.length; i++) {
+        const location = cityData.locations[i];
+        let photosHTML = '';
+        
+        for(let j = 0; j < location.photos.length; j++) {
+          const photoUrl = location.photos[j];
+          photosHTML += `        <div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${location.name}')">
+          <img src="${photoUrl}" alt="${location.name}">
+        </div>\n`;
+        }
+        
+        locationsHTML += `    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="${location.link}" target="_blank" class="location-link">
+            <span class="click-icon"></span>${location.name} 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+${photosHTML}      </div>
+    </div>\n`;
+      }
+
+      const fullHTML = `<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">${cityData.cityName}</title>
+  <!-- CSS buraya kopyalanacak -->
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
+  
+  <div id="locations-container">
+${locationsHTML}  </div>
+  
+  <!-- Promotion section buraya kopyalanacak -->
+  <!-- Modal HTML buraya kopyalanacak -->
+  <!-- JavaScript buraya kopyalanacak -->
+</body>
+</html>`;
+      
+      try {
+        navigator.clipboard.writeText(fullHTML);
+        alert('✅ HTML kodu kopyalandı! (Mobil responsive ile birlikte)');
+      } catch(err) {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = fullHTML;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          alert('✅ HTML kodu kopyalandı!');
+        } catch(e) {
+          prompt('HTML kodu (Ctrl+C ile kopyalayın):', fullHTML);
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // Verileri Temizleme
+    function clearCityData() {
+      if (confirm('Tüm şehir verilerini temizlemek istediğinizden emin misiniz?')) {
+        cityData = {
+          cityName: 'Demo Şehir',
+          locations: [
+            {
+              name: 'Demo Konum',
+              photos: [
+                'https://picsum.photos/380/380?random=1',
+                'https://picsum.photos/380/380?random=2', 
+                'https://picsum.photos/380/380?random=3'
+              ],
+              link: 'https://maps.google.com/?q=Demo+Konum'
+            }
+          ]
+        };
+        
+        updatePageTitle();
+        renderLocations();
+        document.getElementById('cityData').value = '';
+        
+        alert('🗑️ Veriler temizlendi ve demo verileri yüklendi.');
+      }
+    }
+
+    // Touch event optimizations for mobile
+    if ('ontouchstart' in window) {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.photo-card').forEach(card => {
+          card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+          });
+          
+          card.addEventListener('touchend', function() {
+            this.style.transform = '';
+          });
+        });
+      });
+    }
+
+    // Sayfa yüklendiğinde çalışacak
+    window.onload = function() {
+      updatePageTitle();
+      renderLocations();
+    }
+  </script>
 </body>
 </html>
