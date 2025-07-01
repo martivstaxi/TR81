@@ -577,7 +577,7 @@
   <h1><span class="camera-emoji">📸</span><span class="gradient-text">Demo Şehir</span></h1>
   
   <div id="locations-container">
-    <!-- Locations will be rendered here by JavaScript -->
+    <!-- Konumlar JavaScript tarafından buraya eklenecek -->
   </div>
   
   <div class="promotion-section">
@@ -686,22 +686,22 @@
     });
 
     // ----- START OF FIX -----
-    // Editor Panel Toggle - CORRECTED and more ROBUST version
+    // DÜZELTİLMİŞ VE HATASIZ toggleEditPanel fonksiyonu
     function toggleEditPanel() {
       const panel = document.getElementById('editPanel');
       const button = document.querySelector('.edit-btn');
       
-      // Use getComputedStyle for a reliable check of the element's current state
       const isHidden = window.getComputedStyle(panel).display === 'none';
       
       if (isHidden) {
-        panel.style.display = 'block'; // Show the panel
+        panel.style.display = 'block';
         button.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
         button.innerHTML = '✕';
         button.title = 'Editörü Kapat';
       } else {
-        panel.style.display = 'none'; // Hide the panel
-        button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4d8)';
+        panel.style.display = 'none';
+        // Hatalı renk kodu (#1d4d8) doğru olanla (#1d4ed8) değiştirildi.
+        button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
         button.innerHTML = '✎';
         button.title = 'Editörü Aç';
       }
@@ -926,10 +926,13 @@
       });
     }
 
-    window.onload = function() {
-      updatePageTitle();
-      renderLocations();
-    }
+    // Sayfa yüklendiğinde demo verilerini çizmek için bu fonksiyon çağrılır.
+    // Scriptin sonuna koyarak tüm DOM'un yüklenmesini garantiliyoruz.
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Sayfa yüklendi, editör fonksiyonları ve ilk veriler hazırlanıyor.");
+        updatePageTitle();
+        renderLocations();
+    });
   </script>
 </body>
 </html>
