@@ -577,7 +577,7 @@
   <h1><span class="camera-emoji">📸</span><span class="gradient-text">Demo Şehir</span></h1>
   
   <div id="locations-container">
-    <!-- Konumlar JavaScript tarafından buraya eklenecek -->
+    <!-- Locations will be rendered here by JavaScript -->
   </div>
   
   <div class="promotion-section">
@@ -685,28 +685,26 @@
       }
     });
 
-    // ----- START OF FIX -----
-    // DÜZELTİLMİŞ VE HATASIZ toggleEditPanel fonksiyonu
+    // Editor Panel Toggle - DÜZELTME: Yazım hatası giderildi
     function toggleEditPanel() {
       const panel = document.getElementById('editPanel');
       const button = document.querySelector('.edit-btn');
       
+      // getComputedStyle ile güvenilir durum kontrolü
       const isHidden = window.getComputedStyle(panel).display === 'none';
       
       if (isHidden) {
-        panel.style.display = 'block';
+        panel.style.display = 'block'; // Paneli göster
         button.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
         button.innerHTML = '✕';
         button.title = 'Editörü Kapat';
       } else {
-        panel.style.display = 'none';
-        // Hatalı renk kodu (#1d4d8) doğru olanla (#1d4ed8) değiştirildi.
+        panel.style.display = 'none'; // Paneli gizle
         button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
         button.innerHTML = '✎';
         button.title = 'Editörü Aç';
       }
     }
-    // ----- END OF FIX -----
 
     function processCityData() {
       const cityDataText = document.getElementById('cityData').value;
@@ -926,13 +924,10 @@
       });
     }
 
-    // Sayfa yüklendiğinde demo verilerini çizmek için bu fonksiyon çağrılır.
-    // Scriptin sonuna koyarak tüm DOM'un yüklenmesini garantiliyoruz.
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("Sayfa yüklendi, editör fonksiyonları ve ilk veriler hazırlanıyor.");
-        updatePageTitle();
-        renderLocations();
-    });
+    window.onload = function() {
+      updatePageTitle();
+      renderLocations();
+    }
   </script>
 </body>
 </html>
