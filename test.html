@@ -640,7 +640,6 @@
       ]
     };
 
-    // FIX 3: Helper function to escape special characters for safe HTML injection
     function escapeHTML(str) {
         if (typeof str !== 'string') return '';
         return str.replace(/&/g, '&')
@@ -650,7 +649,6 @@
                   .replace(/'/g, ''');
     }
 
-    // Modal İşlevleri
     function openPhotoModal(imageUrl, locationName) {
       const modal = document.getElementById('photoModal');
       const modalImage = document.getElementById('modalImage');
@@ -681,32 +679,35 @@
       }, 300);
     }
 
-    // ESC tuşu ile kapatma
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closePhotoModal();
       }
     });
 
-    // Editor Panel Toggle
+    // ----- START OF FIX -----
+    // Editor Panel Toggle - CORRECTED and more ROBUST version
     function toggleEditPanel() {
       const panel = document.getElementById('editPanel');
       const button = document.querySelector('.edit-btn');
       
-      if (panel.style.display === 'none' || panel.style.display === '') {
-        panel.style.display = 'block';
+      // Use getComputedStyle for a reliable check of the element's current state
+      const isHidden = window.getComputedStyle(panel).display === 'none';
+      
+      if (isHidden) {
+        panel.style.display = 'block'; // Show the panel
         button.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
         button.innerHTML = '✕';
         button.title = 'Editörü Kapat';
       } else {
-        panel.style.display = 'none';
-        button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+        panel.style.display = 'none'; // Hide the panel
+        button.style.background = 'linear-gradient(135deg, #3b82f6, #1d4d8)';
         button.innerHTML = '✎';
         button.title = 'Editörü Aç';
       }
     }
+    // ----- END OF FIX -----
 
-    // Şehir Verilerini İşleme
     function processCityData() {
       const cityDataText = document.getElementById('cityData').value;
       if (!cityDataText.trim()) {
@@ -766,7 +767,6 @@
       }
     }
 
-    // Konumları Render Etme
     function renderLocations() {
       const container = document.getElementById('locations-container');
       container.innerHTML = '';
@@ -777,13 +777,13 @@
         
         let photosHTML = '';
         location.photos.forEach(photoUrl => {
-          const safeName = escapeHTML(location.name); // FIX 3: Use escaped name
+          const safeName = escapeHTML(location.name);
           photosHTML += `<div class="photo-card" onclick="openPhotoModal('${photoUrl}', '${safeName}')">
             <img src="${photoUrl}" alt="${safeName}">
           </div>`;
         });
         
-        const safeName = escapeHTML(location.name); // FIX 3: Use escaped name for link too
+        const safeName = escapeHTML(location.name);
         section.innerHTML = `
           <div class="city-header">
             <h2 class="city-title">
@@ -799,14 +799,12 @@
       });
     }
 
-    // Sayfa Başlığını Güncelleme
     function updatePageTitle() {
       const safeCityName = escapeHTML(cityData.cityName);
       document.getElementById('page-title').textContent = safeCityName;
       document.querySelector('.gradient-text').textContent = safeCityName;
     }
 
-    // FIX 1: Fully functional HTML Export
     function exportHTML() {
       if (cityData.locations.length === 0) {
         alert('Önce işlenecek konum verisi ekleyin!');
@@ -842,7 +840,6 @@
       const cssStyles = document.querySelector('style').innerHTML;
       const promotionHTML = document.querySelector('.promotion-section').outerHTML;
       const modalHTML = document.querySelector('.photo-modal').outerHTML;
-      // Get the entire script content to ensure all functions are preserved
       const scriptContent = document.querySelector('script').innerHTML;
       
       const fullHTML = `<!DOCTYPE html>  
@@ -867,8 +864,7 @@
   ${modalHTML}
 
   <script>
-    // NOTE: This script includes editor functions, but they are inactive 
-    // because the editor HTML is not included in the exported file.
+    // NOTE: Editor functions are included but inactive in the exported file.
     ${scriptContent}
   <\/script>
 </body>
@@ -879,7 +875,6 @@
       }).catch(err => {
         console.error('Kopyalama hatası:', err);
         alert('Otomatik kopyalama başarısız oldu. Lütfen konsolu kontrol edin.');
-        // Fallback
         const textarea = document.createElement('textarea');
         textarea.value = fullHTML;
         document.body.appendChild(textarea);
@@ -890,7 +885,6 @@
       });
     }
 
-    // Verileri Temizleme
     function clearCityData() {
       if (confirm('Tüm şehir verilerini temizleyip demo durumuna dönmek istediğinizden emin misiniz?')) {
         cityData = {
@@ -908,13 +902,11 @@
       }
     }
 
-    // FIX 2: Touch event optimizations using event delegation (more robust)
     const locationsContainer = document.getElementById('locations-container');
     if ('ontouchstart' in window && locationsContainer) {
       locationsContainer.addEventListener('touchstart', (e) => {
         const card = e.target.closest('.photo-card');
         if (card) {
-          // Add a visual feedback for the touch
           card.style.transition = 'transform 0.1s ease-out';
           card.style.transform = 'scale(0.97)';
         }
@@ -922,9 +914,8 @@
       locationsContainer.addEventListener('touchend', (e) => {
         const card = e.target.closest('.photo-card');
         if (card) {
-          // Reset to original state, allowing CSS hover effects to take over
           card.style.transform = ''; 
-          setTimeout(() => card.style.transition = '', 150); // Reset transition property
+          setTimeout(() => card.style.transition = '', 150);
         }
       });
       locationsContainer.addEventListener('touchcancel', (e) => {
@@ -935,7 +926,6 @@
       });
     }
 
-    // Sayfa yüklendiğinde demo verilerini render et
     window.onload = function() {
       updatePageTitle();
       renderLocations();
