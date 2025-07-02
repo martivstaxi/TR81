@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Konya</title>
   <style>
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -123,6 +124,7 @@
       background-color: white;
       position: relative;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
     }
     
     .photo-card:hover {
@@ -166,130 +168,144 @@
       border-color: rgba(59, 130, 246, 0.3);
       box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
     }
+    
+    .click-icon {
+      color: #f97316;
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: #1e293b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
 
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
-      body {
-        padding: 8px;
-        padding-bottom: 80px;
-      }
-      
-      .logo {
-        top: 12px;
-        left: 12px;
-        font-size: 20px;
-        width: 40px;
-        height: 40px;
-      }
-      
-      h1 {
-        margin: 50px 0 24px 0;
-      }
-      
-      .city-section {
-        margin-bottom: 24px;
-        border-radius: 16px;
-        margin-left: 0;
-        margin-right: 0;
-      }
-      
-      .city-header {
-        padding: 12px 16px 8px 16px;
-      }
-      
-      .location-link {
-        padding: 6px 12px;
-        border-radius: 20px;
-        width: 100%;
-        justify-content: center;
-        box-sizing: border-box;
-      }
-      
-      .city-photos {
-        padding: 8px 16px 16px 16px;
-        gap: 12px;
-      }
-      
-      .photo-card {
-        width: 180px;
-        height: 180px;
-        border-radius: 10px;
-        min-width: 180px;
-      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
     }
 
     @media (max-width: 480px) {
-      body {
-        padding: 6px;
-        padding-bottom: 60px;
-      }
-      
-      .logo {
-        font-size: 18px;
-        top: 8px;
-        left: 8px;
-        width: 36px;
-        height: 36px;
-      }
-      
-      h1 {
-        margin: 40px 0 20px 0;
-      }
-      
-      .city-section {
-        margin-bottom: 18px;
-        border-radius: 12px;
-      }
-      
-      .city-header {
-        padding: 10px 12px 6px 12px;
-      }
-      
-      .location-link {
-        padding: 5px 10px;
-        border-radius: 16px;
-        width: 100%;
-        justify-content: center;
-        display: flex;
-        box-sizing: border-box;
-      }
-      
-      .city-photos {
-        padding: 6px 12px 12px 12px;
-        gap: 10px;
-      }
-      
-      .photo-card {
-        width: 150px;
-        height: 150px;
-        border-radius: 8px;
-        min-width: 150px;
-      }
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
     }
 
     @media (max-width: 360px) {
-      .photo-card {
-        width: 120px;
-        height: 120px;
-        min-width: 120px;
-      }
-      
-      .location-link {
-        font-size: 11px;
-        padding: 4px 8px;
-      }
-      
-      .city-header {
-        padding: 8px 10px 4px 10px;
-      }
-      
-      .city-photos {
-        padding: 4px 10px 10px 10px;
-        gap: 8px;
-      }
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
     }
 
-    /* Promotion Section - Görünürlük sorunu için güncellendi */
+    /* Promotion Section */
     .promotion-section {
       background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
       color: #92400e;
@@ -302,26 +318,6 @@
       box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
       position: relative;
       overflow: hidden;
-      /* Görünürlük sorununu çözmek için */
-      opacity: 1 !important;
-      visibility: visible !important;
-      display: block !important;
-    }
-
-    .promotion-section::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
 
     .promotion-title {
@@ -331,9 +327,6 @@
       color: #92400e;
       position: relative;
       z-index: 1;
-      /* Görünürlük için */
-      opacity: 1 !important;
-      visibility: visible !important;
     }
 
     .instagram-btn {
@@ -368,9 +361,6 @@
       position: relative;
       z-index: 1;
       line-height: 1.6;
-      /* Görünürlük için */
-      opacity: 1 !important;
-      visibility: visible !important;
     }
 
     .purchase-btn {
@@ -405,227 +395,400 @@
 
     /* Mobile Promotion Styles */
     @media (max-width: 768px) {
-      .promotion-section {
-        margin: 24px auto;
-        padding: 16px 12px;
-        border-radius: 16px;
-        margin-left: 0;
-        margin-right: 0;
-      }
-      
-      .promotion-title {
-        margin-bottom: 8px;
-      }
-      
-      .promo-text {
-        margin: 10px 0;
-      }
-      
-      .instagram-btn {
-        padding: 8px 16px;
-        margin: 8px 0;
-        border-radius: 20px;
-        width: auto;
-        max-width: 240px;
-        box-sizing: border-box;
-      }
-      
-      .purchase-btn {
-        padding: 10px 16px;
-        margin: 10px 0 16px 0;
-        border-radius: 12px;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-      }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
     }
 
     @media (max-width: 480px) {
-      .promotion-section {
-        margin: 16px auto;
-        padding: 12px 8px;
-        border-radius: 12px;
-      }
-      
-      .promotion-title {
-        margin-bottom: 6px;
-      }
-      
-      .promo-text {
-        margin: 16px 0;
-      }
-      
-      .instagram-btn {
-        padding: 9px 12px;
-        margin: 9px 0;
-        border-radius: 16px;
-        width: 100%;
-        max-width: 100%;
-      }
-      
-      .purchase-btn {
-        padding: 12px 12px;
-        margin: 12px 0 12px 0;
-        border-radius: 10px;
-        width: 100%;
-      }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
     }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #1e293b;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+  
   </style>
 </head>
 <body>
   <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
   <h1><span class="camera-emoji">📸</span><span class="gradient-text">Konya</span></h1>
   
-  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://maps.google.com/?q=Meke+Krater+G%C3%B6l%C3%BC+Konya" target="_blank" class="location-link"><span class="click-icon"></span>Meke Krater Gölü 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388912/1_il2pf3.jpg" alt="Meke Krater Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/2_z3zolt.jpg" alt="Meke Krater Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/3_xgq8r0.jpg" alt="Meke Krater Gölü"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/place/G%C3%B6ksu+%C5%9Eelalesi/@37.0282557,32.6965815,17z/data=!4m6!3m5!1s0x14dbb54f9d020fed:0x2197466073b47b1e!8m2!3d37.0292206!4d32.6956166!16s%2Fg%2F11fjw0l56f?entry=ttu&g_ep=EgoyMDI1MDYwOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link"><span class="click-icon"></span>Göksu Şelalesi 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389680/1_s760mk.jpg" alt="Göksu Şelalesi"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/3_m3o9dk.jpg" alt="Göksu Şelalesi"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/2_b3j3k8.jpg" alt="Göksu Şelalesi"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/place/Karatay+Lavanta+Bah%C3%A7eleri/@37.8176125,32.5544966,17z/data=!3m1!4b1!4m6!3m5!1s0x14d09b8ea171bdbf:0x7bb21f1e9724cb08!8m2!3d37.8176125!4d32.5570715!16s%2Fg%2F11rghppw26?entry=ttu&g_ep=EgoyMDI1MDUyOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link"><span class="click-icon"></span>Karatay Lavanta Bahçeleri 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-48-03_diq4wz.jpg" alt="Karatay Lavanta Bahçeleri"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-48-08_mbylwi.jpg" alt="Karatay Lavanta Bahçeleri"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-54-51_ud2ovl.jpg" alt="Karatay Lavanta Bahçeleri"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/place/Gencek+Lavanta/@37.452278,31.5376612,17z/data=!3m1!4b1!4m6!3m5!1s0x14c52b1853e499ab:0x53e3122224162c52!8m2!3d37.452278!4d31.5402361!16s%2Fg%2F11j4s6ssjp?entry=ttu&g_ep=EgoyMDI1MDUyOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link"><span class="click-icon"></span>Gencek Lavanta Bahçesi 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632579/photo_2025-06-11_12-00-28_jwyktd.jpg" alt="Gencek Lavanta Bahçesi"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632597/photo_2025-06-11_12-00-32_parauf.jpg" alt="Gencek Lavanta Bahçesi"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632598/photo_2025-06-11_12-00-55_xcr9fu.jpg" alt="Gencek Lavanta Bahçesi"></div></div></div>  <div class="city-section"><div class="city-header"><h2 class="city-title"><a href="https://www.google.com/maps/search/Tuz+G%C3%B6l%C3%BC%2C+Konya" target="_blank" class="location-link"><span class="click-icon"></span>Tuz Gölü 📍</a></h2></div><div class="city-photos">      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/photo_2025-06-11_11-39-43_jjxalz.jpg" alt="Tuz Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/photo_2025-06-11_11-39-32_bv5o5s.jpg" alt="Tuz Gölü"></div>      <div class="photo-card"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/1_bruvy7.jpg" alt="Tuz Gölü"></div></div></div>  
+  <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://maps.google.com/?q=Meke+Krater+G%C3%B6l%C3%BC+Konya" target="_blank" class="location-link">
+            <span class="click-icon"></span>Meke Krater Gölü 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388912/1_il2pf3.jpg" data-location="Meke Krater Gölü"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388912/1_il2pf3.jpg" alt="Meke Krater Gölü"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/2_z3zolt.jpg" data-location="Meke Krater Gölü"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/2_z3zolt.jpg" alt="Meke Krater Gölü"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/3_xgq8r0.jpg" data-location="Meke Krater Gölü"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746388911/3_xgq8r0.jpg" alt="Meke Krater Gölü"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/G%C3%B6ksu+%C5%9Eelalesi/@37.0282557,32.6965815,17z/data=!4m6!3m5!1s0x14dbb54f9d020fed:0x2197466073b47b1e!8m2!3d37.0292206!4d32.6956166!16s%2Fg%2F11fjw0l56f?entry=ttu&g_ep=EgoyMDI1MDYwOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link">
+            <span class="click-icon"></span>Göksu Şelalesi 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389680/1_s760mk.jpg" data-location="Göksu Şelalesi"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389680/1_s760mk.jpg" alt="Göksu Şelalesi"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/3_m3o9dk.jpg" data-location="Göksu Şelalesi"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/3_m3o9dk.jpg" alt="Göksu Şelalesi"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/2_b3j3k8.jpg" data-location="Göksu Şelalesi"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746389679/2_b3j3k8.jpg" alt="Göksu Şelalesi"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Karatay+Lavanta+Bah%C3%A7eleri/@37.8176125,32.5544966,17z/data=!3m1!4b1!4m6!3m5!1s0x14d09b8ea171bdbf:0x7bb21f1e9724cb08!8m2!3d37.8176125!4d32.5570715!16s%2Fg%2F11rghppw26?entry=ttu&g_ep=EgoyMDI1MDUyOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link">
+            <span class="click-icon"></span>Karatay Lavanta Bahçeleri 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-48-03_diq4wz.jpg" data-location="Karatay Lavanta Bahçeleri"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-48-03_diq4wz.jpg" alt="Karatay Lavanta Bahçeleri"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-48-08_mbylwi.jpg" data-location="Karatay Lavanta Bahçeleri"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-48-08_mbylwi.jpg" alt="Karatay Lavanta Bahçeleri"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-54-51_ud2ovl.jpg" data-location="Karatay Lavanta Bahçeleri"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632175/photo_2025-06-11_11-54-51_ud2ovl.jpg" alt="Karatay Lavanta Bahçeleri"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gencek+Lavanta/@37.452278,31.5376612,17z/data=!3m1!4b1!4m6!3m5!1s0x14c52b1853e499ab:0x53e3122224162c52!8m2!3d37.452278!4d31.5402361!16s%2Fg%2F11j4s6ssjp?entry=ttu&g_ep=EgoyMDI1MDUyOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-link">
+            <span class="click-icon"></span>Gencek Lavanta Bahçesi 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632579/photo_2025-06-11_12-00-28_jwyktd.jpg" data-location="Gencek Lavanta Bahçesi"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632579/photo_2025-06-11_12-00-28_jwyktd.jpg" alt="Gencek Lavanta Bahçesi"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632597/photo_2025-06-11_12-00-32_parauf.jpg" data-location="Gencek Lavanta Bahçesi"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632597/photo_2025-06-11_12-00-32_parauf.jpg" alt="Gencek Lavanta Bahçesi"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632598/photo_2025-06-11_12-00-55_xcr9fu.jpg" data-location="Gencek Lavanta Bahçesi"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749632598/photo_2025-06-11_12-00-55_xcr9fu.jpg" alt="Gencek Lavanta Bahçesi"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/search/Tuz+G%C3%B6l%C3%BC%2C+Konya" target="_blank" class="location-link">
+            <span class="click-icon"></span>Tuz Gölü 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/photo_2025-06-11_11-39-43_jjxalz.jpg" data-location="Tuz Gölü"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/photo_2025-06-11_11-39-43_jjxalz.jpg" alt="Tuz Gölü"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/photo_2025-06-11_11-39-32_bv5o5s.jpg" data-location="Tuz Gölü"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/photo_2025-06-11_11-39-32_bv5o5s.jpg" alt="Tuz Gölü"></div>
+        <div class="photo-card" data-photo="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/1_bruvy7.jpg" data-location="Tuz Gölü"><img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1749631255/1_bruvy7.jpg" alt="Tuz Gölü"></div>
+      </div>
+    </div>
+  </div>
+  
   <div class="promotion-section">
-    <div class="promotion-title" id="promoTitle">🎁İlk 5 Konum ücretsiz</div>
-    <p class="promo-text" id="mainPromoText" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Tüm konumlara⚡Sınırsız erişim için giriş yapın</p>
+    <div class="promotion-title" id="promoTitle">🎁First 5 Locations Free</div>
+    <p class="promo-text" id="mainPromoText" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Sign in for⚡Unlimited access to all locations</p>
     
-    <a href="https://tr81.tr/login.html" target="_blank" class="purchase-btn" id="loginBtn">
-      ➤ Giriş Yap
-    </a>
+    <a href="https://tr81.tr/login.html" target="_blank" class="purchase-btn" id="loginBtn">➤ Sign In</a>
     
-    <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
+    <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
     
-    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">
-      📩Bir tıkla bize ulaşın: @tr81.tr
-    </a>
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()" style="display: none;">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746226003/2_ronmfx.jpg" alt="Nallıhan Kuş Cenneti">
+      <div class="modal-info" id="modalInfo">Nallıhan Kuş Cenneti</div>
+    </div>
   </div>
 
   <script>
     // Dil verileri
     const translations = {
-      'tr': {
-        promoTitle: '🎁İlk 5 Konum ücretsiz',
-        mainPromoText: 'Tüm konumlara⚡Sınırsız erişim için giriş yapın',
-        loginBtn: '➤ Giriş Yap',
-        questionsText: 'Sorularınız için → Bize ulaşın!',
-        instagramBtn: '📩Bir tıkla bize ulaşın: @tr81.tr'
-      },
-      'en': {
-        promoTitle: '🎁First 5 Locations Free',
-        mainPromoText: 'Sign in for⚡Unlimited access to all locations',
-        loginBtn: '➤ Sign In',
-        questionsText: 'Questions? → Contact us!',
-        instagramBtn: '📩Contact us with one click: @tr81.tr'
-      },
-      'de': {
-        promoTitle: '🎁Erste 5 Standorte kostenlos',
-        mainPromoText: 'Anmelden für⚡Unbegrenzten Zugang zu allen Standorten',
-        loginBtn: '➤ Anmelden',
-        questionsText: 'Fragen? → Kontaktiere uns!',
-        instagramBtn: '📩Mit einem Klick erreichen: @tr81.tr'
-      },
-      'fr': {
-        promoTitle: '🎁5 premiers lieux gratuits',
-        mainPromoText: 'Connectez-vous pour⚡Accès illimité à tous les lieux',
-        loginBtn: '➤ Se connecter',
-        questionsText: 'Des questions? → Contactez-nous!',
-        instagramBtn: '📩Contactez-nous en un clic: @tr81.tr'
-      },
-      'es': {
-        promoTitle: '🎁Primeros 5 lugares gratis',
-        mainPromoText: 'Inicia sesión para⚡Acceso ilimitado a todos los lugares',
-        loginBtn: '➤ Iniciar sesión',
-        questionsText: '¿Preguntas? → ¡Contáctanos!',
-        instagramBtn: '📩Contáctanos con un clic: @tr81.tr'
-      },
-      'it': {
-        promoTitle: '🎁Prime 5 posizioni gratis',
-        mainPromoText: 'Accedi per⚡Accesso illimitato a tutte le posizioni',
-        loginBtn: '➤ Accedi',
-        questionsText: 'Domande? → Contattaci!',
-        instagramBtn: '📩Contattaci con un clic: @tr81.tr'
-      },
-      'pt': {
-        promoTitle: '🎁Primeiros 5 locais grátis',
-        mainPromoText: 'Entre para⚡Acesso ilimitado a todos os locais',
-        loginBtn: '➤ Entrar',
-        questionsText: 'Dúvidas? → Fale conosco!',
-        instagramBtn: '📩Fale conosco com um clique: @tr81.tr'
-      },
-      'ru': {
-        promoTitle: '🎁Первые 5 мест бесплатно',
-        mainPromoText: 'Войдите для⚡Неограниченного доступа ко всем местам',
-        loginBtn: '➤ Войти',
-        questionsText: 'Вопросы? → Свяжитесь с нами!',
-        instagramBtn: '📩Свяжитесь с нами одним кликом: @tr81.tr'
-      },
-      'ja': {
-        promoTitle: '🎁最初の5か所無料',
-        mainPromoText: 'サインインして⚡すべての場所への無制限アクセス',
-        loginBtn: '➤ サインイン',
-        questionsText: 'ご質問は？→ お問い合わせください！',
-        instagramBtn: '📩ワンクリックでお問い合わせ: @tr81.tr'
-      },
-      'zh': {
-        promoTitle: '🎁前5个地点免费',
-        mainPromoText: '登录获取⚡无限访问所有地点',
-        loginBtn: '➤ 登录',
-        questionsText: '有问题？→ 联系我们！',
-        instagramBtn: '📩一键联系我们: @tr81.tr'
-      },
-      'ar': {
-        promoTitle: '🎁أول 5 مواقع مجاناً',
-        mainPromoText: 'سجل الدخول للحصول على⚡وصول غير محدود لجميع المواقع',
-        loginBtn: '➤ تسجيل الدخول',
-        questionsText: 'أسئلة؟ → اتصل بنا!',
-        instagramBtn: '📩تواصل معنا بنقرة واحدة: @tr81.tr'
-      },
-      'hi': {
-        promoTitle: '🎁पहले 5 स्थान मुफ्त',
-        mainPromoText: 'सभी स्थानों तक⚡असीमित पहुंच के लिए साइन इन करें',
-        loginBtn: '➤ साइन इन करें',
-        questionsText: 'प्रश्न? → हमसे संपर्क करें!',
-        instagramBtn: '📩एक क्लिक में हमसे संपर्क करें: @tr81.tr'
-      },
-      'ko': {
-        promoTitle: '🎁처음 5개 장소 무료',
-        mainPromoText: '모든 장소에⚡무제한 액세스를 위해 로그인',
-        loginBtn: '➤ 로그인',
-        questionsText: '질문이 있으신가요? → 문의하세요!',
-        instagramBtn: '📩원클릭으로 문의하기: @tr81.tr'
-      },
-      'nl': {
-        promoTitle: '🎁Eerste 5 locaties gratis',
-        mainPromoText: 'Log in voor⚡Onbeperkte toegang tot alle locaties',
-        loginBtn: '➤ Inloggen',
-        questionsText: 'Vragen? → Neem contact op!',
-        instagramBtn: '📩Bereik ons met één klik: @tr81.tr'
-      },
-      'pl': {
-        promoTitle: '🎁Pierwsze 5 lokalizacji za darmo',
-        mainPromoText: 'Zaloguj się, aby uzyskać⚡Nieograniczony dostęp do wszystkich lokalizacji',
-        loginBtn: '➤ Zaloguj się',
-        questionsText: 'Pytania? → Skontaktuj się z nami!',
-        instagramBtn: '📩Skontaktuj się jednym kliknięciem: @tr81.tr'
-      },
-      'sv': {
-        promoTitle: '🎁Första 5 platserna gratis',
-        mainPromoText: 'Logga in för⚡Obegränsad tillgång till alla platser',
-        loginBtn: '➤ Logga in',
-        questionsText: 'Frågor? → Kontakta oss!',
-        instagramBtn: '📩Kontakta oss med ett klick: @tr81.tr'
-      },
-      'no': {
-        promoTitle: '🎁Første 5 steder gratis',
-        mainPromoText: 'Logg inn for⚡Ubegrenset tilgang til alle steder',
-        loginBtn: '➤ Logg inn',
-        questionsText: 'Spørsmål? → Kontakt oss!',
-        instagramBtn: '📩Kontakt oss med ett klikk: @tr81.tr'
-      },
-      'da': {
-        promoTitle: '🎁Første 5 steder gratis',
-        mainPromoText: 'Log ind for⚡Ubegrænset adgang til alle steder',
-        loginBtn: '➤ Log ind',
-        questionsText: 'Spørgsmål? → Kontakt os!',
-        instagramBtn: '📩Kontakt os med et klik: @tr81.tr'
-      }
-    };
+    "tr": {
+        "promoTitle": "🎁İlk 5 Konum ücretsiz",
+        "mainPromoText": "Tüm konumlara⚡Sınırsız erişim için giriş yapın",
+        "loginBtn": "➤ Giriş Yap",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "promoTitle": "🎁First 5 Locations Free",
+        "mainPromoText": "Sign in for⚡Unlimited access to all locations",
+        "loginBtn": "➤ Sign In",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "promoTitle": "🎁Erste 5 Standorte kostenlos",
+        "mainPromoText": "Anmelden für⚡Unbegrenzten Zugang zu allen Standorten",
+        "loginBtn": "➤ Anmelden",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "promoTitle": "🎁5 premiers lieux gratuits",
+        "mainPromoText": "Connectez-vous pour⚡Accès illimité à tous les lieux",
+        "loginBtn": "➤ Se connecter",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "promoTitle": "🎁Primeros 5 lugares gratis",
+        "mainPromoText": "Inicia sesión para⚡Acceso ilimitado a todos los lugares",
+        "loginBtn": "➤ Iniciar sesión",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "promoTitle": "🎁Prime 5 posizioni gratis",
+        "mainPromoText": "Accedi per⚡Accesso illimitato a tutte le posizioni",
+        "loginBtn": "➤ Accedi",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "promoTitle": "🎁Primeiros 5 locais grátis",
+        "mainPromoText": "Entre para⚡Acesso ilimitado a todos os locais",
+        "loginBtn": "➤ Entrar",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "promoTitle": "🎁Первые 5 мест бесплатно",
+        "mainPromoText": "Войдите для⚡Неограниченного доступа ко всем местам",
+        "loginBtn": "➤ Войти",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "promoTitle": "🎁最初の5か所無料",
+        "mainPromoText": "サインインして⚡すべての場所への無制限アクセス",
+        "loginBtn": "➤ サインイン",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "promoTitle": "🎁前5个地点免费",
+        "mainPromoText": "登录获取⚡无限访问所有地点",
+        "loginBtn": "➤ 登录",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "promoTitle": "🎁أول 5 مواقع مجاناً",
+        "mainPromoText": "سجل الدخول للحصول على⚡وصول غير محدود لجميع المواقع",
+        "loginBtn": "➤ تسجيل الدخول",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "promoTitle": "🎁पहले 5 स्थान मुफ्त",
+        "mainPromoText": "सभी स्थानों तक⚡असीमित पहुंच के लिए साइन इन करें",
+        "loginBtn": "➤ साइन इन करें",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "promoTitle": "🎁처음 5개 장소 무료",
+        "mainPromoText": "모든 장소에⚡무제한 액세스를 위해 로그인",
+        "loginBtn": "➤ 로그인",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "promoTitle": "🎁Eerste 5 locaties gratis",
+        "mainPromoText": "Log in voor⚡Onbeperkte toegang tot alle locaties",
+        "loginBtn": "➤ Inloggen",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "promoTitle": "🎁Pierwsze 5 lokalizacji za darmo",
+        "mainPromoText": "Zaloguj się, aby uzyskać⚡Nieograniczony dostęp do wszystkich lokalizacji",
+        "loginBtn": "➤ Zaloguj się",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "promoTitle": "🎁Första 5 platserna gratis",
+        "mainPromoText": "Logga in för⚡Obegränsad tillgång till alla platser",
+        "loginBtn": "➤ Logga in",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "promoTitle": "🎁Første 5 steder gratis",
+        "mainPromoText": "Logg inn for⚡Ubegrenset tilgang til alle steder",
+        "loginBtn": "➤ Logg inn",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "promoTitle": "🎁Første 5 steder gratis",
+        "mainPromoText": "Log ind for⚡Ubegrænset adgang til alle steder",
+        "loginBtn": "➤ Log ind",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    }
+};
 
     // Dil algılama fonksiyonu
     function detectLanguage() {
-      const savedLang = localStorage.getItem('preferred-language');
+      const savedLang = sessionStorage.getItem('preferred-language');
       if (savedLang && translations[savedLang]) {
         return savedLang;
       }
@@ -650,7 +813,6 @@
       const t = translations[lang];
       if (!t) return;
       
-      // Elementleri güncelle
       const elements = {
         'promoTitle': t.promoTitle,
         'mainPromoText': t.mainPromoText,
@@ -671,58 +833,67 @@
       }
       
       document.documentElement.lang = lang;
-      localStorage.setItem('preferred-language', lang);
+      sessionStorage.setItem('preferred-language', lang);
     }
 
-    // Görünürlük sorununu çözen fonksiyon
-    function ensurePromotionVisibility() {
-      const promotionSection = document.querySelector('.promotion-section');
-      if (promotionSection) {
-        // Force reflow
-        promotionSection.style.display = 'none';
-        promotionSection.offsetHeight; // Trigger reflow
-        promotionSection.style.display = 'block';
-        
-        // Elementleri görünür yap
-        const allElements = promotionSection.querySelectorAll('*');
-        allElements.forEach(el => {
-          if (el.style) {
-            el.style.opacity = '1';
-            el.style.visibility = 'visible';
-          }
-        });
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
       }
-    }
+    });
 
-    // Sayfa yüklendiğinde
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
     document.addEventListener('DOMContentLoaded', function() {
-      // Dil ayarla
       const detectedLang = detectLanguage();
       updateLanguageUI(detectedLang);
-      
-      // Görünürlük sorununu çöz
-      setTimeout(ensurePromotionVisibility, 100);
-      setTimeout(ensurePromotionVisibility, 500);
-      setTimeout(ensurePromotionVisibility, 1000);
     });
     
-    // Sayfa tamamen yüklendikten sonra da kontrol et
     window.addEventListener('load', function() {
-      ensurePromotionVisibility();
-      
-      // Dil kontrolü
-      const htmlLang = document.documentElement.lang;
-      if (!htmlLang || htmlLang === 'tr') {
-        const detectedLang = detectLanguage();
-        updateLanguageUI(detectedLang);
-      }
-    });
-    
-    // Visibility API kullanarak sayfa görünür olduğunda kontrol et
-    document.addEventListener('visibilitychange', function() {
-      if (!document.hidden) {
-        ensurePromotionVisibility();
-      }
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
     });
   </script>
 </body>
