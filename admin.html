@@ -304,7 +304,7 @@
       .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
     }
 
-    /* Promotion Section - Animasyon kaldırıldı */
+    /* Promotion Section */
     .promotion-section {
       background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
       color: #92400e;
@@ -586,16 +586,16 @@
   
   <!-- Promosyon bölümü -->
   <div class="promotion-section">
-    <div class="promotion-title">🎁İlk 5 Konum ücretsiz</div>
-    <p class="promo-text" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Tüm konumlara⚡Sınırsız erişim için giriş yapın</p>
+    <div class="promotion-title" id="promoTitle">🎁İlk 5 Konum ücretsiz</div>
+    <p class="promo-text" id="mainPromoText" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Tüm konumlara⚡Sınırsız erişim için giriş yapın</p>
     
-    <a href="https://www.shopier.com/35589307" target="_blank" class="purchase-btn">
+    <a href="https://tr81.tr/login.html" target="_blank" class="purchase-btn" id="loginBtn">
       ➤ Giriş Yap
     </a>
     
-    <div class="promo-text">Sorularınız için → Bize ulaşın!</div>
+    <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
     
-    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn">
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">
       📩Bir tıkla bize ulaşın: @tr81.tr
     </a>
   </div>
@@ -630,6 +630,136 @@
   </div>
 
   <script>
+    // Dil verileri
+    const translations = {
+      'tr': {
+        promoTitle: '🎁İlk 5 Konum ücretsiz',
+        mainPromoText: 'Tüm konumlara⚡Sınırsız erişim için giriş yapın',
+        loginBtn: '➤ Giriş Yap',
+        questionsText: 'Sorularınız için → Bize ulaşın!',
+        instagramBtn: '📩Bir tıkla bize ulaşın: @tr81.tr'
+      },
+      'en': {
+        promoTitle: '🎁First 5 Locations Free',
+        mainPromoText: 'Sign in for⚡Unlimited access to all locations',
+        loginBtn: '➤ Sign In',
+        questionsText: 'Questions? → Contact us!',
+        instagramBtn: '📩Contact us with one click: @tr81.tr'
+      },
+      'de': {
+        promoTitle: '🎁Erste 5 Standorte kostenlos',
+        mainPromoText: 'Anmelden für⚡Unbegrenzten Zugang zu allen Standorten',
+        loginBtn: '➤ Anmelden',
+        questionsText: 'Fragen? → Kontaktiere uns!',
+        instagramBtn: '📩Mit einem Klick erreichen: @tr81.tr'
+      },
+      'fr': {
+        promoTitle: '🎁5 premiers lieux gratuits',
+        mainPromoText: 'Connectez-vous pour⚡Accès illimité à tous les lieux',
+        loginBtn: '➤ Se connecter',
+        questionsText: 'Des questions? → Contactez-nous!',
+        instagramBtn: '📩Contactez-nous en un clic: @tr81.tr'
+      },
+      'es': {
+        promoTitle: '🎁Primeros 5 lugares gratis',
+        mainPromoText: 'Inicia sesión para⚡Acceso ilimitado a todos los lugares',
+        loginBtn: '➤ Iniciar sesión',
+        questionsText: '¿Preguntas? → ¡Contáctanos!',
+        instagramBtn: '📩Contáctanos con un clic: @tr81.tr'
+      },
+      'it': {
+        promoTitle: '🎁Prime 5 posizioni gratis',
+        mainPromoText: 'Accedi per⚡Accesso illimitato a tutte le posizioni',
+        loginBtn: '➤ Accedi',
+        questionsText: 'Domande? → Contattaci!',
+        instagramBtn: '📩Contattaci con un clic: @tr81.tr'
+      },
+      'pt': {
+        promoTitle: '🎁Primeiros 5 locais grátis',
+        mainPromoText: 'Entre para⚡Acesso ilimitado a todos os locais',
+        loginBtn: '➤ Entrar',
+        questionsText: 'Dúvidas? → Fale conosco!',
+        instagramBtn: '📩Fale conosco com um clique: @tr81.tr'
+      },
+      'ru': {
+        promoTitle: '🎁Первые 5 мест бесплатно',
+        mainPromoText: 'Войдите для⚡Неограниченного доступа ко всем местам',
+        loginBtn: '➤ Войти',
+        questionsText: 'Вопросы? → Свяжитесь с нами!',
+        instagramBtn: '📩Свяжитесь с нами одним кликом: @tr81.tr'
+      },
+      'ja': {
+        promoTitle: '🎁最初の5か所無料',
+        mainPromoText: 'サインインして⚡すべての場所への無制限アクセス',
+        loginBtn: '➤ サインイン',
+        questionsText: 'ご質問は？→ お問い合わせください！',
+        instagramBtn: '📩ワンクリックでお問い合わせ: @tr81.tr'
+      },
+      'zh': {
+        promoTitle: '🎁前5个地点免费',
+        mainPromoText: '登录获取⚡无限访问所有地点',
+        loginBtn: '➤ 登录',
+        questionsText: '有问题？→ 联系我们！',
+        instagramBtn: '📩一键联系我们: @tr81.tr'
+      },
+      'ar': {
+        promoTitle: '🎁أول 5 مواقع مجاناً',
+        mainPromoText: 'سجل الدخول للحصول على⚡وصول غير محدود لجميع المواقع',
+        loginBtn: '➤ تسجيل الدخول',
+        questionsText: 'أسئلة؟ → اتصل بنا!',
+        instagramBtn: '📩تواصل معنا بنقرة واحدة: @tr81.tr'
+      },
+      'hi': {
+        promoTitle: '🎁पहले 5 स्थान मुफ्त',
+        mainPromoText: 'सभी स्थानों तक⚡असीमित पहुंच के लिए साइन इन करें',
+        loginBtn: '➤ साइन इन करें',
+        questionsText: 'प्रश्न? → हमसे संपर्क करें!',
+        instagramBtn: '📩एक क्लिक में हमसे संपर्क करें: @tr81.tr'
+      },
+      'ko': {
+        promoTitle: '🎁처음 5개 장소 무료',
+        mainPromoText: '모든 장소에⚡무제한 액세스를 위해 로그인',
+        loginBtn: '➤ 로그인',
+        questionsText: '질문이 있으신가요? → 문의하세요!',
+        instagramBtn: '📩원클릭으로 문의하기: @tr81.tr'
+      },
+      'nl': {
+        promoTitle: '🎁Eerste 5 locaties gratis',
+        mainPromoText: 'Log in voor⚡Onbeperkte toegang tot alle locaties',
+        loginBtn: '➤ Inloggen',
+        questionsText: 'Vragen? → Neem contact op!',
+        instagramBtn: '📩Bereik ons met één klik: @tr81.tr'
+      },
+      'pl': {
+        promoTitle: '🎁Pierwsze 5 lokalizacji za darmo',
+        mainPromoText: 'Zaloguj się, aby uzyskać⚡Nieograniczony dostęp do wszystkich lokalizacji',
+        loginBtn: '➤ Zaloguj się',
+        questionsText: 'Pytania? → Skontaktuj się z nami!',
+        instagramBtn: '📩Skontaktuj się jednym kliknięciem: @tr81.tr'
+      },
+      'sv': {
+        promoTitle: '🎁Första 5 platserna gratis',
+        mainPromoText: 'Logga in för⚡Obegränsad tillgång till alla platser',
+        loginBtn: '➤ Logga in',
+        questionsText: 'Frågor? → Kontakta oss!',
+        instagramBtn: '📩Kontakta oss med ett klick: @tr81.tr'
+      },
+      'no': {
+        promoTitle: '🎁Første 5 steder gratis',
+        mainPromoText: 'Logg inn for⚡Ubegrenset tilgang til alle steder',
+        loginBtn: '➤ Logg inn',
+        questionsText: 'Spørsmål? → Kontakt oss!',
+        instagramBtn: '📩Kontakt oss med ett klikk: @tr81.tr'
+      },
+      'da': {
+        promoTitle: '🎁Første 5 steder gratis',
+        mainPromoText: 'Log ind for⚡Ubegrænset adgang til alle steder',
+        loginBtn: '➤ Log ind',
+        questionsText: 'Spørgsmål? → Kontakt os!',
+        instagramBtn: '📩Kontakt os med et klik: @tr81.tr'
+      }
+    };
+
     // Memory-based data storage
     let cityData = {
       cityName: 'Demo Şehir',
@@ -645,6 +775,57 @@
         }
       ]
     };
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      // Elementleri güncelle
+      const elements = {
+        'promoTitle': t.promoTitle,
+        'mainPromoText': t.mainPromoText,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
 
     // Photo modal functions
     function openPhotoModal(imageUrl, locationName) {
@@ -865,6 +1046,59 @@ ${locationsHTML}  </div>
   ${document.querySelector('.photo-modal').outerHTML}
 
   <script>
+    // Dil verileri
+    const translations = ${JSON.stringify(translations, null, 4)};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'promoTitle': t.promoTitle,
+        'mainPromoText': t.mainPromoText,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
     // Photo modal functions
     function openPhotoModal(imageUrl, locationName) {
       const modal = document.getElementById('photoModal');
@@ -913,13 +1147,24 @@ ${locationsHTML}  </div>
         }
       }
     });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
   <\/script>
 </body>
 </html>`;
       
       try {
         navigator.clipboard.writeText(fullHTML);
-        alert('✅ HTML kodu kopyalandı! (Fotoğraf büyütme özelliği dahil)');
+        alert('✅ HTML kodu kopyalandı! (Çok dilli çeviri özelliği dahil)');
       } catch(err) {
         // Fallback for older browsers
         const textarea = document.createElement('textarea');
@@ -937,10 +1182,17 @@ ${locationsHTML}  </div>
     }
 
     // Sayfa yüklendiğinde çalışacak
-    window.onload = function() {
+    window.addEventListener('DOMContentLoaded', function() {
       updatePageTitle();
       renderLocations();
-    }
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
   </script>
 </body>
 </html>
