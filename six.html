@@ -100,7 +100,7 @@
     
     .city-photos {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       overflow-x: auto;
       padding: 12px 22px 22px 22px;
       scroll-snap-type: x mandatory;
@@ -959,7 +959,11 @@
           
           // Her satır bir konum
           for (let i = 0; i < lines.length; i++) {
-            const columns = lines[i].split(',').map(col => col.trim());
+            // Önce tab ile ayırmayı dene, sonra virgül ile
+            let columns = lines[i].split('\t').map(col => col.trim());
+            if (columns.length < 2) {
+              columns = lines[i].split(',').map(col => col.trim());
+            }
             
             if (columns.length < 2) continue; // En az konum adı ve maps linki olmalı
             
