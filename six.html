@@ -637,16 +637,17 @@
     <div class="info-box">
       <strong>📝 CSV Dosya Formatı:</strong>
       <ul>
-        <li>A1: Şehir Adı</li>
-        <li>A2: Konum Adı</li>
-        <li>A3: Google Maps Linki</li>
-        <li>A4-A9: Fotoğraf Linkleri (6 adet)</li>
-        <li>A10: İkinci Konum Adı</li>
-        <li>A11: İkinci Konum Maps Linki</li>
-        <li>A12-A17: İkinci Konum Fotoğrafları</li>
+        <li>A1: Konum Adı | B1: Maps Linki | C1-H1: 6 Fotoğraf Linki</li>
+        <li>A2: Konum Adı | B2: Maps Linki | C2-H2: 6 Fotoğraf Linki</li>
         <li>... ve bu şekilde devam eder</li>
       </ul>
+      <strong>Örnek Satır:</strong>
+      <code style="font-size: 11px;">Gaziantep Kalesi | https://maps.google.com/?q=... | foto1.jpg | foto2.jpg...</code>
     </div>
+    
+    <input type="text" id="cityNameInput" placeholder="Şehir adını girin (örn: Gaziantep)" 
+           style="width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e2e8f0; 
+                  border-radius: 8px; font-size: 14px; box-sizing: border-box;">
     
     <div class="file-input-container">
       <input type="file" id="csvFile" accept=".csv" class="file-input" onchange="handleFileSelect(event)">
@@ -949,46 +950,41 @@
         return;
       }
 
+      const cityNameInput = document.getElementById('cityNameInput').value.trim();
+      if (!cityNameInput) {
+        alert('Lütfen şehir adını girin!');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = function(e) {
         try {
           const csvContent = e.target.result;
           const lines = csvContent.split('\n').map(line => line.trim()).filter(line => line);
           
-          if (lines.length < 2) {
-            alert('CSV dosyası en az şehir adı ve bir konum içermelidir!');
-            return;
-          }
-
-          // İlk satır şehir adı
-          const cityName = lines[0].split(',')[0].trim();
-          if (!cityName) {
-            alert('Şehir adı boş olamaz!');
+          if (lines.length === 0) {
+            alert('CSV dosyası boş!');
             return;
           }
 
           const locations = [];
-          let i = 1;
           
-          // Her konum 8 satır kaplıyor (konum adı + maps linki + 6 foto)
-          while (i < lines.length) {
-            if (i + 7 > lines.length) break; // Yetersiz veri varsa dur
+          // Her satır bir konum
+          for (let i = 0; i < lines.length; i++) {
+            const columns = lines[i].split(',').map(col => col.trim());
             
-            const locationName = lines[i].split(',')[0].trim();
-            const mapsLink = lines[i + 1].split(',')[0].trim();
+            if (columns.length < 2) continue; // En az konum adı ve maps linki olmalı
             
-            if (!locationName || !mapsLink) {
-              i += 8;
-              continue;
-            }
+            const locationName = columns[0];
+            const mapsLink = columns[1];
+            
+            if (!locationName || !mapsLink) continue;
 
             const photos = [];
-            for (let j = 2; j < 8; j++) {
-              if (i + j < lines.length) {
-                const photoLink = lines[i + j].split(',')[0].trim();
-                if (photoLink && photoLink.startsWith('http')) {
-                  photos.push(photoLink);
-                }
+            // C sütunundan H sütununa kadar (index 2-7) fotoğrafları al
+            for (let j = 2; j < 8 && j < columns.length; j++) {
+              if (columns[j] && columns[j].startsWith('http')) {
+                photos.push(columns[j]);
               }
             }
 
@@ -997,8 +993,6 @@
               link: mapsLink,
               photos: photos
             });
-
-            i += 8; // Sonraki konuma geç
           }
 
           if (locations.length === 0) {
@@ -1008,7 +1002,7 @@
 
           // Memory'de sakla
           cityData = {
-            cityName: cityName,
+            cityName: cityNameInput,
             locations: locations
           };
           
@@ -1017,6 +1011,7 @@
           
           document.getElementById('fileInfo').textContent = '';
           document.getElementById('csvFile').value = '';
+          document.getElementById('cityNameInput').value = '';
           selectedFile = null;
           
           alert('✅ CSV verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
@@ -1081,6 +1076,7 @@
         renderLocations();
         document.getElementById('fileInfo').textContent = '';
         document.getElementById('csvFile').value = '';
+        document.getElementById('cityNameInput').value = '';
         selectedFile = null;
         alert('🗑️ Veriler temizlendi ve demo verileri yüklendi.');
       }
