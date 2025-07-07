@@ -948,6 +948,8 @@
       reader.onload = function(e) {
         try {
           const csvContent = e.target.result;
+          console.log('CSV İçeriği:', csvContent); // Debug için
+          
           const lines = csvContent.split('\n').map(line => line.trim()).filter(line => line);
           
           if (lines.length === 0) {
@@ -965,6 +967,8 @@
               columns = lines[i].split(',').map(col => col.trim());
             }
             
+            console.log('Satır ' + (i+1) + ' sütunları:', columns); // Debug için
+            
             if (columns.length < 2) continue; // En az konum adı ve maps linki olmalı
             
             const locationName = columns[0];
@@ -975,10 +979,17 @@
             const photos = [];
             // C sütunundan E sütununa kadar (index 2-4) fotoğrafları al
             for (let j = 2; j < 5 && j < columns.length; j++) {
-              if (columns[j] && columns[j].startsWith('http')) {
-                photos.push(columns[j]);
+              if (columns[j] && columns[j].trim() !== '') {
+                // http veya https ile başlama kontrolü
+                const photoUrl = columns[j].trim();
+                if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
+                  photos.push(photoUrl);
+                  console.log('Fotoğraf eklendi:', photoUrl); // Debug için
+                }
               }
             }
+
+            console.log('Konum:', locationName, '- Fotoğraf sayısı:', photos.length); // Debug için
 
             locations.push({
               name: locationName,
@@ -998,6 +1009,8 @@
             locations: locations
           };
           
+          console.log('İşlenen veri:', cityData); // Debug için
+          
           updatePageTitle();
           renderLocations();
           
@@ -1010,7 +1023,7 @@
           
         } catch (error) {
           console.error('CSV işleme hatası:', error);
-          alert('CSV dosyası işlenirken bir hata oluştu. Formatı kontrol edin.');
+          alert('CSV dosyası işlenirken bir hata oluştu. Formatı kontrol edin.\n\nHata: ' + error.message);
         }
       };
 
