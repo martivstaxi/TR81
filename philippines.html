@@ -1,0 +1,1093 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philippines</title>
+  <style>
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #334155;
+      line-height: 1.6;
+      padding: 12px;
+      overflow-y: auto;
+      padding-bottom: 100px;
+      min-height: 100vh;
+    }
+    .logo {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      font-size: 26px;
+      text-decoration: none;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    h1 { 
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 70px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .camera-emoji {
+      color: #000;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 8px;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #1e293b;
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: #3b82f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: #1e293b;
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: #f97316;
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: #1e293b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
+      color: #92400e;
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid #fbbf24;
+      max-width: 1000px;
+      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    .next-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(18px, 3.5vw, 24px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 20px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .next-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(16, 185, 129, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+    }
+
+    /* Mobile Promotion Styles */
+    @media (max-width: 768px) {
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .next-btn { padding: 12px 20px; margin: 16px 0; border-radius: 14px; width: 100%; max-width: 100%; box-sizing: border-box; }
+    }
+
+    @media (max-width: 480px) {
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+      .next-btn { padding: 10px 16px; margin: 12px 0; border-radius: 12px; width: 100%; }
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #1e293b;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .file-label:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .file-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box ul {
+      margin: 5px 0 0 20px;
+      padding: 0;
+    }
+    
+    .info-box li {
+      margin: 3px 0;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn, .next-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Philippines</span></h1>
+  
+  <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Lagoon/@11.1542567,119.321917,17z/data=!3m1!4b1!4m6!3m5!1s0x33b6538970038f03:0xa9a3c2747d4881d!8m2!3d11.1544236!4d119.3210371!16s%2Fg%2F12vsw5kzh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>El Nido Big Lagoon 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/el_nido_big_lagoon_1/public" data-location="El Nido Big Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/el_nido_big_lagoon_1/public" alt="El Nido Big Lagoon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/el_nido_big_lagoon_2/public" data-location="El Nido Big Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/el_nido_big_lagoon_2/public" alt="El Nido Big Lagoon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/el_nido_big_lagoon_3/public" data-location="El Nido Big Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/el_nido_big_lagoon_3/public" alt="El Nido Big Lagoon"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/ONOK+ISLAND/@8.0164919,117.2106064,17z/data=!3m1!4b1!4m6!3m5!1s0x32314fc14f6e136f:0x4eb861107235194f!8m2!3d8.0164919!4d117.2106064!16s%2Fg%2F11krsyxnwf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Balabac Onuk Island 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/balabac_onuk_iland_1/public" data-location="Balabac Onuk Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/balabac_onuk_iland_1/public" alt="Balabac Onuk Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/balabac_onuk_iland_2/public" data-location="Balabac Onuk Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/balabac_onuk_iland_2/public" alt="Balabac Onuk Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/balabac_onuk_iland_3/public" data-location="Balabac Onuk Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/balabac_onuk_iland_3/public" alt="Balabac Onuk Island"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Twin+Lagoon/@11.9476028,120.2096798,17z/data=!3m1!4b1!4m6!3m5!1s0x33ba1d0cd171fadb:0x5d982357f5ef1b21!8m2!3d11.9476028!4d120.2096798!16s%2Fg%2F11sgcr70rg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Coron Twin Lagoon 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_twin_lagoon_1/public" data-location="Coron Twin Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_twin_lagoon_1/public" alt="Coron Twin Lagoon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_twin_lagoon_2/public" data-location="Coron Twin Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_twin_lagoon_2/public" alt="Coron Twin Lagoon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_twin_lagoon_3/public" data-location="Coron Twin Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_twin_lagoon_3/public" alt="Coron Twin Lagoon"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Batad+Rice+Terraces/@16.9344847,121.136398,17z/data=!3m1!4b1!4m6!3m5!1s0x338fd88fe10db45f:0x78b1ab979144a33a!8m2!3d16.9348907!4d121.1352393!16s%2Fg%2F1q5bkjhdb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Batad Rice Terraces 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/batad_rice_terrace_1/public" data-location="Batad Rice Terraces"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/batad_rice_terrace_1/public" alt="Batad Rice Terraces"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/batad_rice_terrace_2/public" data-location="Batad Rice Terraces"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/batad_rice_terrace_2/public" alt="Batad Rice Terraces"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/batad_rice_terrace_3/public" data-location="Batad Rice Terraces"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/batad_rice_terrace_3/public" alt="Batad Rice Terraces"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kayangan+Lake/@11.953741,120.2248673,16z/data=!3m1!4b1!4m6!3m5!1s0x33ba1cf30a2f9543:0x11a507bdcd7187ee!8m2!3d11.9534132!4d120.2235047!16s%2Fg%2F124t01xth?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Coron Kayangan Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_kayangan_lake_1/public" data-location="Coron Kayangan Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_kayangan_lake_1/public" alt="Coron Kayangan Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_kayangan_lake_2/public" data-location="Coron Kayangan Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_kayangan_lake_2/public" alt="Coron Kayangan Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_kayangan_lake_3/public" data-location="Coron Kayangan Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/coron_kayangan_lake_3/public" alt="Coron Kayangan Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Osme%C3%B1a+Peak/@9.8224998,123.448333,15z/data=!3m1!4b1!4m6!3m5!1s0x33abc01a1529c095:0xbcb3e3fcd30c76c6!8m2!3d9.8225!4d123.448333!16s%2Fg%2F11dykf0gl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Osmeña Peak 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/omena_peak_1/public" data-location="Osmeña Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/omena_peak_1/public" alt="Osmeña Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/omena_peak_2/public" data-location="Osmeña Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/omena_peak_2/public" alt="Osmeña Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/omena_peak_3/public" data-location="Osmeña Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/omena_peak_3/public" alt="Osmeña Peak"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Paoay+Sand+Dunes+Adventures+(Suba)/@18.1406228,120.5170688,17z/data=!3m1!4b1!4m6!3m5!1s0x338eb8a529e33417:0x343ecc0bb1a44a7a!8m2!3d18.1406228!4d120.5170688!16s%2Fg%2F119wn1nd1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Paoay Sand Dunes 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_and_dune_1/public" data-location="Paoay Sand Dunes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_and_dune_1/public" alt="Paoay Sand Dunes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_and_dune_2/public" data-location="Paoay Sand Dunes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_and_dune_2/public" alt="Paoay Sand Dunes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_and_dune_3/public" data-location="Paoay Sand Dunes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_and_dune_3/public" alt="Paoay Sand Dunes"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/San+Agustin+Church+of+Paoay/@18.0617106,120.5210238,17z/data=!3m1!4b1!4m6!3m5!1s0x338ebff345b57ba9:0xfacba28ac0c7ad32!8m2!3d18.0617106!4d120.5210238!16s%2Fm%2F0gyvp52?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Paoay Church 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_church_1/public" data-location="Paoay Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_church_1/public" alt="Paoay Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_church_2/public" data-location="Paoay Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_church_2/public" alt="Paoay Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_church_3/public" data-location="Paoay Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paoay_church_3/public" alt="Paoay Church"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cagsawa+Ruins/@13.1659984,123.701149,17z/data=!3m1!4b1!4m6!3m5!1s0x33a106b15e773841:0xf545870b1b897dd9!8m2!3d13.1659984!4d123.701149!16s%2Fm%2F0bh7wwt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cagsawa Ruins & Mayon View 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cagawa_ruin__mayon_view_1/public" data-location="Cagsawa Ruins & Mayon View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cagawa_ruin__mayon_view_1/public" alt="Cagsawa Ruins & Mayon View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cagawa_ruin__mayon_view_2/public" data-location="Cagsawa Ruins & Mayon View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cagawa_ruin__mayon_view_2/public" alt="Cagsawa Ruins & Mayon View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cagawa_ruin__mayon_view_3/public" data-location="Cagsawa Ruins & Mayon View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cagawa_ruin__mayon_view_3/public" alt="Cagsawa Ruins & Mayon View"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Dahilayan+Adventure+Park/@8.2058888,124.8574895,17z/data=!3m1!4b1!4m9!3m8!1s0x32ff9f60c85c2e0f:0x71718b0e3e40309c!5m2!4m1!1i2!8m2!3d8.2058888!4d124.8574895!16s%2Fg%2F11bxw77qnw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Dahilayan Zipline Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/dahilayan_zipline_park_1/public" data-location="Dahilayan Zipline Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/dahilayan_zipline_park_1/public" alt="Dahilayan Zipline Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/dahilayan_zipline_park_2/public" data-location="Dahilayan Zipline Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/dahilayan_zipline_park_2/public" alt="Dahilayan Zipline Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/dahilayan_zipline_park_3/public" data-location="Dahilayan Zipline Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/dahilayan_zipline_park_3/public" alt="Dahilayan Zipline Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ditumabo+Mother+Falls/@15.6748956,121.4771605,17z/data=!3m1!4b1!4m6!3m5!1s0x3390afbd6ffe6619:0xff7f275874f0efb3!8m2!3d15.6748956!4d121.4771605!16s%2Fg%2F1q62hq4yh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ditumabo Mother Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ditumabo_mother_fall_1/public" data-location="Ditumabo Mother Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ditumabo_mother_fall_1/public" alt="Ditumabo Mother Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ditumabo_mother_fall_2/public" data-location="Ditumabo Mother Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ditumabo_mother_fall_2/public" alt="Ditumabo Mother Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ditumabo_mother_fall_3/public" data-location="Ditumabo Mother Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ditumabo_mother_fall_3/public" alt="Ditumabo Mother Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Enchanted+River/@8.4588288,126.3548129,17z/data=!3m1!4b1!4m6!3m5!1s0x32fd8e74ab893c8b:0x417dd65d6bb7ef35!8m2!3d8.4588288!4d126.3548129!16s%2Fg%2F1pxxqh069?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Enchanted River 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/enchanted_river_1/public" data-location="Enchanted River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/enchanted_river_1/public" alt="Enchanted River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/enchanted_river_2/public" data-location="Enchanted River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/enchanted_river_2/public" alt="Enchanted River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/enchanted_river_3/public" data-location="Enchanted River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/enchanted_river_3/public" alt="Enchanted River"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mayon+Volcano/@13.2548318,123.6861124,15z/data=!3m1!4b1!4m6!3m5!1s0x33a1a9954fa1731f:0xdff71d3eddd0ea0d!8m2!3d13.254832!4d123.6861124!16zL20vMDFtMDdk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mayon Volcano 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mayon_volcano_1/public" data-location="Mayon Volcano"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mayon_volcano_1/public" alt="Mayon Volcano"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mayon_volcano_2/public" data-location="Mayon Volcano"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mayon_volcano_2/public" alt="Mayon Volcano"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mayon_volcano_3/public" data-location="Mayon Volcano"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mayon_volcano_3/public" alt="Mayon Volcano"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Apo/@6.987456,125.2709964,15z/data=!3m1!4b1!4m6!3m5!1s0x32f9011b1d616fe9:0x83086f84a0a9e915!8m2!3d6.9874561!4d125.2709964!16zL20vMDFtMDhs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Apo 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_apo_1/public" data-location="Mount Apo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_apo_1/public" alt="Mount Apo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_apo_2/public" data-location="Mount Apo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_apo_2/public" alt="Mount Apo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_apo_3/public" data-location="Mount Apo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_apo_3/public" alt="Mount Apo"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Puerto+Princesa+Subterranean+River+National+Park/@10.1925595,118.9265829,17z/data=!3m1!4b1!4m6!3m5!1s0x33b59142409f2dd9:0x1ecb5dab92f27fc4!8m2!3d10.1925595!4d118.9265829!16zL20vMGM0ejc1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Puerto Princesa Underground River 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/puerto_princea_underground_river_1/public" data-location="Puerto Princesa Underground River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/puerto_princea_underground_river_1/public" alt="Puerto Princesa Underground River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/puerto_princea_underground_river_2/public" data-location="Puerto Princesa Underground River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/puerto_princea_underground_river_2/public" alt="Puerto Princesa Underground River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/puerto_princea_underground_river_3/public" data-location="Puerto Princesa Underground River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/puerto_princea_underground_river_3/public" alt="Puerto Princesa Underground River"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tinuy-an+Falls/@8.1718077,126.2281868,17z/data=!3m1!4b1!4m6!3m5!1s0x32fdc7cf94978637:0x930b676216b438cf!8m2!3d8.1718077!4d126.2281868!16s%2Fm%2F05fbjkl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tinuy-an Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/tinuy-an_fall_1/public" data-location="Tinuy-an Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/tinuy-an_fall_1/public" alt="Tinuy-an Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/tinuy-an_fall_2/public" data-location="Tinuy-an Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/tinuy-an_fall_2/public" alt="Tinuy-an Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/tinuy-an_fall_3/public" data-location="Tinuy-an Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/tinuy-an_fall_3/public" alt="Tinuy-an Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Willy's+Rock/@11.9682252,121.9187134,17z/data=!3m1!4b1!4m6!3m5!1s0x33a53c112b9a189f:0xa3279f46bdb39e64!8m2!3d11.9682252!4d121.9187134!16s%2Fg%2F11c0vytj5g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Willy’s Rock 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/willy_rock_1/public" data-location="Willy’s Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/willy_rock_1/public" alt="Willy’s Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/willy_rock_2/public" data-location="Willy’s Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/willy_rock_2/public" alt="Willy’s Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/willy_rock_3/public" data-location="Willy’s Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/willy_rock_3/public" alt="Willy’s Rock"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cape+Bojeador+Lighthouse/@18.5121047,120.5977094,17z/data=!3m1!4b1!4m6!3m5!1s0x3389373e10a55555:0xdbfd94af7011eab5!8m2!3d18.5121047!4d120.5977094!16s%2Fm%2F0bwjmyg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape Bojeador Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cape_bojeador_lighthoue_1/public" data-location="Cape Bojeador Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cape_bojeador_lighthoue_1/public" alt="Cape Bojeador Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cape_bojeador_lighthoue_2/public" data-location="Cape Bojeador Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cape_bojeador_lighthoue_2/public" alt="Cape Bojeador Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cape_bojeador_lighthoue_3/public" data-location="Cape Bojeador Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cape_bojeador_lighthoue_3/public" alt="Cape Bojeador Lighthouse"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="promotion-section">
+    <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+    
+    <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+    
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+  </script>
+</body>
+</html>
