@@ -1,1216 +1,397 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Dünya'nın en güzel manzaralı noktaları📍 150 ülkede konumlarıyla birlikte</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- =======================  GENEL STİLLER  ======================= -->
+<title>Dünya'nın En Güzel Manzaralı Noktaları | 150 Ülke</title>
+
+<!-- ===== Görünüm & Tipografi ===== -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
 <style>
-  :root {
-    --primary: #3b82f6;
-    --primary-dark: #2563eb;
-    --accent: #f97316;
-    --background: #f8fafc;
-    --card-bg: #ffffff;
-    --text: #334155;
-    --text-light: #64748b;
-    --border: #e2e8f0;
-    --divider: #cbd5e1;
-    --shadow: rgba(0, 0, 0, 0.05);
-    --demo-bg: #fef3c7;
-    --demo-border: #f59e0b;
-    --premium-bg: #dcfce7;
-    --premium-border: #16a34a;
-  }
+/* ---------- Değişkenler ---------- */
+:root{
+  --bg:          #f9fafb;
+  --bg-dark:     #eef1f5;
+  --card:        #ffffff;
+  --card-hover:  #f1f5f9;
+  --primary:     #2563eb;
+  --primary-100: #dbeafe;
+  --text:        #334155;
+  --text-light:  #64748b;
+  --border:      #e2e8f0;
+  --shadow:      0 4px 14px rgba(0,0,0,.06);
+  --radius:      12px;
+  --banner-bg:   #fef9c3;
+  --banner-brd:  #facc15;
+  --banner-txt:  #92400e;
+}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-    background-color:var(--background);
-    color:var(--text);
-    line-height:1.6;
-    padding:10px;
-    overflow-y:auto;
-    text-align:center;
-  }
+/* ---------- Genel ---------- */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding:20px 16px 60px 16px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
 
-  /* ---------- Logo ---------- */
-  .logo{
-    position:absolute;top:20px;left:20px;font-size:28px;text-decoration:none;color:black;
-  }
+/* ---------- Logo ---------- */
+.logo{
+  position:fixed;top:18px;left:18px;
+  font-size:28px;text-decoration:none;
+  transition:.25s ease;
+}
+.logo:hover{transform:scale(1.08);}
 
-  /* ---------- Başlık & Arama ---------- */
-  h1{font-size:26px;margin-bottom:20px;}
-  input[type="text"]{
-    padding:10px;width:80%;max-width:400px;margin:20px 0 30px 0;
-    font-size:16px;border:1px solid #ccc;border-radius:8px;
-  }
+/* ---------- Başlık ---------- */
+h1#mainTitle{
+  font-size:clamp(1.35rem,2.5vw,1.75rem);
+  font-weight:600;
+  text-align:center;
+  margin-top:60px;
+  margin-bottom:18px;
+}
 
-  /* ---------- Ülke Konteynırı (3 sütun) ---------- */
-  #countriesContainer{
-    display:flex;            /* sıralama yan yana */
-    flex-wrap:wrap;          /* taşıp alta geçsin */
-    justify-content:center;  /* ortala */
-    gap:10px;
-    max-width:1100px;
-    margin:0 auto;
-  }
-  .country-container{
-    flex:0 0 calc(33.333% - 20px); /* 3 sütun */
-    max-width:calc(33.333% - 20px);
-    padding:10px;
-  }
-  @media(max-width:800px){
-    .country-container{flex:0 0 calc(50% - 20px);max-width:calc(50% - 20px);} /* tablet -->
-  }
-  @media(max-width:500px){
-    .country-container{flex:0 0 100%;max-width:100%;} /* mobil tek sütun */
-  }
+/* ---------- Arama kutusu ---------- */
+#searchInput{
+  width:100%;
+  max-width:420px;
+  padding:12px 18px;
+  font-size:1rem;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  outline:none;
+  transition:border .2s;
+}
+#searchInput:focus{border-color:var(--primary);}
 
-  /* ---------- Ülke Butonu ---------- */
-  .country-button{
-    width:100%;
-    padding:20px 25px;
-    background-color:var(--card-bg);
-    border:1px solid #ddd;
-    border-radius:8px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.08);
-    text-align:left;
-    cursor:pointer;
-    transition:all 0.3s ease;
-  }
-  .country-button:hover{
-    background-color:#f0f7ff;
-    box-shadow:0 4px 8px rgba(0,0,0,0.12);
-    transform:translateY(-2px);
-  }
+/* ---------- Bilgi Banner’ı ---------- */
+.info-banner{
+  margin:26px auto 34px auto;
+  padding:18px 28px;
+  font-size:clamp(.95rem,2vw,1.15rem);
+  background:var(--banner-bg);
+  border:2px solid var(--banner-brd);
+  color:var(--banner-txt);
+  border-radius:var(--radius);
+  max-width:900px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.info-banner.premium{
+  background:#dcfce7;
+  border-color:#16a34a;
+  color:#166534;
+}
+.info-banner a{
+  font-weight:700;
+  color:var(--primary);
+  text-decoration:none;
+}
+.info-banner a:hover{text-decoration:underline;}
 
-  /* ---------- Ülke Adı ---------- */
-  .country-name{
-    margin:0;font-size:22px;color:#0077cc;font-weight:bold;display:flex;align-items:center;
-  }
-  .country-name::before{
-    content:"➤";             /* sadece ok işareti */
-    margin-right:12px;
-    color:#666;
-  }
+/* ---------- Ülkeler Izgarası ---------- */
+.countries{
+  width:100%;
+  max-width:1100px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:18px;
+}
+.country-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:26px 12px 22px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:background .25s, transform .25s;
+}
+.country-card:hover{
+  background:var(--card-hover);
+  transform:translateY(-4px);
+}
+.country-card.turkey{/* öne çıksın */
+  border:2px solid var(--primary);
+  background:var(--primary-100);
+}
+.flag{
+  font-size:2rem;
+  line-height:1;
+}
+.name{
+  font-weight:600;
+  font-size:1.05rem;
+  color:var(--primary);
+  text-align:center;
+}
 
-  /* ---------- Türkiye Özel Stil ---------- */
-  .country-button.turkey{
-    background-color:#e3f2fd;border:2px solid #1976d2;
-  }
-  .country-button.turkey:hover{background-color:#bbdefb;}
-  .country-button.turkey .country-name{color:#1976d2;}
-
-  /* ---------- Banner ---------- */
-  .info-banner{
-    background-color:var(--demo-bg);padding:20px;border-radius:12px;
-    box-shadow:0 4px 12px rgba(245,158,11,0.2);margin:30px auto;
-    max-width:1000px;text-align:center;font-size:24px;line-height:1.6;
-    border:2px solid var(--demo-border);font-weight:500;color:#92400e;
-  }
-  .info-banner.premium{
-    background-color:var(--premium-bg);border-color:var(--premium-border);
-    color:#15803d;box-shadow:0 4px 12px rgba(34,197,94,0.2);
-  }
-  @media(max-width:640px){
-    .info-banner{font-size:20px;padding:12px;}
-    .country-name{font-size:20px;}
-  }
+/* ---------- Medya Sorguları ---------- */
+@media(max-width:480px){
+  .name{font-size:1rem;}
+  .info-banner{padding:14px 18px;}
+}
 </style>
 </head>
+
 <body>
+<!-- ===== Logo ===== -->
+<a class="logo" href="https://tr81.tr/login.html" aria-label="Giriş sayfası">🌐</a>
 
-<!-- 🌐 Logo -->
-<a class="logo" href="https://tr81.tr/login.html">🌐</a>
-<br><br>
+<!-- ===== Başlık & Arama ===== -->
 <h1 id="mainTitle">Bir ülke seç → Manzaralı konumları keşfet📍</h1>
-<input id="searchInput" type="text" placeholder="Bir ülke ara... / Search country...">
+<input id="searchInput" type="text" placeholder="Bir ülke ara..." autocomplete="off" />
 
-<!-- =======================  TÜRKİYE  ======================= -->
-<div id="countriesContainer">
+<!-- ===== Banner ===== -->
+<div id="infoBanner" class="info-banner">
+  <!-- içerik JS ile doldurulur -->
+</div>
 
-  <!-- Türkiye - daima erişilebilir -->
-  <div class="country-container" data-search="türkiye turkey turkiye tr" style="cursor:pointer">
-    <div class="country-button turkey" onclick="navigateToCountry('türkiye')">
-      <h1 class="country-name">🇹🇷 Türkiye</h1>
-    </div>
-  </div>
+<!-- ===== Ülkeler ===== -->
+<div id="countriesGrid" class="countries"></div>
 
-  <!-- Bilgilendirme Banner'ı -->
-  <div id="infoBanner" class="info-banner" data-search="">
-    <span id="infoBannerText">
-      Ücretsiz Erişim: Türkiye'ye tıklayın ve muhteşem manzara noktalarını keşfedin! 
-      ⚡150 ülkenin konumlarına sınırsız erişmek için 
-      <a href="https://www.tr81.tr/login.html"> ➤ Giriş </a> yapın.
-    </span>
-  </div>
-
-  <!-- =======================  DİĞER ÜLKELER (alfabetik)  ======================= -->
-
-  <div class="country-container" data-search="afghanistan afganistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('afghanistan')">
-      <h1 class="country-name">🇦🇫 Afghanistan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="albania arnavutluk shqiperi" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('albania')">
-      <h1 class="country-name">🇦🇱 Albania</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="algeria cezayir algerie" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('algeria')">
-      <h1 class="country-name">🇩🇿 Algeria</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="andorra" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('andorra')">
-      <h1 class="country-name">🇦🇩 Andorra</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="angola" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('angola')">
-      <h1 class="country-name">🇦🇴 Angola</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="argentina arjantin" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('argentina')">
-      <h1 class="country-name">🇦🇷 Argentina</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="armenia ermenistan hayastan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('armenia')">
-      <h1 class="country-name">🇦🇲 Armenia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="aruba" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('aruba')">
-      <h1 class="country-name">🇦🇼 Aruba</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="australia avustralya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('australia')">
-      <h1 class="country-name">🇦🇺 Australia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="austria avusturya österreich" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('austria')">
-      <h1 class="country-name">🇦🇹 Austria</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="azerbaijan azerbaycan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('azerbaijan')">
-      <h1 class="country-name">🇦🇿 Azerbaijan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="bahamas bahamalar" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('bahamas')">
-      <h1 class="country-name">🇧🇸 Bahamas</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="bahrain bahreyn" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('bahrain')">
-      <h1 class="country-name">🇧🇭 Bahrain</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="bangladesh bangladeş" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('bangladesh')">
-      <h1 class="country-name">🇧🇩 Bangladesh</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="belarus beyaz rusya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('belarus')">
-      <h1 class="country-name">🇧🇾 Belarus</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="belgium belçika belgique" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('belgium')">
-      <h1 class="country-name">🇧🇪 Belgium</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="benin" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('benin')">
-      <h1 class="country-name">🇧🇯 Benin</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="bolivia bolivya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('bolivia')">
-      <h1 class="country-name">🇧🇴 Bolivia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="bosnia and herzegovina bosna hersek" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('bosniaandherzegovina')">
-      <h1 class="country-name">🇧🇦 Bosnia and Herzegovina</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="brazil brezilya brasil" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('brazil')">
-      <h1 class="country-name">🇧🇷 Brazil</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="bulgaria bulgaristan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('bulgaria')">
-      <h1 class="country-name">🇧🇬 Bulgaria</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="burkina faso" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('burkinafaso')">
-      <h1 class="country-name">🇧🇫 Burkina Faso</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="burundi" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('burundi')">
-      <h1 class="country-name">🇧🇮 Burundi</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="cambodia kamboçya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('cambodia')">
-      <h1 class="country-name">🇰🇭 Cambodia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="cameroon kamerun" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('cameroon')">
-      <h1 class="country-name">🇨🇲 Cameroon</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="canada kanada" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('canada')">
-      <h1 class="country-name">🇨🇦 Canada</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="chad çad" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('chad')">
-      <h1 class="country-name">🇹🇩 Chad</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="chile şili" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('chile')">
-      <h1 class="country-name">🇨🇱 Chile</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="china çin zhongguo" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('china')">
-      <h1 class="country-name">🇨🇳 China</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="colombia kolombiya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('colombia')">
-      <h1 class="country-name">🇨🇴 Colombia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="costa rica kosta rika" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('costarica')">
-      <h1 class="country-name">🇨🇷 Costa Rica</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="croatia hırvatistan hrvatska" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('croatia')">
-      <h1 class="country-name">🇭🇷 Croatia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="cuba küba" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('cuba')">
-      <h1 class="country-name">🇨🇺 Cuba</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="cyprus kıbrıs kibris" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('cyprus')">
-      <h1 class="country-name">🇨🇾 Cyprus</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="czech republic çek cumhuriyeti czechia" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('czechrepublic')">
-      <h1 class="country-name">🇨🇿 Czech Republic</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="denmark danimarka danmark" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('denmark')">
-      <h1 class="country-name">🇩🇰 Denmark</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="dominican republic dominik cumhuriyeti" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('dominicanrepublic')">
-      <h1 class="country-name">🇩🇴 Dominican Republic</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="dr congo demokratik kongo" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('drcongo')">
-      <h1 class="country-name">🇨🇩 DR Congo</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="ecuador ekvador" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('ecuador')">
-      <h1 class="country-name">🇪🇨 Ecuador</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="egypt mısır misr" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('egypt')">
-      <h1 class="country-name">🇪🇬 Egypt</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="el salvador" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('elsalvador')">
-      <h1 class="country-name">🇸🇻 El Salvador</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="estonia estonya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('estonia')">
-      <h1 class="country-name">🇪🇪 Estonia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="ethiopia etiyopya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('ethiopia')">
-      <h1 class="country-name">🇪🇹 Ethiopia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="finland finlandiya suomi" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('finland')">
-      <h1 class="country-name">🇫🇮 Finland</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="france fransa" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('france')">
-      <h1 class="country-name">🇫🇷 France</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="georgia gürcistan sakartvelo" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('georgia')">
-      <h1 class="country-name">🇬🇪 Georgia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="germany almanya deutschland" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('germany')">
-      <h1 class="country-name">🇩🇪 Germany</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="ghana gana" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('ghana')">
-      <h1 class="country-name">🇬🇭 Ghana</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="greece yunanistan hellas" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('greece')">
-      <h1 class="country-name">🇬🇷 Greece</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="guatemala" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('guatemala')">
-      <h1 class="country-name">🇬🇹 Guatemala</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="guinea gine" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('guinea')">
-      <h1 class="country-name">🇬🇳 Guinea</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="haiti" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('haiti')">
-      <h1 class="country-name">🇭🇹 Haiti</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="honduras" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('honduras')">
-      <h1 class="country-name">🇭🇳 Honduras</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="hong kong" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('hongkong')">
-      <h1 class="country-name">🇭🇰 Hong Kong</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="hungary macaristan magyarorszag" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('hungary')">
-      <h1 class="country-name">🇭🇺 Hungary</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="iceland izlanda island" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('iceland')">
-      <h1 class="country-name">🇮🇸 Iceland</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="india hindistan bharat" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('india')">
-      <h1 class="country-name">🇮🇳 India</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="indonesia endonezya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('indonesia')">
-      <h1 class="country-name">🇮🇩 Indonesia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="iran" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('iran')">
-      <h1 class="country-name">🇮🇷 Iran</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="iraq irak" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('iraq')">
-      <h1 class="country-name">🇮🇶 Iraq</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="ireland irlanda eire" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('ireland')">
-      <h1 class="country-name">🇮🇪 Ireland</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="israel israil" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('israel')">
-      <h1 class="country-name">🇮🇱 Israel</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="italy italya italia" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('italy')">
-      <h1 class="country-name">🇮🇹 Italy</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="ivory coast fildişi sahili" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('ivorycoast')">
-      <h1 class="country-name">🇨🇮 Ivory Coast</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="jamaica jamaika" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('jamaica')">
-      <h1 class="country-name">🇯🇲 Jamaica</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="japan japonya nippon" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('japan')">
-      <h1 class="country-name">🇯🇵 Japan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="jordan ürdün urdun" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('jordan')">
-      <h1 class="country-name">🇯🇴 Jordan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="kazakhstan kazakistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('kazakhstan')">
-      <h1 class="country-name">🇰🇿 Kazakhstan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="kenya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('kenya')">
-      <h1 class="country-name">🇰🇪 Kenya</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="kosovo kosova" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('kosovo')">
-      <h1 class="country-name">🇽🇰 Kosovo</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="kuwait kuveyt" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('kuwait')">
-      <h1 class="country-name">🇰🇼 Kuwait</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="kyrgyzstan kırgızistan kirgizistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('kyrgyzstan')">
-      <h1 class="country-name">🇰🇬 Kyrgyzstan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="laos" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('laos')">
-      <h1 class="country-name">🇱🇦 Laos</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="latvia letonya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('latvia')">
-      <h1 class="country-name">🇱🇻 Latvia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="lebanon lübnan lubnan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('lebanon')">
-      <h1 class="country-name">🇱🇧 Lebanon</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="lesotho lesoto" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('lesotho')">
-      <h1 class="country-name">🇱🇸 Lesotho</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="lithuania litvanya lietuva" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('lithuania')">
-      <h1 class="country-name">🇱🇹 Lithuania</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="luxembourg lüksemburg luxemburg" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('luxembourg')">
-      <h1 class="country-name">🇱🇺 Luxembourg</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="macau makao" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('macau')">
-      <h1 class="country-name">🇲🇴 Macau</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="madagascar madagaskar" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('madagascar')">
-      <h1 class="country-name">🇲🇬 Madagascar</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="malawi" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('malawi')">
-      <h1 class="country-name">🇲🇼 Malawi</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="malaysia malezya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('malaysia')">
-      <h1 class="country-name">🇲🇾 Malaysia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="maldives maldivler" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('maldives')">
-      <h1 class="country-name">🇲🇻 Maldives</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="mali" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('mali')">
-      <h1 class="country-name">🇲🇱 Mali</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="malta" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('malta')">
-      <h1 class="country-name">🇲🇹 Malta</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="mauritius mauritius adası" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('mauritius')">
-      <h1 class="country-name">🇲🇺 Mauritius</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="mexico meksika" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('mexico')">
-      <h1 class="country-name">🇲🇽 Mexico</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="moldova" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('moldova')">
-      <h1 class="country-name">🇲🇩 Moldova</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="mongolia moğolistan mogolistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('mongolia')">
-      <h1 class="country-name">🇲🇳 Mongolia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="montenegro karadağ karadag" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('montenegro')">
-      <h1 class="country-name">🇲🇪 Montenegro</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="morocco fas maroc" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('morocco')">
-      <h1 class="country-name">🇲🇦 Morocco</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="mozambique mozambik" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('mozambique')">
-      <h1 class="country-name">🇲🇿 Mozambique</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="myanmar burma birmanya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('myanmar')">
-      <h1 class="country-name">🇲🇲 Myanmar</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="nepal" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('nepal')">
-      <h1 class="country-name">🇳🇵 Nepal</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="netherlands hollanda nederland" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('netherlands')">
-      <h1 class="country-name">🇳🇱 Netherlands</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="new zealand yeni zelanda" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('newzealand')">
-      <h1 class="country-name">🇳🇿 New Zealand</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="nicaragua nikaragua" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('nicaragua')">
-      <h1 class="country-name">🇳🇮 Nicaragua</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="niger nijer" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('niger')">
-      <h1 class="country-name">🇳🇪 Niger</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="nigeria nijerya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('nigeria')">
-      <h1 class="country-name">🇳🇬 Nigeria</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="norway norveç norge" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('norway')">
-      <h1 class="country-name">🇳🇴 Norway</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="oman umman" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('oman')">
-      <h1 class="country-name">🇴🇲 Oman</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="pakistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('pakistan')">
-      <h1 class="country-name">🇵🇰 Pakistan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="panama" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('panama')">
-      <h1 class="country-name">🇵🇦 Panama</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="papua new guinea papua yeni gine" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('papuanewguinea')">
-      <h1 class="country-name">🇵🇬 Papua New Guinea</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="paraguay" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('paraguay')">
-      <h1 class="country-name">🇵🇾 Paraguay</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="peru" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('peru')">
-      <h1 class="country-name">🇵🇪 Peru</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="philippines filipinler pilipinas" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('philippines')">
-      <h1 class="country-name">🇵🇭 Philippines</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="poland polonya polska" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('poland')">
-      <h1 class="country-name">🇵🇱 Poland</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="portugal portekiz" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('portugal')">
-      <h1 class="country-name">🇵🇹 Portugal</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="puerto rico porto riko" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('puertorico')">
-      <h1 class="country-name">🇵🇷 Puerto Rico</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="qatar katar" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('qatar')">
-      <h1 class="country-name">🇶🇦 Qatar</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="romania romanya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('romania')">
-      <h1 class="country-name">🇷🇴 Romania</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="russia rusya rossiya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('russia')">
-      <h1 class="country-name">🇷🇺 Russia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="rwanda ruanda" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('rwanda')">
-      <h1 class="country-name">🇷🇼 Rwanda</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="san marino" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('sanmarino')">
-      <h1 class="country-name">🇸🇲 San Marino</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="saudi arabia suudi arabistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('saudiarabia')">
-      <h1 class="country-name">🇸🇦 Saudi Arabia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="senegal" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('senegal')">
-      <h1 class="country-name">🇸🇳 Senegal</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="serbia sırbistan srbija" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('serbia')">
-      <h1 class="country-name">🇷🇸 Serbia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="sierra leone" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('sierraleone')">
-      <h1 class="country-name">🇸🇱 Sierra Leone</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="singapore singapur" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('singapore')">
-      <h1 class="country-name">🇸🇬 Singapore</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="slovakia slovakya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('slovakia')">
-      <h1 class="country-name">🇸🇰 Slovakia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="slovenia slovenya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('slovenia')">
-      <h1 class="country-name">🇸🇮 Slovenia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="somalia somali" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('somalia')">
-      <h1 class="country-name">🇸🇴 Somalia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="south africa güney afrika" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('southafrica')">
-      <h1 class="country-name">🇿🇦 South Africa</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="south korea güney kore" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('southkorea')">
-      <h1 class="country-name">🇰🇷 South Korea</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="south sudan güney sudan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('southsudan')">
-      <h1 class="country-name">🇸🇸 South Sudan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="spain ispanya espana" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('spain')">
-      <h1 class="country-name">🇪🇸 Spain</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="sri lanka" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('srilanka')">
-      <h1 class="country-name">🇱🇰 Sri Lanka</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="sudan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('sudan')">
-      <h1 class="country-name">🇸🇩 Sudan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="sweden isveç sverige" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('sweden')">
-      <h1 class="country-name">🇸🇪 Sweden</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="switzerland isviçre isvicre schweiz suisse" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('switzerland')">
-      <h1 class="country-name">🇨🇭 Switzerland</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="taiwan tayvan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('taiwan')">
-      <h1 class="country-name">🇹🇼 Taiwan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="tajikistan tacikistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('tajikistan')">
-      <h1 class="country-name">🇹🇯 Tajikistan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="tanzania tanzanya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('tanzania')">
-      <h1 class="country-name">🇹🇿 Tanzania</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="thailand tayland" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('thailand')">
-      <h1 class="country-name">🇹🇭 Thailand</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="togo" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('togo')">
-      <h1 class="country-name">🇹🇬 Togo</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="tunisia tunus tunisie" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('tunisia')">
-      <h1 class="country-name">🇹🇳 Tunisia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="uganda" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('uganda')">
-      <h1 class="country-name">🇺🇬 Uganda</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="ukraine ukrayna" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('ukraine')">
-      <h1 class="country-name">🇺🇦 Ukraine</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="united arab emirates birleşik arap emirlikleri bae uae" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('unitedarabemirates')">
-      <h1 class="country-name">🇦🇪 United Arab Emirates</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="united kingdom birleşik krallık ingiltere uk britain" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('unitedkingdom')">
-      <h1 class="country-name">🇬🇧 United Kingdom</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="united states amerika abd usa" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('unitedstates')">
-      <h1 class="country-name">🇺🇸 United States</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="uruguay" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('uruguay')">
-      <h1 class="country-name">🇺🇾 Uruguay</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="uzbekistan özbekistan ozbekistan" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('uzbekistan')">
-      <h1 class="country-name">🇺🇿 Uzbekistan</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="venezuela" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('venezuela')">
-      <h1 class="country-name">🇻🇪 Venezuela</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="vietnam" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('vietnam')">
-      <h1 class="country-name">🇻🇳 Vietnam</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="yemen" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('yemen')">
-      <h1 class="country-name">🇾🇪 Yemen</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="zambia zambiya" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('zambia')">
-      <h1 class="country-name">🇿🇲 Zambia</h1>
-    </div>
-  </div>
-
-  <div class="country-container" data-search="zimbabwe zimbabve" style="cursor:pointer">
-    <div class="country-button" onclick="navigateToCountry('zimbabwe')">
-      <h1 class="country-name">🇿🇼 Zimbabwe</h1>
-    </div>
-  </div>
-
-</div> <!-- /#countriesContainer -->
-
-<!-- =======================  ÇOK DİLLİ & JS  ======================= -->
+<!-- ===== Çeviriler & JS ===== -->
 <script>
-// Çok dilli destek için çeviriler
+/* ---------- Çeviri Metinleri ---------- */
 const translations = {
-  'tr': {
-    'banner': 'Ücretsiz Erişim: Türkiye\'ye tıklayın ve muhteşem manzara noktalarını keşfedin! ⚡150 ülkenin konumlarına sınırsız erişmek için <a href="https://www.tr81.tr/login.html"> ➤ Giriş </a> yapın.',
-    'premium': 'Tüm ülkelerin gizli konumlarının kilidini açtınız',
-    'title': 'Bir ülke seç → Manzaralı konumları keşfet📍',
-    'search': 'Bir ülke ara...'
-  },
-  'en': {
-    'banner': 'Free Access: Click on Turkey and discover amazing scenic spots! ⚡For unlimited access to locations in all 150 countries <a href="https://www.tr81.tr/login.html"> ➤ Login</a>.',
-    'premium': 'You have unlocked hidden locations in all countries',
-    'title': 'Choose a country → Discover scenic locations📍',
-    'search': 'Search country...'
-  },
-  'de': {
-    'banner': 'Kostenloser Zugang: Klicken Sie auf die Türkei und entdecken Sie atemberaubende Aussichtspunkte! ⚡Für unbegrenzten Zugang zu allen 150 Ländern <a href="https://www.tr81.tr/login.html"> ➤ Anmelden</a>.',
-    'premium': 'Sie haben versteckte Orte in allen Ländern freigeschaltet',
-    'title': 'Wählen Sie ein Land → Entdecken Sie malerische Orte📍',
-    'search': 'Land suchen...'
-  },
-  'fr': {
-    'banner': 'Accès gratuit : Cliquez sur la Turquie et découvrez des sites pittoresques incroyables ! ⚡Pour un accès illimité aux 150 pays <a href="https://www.tr81.tr/login.html"> ➤ Connexion</a>.',
-    'premium': 'Vous avez débloqué les emplacements cachés dans tous les pays',
-    'title': 'Choisissez un pays → Découvrez des lieux pittoresques📍',
-    'search': 'Rechercher un pays...'
-  },
-  'es': {
-    'banner': 'Acceso gratuito: ¡Haz clic en Turquía y descubre lugares escénicos increíbles! ⚡Para acceso ilimitado a los 150 países <a href="https://www.tr81.tr/login.html"> ➤ Iniciar sesión</a>.',
-    'premium': 'Has desbloqueado las ubicaciones ocultas en todos los países',
-    'title': 'Elige un país → Descubre lugares pintorescos📍',
-    'search': 'Buscar país...'
-  },
-  'ar': {
-    'banner': 'وصول مجاني: انقر على تركيا واكتشف المناظر الطبيعية الخلابة المذهلة! ⚡للوصول غير المحدود إلى المواقع في جميع البلدان الـ 150 <a href="https://www.tr81.tr/login.html"> ➤ تسجيل الدخول</a>.',
-    'premium': 'لقد قمت بفتح المواقع المخفية في جميع البلدان',
-    'title': 'اختر بلدًا ← اكتشف المواقع ذات المناظر الخلابة📍',
-    'search': 'ابحث عن بلد...'
-  },
-  'ru': {
-    'banner': 'Бесплатный доступ: Нажмите на Турцию и откройте для себя удивительные живописные места! ⚡Для неограниченного доступа ко всем 150 странам <a href="https://www.tr81.tr/login.html"> ➤ Войдите</a>.',
-    'premium': 'Вы разблокировали скрытые локации во всех странах',
-    'title': 'Выберите страну → Откройте для себя живописные места📍',
-    'search': 'Поиск страны...'
-  },
-  'zh': {
-    'banner': '免费访问：点击土耳其，发现令人惊叹的风景名胜！⚡无限访问所有150个国家的景点 <a href="https://www.tr81.tr/login.html"> ➤ 登录</a>。',
-    'premium': '您已解锁所有国家的隐藏位置',
-    'title': '选择国家 → 发现风景优美的地点📍',
-    'search': '搜索国家...'
-  },
-  'ja': {
-    'banner': '無料アクセス：トルコをクリックして素晴らしい景勝地を発見しましょう！⚡150カ国すべての場所への無制限アクセスには <a href="https://www.tr81.tr/login.html"> ➤ ログイン</a>。',
-    'premium': 'すべての国の隠された場所のロックを解除しました',
-    'title': '国を選択 → 景勝地を発見📍',
-    'search': '国を検索...'
-  },
-  'ko': {
-    'banner': '무료 액세스: 터키를 클릭하여 놀라운 경치 좋은 장소를 발견하세요! ⚡150개 모든 국가의 위치에 무제한 액세스하려면 <a href="https://www.tr81.tr/login.html"> ➤ 로그인</a>.',
-    'premium': '모든 국가의 숨겨진 위치를 잠금 해제했습니다',
-    'title': '국가 선택 → 경치 좋은 장소 발견📍',
-    'search': '국가 검색...'
-  }
+  tr:{banner:'Ücretsiz Erişim: Türkiye\'ye tıklayın ve muhteşem manzara noktalarını keşfedin! ⚡150 ülkenin konumlarına sınırsız erişmek için <a href="https://www.tr81.tr/login.html">Giriş yap</a>.',premium:'Tüm ülkelerin gizli konumlarının kilidi açıldı!',title:'Bir ülke seç → Manzaralı konumları keşfet📍',search:'Bir ülke ara...'},
+  en:{banner:'Free Access: Click on Turkey and discover amazing scenic spots! ⚡For unlimited access to locations in all 150 countries <a href="https://www.tr81.tr/login.html">Login</a>.',premium:'You have unlocked hidden locations in all countries!',title:'Choose a country → Discover scenic locations📍',search:'Search country...'},
+  de:{banner:'Kostenlos: Klicken Sie auf die Türkei und entdecken Sie atemberaubende Aussichtspunkte! ⚡Für unbegrenzten Zugriff auf 150 Länder <a href="https://www.tr81.tr/login.html">Login</a>.',premium:'Versteckte Orte in allen Ländern freigeschaltet!',title:'Land wählen → Malerische Orte entdecken📍',search:'Land suchen...'},
+  fr:{banner:'Accès gratuit : Cliquez sur la Turquie et découvrez des sites incroyables ! ⚡Pour un accès illimité aux 150 pays <a href="https://www.tr81.tr/login.html">Connexion</a>.',premium:'Lieux cachés débloqués dans tous les pays !',title:'Choisissez un pays → Découvrez des lieux pittoresques📍',search:'Rechercher un pays...'},
+  es:{banner:'Acceso gratuito: haz clic en Turquía y descubre lugares increíbles ! ⚡Para acceso ilimitado a 150 países <a href="https://www.tr81.tr/login.html">Iniciar sesión</a>.',premium:'¡Has desbloqueado ubicaciones ocultas en todos los países!',title:'Elige un país → Descubre lugares pintorescos📍',search:'Buscar país...'},
+  ar:{banner:'وصول مجاني: اضغط على تركيا واكتشف مواقع طبيعية مذهلة! ⚡للوصول غير المحدود إلى 150 دولة <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a>.',premium:'تم فتح المواقع المخفية في جميع البلدان!',title:'اختر دولة → استكشف مواقع ذات مناظر خلابة📍',search:'ابحث عن دولة...'},
+  ru:{banner:'Бесплатно: нажмите Турцию и откройте живописные места! ⚡Для безлимитного доступа к 150 странам <a href="https://www.tr81.tr/login.html">Войти</a>.',premium:'Скрытые места во всех странах разблокированы!',title:'Выберите страну → Откройте живописные места📍',search:'Поиск страны...'},
+  zh:{banner:'免费访问：点击土耳其发现绝美景点！⚡无限访问150个国家的位置 <a href="https://www.tr81.tr/login.html">登录</a>。',premium:'已解锁所有国家的隐藏位置！',title:'选择国家 → 探索美景📍',search:'搜索国家...'},
+  ja:{banner:'無料アクセス: トルコをクリックして絶景を発見！⚡150カ国すべてを無制限で見るには <a href="https://www.tr81.tr/login.html">ログイン</a>。',premium:'すべての国の隠しスポットを解除しました！',title:'国を選択 → 景勝地を発見📍',search:'国を検索...'},
+  ko:{banner:'무료 이용: 터키를 클릭하여 멋진 경관을 발견하세요! ⚡150개국 무제한 이용은 <a href="https://www.tr81.tr/login.html">로그인</a>.',premium:'모든 국가의 숨은 장소가 열렸습니다!',title:'국가 선택 → 경치 좋은 장소 발견📍',search:'국가 검색...'}
 };
 
-// Tarayıcı dilini algıla ve uygun çeviriyi göster
-function setLanguageText() {
-  const browserLang = navigator.language || navigator.userLanguage;
-  const langCode = browserLang.split('-')[0].toLowerCase();
-  
-  const infoBannerText = document.getElementById('infoBannerText');
-  const mainTitle = document.getElementById('mainTitle');
-  const searchInput = document.getElementById('searchInput');
-  
-  // Eğer dil mevcutsa kullan, yoksa İngilizce kullan
-  const lang = translations[langCode] || translations['en'];
-  
-  infoBannerText.innerHTML = lang.banner;
-  mainTitle.textContent = lang.title;
-  searchInput.placeholder = lang.search;
+/* ---------- Ülke Dizisi (ISO‑2 & Ad) ---------- */
+const countries = [
+  ['tr','Türkiye','türkiye turkey turkiye tr'],
+  ['af','Afghanistan','afghanistan afganistan'],
+  ['al','Albania','albania arnavutluk shqiperi'],
+  ['dz','Algeria','algeria cezayir algerie'],
+  ['ad','Andorra','andorra'],
+  ['ao','Angola','angola'],
+  ['ar','Argentina','argentina arjantin'],
+  ['am','Armenia','armenia ermenistan hayastan'],
+  ['aw','Aruba','aruba'],
+  ['au','Australia','australia avustralya'],
+  ['at','Austria','austria avusturya österreich'],
+  ['az','Azerbaijan','azerbaijan azerbaycan'],
+  ['bs','Bahamas','bahamas bahamalar'],
+  ['bh','Bahrain','bahrain bahreyn'],
+  ['bd','Bangladesh','bangladesh bangladeş'],
+  ['by','Belarus','belarus beyaz rusya'],
+  ['be','Belgium','belgium belçika belgique'],
+  ['bj','Benin','benin'],
+  ['bo','Bolivia','bolivia bolivya'],
+  ['ba','Bosnia and Herzegovina','bosnia and herzegovina bosna hersek'],
+  ['br','Brazil','brazil brezilya brasil'],
+  ['bg','Bulgaria','bulgaria bulgaristan'],
+  ['bf','Burkina Faso','burkina faso'],
+  ['bi','Burundi','burundi'],
+  ['kh','Cambodia','cambodia kamboçya'],
+  ['cm','Cameroon','cameroon kamerun'],
+  ['ca','Canada','canada kanada'],
+  ['td','Chad','chad çad'],
+  ['cl','Chile','chile şili'],
+  ['cn','China','china çin zhongguo'],
+  ['co','Colombia','colombia kolombiya'],
+  ['cr','Costa Rica','costa rica kosta rika'],
+  ['hr','Croatia','croatia hırvatistan hrvatska'],
+  ['cu','Cuba','cuba küba'],
+  ['cy','Cyprus','cyprus kıbrıs kibris'],
+  ['cz','Czech Republic','czech republic çek cumhuriyeti czechia'],
+  ['dk','Denmark','denmark danimarka danmark'],
+  ['do','Dominican Republic','dominican republic dominik cumhuriyeti'],
+  ['cd','DR Congo','dr congo demokratik kongo'],
+  ['ec','Ecuador','ecuador ekvador'],
+  ['eg','Egypt','egypt mısır misr'],
+  ['sv','El Salvador','el salvador'],
+  ['ee','Estonia','estonia estonya'],
+  ['et','Ethiopia','ethiopia etiyopya'],
+  ['fi','Finland','finland finlandiya suomi'],
+  ['fr','France','france fransa'],
+  ['ge','Georgia','georgia gürcistan sakartvelo'],
+  ['de','Germany','germany almanya deutschland'],
+  ['gh','Ghana','ghana gana'],
+  ['gr','Greece','greece yunanistan hellas'],
+  ['gt','Guatemala','guatemala'],
+  ['gn','Guinea','guinea gine'],
+  ['ht','Haiti','haiti'],
+  ['hn','Honduras','honduras'],
+  ['hk','Hong Kong','hong kong'],
+  ['hu','Hungary','hungary macaristan magyarorszag'],
+  ['is','Iceland','iceland izlanda island'],
+  ['in','India','india hindistan bharat'],
+  ['id','Indonesia','indonesia endonezya'],
+  ['ir','Iran','iran'],
+  ['iq','Iraq','iraq irak'],
+  ['ie','Ireland','ireland irlanda eire'],
+  ['il','Israel','israel israil'],
+  ['it','Italy','italy italya italia'],
+  ['ci','Ivory Coast','ivory coast fildişi sahili'],
+  ['jm','Jamaica','jamaica jamaika'],
+  ['jp','Japan','japan japonya nippon'],
+  ['jo','Jordan','jordan ürdün urdun'],
+  ['kz','Kazakhstan','kazakhstan kazakistan'],
+  ['ke','Kenya','kenya'],
+  ['xk','Kosovo','kosovo kosova'],
+  ['kw','Kuwait','kuwait kuveyt'],
+  ['kg','Kyrgyzstan','kyrgyzstan kırgızistan kirgizistan'],
+  ['la','Laos','laos'],
+  ['lv','Latvia','latvia letonya'],
+  ['lb','Lebanon','lebanon lübnan lubnan'],
+  ['ls','Lesotho','lesotho lesoto'],
+  ['lt','Lithuania','lithuania litvanya lietuva'],
+  ['lu','Luxembourg','luxembourg lüksemburg luxemburg'],
+  ['mo','Macau','macau makao'],
+  ['mg','Madagascar','madagascar madagaskar'],
+  ['mw','Malawi','malawi'],
+  ['my','Malaysia','malaysia malezya'],
+  ['mv','Maldives','maldives maldivler'],
+  ['ml','Mali','mali'],
+  ['mt','Malta','malta'],
+  ['mu','Mauritius','mauritius mauritius adası'],
+  ['mx','Mexico','mexico meksika'],
+  ['md','Moldova','moldova'],
+  ['mn','Mongolia','mongolia moğolistan'],
+  ['me','Montenegro','montenegro karadağ'],
+  ['ma','Morocco','morocco fas maroc'],
+  ['mz','Mozambique','mozambique mozambik'],
+  ['mm','Myanmar','myanmar burma birmanya'],
+  ['np','Nepal','nepal'],
+  ['nl','Netherlands','netherlands hollanda nederland'],
+  ['nz','New Zealand','new zealand yeni zelanda'],
+  ['ni','Nicaragua','nicaragua nikaragua'],
+  ['ne','Niger','niger nijer'],
+  ['ng','Nigeria','nigeria nijerya'],
+  ['no','Norway','norway norveç norge'],
+  ['om','Oman','oman umman'],
+  ['pk','Pakistan','pakistan'],
+  ['pa','Panama','panama'],
+  ['pg','Papua New Guinea','papua new guinea papua yeni gine'],
+  ['py','Paraguay','paraguay'],
+  ['pe','Peru','peru'],
+  ['ph','Philippines','philippines filipinler pilipinas'],
+  ['pl','Poland','poland polonya polska'],
+  ['pt','Portugal','portugal portekiz'],
+  ['pr','Puerto Rico','puerto rico porto riko'],
+  ['qa','Qatar','qatar katar'],
+  ['ro','Romania','romania romanya'],
+  ['ru','Russia','russia rusya rossiya'],
+  ['rw','Rwanda','rwanda ruanda'],
+  ['sm','San Marino','san marino'],
+  ['sa','Saudi Arabia','saudi arabia suudi arabistan'],
+  ['sn','Senegal','senegal'],
+  ['rs','Serbia','serbia sırbistan srbija'],
+  ['sl','Sierra Leone','sierra leone'],
+  ['sg','Singapore','singapore singapur'],
+  ['sk','Slovakia','slovakia slovakya'],
+  ['si','Slovenia','slovenia slovenya'],
+  ['so','Somalia','somalia somali'],
+  ['za','South Africa','south africa güney afrika'],
+  ['kr','South Korea','south korea güney kore'],
+  ['ss','South Sudan','south sudan güney sudan'],
+  ['es','Spain','spain ispanya espana'],
+  ['lk','Sri Lanka','sri lanka'],
+  ['sd','Sudan','sudan'],
+  ['se','Sweden','sweden isveç sverige'],
+  ['ch','Switzerland','switzerland isviçre schweiz suisse'],
+  ['tw','Taiwan','taiwan tayvan'],
+  ['tj','Tajikistan','tajikistan tacikistan'],
+  ['tz','Tanzania','tanzania tanzanya'],
+  ['th','Thailand','thailand tayland'],
+  ['tg','Togo','togo'],
+  ['tn','Tunisia','tunisia tunus'],
+  ['ug','Uganda','uganda'],
+  ['ua','Ukraine','ukraine ukrayna'],
+  ['ae','United Arab Emirates','united arab emirates bae uae'],
+  ['gb','United Kingdom','united kingdom ingiltere uk'],
+  ['us','United States','united states amerika usa'],
+  ['uy','Uruguay','uruguay'],
+  ['uz','Uzbekistan','uzbekistan özbekistan'],
+  ['ve','Venezuela','venezuela'],
+  ['vn','Vietnam','vietnam'],
+  ['ye','Yemen','yemen'],
+  ['zm','Zambia','zambia zambiya'],
+  ['zw','Zimbabwe','zimbabwe zimbabve']
+];
+
+/* ---------- Yardımcı Fonksiyonlar ---------- */
+function isoToFlag(iso){
+  // ISO‑2 kodunu emoji'ye çevir
+  return String.fromCodePoint(...[...iso.toUpperCase()]
+    .map(c=>0x1F1E6 + c.charCodeAt(0) - 65));
+}
+function normalize(txt){
+  const map={'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u'};
+  return txt.toLowerCase().replace(/[çğıöşü]/g,ch=>map[ch]);
 }
 
-// Gerçek localStorage kontrolü
-let accessGranted = false;
-try {
-    accessGranted = localStorage.getItem("duflat-access") === "granted";
-} catch(e) {
-    accessGranted = false;
-}
+/* ---------- Sayfa Kurulumu ---------- */
+const grid       = document.getElementById('countriesGrid');
+const bannerEl   = document.getElementById('infoBanner');
+const titleEl    = document.getElementById('mainTitle');
+const searchEl   = document.getElementById('searchInput');
+const accessGranted = localStorage.getItem('duflat-access')==='granted';
 
-// Sayfa yüklendiğinde erişim kontrolünü yap
-window.addEventListener('DOMContentLoaded', function() {
-    setLanguageText();
-    checkAccess();
+/* --- Dil seçimi --- */
+const browserLang = (navigator.language||'en').split('-')[0].toLowerCase();
+const langObj = translations[browserLang] || translations.en;
+bannerEl.innerHTML = accessGranted ? langObj.premium : langObj.banner;
+titleEl.textContent = langObj.title;
+searchEl.placeholder = langObj.search;
+
+/* --- Ülke kartlarını oluştur --- */
+countries.forEach(([iso,name,search])=>{
+  const card = document.createElement('div');
+  card.className='country-card'+(iso==='tr'?' turkey':'');
+  card.dataset.search = search;
+  card.onclick = ()=>navigate(name.toLowerCase());
+  card.innerHTML = `<span class="flag">${isoToFlag(iso)}</span>
+                    <span class="name">${name}</span>`;
+  grid.appendChild(card);
 });
 
-function checkAccess() {
-    const infoBanner = document.getElementById('infoBanner');
-    const browserLang = navigator.language || navigator.userLanguage;
-    const langCode = browserLang.split('-')[0].toLowerCase();
-    const lang = translations[langCode] || translations['en'];
-    
-    if (accessGranted) {
-        // Erişim varsa premium mesajını göster
-        infoBanner.innerHTML = lang.premium;
-        infoBanner.className = 'info-banner premium';
-    } else {
-        // Erişim yoksa çok dilli mesajı göster
-        setLanguageText();
-        infoBanner.className = 'info-banner';
-    }
-}
-
-function navigateToCountry(countryName) {
-    // Türkiye her zaman erişilebilir
-    if (countryName === 'türkiye') {
-        window.location.href = 'türkiye.html';
-        return;
-    }
-    
-    if (accessGranted) {
-        // Erişim varsa normal sayfaya git
-        window.location.href = countryName + '.html';
-    } else {
-        // Erişim yoksa login sayfasına yönlendir
-        window.location.href = 'login.html';
-    }
-}
-
-// Arama işlevi - Türkçe karakterleri normalleştir
-function normalizeText(text) {
-    const charMap = {
-        'ç': 'c', 'Ç': 'c',
-        'ğ': 'g', 'Ğ': 'g',
-        'ı': 'i', 'I': 'i',
-        'i': 'i', 'İ': 'i',
-        'ö': 'o', 'Ö': 'o',
-        'ş': 's', 'Ş': 's',
-        'ü': 'u', 'Ü': 'u'
-    };
-    
-    return text.toLowerCase().replace(/[çÇğĞıIiİöÖşŞüÜ]/g, char => charMap[char] || char);
-}
-
-document.getElementById('searchInput').addEventListener('input', function () {
-    const searchValue = normalizeText(this.value);
-    
-    // Arama değeri varsa info banner'ı gizle, yoksa göster
-    const infoBanner = document.getElementById('infoBanner');
-    if (searchValue.length > 0) {
-        infoBanner.style.display = 'none';
-    } else {
-        infoBanner.style.display = '';
-    }
-    
-    document.querySelectorAll('.country-container').forEach(section => {
-        const searchText = normalizeText(section.getAttribute('data-search') || '');
-        const isVisible = searchText.includes(searchValue);
-        section.style.display = isVisible ? '' : 'none';
-    });
+/* --- Arama --- */
+searchEl.addEventListener('input',e=>{
+  const value = normalize(e.target.value);
+  bannerEl.style.display = value ? 'none':'';
+  document.querySelectorAll('.country-card').forEach(card=>{
+    card.style.display = normalize(card.dataset.search).includes(value)?'':'none';
+  });
 });
 
-// Test için - konsola mesaj yaz
-console.log('Access granted:', accessGranted);
-console.log('Browser language:', navigator.language || navigator.userLanguage);
+/* --- Gezinme --- */
+function navigate(country){
+  if(country==='türkiye'){location.href='türkiye.html';return;}
+  if(accessGranted){location.href=`${country}.html`;}
+  else{location.href='login.html';}
+}
+
+/* --- Twemoji (keskin bayrak için) --- */
+(function(){
+  const s=document.createElement('script');
+  s.src='https://twemoji.maxcdn.com/v/latest/twemoji.min.js';
+  s.onload=()=>twemoji.parse(document.body,{folder:'svg',ext:'.svg'});
+  document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>
