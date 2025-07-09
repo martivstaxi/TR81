@@ -1,0 +1,1079 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Argentina</title>
+  <style>
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #334155;
+      line-height: 1.6;
+      padding: 12px;
+      overflow-y: auto;
+      padding-bottom: 100px;
+      min-height: 100vh;
+    }
+    .logo {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      font-size: 26px;
+      text-decoration: none;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    h1 { 
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 70px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .camera-emoji {
+      color: #000;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 8px;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #1e293b;
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: #3b82f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: #1e293b;
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: #f97316;
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: #1e293b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
+      color: #92400e;
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid #fbbf24;
+      max-width: 1000px;
+      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    .next-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(18px, 3.5vw, 24px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 20px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .next-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(16, 185, 129, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+    }
+
+    /* Mobile Promotion Styles */
+    @media (max-width: 768px) {
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .next-btn { padding: 12px 20px; margin: 16px 0; border-radius: 14px; width: 100%; max-width: 100%; box-sizing: border-box; }
+    }
+
+    @media (max-width: 480px) {
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+      .next-btn { padding: 10px 16px; margin: 12px 0; border-radius: 12px; width: 100%; }
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #1e293b;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .file-label:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .file-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box ul {
+      margin: 5px 0 0 20px;
+      padding: 0;
+    }
+    
+    .info-box li {
+      margin: 3px 0;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn, .next-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Argentina</span></h1>
+  
+  <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Agrio+Waterfall/@-37.8097556,-70.9245429,17z/data=!3m1!4b1!4m6!3m5!1s0x966d0943e487ef67:0xc2b06fed23dae5a4!8m2!3d-37.8097556!4d-70.9245429!16s%2Fg%2F11c708pnx2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Salto del Agrio 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alto_del_agrio_1/public" data-location="Salto del Agrio"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alto_del_agrio_1/public" alt="Salto del Agrio"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alto_del_agrio_2/public" data-location="Salto del Agrio"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alto_del_agrio_2/public" alt="Salto del Agrio"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alto_del_agrio_3/public" data-location="Salto del Agrio"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alto_del_agrio_3/public" alt="Salto del Agrio"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cuesta+de+Lip%C3%A1n/@-23.6855556,-65.621111,15z/data=!3m1!4b1!4m6!3m5!1s0x941b4dab7fb49a09:0x238de81dcc95a71f!8m2!3d-23.685556!4d-65.621111!16s%2Fg%2F121g79nb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cuesta de Lipán 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_de_lipan_1/public" data-location="Cuesta de Lipán"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_de_lipan_1/public" alt="Cuesta de Lipán"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_de_lipan_2/public" data-location="Cuesta de Lipán"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_de_lipan_2/public" alt="Cuesta de Lipán"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_de_lipan_3/public" data-location="Cuesta de Lipán"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_de_lipan_3/public" alt="Cuesta de Lipán"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cuesta+del+Obispo/@-25.154444,-65.8658333,15z/data=!3m1!4b1!4m6!3m5!1s0x941eab2f08c639d9:0x4ab16df34659b4fb!8m2!3d-25.1544444!4d-65.8658333!16s%2Fg%2F1hf_cj__t?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cuesta del Obispo Road 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_del_obipo_road_1/public" data-location="Cuesta del Obispo Road"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_del_obipo_road_1/public" alt="Cuesta del Obispo Road"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_del_obipo_road_2/public" data-location="Cuesta del Obispo Road"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_del_obipo_road_2/public" alt="Cuesta del Obispo Road"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_del_obipo_road_3/public" data-location="Cuesta del Obispo Road"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cueta_del_obipo_road_3/public" alt="Cuesta del Obispo Road"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Iguazu+Falls/@-25.695259,-54.4366662,17z/data=!3m1!4b1!4m6!3m5!1s0x94f6ea0ca3aa1b6d:0x917b75179c5e987e!8m2!3d-25.695259!4d-54.4366662!16zL20vMGN5Nms?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Iguazú Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iguazu_fall_1/public" data-location="Iguazú Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iguazu_fall_1/public" alt="Iguazú Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iguazu_fall_2/public" data-location="Iguazú Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iguazu_fall_2/public" alt="Iguazú Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iguazu_fall_3/public" data-location="Iguazú Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iguazu_fall_3/public" alt="Iguazú Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Paleta+del+Pintor/@-23.6304415,-65.4018839,17z/data=!3m1!4b1!4m6!3m5!1s0x941b34e9bd297ba7:0x33a16c3ce3c4856b!8m2!3d-23.6304415!4d-65.4018839!16s%2Fg%2F1tsyqwbl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Paleta del Pintor 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paleta_del_pintor_1/public" data-location="Paleta del Pintor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paleta_del_pintor_1/public" alt="Paleta del Pintor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paleta_del_pintor_2/public" data-location="Paleta del Pintor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paleta_del_pintor_2/public" alt="Paleta del Pintor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paleta_del_pintor_3/public" data-location="Paleta del Pintor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/paleta_del_pintor_3/public" alt="Paleta del Pintor"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Perito+Moreno+Glacier/@-50.5026393,-73.1296952,12z/data=!3m1!4b1!4m6!3m5!1s0xbda4c963217850c3:0xa481a2efaf7479be!8m2!3d-50.4967297!4d-73.1376612!16zL20vMDN5cDc4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Perito Moreno Glacier 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/perito_moreno_glacier_1/public" data-location="Perito Moreno Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/perito_moreno_glacier_1/public" alt="Perito Moreno Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/perito_moreno_glacier_2/public" data-location="Perito Moreno Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/perito_moreno_glacier_2/public" alt="Perito Moreno Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/perito_moreno_glacier_3/public" data-location="Perito Moreno Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/perito_moreno_glacier_3/public" alt="Perito Moreno Glacier"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Serran%C3%ADa+de+Hornocal/@-23.2599996,-65.1233333,15z/data=!3m1!4b1!4m6!3m5!1s0x9404df144da3dd73:0x46b25aac4e8bd4cf!8m2!3d-23.26!4d-65.1233333!16s%2Fg%2F12qbggxgh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Serranía de Hornocal 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/errania_de_hornocal_1/public" data-location="Serranía de Hornocal"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/errania_de_hornocal_1/public" alt="Serranía de Hornocal"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/errania_de_hornocal_2/public" data-location="Serranía de Hornocal"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/errania_de_hornocal_2/public" alt="Serranía de Hornocal"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/errania_de_hornocal_3/public" data-location="Serranía de Hornocal"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/errania_de_hornocal_3/public" alt="Serranía de Hornocal"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/%C3%81rea+natural+protegida+Campo+de+Piedra+P%C3%B3mez/@-26.6227508,-67.4972165,17z/data=!3m1!4b1!4m6!3m5!1s0x96a00f5e4e4c8a27:0xa5f6b3bd0e5a5de2!8m2!3d-26.6227508!4d-67.4972165!16s%2Fg%2F11c3zzn14p?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Campo de Piedra Pómez 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/campo_de_piedra_pomez_1/public" data-location="Campo de Piedra Pómez"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/campo_de_piedra_pomez_1/public" alt="Campo de Piedra Pómez"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/campo_de_piedra_pomez_2/public" data-location="Campo de Piedra Pómez"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/campo_de_piedra_pomez_2/public" alt="Campo de Piedra Pómez"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/campo_de_piedra_pomez_3/public" data-location="Campo de Piedra Pómez"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/campo_de_piedra_pomez_3/public" alt="Campo de Piedra Pómez"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ca%C3%B1%C3%B3n+del+Atuel/@-34.8462697,-68.5111626,17z/data=!3m1!4b1!4m6!3m5!1s0x9679bd683f8f7881:0xdfa13148a0b79300!8m2!3d-34.8462697!4d-68.5111626!16s%2Fg%2F122czjtt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cañón del Atuel 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/canon_del_atuel_1/public" data-location="Cañón del Atuel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/canon_del_atuel_1/public" alt="Cañón del Atuel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/canon_del_atuel_2/public" data-location="Cañón del Atuel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/canon_del_atuel_2/public" alt="Cañón del Atuel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/canon_del_atuel_3/public" data-location="Cañón del Atuel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/canon_del_atuel_3/public" alt="Cañón del Atuel"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cerro+de+los+Siete+Colores/@-23.7438886,-65.501111,15z/data=!3m1!4b1!4m6!3m5!1s0x941b49b5ddda2929:0x18e7e092bf9c400d!8m2!3d-23.743889!4d-65.501111!16s%2Fm%2F0t54bhw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cerro de los Siete Colores 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_de_lo_iete_colore_1/public" data-location="Cerro de los Siete Colores"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_de_lo_iete_colore_1/public" alt="Cerro de los Siete Colores"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_de_lo_iete_colore_2/public" data-location="Cerro de los Siete Colores"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_de_lo_iete_colore_2/public" alt="Cerro de los Siete Colores"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_de_lo_iete_colore_3/public" data-location="Cerro de los Siete Colores"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_de_lo_iete_colore_3/public" alt="Cerro de los Siete Colores"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fitz+Roy/@-49.2712455,-73.043226,15z/data=!3m1!4b1!4m6!3m5!1s0xbdbd1a8b7e17beed:0xe1862b88429e5d!8m2!3d-49.271246!4d-73.043226!16zL20vMDZ0NGRt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Fitz Roy 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_fitz_roy_1/public" data-location="Mount Fitz Roy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_fitz_roy_1/public" alt="Mount Fitz Roy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_fitz_roy_2/public" data-location="Mount Fitz Roy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_fitz_roy_2/public" alt="Mount Fitz Roy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_fitz_roy_3/public" data-location="Mount Fitz Roy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mount_fitz_roy_3/public" alt="Mount Fitz Roy"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Faro+Les+%C3%89claireurs/@-54.8715171,-68.0832788,17z/data=!3m1!4b1!4m6!3m5!1s0xbc4c1f001471876f:0x327a70671e1e2891!8m2!3d-54.8715171!4d-68.0832788!16s%2Fm%2F02vwfhr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Les Éclaireurs Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/le_eclaireur_lighthoue_1/public" data-location="Les Éclaireurs Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/le_eclaireur_lighthoue_1/public" alt="Les Éclaireurs Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/le_eclaireur_lighthoue_2/public" data-location="Les Éclaireurs Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/le_eclaireur_lighthoue_2/public" alt="Les Éclaireurs Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/le_eclaireur_lighthoue_3/public" data-location="Les Éclaireurs Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/le_eclaireur_lighthoue_3/public" alt="Les Éclaireurs Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Great+Salt+Flat/@-23.6085346,-65.8645729,17z/data=!3m1!4b1!4m6!3m5!1s0x9403558cccbe9041:0x9164c69c7a51236b!8m2!3d-23.6085346!4d-65.8645729!16s%2Fg%2F11fyx9g4h2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Salinas Grandes Salt Flats 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alina_grande_alt_flat_1/public" data-location="Salinas Grandes Salt Flats"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alina_grande_alt_flat_1/public" alt="Salinas Grandes Salt Flats"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alina_grande_alt_flat_2/public" data-location="Salinas Grandes Salt Flats"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alina_grande_alt_flat_2/public" alt="Salinas Grandes Salt Flats"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alina_grande_alt_flat_3/public" data-location="Salinas Grandes Salt Flats"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alina_grande_alt_flat_3/public" alt="Salinas Grandes Salt Flats"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Champaqu%C3%AD/@-31.9833325,-64.933333,15z/data=!3m1!4b1!4m6!3m5!1s0x95d2d23c48bb2403:0x87a69565a70ae703!8m2!3d-31.983333!4d-64.933333!16s%2Fm%2F09g7xmy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cerro Champaquí 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_champaqui_1/public" data-location="Cerro Champaquí"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_champaqui_1/public" alt="Cerro Champaquí"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_champaqui_2/public" data-location="Cerro Champaquí"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_champaqui_2/public" alt="Cerro Champaquí"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_champaqui_3/public" data-location="Cerro Champaquí"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/cerro_champaqui_3/public" alt="Cerro Champaquí"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Parque+Nacional+Lan%C3%ADn/@-40.1670685,-71.3575103,17z/data=!3m1!4b1!4m6!3m5!1s0x96110e692bc91d23:0x4aab7db06ce40b3c!8m2!3d-40.1670685!4d-71.3575103!16zL20vMGJ3OWw5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lanín National Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lanin_national_park_1/public" data-location="Lanín National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lanin_national_park_1/public" alt="Lanín National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lanin_national_park_2/public" data-location="Lanín National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lanin_national_park_2/public" alt="Lanín National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lanin_national_park_3/public" data-location="Lanín National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lanin_national_park_3/public" alt="Lanín National Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Quebrada+de+las+Flechas/@-25.7014019,-66.1415577,17z/data=!3m1!4b1!4m6!3m5!1s0x941edca09ffbc519:0xf8be45f8064a33ca!8m2!3d-25.7014019!4d-66.1415577!16s%2Fg%2F11cfvb36_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Quebrada de las Flechas 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quebrada_de_la_flecha_1/public" data-location="Quebrada de las Flechas"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quebrada_de_la_flecha_1/public" alt="Quebrada de las Flechas"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quebrada_de_la_flecha_2/public" data-location="Quebrada de las Flechas"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quebrada_de_la_flecha_2/public" alt="Quebrada de las Flechas"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quebrada_de_la_flecha_3/public" data-location="Quebrada de las Flechas"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quebrada_de_la_flecha_3/public" alt="Quebrada de las Flechas"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Quilmes+Ruins/@-26.4653806,-66.0367846,17z/data=!3m1!4b1!4m6!3m5!1s0x941f5752db679b3f:0x395698eea4a21a3a!8m2!3d-26.4653806!4d-66.0367846!16s%2Fm%2F0h547sd?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Quilmes Ruins 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quilme_ruin_1/public" data-location="Quilmes Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quilme_ruin_1/public" alt="Quilmes Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quilme_ruin_2/public" data-location="Quilmes Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quilme_ruin_2/public" alt="Quilmes Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quilme_ruin_3/public" data-location="Quilmes Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/quilme_ruin_3/public" alt="Quilmes Ruins"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="promotion-section">
+    <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+    
+    <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+    
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+  </script>
+</body>
+</html>
