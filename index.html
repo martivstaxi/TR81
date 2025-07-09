@@ -1047,8 +1047,170 @@
 
 <!-- =======================  ÇOK DİLLİ & JS  ======================= -->
 <script>
-  // Çeviri nesnesi, localStorage, erişim kontrolü ve arama fonksiyonları
-  /* ... (orijinal JS kodunun tamamı burada değişmeden bırakıldı) ... */
+// Çok dilli destek için çeviriler
+const translations = {
+  'tr': {
+    'banner': 'Ücretsiz Erişim: Türkiye\'ye tıklayın ve muhteşem manzara noktalarını keşfedin! ⚡150 ülkenin konumlarına sınırsız erişmek için <a href="https://www.tr81.tr/login.html"> ➤ Giriş </a> yapın.',
+    'premium': 'Tüm ülkelerin gizli konumlarının kilidini açtınız',
+    'title': 'Bir ülke seç → Manzaralı konumları keşfet📍',
+    'search': 'Bir ülke ara...'
+  },
+  'en': {
+    'banner': 'Free Access: Click on Turkey and discover amazing scenic spots! ⚡For unlimited access to locations in all 150 countries <a href="https://www.tr81.tr/login.html"> ➤ Login</a>.',
+    'premium': 'You have unlocked hidden locations in all countries',
+    'title': 'Choose a country → Discover scenic locations📍',
+    'search': 'Search country...'
+  },
+  'de': {
+    'banner': 'Kostenloser Zugang: Klicken Sie auf die Türkei und entdecken Sie atemberaubende Aussichtspunkte! ⚡Für unbegrenzten Zugang zu allen 150 Ländern <a href="https://www.tr81.tr/login.html"> ➤ Anmelden</a>.',
+    'premium': 'Sie haben versteckte Orte in allen Ländern freigeschaltet',
+    'title': 'Wählen Sie ein Land → Entdecken Sie malerische Orte📍',
+    'search': 'Land suchen...'
+  },
+  'fr': {
+    'banner': 'Accès gratuit : Cliquez sur la Turquie et découvrez des sites pittoresques incroyables ! ⚡Pour un accès illimité aux 150 pays <a href="https://www.tr81.tr/login.html"> ➤ Connexion</a>.',
+    'premium': 'Vous avez débloqué les emplacements cachés dans tous les pays',
+    'title': 'Choisissez un pays → Découvrez des lieux pittoresques📍',
+    'search': 'Rechercher un pays...'
+  },
+  'es': {
+    'banner': 'Acceso gratuito: ¡Haz clic en Turquía y descubre lugares escénicos increíbles! ⚡Para acceso ilimitado a los 150 países <a href="https://www.tr81.tr/login.html"> ➤ Iniciar sesión</a>.',
+    'premium': 'Has desbloqueado las ubicaciones ocultas en todos los países',
+    'title': 'Elige un país → Descubre lugares pintorescos📍',
+    'search': 'Buscar país...'
+  },
+  'ar': {
+    'banner': 'وصول مجاني: انقر على تركيا واكتشف المناظر الطبيعية الخلابة المذهلة! ⚡للوصول غير المحدود إلى المواقع في جميع البلدان الـ 150 <a href="https://www.tr81.tr/login.html"> ➤ تسجيل الدخول</a>.',
+    'premium': 'لقد قمت بفتح المواقع المخفية في جميع البلدان',
+    'title': 'اختر بلدًا ← اكتشف المواقع ذات المناظر الخلابة📍',
+    'search': 'ابحث عن بلد...'
+  },
+  'ru': {
+    'banner': 'Бесплатный доступ: Нажмите на Турцию и откройте для себя удивительные живописные места! ⚡Для неограниченного доступа ко всем 150 странам <a href="https://www.tr81.tr/login.html"> ➤ Войдите</a>.',
+    'premium': 'Вы разблокировали скрытые локации во всех странах',
+    'title': 'Выберите страну → Откройте для себя живописные места📍',
+    'search': 'Поиск страны...'
+  },
+  'zh': {
+    'banner': '免费访问：点击土耳其，发现令人惊叹的风景名胜！⚡无限访问所有150个国家的景点 <a href="https://www.tr81.tr/login.html"> ➤ 登录</a>。',
+    'premium': '您已解锁所有国家的隐藏位置',
+    'title': '选择国家 → 发现风景优美的地点📍',
+    'search': '搜索国家...'
+  },
+  'ja': {
+    'banner': '無料アクセス：トルコをクリックして素晴らしい景勝地を発見しましょう！⚡150カ国すべての場所への無制限アクセスには <a href="https://www.tr81.tr/login.html"> ➤ ログイン</a>。',
+    'premium': 'すべての国の隠された場所のロックを解除しました',
+    'title': '国を選択 → 景勝地を発見📍',
+    'search': '国を検索...'
+  },
+  'ko': {
+    'banner': '무료 액세스: 터키를 클릭하여 놀라운 경치 좋은 장소를 발견하세요! ⚡150개 모든 국가의 위치에 무제한 액세스하려면 <a href="https://www.tr81.tr/login.html"> ➤ 로그인</a>.',
+    'premium': '모든 국가의 숨겨진 위치를 잠금 해제했습니다',
+    'title': '국가 선택 → 경치 좋은 장소 발견📍',
+    'search': '국가 검색...'
+  }
+};
+
+// Tarayıcı dilini algıla ve uygun çeviriyi göster
+function setLanguageText() {
+  const browserLang = navigator.language || navigator.userLanguage;
+  const langCode = browserLang.split('-')[0].toLowerCase();
+  
+  const infoBannerText = document.getElementById('infoBannerText');
+  const mainTitle = document.getElementById('mainTitle');
+  const searchInput = document.getElementById('searchInput');
+  
+  // Eğer dil mevcutsa kullan, yoksa İngilizce kullan
+  const lang = translations[langCode] || translations['en'];
+  
+  infoBannerText.innerHTML = lang.banner;
+  mainTitle.textContent = lang.title;
+  searchInput.placeholder = lang.search;
+}
+
+// Gerçek localStorage kontrolü
+let accessGranted = false;
+try {
+    accessGranted = localStorage.getItem("duflat-access") === "granted";
+} catch(e) {
+    accessGranted = false;
+}
+
+// Sayfa yüklendiğinde erişim kontrolünü yap
+window.addEventListener('DOMContentLoaded', function() {
+    setLanguageText();
+    checkAccess();
+});
+
+function checkAccess() {
+    const infoBanner = document.getElementById('infoBanner');
+    const browserLang = navigator.language || navigator.userLanguage;
+    const langCode = browserLang.split('-')[0].toLowerCase();
+    const lang = translations[langCode] || translations['en'];
+    
+    if (accessGranted) {
+        // Erişim varsa premium mesajını göster
+        infoBanner.innerHTML = lang.premium;
+        infoBanner.className = 'info-banner premium';
+    } else {
+        // Erişim yoksa çok dilli mesajı göster
+        setLanguageText();
+        infoBanner.className = 'info-banner';
+    }
+}
+
+function navigateToCountry(countryName) {
+    // Türkiye her zaman erişilebilir
+    if (countryName === 'türkiye') {
+        window.location.href = 'türkiye.html';
+        return;
+    }
+    
+    if (accessGranted) {
+        // Erişim varsa normal sayfaya git
+        window.location.href = countryName + '.html';
+    } else {
+        // Erişim yoksa login sayfasına yönlendir
+        window.location.href = 'login.html';
+    }
+}
+
+// Arama işlevi - Türkçe karakterleri normalleştir
+function normalizeText(text) {
+    const charMap = {
+        'ç': 'c', 'Ç': 'c',
+        'ğ': 'g', 'Ğ': 'g',
+        'ı': 'i', 'I': 'i',
+        'i': 'i', 'İ': 'i',
+        'ö': 'o', 'Ö': 'o',
+        'ş': 's', 'Ş': 's',
+        'ü': 'u', 'Ü': 'u'
+    };
+    
+    return text.toLowerCase().replace(/[çÇğĞıIiİöÖşŞüÜ]/g, char => charMap[char] || char);
+}
+
+document.getElementById('searchInput').addEventListener('input', function () {
+    const searchValue = normalizeText(this.value);
+    
+    // Arama değeri varsa info banner'ı gizle, yoksa göster
+    const infoBanner = document.getElementById('infoBanner');
+    if (searchValue.length > 0) {
+        infoBanner.style.display = 'none';
+    } else {
+        infoBanner.style.display = '';
+    }
+    
+    document.querySelectorAll('.country-container').forEach(section => {
+        const searchText = normalizeText(section.getAttribute('data-search') || '');
+        const isVisible = searchText.includes(searchValue);
+        section.style.display = isVisible ? '' : 'none';
+    });
+});
+
+// Test için - konsola mesaj yaz
+console.log('Access granted:', accessGranted);
+console.log('Browser language:', navigator.language || navigator.userLanguage);
 </script>
 </body>
 </html>
