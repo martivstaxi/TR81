@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Türkiye'nin 81 ilindeki en güzel manzaralı noktaları📍Konumlarıyla birlikte web sitemizde</title>
+<style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 20px;
+        overflow-y: auto;
+        background-color: #f5f5f5;
+      }
+ 
+      .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 28px;
+        text-decoration: none;
+        color: black;
+      }
+ 
+      h1 { 
+        font-size: 26px; 
+        margin-bottom: 20px;
+      }
+      
+      input[type="text"] {
+        padding: 10px;
+        width: 80%;
+        max-width: 400px;
+        margin: 20px 0 30px 0;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+      
+      #citiesContainer {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      .city-button {
+        display: block;
+        width: 80%;
+        max-width: 600px;
+        margin: 15px auto;
+        padding: 20px 25px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .city-button:hover {
+        background-color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+      }
+      
+      .city-name {
+        margin: 0;
+        font-size: 22px;
+        color: #0077cc;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+      
+      .city-name::before {
+        content: "➤  📸";
+        margin-right: 12px;
+        color: #666;
+      }
+      
+      .back-link {
+        margin-top: 30px;
+        display: inline-block;
+        color: #0077cc;
+        text-decoration: none;
+      }
+      
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      
+      .hidden {
+        display: none;
+      }
+    </style>
+<style>
+    :root {
+      --primary: #3b82f6;       /* Ana mavi */
+      --primary-dark: #2563eb;  /* Koyu mavi */
+      --accent: #f97316;        /* Turuncu aksan */
+      --background: #f8fafc;    /* Açık arka plan */
+      --card-bg: #ffffff;       /* Kart arka planı */
+      --text: #334155;          /* Ana metin */
+      --text-light: #64748b;    /* Açık metin */
+      --border: #e2e8f0;        /* Kenarlık */
+      --divider: #cbd5e1;       /* Ayırıcı */
+      --shadow: rgba(0, 0, 0, 0.05); /* Hafif gölge */
+      --demo-bg: #fef3c7;       /* Demo banner arka planı */
+      --demo-border: #f59e0b;   /* Demo banner kenarlık */
+      --premium-bg: #dcfce7;    /* Premium banner arka planı */
+      --premium-border: #16a34a; /* Premium banner kenarlık */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 10px;
+    }
+    
+    .city-container {
+      max-width: 1000px;
+      margin: 0 auto 40px auto;
+      border-bottom: 1px solid var(--divider);
+      padding-bottom: 30px;
+    }
+    
+    .city-container:last-child {
+      border-bottom: none;
+    }
+    
+    .city-header {
+      font-size: 24px;
+      color: var(--primary-dark);
+      padding: 18px 24px;
+      margin: 30px auto 20px auto;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: #f0f7ff;
+      border: 2px solid #dbeafe;
+      border-radius: 12px;
+      max-width: 600px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    }
+    
+    .city-header:hover {
+      background-color: #e0f2fe;
+      border-color: #7dd3fc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+    
+    .city-header::before {
+      content: "➤";
+      color: var(--primary);
+      font-size: 20px;
+    }
+    
+    .location-item {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .location-title {
+      padding: 15px;
+      font-size: 18px;
+      color: var(--text);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    
+    .location-link:hover {
+      color: var(--primary-dark);
+    }
+    
+    .location-icon {
+      color: var(--accent);
+      display: inline-flex;
+      font-size: 16px;
+    }
+    
+    .photos-container {
+      display: flex;
+      overflow-x: auto;
+      padding: 15px;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    
+    .photos-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 200px;
+      height: 180px;
+      border-radius: 8px;
+      overflow: hidden;
+      scroll-snap-align: start;
+      box-shadow: 0 2px 4px var(--shadow);
+      transition: transform 0.2s;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.02);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .info-banner {
+      background-color: var(--demo-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+      margin: 30px auto 30px auto;
+      max-width: 1000px;
+      text-align: center;
+      font-size: 24px;
+      line-height: 1.6;
+      border: 2px solid var(--demo-border);
+      font-weight: 500;
+      color: #92400e;
+    }
+    
+    .info-banner + .city-container {
+      border-top: 1px solid var(--divider);
+      padding-top: 30px;
+    }
+
+    .info-banner.premium {
+      background-color: var(--premium-bg);
+      border-color: var(--premium-border);
+      color: #15803d;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+    }
+    
+    .info-banner::before {
+      content: "🎁";
+      font-size: 20px;
+      vertical-align: middle;
+      margin-right: 2px;
+    }
+
+    .info-banner.premium::before {
+      content: "✅ ";
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    
+    .info-banner a {
+      color: #d97706;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 2px 6px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .info-banner a:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+      text-decoration: underline;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin: 20px 0;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+      text-align: center;
+    }
+    
+    .back-link:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+    
+    @media (max-width: 640px) {
+      .photos-container {
+        padding: 10px;
+        gap: 8px;
+      }
+      
+      .photo-card {
+        width: 160px;
+        height: 150px;
+      }
+      
+      .city-header {
+        font-size: 20px;
+        padding: 14px 20px;
+      }
+      
+      .location-title {
+        padding: 12px;
+        font-size: 16px;
+      }
+      
+      .info-banner {
+        font-size: 20px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- 🌐 Logo bağlantısı -->
+<a class="logo" href="https://tr81.tr/login.html">🌐</a>
+<br/>
+<br/>
+<h1 id="mainTitle">Bir il seç → Manzaralı konumları keşfet📍</h1>
+<input id="searchInput" placeholder="Bir il ara... / Search city..." type="text"/>
+
+<div id="citiesContainer">
+<!-- Muğla with photos -->
+<div class="city-container" data-search="mugla muğla" style="cursor:pointer">
+<h1 class="city-header" onclick="navigateToCity('mugla')" style="cursor:pointer">Muğla</h1>
+<div class="location-item">
+<h2 class="location-title">
+<a class="location-link" href="https://www.google.com/maps/place/%C4%B0ztuzu+Beach/@36.7894501,28.5985164,14z/data=!4m6!3m5!1s0x14bf88fd7100ad91:0x45deb1496fa5c833!8m2!3d36.7930266!4d28.619116!16s%2Fg%2F11g_xsz8_w?entry=ttu&g_ep=EgoyMDI1MDUxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank">➤
+          İztuzu Plajı 📍</a>
+</h2>
+<div class="photos-container">
+<div class="photo-card">
+<img alt="İztuzu Plajı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747000020/1_genoht.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="İztuzu Plajı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747000020/2_iptjmq.jpg"/>
+</div>
+<div class="photo-card">
+<img alt="İztuzu Plajı" src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1747000021/3_uf5kmh.jpg"/>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Info banner - Muğla'dan sonra, diğer illerden önce -->
+<div id="infoBanner" class="info-banner" data-search="">
+  <span id="infoBannerText">Ücretsiz Erişim: Muğla'ya tıklayın ve muhteşem manzara noktalarını keşfedin! ⚡81 İlin konumlarına sınırsız erişmek için <a href="https://www.tr81.tr/login.html"> ➤ Giriş </a> yapın.</span>
+</div>
+
+<!-- All other cities in alphabetical order -->
+<div class="city-container" data-search="adana" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('adana')" style="cursor:pointer">Adana</h1></div>
+<div class="city-container" data-search="adiyaman adıyaman" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('adiyaman')" style="cursor:pointer">Adıyaman</h1></div>
+<div class="city-container" data-search="afyonkarahisar afyon" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('afyon')" style="cursor:pointer">Afyonkarahisar</h1></div>
+<div class="city-container" data-search="agri ağrı" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('agri')" style="cursor:pointer">Ağrı</h1></div>
+<div class="city-container" data-search="aksaray" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('aksaray')" style="cursor:pointer">Aksaray</h1></div>
+<div class="city-container" data-search="amasya" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('amasya')" style="cursor:pointer">Amasya</h1></div>
+<div class="city-container" data-search="ankara" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('ankara')" style="cursor:pointer">Ankara</h1></div>
+<div class="city-container" data-search="antalya" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('antalya')" style="cursor:pointer">Antalya</h1></div>
+<div class="city-container" data-search="ardahan" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('ardahan')" style="cursor:pointer">Ardahan</h1></div>
+<div class="city-container" data-search="artvin" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('artvin')" style="cursor:pointer">Artvin</h1></div>
+<div class="city-container" data-search="aydin aydın" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('aydin')" style="cursor:pointer">Aydın</h1></div>
+<div class="city-container" data-search="balikesir balıkesir" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('balikesir')" style="cursor:pointer">Balıkesir</h1></div>
+<div class="city-container" data-search="bartin bartın" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bartin')" style="cursor:pointer">Bartın</h1></div>
+<div class="city-container" data-search="batman" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('batman')" style="cursor:pointer">Batman</h1></div>
+<div class="city-container" data-search="bayburt" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bayburt')" style="cursor:pointer">Bayburt</h1></div>
+<div class="city-container" data-search="bilecik" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bilecik')" style="cursor:pointer">Bilecik</h1></div>
+<div class="city-container" data-search="bingol bingöl" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bingol')" style="cursor:pointer">Bingöl</h1></div>
+<div class="city-container" data-search="bitlis" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bitlis')" style="cursor:pointer">Bitlis</h1></div>
+<div class="city-container" data-search="bolu" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bolu')" style="cursor:pointer">Bolu</h1></div>
+<div class="city-container" data-search="burdur" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('burdur')" style="cursor:pointer">Burdur</h1></div>
+<div class="city-container" data-search="bursa" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('bursa')" style="cursor:pointer">Bursa</h1></div>
+<div class="city-container" data-search="canakkale çanakkale" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('canakkale')" style="cursor:pointer">Çanakkale</h1></div>
+<div class="city-container" data-search="cankiri çankırı" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('cankiri')" style="cursor:pointer">Çankırı</h1></div>
+<div class="city-container" data-search="corum çorum" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('corum')" style="cursor:pointer">Çorum</h1></div>
+<div class="city-container" data-search="denizli" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('denizli')" style="cursor:pointer">Denizli</h1></div>
+<div class="city-container" data-search="diyarbakir diyarbakır" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('diyarbakir')" style="cursor:pointer">Diyarbakır</h1></div>
+<div class="city-container" data-search="duzce düzce" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('duzce')" style="cursor:pointer">Düzce</h1></div>
+<div class="city-container" data-search="edirne" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('edirne')" style="cursor:pointer">Edirne</h1></div>
+<div class="city-container" data-search="elazig elazığ" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('elazig')" style="cursor:pointer">Elazığ</h1></div>
+<div class="city-container" data-search="erzincan" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('erzincan')" style="cursor:pointer">Erzincan</h1></div>
+<div class="city-container" data-search="erzurum" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('erzurum')" style="cursor:pointer">Erzurum</h1></div>
+<div class="city-container" data-search="eskisehir eskişehir" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('eskisehir')" style="cursor:pointer">Eskişehir</h1></div>
+<div class="city-container" data-search="gaziantep" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('gaziantep')" style="cursor:pointer">Gaziantep</h1></div>
+<div class="city-container" data-search="giresun" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('giresun')" style="cursor:pointer">Giresun</h1></div>
+<div class="city-container" data-search="gumushane gümüşhane" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('gumushane')" style="cursor:pointer">Gümüşhane</h1></div>
+<div class="city-container" data-search="hakkari" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('hakkari')" style="cursor:pointer">Hakkari</h1></div>
+<div class="city-container" data-search="hatay" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('hatay')" style="cursor:pointer">Hatay</h1></div>
+<div class="city-container" data-search="igdir ığdır" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('igdir')" style="cursor:pointer">Iğdır</h1></div>
+<div class="city-container" data-search="isparta" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('isparta')" style="cursor:pointer">Isparta</h1></div>
+<div class="city-container" data-search="istanbul İstanbul" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('istanbul')" style="cursor:pointer">İstanbul</h1></div>
+<div class="city-container" data-search="izmir İzmir" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('izmir')" style="cursor:pointer">İzmir</h1></div>
+<div class="city-container" data-search="kahramanmaras kahramanmaraş" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kahramanmaras')" style="cursor:pointer">Kahramanmaraş</h1></div>
+<div class="city-container" data-search="karabuk karabük" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('karabuk')" style="cursor:pointer">Karabük</h1></div>
+<div class="city-container" data-search="karaman" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('karaman')" style="cursor:pointer">Karaman</h1></div>
+<div class="city-container" data-search="kars" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kars')" style="cursor:pointer">Kars</h1></div>
+<div class="city-container" data-search="kastamonu" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kastamonu')" style="cursor:pointer">Kastamonu</h1></div>
+<div class="city-container" data-search="kayseri" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kayseri')" style="cursor:pointer">Kayseri</h1></div>
+<div class="city-container" data-search="kilis" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kilis')" style="cursor:pointer">Kilis</h1></div>
+<div class="city-container" data-search="kirikkale kırıkkale" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kirikkale')" style="cursor:pointer">Kırıkkale</h1></div>
+<div class="city-container" data-search="kirklareli kırklareli" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kirklareli')" style="cursor:pointer">Kırklareli</h1></div>
+<div class="city-container" data-search="kirsehir kırşehir" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kirsehir')" style="cursor:pointer">Kırşehir</h1></div>
+<div class="city-container" data-search="kocaeli" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kocaeli')" style="cursor:pointer">Kocaeli</h1></div>
+<div class="city-container" data-search="konya" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('konya')" style="cursor:pointer">Konya</h1></div>
+<div class="city-container" data-search="kutahya kütahya" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('kutahya')" style="cursor:pointer">Kütahya</h1></div>
+<div class="city-container" data-search="malatya" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('malatya')" style="cursor:pointer">Malatya</h1></div>
+<div class="city-container" data-search="manisa" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('manisa')" style="cursor:pointer">Manisa</h1></div>
+<div class="city-container" data-search="mardin" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('mardin')" style="cursor:pointer">Mardin</h1></div>
+<div class="city-container" data-search="mersin" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('mersin')" style="cursor:pointer">Mersin</h1></div>
+<div class="city-container" data-search="mus muş" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('mus')" style="cursor:pointer">Muş</h1></div>
+<div class="city-container" data-search="nevsehir nevşehir" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('nevsehir')" style="cursor:pointer">Nevşehir</h1></div>
+<div class="city-container" data-search="nigde niğde" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('nigde')" style="cursor:pointer">Niğde</h1></div>
+<div class="city-container" data-search="ordu" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('ordu')" style="cursor:pointer">Ordu</h1></div>
+<div class="city-container" data-search="osmaniye" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('osmaniye')" style="cursor:pointer">Osmaniye</h1></div>
+<div class="city-container" data-search="rize" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('rize')" style="cursor:pointer">Rize</h1></div>
+<div class="city-container" data-search="sakarya" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('sakarya')" style="cursor:pointer">Sakarya</h1></div>
+<div class="city-container" data-search="samsun" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('samsun')" style="cursor:pointer">Samsun</h1></div>
+<div class="city-container" data-search="sanliurfa şanlıurfa" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('sanliurfa')" style="cursor:pointer">Şanlıurfa</h1></div>
+<div class="city-container" data-search="siirt" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('siirt')" style="cursor:pointer">Siirt</h1></div>
+<div class="city-container" data-search="sinop" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('sinop')" style="cursor:pointer">Sinop</h1></div>
+<div class="city-container" data-search="sirnak şırnak" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('sirnak')" style="cursor:pointer">Şırnak</h1></div>
+<div class="city-container" data-search="sivas" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('sivas')" style="cursor:pointer">Sivas</h1></div>
+<div class="city-container" data-search="tekirdag tekirdağ" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('tekirdag')" style="cursor:pointer">Tekirdağ</h1></div>
+<div class="city-container" data-search="tokat" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('tokat')" style="cursor:pointer">Tokat</h1></div>
+<div class="city-container" data-search="trabzon" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('trabzon')" style="cursor:pointer">Trabzon</h1></div>
+<div class="city-container" data-search="tunceli" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('tunceli')" style="cursor:pointer">Tunceli</h1></div>
+<div class="city-container" data-search="usak uşak" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('usak')" style="cursor:pointer">Uşak</h1></div>
+<div class="city-container" data-search="van" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('van')" style="cursor:pointer">Van</h1></div>
+<div class="city-container" data-search="yalova" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('yalova')" style="cursor:pointer">Yalova</h1></div>
+<div class="city-container" data-search="yozgat" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('yozgat')" style="cursor:pointer">Yozgat</h1></div>
+<div class="city-container" data-search="zonguldak" style="cursor:pointer"><h1 class="city-header" onclick="navigateToCity('zonguldak')" style="cursor:pointer">Zonguldak</h1></div>
+</div>
+<p><a class="back-link" href="index.html">← Türkiye'ye dön</a></p>
+
+<script>
+// Çok dilli destek için çeviriler
+const translations = {
+  'tr': {
+    'banner': 'Ücretsiz Erişim: Muğla\'ya tıklayın ve muhteşem manzara noktalarını keşfedin! ⚡81 İlin konumlarına sınırsız erişmek için <a href="https://www.tr81.tr/login.html"> ➤ Giriş </a> yapın.',
+    'premium': 'Gizli konumların kilidini açtınız',
+    'title': 'Bir il seç → Manzaralı konumları keşfet📍',
+    'search': 'Bir il ara...'
+  },
+  'en': {
+    'banner': 'Free Access: Click on Muğla and discover amazing scenic spots! ⚡For unlimited access to locations in all 81 provinces <a href="https://www.tr81.tr/login.html"> ➤ Login</a>.',
+    'premium': 'You have unlocked hidden locations',
+    'title': 'Choose a city → Discover scenic locations📍',
+    'search': 'Search city...'
+  },
+  'de': {
+    'banner': 'Kostenloser Zugang: Klicken Sie auf Muğla und entdecken Sie atemberaubende Aussichtspunkte! ⚡Für unbegrenzten Zugang zu allen 81 Provinzen <a href="https://www.tr81.tr/login.html"> ➤ Anmelden</a>.',
+    'premium': 'Sie haben Premium-Standorte freigeschaltet',
+    'title': 'Wählen Sie eine Stadt → Entdecken Sie malerische Orte📍',
+    'search': 'Stadt suchen...'
+  },
+  'fr': {
+    'banner': 'Accès gratuit : Cliquez sur Muğla et découvrez des sites pittoresques incroyables ! ⚡Pour un accès illimité aux 81 provinces <a href="https://www.tr81.tr/login.html"> ➤ Connexion</a>.',
+    'premium': 'Vous avez débloqué les emplacements Premium',
+    'title': 'Choisissez une ville → Découvrez des lieux pittoresques📍',
+    'search': 'Rechercher une ville...'
+  },
+  'es': {
+    'banner': 'Acceso gratuito: ¡Haz clic en Muğla y descubre lugares escénicos increíbles! ⚡Para acceso ilimitado a las 81 provincias <a href="https://www.tr81.tr/login.html"> ➤ Iniciar sesión</a>.',
+    'premium': 'Has desbloqueado las ubicaciones Premium',
+    'title': 'Elige una ciudad → Descubre lugares pintorescos📍',
+    'search': 'Buscar ciudad...'
+  },
+  'ar': {
+    'banner': 'وصول مجاني: انقر على موغلا واكتشف المناظر الطبيعية الخلابة المذهلة! ⚡للوصول غير المحدود إلى المواقع في جميع المحافظات الـ 81 <a href="https://www.tr81.tr/login.html"> ➤ تسجيل الدخول</a>.',
+    'premium': 'لقد قمت بفتح المواقع المميزة',
+    'title': 'اختر مدينة ← اكتشف المواقع ذات المناظر الخلابة📍',
+    'search': 'ابحث عن مدينة...'
+  },
+  'ru': {
+    'banner': 'Бесплатный доступ: Нажмите на Муглу и откройте для себя удивительные живописные места! ⚡Для неограниченного доступа ко всем 81 провинции <a href="https://www.tr81.tr/login.html"> ➤ Войдите</a>.',
+    'premium': 'Вы разблокировали ПРЕМИУМ локации',
+    'title': 'Выберите город → Откройте для себя живописные места📍',
+    'search': 'Поиск города...'
+  },
+  'zh': {
+    'banner': '免费访问：点击穆拉，发现令人惊叹的风景名胜！⚡无限访问所有81个省份的景点 <a href="https://www.tr81.tr/login.html"> ➤ 登录</a>。',
+    'premium': '您已解锁高级位置',
+    'title': '选择城市 → 发现风景优美的地点📍',
+    'search': '搜索城市...'
+  },
+  'ja': {
+    'banner': '無料アクセス：ムーラをクリックして素晴らしい景勝地を発見しましょう！⚡81県すべての場所への無制限アクセスには <a href="https://www.tr81.tr/login.html"> ➤ ログイン</a>。',
+    'premium': 'プレミアムロケーションのロックを解除しました',
+    'title': '都市を選択 → 景勝地を発見📍',
+    'search': '都市を検索...'
+  },
+  'ko': {
+    'banner': '무료 액세스: 무을라를 클릭하여 놀라운 경치 좋은 장소를 발견하세요! ⚡81개 모든 지역의 위치에 무제한 액세스하려면 <a href="https://www.tr81.tr/login.html"> ➤ 로그인</a>.',
+    'premium': '프리미엄 위치를 잠금 해제했습니다',
+    'title': '도시 선택 → 경치 좋은 장소 발견📍',
+    'search': '도시 검색...'
+  },
+  'it': {
+    'banner': 'Accesso gratuito: Clicca su Muğla e scopri luoghi panoramici straordinari! ⚡Per accesso illimitato a tutte le 81 province <a href="https://www.tr81.tr/login.html"> ➤ Accedi</a>.',
+    'premium': 'Hai sbloccato le posizioni PREMIUM',
+    'title': 'Scegli una città → Scopri luoghi panoramici📍',
+    'search': 'Cerca città...'
+  },
+  'pt': {
+    'banner': 'Acesso gratuito: Clique em Muğla e descubra locais cênicos incríveis! ⚡Para acesso ilimitado a todas as 81 províncias <a href="https://www.tr81.tr/login.html"> ➤ Entrar</a>.',
+    'premium': 'Você desbloqueou locais PREMIUM',
+    'title': 'Escolha uma cidade → Descubra locais cênicos📍',
+    'search': 'Pesquisar cidade...'
+  },
+  'nl': {
+    'banner': 'Gratis toegang: Klik op Muğla en ontdek geweldige schilderachtige plekken! ⚡Voor onbeperkte toegang tot alle 81 provincies <a href="https://www.tr81.tr/login.html"> ➤ Inloggen</a>.',
+    'premium': 'Je hebt PREMIUM locaties ontgrendeld',
+    'title': 'Kies een stad → Ontdek schilderachtige locaties📍',
+    'search': 'Zoek stad...'
+  },
+  'pl': {
+    'banner': 'Bezpłatny dostęp: Kliknij Muğla i odkryj niesamowite malownicze miejsca! ⚡Aby uzyskać nieograniczony dostęp do wszystkich 81 prowincji <a href="https://www.tr81.tr/login.html"> ➤ Zaloguj się</a>.',
+    'premium': 'Odblokowałeś lokalizacje PREMIUM',
+    'title': 'Wybierz miasto → Odkryj malownicze miejsca📍',
+    'search': 'Szukaj miasta...'
+  },
+  'sv': {
+    'banner': 'Gratis tillgång: Klicka på Muğla och upptäck fantastiska natursköna platser! ⚡För obegränsad tillgång till alla 81 provinser <a href="https://www.tr81.tr/login.html"> ➤ Logga in</a>.',
+    'premium': 'Du har låst upp PREMIUM-platser',
+    'title': 'Välj en stad → Upptäck natursköna platser📍',
+    'search': 'Sök stad...'
+  },
+  'no': {
+    'banner': 'Gratis tilgang: Klikk på Muğla og oppdag fantastiske naturskjønne steder! ⚡For ubegrenset tilgang til alle 81 provinser <a href="https://www.tr81.tr/login.html"> ➤ Logg inn</a>.',
+    'premium': 'Du har låst opp PREMIUM-steder',
+    'title': 'Velg en by → Oppdag naturskjønne steder📍',
+    'search': 'Søk by...'
+  },
+  'da': {
+    'banner': 'Gratis adgang: Klik på Muğla og oplev fantastiske naturskønne steder! ⚡For ubegrænset adgang til alle 81 provinser <a href="https://www.tr81.tr/login.html"> ➤ Log ind</a>.',
+    'premium': 'Du har låst op for PREMIUM-steder',
+    'title': 'Vælg en by → Oplev naturskønne steder📍',
+    'search': 'Søg by...'
+  },
+  'fi': {
+    'banner': 'Ilmainen pääsy: Klikkaa Muğlaa ja löydä uskomattomia maisemallisia paikkoja! ⚡Rajoittamaton pääsy kaikkiin 81 maakuntaan <a href="https://www.tr81.tr/login.html"> ➤ Kirjaudu sisään</a>.',
+    'premium': 'Olet avannut PREMIUM-sijainnit',
+    'title': 'Valitse kaupunki → Löydä maisemalliset paikat📍',
+    'search': 'Hae kaupunkia...'
+  },
+  'el': {
+    'banner': 'Δωρεάν πρόσβαση: Κάντε κλικ στη Μούγλα και ανακαλύψτε εκπληκτικά γραφικά μέρη! ⚡Για απεριόριστη πρόσβαση σε όλες τις 81 επαρχίες <a href="https://www.tr81.tr/login.html"> ➤ Συνδεθείτε</a>.',
+    'premium': 'Έχετε ξεκλειδώσει τις τοποθεσίες PREMIUM',
+    'title': 'Επιλέξτε πόλη → Ανακαλύψτε γραφικές τοποθεσίες📍',
+    'search': 'Αναζήτηση πόλης...'
+  },
+  'hi': {
+    'banner': 'मुफ्त पहुंच: मुग्ला पर क्लिक करें और अद्भुत सुंदर स्थानों की खोज करें! ⚡सभी 81 प्रांतों के स्थानों तक असीमित पहुंच के लिए <a href="https://www.tr81.tr/login.html"> ➤ लॉग इन करें</a>।',
+    'premium': 'आपने प्रीमियम स्थान अनलॉक कर लिए हैं',
+    'title': 'एक शहर चुनें → सुंदर स्थानों की खोज करें📍',
+    'search': 'शहर खोजें...'
+  }
+};
+
+// Tarayıcı dilini algıla ve uygun çeviriyi göster
+function setLanguageText() {
+  const browserLang = navigator.language || navigator.userLanguage;
+  const langCode = browserLang.split('-')[0].toLowerCase();
+  
+  const infoBannerText = document.getElementById('infoBannerText');
+  const mainTitle = document.getElementById('mainTitle');
+  const searchInput = document.getElementById('searchInput');
+  
+  // Eğer dil mevcutsa kullan, yoksa İngilizce kullan
+  const lang = translations[langCode] || translations['en'];
+  
+  infoBannerText.innerHTML = lang.banner;
+  mainTitle.textContent = lang.title;
+  searchInput.placeholder = lang.search;
+}
+
+// Gerçek localStorage kontrolü
+let accessGranted = false;
+try {
+    accessGranted = localStorage.getItem("duflat-access") === "granted";
+} catch(e) {
+    accessGranted = false;
+}
+
+// Sayfa yüklendiğinde erişim kontrolünü yap
+window.addEventListener('DOMContentLoaded', function() {
+    setLanguageText();
+    checkAccess();
+});
+
+function checkAccess() {
+    const infoBanner = document.getElementById('infoBanner');
+    const browserLang = navigator.language || navigator.userLanguage;
+    const langCode = browserLang.split('-')[0].toLowerCase();
+    const lang = translations[langCode] || translations['en'];
+    
+    if (accessGranted) {
+        // Erişim varsa premium mesajını göster
+        infoBanner.innerHTML = lang.premium;
+        infoBanner.className = 'info-banner premium';
+    } else {
+        // Erişim yoksa çok dilli mesajı göster
+        setLanguageText();
+        infoBanner.className = 'info-banner';
+    }
+}
+
+function navigateToCity(cityName) {
+    // Demo erişimi olan şehirler listesi
+    const demoAccessCities = ['istanbul', 'ankara', 'izmir', 'bursa', 'antalya', 'konya', 'adana', 'gaziantep', 'mugla', 'diyarbakir', 'kocaeli', 'mersin'];
+    
+    if (accessGranted) {
+        // Erişim varsa normal sayfaya git
+        window.location.href = cityName + '.html';
+    } else {
+        // Erişim yoksa kontrolü yap
+        if (demoAccessCities.includes(cityName)) {
+            // Demo erişimi olan şehirler için demo sayfasına git
+            window.location.href = cityName + '_demo.html';
+        } else {
+            // Diğer şehirler için login sayfasına yönlendir
+            window.location.href = 'login.html';
+        }
+    }
+}
+
+// Arama işlevi - Türkçe karakterleri normalleştir
+function normalizeText(text) {
+    const charMap = {
+        'ç': 'c', 'Ç': 'c',
+        'ğ': 'g', 'Ğ': 'g',
+        'ı': 'i', 'I': 'i',
+        'i': 'i', 'İ': 'i',
+        'ö': 'o', 'Ö': 'o',
+        'ş': 's', 'Ş': 's',
+        'ü': 'u', 'Ü': 'u'
+    };
+    
+    return text.toLowerCase().replace(/[çÇğĞıIiİöÖşŞüÜ]/g, char => charMap[char] || char);
+}
+
+document.getElementById('searchInput').addEventListener('input', function () {
+    const searchValue = normalizeText(this.value);
+    
+    // Arama değeri varsa info banner'ı gizle, yoksa göster
+    const infoBanner = document.getElementById('infoBanner');
+    if (searchValue.length > 0) {
+        infoBanner.style.display = 'none';
+    } else {
+        infoBanner.style.display = '';
+    }
+    
+    document.querySelectorAll('.city-container').forEach(section => {
+        const searchText = normalizeText(section.getAttribute('data-search') || '');
+        const isVisible = searchText.includes(searchValue);
+        section.style.display = isVisible ? '' : 'none';
+    });
+});
+
+// Test için - konsola mesaj yaz
+console.log('Access granted:', accessGranted);
+console.log('Browser language:', navigator.language || navigator.userLanguage);
+</script>
+</body>
+</html>
