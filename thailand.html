@@ -1,0 +1,1121 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thailand</title>
+  <style>
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #334155;
+      line-height: 1.6;
+      padding: 12px;
+      overflow-y: auto;
+      padding-bottom: 100px;
+      min-height: 100vh;
+    }
+    .logo {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      font-size: 26px;
+      text-decoration: none;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    h1 { 
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 70px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .camera-emoji {
+      color: #000;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 8px;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #1e293b;
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: #3b82f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: #1e293b;
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: #f97316;
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: #1e293b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
+      color: #92400e;
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid #fbbf24;
+      max-width: 1000px;
+      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    .next-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(18px, 3.5vw, 24px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 20px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .next-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(16, 185, 129, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+    }
+
+    /* Mobile Promotion Styles */
+    @media (max-width: 768px) {
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .next-btn { padding: 12px 20px; margin: 16px 0; border-radius: 14px; width: 100%; max-width: 100%; box-sizing: border-box; }
+    }
+
+    @media (max-width: 480px) {
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+      .next-btn { padding: 10px 16px; margin: 12px 0; border-radius: 12px; width: 100%; }
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #1e293b;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .file-label:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .file-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box ul {
+      margin: 5px 0 0 20px;
+      padding: 0;
+    }
+    
+    .info-box li {
+      margin: 3px 0;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn, .next-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Thailand</span></h1>
+  
+  <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Club/@13.7592373,100.4968377,17z/data=!3m1!4b1!4m6!3m5!1s0x30e2996d12e85823:0x146c9e35691d12d5!8m2!3d13.7592373!4d100.4968377!16s%2Fg%2F1tf84jqw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Khao San Road Nightlife 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/khao_an_road_nightlife_1/public" data-location="Khao San Road Nightlife"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/khao_an_road_nightlife_1/public" alt="Khao San Road Nightlife"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/khao_an_road_nightlife_2/public" data-location="Khao San Road Nightlife"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/khao_an_road_nightlife_2/public" alt="Khao San Road Nightlife"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/khao_an_road_nightlife_3/public" data-location="Khao San Road Nightlife"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/khao_an_road_nightlife_3/public" alt="Khao San Road Nightlife"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Phi+Phi+Viewpoint+2/@7.7458929,98.7780949,17z/data=!3m1!4b1!4m6!3m5!1s0x3051dee4541a8ed7:0xb9251dd2b8d3ec17!8m2!3d7.7458929!4d98.7780949!16s%2Fg%2F11f03y7wgv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Phi Phi Viewpoints 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phi_phi_viewpoint_1/public" data-location="Phi Phi Viewpoints"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phi_phi_viewpoint_1/public" alt="Phi Phi Viewpoints"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phi_phi_viewpoint_2/public" data-location="Phi Phi Viewpoints"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phi_phi_viewpoint_2/public" alt="Phi Phi Viewpoints"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phi_phi_viewpoint_3/public" data-location="Phi Phi Viewpoints"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phi_phi_viewpoint_3/public" alt="Phi Phi Viewpoints"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wat+Phra+That+Haripunchai+Woramahawihan/@18.5771055,99.008501,17z/data=!3m1!4b1!4m6!3m5!1s0x30dbcd5981096c87:0x5fe6427cf8d3de23!8m2!3d18.5771055!4d99.008501!16s%2Fm%2F0vxcvtx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wat Phra That Hariphunchai 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_hariphunchai_1/public" data-location="Wat Phra That Hariphunchai"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_hariphunchai_1/public" alt="Wat Phra That Hariphunchai"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_hariphunchai_2/public" data-location="Wat Phra That Hariphunchai"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_hariphunchai_2/public" alt="Wat Phra That Hariphunchai"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_hariphunchai_3/public" data-location="Wat Phra That Hariphunchai"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_hariphunchai_3/public" alt="Wat Phra That Hariphunchai"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Doi+Inthanon/@18.5880427,98.4870612,15z/data=!3m1!4b1!4m6!3m5!1s0x30dbaa9c1c7fd96b:0xf3f01fb3a96c7054!8m2!3d18.5880431!4d98.4870612!16zL20vMDFmMXMx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Thailand’s Highest Peak 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/thailand_highet_peak_1/public" data-location="Thailand’s Highest Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/thailand_highet_peak_1/public" alt="Thailand’s Highest Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/thailand_highet_peak_2/public" data-location="Thailand’s Highest Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/thailand_highet_peak_2/public" alt="Thailand’s Highest Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/thailand_highet_peak_3/public" data-location="Thailand’s Highest Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/thailand_highet_peak_3/public" alt="Thailand’s Highest Peak"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Doi+Tung+Royal+Villa/@20.2883303,99.8098294,17z/data=!3m1!4b1!4m6!3m5!1s0x30d6f0d53c208a97:0x8422778f7dafe7b1!8m2!3d20.2883303!4d99.8098294!16s%2Fg%2F12hhgwqcz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Doi Tung Royal Villa & Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/doi_tung_royal_villa__garden_1/public" data-location="Doi Tung Royal Villa & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/doi_tung_royal_villa__garden_1/public" alt="Doi Tung Royal Villa & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/doi_tung_royal_villa__garden_2/public" data-location="Doi Tung Royal Villa & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/doi_tung_royal_villa__garden_2/public" alt="Doi Tung Royal Villa & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/doi_tung_royal_villa__garden_3/public" data-location="Doi Tung Royal Villa & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/doi_tung_royal_villa__garden_3/public" alt="Doi Tung Royal Villa & Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ko+Hong/@8.0780641,98.6789515,16z/data=!3m1!4b1!4m6!3m5!1s0x3051b836f3a14a01:0xa307d5779c5e552b!8m2!3d8.0780913!4d98.6782811!16s%2Fg%2F11dyk95fs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hong Island Lagoon 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hong_iland_lagoon_1/public" data-location="Hong Island Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hong_iland_lagoon_1/public" alt="Hong Island Lagoon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hong_iland_lagoon_2/public" data-location="Hong Island Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hong_iland_lagoon_2/public" alt="Hong Island Lagoon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hong_iland_lagoon_3/public" data-location="Hong Island Lagoon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hong_iland_lagoon_3/public" alt="Hong Island Lagoon"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mu+Ko+Ang+Thong+National+Park/@9.6352349,99.671822,17z/data=!3m1!4b1!4m6!3m5!1s0x3054fe7e01031ee7:0x18a15a08c6bc9890!8m2!3d9.6352349!4d99.671822!16zL20vMDVnMTZ6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Marine National Park Islands 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/marine_national_park_iland_1/public" data-location="Marine National Park Islands"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/marine_national_park_iland_1/public" alt="Marine National Park Islands"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/marine_national_park_iland_2/public" data-location="Marine National Park Islands"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/marine_national_park_iland_2/public" alt="Marine National Park Islands"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/marine_national_park_iland_3/public" data-location="Marine National Park Islands"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/marine_national_park_iland_3/public" alt="Marine National Park Islands"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Phraya+Nakhon+Cave/@12.2058834,100.0102441,17z/data=!3m1!4b1!4m6!3m5!1s0x30fdc9865609a739:0x366fb27d391bf2c5!8m2!3d12.2058834!4d100.0102441!16s%2Fg%2F11cm04p938?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Phraya Nakhon Cave Pavilion 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phraya_nakhon_cave_pavilion_1/public" data-location="Phraya Nakhon Cave Pavilion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phraya_nakhon_cave_pavilion_1/public" alt="Phraya Nakhon Cave Pavilion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phraya_nakhon_cave_pavilion_2/public" data-location="Phraya Nakhon Cave Pavilion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phraya_nakhon_cave_pavilion_2/public" alt="Phraya Nakhon Cave Pavilion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phraya_nakhon_cave_pavilion_3/public" data-location="Phraya Nakhon Cave Pavilion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phraya_nakhon_cave_pavilion_3/public" alt="Phraya Nakhon Cave Pavilion"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Phu+Kradueng+National+Park/@16.8712317,101.845769,17z/data=!3m1!4b1!4m6!3m5!1s0x31219c8b2e691471:0xbf8afacad29e7c8e!8m2!3d16.8712317!4d101.845769!16zL20vMDh0OGJk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Phu Kradueng National Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phu_kradueng_national_park_1/public" data-location="Phu Kradueng National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phu_kradueng_national_park_1/public" alt="Phu Kradueng National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phu_kradueng_national_park_2/public" data-location="Phu Kradueng National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phu_kradueng_national_park_2/public" alt="Phu Kradueng National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phu_kradueng_national_park_3/public" data-location="Phu Kradueng National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/phu_kradueng_national_park_3/public" alt="Phu Kradueng National Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Promthep+Cape/@7.7618264,98.3053487,17z/data=!3m1!4b1!4m6!3m5!1s0x30502621260298b5:0xb68d0b2dcb95a1b!8m2!3d7.7618264!4d98.3053487!16s%2Fg%2F121vrkts?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Promthep Cape Sunset 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/promthep_cape_unet_1/public" data-location="Promthep Cape Sunset"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/promthep_cape_unet_1/public" alt="Promthep Cape Sunset"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/promthep_cape_unet_2/public" data-location="Promthep Cape Sunset"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/promthep_cape_unet_2/public" alt="Promthep Cape Sunset"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/promthep_cape_unet_3/public" data-location="Promthep Cape Sunset"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/promthep_cape_unet_3/public" alt="Promthep Cape Sunset"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Similan+Islands/@8.648735,97.6452604,14z/data=!3m1!4b1!4m6!3m5!1s0x305a71a2bdeee5fd:0xe8d3e2bd15fe3719!8m2!3d8.6578626!4d97.6466734!16zL20vMGQybjgz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Similan Islands Marine Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/imilan_iland_marine_park_1/public" data-location="Similan Islands Marine Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/imilan_iland_marine_park_1/public" alt="Similan Islands Marine Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/imilan_iland_marine_park_2/public" data-location="Similan Islands Marine Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/imilan_iland_marine_park_2/public" alt="Similan Islands Marine Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/imilan_iland_marine_park_3/public" data-location="Similan Islands Marine Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/imilan_iland_marine_park_3/public" alt="Similan Islands Marine Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sukhothai+Historical+Park/@17.0187799,99.7064501,17z/data=!3m1!4b1!4m6!3m5!1s0x30de5836f40b1401:0x78f6f57e5fd9c7e6!8m2!3d17.0187799!4d99.7064501!16zL20vMDFmbDJ4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sukhothai Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ukhothai_hitorical_park_1/public" data-location="Sukhothai Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ukhothai_hitorical_park_1/public" alt="Sukhothai Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ukhothai_hitorical_park_2/public" data-location="Sukhothai Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ukhothai_hitorical_park_2/public" alt="Sukhothai Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ukhothai_hitorical_park_3/public" data-location="Sukhothai Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ukhothai_hitorical_park_3/public" alt="Sukhothai Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wat+Chaiwatthanaram/@14.3436484,100.5415458,17z/data=!3m1!4b1!4m6!3m5!1s0x30e27410249012b9:0x8187aa907865ff44!8m2!3d14.3436484!4d100.5415458!16zL20vMGQyamo3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wat Chaiwatthanaram Riverside 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_chaiwatthanaram_riveride_1/public" data-location="Wat Chaiwatthanaram Riverside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_chaiwatthanaram_riveride_1/public" alt="Wat Chaiwatthanaram Riverside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_chaiwatthanaram_riveride_2/public" data-location="Wat Chaiwatthanaram Riverside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_chaiwatthanaram_riveride_2/public" alt="Wat Chaiwatthanaram Riverside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_chaiwatthanaram_riveride_3/public" data-location="Wat Chaiwatthanaram Riverside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_chaiwatthanaram_riveride_3/public" alt="Wat Chaiwatthanaram Riverside"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wat+Phra+Chetuphon+Wimon+Mangkhalaram+Rajwaramahawihan/@13.7464237,100.4927733,17z/data=!3m1!4b1!4m6!3m5!1s0x30e299057145cc81:0x7df49a08f511c22e!8m2!3d13.7464237!4d100.4927733!16s%2Fg%2F121dw17y?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wat Pho Reclining Buddha 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_pho_reclining_buddha_1/public" data-location="Wat Pho Reclining Buddha"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_pho_reclining_buddha_1/public" alt="Wat Pho Reclining Buddha"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_pho_reclining_buddha_2/public" data-location="Wat Pho Reclining Buddha"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_pho_reclining_buddha_2/public" alt="Wat Pho Reclining Buddha"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_pho_reclining_buddha_3/public" data-location="Wat Pho Reclining Buddha"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_pho_reclining_buddha_3/public" alt="Wat Pho Reclining Buddha"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wat+Phra+Singh+Woramahawihan/@18.7885802,98.9814171,18z/data=!3m1!4b1!4m6!3m5!1s0x30da3a9b6e4a246f:0x9656d9e717cd54e9!8m2!3d18.7885265!4d98.9819946!16s%2Fm%2F076w26w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Old City Temples Walk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/old_city_temple_walk_1/public" data-location="Old City Temples Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/old_city_temple_walk_1/public" alt="Old City Temples Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/old_city_temple_walk_2/public" data-location="Old City Temples Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/old_city_temple_walk_2/public" alt="Old City Temples Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/old_city_temple_walk_3/public" data-location="Old City Temples Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/old_city_temple_walk_3/public" alt="Old City Temples Walk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wat+Phra+That+Doi+Suthep/@18.8049889,98.9216337,17z/data=!3m1!4b1!4m6!3m5!1s0x30da39b5dff1ddb5:0x9d864c5caec57e21!8m2!3d18.8049889!4d98.9216337!16zL20vMGNmd3M2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wat Phra That Doi Suthep 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_doi_uthep_1/public" data-location="Wat Phra That Doi Suthep"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_doi_uthep_1/public" alt="Wat Phra That Doi Suthep"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_doi_uthep_2/public" data-location="Wat Phra That Doi Suthep"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_doi_uthep_2/public" alt="Wat Phra That Doi Suthep"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_doi_uthep_3/public" data-location="Wat Phra That Doi Suthep"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phra_that_doi_uthep_3/public" alt="Wat Phra That Doi Suthep"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wat+Phumin/@18.7745748,100.7716394,17z/data=!3m1!4b1!4m6!3m5!1s0x31278e741cd406e7:0x97c70a154f286876!8m2!3d18.7745748!4d100.7716394!16s%2Fm%2F02vq69g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wat Phumin Murals 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phumin_mural_1/public" data-location="Wat Phumin Murals"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phumin_mural_1/public" alt="Wat Phumin Murals"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phumin_mural_2/public" data-location="Wat Phumin Murals"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phumin_mural_2/public" alt="Wat Phumin Murals"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phumin_mural_3/public" data-location="Wat Phumin Murals"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/wat_phumin_mural_3/public" alt="Wat Phumin Murals"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ayutthaya+Historical+Park+Office/@14.3506286,100.557038,17z/data=!3m1!4b1!4m6!3m5!1s0x30e2743f355197d9:0x49b9cb41b7edf179!8m2!3d14.3506286!4d100.557038!16zL20vMDJmdmJn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ayutthaya Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ayutthaya_hitorical_park_1/public" data-location="Ayutthaya Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ayutthaya_hitorical_park_1/public" alt="Ayutthaya Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ayutthaya_hitorical_park_2/public" data-location="Ayutthaya Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ayutthaya_hitorical_park_2/public" alt="Ayutthaya Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ayutthaya_hitorical_park_3/public" data-location="Ayutthaya Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ayutthaya_hitorical_park_3/public" alt="Ayutthaya Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Buddha+Hillside/@7.8314182,98.3301275,17z/data=!3m1!4b1!4m9!3m8!1s0x30502f7bdebe044b:0x4b8aedcad143c49a!5m2!4m1!1i2!8m2!3d7.8314182!4d98.3301275!16s%2Fg%2F11c6w1bg_s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Buddha Hilltop 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/big_buddha_hilltop_1/public" data-location="Big Buddha Hilltop"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/big_buddha_hilltop_1/public" alt="Big Buddha Hilltop"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/big_buddha_hilltop_2/public" data-location="Big Buddha Hilltop"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/big_buddha_hilltop_2/public" alt="Big Buddha Hilltop"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/big_buddha_hilltop_3/public" data-location="Big Buddha Hilltop"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/big_buddha_hilltop_3/public" alt="Big Buddha Hilltop"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Emerald+Cave/@7.3694252,99.2835707,15z/data=!3m1!4b1!4m6!3m5!1s0x304de733e5cc7ec3:0xbbf223c725830b2b!8m2!3d7.3694254!4d99.2835707!16s%2Fg%2F11c2j7stlt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Emerald Cave 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/emerald_cave_1/public" data-location="Emerald Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/emerald_cave_1/public" alt="Emerald Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/emerald_cave_2/public" data-location="Emerald Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/emerald_cave_2/public" alt="Emerald Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/emerald_cave_3/public" data-location="Emerald Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/emerald_cave_3/public" alt="Emerald Cave"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="promotion-section">
+    <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+    
+    <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+    
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+  </script>
+</body>
+</html>
