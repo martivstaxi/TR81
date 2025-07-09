@@ -1,0 +1,1107 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bahrain</title>
+  <style>
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #334155;
+      line-height: 1.6;
+      padding: 12px;
+      overflow-y: auto;
+      padding-bottom: 100px;
+      min-height: 100vh;
+    }
+    .logo {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      font-size: 26px;
+      text-decoration: none;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    h1 { 
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 70px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .camera-emoji {
+      color: #000;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 8px;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #1e293b;
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: #3b82f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: #1e293b;
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: #f97316;
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: #1e293b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
+      color: #92400e;
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid #fbbf24;
+      max-width: 1000px;
+      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    .next-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(18px, 3.5vw, 24px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 20px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .next-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(16, 185, 129, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+    }
+
+    /* Mobile Promotion Styles */
+    @media (max-width: 768px) {
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .next-btn { padding: 12px 20px; margin: 16px 0; border-radius: 14px; width: 100%; max-width: 100%; box-sizing: border-box; }
+    }
+
+    @media (max-width: 480px) {
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+      .next-btn { padding: 10px 16px; margin: 12px 0; border-radius: 12px; width: 100%; }
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #1e293b;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .file-label:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .file-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box ul {
+      margin: 5px 0 0 20px;
+      padding: 0;
+    }
+    
+    .info-box li {
+      margin: 3px 0;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn, .next-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Bahrain</span></h1>
+  
+  <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Al+Fateh+Grand+Mosque/@26.2189298,50.5980332,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a8cb12a1874b:0x6b125f410074e17d!8m2!3d26.2189298!4d50.5980332!16zL20vMGNrNTlr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Al Fateh Corniche 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_fateh_corniche_1/public" data-location="Al Fateh Corniche"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_fateh_corniche_1/public" alt="Al Fateh Corniche"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_fateh_corniche_2/public" data-location="Al Fateh Corniche"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_fateh_corniche_2/public" alt="Al Fateh Corniche"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_fateh_corniche_3/public" data-location="Al Fateh Corniche"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_fateh_corniche_3/public" alt="Al Fateh Corniche"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Raffles+Al+Areen+Palace+Bahrain/@26.0022717,50.5188013,17z/data=!3m1!4b1!4m9!3m8!1s0x3e4853bb99d925c9:0x2c89b7fc5693b5c5!5m2!4m1!1i2!8m2!3d26.0022717!4d50.5188013!16s%2Fg%2F11lcc07lr_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Al Areen Resort & Spa 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_areen_reort__pa_1/public" data-location="Al Areen Resort & Spa"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_areen_reort__pa_1/public" alt="Al Areen Resort & Spa"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_areen_reort__pa_2/public" data-location="Al Areen Resort & Spa"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_areen_reort__pa_2/public" alt="Al Areen Resort & Spa"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_areen_reort__pa_3/public" data-location="Al Areen Resort & Spa"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/al_areen_reort__pa_3/public" alt="Al Areen Resort & Spa"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+National+Theater/@26.2425474,50.5986858,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a778c971d067:0xda6fee45cf5ecf38!8m2!3d26.2425474!4d50.5986858!16s%2Fm%2F0w4swkp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bahrain National Theatre 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_theatre_1/public" data-location="Bahrain National Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_theatre_1/public" alt="Bahrain National Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_theatre_2/public" data-location="Bahrain National Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_theatre_2/public" alt="Bahrain National Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_theatre_3/public" data-location="Bahrain National Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_theatre_3/public" alt="Bahrain National Theatre"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Four+Seasons+Hotel+Bahrain+Bay/@26.2471629,50.5818924,17z/data=!3m1!4b1!4m9!3m8!1s0x3e49a5ee04432f29:0xfe1fc4a2a6a601cc!5m2!4m1!1i2!8m2!3d26.2471629!4d50.5818924!16s%2Fg%2F124ypwf0s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Four Seasons Hotel Bahrain Bay 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/four_eaon_hotel_bahrain_bay_1/public" data-location="Four Seasons Hotel Bahrain Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/four_eaon_hotel_bahrain_bay_1/public" alt="Four Seasons Hotel Bahrain Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/four_eaon_hotel_bahrain_bay_2/public" data-location="Four Seasons Hotel Bahrain Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/four_eaon_hotel_bahrain_bay_2/public" alt="Four Seasons Hotel Bahrain Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/four_eaon_hotel_bahrain_bay_3/public" data-location="Four Seasons Hotel Bahrain Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/four_eaon_hotel_bahrain_bay_3/public" alt="Four Seasons Hotel Bahrain Bay"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Royal+Golf+Club/@26.0915565,50.5664223,17z/data=!3m1!4b1!4m6!3m5!1s0x3e48532bccfc101b:0x8c409dccf4ad1ceb!8m2!3d26.0915565!4d50.5664223!16s%2Fg%2F1vhkj050?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Royal Golf Club 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/royal_golf_club_1/public" data-location="Royal Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/royal_golf_club_1/public" alt="Royal Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/royal_golf_club_2/public" data-location="Royal Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/royal_golf_club_2/public" alt="Royal Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/royal_golf_club_3/public" data-location="Royal Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/royal_golf_club_3/public" alt="Royal Golf Club"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Avenues/@26.2457591,50.5853787,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a5f064f0a013:0xe0aae9ebaaec9a58!8m2!3d26.2457591!4d50.5853787!16s%2Fg%2F11c5rp28cq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Avenues Bahrain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/the_avenue_bahrain_1/public" data-location="The Avenues Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/the_avenue_bahrain_1/public" alt="The Avenues Bahrain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/the_avenue_bahrain_2/public" data-location="The Avenues Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/the_avenue_bahrain_2/public" alt="The Avenues Bahrain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/the_avenue_bahrain_3/public" data-location="The Avenues Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/the_avenue_bahrain_3/public" alt="The Avenues Bahrain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Lost+Paradise+of+Dilmun+Water+Park/@26.0138525,50.509934,17z/data=!3m1!4b1!4m6!3m5!1s0x3e484d8107f9b8a5:0xc8fb2b4c69a7c0dd!8m2!3d26.0138525!4d50.509934!16s%2Fg%2F122vlg3c?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lost Paradise of Dilmun Water Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lot_paradie_of_dilmun_water_park_1/public" data-location="Lost Paradise of Dilmun Water Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lot_paradie_of_dilmun_water_park_1/public" alt="Lost Paradise of Dilmun Water Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lot_paradie_of_dilmun_water_park_2/public" data-location="Lost Paradise of Dilmun Water Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lot_paradie_of_dilmun_water_park_2/public" alt="Lost Paradise of Dilmun Water Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lot_paradie_of_dilmun_water_park_3/public" data-location="Lost Paradise of Dilmun Water Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/lot_paradie_of_dilmun_water_park_3/public" alt="Lost Paradise of Dilmun Water Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+National+Museum/@26.2408014,50.598086,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a7f3ce5331bf:0xb088fba62e92b067!8m2!3d26.2408014!4d50.598086!16zL20vMDhodmRk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bahrain National Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_mueum_1/public" data-location="Bahrain National Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_mueum_1/public" alt="Bahrain National Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_mueum_2/public" data-location="Bahrain National Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_mueum_2/public" alt="Bahrain National Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_mueum_3/public" data-location="Bahrain National Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_national_mueum_3/public" alt="Bahrain National Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+World+Trade+Center/@26.2397117,50.5815164,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a5f6843052ab:0xdbbc690463ac7552!8m2!3d26.2397117!4d50.5815164!16s%2Fm%2F02z2lv4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bahrain World Trade Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_world_trade_center_1/public" data-location="Bahrain World Trade Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_world_trade_center_1/public" alt="Bahrain World Trade Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_world_trade_center_2/public" data-location="Bahrain World Trade Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_world_trade_center_2/public" alt="Bahrain World Trade Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_world_trade_center_3/public" data-location="Bahrain World Trade Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_world_trade_center_3/public" alt="Bahrain World Trade Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+International+Circuit/@26.0321332,50.5108143,17z/data=!3m1!4b1!4m6!3m5!1s0x3e484d66f7114f99:0xb08bbfbdc59c2dc!8m2!3d26.0321332!4d50.5108143!16zL20vMDNzM3Ey?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sakhir Desert Dunes 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/akhir_deert_dune_1/public" data-location="Sakhir Desert Dunes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/akhir_deert_dune_1/public" alt="Sakhir Desert Dunes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/akhir_deert_dune_2/public" data-location="Sakhir Desert Dunes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/akhir_deert_dune_2/public" alt="Sakhir Desert Dunes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/akhir_deert_dune_3/public" data-location="Sakhir Desert Dunes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/akhir_deert_dune_3/public" alt="Sakhir Desert Dunes"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/City+Centre+Bahrain/@26.2333324,50.5532777,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a5788e4fa6d3:0x59a12e7b22b7b68c!8m2!3d26.2333324!4d50.5532777!16s%2Fg%2F11gdlkcfv9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>City Centre Bahrain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/city_centre_bahrain_1/public" data-location="City Centre Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/city_centre_bahrain_1/public" alt="City Centre Bahrain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/city_centre_bahrain_2/public" data-location="City Centre Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/city_centre_bahrain_2/public" alt="City Centre Bahrain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/city_centre_bahrain_3/public" data-location="City Centre Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/city_centre_bahrain_3/public" alt="City Centre Bahrain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Durrat+Al+Bahrain/@25.8342343,50.6127786,17z/data=!3m1!4b1!4m6!3m5!1s0x3e485ebe8e357e13:0xb5111662054f9d90!8m2!3d25.8334352!4d50.6139033!16zL20vMGN4eGpk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Durrat Al Bahrain Islands 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/durrat_al_bahrain_iland_1/public" data-location="Durrat Al Bahrain Islands"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/durrat_al_bahrain_iland_1/public" alt="Durrat Al Bahrain Islands"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/durrat_al_bahrain_iland_2/public" data-location="Durrat Al Bahrain Islands"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/durrat_al_bahrain_iland_2/public" alt="Durrat Al Bahrain Islands"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/durrat_al_bahrain_iland_3/public" data-location="Durrat Al Bahrain Islands"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/durrat_al_bahrain_iland_3/public" alt="Durrat Al Bahrain Islands"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+Financial+Harbour/@26.237365,50.5736662,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a58b0e7fcf9d:0x9f51bd01fae45bad!8m2!3d26.237365!4d50.5736662!16s%2Fm%2F04gs49l?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bahrain Financial Harbour 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_financial_harbour_1/public" data-location="Bahrain Financial Harbour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_financial_harbour_1/public" alt="Bahrain Financial Harbour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_financial_harbour_2/public" data-location="Bahrain Financial Harbour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_financial_harbour_2/public" alt="Bahrain Financial Harbour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_financial_harbour_3/public" data-location="Bahrain Financial Harbour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_financial_harbour_3/public" alt="Bahrain Financial Harbour"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+Fort/@26.2330953,50.5198657,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a54914835ccf:0xdf17ca9d3f2752d0!8m2!3d26.2330953!4d50.5198657!16zL20vMGIyZ2Js?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Qal’at al-Bahrain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/qalat_al-bahrain_1/public" data-location="Qal’at al-Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/qalat_al-bahrain_1/public" alt="Qal’at al-Bahrain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/qalat_al-bahrain_2/public" data-location="Qal’at al-Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/qalat_al-bahrain_2/public" alt="Qal’at al-Bahrain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/qalat_al-bahrain_3/public" data-location="Qal’at al-Bahrain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/qalat_al-bahrain_3/public" alt="Qal’at al-Bahrain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/King+Fahad+Causeway+Mosque/@26.182323,50.3310678,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49c7a665a45b7b:0x6273f072f26ed4df!8m2!3d26.182323!4d50.3310678!16s%2Fg%2F11ycxs_n7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>King Fahd Mosque 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/king_fahd_moque_1/public" data-location="King Fahd Mosque"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/king_fahd_moque_1/public" alt="King Fahd Mosque"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/king_fahd_moque_2/public" data-location="King Fahd Mosque"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/king_fahd_moque_2/public" alt="King Fahd Mosque"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/king_fahd_moque_3/public" data-location="King Fahd Mosque"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/king_fahd_moque_3/public" alt="King Fahd Mosque"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Art+Hotel+%26+Resort/@26.2900737,50.659915,17z/data=!3m1!4b1!4m9!3m8!1s0x3e49a797b70d3d71:0x9072a935983e7fa3!5m2!4m1!1i2!8m2!3d26.2900737!4d50.659915!16s%2Fg%2F11b6x4_km9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Art Rotana Beach & Water Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/art_rotana_beach__water_park_1/public" data-location="Art Rotana Beach & Water Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/art_rotana_beach__water_park_1/public" alt="Art Rotana Beach & Water Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/art_rotana_beach__water_park_2/public" data-location="Art Rotana Beach & Water Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/art_rotana_beach__water_park_2/public" alt="Art Rotana Beach & Water Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/art_rotana_beach__water_park_3/public" data-location="Art Rotana Beach & Water Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/art_rotana_beach__water_park_3/public" alt="Art Rotana Beach & Water Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/A'ali+Pottery+Workshop-alshugel+pottery/@26.1591744,50.5169938,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49ae2111fbdf1d:0xdc3c646c39845f7d!8m2!3d26.1591744!4d50.5169938!16s%2Fg%2F11c1q75gnh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>A’ali Pottery Workshops 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/aali_pottery_workhop_1/public" data-location="A’ali Pottery Workshops"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/aali_pottery_workhop_1/public" alt="A’ali Pottery Workshops"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/aali_pottery_workhop_2/public" data-location="A’ali Pottery Workshops"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/aali_pottery_workhop_2/public" alt="A’ali Pottery Workshops"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/aali_pottery_workhop_3/public" data-location="A’ali Pottery Workshops"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/aali_pottery_workhop_3/public" alt="A’ali Pottery Workshops"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bab+Al+Bahrain/@26.2339813,50.5756748,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49af600938db9b:0x66a4bd4a32e4a504!8m2!3d26.2339813!4d50.5756748!16zL20vMGN2NWdq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bab Al Bahrain Square 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bab_al_bahrain_quare_1/public" data-location="Bab Al Bahrain Square"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bab_al_bahrain_quare_1/public" alt="Bab Al Bahrain Square"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bab_al_bahrain_quare_2/public" data-location="Bab Al Bahrain Square"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bab_al_bahrain_quare_2/public" alt="Bab Al Bahrain Square"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bab_al_bahrain_quare_3/public" data-location="Bab Al Bahrain Square"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bab_al_bahrain_quare_3/public" alt="Bab Al Bahrain Square"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bahrain+Fort+Museum/@26.2350941,50.5224021,17z/data=!3m1!4b1!4m6!3m5!1s0x3e49a5a5f7afc30d:0x8afc3991d708eaef!8m2!3d26.2350941!4d50.5224021!16s%2Fg%2F11r3756rhv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bahrain Fort Museum & Excavations 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_fort_mueum__excavation_1/public" data-location="Bahrain Fort Museum & Excavations"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_fort_mueum__excavation_1/public" alt="Bahrain Fort Museum & Excavations"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_fort_mueum__excavation_2/public" data-location="Bahrain Fort Museum & Excavations"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_fort_mueum__excavation_2/public" alt="Bahrain Fort Museum & Excavations"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_fort_mueum__excavation_3/public" data-location="Bahrain Fort Museum & Excavations"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/bahrain_fort_mueum__excavation_3/public" alt="Bahrain Fort Museum & Excavations"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="promotion-section">
+    <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+    
+    <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+    
+    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+  </script>
+</body>
+</html>
