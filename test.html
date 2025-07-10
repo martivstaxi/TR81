@@ -21,7 +21,7 @@
   --shadow-xl:0 12px 40px rgba(0,0,0,.12);
 }
 
-/* === Reset === */
+/* === Reset & Gövde === */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Inter',sans-serif;background:var(--bg-grad);color:var(--text-primary);
@@ -37,7 +37,7 @@ body::before{
 /* === Container === */
 .container{max-width:1100px;margin:0 auto;padding:0 16px;}
 
-/* === Logo === */
+/* === Logo & World Button (değişmedi) === */
 .logo{
   position:fixed;top:20px;left:20px;width:44px;height:44px;border-radius:50%;
   background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
@@ -45,8 +45,6 @@ body::before{
   box-shadow:var(--shadow-lg);transition:.3s;z-index:100;border:1px solid rgba(255,255,255,.2);
 }
 .logo:hover{transform:scale(1.1) rotate(10deg);box-shadow:var(--shadow-xl);}
-
-/* === World Button === */
 .world-button{
   position:fixed;top:20px;right:20px;padding:10px 20px;
   background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);
@@ -56,47 +54,44 @@ body::before{
 .world-button:hover{transform:translateY(-2px);box-shadow:var(--shadow-xl);}
 .world-icon{font-size:18px;}
 
-/* === Header === */
+/* === Header & Animasyonlu Başlık === */
 .header{padding:80px 16px 40px;text-align:center;}
-.title{
-  font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;margin-bottom:12px;
-  background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  letter-spacing:-.5px;
+.title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;margin-bottom:12px;display:inline-block;}
+.word{
+  background:linear-gradient(120deg,var(--c1),var(--c2));
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:bgShift 6s ease infinite;
+}
+@keyframes bgShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+/* Tarayıcı desteklemezse siyah yedek */
+@supports not (-webkit-background-clip: text){
+  .word{background:none;-webkit-text-fill-color:initial;color:#111;animation:none;}
 }
 
-/* === Search === */
+/* === Search, Banner, Grid (Önceki sürümle aynı) === */
 .search-box{max-width:500px;margin:0 auto 40px;position:relative;}
 .search{
   width:100%;padding:14px 48px 14px 20px;font-size:15px;background:var(--glass-bg);
   backdrop-filter:blur(20px);border:2px solid var(--glass-border);border-radius:20px;
   transition:.3s;color:var(--text-primary);
 }
-.search:focus{
-  outline:none;border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(59,130,246,.1);background:rgba(255,255,255,.8);
-}
+.search:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(59,130,246,.1);background:rgba(255,255,255,.8);}
 .search::placeholder{color:var(--text-muted);}
-.search-icon{
-  position:absolute;right:20px;top:50%;transform:translateY(-50%);
-  color:var(--text-secondary);pointer-events:none;
-}
-
-/* === Info Banner === */
+.search-icon{position:absolute;right:20px;top:50%;transform:translateY(-50%);color:var(--text-secondary);pointer-events:none;}
 .info{
   max-width:600px;margin:0 auto 40px;padding:20px 24px;text-align:center;
   background:var(--card-bg);backdrop-filter:blur(20px);border:2px solid var(--glass-border);
-  border-radius:20px;font-size:14px;line-height:1.6;color:var(--text-primary);
-  box-shadow:var(--shadow-lg);
+  border-radius:20px;font-size:14px;line-height:1.6;color:var(--text-primary);box-shadow:var(--shadow-lg);
 }
-.info.premium{
-  background:linear-gradient(135deg,#dcfce7 0%,#d1fae5 100%);
-  border-color:#16a34a;color:#16a34a;
-}
+.info.premium{background:linear-gradient(135deg,#dcfce7 0%,#d1fae5 100%);border-color:#16a34a;color:#16a34a;}
 .info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
 .info a:hover{color:var(--primary-dark);text-decoration:underline;}
-
-/* === City Grid === */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;padding-bottom:40px;}
 .card{
   background:var(--card-bg);backdrop-filter:blur(20px);border:1px solid var(--glass-border);
@@ -106,10 +101,7 @@ body::before{
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);}
 .card.antalya{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border-color:#f59e0b;}
 .city-name{font-weight:500;font-size:14px;color:var(--text-primary);}
-
-/* === Responsive === */
 @media(max-width:768px){
-  .container{max-width:100%;}
   .logo{width:40px;height:40px;font-size:20px;top:16px;left:16px;}
   .world-button{top:16px;right:16px;padding:8px 16px;font-size:13px;}
   .header{padding:70px 16px 32px;}
@@ -121,8 +113,6 @@ body::before{
   .city-name{font-size:13px;}
 }
 @media(max-width:480px){.grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}}
-
-/* === Animations === */
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 .card{animation:fadeIn .3s ease;}
 </style>
@@ -140,7 +130,7 @@ body::before{
 <div class="container">
   <!-- Header -->
   <div class="header">
-    <h1 class="title" id="mainTitle">Select province → Explore Türkiye's scenic spots 📍</h1>
+    <h1 class="title" id="mainTitle">Explore Türkiye's scenic spots 📍</h1>
   </div>
 
   <!-- Search -->
@@ -162,31 +152,30 @@ body::before{
 <script>
 /* ---------- Çeviriler (kısaltılmış başlık) ---------- */
 const translations={
-  tr:{banner:`Antalya'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>`,premium:'🔓 Tüm iller açık!',title:'İl seç → Türkiye\'nin manzaralı yerlerini keşfet 📍',search:'Bir il ara...',worldButton:'Dünya Konumları'},
-  en:{banner:`Explore Antalya free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all provinces`,premium:'🔓 All provinces unlocked!',title:'Select province → Explore Türkiye\'s scenic spots 📍',search:'Search province...',worldButton:'World Locations'},
-  de:{banner:`Antalya kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle`,premium:'🔓 Alle Provinzen freigeschaltet!',title:'Provinz wählen → Türkische Aussichtspunkte entdecken 📍',search:'Provinz suchen...',worldButton:'Weltweite Orte'},
-  fr:{banner:`Antalya gratuite ! ⚡ <a href="https://www.tr81.tr/login.html">Connexion</a> pour toutes`,premium:'🔓 Toutes les provinces débloquées !',title:'Choisir une province → Explorer les sites panoramiques de Turquie 📍',search:'Rechercher…',worldButton:'Lieux du Monde'},
-  es:{banner:`¡Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 ¡Todas las provincias abiertas!',title:'Elige provincia → Explora los paisajes de Türkiye 📍',search:'Buscar provincia…',worldButton:'Lugares del Mundo'},
-  it:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti`,premium:'🔓 Tutte le province sbloccate!',title:'Scegli provincia → Esplora i luoghi panoramici della Türkiye 📍',search:'Cerca provincia…',worldButton:'Luoghi del Mondo'},
-  pt:{banner:`Antalya grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 Todas as províncias liberadas!',title:'Selecione província → Explore os pontos cênicos da Türkiye 📍',search:'Pesquisar província…',worldButton:'Locais do Mundo'},
-  ru:{banner:`Анталья бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех`,premium:'🔓 Все провинции открыты!',title:'Выберите провинцию → Исследуйте живописные места Турции 📍',search:'Поиск провинции…',worldButton:'Места мира'},
-  ja:{banner:`アンタルヤ無料! ⚡ すべての県は<a href="https://www.tr81.tr/login.html">ログイン</a>`,premium:'🔓 全県利用可!',title:'県を選択 → Türkiye の景勝地を探索 📍',search:'県を検索…',worldButton:'世界の場所'},
-  zh:{banner:`安塔利亚免费! ⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看全部`,premium:'🔓 所有省份已解锁!',title:'选择省份 → 探索 Türkiye 的美景 📍',search:'搜索省份…',worldButton:'世界地点'},
-  ar:{banner:`أنطاليا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a> للجميع`,premium:'🔓 جميع المحافظات متاحة!',title:'اختر محافظة → استكشف مواقع تركيا الخلابة 📍',search:'البحث عن محافظة…',worldButton:'مواقع العالم'},
-  hi:{banner:`अंताल्या मुफ्त! ⚡ सभी के लिए <a href="https://www.tr81.tr/login.html">लॉगिन</a>`,premium:'🔓 सभी प्रांत खुले!',title:'प्रांत चुनें → Türkiye के दर्शनीय स्थल खोजें 📍',search:'प्रांत खोजें…',worldButton:'विश्व स्थान'},
-  ko:{banner:`안탈리아 무료! ⚡ 모든 지방은 <a href="https://www.tr81.tr/login.html">로그인</a>`,premium:'🔓 모든 지방 이용 가능!',title:'지방 선택 → Türkiye 경관 명소 탐험 📍',search:'지방 검색…',worldButton:'세계 명소'},
-  nl:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alles`,premium:'🔓 Alle provincies open!',title:'Selecteer provincie → Verken Türkije’s schilderachtige plekken 📍',search:'Provincie zoeken…',worldButton:'Wereldlocaties'},
-  pl:{banner:`Antalya za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj się</a> dla wszystkich`,premium:'🔓 Wszystkie prowincje odblokowane!',title:'Wybierz prowincję → Odkrywaj malownicze miejsca Türkiye 📍',search:'Szukaj prowincji…',worldButton:'Miejsca na świecie'},
-  sv:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla`,premium:'🔓 Alla provinser öppna!',title:'Välj provins → Utforska Türkiye’s natursköna platser 📍',search:'Sök provins…',worldButton:'Världsplatser'},
-  no:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle`,premium:'🔓 Alle provinser åpne!',title:'Velg provins → Utforsk Türkiye’s naturskjønne steder 📍',search:'Søk provins…',worldButton:'Verdenssteder'},
-  da:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle`,premium:'🔓 Alle provinser åbne!',title:'Vælg provins → Udforsk Türkiye’s naturskønne steder 📍',search:'Søg provins…',worldButton:'Verdenssteder'},
-  fi:{banner:`Antalya ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikille`,premium:'🔓 Kaikki maakunnat auki!',title:'Valitse maakunta → Tutustu Türkiye’n maisemakohteisiin 📍',search:'Hae maakuntaa…',worldButton:'Maailman paikat'},
-  cs:{banner:`Antalya zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit</a> pro vše`,premium:'🔓 Všechny provincie odemčeny!',title:'Vyberte provincii → Objevte malebná místa Türkiye 📍',search:'Hledat provincii…',worldButton:'Světová místa'}
+  tr:{banner:`Antalya'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>`,premium:'🔓 Tüm iller açık!',title:'Türkiye\'nin manzaralı yerlerini keşfet 📍',search:'Bir il ara...',worldButton:'Dünya Konumları'},
+  en:{banner:`Explore Antalya free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all provinces`,premium:'🔓 All provinces unlocked!',title:'Explore Türkiye\'s scenic spots 📍',search:'Search province...',worldButton:'World Locations'},
+  de:{banner:`Antalya kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle`,premium:'🔓 Alle Provinzen freigeschaltet!',title:'Entdecke Türkies malerische Orte 📍',search:'Provinz suchen...',worldButton:'Weltweite Orte'},
+  fr:{banner:`Antalya gratuite ! ⚡ <a href="https://www.tr81.tr/login.html">Connexion</a> pour tous`,premium:'🔓 Toutes les provinces débloquées !',title:'Explorez les sites panoramiques de Turquie 📍',search:'Rechercher…',worldButton:'Lieux du Monde'},
+  es:{banner:`¡Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 ¡Todas las provincias abiertas!',title:'Explora los paisajes de Türkiye 📍',search:'Buscar provincia…',worldButton:'Lugares del Mundo'},
+  it:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti`,premium:'🔓 Tutte le province sbloccate!',title:'Esplora i luoghi panoramici della Türkiye 📍',search:'Cerca provincia…',worldButton:'Luoghi del Mondo'},
+  pt:{banner:`Antalya grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 Todas as províncias liberadas!',title:'Explore os pontos cênicos da Türkiye 📍',search:'Pesquisar província…',worldButton:'Locais do Mundo'},
+  ru:{banner:`Анталья бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех`,premium:'🔓 Все провинции открыты!',title:'Исследуйте живописные места Турции 📍',search:'Поиск провинции…',worldButton:'Места мира'},
+  ja:{banner:`アンタルヤ無料! ⚡ すべての県は<a href="https://www.tr81.tr/login.html">ログイン</a>`,premium:'🔓 全県利用可!',title:'Türkiye の景勝地を探索 📍',search:'県を検索…',worldButton:'世界の場所'},
+  zh:{banner:`安塔利亚免费! ⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看全部`,premium:'🔓 所有省份已解锁!',title:'探索 Türkiye 的美景 📍',search:'搜索省份…',worldButton:'世界地点'},
+  ar:{banner:`أنطاليا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a> للجميع`,premium:'🔓 جميع المحافظات متاحة!',title:'استكشف مواقع تركيا الخلابة 📍',search:'ابحث عن محافظة…',worldButton:'مواقع العالم'},
+  hi:{banner:`अंताल्या मुफ्त! ⚡ सभी के लिए <a href="https://www.tr81.tr/login.html">लॉगिन</a>`,premium:'🔓 सभी प्रांत खुले!',title:'Türkiye के दर्शनीय स्थल खोजें 📍',search:'प्रांत खोजें…',worldButton:'विश्व स्थान'},
+  ko:{banner:`안탈리아 무료! ⚡ 모든 지방은 <a href="https://www.tr81.tr/login.html">로그인</a>`,premium:'🔓 모든 지방 이용 가능!',title:'Türkiye 경관 명소 탐험 📍',search:'지방 검색…',worldButton:'세계 명소'},
+  nl:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alles`,premium:'🔓 Alle provincies open!',title:'Verken Türkije’s schilderachtige plekken 📍',search:'Provincie zoeken…',worldButton:'Wereldlocaties'},
+  pl:{banner:`Antalya za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj</a> dla wszystkich`,premium:'🔓 Wszystkie prowincje odblokowane!',title:'Odkrywaj malownicze miejsca Türkiye 📍',search:'Szukaj prowincji…',worldButton:'Miejsca na świecie'},
+  sv:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla`,premium:'🔓 Alla provinser öppna!',title:'Utforska Türkiye’s natursköna platser 📍',search:'Sök provins…',worldButton:'Världsplatser'},
+  no:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle`,premium:'🔓 Alle provinser åpne!',title:'Utforsk Türkiye’s naturskjønne steder 📍',search:'Søk provins…',worldButton:'Verdenssteder'},
+  da:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle`,premium:'🔓 Alle provinser åbne!',title:'Udforsk Türkiye’s naturskønne steder 📍',search:'Søg provins…',worldButton:'Verdenssteder'},
+  fi:{banner:`Antalya ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikille`,premium:'🔓 Kaikki maakunnat auki!',title:'Tutustu Türkiye’n maisemakohteisiin 📍',search:'Hae maakuntaa…',worldButton:'Maailman paikat'},
+  cs:{banner:`Antalya zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit</a> pro vše`,premium:'🔓 Všechny provincie odemčeny!',title:'Objevte malebná místa Türkiye 📍',search:'Hledat provincii…',worldButton:'Světová místa'}
 };
 
-/* ---------- Şehir Listesi ---------- */
-const cities=[['antalya','Antalya','antalya'],
-['adana','Adana','adana'],['adiyaman','Adıyaman','adiyaman'],
+/* ---------- Şehir Listesi ve Demo iller ---------- */
+const cities=[['antalya','Antalya','antalya'],['adana','Adana','adana'],['adiyaman','Adıyaman','adiyaman'],
 ['afyon','Afyonkarahisar','afyon'],['agri','Ağrı','agri ağrı'],['aksaray','Aksaray','aksaray'],
 ['amasya','Amasya','amasya'],['ankara','Ankara','ankara'],['ardahan','Ardahan','ardahan'],
 ['artvin','Artvin','artvin'],['aydin','Aydın','aydin'],['balikesir','Balıkesir','balikesir'],
@@ -213,8 +202,6 @@ const cities=[['antalya','Antalya','antalya'],
 ['tekirdag','Tekirdağ','tekirdag'],['tokat','Tokat','tokat'],['trabzon','Trabzon','trabzon'],
 ['tunceli','Tunceli','tunceli'],['usak','Uşak','usak'],['van','Van','van'],
 ['yalova','Yalova','yalova'],['yozgat','Yozgat','yozgat'],['zonguldak','Zonguldak','zonguldak']];
-
-/* ---------- Demo iller ---------- */
 const demoProvinces=['antalya'];
 
 /* ---------- Yardımcı ---------- */
@@ -235,6 +222,20 @@ banner.className=accessGranted?'info premium':'info';
 titleEl.textContent=langObj.title;
 search.placeholder=langObj.search;
 document.getElementById('worldButtonText').textContent=langObj.worldButton;
+
+/* ---------- Başlık Stilini Dinamik Olarak Oluştur ---------- */
+function stylizeTitle(){
+  const text=titleEl.textContent.replace('📍','').trim();
+  const words=text.split(/\s+/);
+  const palettes=[['#2ecc71','#27ae60'],['#3498db','#2980b9'],['#f1c40f','#f39c12'],
+                 ['#e67e22','#d35400'],['#9b59b6','#8e44ad']];
+  const html=words.map((w,i)=>{
+    const p=palettes[i%palettes.length];
+    return `<span class="word" style="--c1:${p[0]};--c2:${p[1]};">${w}</span>`;
+  }).join(' ');
+  titleEl.innerHTML=html+' 📍';
+}
+stylizeTitle();
 
 /* ---------- Kartlar ---------- */
 cities.forEach(([slug,name,filter])=>{
