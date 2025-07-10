@@ -5,1148 +5,1020 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Türkiye'nin en güzel manzaralı yerlerini keşfedin. Fotoğraf çekim noktaları ve gizli lokasyonlar.">
   <title>Türkiye'nin 81 ilindeki en güzel manzaralı noktaları📍Konumlarıyla birlikte web sitemizde</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
   <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      text-align: center;
-      padding: 40px 20px;
-      margin: 0;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
-      min-height: 100vh;
-      position: relative;
-      color: #495057;
+    /* Australia.html Color Palette */
+    :root{
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --secondary-light: #a78bfa;
+      --accent: #f97316;
+      --accent-light: #fb923c;
+      --success: #10b981;
+      --error: #ef4444;
+      --bg-main: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --bg-card: rgba(255, 255, 255, 0.95);
+      --bg-glass: rgba(255, 255, 255, 0.60);
+      --border-glass: rgba(255, 255, 255, 0.2);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      --gradient-hover: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+      --shadow-glow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.12);
     }
-    
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+
+    /* Reset */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg-main);
+      color:var(--text-primary);
+      min-height:100vh;
+      line-height:1.6;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    /* Animated Background - Matching Australia.html */
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
       background: 
         radial-gradient(circle at 20% 20%, rgba(108, 117, 125, 0.08) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(173, 181, 189, 0.05) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: -1;
+      pointer-events:none;
+      z-index:-1;
     }
 
-    /* Tüm container'lar için ortak stil */
-    .content-container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 40px;
-      margin: 20px auto;
-      max-width: 500px;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.1),
-        0 1px 8px rgba(0,0,0,0.05);
-      border: 1px solid rgba(255, 255, 255, 0.8);
+    /* Logo - Matching Australia.html */
+    .logo{
+      position:fixed;
+      top:30px;
+      left:30px;
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      background:rgba(255, 255, 255, 0.9);
+      backdrop-filter:blur(10px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:26px;
+      text-decoration:none;
+      box-shadow:var(--shadow-glow);
+      transition:all .3s ease;
+      z-index:100;
+      border:1px solid rgba(255, 255, 255, 0.2);
+    }
+    .logo:hover{
+      transform:scale(1.1) rotate(10deg);
+      box-shadow:var(--shadow-card);
     }
 
-    #about {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 40px;
-      margin: 20px auto;
-      max-width: 500px;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.1),
-        0 1px 8px rgba(0,0,0,0.05);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      font-size: 17px;
-      line-height: 1.6;
-      color: #495057;
+    /* Language Selector - Matching Australia.html */
+    .lang-select{
+      position:fixed;
+      top:30px;
+      right:30px;
+      z-index:100;
+    }
+    .lang-btn{
+      background:rgba(255, 255, 255, 0.95);
+      backdrop-filter:blur(20px);
+      border:1px solid var(--border-glass);
+      border-radius:12px;
+      padding:10px 16px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:500;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:var(--shadow-glow);
+      transition:all .3s ease;
+      color:var(--text-primary);
+    }
+    .lang-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow-card);
+    }
+    .lang-list{
+      position:absolute;
+      top:calc(100% + 8px);
+      right:0;
+      background:rgba(255, 255, 255, 0.98);
+      backdrop-filter:blur(20px);
+      border:1px solid var(--border-glass);
+      border-radius:12px;
+      box-shadow:var(--shadow-card);
+      max-height:320px;
+      overflow-y:auto;
+      display:none;
+      min-width:160px;
+    }
+    .lang-list.show{display:block;animation:fadeIn .3s ease;}
+    .lang-item{
+      padding:10px 16px;
+      cursor:pointer;
+      transition:background .2s;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:14px;
+      color:var(--text-primary);
+    }
+    .lang-item:hover{
+      background:var(--bg-glass);
+      color:var(--primary);
+    }
+    .lang-item.active{
+      background:var(--primary);
+      color:white;
     }
 
-    #about h1 {
-      font-size: 26px;
-      margin-bottom: 25px;
-      padding: 0 10px;
-      line-height: 1.6;
-      color: #343a40;
-      font-weight: 700;
+    /* Container */
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:100px 20px 40px;
+      position:relative;
+      z-index:2;
     }
 
-    #about h2 {
-      color: #343a40;
-      margin-top: 25px;
-      margin-bottom: 15px;
-      font-size: 20px;
-      font-weight: 600;
+    /* Glass Cards - Matching Australia.html */
+    .card{
+      background:var(--bg-card);
+      backdrop-filter:blur(20px);
+      border:1px solid var(--border-glass);
+      border-radius:20px;
+      padding:40px;
+      margin:25px auto;
+      max-width:500px;
+      position:relative;
+      transition:all .3s ease;
+      overflow:hidden;
+      box-shadow:var(--shadow-glow);
+    }
+    .card:hover{
+      transform:translateY(-3px);
+      box-shadow:var(--shadow-card);
     }
 
-    #about img {
-      max-width: 300px;
-      width: 100%;
-      border-radius: 12px;
-      margin: 20px 0;
+    /* Auth Header - Matching Australia.html style */
+    .auth-header{
+      font-size:clamp(24px, 5vw, 38px);
+      font-weight:700;
+      margin-bottom:10px;
+      background:var(--gradient-main);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-align:center;
+      position:relative;
+      letter-spacing:-0.5px;
+    }
+    .auth-subtitle{
+      text-align:center;
+      font-size:1rem;
+      color:var(--text-secondary);
+      margin-bottom:35px;
+      font-weight:400;
     }
 
-    .map-link {
-      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
-      color: #2c1810 !important;
-      padding: 10px 20px;
-      border-radius: 25px;
-      text-decoration: none !important;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 15px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-      font-weight: 600;
-      font-size: 16px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+    /* Modern Input Fields - Australia.html style */
+    .input-group{
+      margin-bottom:20px;
+      position:relative;
+    }
+    .modern-input{
+      width:100%;
+      padding:14px 20px;
+      font-size:15px;
+      background:var(--bg-glass);
+      backdrop-filter:blur(20px);
+      border:2px solid rgba(0, 0, 0, 0.08);
+      border-radius:12px;
+      transition:all .3s ease;
+      color:var(--text-primary);
+    }
+    .modern-input:focus{
+      outline:none;
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
+      background:rgba(255, 255, 255, 0.8);
+    }
+    .modern-input::placeholder{
+      color:var(--text-muted);
     }
 
-    .map-link::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.5s;
+    /* Gradient Buttons - Australia.html style */
+    .btn{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:18px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration:none;
+      display:block;
+      text-align:center;
+      margin-bottom:15px;
+      position:relative;
+      overflow:hidden;
+      text-shadow:0 1px 3px rgba(0,0,0,0.3);
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
+      color:white;
+      box-shadow:0 6px 24px rgba(59, 130, 246, 0.4);
+    }
+    .btn-primary:hover{
+      transform:translateY(-3px);
+      box-shadow:0 15px 45px rgba(59, 130, 246, 0.6);
+      background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 100%);
+    }
+    .btn-secondary{
+      background:linear-gradient(135deg,#ffd700 0%,#ffb347 50%,#ff8c00 100%);
+      color:white;
+      box-shadow:0 8px 32px rgba(255, 215, 0, 0.4);
+    }
+    .btn-secondary:hover{
+      transform:translateY(-4px);
+      box-shadow:0 15px 45px rgba(255, 215, 0, 0.6);
+      background:linear-gradient(135deg,#ff8c00 0%,#ffb347 50%,#ffd700 100%);
     }
 
-    .map-link:hover::before {
-      left: 100%;
+    /* Messages - Australia.html style */
+    .message{
+      padding:12px 20px;
+      border-radius:12px;
+      margin:20px 0;
+      font-size:14px;
+      display:none;
+      text-align:center;
+    }
+    .error-message{
+      background:#fee;
+      color:#dc2626;
+      border:1px solid #fecaca;
+    }
+    .success-message{
+      background:#dcfce7;
+      color:#16a34a;
+      border:1px solid #bbf7d0;
     }
 
-    .map-link:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
-      color: #2c1810 !important;
-      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    /* Promo Card - Australia.html style */
+    .promo-card{
+      background:linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
+      border:2px solid #fbbf24;
+      box-shadow:0 8px 32px rgba(251, 191, 36, 0.2);
+    }
+    .promo-text{
+      font-size:clamp(17px, 3vw, 22px);
+      color:#92400e;
+      margin-bottom:20px;
+      text-align:center;
+      font-weight:500;
+      line-height:1.6;
+    }
+    .instagram-btn{
+      background:linear-gradient(135deg,#405de6,#5851db,#833ab4,#c13584,#e1306c,#fd1d1d);
+      color:white!important;
+      box-shadow:0 6px 24px rgba(225, 48, 108, 0.4);
+    }
+    .instagram-btn:hover{
+      background:linear-gradient(135deg,#fd1d1d,#e1306c,#c13584,#833ab4,#5851db,#405de6);
+      box-shadow:0 15px 45px rgba(225, 48, 108, 0.6);
     }
 
-    .map-icon {
-      font-size: 18px;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-3px);
-      }
-      60% {
-        transform: translateY(-2px);
-      }
-    }
-
-    /* Promotion Section */
-    .promotion-section {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      color: #495057;
-      padding: 30px;
-      border-radius: 20px;
-      margin: 20px auto;
+    /* About Section - Australia.html style */
+    .about-card{
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      max-width: 500px;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.1),
-        0 1px 8px rgba(0,0,0,0.05);
+    }
+    .about-card h2{
+      font-size:clamp(20px, 4vw, 28px);
+      font-weight:700;
+      color:var(--text-primary);
+      margin-bottom:14px;
+      position:relative;
+      display:inline-block;
+    }
+    .about-card h3{
+      font-size:clamp(18px, 3.5vw, 24px);
+      font-weight:600;
+      color:var(--text-primary);
+      margin:24px 0 12px;
+    }
+    .about-card p{
+      color:var(--text-secondary);
+      margin-bottom:16px;
+      text-align:center;
+      line-height:1.6;
+      font-size:clamp(15px, 2.5vw, 17px);
+    }
+    .about-card img{
+      width:100%;
+      max-width:350px;
+      border-radius:14px;
+      margin:20px auto;
+      display:block;
+      box-shadow:0 6px 20px rgba(0, 0, 0, 0.12);
+      border:1px solid var(--border-glass);
+      transition:transform 0.3s ease;
+    }
+    .about-card img:hover{
+      transform:scale(1.02);
     }
 
-    .instagram-btn {
-      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
-      color: white !important;
-      padding: 18px;
-      border-radius: 12px;
-      text-decoration: none !important;
-      display: inline-block;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin: 10px 0;
-      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
-      font-size: 18px;
-      width: 100%;
-      text-align: center;
-      box-sizing: border-box;
+    /* Map Link - Australia.html style */
+    .map-link{
+      background:linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      color:var(--primary)!important;
+      padding:10px 16px;
+      border-radius:25px;
+      text-decoration:none!important;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin:20px auto;
+      transition:all .3s ease;
+      font-weight:600;
+      font-size:clamp(13px, 2.5vw, 16px);
+      border:2px solid transparent;
+    }
+    .map-link:hover{
+      background:linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color:#1e293b!important;
+      transform:translateY(-2px);
+      border-color:rgba(59, 130, 246, 0.3);
+      box-shadow:0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    .map-icon{
+      font-size:16px;
+      color:var(--accent);
     }
 
-    .instagram-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4);
-      color: white !important;
-      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    /* Instagram Embed - Australia.html style */
+    .instagram-embed-container{
+      background:var(--bg-card);
+      backdrop-filter:blur(20px);
+      border:1px solid var(--border-glass);
+      border-radius:20px;
+      padding:40px;
+      margin:25px auto;
+      max-width:500px;
+      box-shadow:var(--shadow-glow);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .instagram-media{
+      background:white!important;
+      border:0!important;
+      margin:0 auto!important;
+      padding:0!important;
+      width:100%!important;
+      max-width:400px!important;
+      min-width:326px!important;
+      display:block!important;
     }
 
-    .promo-text {
-      margin: 20px 0;
-      font-size: 19px;
-      color: #495057;
-      line-height: 1.6;
-      font-weight: 500;
+    /* Mobile Responsive */
+    @media(max-width:768px){
+      .container{padding:80px 16px 32px;}
+      .logo{width:45px;height:45px;font-size:22px;top:20px;left:20px;}
+      .lang-select{top:20px;right:20px;}
+      .lang-btn{padding:10px 16px;font-size:13px;}
+      .card{padding:35px 25px;}
+      .auth-header{font-size:2rem;}
+      .modern-input{padding:14px 18px;font-size:14px;}
+      .btn{font-size:14px;padding:14px;}
     }
 
-    .purchase-btn {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 600;
-      display: inline-block;
-      transition: all 0.3s ease;
-      margin: 20px 0 10px 0;
-      border: none;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-      box-sizing: border-box;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    @media(max-width:480px){
+      .card{max-width:calc(100% - 32px);margin:20px 16px;}
+      .instagram-media{min-width:280px!important;}
+      .auth-header{font-size:1.8rem;}
     }
 
-    .purchase-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-      color: #ffffff;
-      text-decoration: none;
-      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    /* Manual Link - Australia.html style */
+    .manual-link{
+      background:#dcfce7;
+      padding:20px;
+      border-radius:12px;
+      margin-top:20px;
+      display:none;
+      border:1px solid #bbf7d0;
+      text-align:center;
     }
-
-    /* Auth Container */
-    .auth-container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 40px;
-      margin: 20px auto;
-      max-width: 500px;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.1),
-        0 1px 8px rgba(0,0,0,0.05);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      position: relative;
+    .manual-link a{
+      color:#16a34a;
+      font-weight:600;
+      text-decoration:none;
     }
-
-    .auth-header {
-      color: #343a40;
-      margin-bottom: 35px;
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 1.6;
-    }
-
-    .auth-title {
-      font-size: 30px;
-      font-weight: 700;
-      color: #343a40;
-      margin-bottom: 35px;
-    }
-
-    .input-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .modern-input {
-      width: 100%;
-      padding: 18px 25px;
-      border: 2px solid #e9ecef;
-      border-radius: 12px;
-      font-size: 17px;
-      transition: all 0.3s ease;
-      background: #ffffff;
-      box-sizing: border-box;
-      color: #495057;
-      font-weight: 400;
-    }
-
-    .modern-input::placeholder {
-      color: #adb5bd;
-    }
-
-    .modern-input:focus {
-      outline: none;
-      border-color: #495057;
-      box-shadow: 0 0 0 3px rgba(73, 80, 87, 0.1);
-      background: #ffffff;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 15px rgba(73, 80, 87, 0.2);
-    }
-
-    .login-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(73, 80, 87, 0.3);
-      background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-    }
-
-    .message {
-      padding: 15px 25px;
-      border-radius: 15px;
-      margin: 20px 0;
-      font-size: 16px;
-      display: none;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    .error-message {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-
-    .success-message {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-
-    .manual-link {
-      background: #d4edda;
-      padding: 25px;
-      border-radius: 15px;
-      margin-top: 25px;
-      display: none;
-      border: 1px solid #c3e6cb;
-    }
-
-    .manual-link a {
-      color: #155724;
-      font-weight: 600;
-      font-size: 18px;
-      text-decoration: none;
-    }
-
-    /* Instagram Embed Stili - Diğer containerlar gibi oval çerçeve içinde */
-    .instagram-embed-container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 40px;
-      margin: 20px auto;
-      max-width: 500px;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.1),
-        0 1px 8px rgba(0,0,0,0.05);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Instagram embed wrapper */
-    .instagram-embed-wrapper {
-      position: relative;
-      width: 100%;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Blockquote stilini ayarla */
-    .instagram-media {
-      background: white !important;
-      border: 0 !important;
-      margin: 0 auto !important;
-      padding: 0 !important;
-      width: 100% !important;
-      max-width: 400px !important;
-      min-width: 326px !important;
-      display: block !important;
-    }
-
-    /* Instagram iframe için */
-    .instagram-media iframe {
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-
-    /* Mobil optimizasyon - genel */
-    @media (max-width: 768px) {
-      body {
-        padding: 20px 10px;
-        overflow-x: hidden;
-      }
-      
-      .auth-container,
-      #about,
-      .promotion-section,
-      .instagram-embed-container {
-        padding: 30px 20px;
-        margin: 15px auto;
-      }
-      
-      #about h1 {
-        font-size: 28px;
-      }
-      
-      .auth-header {
-        font-size: 20px;
-      }
-      
-      #about h2 {
-        font-size: 22px;
-      }
-      
-      .instagram-media {
-        max-width: 100% !important;
-        min-width: 280px !important;
-      }
-    }
-
-    @media (max-width: 550px) {
-      #about h1 {
-        font-size: 26px;
-      }
-      
-      .auth-header {
-        font-size: 18px;
-      }
-      
-      #about h2 {
-        font-size: 20px;
-      }
-      
-      #about,
-      .promo-text {
-        font-size: 16px;
-      }
-      
-      .modern-input,
-      .login-btn,
-      .purchase-btn,
-      .instagram-btn,
-      .map-link {
-        font-size: 16px;
-      }
-
-      .auth-container,
-      #about,
-      .promotion-section,
-      .instagram-embed-container {
-        max-width: calc(100% - 20px);
-        margin: 10px;
-        padding: 25px 15px;
-      }
-      
-      .instagram-media {
-        min-width: 260px !important;
-      }
+    .manual-link a:hover{
+      text-decoration:underline;
     }
   </style>
 </head>
 <body>
 
+
+  <!-- Logo -->
+  <a href="#" class="logo" aria-label="Ana Sayfa">🌍</a>
+
+  <!-- Language -->
+  <div class="lang-select">
+    <button class="lang-btn" onclick="toggleLang()">
+      <span id="langFlag">🇹🇷</span>
+      <span id="langName">TR</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+        <path d="M3 5L6 8L9 5"/>
+      </svg>
+    </button>
+    <div class="lang-list" id="langList"></div>
+  </div>
+
+  <div class="container">
+    <!-- Auth Card -->
+    <div class="card">
+      <h1 class="auth-header" id="authHeader">Dünya Manzaraları</h1>
+      <p class="auth-subtitle" id="authSubtitle">150+ ülkedeki binlerce gizli konuma erişmek için giriş yapın</p>
+      
+      <div class="input-group">
+        <input type="text" id="usernameInput" class="modern-input" placeholder="Kullanıcı adı" oninput="this.value = this.value.toLowerCase()">
+      </div>
+      
+      <div class="input-group">
+        <input type="password" id="passwordInput" class="modern-input" placeholder="Şifre">
+      </div>
+      
+      <button onclick="login()" id="loginButton" class="btn btn-primary">🚀 Giriş Yap</button>
+      <a href="https://www.shopier.com/35589307" target="_blank" class="btn btn-secondary" id="purchaseBtn">💳 1 Yıllık Erişim</a>
+      
+      <div class="error-message message" id="errorMessage">Kullanıcı adı veya şifre yanlış.</div>
+      <div class="success-message message" id="successMessage">Giriş başarılı! Yönlendiriliyorsunuz...</div>
+      
+      <div class="manual-link" id="manualLink">
+        <strong id="manualLinkTitle">Otomatik yönlendirme çalışmıyorsa:</strong><br>
+        <a href="index.html" id="manualLinkText">➤ Buraya tıklayarak devam edin</a>
+      </div>
+    </div>
+
+    <!-- Promo Card -->
+    <div class="card promo-card">
+      <p class="promo-text" id="promoMessage">Giriş bilgilerinizi almak için bize yazın veya yukarıdan satın alın</p>
+      <a href="#" class="btn instagram-btn" onclick="openInstagramDM()" id="instagramBtn">📩 Instagram: @tr81.tr</a>
+    </div>
+
+    <!-- About Card -->
+    <div class="card about-card">
+      <h2 id="aboutTitle">Seyahat etmeyi seviyor musunuz?</h2>
+      <p id="aboutText1">Türkiye'de gideceğiniz ili seçin, size oranın en güzel manzara noktalarını gösterelim ve konum bilgilerini paylaşalım</p>
+      
+      <h3 id="aboutUs">Biz kimiz?</h3>
+      <p>🌍 Tuğçe & Anuar</p>
+      <p id="aboutText2">Dünyayı geziyor, en güzel manzaralı yerleri keşfediyoruz.</p>
+      
+      <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746083288/screenshot_fx7okx.jpg" alt="Tuğçe ve Anuar'ın Instagram sayfasından manzara fotoğrafları">
+      
+      <div style="text-align:center;">
+        <a class="map-link" href="https://www.google.com/maps/place/IZAKA+TERRACE/@41.0349785,28.9858418,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab77b241635bf:0x907fe6b4f66fac5e!8m2!3d41.0349745!4d28.9884167!16s%2Fg%2F11f2wbldhs?entry=ttu&g_ep=EgoyMDI1MDUyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+          <span class="map-icon">📍</span>
+          <span>İzaka Terrace Restaurant</span>
+        </a>
+      </div>
+      
+      <p id="aboutText3">Beğendiğimiz konumları bu sitede paylaşıyoruz.</p>
+      <p id="aboutText4">Platforma giriş yaptıktan sonra, Türkiye'nin 81 ilindeki özel konumlara erişim sağlayabilirsiniz.</p>
+    </div>
+
+    <!-- Instagram Embed -->
+    <div class="instagram-embed-container">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DKUwWaeMp3O/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+        <a href="https://www.instagram.com/p/DKUwWaeMp3O/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">Gönderiyi görüntüle</a>
+      </blockquote>
+    </div>
+  </div>
+
+  <script async src="//www.instagram.com/embed.js"></script>
+  
   <script>
-    // Otomatik giriş kontrolü
+    // Check auto login
     if (localStorage.getItem("duflat-access") === "granted") {
       window.location.href = "index.html";
     }
-  </script>
 
-  <!-- Giriş Formu - EN ÜSTTE -->
-  <div class="auth-container">
-    <div class="auth-header" id="authHeader">🌍 150+ ülkedeki binlerce gizli konuma erişmek için giriş yapın</div>
-
-    <div class="input-group">
-      <input type="text" id="usernameInput" class="modern-input" placeholder="Kullanıcı adı" oninput="this.value = this.value.toLowerCase()">
-    </div>
-    
-    <div class="input-group">
-      <input type="password" id="passwordInput" class="modern-input" placeholder="Şifre">
-    </div>
-    
-    <button onclick="login()" id="loginButton" class="login-btn">🚀 Giriş Yap</button>
-    
-    <a href="https://www.shopier.com/35589307" target="_blank" class="purchase-btn" id="purchaseBtn" style="margin-top: -10px;">
-      💳 1 Yıllık Erişim
-    </a>
-    
-    <div class="error-message message" id="errorMessage">❌ Kullanıcı adı veya şifre yanlış.</div>
-    <div class="success-message message" id="successMessage">✅ Giriş başarılı! Yönlendiriliyorsunuz...</div>
-    
-    <div class="manual-link" id="manualLink">
-      <strong id="manualLinkTitle">Otomatik yönlendirme çalışmıyorsa:</strong><br>
-      <a href="index.html" id="manualLinkText">➤ Buraya tıklayarak devam edin</a>
-    </div>
-  </div>
-
-  <!-- Instagram DM Promosyonu - İKİNCİ SIRADA -->
-  <div class="promotion-section">
-    <div class="promo-text" id="promoMessage">Giriş bilgilerinizi almak için bize yazın veya yukarıdan satın alın</div>
-    <a href="#" class="instagram-btn" onclick="openInstagramDM()" id="instagramBtn">
-      📩Instagram: @tr81.tr
-    </a>
-  </div>
-
-  <!-- Hakkında Bölümü - ÜÇÜNCÜ SIRADA -->
-  <div id="about">
-    <h1 id="aboutTitle">Seyahat etmeyi seviyor musunuz?</h1>
-    <div id="aboutText1">Türkiye'de gideceğiniz ili seçin, size oranın en güzel manzara noktalarını gösterelim ve konum bilgilerini paylaşalım</div>
-    <h2 id="aboutUs">Biz kimiz?</h2>
-    <div>🌍 Tuğçe & Anuar</div>
-    <div id="aboutText2">Dünyayı geziyor, en güzel manzaralı yerleri keşfediyoruz.</div>
-    <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746083288/screenshot_fx7okx.jpg" alt="Tuğçe ve Anuar'ın Instagram sayfasından manzara fotoğrafları">
-    <br>
-    <a class="map-link" href="https://www.google.com/maps/place/IZAKA+TERRACE/@41.0349785,28.9858418,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab77b241635bf:0x907fe6b4f66fac5e!8m2!3d41.0349745!4d28.9884167!16s%2Fg%2F11f2wbldhs?entry=ttu&g_ep=EgoyMDI1MDUyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-      <span class="map-icon">📍</span>
-      <span>İzaka Terrace Restaurant</span>
-    </a>
-    <br><br>
-    <div id="aboutText3">Beğendiğimiz konumları bu sitede paylaşıyoruz.</div><br>
-    <div id="aboutText4">Platforma giriş yaptıktan sonra, Türkiye'nin 81 ilindeki özel konumlara erişim sağlayabilirsiniz.</div>
-  </div>
-
-  <!-- Instagram Video Embed - EN ALTTA -->
-  <div class="instagram-embed-container">
-    <div class="instagram-embed-wrapper">
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DKUwWaeMp3O/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="margin: 0 auto !important;">
-        <a href="https://www.instagram.com/p/DKUwWaeMp3O/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">Gönderiyi görüntüle</a>
-      </blockquote>
-      <script async src="//www.instagram.com/embed.js"></script>
-    </div>
-  </div>
-
-  <script>
-    // Dil verileri
+    // Translations
     const translations = {
-      'tr': {
-        flag: '🇹🇷',
-        name: 'Türkçe',
-        authHeader: '🌍 150+ ülkedeki binlerce gizli konuma erişmek için giriş yapın',
-        aboutTitle: 'Seyahat etmeyi seviyor musunuz?',
-        aboutText1: 'Türkiye\'de gideceğiniz ili seçin, size oranın en güzel manzara noktalarını gösterelim ve konum bilgilerini paylaşalım',
-        aboutUs: 'Biz kimiz?',
-        aboutText2: 'Dünyayı geziyor, en güzel manzaralı yerleri keşfediyoruz.',
-        aboutText3: 'Beğendiğimiz konumları bu sitede paylaşıyoruz.',
-        aboutText4: 'Platforma giriş yaptıktan sonra, Türkiye\'nin 81 ilindeki özel konumlara sınırsız erişim sağlayabilirsiniz.',
-        authTitle: 'Giriş Yap',
-        authSubtitle: 'Özel konumlara erişmek için giriş yapın',
-        username: 'Kullanıcı adı',
-        password: 'Şifre',
-        loginButton: '🚀 Giriş Yap',
-        purchaseBtn: '💳 1 Yıllık Erişim',
-        promoTitle: '🎁 İndirim fırsatı!',
-        promoText: 'Web sitemizi hikayenizde paylaşın → %50 İndirim kazanın!',
-        instagramBtn: '📩 Instagram: @tr81.tr',
-        promoMessage: 'Giriş bilgilerinizi almak için bize yazın veya yukarıdan satın alın',
-        errorMessage: '❌ Kullanıcı adı veya şifre yanlış.',
-        successMessage: '✅ Giriş başarılı! Yönlendiriliyorsunuz...',
-        manualLinkTitle: 'Otomatik yönlendirme çalışmıyorsa:',
-        manualLinkText: '➤ Buraya tıklayarak devam edin'
+      tr:{
+        flag:'🇹🇷',
+        name:'TR',
+        authHeader:'Dünya Manzaraları',
+        authSubtitle:'150+ ülkedeki binlerce gizli konuma erişmek için giriş yapın',
+        aboutTitle:'Seyahat etmeyi seviyor musunuz?',
+        aboutText1:'Türkiye\'de gideceğiniz ili seçin, size oranın en güzel manzara noktalarını gösterelim ve konum bilgilerini paylaşalım',
+        aboutUs:'Biz kimiz?',
+        aboutText2:'Dünyayı geziyor, en güzel manzaralı yerleri keşfediyoruz.',
+        aboutText3:'Beğendiğimiz konumları bu sitede paylaşıyoruz.',
+        aboutText4:'Platforma giriş yaptıktan sonra, Türkiye\'nin 81 ilindeki özel konumlara erişim sağlayabilirsiniz.',
+        username:'Kullanıcı adı',
+        password:'Şifre',
+        loginButton:'🚀 Giriş Yap',
+        purchaseBtn:'💳 1 Yıllık Erişim',
+        promoMessage:'Giriş bilgilerinizi almak için bize yazın veya yukarıdan satın alın',
+        instagramBtn:'📩 Instagram: @tr81.tr',
+        errorMessage:'Kullanıcı adı veya şifre yanlış.',
+        successMessage:'Giriş başarılı! Yönlendiriliyorsunuz...',
+        manualLinkTitle:'Otomatik yönlendirme çalışmıyorsa:',
+        manualLinkText:'➤ Buraya tıklayarak devam edin'
       },
-      'en': {
-        flag: '🇬🇧',
-        name: 'English',
-        authHeader: '🌍 Sign in to access thousands of hidden locations in 150+ countries',
-        aboutTitle: 'Love traveling?',
-        aboutText1: 'Pick a city in Türkiye and we\'ll show you the best scenic spots with exact locations',
-        aboutUs: 'Who are we?',
-        aboutText2: 'We travel the world discovering the most beautiful scenic places.',
-        aboutText3: 'We share our favorite spots on this website.',
-        aboutText4: 'Once you log in, you\'ll get access to special locations in all 81 provinces of Türkiye.',
-        authTitle: 'Sign In',
-        authSubtitle: 'Sign in to access exclusive locations',
-        username: 'Username',
-        password: 'Password',
-        loginButton: '🚀 Sign In',
-        purchaseBtn: '💳 1 Year Access',
-        promoTitle: '🎁 Special Discount!',
-        promoText: 'Share our website in your story → Get 50% OFF!',
-        instagramBtn: '📩 DM us: @tr81.tr',
-        promoMessage: 'Message us for login details or purchase above',
-        errorMessage: '❌ Wrong username or password.',
-        successMessage: '✅ Success! Redirecting...',
-        manualLinkTitle: 'If redirect doesn\'t work:',
-        manualLinkText: '➤ Click here to continue'
+      en:{
+        flag:'🇬🇧',
+        name:'EN',
+        authHeader:'World Landscapes',
+        authSubtitle:'Sign in to access thousands of hidden locations in 150+ countries',
+        aboutTitle:'Love traveling?',
+        aboutText1:'Pick a city in Turkey and we\'ll show you the best scenic spots with exact locations',
+        aboutUs:'Who are we?',
+        aboutText2:'We travel the world discovering the most beautiful scenic places.',
+        aboutText3:'We share our favorite spots on this website.',
+        aboutText4:'Once you log in, you\'ll get access to special locations in all 81 provinces of Turkey.',
+        username:'Username',
+        password:'Password',
+        loginButton:'🚀 Sign In',
+        purchaseBtn:'💳 1 Year Access',
+        promoMessage:'Message us for login details or purchase above',
+        instagramBtn:'📩 DM us: @tr81.tr',
+        errorMessage:'Wrong username or password.',
+        successMessage:'Success! Redirecting...',
+        manualLinkTitle:'If redirect doesn\'t work:',
+        manualLinkText:'➤ Click here to continue'
       },
-      'de': {
-        flag: '🇩🇪',
-        name: 'Deutsch',
-        authHeader: '🌍 Melde dich an für Zugang zu tausenden versteckten Orten in über 150 Ländern',
-        aboutTitle: 'Liebst du es zu reisen?',
-        aboutText1: 'Wähle deine Stadt in der Türkei und wir zeigen dir die schönsten Aussichtspunkte mit genauen Standorten',
-        aboutUs: 'Wer sind wir?',
-        aboutText2: 'Wir reisen um die Welt und entdecken die schönsten Aussichtspunkte.',
-        aboutText3: 'Unsere Lieblingsorte teilen wir auf dieser Website.',
-        aboutText4: 'Nach dem Login hast du unbegrenzten Zugang zu besonderen Orten in allen 81 Provinzen der Türkei.',
-        authTitle: 'Anmelden',
-        authSubtitle: 'Melde dich an für exklusive Orte',
-        username: 'Benutzername',
-        password: 'Passwort',
-        loginButton: '🚀 Anmelden',
-        purchaseBtn: '💳 1 Jahr Zugang',
-        promoTitle: '🎁 Rabattaktion!',
-        promoText: 'Teile unsere Website in deiner Story → 50% Rabatt!',
-        instagramBtn: '📩 Schreib uns: @tr81.tr',
-        promoMessage: 'Schreib uns für Login-Daten oder kaufe direkt hier.',
-        errorMessage: '❌ Falscher Benutzername oder Passwort.',
-        successMessage: '✅ Erfolgreich! Weiterleitung...',
-        manualLinkTitle: 'Falls die Weiterleitung nicht klappt:',
-        manualLinkText: '➤ Hier klicken zum Fortfahren'
+      de:{
+        flag:'🇩🇪',
+        name:'DE',
+        authHeader:'Weltlandschaften',
+        authSubtitle:'Melde dich an für Zugang zu tausenden versteckten Orten in über 150 Ländern',
+        aboutTitle:'Liebst du es zu reisen?',
+        aboutText1:'Wähle deine Stadt in der Türkei und wir zeigen dir die schönsten Aussichtspunkte mit genauen Standorten',
+        aboutUs:'Wer sind wir?',
+        aboutText2:'Wir reisen um die Welt und entdecken die schönsten Aussichtspunkte.',
+        aboutText3:'Unsere Lieblingsorte teilen wir auf dieser Website.',
+        aboutText4:'Nach dem Login hast du Zugang zu besonderen Orten in allen 81 Provinzen der Türkei.',
+        username:'Benutzername',
+        password:'Passwort',
+        loginButton:'🚀 Anmelden',
+        purchaseBtn:'💳 1 Jahr Zugang',
+        promoMessage:'Schreib uns für Login-Daten oder kaufe direkt hier.',
+        instagramBtn:'📩 Schreib uns: @tr81.tr',
+        errorMessage:'Falscher Benutzername oder Passwort.',
+        successMessage:'Erfolgreich! Weiterleitung...',
+        manualLinkTitle:'Falls die Weiterleitung nicht klappt:',
+        manualLinkText:'➤ Hier klicken zum Fortfahren'
       },
-      'fr': {
-        flag: '🇫🇷',
-        name: 'Français',
-        authHeader: '🌍 Connecte-toi pour accéder à des milliers de lieux cachés dans plus de 150 pays',
-        aboutTitle: 'Tu aimes voyager ?',
-        aboutText1: 'Choisis ta ville en Turquie et on te montre les plus beaux points de vue avec les emplacements exacts',
-        aboutUs: 'Qui sommes-nous ?',
-        aboutText2: 'On voyage autour du monde pour découvrir les plus beaux endroits.',
-        aboutText3: 'On partage nos spots préférés sur ce site.',
-        aboutText4: 'Une fois connecté, tu auras accès illimité aux spots exclusifs dans les 81 provinces de Turquie.',
-        authTitle: 'Connexion',
-        authSubtitle: 'Connecte-toi pour accéder aux spots exclusifs',
-        username: 'Nom d\'utilisateur',
-        password: 'Mot de passe',
-        loginButton: '🚀 Se connecter',
-        purchaseBtn: '💳 Accès 1 an',
-        promoTitle: '🎁 Promo spéciale !',
-        promoText: 'Partage notre site dans ta story → 50% de réduction !',
-        instagramBtn: '📩 Écris-nous : @tr81.tr',
-        promoMessage: 'Contacte-nous pour les identifiants ou achète directement ici.',
-        errorMessage: '❌ Mauvais identifiant ou mot de passe.',
-        successMessage: '✅ C\'est bon ! Redirection...',
-        manualLinkTitle: 'Si la redirection ne marche pas :',
-        manualLinkText: '➤ Clique ici pour continuer'
+      fr:{
+        flag:'🇫🇷',
+        name:'FR',
+        authHeader:'Paysages du Monde',
+        authSubtitle:'Connecte-toi pour accéder à des milliers de lieux cachés dans plus de 150 pays',
+        aboutTitle:'Tu aimes voyager ?',
+        aboutText1:'Choisis ta ville en Turquie et on te montre les plus beaux points de vue avec les emplacements exacts',
+        aboutUs:'Qui sommes-nous ?',
+        aboutText2:'On voyage autour du monde pour découvrir les plus beaux endroits.',
+        aboutText3:'On partage nos spots préférés sur ce site.',
+        aboutText4:'Une fois connecté, tu auras accès aux spots exclusifs dans les 81 provinces de Turquie.',
+        username:'Nom d\'utilisateur',
+        password:'Mot de passe',
+        loginButton:'🚀 Se connecter',
+        purchaseBtn:'💳 Accès 1 an',
+        promoMessage:'Contacte-nous pour les identifiants ou achète directement ici.',
+        instagramBtn:'📩 Écris-nous : @tr81.tr',
+        errorMessage:'Mauvais identifiant ou mot de passe.',
+        successMessage:'C\'est bon ! Redirection...',
+        manualLinkTitle:'Si la redirection ne marche pas :',
+        manualLinkText:'➤ Clique ici pour continuer'
       },
-      'es': {
-        flag: '🇪🇸',
-        name: 'Español',
-        authHeader: '🌍 Inicia sesión para acceder a miles de lugares ocultos en más de 150 países',
-        aboutTitle: '¿Te encanta viajar?',
-        aboutText1: 'Elige tu ciudad en Turquía y te mostramos los mejores miradores con ubicaciones exactas',
-        aboutUs: '¿Quiénes somos?',
-        aboutText2: 'Viajamos por el mundo descubriendo los lugares más bonitos.',
-        aboutText3: 'Compartimos nuestros lugares favoritos en esta web.',
-        aboutText4: 'Al iniciar sesión, tendrás acceso ilimitado a lugares especiales en las 81 provincias de Turquía.',
-        authTitle: 'Iniciar Sesión',
-        authSubtitle: 'Inicia sesión para acceder a lugares exclusivos',
-        username: 'Usuario',
-        password: 'Contraseña',
-        loginButton: '🚀 Entrar',
-        purchaseBtn: '💳 Acceso 1 año',
-        promoTitle: '🎁 ¡Oferta especial!',
-        promoText: 'Comparte nuestra web en tu historia → ¡50% de descuento!',
-        instagramBtn: '📩 Escríbenos: @tr81.tr',
-        promoMessage: 'Escríbenos para los datos de acceso o compra aquí.',
-        errorMessage: '❌ Usuario o contraseña incorrectos.',
-        successMessage: '✅ ¡Listo! Redirigiendo...',
-        manualLinkTitle: 'Si no te redirige automáticamente:',
-        manualLinkText: '➤ Haz clic aquí para continuar'
+      es:{
+        flag:'🇪🇸',
+        name:'ES',
+        authHeader:'Paisajes del Mundo',
+        authSubtitle:'Inicia sesión para acceder a miles de lugares ocultos en más de 150 países',
+        aboutTitle:'¿Te encanta viajar?',
+        aboutText1:'Elige tu ciudad en Turquía y te mostramos los mejores miradores con ubicaciones exactas',
+        aboutUs:'¿Quiénes somos?',
+        aboutText2:'Viajamos por el mundo descubriendo los lugares más bonitos.',
+        aboutText3:'Compartimos nuestros lugares favoritos en esta web.',
+        aboutText4:'Al iniciar sesión, tendrás acceso a lugares especiales en las 81 provincias de Turquía.',
+        username:'Usuario',
+        password:'Contraseña',
+        loginButton:'🚀 Entrar',
+        purchaseBtn:'💳 Acceso 1 año',
+        promoMessage:'Escríbenos para los datos de acceso o compra aquí.',
+        instagramBtn:'📩 Escríbenos: @tr81.tr',
+        errorMessage:'Usuario o contraseña incorrectos.',
+        successMessage:'¡Listo! Redirigiendo...',
+        manualLinkTitle:'Si no te redirige automáticamente:',
+        manualLinkText:'➤ Haz clic aquí para continuar'
       },
-      'it': {
-        flag: '🇮🇹',
-        name: 'Italiano',
-        authHeader: '🌍 Accedi per scoprire migliaia di luoghi nascosti in oltre 150 paesi',
-        aboutTitle: 'Ami viaggiare?',
-        aboutText1: 'Scegli la tua città in Turchia e ti mostriamo i posti più belli con le posizioni esatte',
-        aboutUs: 'Chi siamo?',
-        aboutText2: 'Viaggiamo per il mondo scoprendo i posti panoramici più belli.',
-        aboutText3: 'Condividiamo i nostri posti preferiti su questo sito.',
-        aboutText4: 'Dopo il login, avrai accesso illimitato a luoghi esclusivi in tutte le 81 province della Turchia.',
-        authTitle: 'Accedi',
-        authSubtitle: 'Accedi per vedere i posti esclusivi',
-        username: 'Nome utente',
-        password: 'Password',
-        loginButton: '🚀 Accedi',
-        purchaseBtn: '💳 Accesso 1 anno',
-        promoTitle: '🎁 Offerta speciale!',
-        promoText: 'Condividi il nostro sito nella tua storia → 50% di sconto!',
-        instagramBtn: '📩 Scrivici: @tr81.tr',
-        promoMessage: 'Scrivici per i dati di accesso o acquista qui.',
-        errorMessage: '❌ Nome utente o password sbagliati.',
-        successMessage: '✅ Fatto! Reindirizzamento...',
-        manualLinkTitle: 'Se il reindirizzamento non funziona:',
-        manualLinkText: '➤ Clicca qui per continuare'
+      it:{
+        flag:'🇮🇹',
+        name:'IT',
+        authHeader:'Paesaggi del Mondo',
+        authSubtitle:'Accedi per scoprire migliaia di luoghi nascosti in oltre 150 paesi',
+        aboutTitle:'Ami viaggiare?',
+        aboutText1:'Scegli la tua città in Turchia e ti mostriamo i posti più belli con le posizioni esatte',
+        aboutUs:'Chi siamo?',
+        aboutText2:'Viaggiamo per il mondo scoprendo i posti panoramici più belli.',
+        aboutText3:'Condividiamo i nostri posti preferiti su questo sito.',
+        aboutText4:'Dopo il login, avrai accesso a luoghi esclusivi in tutte le 81 province della Turchia.',
+        username:'Nome utente',
+        password:'Password',
+        loginButton:'🚀 Accedi',
+        purchaseBtn:'💳 Accesso 1 anno',
+        promoMessage:'Scrivici per i dati di accesso o acquista qui.',
+        instagramBtn:'📩 Scrivici: @tr81.tr',
+        errorMessage:'Nome utente o password sbagliati.',
+        successMessage:'Fatto! Reindirizzamento...',
+        manualLinkTitle:'Se il reindirizzamento non funziona:',
+        manualLinkText:'➤ Clicca qui per continuare'
       },
-      'pt': {
-        flag: '🇵🇹',
-        name: 'Português',
-        authHeader: '🌍 Faça login para acessar milhares de locais ocultos em mais de 150 países',
-        aboutTitle: 'Adora viajar?',
-        aboutText1: 'Escolha sua cidade na Turquia e mostramos os melhores lugares com localizações exatas',
-        aboutUs: 'Quem somos?',
-        aboutText2: 'Viajamos pelo mundo descobrindo os lugares mais lindos.',
-        aboutText3: 'Compartilhamos nossos lugares favoritos neste site.',
-        aboutText4: 'Após fazer login, você terá acesso ilimitado a locais exclusivos em todas as 81 províncias da Turquia.',
-        authTitle: 'Entrar',
-        authSubtitle: 'Entre para acessar locais exclusivos',
-        username: 'Usuário',
-        password: 'Senha',
-        loginButton: '🚀 Entrar',
-        purchaseBtn: '💳 Acesso 1 ano',
-        promoTitle: '🎁 Promoção especial!',
-        promoText: 'Compartilhe nosso site no seu story → 50% de desconto!',
-        instagramBtn: '📩 Fale conosco: @tr81.tr',
-        promoMessage: 'Nos envie mensagem para dados de acesso ou compre aqui.',
-        errorMessage: '❌ Usuário ou senha incorretos.',
-        successMessage: '✅ Sucesso! Redirecionando...',
-        manualLinkTitle: 'Se o redirecionamento não funcionar:',
-        manualLinkText: '➤ Clique aqui para continuar'
+      pt:{
+        flag:'🇵🇹',
+        name:'PT',
+        authHeader:'Paisagens do Mundo',
+        authSubtitle:'Faça login para acessar milhares de locais ocultos em mais de 150 países',
+        aboutTitle:'Adora viajar?',
+        aboutText1:'Escolha sua cidade na Turquia e mostramos os melhores lugares com localizações exatas',
+        aboutUs:'Quem somos?',
+        aboutText2:'Viajamos pelo mundo descobrindo os lugares mais lindos.',
+        aboutText3:'Compartilhamos nossos lugares favoritos neste site.',
+        aboutText4:'Após fazer login, você terá acesso a locais exclusivos em todas as 81 províncias da Turquia.',
+        username:'Usuário',
+        password:'Senha',
+        loginButton:'🚀 Entrar',
+        purchaseBtn:'💳 Acesso 1 ano',
+        promoMessage:'Nos envie mensagem para dados de acesso ou compre aqui.',
+        instagramBtn:'📩 Fale conosco: @tr81.tr',
+        errorMessage:'Usuário ou senha incorretos.',
+        successMessage:'Sucesso! Redirecionando...',
+        manualLinkTitle:'Se o redirecionamento não funcionar:',
+        manualLinkText:'➤ Clique aqui para continuar'
       },
-      'ru': {
-        flag: '🇷🇺',
-        name: 'Русский',
-        authHeader: '🌍 Войди, чтобы получить доступ к тысячам скрытых мест в более чем 150 странах',
-        aboutTitle: 'Любишь путешествовать?',
-        aboutText1: 'Выбери город в Турции, и мы покажем самые красивые места с точными локациями',
-        aboutUs: 'Кто мы?',
-        aboutText2: 'Мы путешествуем по миру и находим самые красивые места.',
-        aboutText3: 'Делимся любимыми местами на этом сайте.',
-        aboutText4: 'После входа ты получишь неограниченный доступ к эксклюзивным местам во всех 81 провинции Турции.',
-        authTitle: 'Войти',
-        authSubtitle: 'Войди, чтобы увидеть особенные места',
-        username: 'Имя пользователя',
-        password: 'Пароль',
-        loginButton: '🚀 Войти',
-        purchaseBtn: '💳 Доступ на 1 год',
-        promoTitle: '🎁 Специальная акция!',
-        promoText: 'Поделись нашим сайтом в сторис → Получи скидку 50%!',
-        instagramBtn: '📩 Напиши нам: @tr81.tr',
-        promoMessage: 'Напиши нам для получения доступа или купи здесь.',
-        errorMessage: '❌ Неверное имя или пароль.',
-        successMessage: '✅ Готово! Переход...',
-        manualLinkTitle: 'Если автоматический переход не работает:',
-        manualLinkText: '➤ Нажми здесь чтобы продолжить'
+      ru:{
+        flag:'🇷🇺',
+        name:'RU',
+        authHeader:'Пейзажи Мира',
+        authSubtitle:'Войди, чтобы получить доступ к тысячам скрытых мест в более чем 150 странах',
+        aboutTitle:'Любишь путешествовать?',
+        aboutText1:'Выбери город в Турции, и мы покажем самые красивые места с точными локациями',
+        aboutUs:'Кто мы?',
+        aboutText2:'Мы путешествуем по миру и находим самые красивые места.',
+        aboutText3:'Делимся любимыми местами на этом сайте.',
+        aboutText4:'После входа ты получишь доступ к эксклюзивным местам во всех 81 провинции Турции.',
+        username:'Имя пользователя',
+        password:'Пароль',
+        loginButton:'🚀 Войти',
+        purchaseBtn:'💳 Доступ на 1 год',
+        promoMessage:'Напиши нам для получения доступа или купи здесь.',
+        instagramBtn:'📩 Напиши нам: @tr81.tr',
+        errorMessage:'Неверное имя или пароль.',
+        successMessage:'Готово! Переход...',
+        manualLinkTitle:'Если автоматический переход не работает:',
+        manualLinkText:'➤ Нажми здесь чтобы продолжить'
       },
-      'ja': {
-        flag: '🇯🇵',
-        name: '日本語',
-        authHeader: '🌍 150以上の国の数千の隠れた場所にアクセスするにはログインしてください',
-        aboutTitle: '旅行は好きですか？',
-        aboutText1: 'トルコの都市を選ぶと、最高の絶景スポットを正確な場所と一緒にご紹介します',
-        aboutUs: '私たちについて',
-        aboutText2: '世界中を旅して、最も美しい景色を発見しています。',
-        aboutText3: 'お気に入りの場所をこのサイトでシェアしています。',
-        aboutText4: 'ログインすると、トルコ全81県の特別な場所に無制限でアクセスできます。',
-        authTitle: 'ログイン',
-        authSubtitle: '特別な場所を見るにはログインしてください',
-        username: 'ユーザー名',
-        password: 'パスワード',
-        loginButton: '🚀 ログイン',
-        purchaseBtn: '💳 1年間アクセス',
-        promoTitle: '🎁 特別割引！',
-        promoText: 'ストーリーでシェア → 50％オフ！',
-        instagramBtn: '📩 DMはこちら: @tr81.tr',
-        promoMessage: 'ログイン情報はDMで、または下記から購入できます。',
-        errorMessage: '❌ ユーザー名かパスワードが違います。',
-        successMessage: '✅ 成功！リダイレクト中...',
-        manualLinkTitle: '自動的に移動しない場合：',
-        manualLinkText: '➤ ここをクリックして続ける'
+      ja:{
+        flag:'🇯🇵',
+        name:'JA',
+        authHeader:'世界の風景',
+        authSubtitle:'150以上の国の数千の隠れた場所にアクセスするにはログインしてください',
+        aboutTitle:'旅行は好きですか？',
+        aboutText1:'トルコの都市を選ぶと、最高の絶景スポットを正確な場所と一緒にご紹介します',
+        aboutUs:'私たちについて',
+        aboutText2:'世界中を旅して、最も美しい景色を発見しています。',
+        aboutText3:'お気に入りの場所をこのサイトでシェアしています。',
+        aboutText4:'ログインすると、トルコ全81県の特別な場所にアクセスできます。',
+        username:'ユーザー名',
+        password:'パスワード',
+        loginButton:'🚀 ログイン',
+        purchaseBtn:'💳 1年間アクセス',
+        promoMessage:'ログイン情報はDMで、または下記から購入できます。',
+        instagramBtn:'📩 DMはこちら: @tr81.tr',
+        errorMessage:'ユーザー名かパスワードが違います。',
+        successMessage:'成功！リダイレクト中...',
+        manualLinkTitle:'自動的に移動しない場合：',
+        manualLinkText:'➤ ここをクリックして続ける'
       },
-      'zh': {
-        flag: '🇨🇳',
-        name: '中文',
-        authHeader: '🌍 登录访问150多个国家的数千个隐藏地点',
-        aboutTitle: '喜欢旅行吗？',
-        aboutText1: '选择土耳其的城市，我们会为您展示最美的景点和精确位置',
-        aboutUs: '我们是谁？',
-        aboutText2: '我们环游世界，发现最美的风景。',
-        aboutText3: '在这个网站分享我们最爱的地方。',
-        aboutText4: '登录后，您可以无限访问土耳其所有81个省份的独家景点。',
-        authTitle: '登录',
-        authSubtitle: '登录查看独家景点',
-        username: '用户名',
-        password: '密码',
-        loginButton: '🚀 登录',
-        purchaseBtn: '💳 1年访问权',
-        promoTitle: '🎁 特别优惠！',
-        promoText: '分享到您的故事 → 享受5折优惠！',
-        instagramBtn: '📩 私信我们：@tr81.tr',
-        promoMessage: '私信获取登录信息或直接购买。',
-        errorMessage: '❌ 用户名或密码错误。',
-        successMessage: '✅ 成功！正在跳转...',
-        manualLinkTitle: '如果没有自动跳转：',
-        manualLinkText: '➤ 点击这里继续'
+      zh:{
+        flag:'🇨🇳',
+        name:'ZH',
+        authHeader:'世界风景',
+        authSubtitle:'登录访问150多个国家的数千个隐藏地点',
+        aboutTitle:'喜欢旅行吗？',
+        aboutText1:'选择土耳其的城市，我们会为您展示最美的景点和精确位置',
+        aboutUs:'我们是谁？',
+        aboutText2:'我们环游世界，发现最美的风景。',
+        aboutText3:'在这个网站分享我们最爱的地方。',
+        aboutText4:'登录后，您可以访问土耳其所有81个省份的独家景点。',
+        username:'用户名',
+        password:'密码',
+        loginButton:'🚀 登录',
+        purchaseBtn:'💳 1年访问权',
+        promoMessage:'私信获取登录信息或直接购买。',
+        instagramBtn:'📩 私信我们：@tr81.tr',
+        errorMessage:'用户名或密码错误。',
+        successMessage:'成功！正在跳转...',
+        manualLinkTitle:'如果没有自动跳转：',
+        manualLinkText:'➤ 点击这里继续'
       },
-      'ar': {
-        flag: '🇸🇦',
-        name: 'العربية',
-        authHeader: '🌍 سجل الدخول للوصول إلى آلاف الأماكن المخفية في أكثر من 150 دولة',
-        aboutTitle: 'هل تحب السفر؟',
-        aboutText1: 'اختر مدينتك في تركيا وسنعرض لك أجمل الأماكن مع المواقع الدقيقة',
-        aboutUs: 'من نحن؟',
-        aboutText2: 'نسافر حول العالم لاكتشاف أجمل الأماكن.',
-        aboutText3: 'نشارك أماكننا المفضلة على هذا الموقع.',
-        aboutText4: 'بعد تسجيل الدخول، ستحصل على وصول غير محدود للأماكن الخاصة في جميع المحافظات الـ81 في تركيا.',
-        authTitle: 'تسجيل الدخول',
-        authSubtitle: 'سجل دخولك لرؤية الأماكن الحصرية',
-        username: 'اسم المستخدم',
-        password: 'كلمة المرور',
-        loginButton: '🚀 دخول',
-        purchaseBtn: '💳 الوصول لسنة واحدة',
-        promoTitle: '🎁 عرض خاص!',
-        promoText: 'شارك موقعنا في قصتك ← احصل على خصم 50٪!',
-        instagramBtn: '📩 راسلنا: @tr81.tr',
-        promoMessage: 'راسلنا للحصول على بيانات الدخول أو اشتري من هنا.',
-        errorMessage: '❌ اسم المستخدم أو كلمة المرور خطأ.',
-        successMessage: '✅ تم! جاري التحويل...',
-        manualLinkTitle: 'إذا لم يعمل التحويل التلقائي:',
-        manualLinkText: '➤ اضغط هنا للمتابعة'
+      ar:{
+        flag:'🇸🇦',
+        name:'AR',
+        authHeader:'مناظر العالم',
+        authSubtitle:'سجل الدخول للوصول إلى آلاف الأماكن المخفية في أكثر من 150 دولة',
+        aboutTitle:'هل تحب السفر؟',
+        aboutText1:'اختر مدينتك في تركيا وسنعرض لك أجمل الأماكن مع المواقع الدقيقة',
+        aboutUs:'من نحن؟',
+        aboutText2:'نسافر حول العالم لاكتشاف أجمل الأماكن.',
+        aboutText3:'نشارك أماكننا المفضلة على هذا الموقع.',
+        aboutText4:'بعد تسجيل الدخول، ستحصل على وصول للأماكن الخاصة في جميع المحافظات الـ81 في تركيا.',
+        username:'اسم المستخدم',
+        password:'كلمة المرور',
+        loginButton:'🚀 دخول',
+        purchaseBtn:'💳 الوصول لسنة واحدة',
+        promoMessage:'راسلنا للحصول على بيانات الدخول أو اشتري من هنا.',
+        instagramBtn:'📩 راسلنا: @tr81.tr',
+        errorMessage:'اسم المستخدم أو كلمة المرور خطأ.',
+        successMessage:'تم! جاري التحويل...',
+        manualLinkTitle:'إذا لم يعمل التحويل التلقائي:',
+        manualLinkText:'➤ اضغط هنا للمتابعة'
       },
-      'hi': {
-        flag: '🇮🇳',
-        name: 'हिन्दी',
-        authHeader: '🌍 150+ देशों में हजारों छुपे हुए स्थानों तक पहुंचने के लिए लॉगिन करें',
-        aboutTitle: 'यात्रा करना पसंद है?',
-        aboutText1: 'तुर्की में अपना शहर चुनें और हम आपको सटीक स्थानों के साथ सबसे खूबसूरत जगहें दिखाएंगे',
-        aboutUs: 'हम कौन हैं?',
-        aboutText2: 'हम दुनिया भर में घूमते हैं और सबसे सुंदर जगहों की खोज करते हैं।',
-        aboutText3: 'अपनी पसंदीदा जगहों को इस वेबसाइट पर शेयर करते हैं।',
-        aboutText4: 'लॉगिन करने के बाद, आपको तुर्की के सभी 81 प्रांतों में विशेष स्थानों तक असीमित पहुंच मिलेगी।',
-        authTitle: 'लॉगिन करें',
-        authSubtitle: 'विशेष स्थान देखने के लिए लॉगिन करें',
-        username: 'यूजरनेम',
-        password: 'पासवर्ड',
-        loginButton: '🚀 लॉगिन',
-        purchaseBtn: '💳 1 साल का एक्सेस',
-        promoTitle: '🎁 विशेष छूट!',
-        promoText: 'अपनी स्टोरी में शेयर करें → 50% छूट पाएं!',
-        instagramBtn: '📩 हमें DM करें: @tr81.tr',
-        promoMessage: 'लॉगिन जानकारी के लिए हमें संदेश भेजें या यहाँ खरीदें।',
-        errorMessage: '❌ गलत यूजरनेम या पासवर्ड।',
-        successMessage: '✅ सफल! रीडायरेक्ट हो रहा है...',
-        manualLinkTitle: 'अगर रीडायरेक्ट काम नहीं करता:',
-        manualLinkText: '➤ जारी रखने के लिए यहाँ क्लिक करें'
+      hi:{
+        flag:'🇮🇳',
+        name:'HI',
+        authHeader:'विश्व परिदृश्य',
+        authSubtitle:'150+ देशों में हजारों छुपे हुए स्थानों तक पहुंचने के लिए लॉगिन करें',
+        aboutTitle:'यात्रा करना पसंद है?',
+        aboutText1:'तुर्की में अपना शहर चुनें और हम आपको सटीक स्थानों के साथ सबसे खूबसूरत जगहें दिखाएंगे',
+        aboutUs:'हम कौन हैं?',
+        aboutText2:'हम दुनिया भर में घूमते हैं और सबसे सुंदर जगहों की खोज करते हैं।',
+        aboutText3:'अपनी पसंदीदा जगहों को इस वेबसाइट पर शेयर करते हैं।',
+        aboutText4:'लॉगिन करने के बाद, आपको तुर्की के सभी 81 प्रांतों में विशेष स्थानों तक पहुंच मिलेगी।',
+        username:'यूजरनेम',
+        password:'पासवर्ड',
+        loginButton:'🚀 लॉगिन',
+        purchaseBtn:'💳 1 साल का एक्सेस',
+        promoMessage:'लॉगिन जानकारी के लिए हमें संदेश भेजें या यहाँ खरीदें।',
+        instagramBtn:'📩 हमें DM करें: @tr81.tr',
+        errorMessage:'गलत यूजरनेम या पासवर्ड।',
+        successMessage:'सफल! रीडायरेक्ट हो रहा है...',
+        manualLinkTitle:'अगर रीडायरेक्ट काम नहीं करता:',
+        manualLinkText:'➤ जारी रखने के लिए यहाँ क्लिक करें'
       },
-      'ko': {
-        flag: '🇰🇷',
-        name: '한국어',
-        authHeader: '🌍 150개국 이상의 수천 개 숨겨진 장소에 접속하려면 로그인하세요',
-        aboutTitle: '여행을 좋아하시나요?',
-        aboutText1: '터키의 도시를 선택하면 정확한 위치와 함께 최고의 명소를 보여드립니다',
-        aboutUs: '우리는 누구인가요?',
-        aboutText2: '세계를 여행하며 가장 아름다운 장소를 발견합니다.',
-        aboutText3: '좋아하는 장소를 이 웹사이트에서 공유합니다.',
-        aboutText4: '로그인하면 터키 81개 주의 특별한 장소에 무제한으로 액세스할 수 있습니다.',
-        authTitle: '로그인',
-        authSubtitle: '독점적인 장소를 보려면 로그인하세요',
-        username: '사용자 이름',
-        password: '비밀번호',
-        loginButton: '🚀 로그인',
-        purchaseBtn: '💳 1년 이용권',
-        promoTitle: '🎁 특별 할인!',
-        promoText: '스토리에 공유하기 → 50% 할인!',
-        instagramBtn: '📩 DM 보내기: @tr81.tr',
-        promoMessage: '로그인 정보는 DM으로 문의하거나 아래에서 구매하세요.',
-        errorMessage: '❌ 사용자 이름 또는 비밀번호가 잘못되었습니다.',
-        successMessage: '✅ 성공! 리디렉션 중...',
-        manualLinkTitle: '자동 리디렉션이 작동하지 않는 경우:',
-        manualLinkText: '➤ 여기를 클릭하여 계속하기'
+      ko:{
+        flag:'🇰🇷',
+        name:'KO',
+        authHeader:'세계 풍경',
+        authSubtitle:'150개국 이상의 수천 개 숨겨진 장소에 접속하려면 로그인하세요',
+        aboutTitle:'여행을 좋아하시나요?',
+        aboutText1:'터키의 도시를 선택하면 정확한 위치와 함께 최고의 명소를 보여드립니다',
+        aboutUs:'우리는 누구인가요?',
+        aboutText2:'세계를 여행하며 가장 아름다운 장소를 발견합니다.',
+        aboutText3:'좋아하는 장소를 이 웹사이트에서 공유합니다.',
+        aboutText4:'로그인하면 터키 81개 주의 특별한 장소에 액세스할 수 있습니다.',
+        username:'사용자 이름',
+        password:'비밀번호',
+        loginButton:'🚀 로그인',
+        purchaseBtn:'💳 1년 이용권',
+        promoMessage:'로그인 정보는 DM으로 문의하거나 아래에서 구매하세요.',
+        instagramBtn:'📩 DM 보내기: @tr81.tr',
+        errorMessage:'사용자 이름 또는 비밀번호가 잘못되었습니다.',
+        successMessage:'성공! 리디렉션 중...',
+        manualLinkTitle:'자동 리디렉션이 작동하지 않는 경우:',
+        manualLinkText:'➤ 여기를 클릭하여 계속하기'
       },
-      'nl': {
-        flag: '🇳🇱',
-        name: 'Nederlands',
-        authHeader: '🌍 Log in voor toegang tot duizenden verborgen plekken in meer dan 150 landen',
-        aboutTitle: 'Hou je van reizen?',
-        aboutText1: 'Kies je stad in Turkije en we tonen je de mooiste plekken met exacte locaties',
-        aboutUs: 'Wie zijn wij?',
-        aboutText2: 'We reizen de wereld rond om de mooiste plekken te ontdekken.',
-        aboutText3: 'We delen onze favoriete plekken op deze website.',
-        aboutText4: 'Na het inloggen krijg je onbeperkte toegang tot speciale locaties in alle 81 provincies van Turkije.',
-        authTitle: 'Inloggen',
-        authSubtitle: 'Log in voor exclusieve locaties',
-        username: 'Gebruikersnaam',
-        password: 'Wachtwoord',
-        loginButton: '🚀 Inloggen',
-        purchaseBtn: '💳 1 jaar toegang',
-        promoTitle: '🎁 Speciale aanbieding!',
-        promoText: 'Deel onze website in je story → 50% korting!',
-        instagramBtn: '📩 Stuur ons een DM: @tr81.tr',
-        promoMessage: 'Stuur ons een bericht voor logingegevens of koop hier.',
-        errorMessage: '❌ Verkeerde gebruikersnaam of wachtwoord.',
-        successMessage: '✅ Gelukt! Doorverwijzen...',
-        manualLinkTitle: 'Als doorverwijzing niet werkt:',
-        manualLinkText: '➤ Klik hier om door te gaan'
+      nl:{
+        flag:'🇳🇱',
+        name:'NL',
+        authHeader:'Wereldlandschappen',
+        authSubtitle:'Log in voor toegang tot duizenden verborgen plekken in meer dan 150 landen',
+        aboutTitle:'Hou je van reizen?',
+        aboutText1:'Kies je stad in Turkije en we tonen je de mooiste plekken met exacte locaties',
+        aboutUs:'Wie zijn wij?',
+        aboutText2:'We reizen de wereld rond om de mooiste plekken te ontdekken.',
+        aboutText3:'We delen onze favoriete plekken op deze website.',
+        aboutText4:'Na het inloggen krijg je toegang tot speciale locaties in alle 81 provincies van Turkije.',
+        username:'Gebruikersnaam',
+        password:'Wachtwoord',
+        loginButton:'🚀 Inloggen',
+        purchaseBtn:'💳 1 jaar toegang',
+        promoMessage:'Stuur ons een bericht voor logingegevens of koop hier.',
+        instagramBtn:'📩 Stuur ons een DM: @tr81.tr',
+        errorMessage:'Verkeerde gebruikersnaam of wachtwoord.',
+        successMessage:'Gelukt! Doorverwijzen...',
+        manualLinkTitle:'Als doorverwijzing niet werkt:',
+        manualLinkText:'➤ Klik hier om door te gaan'
       },
-      'pl': {
-        flag: '🇵🇱',
-        name: 'Polski',
-        authHeader: '🌍 Zaloguj się, aby uzyskać dostęp do tysięcy ukrytych miejsc w ponad 150 krajach',
-        aboutTitle: 'Kochasz podróżować?',
-        aboutText1: 'Wybierz miasto w Turcji, a pokażemy najpiękniejsze miejsca z dokładnymi lokalizacjami',
-        aboutUs: 'Kim jesteśmy?',
-        aboutText2: 'Podróżujemy po świecie odkrywając najpiękniejsze miejsca.',
-        aboutText3: 'Dzielimy się ulubionymi miejscami na tej stronie.',
-        aboutText4: 'Po zalogowaniu otrzymasz nieograniczony dostęp do wyjątkowych miejsc we wszystkich 81 prowincjach Turcji.',
-        authTitle: 'Zaloguj się',
-        authSubtitle: 'Zaloguj się, aby zobaczyć ekskluzywne miejsca',
-        username: 'Nazwa użytkownika',
-        password: 'Hasło',
-        loginButton: '🚀 Zaloguj',
-        purchaseBtn: '💳 Dostęp na 1 rok',
-        promoTitle: '🎁 Specjalna promocja!',
-        promoText: 'Udostępnij naszą stronę w swojej relacji → 50% zniżki!',
-        instagramBtn: '📩 Napisz do nas: @tr81.tr',
-        promoMessage: 'Napisz do nas po dane logowania lub kup tutaj.',
-        errorMessage: '❌ Błędna nazwa użytkownika lub hasło.',
-        successMessage: '✅ Sukces! Przekierowanie...',
-        manualLinkTitle: 'Jeśli przekierowanie nie działa:',
-        manualLinkText: '➤ Kliknij tutaj, aby kontynuować'
+      pl:{
+        flag:'🇵🇱',
+        name:'PL',
+        authHeader:'Krajobrazy Świata',
+        authSubtitle:'Zaloguj się, aby uzyskać dostęp do tysięcy ukrytych miejsc w ponad 150 krajach',
+        aboutTitle:'Kochasz podróżować?',
+        aboutText1:'Wybierz miasto w Turcji, a pokażemy najpiękniejsze miejsca z dokładnymi lokalizacjami',
+        aboutUs:'Kim jesteśmy?',
+        aboutText2:'Podróżujemy po świecie odkrywając najpiękniejsze miejsca.',
+        aboutText3:'Dzielimy się ulubionymi miejscami na tej stronie.',
+        aboutText4:'Po zalogowaniu otrzymasz dostęp do wyjątkowych miejsc we wszystkich 81 prowincjach Turcji.',
+        username:'Nazwa użytkownika',
+        password:'Hasło',
+        loginButton:'🚀 Zaloguj',
+        purchaseBtn:'💳 Dostęp na 1 rok',
+        promoMessage:'Napisz do nas po dane logowania lub kup tutaj.',
+        instagramBtn:'📩 Napisz do nas: @tr81.tr',
+        errorMessage:'Błędna nazwa użytkownika lub hasło.',
+        successMessage:'Sukces! Przekierowanie...',
+        manualLinkTitle:'Jeśli przekierowanie nie działa:',
+        manualLinkText:'➤ Kliknij tutaj, aby kontynuować'
       },
-      'sv': {
-        flag: '🇸🇪',
-        name: 'Svenska',
-        authHeader: '🌍 Logga in för att få tillgång till tusentals dolda platser i över 150 länder',
-        aboutTitle: 'Älskar du att resa?',
-        aboutText1: 'Välj din stad i Turkiet så visar vi de vackraste platserna med exakta platser',
-        aboutUs: 'Vilka är vi?',
-        aboutText2: 'Vi reser runt i världen och upptäcker de vackraste platserna.',
-        aboutText3: 'Vi delar våra favoritplatser på denna webbplats.',
-        aboutText4: 'Efter inloggning får du obegränsad tillgång till speciella platser i alla 81 provinser i Turkiet.',
-        authTitle: 'Logga in',
-        authSubtitle: 'Logga in för exklusiva platser',
-        username: 'Användarnamn',
-        password: 'Lösenord',
-        loginButton: '🚀 Logga in',
-        purchaseBtn: '💳 1 års åtkomst',
-        promoTitle: '🎁 Specialerbjudande!',
-        promoText: 'Dela vår webbplats i din story → 50% rabatt!',
-        instagramBtn: '📩 Skicka DM: @tr81.tr',
-        promoMessage: 'Skriv till oss för inloggningsuppgifter eller köp här.',
-        errorMessage: '❌ Fel användarnamn eller lösenord.',
-        successMessage: '✅ Klart! Omdirigerar...',
-        manualLinkTitle: 'Om omdirigering inte fungerar:',
-        manualLinkText: '➤ Klicka här för att fortsätta'
+      sv:{
+        flag:'🇸🇪',
+        name:'SV',
+        authHeader:'Världslandskap',
+        authSubtitle:'Logga in för att få tillgång till tusentals dolda platser i över 150 länder',
+        aboutTitle:'Älskar du att resa?',
+        aboutText1:'Välj din stad i Turkiet så visar vi de vackraste platserna med exakta platser',
+        aboutUs:'Vilka är vi?',
+        aboutText2:'Vi reser runt i världen och upptäcker de vackraste platserna.',
+        aboutText3:'Vi delar våra favoritplatser på denna webbplats.',
+        aboutText4:'Efter inloggning får du tillgång till speciella platser i alla 81 provinser i Turkiet.',
+        username:'Användarnamn',
+        password:'Lösenord',
+        loginButton:'🚀 Logga in',
+        purchaseBtn:'💳 1 års åtkomst',
+        promoMessage:'Skriv till oss för inloggningsuppgifter eller köp här.',
+        instagramBtn:'📩 Skicka DM: @tr81.tr',
+        errorMessage:'Fel användarnamn eller lösenord.',
+        successMessage:'Klart! Omdirigerar...',
+        manualLinkTitle:'Om omdirigering inte fungerar:',
+        manualLinkText:'➤ Klicka här för att fortsätta'
       },
-      'no': {
-        flag: '🇳🇴',
-        name: 'Norsk',
-        authHeader: '🌍 Logg inn for tilgang til tusenvis av skjulte steder i over 150 land',
-        aboutTitle: 'Elsker du å reise?',
-        aboutText1: 'Velg din by i Tyrkia så viser vi de vakreste stedene med nøyaktige lokasjoner',
-        aboutUs: 'Hvem er vi?',
-        aboutText2: 'Vi reiser verden rundt og oppdager de vakreste stedene.',
-        aboutText3: 'Vi deler favorittstedene våre på denne nettsiden.',
-        aboutText4: 'Etter innlogging får du ubegrenset tilgang til spesielle steder i alle 81 provinser i Tyrkia.',
-        authTitle: 'Logg inn',
-        authSubtitle: 'Logg inn for eksklusive steder',
-        username: 'Brukernavn',
-        password: 'Passord',
-        loginButton: '🚀 Logg inn',
-        purchaseBtn: '💳 1 års tilgang',
-        promoTitle: '🎁 Spesialtilbud!',
-        promoText: 'Del nettstedet vårt i din story → 50% rabatt!',
-        instagramBtn: '📩 Send DM: @tr81.tr',
-        promoMessage: 'Send oss melding for innloggingsinfo eller kjøp her.',
-        errorMessage: '❌ Feil brukernavn eller passord.',
-        successMessage: '✅ Vellykket! Omdirigerer...',
-        manualLinkTitle: 'Hvis omdirigering ikke fungerer:',
-        manualLinkText: '➤ Klikk her for å fortsette'
+      no:{
+        flag:'🇳🇴',
+        name:'NO',
+        authHeader:'Verdens Landskap',
+        authSubtitle:'Logg inn for tilgang til tusenvis av skjulte steder i over 150 land',
+        aboutTitle:'Elsker du å reise?',
+        aboutText1:'Velg din by i Tyrkia så viser vi de vakreste stedene med nøyaktige lokasjoner',
+        aboutUs:'Hvem er vi?',
+        aboutText2:'Vi reiser verden rundt og oppdager de vakreste stedene.',
+        aboutText3:'Vi deler favorittstedene våre på denne nettsiden.',
+        aboutText4:'Etter innlogging får du tilgang til spesielle steder i alle 81 provinser i Tyrkia.',
+        username:'Brukernavn',
+        password:'Passord',
+        loginButton:'🚀 Logg inn',
+        purchaseBtn:'💳 1 års tilgang',
+        promoMessage:'Send oss melding for innloggingsinfo eller kjøp her.',
+        instagramBtn:'📩 Send DM: @tr81.tr',
+        errorMessage:'Feil brukernavn eller passord.',
+        successMessage:'Vellykket! Omdirigerer...',
+        manualLinkTitle:'Hvis omdirigering ikke fungerer:',
+        manualLinkText:'➤ Klikk her for å fortsette'
       },
-      'da': {
-        flag: '🇩🇰',
-        name: 'Dansk',
-        authHeader: '🌍 Log ind for at få adgang til tusindvis af skjulte steder i over 150 lande',
-        aboutTitle: 'Elsker du at rejse?',
-        aboutText1: 'Vælg din by i Tyrkiet, så viser vi de smukkeste steder med præcise lokationer',
-        aboutUs: 'Hvem er vi?',
-        aboutText2: 'Vi rejser rundt i verden og opdager de smukkeste steder.',
-        aboutText3: 'Vi deler vores yndlingssteder på denne hjemmeside.',
-        aboutText4: 'Efter login får du ubegrænset adgang til specielle steder i alle 81 provinser i Tyrkiet.',
-        authTitle: 'Log ind',
-        authSubtitle: 'Log ind for eksklusive steder',
-        username: 'Brugernavn',
-        password: 'Adgangskode',
-        loginButton: '🚀 Log ind',
-        purchaseBtn: '💳 1 års adgang',
-        promoTitle: '🎁 Specialtilbud!',
-        promoText: 'Del vores hjemmeside i din story → 50% rabat!',
-        instagramBtn: '📩 Send DM: @tr81.tr',
-        promoMessage: 'Skriv til os for loginoplysninger eller køb her.',
-        errorMessage: '❌ Forkert brugernavn eller adgangskode.',
-        successMessage: '✅ Success! Omdirigerer...',
-        manualLinkTitle: 'Hvis omdirigering ikke virker:',
-        manualLinkText: '➤ Klik her for at fortsætte'
+      da:{
+        flag:'🇩🇰',
+        name:'DA',
+        authHeader:'Verdens Landskaber',
+        authSubtitle:'Log ind for at få adgang til tusindvis af skjulte steder i over 150 lande',
+        aboutTitle:'Elsker du at rejse?',
+        aboutText1:'Vælg din by i Tyrkiet, så viser vi de smukkeste steder med præcise lokationer',
+        aboutUs:'Hvem er vi?',
+        aboutText2:'Vi rejser rundt i verden og opdager de smukkeste steder.',
+        aboutText3:'Vi deler vores yndlingssteder på denne hjemmeside.',
+        aboutText4:'Efter login får du adgang til specielle steder i alle 81 provinser i Tyrkiet.',
+        username:'Brugernavn',
+        password:'Adgangskode',
+        loginButton:'🚀 Log ind',
+        purchaseBtn:'💳 1 års adgang',
+        promoMessage:'Skriv til os for loginoplysninger eller køb her.',
+        instagramBtn:'📩 Send DM: @tr81.tr',
+        errorMessage:'Forkert brugernavn eller adgangskode.',
+        successMessage:'Success! Omdirigerer...',
+        manualLinkTitle:'Hvis omdirigering ikke virker:',
+        manualLinkText:'➤ Klik her for at fortsætte'
+      },
+      fi:{
+        flag:'🇫🇮',
+        name:'FI',
+        authHeader:'Maailman Maisemat',
+        authSubtitle:'Kirjaudu sisään päästäksesi tuhansiin piilotettuihin paikkoihin yli 150 maassa',
+        aboutTitle:'Rakastatko matkustamista?',
+        aboutText1:'Valitse kaupunkisi Turkissa, niin näytämme parhaat maisemat tarkkojen sijaintien kanssa',
+        aboutUs:'Keitä me olemme?',
+        aboutText2:'Matkustamme ympäri maailmaa löytäen kauneimpia paikkoja.',
+        aboutText3:'Jaamme suosikkipaikkamme tällä sivustolla.',
+        aboutText4:'Kirjautumisen jälkeen pääset käsiksi erityisiin paikkoihin kaikissa Turkin 81 maakunnassa.',
+        username:'Käyttäjänimi',
+        password:'Salasana',
+        loginButton:'🚀 Kirjaudu',
+        purchaseBtn:'💳 1 vuoden pääsy',
+        promoMessage:'Lähetä meille viesti kirjautumistiedoista tai osta täältä.',
+        instagramBtn:'📩 Lähetä DM: @tr81.tr',
+        errorMessage:'Väärä käyttäjänimi tai salasana.',
+        successMessage:'Onnistui! Ohjataan...',
+        manualLinkTitle:'Jos uudelleenohjaus ei toimi:',
+        manualLinkText:'➤ Klikkaa tästä jatkaaksesi'
+      },
+      cs:{
+        flag:'🇨🇿',
+        name:'CS',
+        authHeader:'Světové Krajiny',
+        authSubtitle:'Přihlaste se pro přístup k tisícům skrytých míst ve více než 150 zemích',
+        aboutTitle:'Milujete cestování?',
+        aboutText1:'Vyberte si město v Turecku a ukážeme vám nejkrásnější místa s přesnými lokacemi',
+        aboutUs:'Kdo jsme?',
+        aboutText2:'Cestujeme po světě a objevujeme nejkrásnější místa.',
+        aboutText3:'Naše oblíbená místa sdílíme na této stránce.',
+        aboutText4:'Po přihlášení získáte přístup ke speciálním místům ve všech 81 provinciích Turecka.',
+        username:'Uživatelské jméno',
+        password:'Heslo',
+        loginButton:'🚀 Přihlásit',
+        purchaseBtn:'💳 Přístup na 1 rok',
+        promoMessage:'Napište nám pro přihlašovací údaje nebo kupte zde.',
+        instagramBtn:'📩 Napište nám: @tr81.tr',
+        errorMessage:'Špatné uživatelské jméno nebo heslo.',
+        successMessage:'Úspěch! Přesměrování...',
+        manualLinkTitle:'Pokud přesměrování nefunguje:',
+        manualLinkText:'➤ Klikněte zde pro pokračování'
       }
     };
 
-    // Dil algılama fonksiyonu
-    function detectLanguage() {
-      // 1. Önce localStorage'dan kontrol et
-      const savedLang = localStorage.getItem('preferred-language');
-      if (savedLang && translations[savedLang]) {
-        return savedLang;
+    // Language functions
+    let currentLang = 'tr';
+
+    function detectLang() {
+      const saved = localStorage.getItem('lang');
+      if (saved && translations[saved]) return saved;
+      
+      const browser = navigator.language.toLowerCase();
+      for (const code in translations) {
+        if (browser.startsWith(code)) return code;
       }
-      
-      // 2. Tarayıcı dilini al
-      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-      
-      // 3. Eğer tarayıcı dili Türkçe ise veya kayıtlı dil yoksa Türkçe döndür
-      if (browserLang.startsWith('tr')) {
-        return 'tr';
-      }
-      
-      // 4. Tarayıcı dili Türkçe değilse, desteklenen bir dil mi kontrol et
-      for (const lang in translations) {
-        if (browserLang.startsWith(lang)) {
-          return lang;
-        }
-      }
-      
-      // 5. Desteklenen 20 dilden biri değilse İngilizce döndür
-      return 'en';
+      return 'tr';
     }
 
-    // UI güncelleme fonksiyonu
-    function updateLanguageUI(lang) {
-      const t = translations[lang];
-      if (!t) {
-        console.error('Dil bulunamadı:', lang);
-        return;
-      }
+    function setLang(code) {
+      currentLang = code;
+      const t = translations[code];
       
-      try {
-        // Sayfa içeriği güncelleme
-        const elements = {
-          'authHeader': t.authHeader,
-          'aboutTitle': t.aboutTitle,
-          'aboutText1': t.aboutText1,
-          'aboutUs': t.aboutUs,
-          'aboutText2': t.aboutText2,
-          'aboutText3': t.aboutText3,
-          'aboutText4': t.aboutText4,
-          'loginButton': t.loginButton,
-          'purchaseBtn': t.purchaseBtn,
-          'instagramBtn': t.instagramBtn,
-          'promoMessage': t.promoMessage,
-          'errorMessage': t.errorMessage,
-          'successMessage': t.successMessage,
-          'manualLinkTitle': t.manualLinkTitle,
-          'manualLinkText': t.manualLinkText
-        };
-        
-        // Elementleri güncelle
-        for (const [id, text] of Object.entries(elements)) {
-          const element = document.getElementById(id);
-          if (element) {
-            if (id === 'loginButton' || id === 'purchaseBtn' || id === 'instagramBtn') {
-              element.innerHTML = text;
-            } else {
-              element.textContent = text;
-            }
-          }
-        }
-        
-        // Input placeholder'ları güncelle
-        const usernameInput = document.getElementById('usernameInput');
-        const passwordInput = document.getElementById('passwordInput');
-        
-        if (usernameInput) usernameInput.placeholder = t.username;
-        if (passwordInput) passwordInput.placeholder = t.password;
-        
-        // HTML lang attribute güncelleme
-        document.documentElement.lang = lang;
-        
-        // LocalStorage'a kaydet
-        localStorage.setItem('preferred-language', lang);
-        
-        console.log('Dil güncellendi:', lang); // Debug için
-      } catch (error) {
-        console.error('Dil güncellenirken hata:', error);
-      }
+      // Update UI elements
+      document.getElementById('authHeader').textContent = t.authHeader;
+      document.getElementById('authSubtitle').textContent = t.authSubtitle;
+      document.getElementById('aboutTitle').textContent = t.aboutTitle;
+      document.getElementById('aboutText1').textContent = t.aboutText1;
+      document.getElementById('aboutUs').textContent = t.aboutUs;
+      document.getElementById('aboutText2').textContent = t.aboutText2;
+      document.getElementById('aboutText3').textContent = t.aboutText3;
+      document.getElementById('aboutText4').textContent = t.aboutText4;
+      document.getElementById('usernameInput').placeholder = t.username;
+      document.getElementById('passwordInput').placeholder = t.password;
+      document.getElementById('loginButton').textContent = t.loginButton;
+      document.getElementById('purchaseBtn').textContent = t.purchaseBtn;
+      document.getElementById('promoMessage').textContent = t.promoMessage;
+      document.getElementById('instagramBtn').textContent = t.instagramBtn;
+      document.getElementById('errorMessage').textContent = t.errorMessage;
+      document.getElementById('successMessage').textContent = t.successMessage;
+      document.getElementById('manualLinkTitle').textContent = t.manualLinkTitle;
+      document.getElementById('manualLinkText').textContent = t.manualLinkText;
+      
+      // Update language button
+      document.getElementById('langFlag').textContent = t.flag;
+      document.getElementById('langName').textContent = t.name;
+      
+      // Update document language
+      document.documentElement.lang = code;
+      localStorage.setItem('lang', code);
+      
+      // Update active state in dropdown
+      document.querySelectorAll('.lang-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.lang === code);
+      });
     }
-
-    // Instagram DM açma fonksiyonu
-    function openInstagramDM() {
-      window.open("https://www.instagram.com/tr81.tr/", "_blank");
-      return false;
-    }
-
-    // Giriş fonksiyonu
-    function login() {
-      const username = document.getElementById('usernameInput').value;
-      const password = document.getElementById('passwordInput').value;
-      
-      // Basit doğrulama (gerçek uygulamada sunucu tarafında yapılmalı)
-      if (username === "global" && password === "global2025") {
-        document.getElementById('errorMessage').style.display = 'none';
-        document.getElementById('successMessage').style.display = 'block';
-        document.getElementById('manualLink').style.display = 'block';
-        
-        // Erişim iznini kaydet
-        localStorage.setItem("duflat-access", "granted");
-        
-        // 2 saniye sonra yönlendir
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 2000);
-      } else {
-        document.getElementById('errorMessage').style.display = 'block';
-        document.getElementById('successMessage').style.display = 'none';
-        document.getElementById('manualLink').style.display = 'none';
-      }
-    }
-
-    // Enter tuşu ile giriş yapma ve dil ayarlama
-    document.addEventListener('DOMContentLoaded', function() {
-      // Tüm DOM elementlerinin yüklenmesini bekle
-      setTimeout(function() {
-        // Otomatik dil algılama ve uygulama
-        const detectedLang = detectLanguage();
-        console.log('Algılanan dil:', detectedLang); // Debug için
-        updateLanguageUI(detectedLang);
-      }, 100); // 100ms gecikme ekleyerek DOM'un tamamen hazır olmasını garantile
-      
-      // Enter tuşu dinleyicisi
-      const passwordInput = document.getElementById('passwordInput');
-      const usernameInput = document.getElementById('usernameInput');
-      
-      if (passwordInput) {
-        passwordInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            login();
-          }
-        });
-      }
-      
-      if (usernameInput) {
-        usernameInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            const passInput = document.getElementById('passwordInput');
-            if (passInput) passInput.focus();
-          }
-        });
-      }
-    });
-    
-    // Sayfa tamamen yüklendikten sonra da kontrol et (backup)
-    window.addEventListener('load', function() {
-      // Eğer dil henüz ayarlanmadıysa tekrar dene
-      const htmlLang = document.documentElement.lang;
-      if (!htmlLang || htmlLang === 'tr') {
-        const detectedLang = detectLanguage();
-        if (detectedLang !== 'tr' || !localStorage.getItem('language-set')) {
-          updateLanguageUI(detectedLang);
-          localStorage.setItem('language-set', 'true');
-        }
-      }
-      
-      // Instagram embed'i yeniden yükle (dil değiştiğinde)
-      if (window.instgrm) {
-        window.instgrm.Embeds.process();
-      }
-    });
-  </script>
-</body>
-</html>
