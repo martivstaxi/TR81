@@ -1,1129 +1,423 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>İstanbul</title>
-  <style>
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      color: #334155;
-      line-height: 1.6;
-      padding: 12px;
-      overflow-y: auto;
-      padding-bottom: 100px;
-      min-height: 100vh;
-    }
-    .logo {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      font-size: 26px;
-      text-decoration: none;
-      color: #1e293b;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
-    }
-    
-    .logo:hover {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    }
-    
-    h1 { 
-      font-size: clamp(24px, 5vw, 38px);
-      margin: 70px 0 40px 0;
-      text-align: center;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    
-    .gradient-text {
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .camera-emoji {
-      color: #000;
-      background: none;
-      -webkit-text-fill-color: initial;
-      margin-right: 8px;
-    }
-    
-    .city-section {
-      margin-bottom: 36px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 0;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.3s ease;
-    }
-    
-    .city-section:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    }
-    
-    .city-header {
-      padding: 18px 22px 12px 22px;
-      margin: 0;
-      border: none;
-      background: transparent;
-      text-align: left;
-    }
-    
-    .city-title {
-      margin: 0;
-      font-size: clamp(16px, 3.5vw, 20px);
-      color: #1e293b;
-      font-weight: 700;
-    }
-    
-    .city-photos {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      padding: 12px 22px 22px 22px;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .city-photos::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .photo-card {
-      flex: 0 0 auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-      scroll-snap-align: start;
-      background-color: white;
-      position: relative;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-    }
-    
-    .photo-card:hover {
-      transform: scale(1.05) translateY(-6px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
-    }
-    
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
-    }
-    
-    .photo-card:hover img {
-      transform: scale(1.1);
-    }
-    
-    .location-link {
-      text-decoration: none;
-      color: #3b82f6;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      border-radius: 25px;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-      transition: all 0.3s ease;
-      font-size: clamp(13px, 2.5vw, 16px);
-      font-weight: 600;
-      max-width: fit-content;
-      border: 2px solid transparent;
-    }
-    
-    .location-link:hover {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-      color: #1e293b;
-      text-decoration: none;
-      transform: translateY(-2px);
-      border-color: rgba(59, 130, 246, 0.3);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
-    }
-    
-    .click-icon {
-      color: #f97316;
-      display: inline-flex;
-    }
-    
-    .click-icon::before {
-      content: "➤";
-      display: inline-block;
-      font-size: 10px;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Türkiye | 81 İlin En Güzel Manzaraları</title>
 
-    /* MODAL STYLES */
-    .photo-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
-      z-index: 3000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
-      opacity: 0;
-      transition: opacity 0.3s ease-out;
-    }
+<!-- Inter Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .photo-modal.show {
-      opacity: 1;
-    }
+<style>
+/* ===== Değişkenler ===== */
+:root{
+  --primary: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --secondary: #8b5cf6;
+  --accent: #f97316;
+  --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --glass-bg: rgba(255, 255, 255, 0.60);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --text-primary: #334155;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --shadow-lg: 0 6px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
 
-    .modal-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transform: scale(0.8);
-      transition: transform 0.3s ease-out;
-    }
+/* ===== Reset ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg-grad);
+  color:var(--text-primary);
+  min-height:100vh;
+  line-height:1.6;
+  overflow-x:hidden;
+}
 
-    .photo-modal.show .modal-content {
-      transform: scale(1);
-    }
+/* Background decoration */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(108,117,125,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(173,181,189,0.05) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:-1;
+}
 
-    .modal-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
-    }
+/* ===== Container ===== */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 16px;
+}
 
-    .modal-close {
-      position: absolute;
-      top: -50px;
-      right: -10px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #1e293b;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      z-index: 3001;
-    }
+/* ===== Logo ===== */
+.logo{
+  position:fixed;
+  top:20px;
+  left:20px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  text-decoration:none;
+  box-shadow:var(--shadow-lg);
+  transition:all .3s ease;
+  z-index:100;
+  border:1px solid rgba(255,255,255,0.2);
+}
+.logo:hover{
+  transform:scale(1.1) rotate(10deg);
+  box-shadow:var(--shadow-xl);
+}
 
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 1);
-      transform: scale(1.1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+/* ===== World Button ===== */
+.world-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+}
 
-    .modal-info {
-      position: absolute;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      color: #1e293b;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      text-align: center;
-    }
+.world-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
 
-    /* Mobile Responsive Styles */
-    @media (max-width: 768px) {
-      body { padding: 8px; padding-bottom: 80px; }
-      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
-      h1 { margin: 50px 0 24px 0; }
-      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
-      .city-header { padding: 12px 16px 8px 16px; }
-      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
-      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
-      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
-      .photo-modal { padding: 10px; }
-      .modal-content { max-width: 95vw; max-height: 95vh; }
-      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
-      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
-    }
+.world-icon {
+  font-size: 18px;
+}
 
-    @media (max-width: 480px) {
-      body { padding: 6px; padding-bottom: 60px; }
-      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
-      h1 { margin: 40px 0 20px 0; }
-      .city-section { margin-bottom: 18px; border-radius: 12px; }
-      .city-header { padding: 10px 12px 6px 12px; }
-      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
-      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
-      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
-      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
-      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
-    }
+/* ===== Header ===== */
+.header{
+  padding:80px 16px 40px;
+  text-align:center;
+}
+.title{
+  font-size:clamp(1.75rem,4vw,2.5rem);
+  font-weight:700;
+  margin-bottom:12px;
+  background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:-0.5px;
+}
+.subtitle{
+  font-size:1rem;
+  color:var(--text-secondary);
+  font-weight:400;
+}
 
-    @media (max-width: 360px) {
-      .photo-card { width: 120px; height: 120px; min-width: 120px; }
-      .location-link { font-size: 11px; padding: 4px 8px; }
-      .city-header { padding: 8px 10px 4px 10px; }
-      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
-    }
+/* ===== Search ===== */
+.search-box{
+  max-width:500px;
+  margin:0 auto 40px;
+  position:relative;
+}
+.search{
+  width:100%;
+  padding:14px 48px 14px 20px;
+  font-size:15px;
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px);
+  border:2px solid var(--glass-border);
+  border-radius:20px;
+  transition:all .3s ease;
+  color:var(--text-primary);
+}
+.search:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(59,130,246,0.1);
+  background:rgba(255,255,255,0.8);
+}
+.search::placeholder{
+  color:var(--text-muted);
+}
+.search-icon{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--text-secondary);
+  pointer-events:none;
+}
 
-    /* Promotion Section */
-    .promotion-section {
-      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
-      color: #92400e;
-      padding: 24px;
-      border-radius: 20px;
-      margin: 36px auto;
-      text-align: center;
-      border: 2px solid #fbbf24;
-      max-width: 1000px;
-      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
+/* ===== Info Banner ===== */
+.info{
+  max-width:600px;
+  margin:0 auto 40px;
+  padding:20px 24px;
+  text-align:center;
+  background:var(--card-bg);
+  backdrop-filter:blur(20px);
+  border:2px solid var(--glass-border);
+  border-radius:20px;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--text-primary);
+  box-shadow:var(--shadow-lg);
+}
+.info.premium{
+  background:linear-gradient(135deg,#dcfce7 0%,#d1fae5 100%);
+  border-color:#16a34a;
+  color:#16a34a;
+}
+.info a{
+  color:var(--primary);
+  font-weight:600;
+  text-decoration:none;
+  transition:all .3s;
+}
+.info a:hover{
+  color:var(--primary-dark);
+  text-decoration:underline;
+}
 
-    .promotion-title {
-      font-size: clamp(20px, 4vw, 28px);
-      font-weight: 800;
-      margin-bottom: 14px;
-      color: #92400e;
-      position: relative;
-      z-index: 1;
-    }
+/* ===== City Grid ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:16px;
+  padding-bottom:40px;
+}
+.card{
+  background:var(--card-bg);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  padding:24px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .3s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+  box-shadow:var(--shadow-lg);
+}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-xl);
+  border-color:var(--primary);
+}
+.card.antalya{
+  background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);
+  border-color:#f59e0b;
+}
+.city-name{
+  font-weight:500;
+  font-size:14px;
+  color:var(--text-primary);
+}
 
-    .instagram-btn {
-      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
-      color: white !important;
-      padding: 12px 24px;
-      border-radius: 25px;
-      text-decoration: none !important;
-      display: inline-block;
-      font-weight: 700;
-      font-size: clamp(16px, 2.5vw, 20px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      margin: 12px 0;
-      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
-      position: relative;
-      z-index: 1;
-      transform: perspective(1000px) rotateX(0deg);
-    }
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .container{max-width:100%;}
+  .logo{width:40px;height:40px;font-size:20px;top:16px;left:16px;}
+  .world-button{top:16px;right:16px;padding:8px 16px;font-size:13px;}
+  .header{padding:70px 16px 32px;}
+  .title{font-size:1.875rem;}
+  .subtitle{font-size:0.875rem;}
+  .search{padding:12px 44px 12px 16px;font-size:14px;}
+  .info{font-size:13px;padding:16px 20px;}
+  .grid{gap:12px;}
+  .card{padding:20px 12px;}
+  .city-name{font-size:13px;}
+}
 
-    .instagram-btn:hover {
-      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
-      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
-      color: white !important;
-      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
-    }
+@media(max-width:480px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
+}
 
-    .promo-text {
-      margin: 16px 0;
-      font-size: clamp(17px, 3vw, 22px);
-      color: #92400e;
-      font-weight: 500;
-      position: relative;
-      z-index: 1;
-      line-height: 1.6;
-    }
-
-    .purchase-btn {
-      width: 100%;
-      max-width: 320px;
-      padding: 16px 24px;
-      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
-      color: white;
-      text-decoration: none;
-      border-radius: 18px;
-      font-size: clamp(16px, 3vw, 20px);
-      font-weight: 800;
-      display: inline-block;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      margin: 16px 0 24px 0;
-      border: none;
-      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
-      box-sizing: border-box;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 1;
-      transform: perspective(1000px) rotateX(0deg);
-    }
-
-    .purchase-btn:hover {
-      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
-      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
-      color: white;
-      text-decoration: none;
-      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
-    }
-
-    /* Mobile Promotion Styles */
-    @media (max-width: 768px) {
-      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
-      .promotion-title { margin-bottom: 8px; }
-      .promo-text { margin: 10px 0; }
-      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
-      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
-    }
-
-    @media (max-width: 480px) {
-      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
-      .promotion-title { margin-bottom: 6px; }
-      .promo-text { margin: 8px 0; }
-      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
-      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
-    }
-
-    /* Editor Panel */
-    .edit-panel {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(15px);
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-      z-index: 2000;
-      max-height: 80vh;
-      overflow-y: auto;
-      display: none;
-      width: 400px;
-      font-size: 14px;
-    }
-    
-    .edit-panel h3 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: #1e293b;
-      font-size: 18px;
-      font-weight: 700;
-      text-align: center;
-      border-bottom: 2px solid #3b82f6;
-      padding-bottom: 10px;
-    }
-    
-    .edit-panel button {
-      margin: 8px 0;
-      padding: 12px;
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    
-    .export-btn {
-      background: linear-gradient(135deg, #10b981, #047857);
-      margin-top: 10px;
-      color: white;
-      border: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .clear-btn {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      border: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .process-btn {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-    
-    .file-input-container {
-      margin: 15px 0;
-      text-align: center;
-    }
-    
-    .file-input {
-      display: none;
-    }
-    
-    .file-label {
-      display: inline-block;
-      padding: 12px 20px;
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      width: 100%;
-      box-sizing: border-box;
-      text-align: center;
-    }
-    
-    .file-label:hover {
-      background: linear-gradient(135deg, #4f46e5, #4338ca);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    }
-    
-    .file-info {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #64748b;
-      text-align: center;
-    }
-    
-    .info-box {
-      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-      border: 1px solid #0ea5e9;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 15px 0;
-      font-size: 12px;
-      text-align: left;
-      line-height: 1.5;
-    }
-    
-    .info-box strong {
-      color: #0c4a6e;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-    }
-    
-    .info-box ul {
-      margin: 5px 0 0 20px;
-      padding: 0;
-    }
-    
-    .info-box li {
-      margin: 3px 0;
-    }
-    
-    .edit-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 1500;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .edit-btn:hover {
-      background: linear-gradient(135deg, #1d4ed8, #1e40af);
-      transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-    }
-
-    @media (max-width: 768px) {
-      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
-      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
-    }
-
-    @media (hover: none) and (pointer: coarse) {
-      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
-      .modal-close { min-width: 44px; min-height: 44px; }
-    }
-  
-  </style>
+/* ===== Animations ===== */
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.card{animation:fadeIn .3s ease;}
+</style>
 </head>
+
 <body>
-  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
-  <h1><span class="camera-emoji">📸</span><span class="gradient-text">İstanbul</span></h1>
-  
-  <div id="locations-container">
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Mikla+Restaurant%2C+Istanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Mikla Restaurant 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_mikla_restaurant_1/public" data-location="Mikla Restaurant"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_mikla_restaurant_1/public" alt="Mikla Restaurant"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_mikla_restaurant_2/public" data-location="Mikla Restaurant"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_mikla_restaurant_2/public" alt="Mikla Restaurant"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_mikla_restaurant_3/public" data-location="Mikla Restaurant"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_mikla_restaurant_3/public" alt="Mikla Restaurant"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://www.google.com/maps/place/The+Peninsula+Istanbul/@41.0231409,28.9779927,17z/data=!4m9!3m8!1s0x14cab99991d0cb9b:0x2d35f8700a5c9161!5m2!4m1!1i2!8m2!3d41.0230125!4d28.9779274!16s%2Fg%2F11tbvb6d04?entry=ttu&g_ep=EgoyMDI1MDYwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>The Peninsula Istanbul 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_the_peninsula_istanbul_1/public" data-location="The Peninsula Istanbul"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_the_peninsula_istanbul_1/public" alt="The Peninsula Istanbul"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_the_peninsula_istanbul_2/public" data-location="The Peninsula Istanbul"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_the_peninsula_istanbul_2/public" alt="The Peninsula Istanbul"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_the_peninsula_istanbul_3/public" data-location="The Peninsula Istanbul"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_the_peninsula_istanbul_3/public" alt="The Peninsula Istanbul"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Taht+%C4%B0stanbul%2C+Istanbul)" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Taht İstanbul 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_taht_istanbul_1/public" data-location="Taht İstanbul"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_taht_istanbul_1/public" alt="Taht İstanbul"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_taht_istanbul_2/public" data-location="Taht İstanbul"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_taht_istanbul_2/public" alt="Taht İstanbul"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_taht_istanbul_3/public" data-location="Taht İstanbul"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_taht_istanbul_3/public" alt="Taht İstanbul"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Sveti+Stefan+Kilisesi+Balat%2C+Istanbul)" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Sveti Stefan Kilisesi 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sveti_stefan_kilisesi_1/public" data-location="Sveti Stefan Kilisesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sveti_stefan_kilisesi_1/public" alt="Sveti Stefan Kilisesi"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sveti_stefan_kilisesi_2/public" data-location="Sveti Stefan Kilisesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sveti_stefan_kilisesi_2/public" alt="Sveti Stefan Kilisesi"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sveti_stefan_kilisesi_3/public" data-location="Sveti Stefan Kilisesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sveti_stefan_kilisesi_3/public" alt="Sveti Stefan Kilisesi"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Sancaklar+Camii,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Sancaklar Camii 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sancaklar_camii_1/public" data-location="Sancaklar Camii"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sancaklar_camii_1/public" alt="Sancaklar Camii"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sancaklar_camii_2/public" data-location="Sancaklar Camii"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sancaklar_camii_2/public" alt="Sancaklar Camii"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sancaklar_camii_3/public" data-location="Sancaklar Camii"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sancaklar_camii_3/public" alt="Sancaklar Camii"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://www.google.com/maps/place/%C5%9Eamlar+Nature+Park/@41.1356459,28.7620189,17z/data=!4m6!3m5!1s0x14caa92dc2af299d:0xc8698d4f49416a77!8m2!3d41.1356459!4d28.7620189!16s%2Fg%2F1w9p5dq7?entry=ttu&g_ep=EgoyMDI1MDYwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Şamlar Tabiat Parkı 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_samlar_tabiat_parki_1/public" data-location="Şamlar Tabiat Parkı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_samlar_tabiat_parki_1/public" alt="Şamlar Tabiat Parkı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_samlar_tabiat_parki_2/public" data-location="Şamlar Tabiat Parkı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_samlar_tabiat_parki_2/public" alt="Şamlar Tabiat Parkı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_samlar_tabiat_parki_3/public" data-location="Şamlar Tabiat Parkı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_samlar_tabiat_parki_3/public" alt="Şamlar Tabiat Parkı"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Validebağ+Korusu,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Validebağ Korusu 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_validebag_korusu_1/public" data-location="Validebağ Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_validebag_korusu_1/public" alt="Validebağ Korusu"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_validebag_korusu_2/public" data-location="Validebağ Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_validebag_korusu_2/public" alt="Validebağ Korusu"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_validebag_korusu_3/public" data-location="Validebağ Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_validebag_korusu_3/public" alt="Validebağ Korusu"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Sepetçiler+Kasrı,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Sepetçiler Kasrı 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sepetciler_kasri_1/public" data-location="Sepetçiler Kasrı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sepetciler_kasri_1/public" alt="Sepetçiler Kasrı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sepetciler_kasri_2/public" data-location="Sepetçiler Kasrı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sepetciler_kasri_2/public" alt="Sepetçiler Kasrı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sepetciler_kasri_3/public" data-location="Sepetçiler Kasrı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_sepetciler_kasri_3/public" alt="Sepetçiler Kasrı"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Nakkaştepe+Millet+Bahçesi,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Nakkaştepe Millet Bahçesi 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_nakkastepe_millet_bahcesi_1/public" data-location="Nakkaştepe Millet Bahçesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_nakkastepe_millet_bahcesi_1/public" alt="Nakkaştepe Millet Bahçesi"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_nakkastepe_millet_bahcesi_2/public" data-location="Nakkaştepe Millet Bahçesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_nakkastepe_millet_bahcesi_2/public" alt="Nakkaştepe Millet Bahçesi"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_nakkastepe_millet_bahcesi_3/public" data-location="Nakkaştepe Millet Bahçesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_nakkastepe_millet_bahcesi_3/public" alt="Nakkaştepe Millet Bahçesi"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Fethi+Paşa+Korusu,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Fethi Paşa Korusu 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_fethi_pasa_korusu_1/public" data-location="Fethi Paşa Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_fethi_pasa_korusu_1/public" alt="Fethi Paşa Korusu"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_fethi_pasa_korusu_2/public" data-location="Fethi Paşa Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_fethi_pasa_korusu_2/public" alt="Fethi Paşa Korusu"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_fethi_pasa_korusu_3/public" data-location="Fethi Paşa Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_fethi_pasa_korusu_3/public" alt="Fethi Paşa Korusu"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=A%C4%9Fva%2C+%C5%9Eile%2C+Istanbul)" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Ağva 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_1/public" data-location="Ağva"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_1/public" alt="Ağva"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_2/public" data-location="Ağva"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_2/public" alt="Ağva"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_3/public" data-location="Ağva"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_3/public" alt="Ağva"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://www.google.com/maps/place/A%C4%9Fva+Kilimli+Cliffs/@41.1417792,29.8735867,18z/data=!4m14!1m7!3m6!1s0x409e3bf088bc8283:0x4cd480de847530d8!2sAgva+Kilimli+Bay!8m2!3d41.141991!4d29.8726855!16s%2Fg%2F11fx950yb5!3m5!1s0x409e3bf099e203df:0xa7c059899795c389!8m2!3d41.1417792!4d29.8735867!16s%2Fg%2F11fy4298s6?entry=ttu&g_ep=EgoyMDI1MDYwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Ağva Kilimli Kayalıklar 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_kilimli_kayaliklar_1/public" data-location="Ağva Kilimli Kayalıklar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_kilimli_kayaliklar_1/public" alt="Ağva Kilimli Kayalıklar"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_kilimli_kayaliklar_2/public" data-location="Ağva Kilimli Kayalıklar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_kilimli_kayaliklar_2/public" alt="Ağva Kilimli Kayalıklar"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_kilimli_kayaliklar_3/public" data-location="Ağva Kilimli Kayalıklar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_agva_kilimli_kayaliklar_3/public" alt="Ağva Kilimli Kayalıklar"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Bozdo%C4%9Fan+Kemeri%2C+Istanbul)" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Bozdoğan Kemeri 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_bozdogan_kemeri_1/public" data-location="Bozdoğan Kemeri"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_bozdogan_kemeri_1/public" alt="Bozdoğan Kemeri"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_bozdogan_kemeri_2/public" data-location="Bozdoğan Kemeri"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_bozdogan_kemeri_2/public" alt="Bozdoğan Kemeri"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_bozdogan_kemeri_3/public" data-location="Bozdoğan Kemeri"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_bozdogan_kemeri_3/public" alt="Bozdoğan Kemeri"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://www.google.com/maps/search/Yoros+Kalesi%2C+%C4%B0stanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Yoros Kalesi 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yoros_kalesi_1/public" data-location="Yoros Kalesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yoros_kalesi_1/public" alt="Yoros Kalesi"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yoros_kalesi_2/public" data-location="Yoros Kalesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yoros_kalesi_2/public" alt="Yoros Kalesi"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yoros_kalesi_3/public" data-location="Yoros Kalesi"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yoros_kalesi_3/public" alt="Yoros Kalesi"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://www.google.com/maps/search/Ota%C4%9Ftepe+%28Fatih+Korusu%29%2C+%C4%B0stanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Otağtepe Fatih Korusu 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_otagtepe_fatih_korusu_1/public" data-location="Otağtepe Fatih Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_otagtepe_fatih_korusu_1/public" alt="Otağtepe Fatih Korusu"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_otagtepe_fatih_korusu_2/public" data-location="Otağtepe Fatih Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_otagtepe_fatih_korusu_2/public" alt="Otağtepe Fatih Korusu"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_otagtepe_fatih_korusu_3/public" data-location="Otağtepe Fatih Korusu"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_otagtepe_fatih_korusu_3/public" alt="Otağtepe Fatih Korusu"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://www.google.com/maps/place/Abraham+Pa%C5%9Fa+K%C3%B6%C5%9Fk%C3%BC/@41.1341534,29.0982774,16z/data=!4m7!3m6!1s0x14cacb61674c6de1:0x8e543cd8bd011b9b!8m2!3d41.1385377!4d29.1025061!15sCi9CZXlrb3ogS29ydXN1IChBYnJhaGFtIFBhxZ9hIEtvcnVzdSksIMSwc3RhbmJ1bFotIitiZXlrb3oga29ydXN1IGFicmFoYW0gcGHFn2Ega29ydXN1IGlzdGFuYnVskgEGbXVzZXVtmgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVU0yYlV0ZldrVlJFQUWqAVQQATIfEAEiGwyQCzJRb0woJIeI72v0iGn8rqHjtNokSi_ajTIvEAIiK2JleWtveiBrb3J1c3UgYWJyYWhhbSBwYcWfYSBrb3J1c3UgaXN0YW5idWzgAQD6AQQIVhAy!16s%2Fg%2F11gh065pzr?entry=tts&g_ep=EgoyMDI1MDYwMi4wIPu8ASoASAFQAw%3D%3D&skid=dca0ac74-50a9-40b5-8ebe-5651354fd8e2" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Abraham Paşa Köşkü 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_abraham_pasa_kosku_1/public" data-location="Abraham Paşa Köşkü"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_abraham_pasa_kosku_1/public" alt="Abraham Paşa Köşkü"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_abraham_pasa_kosku_2/public" data-location="Abraham Paşa Köşkü"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_abraham_pasa_kosku_2/public" alt="Abraham Paşa Köşkü"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_abraham_pasa_kosku_3/public" data-location="Abraham Paşa Köşkü"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_abraham_pasa_kosku_3/public" alt="Abraham Paşa Köşkü"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Zeyrekhane%2C+Istanbul)" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Zeyrekhane 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_zeyrekhane_1/public" data-location="Zeyrekhane"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_zeyrekhane_1/public" alt="Zeyrekhane"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_zeyrekhane_2/public" data-location="Zeyrekhane"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_zeyrekhane_2/public" alt="Zeyrekhane"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_zeyrekhane_3/public" data-location="Zeyrekhane"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_zeyrekhane_3/public" alt="Zeyrekhane"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Yerebatan+Sarn%C4%B1c%C4%B1%2C+Istanbul)" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Yerebatan Sarnıcı 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yerebatan_sarnici_1/public" data-location="Yerebatan Sarnıcı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yerebatan_sarnici_1/public" alt="Yerebatan Sarnıcı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yerebatan_sarnici_2/public" data-location="Yerebatan Sarnıcı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yerebatan_sarnici_2/public" alt="Yerebatan Sarnıcı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yerebatan_sarnici_3/public" data-location="Yerebatan Sarnıcı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yerebatan_sarnici_3/public" alt="Yerebatan Sarnıcı"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Yedikule+Hisarı,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Yedikule Hisarı 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yedikule_hisari_1/public" data-location="Yedikule Hisarı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yedikule_hisari_1/public" alt="Yedikule Hisarı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yedikule_hisari_2/public" data-location="Yedikule Hisarı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yedikule_hisari_2/public" alt="Yedikule Hisarı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yedikule_hisari_3/public" data-location="Yedikule Hisarı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_yedikule_hisari_3/public" alt="Yedikule Hisarı"></div>
-      </div>
-    </div>
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Taşdelen+Mesire+Alanı,+İstanbul" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Taşdelen Mesire Alanı 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_tasdelen_mesire_alani_1/public" data-location="Taşdelen Mesire Alanı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_tasdelen_mesire_alani_1/public" alt="Taşdelen Mesire Alanı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_tasdelen_mesire_alani_2/public" data-location="Taşdelen Mesire Alanı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_tasdelen_mesire_alani_2/public" alt="Taşdelen Mesire Alanı"></div>
-        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_tasdelen_mesire_alani_3/public" data-location="Taşdelen Mesire Alanı"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/istanbul_tasdelen_mesire_alani_3/public" alt="Taşdelen Mesire Alanı"></div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="promotion-section">
-    <div class="promotion-title" id="promoTitle">🎁First 20 Locations Free</div>
-    <p class="promo-text" id="mainPromoText" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Sign in for⚡Unlimited access to all locations</p>
-    
-    <a href="https://tr81.tr/login.html" target="_blank" class="purchase-btn" id="loginBtn">➤ Sign In</a>
-    
-    <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
-    
-    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+
+
+<!-- World Locations Button -->
+<button class="world-button" onclick="window.location.href='world.html'">
+  <span class="world-icon">🌍</span>
+  <span id="worldButtonText">Dünya Konumları</span>
+</button>
+
+<!-- Container -->
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1 class="title" id="mainTitle">Bir il seç → Manzaralı konumları keşfet</h1>
+    <p id="mainDescription" style="font-size: 16px; color: var(--text-secondary); font-weight: 400; margin: 16px 0 8px;">Türkiye'nin en güzel manzaralı yerlerini, konum bilgilerine bu siteden ulaş</p>
+    <p class="subtitle" id="subtitle">Konuma tıkla, yola çık</p>
   </div>
 
-  <!-- PHOTO MODAL -->
-  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
-      <img class="modal-image" id="modalImage" src="" alt="">
-      <div class="modal-info" id="modalInfo">Konum Adı</div>
-    </div>
+  <!-- Search -->
+  <div class="search-box">
+    <input id="searchInput" class="search" type="text" placeholder="Bir il ara..." autocomplete="off">
+    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+    </svg>
   </div>
 
-  <script>
-    // Dil verileri
-    const translations = {
-    "tr": {
-        "promoTitle": "🎁İlk 20 Konum ücretsiz",
-        "mainPromoText": "Tüm konumlara⚡Sınırsız erişim için giriş yapın",
-        "loginBtn": "➤ Giriş Yap",
-        "questionsText": "Sorularınız için → Bize ulaşın!",
-        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
-    },
-    "en": {
-        "promoTitle": "🎁First 20 Locations Free",
-        "mainPromoText": "Sign in for⚡Unlimited access to all locations",
-        "loginBtn": "➤ Sign In",
-        "questionsText": "Questions? → Contact us!",
-        "instagramBtn": "📩Contact us with one click: @tr81.tr"
-    },
-    "de": {
-        "promoTitle": "🎁Erste 20 Standorte kostenlos",
-        "mainPromoText": "Anmelden für⚡Unbegrenzten Zugang zu allen Standorten",
-        "loginBtn": "➤ Anmelden",
-        "questionsText": "Fragen? → Kontaktiere uns!",
-        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
-    },
-    "fr": {
-        "promoTitle": "🎁20 premiers lieux gratuits",
-        "mainPromoText": "Connectez-vous pour⚡Accès illimité à tous les lieux",
-        "loginBtn": "➤ Se connecter",
-        "questionsText": "Des questions? → Contactez-nous!",
-        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
-    },
-    "es": {
-        "promoTitle": "🎁Primeros 20 lugares gratis",
-        "mainPromoText": "Inicia sesión para⚡Acceso ilimitado a todos los lugares",
-        "loginBtn": "➤ Iniciar sesión",
-        "questionsText": "¿Preguntas? → ¡Contáctanos!",
-        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
-    },
-    "it": {
-        "promoTitle": "🎁Prime 20 posizioni gratis",
-        "mainPromoText": "Accedi per⚡Accesso illimitato a tutte le posizioni",
-        "loginBtn": "➤ Accedi",
-        "questionsText": "Domande? → Contattaci!",
-        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
-    },
-    "pt": {
-        "promoTitle": "🎁Primeiros 20 locais grátis",
-        "mainPromoText": "Entre para⚡Acesso ilimitado a todos os locais",
-        "loginBtn": "➤ Entrar",
-        "questionsText": "Dúvidas? → Fale conosco!",
-        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
-    },
-    "ru": {
-        "promoTitle": "🎁Первые 20 мест бесплатно",
-        "mainPromoText": "Войдите для⚡Неограниченного доступа ко всем местам",
-        "loginBtn": "➤ Войти",
-        "questionsText": "Вопросы? → Свяжитесь с нами!",
-        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
-    },
-    "ja": {
-        "promoTitle": "🎁最初の5か所無料",
-        "mainPromoText": "サインインして⚡すべての場所への無制限アクセス",
-        "loginBtn": "➤ サインイン",
-        "questionsText": "ご質問は？→ お問い合わせください！",
-        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
-    },
-    "zh": {
-        "promoTitle": "🎁前5个地点免费",
-        "mainPromoText": "登录获取⚡无限访问所有地点",
-        "loginBtn": "➤ 登录",
-        "questionsText": "有问题？→ 联系我们！",
-        "instagramBtn": "📩一键联系我们: @tr81.tr"
-    },
-    "ar": {
-        "promoTitle": "🎁أول 20 مواقع مجاناً",
-        "mainPromoText": "سجل الدخول للحصول على⚡وصول غير محدود لجميع المواقع",
-        "loginBtn": "➤ تسجيل الدخول",
-        "questionsText": "أسئلة؟ → اتصل بنا!",
-        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
-    },
-    "hi": {
-        "promoTitle": "🎁पहले 20 स्थान मुफ्त",
-        "mainPromoText": "सभी स्थानों तक⚡असीमित पहुंच के लिए साइन इन करें",
-        "loginBtn": "➤ साइन इन करें",
-        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
-        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
-    },
-    "ko": {
-        "promoTitle": "🎁처음 5개 장소 무료",
-        "mainPromoText": "모든 장소에⚡무제한 액세스를 위해 로그인",
-        "loginBtn": "➤ 로그인",
-        "questionsText": "질문이 있으신가요? → 문의하세요!",
-        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
-    },
-    "nl": {
-        "promoTitle": "🎁Eerste 20 locaties gratis",
-        "mainPromoText": "Log in voor⚡Onbeperkte toegang tot alle locaties",
-        "loginBtn": "➤ Inloggen",
-        "questionsText": "Vragen? → Neem contact op!",
-        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
-    },
-    "pl": {
-        "promoTitle": "🎁Pierwsze 20 lokalizacji za darmo",
-        "mainPromoText": "Zaloguj się, aby uzyskać⚡Nieograniczony dostęp do wszystkich lokalizacji",
-        "loginBtn": "➤ Zaloguj się",
-        "questionsText": "Pytania? → Skontaktuj się z nami!",
-        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
-    },
-    "sv": {
-        "promoTitle": "🎁Första 20 platserna gratis",
-        "mainPromoText": "Logga in för⚡Obegränsad tillgång till alla platser",
-        "loginBtn": "➤ Logga in",
-        "questionsText": "Frågor? → Kontakta oss!",
-        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
-    },
-    "no": {
-        "promoTitle": "🎁Første 20 steder gratis",
-        "mainPromoText": "Logg inn for⚡Ubegrenset tilgang til alle steder",
-        "loginBtn": "➤ Logg inn",
-        "questionsText": "Spørsmål? → Kontakt oss!",
-        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
-    },
-    "da": {
-        "promoTitle": "🎁Første 20 steder gratis",
-        "mainPromoText": "Log ind for⚡Ubegrænset adgang til alle steder",
-        "loginBtn": "➤ Log ind",
-        "questionsText": "Spørgsmål? → Kontakt os!",
-        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
-    }
+  <!-- Info Banner -->
+  <div id="infoBanner" class="info"></div>
+
+  <!-- Cities Grid -->
+  <div id="citiesGrid" class="grid"></div>
+</div>
+
+<!-- ===== JavaScript ===== -->
+<script>
+/* ---------- Çeviriler ---------- */
+const translations={
+tr:{banner:`Antalya'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>`,premium:'🔓 Tüm iller açık!',title:'Bir il seç → Manzaralı konumları keşfet',subtitle:'konuma tıkla, yola çık',search:'Bir il ara...',worldButton:'Dünya Konumları'},
+en:{banner:`Explore Antalya free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all provinces`,premium:'🔓 All provinces unlocked!',title:'Select a province → Discover scenic locations',subtitle:'click location, start journey',search:'Search province...',worldButton:'World Locations'},
+de:{banner:`Antalya kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle`,premium:'🔓 Alle Provinzen freigeschaltet!',title:'Entdecke Türkeis schöne Orte, erhalte Standortinformationen',subtitle:'Ort Anklicken, Reise Beginnen',search:'Provinz suchen...',worldButton:'Weltweite Orte'},
+fr:{banner:`Antalya gratuite! ⚡ <a href="https://www.tr81.tr/login.html">Connexion</a> pour tous`,premium:'🔓 Toutes les provinces débloquées!',title:'Découvrez les beaux endroits de Turquie, obtenez les informations de localisation',subtitle:'Cliquez, Commencez le Voyage',search:'Rechercher...',worldButton:'Lieux du Monde'},
+es:{banner:`¡Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 ¡Todas las provincias abiertas!',title:'Descubre lugares hermosos de Turquía, obtén información de ubicación',subtitle:'Clic en Ubicación, Inicia el Viaje',search:'Buscar provincia...',worldButton:'Lugares del Mundo'},
+it:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti`,premium:'🔓 Tutte le province sbloccate!',title:'Scopri i posti più belli della Turchia, ottieni le informazioni sulla posizione',subtitle:'Clicca il Luogo, Inizia il Viaggio',search:'Cerca provincia...',worldButton:'Luoghi del Mondo'},
+pt:{banner:`Antalya grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 Todas as províncias liberadas!',title:'Descubra lugares bonitos da Turquia, obtenha informações de localização',subtitle:'Clique no Local, Comece a Viagem',search:'Pesquisar província...',worldButton:'Locais do Mundo'},
+ru:{banner:`Анталья бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех`,premium:'🔓 Все провинции открыты!',title:'Открой красивые места Турции, получи информацию о местоположении',subtitle:'Нажми на Место, Начни Путь',search:'Поиск провинции...',worldButton:'Места мира'},
+ja:{banner:`アンタルヤ無料! ⚡ 全ての県は<a href="https://www.tr81.tr/login.html">ログイン</a>`,premium:'🔓 全ての県が利用可能!',title:'トルコの美しい場所を発見、位置情報を取得',subtitle:'場所をクリック、旅を始めよう',search:'県を検索...',worldButton:'世界の場所'},
+zh:{banner:`安塔利亚免费! ⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看全部`,premium:'🔓 所有省份已解锁!',title:'发现土耳其美景，获取位置信息',subtitle:'点击位置，开始旅程',search:'搜索省份...',worldButton:'世界地点'},
+ar:{banner:`أنطاليا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل</a> للجميع`,premium:'🔓 جميع المحافظات متاحة!',title:'اكتشف أجمل الأماكن في تركيا، احصل على معلومات الموقع',subtitle:'انقر على الموقع، ابدأ الرحلة',search:'ابحث عن محافظة...',worldButton:'مواقع العالم'},
+hi:{banner:`अंताल्या मुफ्त! ⚡ सभी के लिए <a href="https://www.tr81.tr/login.html">लॉगिन</a>`,premium:'🔓 सभी प्रांत खुले!',title:'तुर्की के सुंदर स्थान खोजें, स्थान जानकारी पाएं',subtitle:'स्थान पर क्लिक करें, यात्रा शुरू करें',search:'प्रांत खोजें...',worldButton:'विश्व स्थान'},
+ko:{banner:`안탈리아 무료! ⚡ 모든 지방은 <a href="https://www.tr81.tr/login.html">로그인</a>`,premium:'🔓 모든 지방 이용 가능!',title:'터키의 아름다운 장소 발견, 위치 정보 획득',subtitle:'위치 클릭, 여행 시작',search:'지방 검색...',worldButton:'세계 명소'},
+nl:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alles`,premium:'🔓 Alle provincies open!',title:'Ontdek mooie plekken in Turkije, krijg locatie-informatie',subtitle:'Klik Locatie, Start Reis',search:'Zoek provincie...',worldButton:'Wereldlocaties'},
+pl:{banner:`Antalya za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj</a> dla wszystkich`,premium:'🔓 Wszystkie prowincje odblokowane!',title:'Odkryj piękne miejsca Turcji, uzyskaj informacje o lokalizacji',subtitle:'Kliknij Miejsce, Rozpocznij Podróż',search:'Szukaj prowincji...',worldButton:'Miejsca na Świecie'},
+sv:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla`,premium:'🔓 Alla provinser öppna!',title:'Upptäck Turkiets vackra platser, få platsinformation',subtitle:'Klicka Plats, Börja Resan',search:'Sök provins...',worldButton:'Världsplatser'},
+no:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle`,premium:'🔓 Alle provinser åpne!',title:'Oppdag Tyrkias vakre steder, få stedsinformasjon',subtitle:'Klikk Sted, Start Reisen',search:'Søk provins...',worldButton:'Verdenssteder'},
+da:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle`,premium:'🔓 Alle provinser åbne!',title:'Opdag Tyrkiets smukke steder, få lokationsinformation',subtitle:'Klik Sted, Start Rejsen',search:'Søg provins...',worldButton:'Verdenssteder'},
+fi:{banner:`Antalya ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikille`,premium:'🔓 Kaikki maakunnat auki!',title:'Löydä Turkin kauniit paikat, saa sijaintitiedot',subtitle:'Klikkaa Paikkaa, Aloita Matka',search:'Hae maakuntaa...',worldButton:'Maailman Paikat'},
+cs:{banner:`Antalya zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit</a> pro vše`,premium:'🔓 Všechny provincie odemčeny!',title:'Objevte krásná místa Turecka, získejte informace o poloze',subtitle:'Klikni na Místo, Začni Cestu',search:'Hledat provincii...',worldButton:'Světová Místa'}
 };
 
-    // Dil algılama fonksiyonu
-    function detectLanguage() {
-      const savedLang = sessionStorage.getItem('preferred-language');
-      if (savedLang && translations[savedLang]) {
-        return savedLang;
-      }
-      
-      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-      
-      if (browserLang.startsWith('tr')) {
-        return 'tr';
-      }
-      
-      for (const lang in translations) {
-        if (browserLang.startsWith(lang)) {
-          return lang;
-        }
-      }
-      
-      return 'en';
-    }
+/* ---------- Şehir Listesi ---------- */
+const cities=[['antalya','Antalya','antalya'],
+['adana','Adana','adana'],['adiyaman','Adıyaman','adiyaman'],
+['afyon','Afyonkarahisar','afyon'],
+['agri','Ağrı','agri ağrı'],['aksaray','Aksaray','aksaray'],
+['amasya','Amasya','amasya'],['ankara','Ankara','ankara'],
+['ardahan','Ardahan','ardahan'],
+['artvin','Artvin','artvin'],['aydin','Aydın','aydin'],
+['balikesir','Balıkesir','balikesir'],['bartin','Bartın','bartin'],
+['batman','Batman','batman'],['bayburt','Bayburt','bayburt'],
+['bilecik','Bilecik','bilecik'],['bingol','Bingöl','bingol'],
+['bitlis','Bitlis','bitlis'],['bolu','Bolu','bolu'],
+['burdur','Burdur','burdur'],['bursa','Bursa','bursa'],
+['canakkale','Çanakkale','canakkale'],['cankiri','Çankırı','cankiri'],
+['corum','Çorum','corum'],['denizli','Denizli','denizli'],
+['diyarbakir','Diyarbakır','diyarbakir'],['duzce','Düzce','duzce'],
+['edirne','Edirne','edirne'],['elazig','Elazığ','elazig'],
+['erzincan','Erzincan','erzincan'],['erzurum','Erzurum','erzurum'],
+['eskisehir','Eskişehir','eskisehir'],['gaziantep','Gaziantep','gaziantep'],
+['giresun','Giresun','giresun'],['gumushane','Gümüşhane','gumushane'],
+['hakkari','Hakkari','hakkari'],['hatay','Hatay','hatay'],
+['igdir','Iğdır','igdir'],['isparta','Isparta','isparta'],
+['istanbul','İstanbul','istanbul'],['izmir','İzmir','izmir'],
+['kahramanmaras','Kahramanmaraş','kahramanmaras'],['karabuk','Karabük','karabuk'],
+['karaman','Karaman','karaman'],['kars','Kars','kars'],
+['kastamonu','Kastamonu','kastamonu'],['kayseri','Kayseri','kayseri'],
+['kilis','Kilis','kilis'],['kirikkale','Kırıkkale','kirikkale'],
+['kirklareli','Kırklareli','kirklareli'],['kirsehir','Kırşehir','kirsehir'],
+['kocaeli','Kocaeli','kocaeli'],['konya','Konya','konya'],
+['kutahya','Kütahya','kutahya'],['malatya','Malatya','malatya'],
+['manisa','Manisa','manisa'],['mardin','Mardin','mardin'],
+['mersin','Mersin','mersin'],['mugla','Muğla','mugla muğla'],
+['mus','Muş','mus'],
+['nevsehir','Nevşehir','nevsehir'],['nigde','Niğde','nigde'],
+['ordu','Ordu','ordu'],['osmaniye','Osmaniye','osmaniye'],
+['rize','Rize','rize'],['sakarya','Sakarya','sakarya'],
+['samsun','Samsun','samsun'],['sanliurfa','Şanlıurfa','sanliurfa'],
+['siirt','Siirt','siirt'],['sinop','Sinop','sinop'],
+['sirnak','Şırnak','sirnak'],['sivas','Sivas','sivas'],
+['tekirdag','Tekirdağ','tekirdag'],['tokat','Tokat','tokat'],
+['trabzon','Trabzon','trabzon'],['tunceli','Tunceli','tunceli'],
+['usak','Uşak','usak'],['van','Van','van'],
+['yalova','Yalova','yalova'],['yozgat','Yozgat','yozgat'],
+['zonguldak','Zonguldak','zonguldak']];
 
-    // UI güncelleme fonksiyonu
-    function updateLanguageUI(lang) {
-      const t = translations[lang];
-      if (!t) return;
-      
-      const elements = {
-        'promoTitle': t.promoTitle,
-        'mainPromoText': t.mainPromoText,
-        'loginBtn': t.loginBtn,
-        'questionsText': t.questionsText,
-        'instagramBtn': t.instagramBtn
-      };
-      
-      for (const [id, text] of Object.entries(elements)) {
-        const element = document.getElementById(id);
-        if (element) {
-          if (id === 'loginBtn' || id === 'instagramBtn') {
-            element.innerHTML = text;
-          } else {
-            element.textContent = text;
-          }
-        }
-      }
-      
-      document.documentElement.lang = lang;
-      sessionStorage.setItem('preferred-language', lang);
-    }
+/* ---------- Yardımcılar ---------- */
+const normalize=str=>str.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
 
-    // Photo modal functions
-    function openPhotoModal(imageUrl, locationName) {
-      const modal = document.getElementById('photoModal');
-      const modalImage = document.getElementById('modalImage');
-      const modalInfo = document.getElementById('modalInfo');
-      
-      modalImage.src = imageUrl;
-      modalImage.alt = locationName;
-      modalInfo.textContent = locationName;
-      
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      
-      setTimeout(() => {
-        modal.classList.add('show');
-      }, 10);
-    }
+/* ---------- Elemanlar ---------- */
+const grid=document.getElementById('citiesGrid');
+const banner=document.getElementById('infoBanner');
+const title=document.getElementById('mainTitle');
+const subtitle=document.getElementById('subtitle');
+const search=document.getElementById('searchInput');
+const accessGranted=localStorage.getItem('duflat-access')==='granted';
 
-    function closePhotoModal() {
-      const modal = document.getElementById('photoModal');
-      
-      modal.classList.remove('show');
-      
-      setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }, 300);
-    }
+/* ---------- Dil ---------- */
+const browserLang=(navigator.language||'en').split('-')[0].toLowerCase();
+const langObj=translations[browserLang]||translations.en;
+banner.innerHTML=accessGranted?langObj.premium:langObj.banner;
+banner.className=accessGranted?'info premium':'info';
+title.textContent=langObj.title;
+document.getElementById('mainDescription').textContent=langObj.description;
+subtitle.textContent=langObj.subtitle;
+search.placeholder=langObj.search;
+document.getElementById('worldButtonText').textContent=langObj.worldButton;
 
-    // ESC tuşu ile modal kapatma
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        closePhotoModal();
-      }
-    });
+/* ---------- Kartlar ---------- */
+cities.forEach(([slug,name,filter])=>{
+  const card=document.createElement('div');
+  card.className='card'+(slug==='antalya'?' antalya':'');
+  card.dataset.search=filter;
+  card.onclick=()=>navigate(slug);
+  card.innerHTML=`<div class="city-name">${name}</div>`;
+  grid.appendChild(card);
+});
 
-    // Fotoğraf kartlarına tıklama olayları ekle
-    document.addEventListener('click', function(e) {
-      if (e.target.closest('.photo-card')) {
-        const card = e.target.closest('.photo-card');
-        const img = card.querySelector('img');
-        if (img) {
-          const imageUrl = img.src;
-          const locationName = img.alt;
-          openPhotoModal(imageUrl, locationName);
-        }
-      }
-    });
+/* ---------- Arama ---------- */
+search.addEventListener('input',e=>{
+  const v=normalize(e.target.value);
+  banner.style.display=v?'none':'';
+  document.querySelectorAll('.card').forEach(c=>{
+    c.style.display=normalize(c.dataset.search).includes(v)?'':'none';
+  });
+});
 
-    // Sayfa yüklendiğinde dil ayarla
-    document.addEventListener('DOMContentLoaded', function() {
-      const detectedLang = detectLanguage();
-      updateLanguageUI(detectedLang);
-    });
-    
-    window.addEventListener('load', function() {
-      const detectedLang = detectLanguage();
-      updateLanguageUI(detectedLang);
-    });
-  </script>
+/* ---------- Navigasyon ---------- */
+function navigate(city){
+  const demo=['istanbul','ankara','izmir','bursa','antalya','konya','adana','gaziantep','mugla','diyarbakir','kocaeli','mersin'];
+  if(city==='antalya'){location.href='antalya_demo.html';return;}
+  if(accessGranted){location.href=`${city}.html`;}
+  else{
+    if(demo.includes(city))location.href=`${city}_demo.html`;
+    else location.href='login.html';
+  }
+}
+</script>
 </body>
 </html>
