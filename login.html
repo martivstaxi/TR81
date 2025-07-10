@@ -437,10 +437,14 @@
     .manual-link a:hover{
       text-decoration:underline;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-
 
   <!-- Logo -->
   <a href="#" class="logo" aria-label="Ana Sayfa">🌍</a>
@@ -1022,3 +1026,106 @@
         item.classList.toggle('active', item.dataset.lang === code);
       });
     }
+
+    function toggleLang() {
+      const list = document.getElementById('langList');
+      list.classList.toggle('show');
+    }
+
+    function initLangList() {
+      const list = document.getElementById('langList');
+      list.innerHTML = '';
+      
+      for (const [code, lang] of Object.entries(translations)) {
+        const item = document.createElement('div');
+        item.className = 'lang-item';
+        item.dataset.lang = code;
+        item.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
+        item.onclick = () => {
+          setLang(code);
+          list.classList.remove('show');
+        };
+        list.appendChild(item);
+      }
+    }
+
+    // Instagram DM açma fonksiyonu
+    function openInstagramDM() {
+      window.open("https://www.instagram.com/tr81.tr/", "_blank");
+      return false;
+    }
+
+    // Giriş fonksiyonu
+    function login() {
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+      
+      // Basit doğrulama (gerçek uygulamada sunucu tarafında yapılmalı)
+      if (username === "global" && password === "global2025") {
+        document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('manualLink').style.display = 'block';
+        
+        // Erişim iznini kaydet
+        localStorage.setItem("duflat-access", "granted");
+        
+        // 2 saniye sonra yönlendir
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      } else {
+        document.getElementById('errorMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('manualLink').style.display = 'none';
+      }
+    }
+
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize language list
+      initLangList();
+      
+      // Set initial language
+      const detectedLang = detectLang();
+      setLang(detectedLang);
+      
+      // Enter key listeners
+      const passwordInput = document.getElementById('passwordInput');
+      const usernameInput = document.getElementById('usernameInput');
+      
+      if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            login();
+          }
+        });
+      }
+      
+      if (usernameInput) {
+        usernameInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const passInput = document.getElementById('passwordInput');
+            if (passInput) passInput.focus();
+          }
+        });
+      }
+    });
+
+    // Close language dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const langSelect = document.querySelector('.lang-select');
+      if (!langSelect.contains(e.target)) {
+        document.getElementById('langList').classList.remove('show');
+      }
+    });
+
+    // Prevent form submission on refresh
+    window.addEventListener('load', function() {
+      // Instagram embed'i yeniden yükle
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    });
+  </script>
+</body>
+</html>
