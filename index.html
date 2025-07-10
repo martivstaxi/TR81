@@ -134,6 +134,13 @@ body::before{
   color:var(--text-secondary);
   font-weight:400;
 }
+.old-title{
+  font-size:0.875rem;
+  color:var(--text-muted);
+  font-weight:400;
+  margin-top:8px;
+  text-transform:lowercase;
+}
 
 /* ===== Search ===== */
 .search-box{
@@ -243,6 +250,7 @@ body::before{
   .header{padding:70px 16px 32px;}
   .title{font-size:1.875rem;}
   .subtitle{font-size:0.875rem;}
+  .old-title{font-size:0.75rem;}
   .search{padding:12px 44px 12px 16px;font-size:14px;}
   .info{font-size:13px;padding:16px 20px;}
   .grid{gap:12px;}
@@ -276,7 +284,8 @@ body::before{
 <div class="container">
   <!-- Header -->
   <div class="header">
-    <h1 class="title" id="mainTitle">Türkiye'nin manzaralı yerlerini keşfet, konum bilgilerine sahip ol</h1>
+    <h1 class="title" id="mainTitle">Select a province → Discover scenic locations</h1>
+    <p class="subtitle" id="oldTitle">türkiye'nin manzaralı yerlerini keşfet, konum bilgilerine sahip ol</p>
     <p class="subtitle" id="subtitle">Konuma tıkla, yola çık</p>
   </div>
 
@@ -299,26 +308,26 @@ body::before{
 <script>
 /* ---------- Çeviriler ---------- */
 const translations={
-tr:{banner:`Antalya'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>`,premium:'🔓 Tüm iller açık!',title:'Türkiye\'nin manzaralı yerlerini keşfet, konum bilgilerine sahip ol',subtitle:'Konuma tıkla, yola çık',search:'Bir il ara...',worldButton:'Dünya Konumları'},
-en:{banner:`Explore Antalya free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all provinces`,premium:'🔓 All provinces unlocked!',title:'Discover Türkiye\'s scenic spots, get location information',subtitle:'Click Location, Start Journey',search:'Search province...',worldButton:'World Locations'},
-de:{banner:`Antalya kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle`,premium:'🔓 Alle Provinzen freigeschaltet!',title:'Entdecke Türkeis schöne Orte, erhalte Standortinformationen',subtitle:'Ort Anklicken, Reise Beginnen',search:'Provinz suchen...',worldButton:'Weltweite Orte'},
-fr:{banner:`Antalya gratuite! ⚡ <a href="https://www.tr81.tr/login.html">Connexion</a> pour tous`,premium:'🔓 Toutes les provinces débloquées!',title:'Découvrez les beaux endroits de Turquie, obtenez les informations de localisation',subtitle:'Cliquez, Commencez le Voyage',search:'Rechercher...',worldButton:'Lieux du Monde'},
-es:{banner:`¡Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 ¡Todas las provincias abiertas!',title:'Descubre lugares hermosos de Turquía, obtén información de ubicación',subtitle:'Clic en Ubicación, Inicia el Viaje',search:'Buscar provincia...',worldButton:'Lugares del Mundo'},
-it:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti`,premium:'🔓 Tutte le province sbloccate!',title:'Scopri i posti più belli della Turchia, ottieni le informazioni sulla posizione',subtitle:'Clicca il Luogo, Inizia il Viaggio',search:'Cerca provincia...',worldButton:'Luoghi del Mondo'},
-pt:{banner:`Antalya grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 Todas as províncias liberadas!',title:'Descubra lugares bonitos da Turquia, obtenha informações de localização',subtitle:'Clique no Local, Comece a Viagem',search:'Pesquisar província...',worldButton:'Locais do Mundo'},
-ru:{banner:`Анталья бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех`,premium:'🔓 Все провинции открыты!',title:'Открой красивые места Турции, получи информацию о местоположении',subtitle:'Нажми на Место, Начни Путь',search:'Поиск провинции...',worldButton:'Места мира'},
-ja:{banner:`アンタルヤ無料! ⚡ 全ての県は<a href="https://www.tr81.tr/login.html">ログイン</a>`,premium:'🔓 全ての県が利用可能!',title:'トルコの美しい場所を発見、位置情報を取得',subtitle:'場所をクリック、旅を始めよう',search:'県を検索...',worldButton:'世界の場所'},
-zh:{banner:`安塔利亚免费! ⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看全部`,premium:'🔓 所有省份已解锁!',title:'发现土耳其美景，获取位置信息',subtitle:'点击位置，开始旅程',search:'搜索省份...',worldButton:'世界地点'},
-ar:{banner:`أنطاليا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل</a> للجميع`,premium:'🔓 جميع المحافظات متاحة!',title:'اكتشف أجمل الأماكن في تركيا، احصل على معلومات الموقع',subtitle:'انقر على الموقع، ابدأ الرحلة',search:'ابحث عن محافظة...',worldButton:'مواقع العالم'},
-hi:{banner:`अंताल्या मुफ्त! ⚡ सभी के लिए <a href="https://www.tr81.tr/login.html">लॉगिन</a>`,premium:'🔓 सभी प्रांत खुले!',title:'तुर्की के सुंदर स्थान खोजें, स्थान जानकारी पाएं',subtitle:'स्थान पर क्लिक करें, यात्रा शुरू करें',search:'प्रांत खोजें...',worldButton:'विश्व स्थान'},
-ko:{banner:`안탈리아 무료! ⚡ 모든 지방은 <a href="https://www.tr81.tr/login.html">로그인</a>`,premium:'🔓 모든 지방 이용 가능!',title:'터키의 아름다운 장소 발견, 위치 정보 획득',subtitle:'위치 클릭, 여행 시작',search:'지방 검색...',worldButton:'세계 명소'},
-nl:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alles`,premium:'🔓 Alle provincies open!',title:'Ontdek mooie plekken in Turkije, krijg locatie-informatie',subtitle:'Klik Locatie, Start Reis',search:'Zoek provincie...',worldButton:'Wereldlocaties'},
-pl:{banner:`Antalya za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj</a> dla wszystkich`,premium:'🔓 Wszystkie prowincje odblokowane!',title:'Odkryj piękne miejsca Turcji, uzyskaj informacje o lokalizacji',subtitle:'Kliknij Miejsce, Rozpocznij Podróż',search:'Szukaj prowincji...',worldButton:'Miejsca na Świecie'},
-sv:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla`,premium:'🔓 Alla provinser öppna!',title:'Upptäck Turkiets vackra platser, få platsinformation',subtitle:'Klicka Plats, Börja Resan',search:'Sök provins...',worldButton:'Världsplatser'},
-no:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle`,premium:'🔓 Alle provinser åpne!',title:'Oppdag Tyrkias vakre steder, få stedsinformasjon',subtitle:'Klikk Sted, Start Reisen',search:'Søk provins...',worldButton:'Verdenssteder'},
-da:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle`,premium:'🔓 Alle provinser åbne!',title:'Opdag Tyrkiets smukke steder, få lokationsinformation',subtitle:'Klik Sted, Start Rejsen',search:'Søg provins...',worldButton:'Verdenssteder'},
-fi:{banner:`Antalya ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikille`,premium:'🔓 Kaikki maakunnat auki!',title:'Löydä Turkin kauniit paikat, saa sijaintitiedot',subtitle:'Klikkaa Paikkaa, Aloita Matka',search:'Hae maakuntaa...',worldButton:'Maailman Paikat'},
-cs:{banner:`Antalya zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit</a> pro vše`,premium:'🔓 Všechny provincie odemčeny!',title:'Objevte krásná místa Turecka, získejte informace o poloze',subtitle:'Klikni na Místo, Začni Cestu',search:'Hledat provincii...',worldButton:'Světová Místa'}
+tr:{banner:`Antalya'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>`,premium:'🔓 Tüm iller açık!',title:'Bir il seç → Manzaralı konumları keşfet',oldTitle:'Türkiye\'nin manzaralı yerlerini keşfet, konum bilgilerine sahip ol',subtitle:'Konuma tıkla, yola çık',search:'Bir il ara...',worldButton:'Dünya Konumları'},
+en:{banner:`Explore Antalya free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all provinces`,premium:'🔓 All provinces unlocked!',title:'Select a province → Discover scenic locations',oldTitle:'Discover Türkiye\'s scenic spots, get location information',subtitle:'Click Location, Start Journey',search:'Search province...',worldButton:'World Locations'},
+de:{banner:`Antalya kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle`,premium:'🔓 Alle Provinzen freigeschaltet!',title:'Wähle eine Provinz → Entdecke malerische Orte',oldTitle:'entdecke türkeis schöne orte, erhalte standortinformationen',subtitle:'Ort Anklicken, Reise Beginnen',search:'Provinz suchen...',worldButton:'Weltweite Orte'},
+fr:{banner:`Antalya gratuite! ⚡ <a href="https://www.tr81.tr/login.html">Connexion</a> pour tous`,premium:'🔓 Toutes les provinces débloquées!',title:'Sélectionnez une province → Découvrez des lieux pittoresques',oldTitle:'découvrez les beaux endroits de turquie, obtenez les informations de localisation',subtitle:'Cliquez, Commencez le Voyage',search:'Rechercher...',worldButton:'Lieux du Monde'},
+es:{banner:`¡Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 ¡Todas las provincias abiertas!',title:'Selecciona una provincia → Descubre lugares escénicos',oldTitle:'descubre lugares hermosos de turquía, obtén información de ubicación',subtitle:'Clic en Ubicación, Inicia el Viaje',search:'Buscar provincia...',worldButton:'Lugares del Mundo'},
+it:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti`,premium:'🔓 Tutte le province sbloccate!',title:'Seleziona una provincia → Scopri luoghi panoramici',oldTitle:'scopri i posti più belli della turchia, ottieni le informazioni sulla posizione',subtitle:'Clicca il Luogo, Inizia il Viaggio',search:'Cerca provincia...',worldButton:'Luoghi del Mondo'},
+pt:{banner:`Antalya grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos`,premium:'🔓 Todas as províncias liberadas!',title:'Selecione uma província → Descubra locais cênicos',oldTitle:'descubra lugares bonitos da turquia, obtenha informações de localização',subtitle:'Clique no Local, Comece a Viagem',search:'Pesquisar província...',worldButton:'Locais do Mundo'},
+ru:{banner:`Анталья бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех`,premium:'🔓 Все провинции открыты!',title:'Выберите провинцию → Откройте живописные места',oldTitle:'открой красивые места турции, получи информацию о местоположении',subtitle:'Нажми на Место, Начни Путь',search:'Поиск провинции...',worldButton:'Места мира'},
+ja:{banner:`アンタルヤ無料! ⚡ 全ての県は<a href="https://www.tr81.tr/login.html">ログイン</a>`,premium:'🔓 全ての県が利用可能!',title:'県を選択 → 景色の良い場所を発見',oldTitle:'トルコの美しい場所を発見、位置情報を取得',subtitle:'場所をクリック、旅を始めよう',search:'県を検索...',worldButton:'世界の場所'},
+zh:{banner:`安塔利亚免费! ⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看全部`,premium:'🔓 所有省份已解锁!',title:'选择一个省 → 发现风景优美的地点',oldTitle:'发现土耳其美景，获取位置信息',subtitle:'点击位置，开始旅程',search:'搜索省份...',worldButton:'世界地点'},
+ar:{banner:`أنطاليا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل</a> للجميع`,premium:'🔓 جميع المحافظات متاحة!',title:'اختر محافظة ← اكتشف المواقع الخلابة',oldTitle:'اكتشف أجمل الأماكن في تركيا، احصل على معلومات الموقع',subtitle:'انقر على الموقع، ابدأ الرحلة',search:'ابحث عن محافظة...',worldButton:'مواقع العالم'},
+hi:{banner:`अंताल्या मुफ्त! ⚡ सभी के लिए <a href="https://www.tr81.tr/login.html">लॉगिन</a>`,premium:'🔓 सभी प्रांत खुले!',title:'एक प्रांत चुनें → सुंदर स्थान खोजें',oldTitle:'तुर्की के सुंदर स्थान खोजें, स्थान जानकारी पाएं',subtitle:'स्थान पर क्लिक करें, यात्रा शुरू करें',search:'प्रांत खोजें...',worldButton:'विश्व स्थान'},
+ko:{banner:`안탈리아 무료! ⚡ 모든 지방은 <a href="https://www.tr81.tr/login.html">로그인</a>`,premium:'🔓 모든 지방 이용 가능!',title:'지방 선택 → 경치 좋은 장소 발견',oldTitle:'터키의 아름다운 장소 발견, 위치 정보 획득',subtitle:'위치 클릭, 여행 시작',search:'지방 검색...',worldButton:'세계 명소'},
+nl:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alles`,premium:'🔓 Alle provincies open!',title:'Selecteer een provincie → Ontdek schilderachtige locaties',oldTitle:'ontdek mooie plekken in turkije, krijg locatie-informatie',subtitle:'Klik Locatie, Start Reis',search:'Zoek provincie...',worldButton:'Wereldlocaties'},
+pl:{banner:`Antalya za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj</a> dla wszystkich`,premium:'🔓 Wszystkie prowincje odblokowane!',title:'Wybierz prowincję → Odkryj malownicze miejsca',oldTitle:'odkryj piękne miejsca turcji, uzyskaj informacje o lokalizacji',subtitle:'Kliknij Miejsce, Rozpocznij Podróż',search:'Szukaj prowincji...',worldButton:'Miejsca na Świecie'},
+sv:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla`,premium:'🔓 Alla provinser öppna!',title:'Välj en provins → Upptäck natursköna platser',oldTitle:'upptäck turkiets vackra platser, få platsinformation',subtitle:'Klicka Plats, Börja Resan',search:'Sök provins...',worldButton:'Världsplatser'},
+no:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle`,premium:'🔓 Alle provinser åpne!',title:'Velg en provins → Oppdag naturskjønne steder',oldTitle:'oppdag tyrkias vakre steder, få stedsinformasjon',subtitle:'Klikk Sted, Start Reisen',search:'Søk provins...',worldButton:'Verdenssteder'},
+da:{banner:`Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle`,premium:'🔓 Alle provinser åbne!',title:'Vælg en provins → Opdag naturskønne steder',oldTitle:'opdag tyrkiets smukke steder, få lokationsinformation',subtitle:'Klik Sted, Start Rejsen',search:'Søg provins...',worldButton:'Verdenssteder'},
+fi:{banner:`Antalya ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikille`,premium:'🔓 Kaikki maakunnat auki!',title:'Valitse maakunta → Löydä maisemallisia paikkoja',oldTitle:'löydä turkin kauniit paikat, saa sijaintitiedot',subtitle:'Klikkaa Paikkaa, Aloita Matka',search:'Hae maakuntaa...',worldButton:'Maailman Paikat'},
+cs:{banner:`Antalya zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit</a> pro vše`,premium:'🔓 Všechny provincie odemčeny!',title:'Vyberte provincii → Objevte malebná místa',oldTitle:'objevte krásná místa turecka, získejte informace o poloze',subtitle:'Klikni na Místo, Začni Cestu',search:'Hledat provincii...',worldButton:'Světová Místa'}
 };
 
 /* ---------- Şehir Listesi ---------- */
@@ -366,6 +375,9 @@ const cities=[['antalya','Antalya','antalya'],
 ['yalova','Yalova','yalova'],['yozgat','Yozgat','yozgat'],
 ['zonguldak','Zonguldak','zonguldak']];
 
+/* ---------- Demo iller listesi ---------- */
+const demoProvinces = ['antalya'];
+
 /* ---------- Yardımcılar ---------- */
 const normalize=str=>str.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
 
@@ -373,6 +385,7 @@ const normalize=str=>str.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ
 const grid=document.getElementById('citiesGrid');
 const banner=document.getElementById('infoBanner');
 const title=document.getElementById('mainTitle');
+const oldTitle=document.getElementById('oldTitle');
 const subtitle=document.getElementById('subtitle');
 const search=document.getElementById('searchInput');
 const accessGranted=localStorage.getItem('duflat-access')==='granted';
@@ -383,6 +396,7 @@ const langObj=translations[browserLang]||translations.en;
 banner.innerHTML=accessGranted?langObj.premium:langObj.banner;
 banner.className=accessGranted?'info premium':'info';
 title.textContent=langObj.title;
+oldTitle.textContent=langObj.oldTitle;
 subtitle.textContent=langObj.subtitle;
 search.placeholder=langObj.search;
 document.getElementById('worldButtonText').textContent=langObj.worldButton;
@@ -393,7 +407,14 @@ cities.forEach(([slug,name,filter])=>{
   card.className='card'+(slug==='antalya'?' antalya':'');
   card.dataset.search=filter;
   card.onclick=()=>navigate(slug);
-  card.innerHTML=`<div class="city-name">${name}</div>`;
+  
+  // Kilit işaretini sadece giriş yapmamış kullanıcılar ve demo olmayan iller için göster
+  let lockIcon = '';
+  if (!accessGranted && slug !== 'antalya' && !demoProvinces.includes(slug)) {
+    lockIcon = ' 🔒';
+  }
+  
+  card.innerHTML=`<div class="city-name">${name}${lockIcon}</div>`;
   grid.appendChild(card);
 });
 
@@ -408,12 +429,26 @@ search.addEventListener('input',e=>{
 
 /* ---------- Navigasyon ---------- */
 function navigate(city){
-  const demo=['istanbul','ankara','izmir','bursa','antalya','konya','adana','gaziantep','mugla','diyarbakir','kocaeli','mersin'];
-  if(city==='antalya'){location.href='antalya_demo.html';return;}
-  if(accessGranted){location.href=`${city}.html`;}
+  // Antalya için özel durum
+  if(city==='antalya'){
+    location.href='antalya_demo.html';
+    return;
+  }
+  
+  // Giriş yapmış kullanıcılar tüm illere erişebilir
+  if(accessGranted){
+    location.href=`${city}.html`;
+  }
+  // Giriş yapmamış kullanıcılar
   else{
-    if(demo.includes(city))location.href=`${city}_demo.html`;
-    else location.href='login.html';
+    // Demo iller için demo sayfasına yönlendir
+    if(demoProvinces.includes(city)){
+      location.href=`${city}_demo.html`;
+    }
+    // Demo olmayan iller için login sayfasına yönlendir
+    else{
+      location.href='login.html';
+    }
   }
 }
 </script>
