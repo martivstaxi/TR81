@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Türkiye | 81 İlin En Güzel Manzaraları</title>
+<title>Türkiye | 81 İlin En Güzel Manzaraları</title>
 
 <!-- Inter Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,102 +11,314 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== Değişkenler (login.html ile aynı palet) ===== */
+/* ===== Değişkenler ===== */
 :root{
-  --bg-grad:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 50%,#dee2e6 100%);
-  --card-bg:rgba(255,255,255,0.95);
-  --card-hover:#ffffff;
-  --blur:10px;
-  --text:#495057;
-  --heading:#343a40;
-  --border:rgba(255,255,255,0.8);
-  --shadow:0 10px 30px rgba(0,0,0,0.10),0 1px 8px rgba(0,0,0,0.05);
-  --accent-grad:linear-gradient(135deg,#ffd700 0%,#ffb347 50%,#ff8c00 100%);
-  --accent-dark:#ff8c00;
+  --primary: #3b82f6;
+  --primary-light: #60a5fa;
+  --primary-dark: #1d4ed8;
+  --secondary: #8b5cf6;
+  --secondary-light: #a78bfa;
+  --accent: #f97316;
+  --accent-light: #fb923c;
+  --success: #10b981;
+  --error: #ef4444;
+  --bg-main: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-glass: rgba(255, 255, 255, 0.60);
+  --border-glass: rgba(255, 255, 255, 0.2);
+  --text-primary: #334155;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  --gradient-hover: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+  --shadow-glow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* ===== Genel ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Inter',sans-serif;
+  background:var(--bg-main);
+  color:var(--text-primary);
   min-height:100vh;
-  background:var(--bg-grad);
-  display:flex;flex-direction:column;align-items:center;
-  padding:24px 12px 64px;
-  color:var(--text);
+  line-height:1.6;
   overflow-x:hidden;
+  position:relative;
 }
-body::before{               /* login.html’deki dekoratif daireler */
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-   radial-gradient(circle at 20% 20%,rgba(108,117,125,0.08) 0%,transparent 50%),
-   radial-gradient(circle at 80% 80%,rgba(173,181,189,0.05) 0%,transparent 50%);
+
+/* Animated Background */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(108, 117, 125, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(173, 181, 189, 0.05) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:-1;
 }
 
 /* ===== Logo ===== */
 .logo{
-  position:fixed;top:18px;left:18px;font-size:28px;text-decoration:none;
-  transition:transform .25s;
+  position:fixed;
+  top:30px;
+  left:30px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:rgba(255, 255, 255, 0.9);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  text-decoration:none;
+  box-shadow:var(--shadow-glow);
+  transition:all .3s ease;
+  z-index:100;
+  border:1px solid rgba(255, 255, 255, 0.2);
 }
-.logo:hover{transform:scale(1.08);}
+.logo:hover{
+  transform:scale(1.1) rotate(10deg);
+  box-shadow:var(--shadow-card);
+}
 
-/* ===== Başlık & Arama ===== */
+/* ===== World Button ===== */
+.world-button {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  padding: 12px 24px;
+  background: var(--gradient-main);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-glow);
+  z-index: 100;
+}
+
+.world-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.world-icon {
+  font-size: 1.1rem;
+}
+
+/* ===== Container ===== */
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:100px 20px 40px;
+  position:relative;
+  z-index:2;
+}
+
+/* ===== Header ===== */
+.header-container {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
 #mainTitle{
-  font-size:clamp(1.45rem,2.4vw,1.9rem);
-  font-weight:700;text-align:center;margin-top:64px;margin-bottom:18px;
-  color:var(--heading);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
 }
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ===== Search ===== */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
 #searchInput{
-  width:100%;max-width:440px;padding:12px 18px;font-size:1rem;
-  border:2px solid #e9ecef;border-radius:14px;outline:none;
-  background:var(--card-bg);backdrop-filter:blur(var(--blur));
-  transition:border .25s,box-shadow .25s;
+  width: 100%;
+  padding: 16px 24px 16px 52px;
+  font-size: 1rem;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  outline: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
+
 #searchInput:focus{
-  border-color:var(--text);
-  box-shadow:0 0 0 3px rgba(73,80,87,0.12);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: rgba(255, 255, 255, 0.8);
 }
 
-/* ===== Bilgi Banner ===== */
+#searchInput::placeholder{
+  color: var(--text-muted);
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ===== Banner ===== */
 .info-banner{
-  margin:28px auto 38px;
-  padding:18px 24px;font-size:clamp(.9rem,2vw,1.1rem);
-  background:#fff7cd;color:#7c4b00;border:2px solid #facc15;
-  border-radius:18px;box-shadow:var(--shadow);max-width:940px;text-align:center;
+  margin: 0 auto 40px;
+  padding: 20px 28px;
+  background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
+  border: 2px solid #fbbf24;
+  border-radius: 16px;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #92400e;
 }
+
 .info-banner.premium{
-  background:#d4edda;border-color:#28a745;color:#155724;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  border-color: var(--primary);
+  color: var(--text-primary);
 }
-.info-banner a{font-weight:600;color:var(--accent-dark);text-decoration:none;}
-.info-banner a:hover{text-decoration:underline;}
 
-/* ===== Şehir Izgarası ===== */
+.info-banner a{
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.info-banner a:hover{
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* ===== City Grid ===== */
 .cities{
-  width:100%;max-width:1100px;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
-}
-.city-card{
-  background:var(--card-bg);backdrop-filter:blur(var(--blur));
-  border:1px solid var(--border);border-radius:18px;
-  box-shadow:var(--shadow);padding:24px 10px 22px;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  cursor:pointer;transition:background .3s,transform .3s,box-shadow .3s;
-}
-.city-card:hover{
-  background:var(--card-hover);
-  transform:translateY(-6px);
-  box-shadow:0 12px 28px rgba(0,0,0,0.15);
-}
-.city-card.mugla{
-  border:2px solid #ffb347;
-  background:rgba(255,215,0,0.25);
-}
-.city-name{
-  font-size:1rem;font-weight:600;color:var(--text);word-break:break-word;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
 }
 
-/* ===== Küçük ekran tipografi ===== */
-@media(max-width:360px){.city-name{font-size:.9rem}}
+.city-card{
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-glow);
+}
+
+.city-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--primary-light);
+}
+
+.city-card.mugla {
+  background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+  border: 2px solid #fbbf24;
+}
+
+.city-card.mugla:hover {
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.3);
+}
+
+.city-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 80px 16px 32px;
+  }
+  
+  .logo {
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+    top: 20px;
+    left: 20px;
+  }
+  
+  .world-button {
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+  
+  #mainTitle {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .cities {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  
+  .city-card {
+    padding: 20px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .world-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .cities {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  
+  .city-name {
+    font-size: 0.85rem;
+  }
+}
 </style>
 </head>
 
@@ -114,38 +326,58 @@ body::before{               /* login.html’deki dekoratif daireler */
 <!-- Logo -->
 <a href="https://tr81.tr/login.html" class="logo" aria-label="Giriş">🌐</a>
 
-<!-- Başlık & Arama -->
-<h1 id="mainTitle">Bir il seç → Manzaralı konumları keşfet📍</h1>
-<input id="searchInput" type="text" placeholder="Bir il ara..." autocomplete="off">
+<!-- World Locations Button -->
+<button class="world-button" onclick="window.location.href='world.html'">
+  <span class="world-icon">🌍</span>
+  <span id="worldButtonText">Dünya Konumları</span>
+</button>
 
-<!-- Banner -->
-<div id="infoBanner" class="info-banner"></div>
+<!-- Container -->
+<div class="container">
+  <!-- Header -->
+  <div class="header-container">
+    <h1 id="mainTitle">Türkiye'nin Gizli Cenneti</h1>
+    <p class="subtitle">81 ilin en güzel manzaralarını keşfet</p>
+  </div>
 
-<!-- Şehirler -->
-<div id="citiesGrid" class="cities"></div>
+  <!-- Search -->
+  <div class="search-container">
+    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <input id="searchInput" type="text" placeholder="Bir il ara..." autocomplete="off">
+  </div>
 
-<!-- ===== Çeviri & JS ===== -->
+  <!-- Banner -->
+  <div id="infoBanner" class="info-banner"></div>
+
+  <!-- Cities Grid -->
+  <div id="citiesGrid" class="cities"></div>
+</div>
+
+<!-- ===== JavaScript ===== -->
 <script>
 /* ---------- Çeviriler ---------- */
 const translations={
-tr:{banner:`Ücretsiz erişim: Muğla'yı seç ve en güzel konumları keşfet! ⚡81 ilin tüm özel konumlarına sınırsız erişmek için <a href="https://www.tr81.tr/login.html">giriş yap</a>.`,premium:'🔓 81 ilin gizli konumlarının kilidi açıldı!',title:'Bir il seç → Manzaralı konumları keşfet📍',search:'Bir il ara...'},
-en:{banner:`Free access: Click Muğla and discover amazing spots! ⚡Unlimited access to all 81 provinces → <a href="https://www.tr81.tr/login.html">Login</a>.`,premium:'🔓 Hidden locations unlocked in all provinces!',title:'Choose a city → Discover scenic locations📍',search:'Search city...'},
-de:{banner:`Kostenlos: Muğla auswählen und traumhafte Orte entdecken! ⚡Unbegrenzter Zugang zu allen 81 Provinzen → <a href="https://www.tr81.tr/login.html">Login</a>.`,premium:'🔓 Versteckte Orte freigeschaltet!',title:'Stadt wählen → Malerische Orte entdecken📍',search:'Stadt suchen...'},
-fr:{banner:`Accès gratuit : sélectionnez Muğla et découvrez des lieux incroyables ! ⚡Accès illimité aux 81 provinces → <a href="https://www.tr81.tr/login.html">Connexion</a>.`,premium:'🔓 Lieux cachés débloqués !',title:'Choisissez une ville → Découvrez des lieux pittoresques📍',search:'Rechercher une ville...'},
-es:{banner:`Acceso gratuito: elige Muğla y descubre lugares increíbles ! ⚡Acceso ilimitado a las 81 provincias → <a href="https://www.tr81.tr/login.html">Iniciar sesión</a>.`,premium:'🔓 Ubicaciones ocultas desbloqueadas !',title:'Elige una ciudad → Descubre lugares pintorescos📍',search:'Buscar ciudad...'},
-it:{banner:`Accesso gratuito: seleziona Muğla e scopri posti incredibili! ⚡Accesso illimitato a tutte le 81 province → <a href="https://www.tr81.tr/login.html">Accedi</a>.`,premium:'🔓 Luoghi nascosti sbloccati!',title:'Scegli una città → Scopri luoghi panoramici📍',search:'Cerca città...'},
-pt:{banner:`Acesso grátis: escolha Muğla e descubra lugares incríveis! ⚡Acesso ilimitado às 81 províncias → <a href="https://www.tr81.tr/login.html">Entrar</a>.`,premium:'🔓 Locais secretos desbloqueados!',title:'Escolha uma cidade → Descubra locais cênicos📍',search:'Pesquisar cidade...'},
-ru:{banner:`Бесплатно: выберите Мугла и найдите удивительные места! ⚡Безлимитный доступ к 81 провинции → <a href="https://www.tr81.tr/login.html">Войти</a>.`,premium:'🔓 Скрытые места разблокированы!',title:'Выберите город → Откройте живописные места📍',search:'Поиск города...'},
-ja:{banner:`無料: ムーラを選んで絶景を発見！ ⚡81県すべてに無制限アクセス → <a href="https://www.tr81.tr/login.html">ログイン</a>.`,premium:'🔓 隠しスポットを解除しました！',title:'都市を選択 → 景勝地を発見📍',search:'都市を検索...'},
-zh:{banner:`免费：选择穆拉，发现绝美景点！ ⚡无限访问81个省 → <a href="https://www.tr81.tr/login.html">登录</a>。`,premium:'🔓 已解锁所有隐藏地点！',title:'选择城市 → 探索美景📍',search:'搜索城市...'},
-ar:{banner:`مجاني: اختر موغلا واكتشف أماكن مذهلة! ⚡وصول غير محدود إلى 81 محافظة → <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a>.`,premium:'🔓 تم فتح المواقع المخفية!',title:'اختر مدينة → استكشف مواقع ذات مناظر خلابة📍',search:'ابحث عن مدينة...'},
-hi:{banner:`फ्री एक्सेस: मूला चुनें और शानदार जगहें खोजें! ⚡81 प्रदेशों तक असीमित पहुंच → <a href="https://www.tr81.tr/login.html">लॉगिन करें</a>.`,premium:'🔓 सभी छिपे स्थान अनलॉक!',title:'शहर चुनें → सुंदर जगहें खोजें📍',search:'शहर खोजें...'},
-ko:{banner:`무료: 무을라를 선택하고 멋진 장소를 발견하세요! ⚡81개 주 무제한 이용 → <a href="https://www.tr81.tr/login.html">로그인</a>.`,premium:'🔓 숨은 장소가 열렸습니다!',title:'도시 선택 → 경치 좋은 장소 발견📍',search:'도시 검색...'},
-nl:{banner:`Gratis: kies Muğla en ontdek prachtige plekken! ⚡Onbeperkte toegang tot alle 81 provincies → <a href="https://www.tr81.tr/login.html">Inloggen</a>.`,premium:'🔓 Verborgen locaties ontgrendeld!',title:'Kies een stad → Ontdek schilderachtige plekken📍',search:'Stad zoeken...'},
-pl:{banner:`Darmowy dostęp: wybierz Muğla i odkryj niesamowite miejsca! ⚡Nielimitowany dostęp do 81 prowincji → <a href="https://www.tr81.tr/login.html">Zaloguj</a>.`,premium:'🔓 Ukryte miejsca odblokowane!',title:'Wybierz miasto → Odkryj malownicze miejsca📍',search:'Szukaj miasta...'},
-sv:{banner:`Gratis: välj Muğla och upptäck fantastiska platser! ⚡Obegränsad åtkomst till alla 81 provinser → <a href="https://www.tr81.tr/login.html">Logga in</a>.`,premium:'🔓 Dolda platser upplåsta!',title:'Välj en stad → Upptäck pittoreska platser📍',search:'Sök stad...'},
-no:{banner:`Gratis: velg Muğla og oppdag fantastiske steder! ⚡Ubegrenset tilgang til alle 81 provinser → <a href="https://www.tr81.tr/login.html">Logg inn</a>.`,premium:'🔓 Skjulte steder låst opp!',title:'Velg en by → Oppdag naturskjønne steder📍',search:'Søk by...'},
-da:{banner:`Gratis: vælg Muğla og find fantastiske steder! ⚡Ubegrænset adgang til alle 81 provinser → <a href="https://www.tr81.tr/login.html">Log ind</a>.`,premium:'🔓 Skjulte steder låst op!',title:'Vælg en by → Oplev maleriske steder📍',search:'Søg by...'}
+tr:{banner:`Ücretsiz erişim: Muğla'yı seç ve en güzel konumları keşfet! ⚡ Tüm illere sınırsız erişim için <a href="https://www.tr81.tr/login.html">giriş yap</a>.`,premium:'🔓 Tüm gizli konumların kilidi açıldı! Şimdi 81 ilin tamamını keşfedebilirsin.',title:'Türkiye\'nin Gizli Cenneti',subtitle:'81 ilin en güzel manzaralarını keşfet',search:'Bir il ara...',worldButton:'Dünya Konumları'},
+en:{banner:`Free access: Select Muğla and discover amazing spots! ⚡ Unlimited access to all provinces → <a href="https://www.tr81.tr/login.html">Login</a>.`,premium:'🔓 All hidden locations unlocked! Now you can explore all 81 provinces.',title:'Türkiye\'s Hidden Paradise',subtitle:'Discover the most beautiful views of 81 provinces',search:'Search province...',worldButton:'World Locations'},
+de:{banner:`Kostenloser Zugang: Wählen Sie Muğla! ⚡ Unbegrenzter Zugang zu allen Provinzen → <a href="https://www.tr81.tr/login.html">Anmelden</a>.`,premium:'🔓 Alle versteckten Orte freigeschaltet!',title:'Türkeis verborgenes Paradies',subtitle:'Entdecken Sie die schönsten Aussichten',search:'Provinz suchen...',worldButton:'Weltweite Orte'},
+fr:{banner:`Accès gratuit : Sélectionnez Muğla ! ⚡ Accès illimité → <a href="https://www.tr81.tr/login.html">Connexion</a>.`,premium:'🔓 Tous les lieux cachés débloqués !',title:'Le paradis caché de la Turquie',subtitle:'Découvrez les plus belles vues',search:'Rechercher...',worldButton:'Lieux du Monde'},
+es:{banner:`Acceso gratuito: ¡Selecciona Muğla! ⚡ Acceso ilimitado → <a href="https://www.tr81.tr/login.html">Iniciar sesión</a>.`,premium:'🔓 ¡Todos los lugares ocultos desbloqueados!',title:'El paraíso oculto de Turquía',subtitle:'Descubre las vistas más hermosas',search:'Buscar provincia...',worldButton:'Lugares del Mundo'},
+it:{banner:`Accesso gratuito: Seleziona Muğla! ⚡ Accesso illimitato → <a href="https://www.tr81.tr/login.html">Accedi</a>.`,premium:'🔓 Tutti i luoghi nascosti sbloccati!',title:'Il paradiso nascosto della Turchia',subtitle:'Scopri le viste più belle',search:'Cerca provincia...',worldButton:'Luoghi del Mondo'},
+pt:{banner:`Acesso grátis: Selecione Muğla! ⚡ Acesso ilimitado → <a href="https://www.tr81.tr/login.html">Entrar</a>.`,premium:'🔓 Todos os locais ocultos desbloqueados!',title:'O paraíso escondido da Turquia',subtitle:'Descubra as vistas mais bonitas',search:'Pesquisar província...',worldButton:'Locais do Mundo'},
+ru:{banner:`Бесплатный доступ: Выберите Мугла! ⚡ Безлимитный доступ → <a href="https://www.tr81.tr/login.html">Войти</a>.`,premium:'🔓 Все скрытые места разблокированы!',title:'Скрытый рай Турции',subtitle:'Откройте самые красивые виды',search:'Поиск провинции...',worldButton:'Места мира'},
+ja:{banner:`無料アクセス：ムーラを選択！⚡ 無制限アクセス → <a href="https://www.tr81.tr/login.html">ログイン</a>。`,premium:'🔓 すべての隠れた場所がロック解除されました！',title:'トルコの隠れた楽園',subtitle:'最も美しい景色を発見',search:'県を検索...',worldButton:'世界の場所'},
+zh:{banner:`免费访问：选择穆拉！⚡ 无限访问 → <a href="https://www.tr81.tr/login.html">登录</a>。`,premium:'🔓 所有隐藏地点已解锁！',title:'土耳其的隐藏天堂',subtitle:'发现最美丽的景色',search:'搜索省份...',worldButton:'世界地点'},
+ar:{banner:`وصول مجاني: اختر موغلا! ⚡ وصول غير محدود → <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a>.`,premium:'🔓 تم فتح جميع المواقع المخفية!',title:'جنة تركيا المخفية',subtitle:'اكتشف أجمل المناظر',search:'ابحث عن مقاطعة...',worldButton:'مواقع العالم'},
+hi:{banner:`मुफ्त एक्सेस: मुग्ला चुनें! ⚡ असीमित पहुंच → <a href="https://www.tr81.tr/login.html">लॉगिन करें</a>.`,premium:'🔓 सभी छिपे स्थान अनलॉक!',title:'तुर्की का छिपा स्वर्ग',subtitle:'सबसे सुंदर दृश्य खोजें',search:'प्रांत खोजें...',worldButton:'विश्व स्थान'},
+ko:{banner:`무료 액세스: 무을라 선택! ⚡ 무제한 액세스 → <a href="https://www.tr81.tr/login.html">로그인</a>.`,premium:'🔓 모든 숨겨진 장소가 잠금 해제되었습니다!',title:'터키의 숨겨진 낙원',subtitle:'가장 아름다운 전망 발견',search:'지방 검색...',worldButton:'세계 명소'},
+nl:{banner:`Gratis toegang: Kies Muğla! ⚡ Onbeperkte toegang → <a href="https://www.tr81.tr/login.html">Inloggen</a>.`,premium:'🔓 Alle verborgen locaties ontgrendeld!',title:'Turkije\'s verborgen paradijs',subtitle:'Ontdek de mooiste uitzichten',search:'Zoek provincie...',worldButton:'Wereldlocaties'},
+pl:{banner:`Darmowy dostęp: Wybierz Muğla! ⚡ Nieograniczony dostęp → <a href="https://www.tr81.tr/login.html">Zaloguj</a>.`,premium:'🔓 Wszystkie ukryte miejsca odblokowane!',title:'Ukryty raj Turcji',subtitle:'Odkryj najpiękniejsze widoki',search:'Szukaj prowincji...',worldButton:'Miejsca na Świecie'},
+sv:{banner:`Gratis åtkomst: Välj Muğla! ⚡ Obegränsad åtkomst → <a href="https://www.tr81.tr/login.html">Logga in</a>.`,premium:'🔓 Alla dolda platser upplåsta!',title:'Turkiets dolda paradis',subtitle:'Upptäck de vackraste vyerna',search:'Sök provins...',worldButton:'Världsplatser'},
+no:{banner:`Gratis tilgang: Velg Muğla! ⚡ Ubegrenset tilgang → <a href="https://www.tr81.tr/login.html">Logg inn</a>.`,premium:'🔓 Alle skjulte steder låst opp!',title:'Tyrkias skjulte paradis',subtitle:'Oppdag de vakreste utsiktene',search:'Søk provins...',worldButton:'Verdenssteder'},
+da:{banner:`Gratis adgang: Vælg Muğla! ⚡ Ubegrænset adgang → <a href="https://www.tr81.tr/login.html">Log ind</a>.`,premium:'🔓 Alle skjulte steder låst op!',title:'Tyrkiets skjulte paradis',subtitle:'Oplev de smukkeste udsigter',search:'Søg provins...',worldButton:'Verdenssteder'},
 };
 
 /* ---------- Şehir Listesi ---------- */
@@ -199,6 +431,7 @@ const normalize=str=>str.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ
 const grid=document.getElementById('citiesGrid');
 const banner=document.getElementById('infoBanner');
 const title=document.getElementById('mainTitle');
+const subtitle=document.querySelector('.subtitle');
 const search=document.getElementById('searchInput');
 const accessGranted=localStorage.getItem('duflat-access')==='granted';
 
@@ -207,7 +440,9 @@ const browserLang=(navigator.language||'en').split('-')[0].toLowerCase();
 const langObj=translations[browserLang]||translations.en;
 banner.innerHTML=accessGranted?langObj.premium:langObj.banner;
 title.textContent=langObj.title;
+subtitle.textContent=langObj.subtitle;
 search.placeholder=langObj.search;
+document.getElementById('worldButtonText').textContent=langObj.worldButton;
 
 /* ---------- Kartlar ---------- */
 cities.forEach(([slug,name,filter])=>{
