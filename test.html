@@ -149,8 +149,9 @@ body::after{
   justify-content:center;
 }
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
-.city-name{font-weight:500;font-size:15px;color:var(--text-primary);word-break:break-word;line-height:1.2;}
-.lock-icon{font-size:16px;margin-top:4px;display:block;}
+.city-code{font-weight:700;font-size:24px;color:var(--text-primary);line-height:1;}
+.city-name{font-weight:400;font-size:13px;color:var(--text-secondary);margin-top:4px;word-break:break-word;line-height:1.2;}
+.lock-icon{font-size:16px;margin-top:6px;display:block;}
 .card.free{background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);backdrop-filter:blur(20px);border:2px solid rgba(245,158,11,.4);}
 
 /* === Mobile === */
@@ -249,8 +250,9 @@ body::after{
     padding: 15px 8px !important;
     aspect-ratio: 1/1 !important;
   }
-  .city-name{font-size:12px !important;}
-  .lock-icon{font-size:14px !important;margin-top:2px;display:block !important;}
+  .city-code{font-size:18px !important;}
+  .city-name{font-size:10px !important;}
+  .lock-icon{font-size:14px !important;margin-top:3px;display:block !important;}
 }
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .card{animation:fadeIn .3s ease;}
@@ -457,8 +459,12 @@ document.addEventListener('DOMContentLoaded', () => {
     card.className = 'card' + (slug === 'antalya' ? ' free' : '');
     card.dataset.search = name;
     
+    // İlk 2 harfi büyük yap
+    const code = name.substring(0, 2).toUpperCase();
+    
     const locked = (!access && slug !== 'antalya');
-    let cardContent = `<div class="city-name">${name}</div>`;
+    let cardContent = `<div class="city-code">${code}</div>`;
+    cardContent += `<div class="city-name">${name}</div>`;
     if(locked) {
       cardContent += `<span class="lock-icon">🔒</span>`;
     }
