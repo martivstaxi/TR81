@@ -91,10 +91,32 @@ body::after{
 .header{padding:80px 16px 40px;text-align:center;position:relative;z-index:1;}
 .title{
   font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;margin-bottom:12px;
-  background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   letter-spacing:-.5px;
+  line-height:1.4;
 }
+.title-word{
+  display:inline-block;
+  margin:0 0.15em;
+  font-weight:700;
+  transition:all 0.3s ease;
+}
+.title-word:hover{
+  transform:translateY(-2px) scale(1.05);
+}
+.title-emoji{
+  display:inline-block;
+  font-size:1em;
+  vertical-align:middle;
+  margin-left:0.2em;
+}
+/* Doğa renkleri - düz renkler */
+.word-0{color:#27ae60;} /* Orman yeşili */
+.word-1{color:#3498db;} /* Gökyüzü mavisi */
+.word-2{color:#e67e22;} /* Turuncu */
+.word-3{color:#8e44ad;} /* Mor */
+.word-4{color:#16a085;} /* Turkuaz */
+.word-5{color:#c0392b;} /* Kırmızı */
+.word-6{color:#f39c12;} /* Altın sarısı */
 
 /* === Search === */
 .search-box{max-width:320px;margin:0 auto 40px;position:relative;z-index:1;}
@@ -504,6 +526,30 @@ function detectLang(){
   return 'tr';
 }
 
+// Başlığı renklendir
+function colorizeTitle() {
+  const titleElement = document.getElementById('title');
+  if (!titleElement) return;
+  
+  const text = titleElement.textContent;
+  
+  // 📍 emojisini ayır
+  const parts = text.split('📍');
+  const words = parts[0].trim().split(/\s+/);
+  
+  // Her kelimeyi renkli span'a dönüştür
+  let html = '';
+  words.forEach((word, index) => {
+    const colorIndex = index % 7;
+    html += `<span class="title-word word-${colorIndex}">${word}</span> `;
+  });
+  
+  // 📍 emojisini ekle
+  html += '<span class="title-emoji">📍</span>';
+  
+  titleElement.innerHTML = html;
+}
+
 // Dil ayarla
 function setLang(code){
   currentLang = code;
@@ -523,6 +569,9 @@ function setLang(code){
   localStorage.setItem('lang', code);
   
   document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+  
+  // Başlığı renklendir
+  colorizeTitle();
   
   // Kartları güncelle
   updateCards();
