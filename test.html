@@ -53,7 +53,7 @@ body::after{
 
 /* === Language Selector === */
 .lang-select{
-  position:fixed;top:20px;left:20px;z-index:100;
+  position:fixed;top:20px;right:20px;z-index:100;
 }
 .lang-btn{
   background:rgba(255,255,255,.2);backdrop-filter:blur(20px);
@@ -63,7 +63,7 @@ body::after{
 }
 .lang-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-xl);background:rgba(255,255,255,.3);}
 .lang-list{
-  position:absolute;top:calc(100% + 8px);left:0;background:rgba(255,255,255,.98);
+  position:absolute;top:calc(100% + 8px);right:0;background:rgba(255,255,255,.98);
   backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:12px;
   box-shadow:var(--shadow-xl);max-height:320px;overflow-y:auto;display:none;min-width:160px;
 }
@@ -77,7 +77,7 @@ body::after{
 
 /* === World Button === */
 .world-button{
-  position:fixed;top:20px;right:20px;z-index:100;
+  position:fixed;top:20px;left:20px;z-index:100;
 }
 .world-btn{
   background:rgba(255,255,255,.2);backdrop-filter:blur(20px);
@@ -123,26 +123,32 @@ body::after{
 /* === Grid === */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  grid-template-columns:repeat(3,1fr);
   gap:16px;
   padding-bottom:40px;
   position:relative;
   z-index:1;
+  max-width:600px;
+  margin:0 auto;
 }
 .card{
   background:rgba(255,255,255,.3);
   backdrop-filter:blur(20px);
   border:2px solid rgba(255,255,255,.4);
   border-radius:20px;
-  padding:28px 18px;
+  padding:30px 20px;
   text-align:center;
   cursor:pointer;
   transition:.3s cubic-bezier(.4,0,.2,1);
   position:relative;
   box-shadow:var(--shadow-lg);
+  aspect-ratio:1/1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
-.city-name{font-weight:500;font-size:15px;color:var(--text-primary);}
+.city-name{font-weight:500;font-size:16px;color:var(--text-primary);word-break:break-word;}
 .card.free{background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);backdrop-filter:blur(20px);border:2px solid rgba(245,158,11,.4);}
 
 /* === Mobile === */
@@ -220,22 +226,27 @@ body::after{
     width: 100%;
   }
   .city-name{font-size:13px !important;line-height:1.2;}
-  .lang-select{top:16px;left:16px}
+  .lang-select{top:16px;right:16px}
   .lang-btn{padding:8px 12px;font-size:13px}
-  .world-button{top:16px;right:16px}
+  .world-button{top:16px;left:16px}
   .world-btn{padding:8px 12px;font-size:13px}
   .header{padding:70px 16px 32px}.title{font-size:1.875rem}
   .search{padding:12px 44px 12px 16px;font-size:14px}
   .info{font-size:13px;padding:16px 20px}
-  .card{
-    padding: 24px 16px !important;
-    min-height: 80px;
-  }
-  .city-name{font-size:14px !important;}
+  .card{padding:20px 12px}
+  .city-name{font-size:13px}
 }
 @media(max-width:480px){
-  .grid{grid-template-columns:repeat(3, 1fr);gap:10px;}
-  .card{padding: 20px 12px !important;min-height:70px;}
+  .grid{
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .card{
+    padding: 20px 10px !important;
+    aspect-ratio: 1/1 !important;
+  }
   .city-name{font-size:13px !important;}
 }
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -256,6 +267,14 @@ body::after{
 </head>
 
 <body>
+  <!-- World Button -->
+  <div class="world-button">
+    <button class="world-btn" onclick="location.href='world.html'">
+      <span>🌍</span>
+      <span id="worldButtonText">Dünya Konumları</span>
+    </button>
+  </div>
+
   <!-- Language Selector -->
   <div class="lang-select">
     <button class="lang-btn" onclick="toggleLang()">
@@ -266,14 +285,6 @@ body::after{
       </svg>
     </button>
     <div class="lang-list" id="langList"></div>
-  </div>
-
-  <!-- World Button -->
-  <div class="world-button">
-    <button class="world-btn" onclick="location.href='world.html'">
-      <span>🌍</span>
-      <span id="worldButtonText">Dünya Konumları</span>
-    </button>
   </div>
 
   <div class="container">
