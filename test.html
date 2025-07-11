@@ -28,7 +28,8 @@
     position: relative;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;}
+    -o-background-size: cover;
+    background-color: #e2e8f0;} /* Fallback color eklendi */
   body::after{
     content: '';
     position: fixed;
@@ -98,87 +99,80 @@
       height: 100%;
       overflow-x: hidden;
       background-color: #e2e8f0;
+      position: relative;
     }
     body{
       min-height: 100vh;
       min-height: calc(var(--vh, 1vh) * 100);
-      background-color: #e2e8f0; /* Fallback renk beyaz yerine */
+      background: none !important;
       position: relative;
       overflow-x: hidden;
-      padding-bottom: 100px; /* Alt boşluk için ekstra padding */
+      margin: 0;
+      padding: 0;
+      padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
     }
-    /* Mobil arka plan için sabit katman - tam ekran kaplama */
+    /* Ana mobil arka plan */
     body::before {
       content: '';
       position: fixed;
-      top: -200px; /* Üst kısım için daha fazla alan */
-      left: -50px;
-      right: -50px;
-      bottom: -200px; /* Alt kısım için daha fazla alan */
-      width: calc(100% + 100px);
-      height: calc(100% + 400px); /* Toplam yüksekliği artırdım */
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
       background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
       background-size: cover !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
-      background-color: #e2e8f0; /* Resim yüklenene kadar görünecek renk */
+      background-color: #e2e8f0;
       -webkit-background-size: cover !important;
       -moz-background-size: cover !important;
       -o-background-size: cover !important;
       z-index: -3;
       transform: translate3d(0,0,0);
       -webkit-transform: translate3d(0,0,0);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      will-change: transform;
     }
-    /* Override body after for mobile - overlay */
+    /* Overlay katmanı */
     body::after {
       content: '';
       position: fixed;
-      top: -200px; /* Üst kısım için daha fazla alan */
-      left: -50px;
-      right: -50px;
-      bottom: -200px; /* Alt kısım için daha fazla alan */
-      width: calc(100% + 100px);
-      height: calc(100% + 400px); /* Toplam yüksekliği artırdım */
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
       background: rgba(248, 250, 252, 0.4);
       pointer-events: none;
       z-index: -2;
     }
-    /* Extra background layer for bounce effect */
-    html::before {
-      content: '';
-      position: fixed;
-      top: -300px; /* Üst için ekstra alan */
-      left: -100px;
-      right: -100px;
-      bottom: -300px; /* Alt için ekstra alan */
+    /* HTML arka planı - fallback */
+    html {
       background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      background-color: #e2e8f0;
-      z-index: -4;
-      pointer-events: none;
-      height: calc(100% + 600px);
+      background-attachment: fixed;
+      -webkit-background-size: cover;
     }
-    /* Üst boşluk için ekstra arka plan */
-    html::after {
-      content: '';
-      position: fixed;
-      top: -500px;
-      left: 0;
-      right: 0;
-      height: 500px;
-      background-color: #e2e8f0;
-      z-index: -5;
+    /* Container düzenlemesi */
+    .container{
+      max-width:100%;
+      min-height:100vh;
+      padding-bottom: 100px;
+      position: relative;
+      z-index: 1;
+      background-color: transparent;
     }
-    .container{max-width:100%;padding-bottom:20px;min-height:100vh;}.logo{width:40px;height:40px;font-size:20px;
+    /* Grid son element fix */
+    .grid {
+      gap:12px;
+      padding-bottom:120px;
+      margin-bottom: 0;
+    }
+    /* Diğer mobil stiller */
+    .logo{width:40px;height:40px;font-size:20px;
     top:16px;left:16px}.lang-select{top:16px;right:16px}.lang-btn{padding:8px 12px;font-size:13px}
     .header{padding:70px 16px 32px}.title{font-size:1.875rem}.subtitle{font-size:.875rem}
     .search{padding:12px 44px 12px 16px;font-size:14px}.info{font-size:13px;padding:16px 20px}
-    .grid{gap:12px;padding-bottom:80px;}.card{padding:20px 12px}.flag{font-size:2rem}.name{font-size:13px}}
+    .card{padding:20px 12px}.flag{font-size:2rem}.name{font-size:13px}}
   @media(max-width:480px){.grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .card{animation:fadeIn .3s ease;}
