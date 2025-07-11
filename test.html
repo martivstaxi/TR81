@@ -92,43 +92,42 @@
   .name{font-weight:500;font-size:14px;color:var(--text-primary);}
   .card.free{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border-color:#f59e0b;}
   
-  /* Mobil için arka plan düzeltmesi */
+  /* Mobil için güçlü arka plan düzeltmesi */
   @media(max-width:768px){
-    html, body {
+    html {
       height: 100%;
-      min-height: 100vh;
-      min-height: -webkit-fill-available;
     }
     body{
-      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: scroll; /* Mobilde fixed yerine scroll */
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
+      min-height: 100vh;
+      min-height: calc(var(--vh, 1vh) * 100);
+      background: none !important;
       position: relative;
     }
-    /* Mobil için arka plan container */
+    /* Mobil arka plan için sabit katman */
     body::before {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
       width: 100vw;
       height: 100vh;
-      height: -webkit-fill-available;
+      height: calc(var(--vh, 1vh) * 100);
       background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      z-index: -2;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+      -webkit-background-size: cover !important;
+      -moz-background-size: cover !important;
+      -o-background-size: cover !important;
+      z-index: -3;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    /* Override body after for mobile */
+    body::after {
+      display: none !important;
     }
     .container{max-width:100%}.logo{width:40px;height:40px;font-size:20px;
     top:16px;left:16px}.lang-select{top:16px;right:16px}.lang-btn{padding:8px 12px;font-size:13px}
@@ -138,10 +137,14 @@
   @media(max-width:480px){.grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .card{animation:fadeIn .3s ease;}
-  body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;
-    background:radial-gradient(circle at 20% 20%,rgba(108,117,125,.08) 0%,transparent 50%),
-      radial-gradient(circle at 80% 80%,rgba(173,181,189,.05) 0%,transparent 50%);
-    pointer-events:none;z-index:-1;}
+  
+  /* Viewport height fix for mobile */
+  @supports (-webkit-touch-callout: none) {
+    /* iOS only */
+    body {
+      min-height: -webkit-fill-available;
+    }
+  }
   </style>
 </head>
 
@@ -382,6 +385,16 @@
 
     createLangMenu();
     setLang(detectLang());
+    
+    /* Mobil viewport height fix */
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
 
     /* Kartları oluştur */
     countries.forEach(([iso,slug])=>{
