@@ -4,83 +4,149 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="page-title">Şehir</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      color: #334155;
-      line-height: 1.6;
-      padding: 12px;
-      overflow-y: auto;
-      padding-bottom: 100px;
-      min-height: 100vh;
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
     .logo {
       position: fixed;
-      top: 16px;
-      left: 16px;
-      font-size: 26px;
-      text-decoration: none;
-      color: #1e293b;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 50%;
+      top: 20px;
+      left: 20px;
       width: 50px;
       height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
     }
     
     .logo:hover {
       transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
     }
     
     h1 { 
-      font-size: clamp(24px, 5vw, 38px);
-      margin: 70px 0 40px 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
       text-align: center;
       font-weight: 700;
       letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
     }
     
     .gradient-text {
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
     }
     
     .camera-emoji {
-      color: #000;
+      color: #10b981;
       background: none;
       -webkit-text-fill-color: initial;
-      margin-right: 8px;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
     }
     
     .city-section {
       margin-bottom: 36px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, .3);
       backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
       border-radius: 20px;
       padding: 0;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow-lg);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.3s ease;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
     }
     
     .city-section:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
     }
     
     .city-header {
@@ -94,7 +160,7 @@
     .city-title {
       margin: 0;
       font-size: clamp(16px, 3.5vw, 20px);
-      color: #1e293b;
+      color: var(--text-primary);
       font-weight: 700;
     }
     
@@ -145,7 +211,7 @@
     
     .location-link {
       text-decoration: none;
-      color: #3b82f6;
+      color: var(--primary);
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -161,7 +227,7 @@
     
     .location-link:hover {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-      color: #1e293b;
+      color: var(--primary-dark);
       text-decoration: none;
       transform: translateY(-2px);
       border-color: rgba(59, 130, 246, 0.3);
@@ -169,7 +235,7 @@
     }
     
     .click-icon {
-      color: #f97316;
+      color: var(--accent);
       display: inline-flex;
     }
     
@@ -231,7 +297,7 @@
       top: -50px;
       right: -10px;
       background: rgba(255, 255, 255, 0.9);
-      color: #1e293b;
+      color: var(--text-primary);
       border: none;
       border-radius: 50%;
       width: 40px;
@@ -259,7 +325,7 @@
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
-      color: #1e293b;
+      color: var(--text-primary);
       padding: 8px 16px;
       border-radius: 20px;
       font-size: 14px;
@@ -268,53 +334,18 @@
       text-align: center;
     }
 
-    /* Mobile Responsive Styles */
-    @media (max-width: 768px) {
-      body { padding: 8px; padding-bottom: 80px; }
-      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
-      h1 { margin: 50px 0 24px 0; }
-      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
-      .city-header { padding: 12px 16px 8px 16px; }
-      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
-      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
-      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
-      .photo-modal { padding: 10px; }
-      .modal-content { max-width: 95vw; max-height: 95vh; }
-      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
-      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
-    }
-
-    @media (max-width: 480px) {
-      body { padding: 6px; padding-bottom: 60px; }
-      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
-      h1 { margin: 40px 0 20px 0; }
-      .city-section { margin-bottom: 18px; border-radius: 12px; }
-      .city-header { padding: 10px 12px 6px 12px; }
-      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
-      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
-      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
-      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
-      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
-    }
-
-    @media (max-width: 360px) {
-      .photo-card { width: 120px; height: 120px; min-width: 120px; }
-      .location-link { font-size: 11px; padding: 4px 8px; }
-      .city-header { padding: 8px 10px 4px 10px; }
-      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
-    }
-
     /* Promotion Section */
     .promotion-section {
-      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
-      color: #92400e;
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
       padding: 24px;
       border-radius: 20px;
       margin: 36px auto;
       text-align: center;
-      border: 2px solid #fbbf24;
+      border: 2px solid rgba(245, 158, 11, 0.4);
       max-width: 1000px;
-      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+      box-shadow: var(--shadow-lg);
       position: relative;
       overflow: hidden;
     }
@@ -392,23 +423,6 @@
       background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
     }
 
-    /* Mobile Promotion Styles */
-    @media (max-width: 768px) {
-      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
-      .promotion-title { margin-bottom: 8px; }
-      .promo-text { margin: 10px 0; }
-      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
-      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
-    }
-
-    @media (max-width: 480px) {
-      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
-      .promotion-title { margin-bottom: 6px; }
-      .promo-text { margin: 8px 0; }
-      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
-      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
-    }
-
     /* Editor Panel */
     .edit-panel {
       position: fixed;
@@ -431,15 +445,15 @@
     .edit-panel h3 {
       margin-top: 0;
       margin-bottom: 15px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-size: 18px;
       font-weight: 700;
       text-align: center;
-      border-bottom: 2px solid #3b82f6;
+      border-bottom: 2px solid var(--primary);
       padding-bottom: 10px;
     }
     
-    .edit-panel button {
+    .edit-panel textarea, .edit-panel button {
       margin: 8px 0;
       padding: 12px;
       width: 100%;
@@ -447,7 +461,6 @@
       border-radius: 8px;
       border: 1px solid #d1d5db;
       font-size: 14px;
-      cursor: pointer;
     }
     
     .export-btn {
@@ -455,6 +468,9 @@
       margin-top: 10px;
       color: white;
       border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
       font-weight: 600;
       transition: all 0.3s ease;
     }
@@ -463,52 +479,30 @@
       background: linear-gradient(135deg, #ef4444, #dc2626);
       color: white;
       border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
       font-weight: 600;
       transition: all 0.3s ease;
     }
     
     .process-btn {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
       font-weight: 700;
       transition: all 0.3s ease;
     }
     
-    .file-input-container {
-      margin: 15px 0;
-      text-align: center;
-    }
-    
-    .file-input {
-      display: none;
-    }
-    
-    .file-label {
-      display: inline-block;
-      padding: 12px 20px;
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      width: 100%;
-      box-sizing: border-box;
-      text-align: center;
-    }
-    
-    .file-label:hover {
-      background: linear-gradient(135deg, #4f46e5, #4338ca);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    }
-    
-    .file-info {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #64748b;
-      text-align: center;
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
     }
     
     .info-box {
@@ -529,20 +523,21 @@
       font-size: 13px;
     }
     
-    .info-box ul {
-      margin: 5px 0 0 20px;
-      padding: 0;
-    }
-    
-    .info-box li {
-      margin: 3px 0;
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
     }
     
     .edit-btn {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
       border-radius: 50%;
@@ -559,64 +554,164 @@
     }
 
     .edit-btn:hover {
-      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
       transform: scale(1.1);
       box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
     }
 
+    /* Mobile Responsive Styles */
     @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
       .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
       .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
     }
 
     @media (hover: none) and (pointer: coarse) {
       .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
       .modal-close { min-width: 44px; min-height: 44px; }
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
   </style>
 </head>
 <body>
   <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
-  <h1 id="city-header"><span class="camera-emoji">📸</span><span class="gradient-text" id="city-name">Demo Şehir</span></h1>
+  <h1 id="city-header">
+    <span class="camera-emoji">📸</span>
+    <span class="gradient-text" id="city-name">Demo Şehir</span>
+  </h1>
   
-  <div id="locations-container">
-    <!-- Demo konum -->
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Demo+Konum" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Demo Konum 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://picsum.photos/380/380?random=1" data-location="Demo Konum">
-          <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
+  <div class="container">
+    <div id="locations-container">
+      <!-- Demo konum -->
+      <div class="city-section">
+        <div class="city-header">
+          <h2 class="city-title">
+            <a href="https://maps.google.com/?q=Demo+Konum" target="_blank" rel="noopener noreferrer" class="location-link">
+              <span class="click-icon"></span>Demo Konum 📍
+            </a>
+          </h2>
         </div>
-        <div class="photo-card" data-photo="https://picsum.photos/380/380?random=2" data-location="Demo Konum">
-          <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
-        </div>
-        <div class="photo-card" data-photo="https://picsum.photos/380/380?random=3" data-location="Demo Konum">
-          <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
+        <div class="city-photos">
+          <div class="photo-card" data-photo="https://picsum.photos/380/380?random=1" data-location="Demo Konum">
+            <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
+          </div>
+          <div class="photo-card" data-photo="https://picsum.photos/380/380?random=2" data-location="Demo Konum">
+            <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
+          </div>
+          <div class="photo-card" data-photo="https://picsum.photos/380/380?random=3" data-location="Demo Konum">
+            <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Promosyon bölümü -->
-  <div class="promotion-section">
-    <div class="promotion-title" id="promoTitle">🎁İlk 5 Konum ücretsiz</div>
-    <p class="promo-text" id="mainPromoText" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Tüm konumlara⚡Sınırsız erişim için giriş yapın</p>
     
-    <a href="https://tr81.tr/login.html" target="_blank" class="purchase-btn" id="loginBtn">
-      ➤ Giriş Yap
-    </a>
-    
-    <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
-    
-    <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">
-      📩Bir tıkla bize ulaşın: @tr81.tr
-    </a>
+    <!-- Promosyon bölümü -->
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">
+        🏠 Main Menu
+      </a>
+      
+      <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">
+        📩Bir tıkla bize ulaşın: @tr81.tr
+      </a>
+    </div>
   </div>
 
   <!-- EDİTOR PANEL -->
@@ -626,29 +721,14 @@
     <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
     
     <div class="info-box">
-      <strong>📝 CSV Dosya Formatı:</strong>
-      <ul>
-        <li>A1: Konum Adı | B1: Maps Linki | C1-E1: 3 Fotoğraf Linki</li>
-        <li>A2: Konum Adı | B2: Maps Linki | C2-E2: 3 Fotoğraf Linki</li>
-        <li>... ve bu şekilde devam eder</li>
-      </ul>
-      <strong>Örnek Satır:</strong>
-      <code style="font-size: 11px;">Gaziantep Kalesi | https://maps.google.com/?q=... | foto1.jpg | foto2.jpg | foto3.jpg</code>
+      <strong>📝 Veri Formatı:</strong>
+      <code>ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6</code>
     </div>
     
-    <input type="text" id="cityNameInput" placeholder="Şehir adını girin (örn: Gaziantep)" 
-           style="width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e2e8f0; 
-                  border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+    <textarea id="cityData" placeholder="Örnek:
+İstanbul@@@Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://picsum.photos/380/380?random=4@@https://picsum.photos/380/380?random=5@@https://picsum.photos/380/380?random=6@@https://picsum.photos/380/380?random=7@@https://picsum.photos/380/380?random=8@@https://picsum.photos/380/380?random=9@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://picsum.photos/380/380?random=10@@https://picsum.photos/380/380?random=11@@https://picsum.photos/380/380?random=12@@https://picsum.photos/380/380?random=13@@https://picsum.photos/380/380?random=14@@https://picsum.photos/380/380?random=15"></textarea>
     
-    <div class="file-input-container">
-      <input type="file" id="csvFile" accept=".csv" class="file-input" onchange="handleFileSelect(event)">
-      <label for="csvFile" class="file-label">
-        📂 CSV Dosyası Seç
-      </label>
-      <div class="file-info" id="fileInfo"></div>
-    </div>
-    
-    <button class="process-btn" onclick="processCSVFile()">🔄 CSV Verilerini İşle</button>
+    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
     <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
     <button class="clear-btn" onclick="clearCityData()">🗑️ Verileri Temizle</button>
     <button onclick="toggleEditPanel()">❌ Paneli Kapat</button>
@@ -663,137 +743,108 @@
     </div>
   </div>
 
-  <!-- PapaParse kütüphanesi -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
   <script>
     // Dil verileri
     const translations = {
       'tr': {
-        promoTitle: '🎁İlk 5 Konum ücretsiz',
-        mainPromoText: 'Tüm konumlara⚡Sınırsız erişim için giriş yapın',
-        loginBtn: '➤ Giriş Yap',
+        loginBtn: '🏠 Ana Menü',
         questionsText: 'Sorularınız için → Bize ulaşın!',
         instagramBtn: '📩Bir tıkla bize ulaşın: @tr81.tr'
       },
       'en': {
-        promoTitle: '🎁First 5 Locations Free',
-        mainPromoText: 'Sign in for⚡Unlimited access to all locations',
-        loginBtn: '➤ Sign In',
+        loginBtn: '🏠 Main Menu',
         questionsText: 'Questions? → Contact us!',
         instagramBtn: '📩Contact us with one click: @tr81.tr'
       },
       'de': {
-        promoTitle: '🎁Erste 5 Standorte kostenlos',
-        mainPromoText: 'Anmelden für⚡Unbegrenzten Zugang zu allen Standorten',
-        loginBtn: '➤ Anmelden',
+        loginBtn: '🏠 Hauptmenü',
         questionsText: 'Fragen? → Kontaktiere uns!',
         instagramBtn: '📩Mit einem Klick erreichen: @tr81.tr'
       },
       'fr': {
-        promoTitle: '🎁5 premiers lieux gratuits',
-        mainPromoText: 'Connectez-vous pour⚡Accès illimité à tous les lieux',
-        loginBtn: '➤ Se connecter',
+        loginBtn: '🏠 Menu Principal',
         questionsText: 'Des questions? → Contactez-nous!',
         instagramBtn: '📩Contactez-nous en un clic: @tr81.tr'
       },
       'es': {
-        promoTitle: '🎁Primeros 5 lugares gratis',
-        mainPromoText: 'Inicia sesión para⚡Acceso ilimitado a todos los lugares',
-        loginBtn: '➤ Iniciar sesión',
+        loginBtn: '🏠 Menú Principal',
         questionsText: '¿Preguntas? → ¡Contáctanos!',
         instagramBtn: '📩Contáctanos con un clic: @tr81.tr'
       },
       'it': {
-        promoTitle: '🎁Prime 5 posizioni gratis',
-        mainPromoText: 'Accedi per⚡Accesso illimitato a tutte le posizioni',
-        loginBtn: '➤ Accedi',
+        loginBtn: '🏠 Menu Principale',
         questionsText: 'Domande? → Contattaci!',
         instagramBtn: '📩Contattaci con un clic: @tr81.tr'
       },
       'pt': {
-        promoTitle: '🎁Primeiros 5 locais grátis',
-        mainPromoText: 'Entre para⚡Acesso ilimitado a todos os locais',
-        loginBtn: '➤ Entrar',
+        loginBtn: '🏠 Menu Principal',
         questionsText: 'Dúvidas? → Fale conosco!',
         instagramBtn: '📩Fale conosco com um clique: @tr81.tr'
       },
       'ru': {
-        promoTitle: '🎁Первые 5 мест бесплатно',
-        mainPromoText: 'Войдите для⚡Неограниченного доступа ко всем местам',
-        loginBtn: '➤ Войти',
+        loginBtn: '🏠 Главное меню',
         questionsText: 'Вопросы? → Свяжитесь с нами!',
         instagramBtn: '📩Свяжитесь с нами одним кликом: @tr81.tr'
       },
       'ja': {
-        promoTitle: '🎁最初の5か所無料',
-        mainPromoText: 'サインインして⚡すべての場所への無制限アクセス',
-        loginBtn: '➤ サインイン',
+        loginBtn: '🏠 メインメニュー',
         questionsText: 'ご質問は？→ お問い合わせください！',
         instagramBtn: '📩ワンクリックでお問い合わせ: @tr81.tr'
       },
       'zh': {
-        promoTitle: '🎁前5个地点免费',
-        mainPromoText: '登录获取⚡无限访问所有地点',
-        loginBtn: '➤ 登录',
+        loginBtn: '🏠 主菜单',
         questionsText: '有问题？→ 联系我们！',
         instagramBtn: '📩一键联系我们: @tr81.tr'
       },
       'ar': {
-        promoTitle: '🎁أول 5 مواقع مجاناً',
-        mainPromoText: 'سجل الدخول للحصول على⚡وصول غير محدود لجميع المواقع',
-        loginBtn: '➤ تسجيل الدخول',
+        loginBtn: '🏠 القائمة الرئيسية',
         questionsText: 'أسئلة؟ → اتصل بنا!',
         instagramBtn: '📩تواصل معنا بنقرة واحدة: @tr81.tr'
       },
       'hi': {
-        promoTitle: '🎁पहले 5 स्थान मुफ्त',
-        mainPromoText: 'सभी स्थानों तक⚡असीमित पहुंच के लिए साइन इन करें',
-        loginBtn: '➤ साइन इन करें',
+        loginBtn: '🏠 मुख्य मेनू',
         questionsText: 'प्रश्न? → हमसे संपर्क करें!',
         instagramBtn: '📩एक क्लिक में हमसे संपर्क करें: @tr81.tr'
       },
       'ko': {
-        promoTitle: '🎁처음 5개 장소 무료',
-        mainPromoText: '모든 장소에⚡무제한 액세스를 위해 로그인',
-        loginBtn: '➤ 로그인',
+        loginBtn: '🏠 메인 메뉴',
         questionsText: '질문이 있으신가요? → 문의하세요!',
         instagramBtn: '📩원클릭으로 문의하기: @tr81.tr'
       },
       'nl': {
-        promoTitle: '🎁Eerste 5 locaties gratis',
-        mainPromoText: 'Log in voor⚡Onbeperkte toegang tot alle locaties',
-        loginBtn: '➤ Inloggen',
+        loginBtn: '🏠 Hoofdmenu',
         questionsText: 'Vragen? → Neem contact op!',
         instagramBtn: '📩Bereik ons met één klik: @tr81.tr'
       },
       'pl': {
-        promoTitle: '🎁Pierwsze 5 lokalizacji za darmo',
-        mainPromoText: 'Zaloguj się, aby uzyskać⚡Nieograniczony dostęp do wszystkich lokalizacji',
-        loginBtn: '➤ Zaloguj się',
+        loginBtn: '🏠 Menu Główne',
         questionsText: 'Pytania? → Skontaktuj się z nami!',
         instagramBtn: '📩Skontaktuj się jednym kliknięciem: @tr81.tr'
       },
       'sv': {
-        promoTitle: '🎁Första 5 platserna gratis',
-        mainPromoText: 'Logga in för⚡Obegränsad tillgång till alla platser',
-        loginBtn: '➤ Logga in',
+        loginBtn: '🏠 Huvudmeny',
         questionsText: 'Frågor? → Kontakta oss!',
         instagramBtn: '📩Kontakta oss med ett klick: @tr81.tr'
       },
       'no': {
-        promoTitle: '🎁Første 5 steder gratis',
-        mainPromoText: 'Logg inn for⚡Ubegrenset tilgang til alle steder',
-        loginBtn: '➤ Logg inn',
+        loginBtn: '🏠 Hovedmeny',
         questionsText: 'Spørsmål? → Kontakt oss!',
         instagramBtn: '📩Kontakt oss med ett klikk: @tr81.tr'
       },
       'da': {
-        promoTitle: '🎁Første 5 steder gratis',
-        mainPromoText: 'Log ind for⚡Ubegrænset adgang til alle steder',
-        loginBtn: '➤ Log ind',
+        loginBtn: '🏠 Hovedmenu',
         questionsText: 'Spørgsmål? → Kontakt os!',
         instagramBtn: '📩Kontakt os med et klik: @tr81.tr'
+      },
+      'fi': {
+        loginBtn: '🏠 Päävalikko',
+        questionsText: 'Kysymyksiä? → Ota yhteyttä!',
+        instagramBtn: '📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr'
+      },
+      'cs': {
+        loginBtn: '🏠 Hlavní menu',
+        questionsText: 'Otázky? → Kontaktujte nás!',
+        instagramBtn: '📩Kontaktujte nás jedním kliknutím: @tr81.tr'
       }
     };
 
@@ -806,14 +857,15 @@
           photos: [
             'https://picsum.photos/380/380?random=1',
             'https://picsum.photos/380/380?random=2', 
-            'https://picsum.photos/380/380?random=3'
+            'https://picsum.photos/380/380?random=3',
+            'https://picsum.photos/380/380?random=16',
+            'https://picsum.photos/380/380?random=17',
+            'https://picsum.photos/380/380?random=18'
           ],
           link: 'https://maps.google.com/?q=Demo+Konum'
         }
       ]
     };
-
-    let selectedFile = null;
 
     // Dil algılama fonksiyonu
     function detectLanguage() {
@@ -844,8 +896,6 @@
       
       // Elementleri güncelle
       const elements = {
-        'promoTitle': t.promoTitle,
-        'mainPromoText': t.mainPromoText,
         'loginBtn': t.loginBtn,
         'questionsText': t.questionsText,
         'instagramBtn': t.instagramBtn
@@ -924,122 +974,77 @@
       }
     }
 
-    function handleFileSelect(event) {
-      selectedFile = event.target.files[0];
-      const fileInfo = document.getElementById('fileInfo');
-      
-      if (selectedFile) {
-        fileInfo.textContent = '✅ Seçilen dosya: ' + selectedFile.name;
-      } else {
-        fileInfo.textContent = '';
-      }
-    }
-
-    function processCSVFile() {
-      if (!selectedFile) {
-        alert('Lütfen bir CSV dosyası seçin!');
+    function processCityData() {
+      const cityDataText = document.getElementById('cityData').value;
+      if (!cityDataText.trim()) {
+        alert('Lütfen şehir verilerini girin!');
         return;
       }
 
-      const cityNameInput = document.getElementById('cityNameInput').value.trim();
-      if (!cityNameInput) {
-        alert('Lütfen şehir adını girin!');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const csvContent = e.target.result;
-          console.log('CSV İçeriği:', csvContent);
-          
-          // PapaParse ile CSV'yi işle
-          const parsed = Papa.parse(csvContent, {
-            skipEmptyLines: true,
-            dynamicTyping: false,
-            transform: function(value) {
-              return value.trim();
-            }
-          });
-          
-          console.log('Parsed data:', parsed.data);
-          
-          const locations = [];
-          
-          // Her satırı işle
-          for (let i = 0; i < parsed.data.length; i++) {
-            const row = parsed.data[i];
-            
-            if (row.length < 2) continue; // En az konum adı ve maps linki olmalı
-            
-            const locationName = row[0];
-            const mapsLink = row[1];
-            
-            if (!locationName || !mapsLink) continue;
-            
-            // Fotoğraf linklerini topla
-            const photos = [];
-            
-            // 2. indexten itibaren tüm hücreleri kontrol et
-            for (let j = 2; j < row.length; j++) {
-              if (row[j]) {
-                // Hücredeki değeri boşluklara göre ayır (birden fazla link olabilir)
-                const cellLinks = row[j].split(/\s+/).filter(link => link.trim());
-                
-                for (const link of cellLinks) {
-                  // HTTP/HTTPS ile başlayan linkleri al
-                  if (link.startsWith('http://') || link.startsWith('https://')) {
-                    photos.push(link);
-                    console.log('Fotoğraf eklendi:', link);
-                  }
-                }
-              }
-            }
-            
-            console.log(`Konum: ${locationName}, Fotoğraf sayısı: ${photos.length}`);
-            
-            locations.push({
-              name: locationName,
-              link: mapsLink,
-              photos: photos
-            });
-          }
-          
-          if (locations.length === 0) {
-            alert('CSV dosyasında geçerli konum verisi bulunamadı!');
-            return;
-          }
-          
-          // Memory'de sakla
-          cityData = {
-            cityName: cityNameInput,
-            locations: locations
-          };
-          
-          console.log('İşlenen veri:', cityData);
-          
-          updatePageTitle();
-          renderLocations();
-          
-          // Temizlik
-          document.getElementById('fileInfo').textContent = '';
-          document.getElementById('csvFile').value = '';
-          document.getElementById('cityNameInput').value = '';
-          selectedFile = null;
-          
-          alert(`✅ CSV verileri başarıyla işlendi! ${locations.length} konum eklendi.`);
-          
-        } catch (error) {
-          console.error('CSV işleme hatası:', error);
-          alert('CSV dosyası işlenirken bir hata oluştu. Formatı kontrol edin.\n\nHata: ' + error.message);
+      try {
+        const parts = cityDataText.split('@@@');
+        
+        if (parts.length < 2) {
+          alert('Geçersiz format! Şehir adı ve en az bir konum olmalı.');
+          return;
         }
-      };
 
-      reader.onerror = function() {
-        alert('Dosya okunamadı!');
-      };
+        const cityName = parts[0].trim();
+        if (!cityName) {
+          alert('Şehir adı boş olamaz!');
+          return;
+        }
 
-      reader.readAsText(selectedFile, 'UTF-8');
+        const locations = [];
+        for (let i = 1; i < parts.length; i++) {
+          const locationData = parts[i].trim();
+          if (!locationData) continue;
+
+          const locationParts = locationData.split('@@');
+          
+          if (locationParts.length < 2) {
+            console.log('Konum ' + i + ': Eksik veri - "' + locationData + '"');
+            continue;
+          }
+
+          const name = locationParts[0].trim();
+          const link = locationParts[1].trim();
+          const photos = [];
+
+          for (let j = 2; j < locationParts.length && j < 8; j++) {
+            if (locationParts[j] && locationParts[j].trim().startsWith('https://')) {
+              photos.push(locationParts[j].trim());
+            }
+          }
+
+          if (!name || !link) {
+            console.log('Konum ' + i + ': Ad veya link eksik - "' + locationData + '"');
+            continue;
+          }
+
+          locations.push({
+            name: name,
+            photos: photos,
+            link: link
+          });
+        }
+
+        // Memory'de sakla
+        cityData = {
+          cityName: cityName,
+          locations: locations
+        };
+        
+        updatePageTitle();
+        renderLocations();
+        
+        document.getElementById('cityData').value = '';
+        alert('✅ Şehir verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
+        
+      } catch (error) {
+        console.error('Veri işleme hatası:', error);
+        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
+      }
     }
 
     function renderLocations() {
@@ -1064,8 +1069,9 @@
     }
 
     function updatePageTitle() {
-      document.getElementById('city-name').textContent = cityData.cityName;
-      document.getElementById('page-title').textContent = cityData.cityName;
+      const cityName = cityData.cityName;
+      document.getElementById('city-name').textContent = cityName;
+      document.getElementById('page-title').textContent = cityName;
     }
 
     function clearCityData() {
@@ -1077,17 +1083,17 @@
             photos: [
               'https://picsum.photos/380/380?random=1',
               'https://picsum.photos/380/380?random=2',
-              'https://picsum.photos/380/380?random=3'
+              'https://picsum.photos/380/380?random=3',
+              'https://picsum.photos/380/380?random=16',
+              'https://picsum.photos/380/380?random=17',
+              'https://picsum.photos/380/380?random=18'
             ],
             link: 'https://maps.google.com/?q=Demo+Konum'
           }]
         };
         updatePageTitle();
         renderLocations();
-        document.getElementById('fileInfo').textContent = '';
-        document.getElementById('csvFile').value = '';
-        document.getElementById('cityNameInput').value = '';
-        selectedFile = null;
+        document.getElementById('cityData').value = '';
         alert('🗑️ Veriler temizlendi ve demo verileri yüklendi.');
       }
     }
@@ -1116,6 +1122,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${cityData.cityName}</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
   <style>
     ${document.querySelector('style').innerHTML}
   </style>
@@ -1124,10 +1136,12 @@
   <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
   <h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
   
-  <div id="locations-container">
-${locationsHTML}  </div>
-  
-  ${document.querySelector('.promotion-section').outerHTML}
+  <div class="container">
+    <div id="locations-container">
+${locationsHTML}    </div>
+    
+    ${document.querySelector('.promotion-section').outerHTML}
+  </div>
 
   <!-- PHOTO MODAL -->
   ${document.querySelector('.photo-modal').outerHTML}
@@ -1164,8 +1178,7 @@ ${locationsHTML}  </div>
       if (!t) return;
       
       const elements = {
-        'promoTitle': t.promoTitle,
-        'mainPromoText': t.mainPromoText,
+        'nextBtn': t.nextBtn,
         'loginBtn': t.loginBtn,
         'questionsText': t.questionsText,
         'instagramBtn': t.instagramBtn
@@ -1174,7 +1187,7 @@ ${locationsHTML}  </div>
       for (const [id, text] of Object.entries(elements)) {
         const element = document.getElementById(id);
         if (element) {
-          if (id === 'loginBtn' || id === 'instagramBtn') {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
             element.innerHTML = text;
           } else {
             element.textContent = text;
@@ -1245,6 +1258,16 @@ ${locationsHTML}  </div>
       const detectedLang = detectLanguage();
       updateLanguageUI(detectedLang);
     });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
   <\/script>
 </body>
 </html>`;
@@ -1280,6 +1303,16 @@ ${locationsHTML}  </div>
       const detectedLang = detectLanguage();
       updateLanguageUI(detectedLang);
     });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
   </script>
 </body>
 </html>
