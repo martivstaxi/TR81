@@ -51,14 +51,29 @@ body::after{
 
 .container{max-width:1100px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
 
-/* === Logo === */
-.logo{
-  position:fixed;top:20px;left:20px;width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.2);backdrop-filter:blur(10px);display:flex;align-items:center;
-  justify-content:center;font-size:24px;text-decoration:none;box-shadow:var(--shadow-lg);
-  transition:.3s;z-index:100;border:1px solid rgba(255,255,255,.3);
+/* === Language Selector === */
+.lang-select{
+  position:fixed;top:20px;left:20px;z-index:100;
 }
-.logo:hover{transform:scale(1.1) rotate(10deg);box-shadow:var(--shadow-xl);background:rgba(255,255,255,.3);}
+.lang-btn{
+  background:rgba(255,255,255,.2);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 16px;cursor:pointer;
+  font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;
+  box-shadow:var(--shadow-lg);transition:.3s;color:var(--text-primary);
+}
+.lang-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-xl);background:rgba(255,255,255,.3);}
+.lang-list{
+  position:absolute;top:calc(100% + 8px);left:0;background:rgba(255,255,255,.98);
+  backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:12px;
+  box-shadow:var(--shadow-xl);max-height:320px;overflow-y:auto;display:none;min-width:160px;
+}
+.lang-list.show{display:block;animation:fadeIn .3s ease;}
+.lang-item{
+  padding:10px 16px;cursor:pointer;transition:background .2s;display:flex;
+  align-items:center;gap:8px;font-size:14px;color:var(--text-primary);
+}
+.lang-item:hover{background:var(--glass-bg);color:var(--primary);}
+.lang-item.active{background:var(--primary);color:#fff;}
 
 /* === World Button === */
 .world-button{
@@ -106,12 +121,25 @@ body::after{
 .info a:hover{color:var(--primary-dark);text-decoration:underline;}
 
 /* === Grid === */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:16px;padding-bottom:40px;position:relative;z-index:1;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:16px;
+  padding-bottom:40px;
+  position:relative;
+  z-index:1;
+}
 .card{
-  background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
-  border-radius:20px;padding:28px 18px;text-align:center;cursor:pointer;transition:.3s
-  cubic-bezier(.4,0,.2,1);position:relative;box-shadow:var(--shadow-lg);
+  background:rgba(255,255,255,.3);
+  backdrop-filter:blur(20px);
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:20px;
+  padding:28px 18px;
+  text-align:center;
+  cursor:pointer;
+  transition:.3s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  box-shadow:var(--shadow-lg);
 }
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
 .city-name{font-weight:500;font-size:15px;color:var(--text-primary);}
@@ -192,17 +220,23 @@ body::after{
     width: 100%;
   }
   .city-name{font-size:13px !important;line-height:1.2;}
-  .logo{width:40px;height:40px;font-size:20px;top:16px;left:16px}
+  .lang-select{top:16px;left:16px}
+  .lang-btn{padding:8px 12px;font-size:13px}
   .world-button{top:16px;right:16px}
   .world-btn{padding:8px 12px;font-size:13px}
   .header{padding:70px 16px 32px}.title{font-size:1.875rem}
   .search{padding:12px 44px 12px 16px;font-size:14px}
   .info{font-size:13px;padding:16px 20px}
+  .card{
+    padding: 24px 16px !important;
+    min-height: 80px;
+  }
+  .city-name{font-size:14px !important;}
 }
 @media(max-width:480px){
   .grid{grid-template-columns:repeat(3, 1fr);gap:10px;}
-  .card{padding: 18px 10px !important;}
-  .city-name{font-size:12px !important;}
+  .card{padding: 20px 12px !important;min-height:70px;}
+  .city-name{font-size:13px !important;}
 }
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .card{animation:fadeIn .3s ease;}
@@ -222,20 +256,29 @@ body::after{
 </head>
 
 <body>
-  <!-- Logo -->
-  <a href="https://tr81.tr/login.html" class="logo">🇹🇷</a>
+  <!-- Language Selector -->
+  <div class="lang-select">
+    <button class="lang-btn" onclick="toggleLang()">
+      <span id="langFlag">🇹🇷</span>
+      <span id="langName">TR</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+        <path d="M3 5L6 8L9 5"/>
+      </svg>
+    </button>
+    <div class="lang-list" id="langList"></div>
+  </div>
 
   <!-- World Button -->
   <div class="world-button">
     <button class="world-btn" onclick="location.href='world.html'">
       <span>🌍</span>
-      <span>Dünya Konumları</span>
+      <span id="worldButtonText">Dünya Konumları</span>
     </button>
   </div>
 
   <div class="container">
     <div class="header">
-      <h1 class="title">Türkiye'nin manzaralı yerlerini keşfet 📍</h1>
+      <h1 class="title" id="title">Türkiye'nin manzaralı yerlerini keşfet 📍</h1>
     </div>
 
     <!-- Search -->
@@ -256,6 +299,46 @@ body::after{
   </div>
 
 <script>
+// Çeviriler
+const lang = {
+  tr:{flag:'🇹🇷',name:'TR',title:'Türkiye\'nin manzaralı yerlerini keşfet 📍',
+    search:'Bir il ara...',banner:'Antalya\'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>',
+    premium:'🔓 Tüm iller açık!',worldButton:'Dünya Konumları'},
+  en:{flag:'🇬🇧',name:'EN',title:'Explore Türkiye\'s scenic spots 📍',
+    search:'Search province...',banner:'Explore Antalya free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all provinces',
+    premium:'🔓 All provinces unlocked!',worldButton:'World Locations'},
+  de:{flag:'🇩🇪',name:'DE',title:'Entdecke Türkiyes malerische Orte 📍',
+    search:'Provinz suchen...',banner:'Antalya kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle',
+    premium:'🔓 Alle Provinzen freigeschaltet!',worldButton:'Weltweite Orte'},
+  fr:{flag:'🇫🇷',name:'FR',title:'Explorez les sites panoramiques de Turquie 📍',
+    search:'Rechercher...',banner:'Antalya gratuite ! ⚡ <a href="https://www.tr81.tr/login.html">Connexion</a> pour tous',
+    premium:'🔓 Toutes les provinces débloquées !',worldButton:'Lieux du Monde'},
+  es:{flag:'🇪🇸',name:'ES',title:'Explora los paisajes de Türkiye 📍',
+    search:'Buscar provincia...',banner:'¡Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos',
+    premium:'🔓 ¡Todas las provincias abiertas!',worldButton:'Lugares del Mundo'},
+  it:{flag:'🇮🇹',name:'IT',title:'Esplora i luoghi panoramici della Türkiye 📍',
+    search:'Cerca provincia...',banner:'Antalya gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti',
+    premium:'🔓 Tutte le province sbloccate!',worldButton:'Luoghi del Mondo'},
+  pt:{flag:'🇵🇹',name:'PT',title:'Explore os pontos cênicos da Türkiye 📍',
+    search:'Pesquisar província...',banner:'Antalya grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos',
+    premium:'🔓 Todas as províncias liberadas!',worldButton:'Locais do Mundo'},
+  ru:{flag:'🇷🇺',name:'RU',title:'Исследуйте живописные места Турции 📍',
+    search:'Поиск провинции...',banner:'Анталья бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех',
+    premium:'🔓 Все провинции открыты!',worldButton:'Места мира'},
+  ja:{flag:'🇯🇵',name:'JA',title:'Türkiye の景勝地を探索 📍',
+    search:'県を検索...',banner:'アンタルヤ無料! ⚡ すべての県は<a href="https://www.tr81.tr/login.html">ログイン</a>',
+    premium:'🔓 全県利用可!',worldButton:'世界の場所'},
+  zh:{flag:'🇨🇳',name:'ZH',title:'探索 Türkiye 的美景 📍',
+    search:'搜索省份...',banner:'安塔利亚免费! ⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看全部',
+    premium:'🔓 所有省份已解锁!',worldButton:'世界地点'},
+  ar:{flag:'🇸🇦',name:'AR',title:'استكشف مواقع تركيا الخلابة 📍',
+    search:'ابحث عن محافظة...',banner:'أنطاليا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a> للجميع',
+    premium:'🔓 جميع المحافظات متاحة!',worldButton:'مواقع العالم'},
+  ko:{flag:'🇰🇷',name:'KO',title:'Türkiye 경관 명소 탐험 📍',
+    search:'지방 검색...',banner:'안탈리아 무료! ⚡ 모든 지방은 <a href="https://www.tr81.tr/login.html">로그인</a>',
+    premium:'🔓 모든 지방 이용 가능!',worldButton:'세계 명소'}
+};
+
 // Şehir listesi
 const cities = [
   ['antalya','Antalya'],['adana','Adana'],['adiyaman','Adıyaman'],
@@ -290,18 +373,69 @@ const cities = [
 // Normalize fonksiyonu
 const norm = t => t.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
 
+// Mevcut dil
+let currentLang = 'tr';
+
+// Tarayıcı dili tespit et
+function detectLang(){
+  const saved = localStorage.getItem('lang');
+  if(saved && lang[saved]) return saved;
+  const browser = navigator.language.toLowerCase();
+  for(const code in lang){
+    if(browser.startsWith(code)) return code;
+  }
+  return 'tr';
+}
+
+// Dil ayarla
+function setLang(code){
+  currentLang = code;
+  const t = lang[code];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('search').placeholder = t.search;
+  document.getElementById('langFlag').textContent = t.flag;
+  document.getElementById('langName').textContent = t.name;
+  document.getElementById('worldButtonText').textContent = t.worldButton;
+  
+  const access = localStorage.getItem('duflat-access')==='granted';
+  const info = document.getElementById('info');
+  info.innerHTML = access ? t.premium : t.banner;
+  info.className = access ? 'info premium' : 'info';
+  
+  document.documentElement.lang = code;
+  localStorage.setItem('lang', code);
+  
+  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+}
+
+// Dil menüsünü oluştur
+function createLangMenu(){
+  const list = document.getElementById('langList');
+  for(const [code,data] of Object.entries(lang)){
+    const item = document.createElement('div');
+    item.className='lang-item';
+    item.dataset.lang = code;
+    item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
+    item.onclick = ()=>{ setLang(code); toggleLang(false); };
+    list.appendChild(item);
+  }
+}
+
+// Menü göster/gizle
+function toggleLang(force){
+  const list = document.getElementById('langList');
+  if(force===false){ list.classList.remove('show'); }
+  else{ list.classList.toggle('show'); }
+}
+
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('grid');
   const search = document.getElementById('search');
-  const info = document.getElementById('info');
   const access = localStorage.getItem('duflat-access') === 'granted';
   
-  // Premium durumu
-  if(access) {
-    info.innerHTML = '🔓 Tüm iller açık!';
-    info.className = 'info premium';
-  }
+  createLangMenu();
+  setLang(detectLang());
   
   // Kartları oluştur
   cities.forEach(([slug, name]) => {
@@ -326,10 +460,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Arama
   search.addEventListener('input', e => {
     const v = norm(e.target.value);
-    info.style.display = v ? 'none' : '';
+    document.getElementById('info').style.display = v ? 'none' : '';
     document.querySelectorAll('.card').forEach(c => {
       c.style.display = norm(c.dataset.search).includes(v) ? '' : 'none';
     });
+  });
+  
+  // Dropdown kapat
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.lang-select')) toggleLang(false);
   });
 });
 </script>
