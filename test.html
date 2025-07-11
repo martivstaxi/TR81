@@ -67,7 +67,7 @@
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
     letter-spacing:-.5px;}
   .subtitle{font-size:1rem;color:var(--text-secondary);font-weight:400;}
-  .search-box{max-width:500px;margin:0 auto 40px;position:relative;z-index:1;}
+  .search-box{max-width:320px;margin:0 auto 40px;position:relative;z-index:1;}
   .search{width:100%;padding:14px 48px 14px 20px;font-size:15px;background:rgba(255,255,255,.3);
     backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);border-radius:20px;
     transition:.3s;color:var(--text-primary);}
@@ -75,10 +75,10 @@
     box-shadow:0 0 0 3px rgba(59,130,246,.1);background:rgba(255,255,255,.5);}
   .search-icon{position:absolute;right:20px;top:50%;transform:translateY(-50%);
     color:var(--text-secondary);pointer-events:none;}
-  .info{max-width:600px;margin:0 auto 40px;padding:20px 24px;text-align:center;
+  .info{max-width:320px;margin:0 auto 40px;padding:20px 24px;text-align:center;
     background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
     border-radius:20px;font-size:14px;line-height:1.6;color:var(--text-primary);
-    box-shadow:var(--shadow-lg);position:relative;z-index:1;}
+    box-shadow:var(--shadow-lg);position:relative;z-index:1;display:block;}
   .info.premium{background:linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%);
     backdrop-filter:blur(20px);border-color:rgba(22,163,74,.4);color:#16a34a;}
   .info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
@@ -86,11 +86,11 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
     gap:16px;padding-bottom:40px;position:relative;z-index:1;}
   .card{background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
-    border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:.3s
+    border-radius:20px;padding:28px 18px;text-align:center;cursor:pointer;transition:.3s
     cubic-bezier(.4,0,.2,1);position:relative;box-shadow:var(--shadow-lg);}
   .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
-  .flag{font-size:2.5rem;margin-bottom:8px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1));}
-  .name{font-weight:500;font-size:14px;color:var(--text-primary);}
+  .flag{font-size:2.875rem;margin-bottom:10px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1));}
+  .name{font-weight:500;font-size:15px;color:var(--text-primary);}
   .card.free{background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);backdrop-filter:blur(20px);border:2px solid rgba(245,158,11,.4);}
   
   /* Mobil için arka plan düzeltmesi */
@@ -126,7 +126,7 @@
       background-repeat: no-repeat;
       z-index: -2;
     }
-    /* Overlay için after */
+    /* Overlay için after - daha az bulanıklık */
     body::after {
       content: '';
       position: fixed;
@@ -134,7 +134,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(248, 250, 252, 0.4);
+      background: rgba(248, 250, 252, 0.2); /* 0.4'ten 0.2'ye düşürdüm */
       pointer-events: none;
       z-index: -1;
     }
@@ -146,32 +146,43 @@
       z-index: 1;
       padding-bottom: 50px;
     }
+    /* Container için ekstra düzenleme */
+    .container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    /* Search box ve info özel ayarlar */
+    .search-box {
+      margin: 0 auto 40px !important;
+      padding: 0;
+      max-width: 100%;
+    }
+    .info {
+      margin: 0 auto 40px !important;
+      max-width: 100%;
+      background: rgba(255,255,255,.3) !important;
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,.4) !important;
+    }
     /* Grid - mobilde sabit 3 sütun ve ortalama */
     .grid {
       gap:12px;
       padding-bottom:40px;
       grid-template-columns: repeat(3, 1fr); /* Mobilde sabit 3 sütun */
       max-width: 100%;
-      padding-left: 16px;
-      padding-right: 16px;
       margin: 0 auto; /* Ortalama için */
     }
-    /* Container için ekstra düzenleme */
-    .container {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    /* Kart boyutları mobilde - daha kompakt */
+    /* Kart boyutları mobilde - %15 daha büyük */
     .card {
-      padding: 16px 10px !important; /* Yükseklik azaltıldı */
+      padding: 20px 12px !important;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 100%; /* Tam genişlik kullan */
+      width: 100%;
     }
-    .flag{font-size:1.8rem !important;margin-bottom:4px !important;} /* Bayrak boyutu küçültüldü */
-    .name{font-size:12px !important;line-height:1.2;} /* İsim boyutu küçültüldü */
+    .flag{font-size:2.1rem !important;margin-bottom:6px !important;}
+    .name{font-size:13px !important;line-height:1.2;}
     .info {
       background: rgba(255,255,255,.3) !important;
       backdrop-filter: blur(20px);
@@ -194,14 +205,12 @@
     .grid{
       grid-template-columns:repeat(3, 1fr); /* Küçük ekranlarda da 3 sütun */
       gap:10px;
-      padding-left: 12px;
-      padding-right: 12px;
     }
     .card{
-      padding: 14px 8px !important; /* Daha küçük ekranlar için */
+      padding: 18px 10px !important;
     }
-    .flag{font-size:1.6rem !important;}
-    .name{font-size:11px !important;}
+    .flag{font-size:1.85rem !important;}
+    .name{font-size:12px !important;}
   }}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .card{animation:fadeIn .3s ease;}
