@@ -794,7 +794,12 @@ function updateCards() {
 }
 
 // Normalize fonksiyonu
-const norm = t => t.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
+const norm = t =>
+  t
+    .toLowerCase()
+    .normalize('NFD')              // decompose characters (e.g., İ → i + ◌̇)
+    .replace(/[\u0300-\u036f]/g, '') // strip combining marks
+    .replace(/[çğıöşü]/g, ch => ({ 'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u' }[ch]));
 
 // Mevcut dil
 let currentLang = 'tr';
