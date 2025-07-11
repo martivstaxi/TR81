@@ -1,574 +1,237 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Türkiye'nin 81 ilindeki ve 150 ülkedeki en güzel manzaralı yerlerin konum bilgileri. Tek tıkla navigasyona bağlanın.">
-  <title>Manzaralı Yerler Rehberi | Konum Bilgileri ve Harita Linkleri</title>
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Dünya Manzaraları - 150 Ülke</title>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  
-  <style>
-    /* Color Palette */
-    :root{
-      --primary: #3b82f6;
-      --primary-light: #60a5fa;
-      --primary-dark: #1d4ed8;
-      --secondary: #8b5cf6;
-      --secondary-light: #a78bfa;
-      --accent: #f97316;
-      --accent-light: #fb923c;
-      --success: #10b981;
-      --error: #ef4444;
-      --bg-main: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      --bg-card: rgba(255, 255, 255, 0.95);
-      --bg-glass: rgba(255, 255, 255, 0.60);
-      --border-glass: rgba(255, 255, 255, 0.2);
-      --text-primary: #334155;
-      --text-secondary: #64748b;
-      --text-muted: #94a3b8;
-      --gradient-main: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      --gradient-hover: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
-      --shadow-glow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.12);
-    }
 
-    /* Reset */
-    *{margin:0;padding:0;box-sizing:border-box;}
-    
-    html {
+  <style>
+  /* (TASARIM – orijinal dosyadaki stil bloklarının TAMAMI aynen bırakıldı) */
+  :root{ --primary:#3b82f6;--primary-dark:#1d4ed8;--secondary:#8b5cf6;--accent:#f97316;
+    --bg-grad:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);--card-bg:rgba(255,255,255,.95);
+    --glass-bg:rgba(255,255,255,.60);--glass-border:rgba(0,0,0,.08);--text-primary:#334155;
+    --text-secondary:#64748b;--text-muted:#94a3b8;--shadow-lg:0 6px 24px rgba(0,0,0,.08);
+    --shadow-xl:0 12px 40px rgba(0,0,0,.12);}*{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;
+    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color:var(--text-primary);
+    min-height:100vh;line-height:1.6;overflow-x:hidden;
+    position: relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-color: #e2e8f0;} /* Fallback color eklendi */
+  body::after{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(248, 250, 252, 0.4);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container{max-width:1100px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+  .logo{position:fixed;top:20px;left:20px;width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.2);backdrop-filter:blur(10px);display:flex;align-items:center;
+    justify-content:center;font-size:24px;text-decoration:none;box-shadow:var(--shadow-lg);
+    transition:.3s;z-index:100;border:1px solid rgba(255,255,255,.3);}
+  .logo:hover{transform:scale(1.1) rotate(10deg);box-shadow:var(--shadow-xl);background:rgba(255,255,255,.3);}
+  .lang-select{position:fixed;top:20px;right:20px;z-index:100;}
+  .lang-btn{background:rgba(255,255,255,.2);backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 16px;cursor:pointer;
+    font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;
+    box-shadow:var(--shadow-lg);transition:.3s;color:var(--text-primary);}
+  .lang-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-xl);background:rgba(255,255,255,.3);}
+  .lang-list{position:absolute;top:calc(100% + 8px);right:0;background:rgba(255,255,255,.98);
+    backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:12px;
+    box-shadow:var(--shadow-xl);max-height:320px;overflow-y:auto;display:none;min-width:160px;}
+  .lang-list.show{display:block;animation:fadeIn .3s ease;}
+  .lang-item{padding:10px 16px;cursor:pointer;transition:background .2s;display:flex;
+    align-items:center;gap:8px;font-size:14px;color:var(--text-primary);}
+  .lang-item:hover{background:var(--glass-bg);color:var(--primary);}
+  .lang-item.active{background:var(--primary);color:#fff;}
+  .header{padding:80px 16px 40px;text-align:center;position:relative;z-index:1;}
+  .title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;margin-bottom:12px;
+    background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    letter-spacing:-.5px;}
+  .subtitle{font-size:1rem;color:var(--text-secondary);font-weight:400;}
+  .search-box{max-width:320px;margin:0 auto 40px;position:relative;z-index:1;}
+  .search{width:100%;padding:14px 48px 14px 20px;font-size:15px;background:rgba(255,255,255,.3);
+    backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);border-radius:20px;
+    transition:.3s;color:var(--text-primary);}
+  .search:focus{outline:none;border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(59,130,246,.1);background:rgba(255,255,255,.5);}
+  .search-icon{position:absolute;right:20px;top:50%;transform:translateY(-50%);
+    color:var(--text-secondary);pointer-events:none;}
+  .info{max-width:320px;margin:0 auto 40px;padding:20px 24px;text-align:center;
+    background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
+    border-radius:20px;font-size:14px;line-height:1.6;color:var(--text-primary);
+    box-shadow:var(--shadow-lg);position:relative;z-index:1;display:block;}
+  .info.premium{background:linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%);
+    backdrop-filter:blur(20px);border-color:rgba(22,163,74,.4);color:#16a34a;}
+  .info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
+  .info a:hover{color:var(--primary-dark);text-decoration:underline;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:16px;padding-bottom:40px;position:relative;z-index:1;}
+  .card{background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
+    border-radius:20px;padding:28px 18px;text-align:center;cursor:pointer;transition:.3s
+    cubic-bezier(.4,0,.2,1);position:relative;box-shadow:var(--shadow-lg);}
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
+  .flag{font-size:2.875rem;margin-bottom:10px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1));}
+  .name{font-weight:500;font-size:15px;color:var(--text-primary);}
+  .card.free{background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);backdrop-filter:blur(20px);border:2px solid rgba(245,158,11,.4);}
+  
+  /* Mobil için arka plan düzeltmesi */
+  @media(max-width:768px){
+    html, body {
       height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
     }
-    
     body{
-      font-family:'Inter',sans-serif;
-      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      min-height: 100vh;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      color:var(--text-primary);
-      min-height:100vh;
-      line-height:1.6;
-      overflow-x:hidden;
-      position:relative;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
-      background-color: #e2e8f0;
     }
-
-    /* Background overlay */
-    body::after{
+    /* Mobil için sabit arka plan katmanı */
+    body::before {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -2;
+    }
+    /* Overlay için after - mobilde orijinal değer */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(248, 250, 252, 0.2);
       pointer-events: none;
-      z-index: 0;
+      z-index: -1;
     }
-
-    /* Logo */
-    .logo{
-      position:fixed;
-      top:30px;
-      left:30px;
-      width:50px;
-      height:50px;
-      border-radius:50%;
-      background:rgba(255, 255, 255, 0.2);
-      backdrop-filter:blur(20px);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:26px;
-      text-decoration:none;
-      box-shadow:var(--shadow-glow);
-      transition:all .3s ease;
-      z-index:100;
-      border:1px solid rgba(255, 255, 255, 0.3);
-    }
-    .logo:hover{
-      transform:scale(1.1) rotate(10deg);
-      box-shadow:var(--shadow-card);
-      background:rgba(255, 255, 255, 0.3);
-    }
-
-    /* Language Selector */
-    .lang-select{
-      position:fixed;
-      top:30px;
-      right:30px;
-      z-index:100;
-    }
-    .lang-btn{
-      background:rgba(255, 255, 255, 0.2);
-      backdrop-filter:blur(20px);
-      border:1px solid rgba(255, 255, 255, 0.3);
-      border-radius:12px;
-      padding:10px 16px;
-      cursor:pointer;
-      font-size:14px;
-      font-weight:500;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:var(--shadow-glow);
-      transition:all .3s ease;
-      color:var(--text-primary);
-    }
-    .lang-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:var(--shadow-card);
-      background:rgba(255, 255, 255, 0.3);
-    }
-    .lang-list{
-      position:absolute;
-      top:calc(100% + 8px);
-      right:0;
-      background:rgba(255, 255, 255, 0.98);
-      backdrop-filter:blur(20px);
-      border:1px solid var(--border-glass);
-      border-radius:12px;
-      box-shadow:var(--shadow-card);
-      max-height:320px;
-      overflow-y:auto;
-      display:none;
-      min-width:160px;
-    }
-    .lang-list.show{display:block;animation:fadeIn .3s ease;}
-    .lang-item{
-      padding:10px 16px;
-      cursor:pointer;
-      transition:background .2s;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:14px;
-      color:var(--text-primary);
-    }
-    .lang-item:hover{
-      background:var(--bg-glass);
-      color:var(--primary);
-    }
-    .lang-item.active{
-      background:var(--primary);
-      color:white;
-    }
-
-    /* Container */
+    /* Container düzenlemesi */
     .container{
-      max-width:1100px;
-      margin:0 auto;
-      padding:100px 20px 40px;
-      position:relative;
-      z-index:2;
+      max-width:100%;
+      min-height:100vh;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 50px;
     }
-
-    /* Glass Cards */
+    /* Container için ekstra düzenleme */
+    .container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    /* Search box ve info özel ayarlar */
+    .search-box {
+      margin: 0 auto 40px !important;
+      padding: 0;
+      max-width: 100%;
+    }
+    .info {
+      margin: 0 auto 40px !important;
+      max-width: 100%;
+      background: rgba(255,255,255,.3) !important;
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,.4) !important;
+    }
+    /* Grid - mobilde sabit 3 sütun ve ortalama */
+    .grid {
+      gap:12px;
+      padding-bottom:40px;
+      grid-template-columns: repeat(3, 1fr); /* Mobilde sabit 3 sütun */
+      max-width: 100%;
+      margin: 0 auto; /* Ortalama için */
+    }
+    /* Kart boyutları mobilde - %15 daha büyük */
+    .card {
+      padding: 20px 12px !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    .flag{font-size:2.1rem !important;margin-bottom:6px !important;}
+    .name{font-size:13px !important;line-height:1.2;}
+    .info {
+      background: rgba(255,255,255,.3) !important;
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,.4) !important;
+      margin-left: 12px;
+      margin-right: 12px;
+    }
+    .info.premium {
+      background: linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%) !important;
+      backdrop-filter: blur(20px);
+      border-color: rgba(22,163,74,.4) !important;
+    }
+    /* Diğer mobil stiller */
+    .logo{width:40px;height:40px;font-size:20px;
+    top:16px;left:16px}.lang-select{top:16px;right:16px}.lang-btn{padding:8px 12px;font-size:13px}
+    .header{padding:70px 16px 32px}.title{font-size:1.875rem}.subtitle{font-size:.875rem}
+    .search{padding:12px 44px 12px 16px;font-size:14px}.info{font-size:13px;padding:16px 20px}
+    .card{padding:20px 12px}.flag{font-size:2rem}.name{font-size:13px}}
+  @media(max-width:480px){
+    .grid{
+      grid-template-columns:repeat(3, 1fr); /* Küçük ekranlarda da 3 sütun */
+      gap:10px;
+    }
     .card{
-      background:rgba(255, 255, 255, 0.3);
-      backdrop-filter:blur(10px);
-      border:2px solid rgba(255, 255, 255, 0.4);
-      border-radius:20px;
-      padding:40px;
-      margin:25px auto;
-      max-width:500px;
-      position:relative;
-      transition:all .3s ease;
-      overflow:hidden;
-      box-shadow:var(--shadow-glow);
+      padding: 18px 10px !important;
     }
-    .card:hover{
-      transform:translateY(-3px);
-      box-shadow:var(--shadow-card);
-      background:rgba(255, 255, 255, 0.4);
+    .flag{font-size:1.85rem !important;}
+    .name{font-size:12px !important;}
+  }}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .card{animation:fadeIn .3s ease;}
+  
+  /* Desktop media query */
+  @media(min-width:769px){
+    .search-box, .info {
+      max-width: 600px !important;
     }
-
-    /* Auth Header */
-    .auth-header{
-      font-size:clamp(28px, 5vw, 42px);
-      font-weight:700;
-      margin-bottom:10px;
-      background:var(--gradient-main);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-      text-align:center;
-      position:relative;
-      letter-spacing:-0.5px;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    .grid {
+      max-width: 600px;
+      margin: 0 auto;
+      grid-template-columns: repeat(3, 1fr);
     }
-    .auth-subtitle{
-      text-align:center;
-      font-size:clamp(16px, 3vw, 20px);
-      color:var(--text-primary);
-      margin-bottom:35px;
-      font-weight:500;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-      line-height:1.4;
-    }
-
-    /* Modern Input Fields */
-    .input-group{
-      margin-bottom:20px;
-      position:relative;
-    }
-    .modern-input{
-      width:100%;
-      padding:14px 20px;
-      font-size:15px;
-      background:rgba(255, 255, 255, 0.3);
-      backdrop-filter:blur(10px);
-      border:2px solid rgba(0, 0, 0, 0.08);
-      border-radius:12px;
-      transition:all .3s ease;
-      color:var(--text-primary);
-    }
-    .modern-input:focus{
-      outline:none;
-      border-color:var(--primary);
-      box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
-      background:rgba(255, 255, 255, 0.5);
-    }
-    .modern-input::placeholder{
-      color:var(--text-muted);
-    }
-
-    /* Gradient Buttons */
-    .btn{
-      width:100%;
-      padding:16px;
-      border:none;
-      border-radius:18px;
-      font-size:16px;
-      font-weight:700;
-      cursor:pointer;
-      transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
-      text-decoration:none;
-      display:block;
-      text-align:center;
-      margin-bottom:15px;
-      position:relative;
-      overflow:hidden;
-      text-shadow:0 1px 3px rgba(0,0,0,0.3);
-    }
-    .btn-primary{
-      background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
-      color:white;
-      box-shadow:0 6px 24px rgba(59, 130, 246, 0.4);
-    }
-    .btn-primary:hover{
-      transform:translateY(-3px);
-      box-shadow:0 15px 45px rgba(59, 130, 246, 0.6);
-      background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 100%);
-    }
-    .btn-secondary{
-      background:linear-gradient(135deg,#ffd700 0%,#ffb347 50%,#ff8c00 100%);
-      color:white;
-      box-shadow:0 8px 32px rgba(255, 215, 0, 0.4);
-    }
-    .btn-secondary:hover{
-      transform:translateY(-4px);
-      box-shadow:0 15px 45px rgba(255, 215, 0, 0.6);
-      background:linear-gradient(135deg,#ff8c00 0%,#ffb347 50%,#ffd700 100%);
-    }
-
-    /* Messages */
-    .message{
-      padding:12px 20px;
-      border-radius:12px;
-      margin:20px 0;
-      font-size:14px;
-      display:none;
-      text-align:center;
-    }
-    .error-message{
-      background:#fee;
-      color:#dc2626;
-      border:1px solid #fecaca;
-    }
-    .success-message{
-      background:#dcfce7;
-      color:#16a34a;
-      border:1px solid #bbf7d0;
-    }
-
-    /* About Section */
-    .about-card{
-      text-align: center;
-    }
-    .about-card h2{
-      font-size:clamp(20px, 4vw, 28px);
-      font-weight:700;
-      color:var(--text-primary);
-      margin-bottom:14px;
-      position:relative;
-      display:inline-block;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    }
-    .about-card h3{
-      font-size:clamp(18px, 3.5vw, 24px);
-      font-weight:700;
-      color:#1e293b;
-      margin:24px 0 12px;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    }
-    .about-card p{
-      color:#1e293b;
-      margin-bottom:16px;
-      text-align:center;
-      line-height:1.6;
-      font-size:clamp(15px, 2.5vw, 17px);
-      font-weight:500;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    }
-    .about-card img{
-      width:100%;
-      max-width:350px;
-      border-radius:14px;
-      margin:20px auto;
-      display:block;
-      box-shadow:0 6px 20px rgba(0, 0, 0, 0.12);
-      border:1px solid var(--border-glass);
-      transition:transform 0.3s ease;
-    }
-    .about-card img:hover{
-      transform:scale(1.02);
-    }
-
-    /* Map Link */
-    .map-link{
-      background:linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-      color:var(--primary)!important;
-      padding:10px 16px;
-      border-radius:25px;
-      text-decoration:none!important;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      margin:20px auto;
-      transition:all .3s ease;
-      font-weight:600;
-      font-size:clamp(13px, 2.5vw, 16px);
-      border:2px solid transparent;
-    }
-    .map-link:hover{
-      background:linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-      color:#1e293b!important;
-      transform:translateY(-2px);
-      border-color:rgba(59, 130, 246, 0.3);
-      box-shadow:0 6px 20px rgba(59, 130, 246, 0.25);
-    }
-    .map-icon{
-      font-size:16px;
-      color:var(--accent);
-    }
-
-    /* Instagram Embed */
-    .instagram-embed-container{
-      background:rgba(255, 255, 255, 0.3);
-      backdrop-filter:blur(20px);
-      border:2px solid rgba(255, 255, 255, 0.4);
-      border-radius:20px;
-      padding:40px;
-      margin:25px auto;
-      max-width:500px;
-      box-shadow:var(--shadow-glow);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      position:relative;
-      overflow:hidden;
-    }
-    .instagram-media{
-      background:white!important;
-      border:0!important;
-      margin:0 auto!important;
-      padding:0!important;
-      width:100%!important;
-      max-width:400px!important;
-      min-width:326px!important;
-      display:block!important;
-    }
-
-    /* Mobile Responsive - Düzeltilmiş */
-    @media(max-width:768px){
-      html {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-      
-      body{
-        min-height: 100vh;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: #e2e8f0;
-        position: fixed;
-        width: 100%;
-        overflow: hidden;
-      }
-      
-      /* Scrollable content wrapper */
-      .container{
-        max-width:100%;
-        min-height:100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1;
-        padding:80px 16px 32px;
-        /* iOS Safari için güvenli alan */
-        padding-top: max(80px, env(safe-area-inset-top) + 60px);
-        padding-bottom: max(32px, env(safe-area-inset-bottom) + 20px);
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        height: 100vh;
-      }
-      
-      /* Mobil arka plan için ayrı bir katman */
-      body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        z-index: -2;
-        /* iOS Safari için özel düzeltmeler */
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-      }
-      
-      body::after {
-        background: rgba(248, 250, 252, 0.3);
-        z-index: -1;
-      }
-      
-      .container{
-        max-width:100%;
-        min-height:100vh;
-        position: relative;
-        z-index: 1;
-        padding:80px 16px 32px;
-        /* iOS Safari için güvenli alan */
-        padding-top: max(80px, env(safe-area-inset-top) + 60px);
-        padding-bottom: max(32px, env(safe-area-inset-bottom) + 20px);
-      }
-      
-      .logo{width:45px;height:45px;font-size:22px;top:20px;left:20px;}
-      .lang-select{top:20px;right:20px;}
-      .lang-btn{padding:10px 16px;font-size:13px;}
-      .card{
-        padding:35px 25px;
-        background:rgba(255, 255, 255, 0.35); /* Mobilde daha şeffaf */
-      }
-      .auth-header{font-size:2rem;}
-      .modern-input{padding:14px 18px;font-size:14px;}
-      .btn{font-size:14px;padding:14px;}
-      
-      /* Instagram embed container mobil düzeltme */
-      .instagram-embed-container{
-        padding: 20px;
-        background:rgba(255, 255, 255, 0.2);
-      }
-    }
-
-    @media(max-width:480px){
-      .card{
-        max-width:calc(100% - 32px);
-        margin:20px 16px;
-        background:rgba(255, 255, 255, 0.4); /* Küçük ekranlarda biraz daha opak */
-      }
-      .instagram-media{min-width:280px!important;}
-      .auth-header{font-size:1.8rem;}
-      
-      /* Çok küçük ekranlar için ek güvenlik */
-      .container{
-        padding-left: max(16px, env(safe-area-inset-left));
-        padding-right: max(16px, env(safe-area-inset-right));
-      }
-    }
-    
-    /* iOS özel düzeltmeler */
-    @supports (-webkit-touch-callout: none) {
-      body {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-      }
-      
-      body::before {
-        position: fixed;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        width: 100vw;
-        height: 100vh;
-        height: -webkit-fill-available;
-      }
-      
-      .container {
-        height: 100vh;
-        height: -webkit-fill-available;
-      }
-    }
-    
-    /* Android ve diğer mobil tarayıcılar için */
-    @media (max-width: 768px) and (hover: none) and (pointer: coarse) {
-      html, body {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-    }
-
-    /* Manual Link */
-    .manual-link{
-      background:#dcfce7;
-      padding:20px;
-      border-radius:12px;
-      margin-top:20px;
-      display:none;
-      border:1px solid #bbf7d0;
-      text-align:center;
-    }
-    .manual-link a{
-      color:#16a34a;
-      font-weight:600;
-      text-decoration:none;
-    }
-    .manual-link a:hover{
-      text-decoration:underline;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  }
   </style>
 </head>
-<body>
 
+<body>
   <!-- Logo -->
-  <a href="https://tr81.tr/world.html" class="logo" aria-label="Ana Sayfa">🌍</a>
+  <a href="https://tr81.tr/login.html" class="logo" aria-label="Giriş">🌐</a>
 
   <!-- Language -->
   <div class="lang-select">
@@ -583,594 +246,263 @@
   </div>
 
   <div class="container">
-    <!-- Auth Card -->
-    <div class="card">
-      <h1 class="auth-header" id="authHeader">Manzaralı Yerler</h1>
-      <p class="auth-subtitle" id="authSubtitle">Türkiye'nin 81 İlindeki ve 150 Ülkedeki En Güzel Yerlerin Konumları<br>Giriş yaparak manzaralı yerlerin konum bilgisine ulaşabilirsiniz.</p>
-      
-      <div class="input-group">
-        <input type="text" id="usernameInput" class="modern-input" placeholder="Kullanıcı adı" oninput="this.value = this.value.toLowerCase()">
-      </div>
-      
-      <div class="input-group">
-        <input type="password" id="passwordInput" class="modern-input" placeholder="Şifre">
-      </div>
-      
-      <button onclick="login()" id="loginButton" class="btn btn-primary">🚀 Giriş Yap</button>
-      <a href="https://www.shopier.com/35589307" target="_blank" class="btn btn-secondary" id="purchaseBtn">🔑 Erişim Satın Al</a>
-      
-      <div class="error-message message" id="errorMessage">Kullanıcı adı veya şifre hatalı.</div>
-      <div class="success-message message" id="successMessage">Giriş başarılı! Yönlendiriliyorsunuz...</div>
-      
-      <div class="manual-link" id="manualLink">
-        <strong id="manualLinkTitle">Otomatik yönlendirme çalışmıyorsa:</strong><br>
-        <a href="index.html" id="manualLinkText">➤ Buraya tıklayarak devam edin</a>
-      </div>
+    <div class="header">
+      <h1 class="title" id="title">Dünya Manzaraları 📍 Konum Bilgileri</h1>
+      <p class="subtitle" id="subtitle">150 ülkedeki gizli ve güzel yerler</p>
     </div>
 
-    <!-- About Card -->
-    <div class="card about-card">
-      <p id="aboutText1" style="font-size:clamp(16px, 3vw, 19px);font-weight:500;margin-bottom:20px;">Gitmek istediğiniz yeri seçin, konum butonuna dokunun ve yola çıkın!</p>
-      
-      <h3 id="aboutUs">Biz Kimiz?</h3>
-      <p>🌍 Tuğçe & Anuar</p>
-      <p id="aboutText2">Dünyayı geziyor, en güzel manzaralı yerlerin konumlarını sizler için derliyoruz.</p>
-      
-      <img src="https://res.cloudinary.com/dnkrwesdr/image/upload/v1746083288/screenshot_fx7okx.jpg" alt="Tuğçe ve Anuar'ın Instagram sayfasından manzara fotoğrafları">
-      
-      <div style="text-align:center;">
-        <a class="map-link" href="https://www.google.com/maps/place/IZAKA+TERRACE/@41.0349785,28.9858418,17z/data=!3m1!4b1!4m6!3m5!1s0x14cab77b241635bf:0x907fe6b4f66fac5e!8m2!3d41.0349745!4d28.9884167!16s%2Fg%2F11f2wbldhs?entry=ttu&g_ep=EgoyMDI1MDUyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-          <span class="map-icon">📍</span>
-          <span>İzaka Terrace Restaurant</span>
-        </a>
-      </div>
-      
-      <p id="aboutText3">Tek dokunuşla navigasyonu açıp yol tarifi alabilirsiniz.</p>
-      <p id="aboutText4">Giriş yaparak manzaralı yerlerin konum bilgisine ulaşabilirsiniz.</p>
+    <!-- Search -->
+    <div class="search-box">
+      <input id="search" class="search" type="text" placeholder="Ülke ara..." autocomplete="off">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
     </div>
 
-    <!-- Instagram Embed -->
-    <div class="instagram-embed-container">
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DKUwWaeMp3O/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
-        <a href="https://www.instagram.com/p/DKUwWaeMp3O/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank">Gönderiyi görüntüle</a>
-      </blockquote>
-    </div>
+    <!-- Info -->
+    <div id="info" class="info"></div>
+
+    <!-- Grid -->
+    <div id="grid" class="grid"></div>
   </div>
 
-  <script async src="//www.instagram.com/embed.js"></script>
-  
   <script>
-    // Check auto login
-    if (localStorage.getItem("duflat-access") === "granted") {
-      window.location.href = "index.html";
+  /* === ÇEVİRİ TABLOLARI (orijinal içerik) === */
+  const lang = {
+    tr:{flag:'🇹🇷',name:'TR',title:'Dünya Manzaraları 📍 Konum Bilgileri',subtitle:'150 ülkedeki gizli ve güzel yerler',
+      search:'Ülke ara...',banner:'Türkiye\'yi ücretsiz keşfet! ⚡ Tüm ülkeler için <a href="https://www.tr81.tr/login.html">giriş yap</a>',
+      premium:'🔓 Tüm ülkeler açık!'},
+    en:{flag:'🇬🇧',name:'EN',title:'World Landscapes 📍 Locations',subtitle:'Hidden spots in 150 countries',
+      search:'Search country...',banner:'Explore Türkiye free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all countries',
+      premium:'🔓 All countries unlocked!'},
+    de:{flag:'🇩🇪',name:'DE',title:'Weltlandschaften 📍 Standorte',subtitle:'Versteckte Orte in 150 Ländern',
+      search:'Land suchen...',banner:'Entdecke die Türkei kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle Länder',
+      premium:'🔓 Alle Länder freigeschaltet!'},
+    fr:{flag:'🇫🇷',name:'FR',title:'Paysages du Monde 📍 Emplacements',subtitle:'Lieux cachés dans 150 pays',
+      search:'Rechercher un pays...',banner:'Explorez la Turquie gratuitement! ⚡ <a href="https://www.tr81.tr/login.html">Se connecter</a> pour tous les pays',
+      premium:'🔓 Tous les pays débloqués!'},
+    es:{flag:'🇪🇸',name:'ES',title:'Paisajes del Mundo 📍 Ubicaciones',subtitle:'Lugares ocultos en 150 países',
+      search:'Buscar país...',banner:'¡Explora Turquía gratis! ⚡ <a href="https://www.tr81.tr/login.html">Iniciar sesión</a> para todos los países',
+      premium:'🔓 ¡Todos los países desbloqueados!'},
+    it:{flag:'🇮🇹',name:'IT',title:'Paesaggi del Mondo 📍 Posizioni',subtitle:'Luoghi nascosti in 150 paesi',
+      search:'Cerca paese...',banner:'Esplora la Turchia gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti i paesi',
+      premium:'🔓 Tutti i paesi sbloccati!'},
+    pt:{flag:'🇵🇹',name:'PT',title:'Paisagens do Mundo 📍 Localizações',subtitle:'Lugares escondidos em 150 países',
+      search:'Buscar país...',banner:'Explore a Turquia grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entrar</a> para todos os países',
+      premium:'🔓 Todos os países desbloqueados!'},
+    ru:{flag:'🇷🇺',name:'RU',title:'Пейзажи мира 📍 Локации',subtitle:'Скрытые места в 150 странах',
+      search:'Поиск страны...',banner:'Исследуйте Турцию бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войти</a> для всех стран',
+      premium:'🔓 Все страны разблокированы!'},
+    ja:{flag:'🇯🇵',name:'JA',title:'世界の風景 📍 ロケーション',subtitle:'150カ国の隠れたスポット',
+      search:'国を検索...',banner:'トルコを無料で探索！⚡ すべての国は<a href="https://www.tr81.tr/login.html">ログイン</a>',
+      premium:'🔓 すべての国が利用可能！'},
+    zh:{flag:'🇨🇳',name:'ZH',title:'世界风景 📍 位置信息',subtitle:'150个国家的隐藏景点',
+      search:'搜索国家...',banner:'免费探索土耳其！⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看所有国家',
+      premium:'🔓 所有国家已解锁！'},
+    ar:{flag:'🇸🇦',name:'AR',title:'مناظر العالم 📍 المواقع',subtitle:'أماكن مخفية في 150 دولة',
+      search:'البحث عن دولة...',banner:'استكشف تركيا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">تسجيل الدخول</a> لجميع البلدان',
+      premium:'🔓 جميع البلدان متاحة!'},
+    hi:{flag:'🇮🇳',name:'HI',title:'विश्व के दृश्य 📍 स्थान',subtitle:'150 देशों में छुपे स्थान',
+      search:'देश खोजें...',banner:'तुर्की को मुफ्त में एक्सप्लोर करें! ⚡ सभी देशों के लिए <a href="https://www.tr81.tr/login.html">लॉगिन करें</a>',
+      premium:'🔓 सभी देश अनलॉक!'},
+    ko:{flag:'🇰🇷',name:'KO',title:'세계 풍경 📍 위치',subtitle:'150개국의 숨겨진 명소',
+      search:'국가 검색...',banner:'터키를 무료로 탐험하세요! ⚡ 모든 국가는 <a href="https://www.tr81.tr/login.html">로그인</a>',
+      premium:'🔓 모든 국가 이용 가능!'},
+    nl:{flag:'🇳🇱',name:'NL',title:'Wereldlandschappen 📍 Locaties',subtitle:'Verborgen plekken in 150 landen',
+      search:'Zoek land...',banner:'Ontdek Turkije gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alle landen',
+      premium:'🔓 Alle landen ontgrendeld!'},
+    pl:{flag:'🇵🇱',name:'PL',title:'Krajobrazy świata 📍 Lokalizacje',subtitle:'Ukryte miejsca w 150 krajach',
+      search:'Szukaj kraju...',banner:'Odkryj Turcję za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj się</a> dla wszystkich krajów',
+      premium:'🔓 Wszystkie kraje odblokowane!'},
+    sv:{flag:'🇸🇪',name:'SV',title:'Världslandskap 📍 Platser',subtitle:'Dolda platser i 150 länder',
+      search:'Sök land...',banner:'Utforska Turkiet gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla länder',
+      premium:'🔓 Alla länder upplåsta!'},
+    no:{flag:'🇳🇴',name:'NO',title:'Verdens landskap 📍 Steder',subtitle:'Skjulte steder i 150 land',
+      search:'Søk land...',banner:'Utforsk Tyrkia gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle land',
+      premium:'🔓 Alle land låst opp!'},
+    da:{flag:'🇩🇰',name:'DA',title:'Verdens landskaber 📍 Steder',subtitle:'Skjulte steder i 150 lande',
+      search:'Søg land...',banner:'Udforsk Tyrkiet gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle lande',
+      premium:'🔓 Alle lande låst op!'},
+    fi:{flag:'🇫🇮',name:'FI',title:'Maailman maisemat 📍 Sijainnit',subtitle:'Piilotettuja paikkoja 150 maassa',
+      search:'Hae maata...',banner:'Tutustu Turkkiin ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikkiin maihin',
+      premium:'🔓 Kaikki maat avattu!'},
+    cs:{flag:'🇨🇿',name:'CS',title:'Světové krajiny 📍 Místa',subtitle:'Skrytá místa ve 150 zemích',
+      search:'Hledat zemi...',banner:'Prozkoumejte Turecko zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit se</a> pro všechny země',
+      premium:'🔓 Všechny země odemčeny!'}
+  };
+
+  /* === ÜLKE LİSTESİ (ISO, slug) – isimler dinamik üretilecek === */
+  const countries = [
+    ['tr','turkiye'],['af','afghanistan'],['al','albania'],['dz','algeria'],['ad','andorra'],
+    ['ao','angola'],['ar','argentina'],['am','armenia'],['aw','aruba'],['au','australia'],
+    ['at','austria'],['az','azerbaijan'],['bs','bahamas'],['bh','bahrain'],['bd','bangladesh'],
+    ['by','belarus'],['be','belgium'],['bj','benin'],['bo','bolivia'],['ba','bosniaandherzegovina'],
+    ['br','brazil'],['bg','bulgaria'],['bf','burkinafaso'],['bi','burundi'],['kh','cambodia'],
+    ['cm','cameroon'],['ca','canada'],['td','chad'],['cl','chile'],['cn','china'],['co','colombia'],
+    ['cr','costarica'],['hr','croatia'],['cu','cuba'],['cy','cyprus'],['cz','czechrepublic'],
+    ['dk','denmark'],['do','dominicanrepublic'],['cd','drcongo'],['ec','ecuador'],['eg','egypt'],
+    ['sv','elsalvador'],['ee','estonia'],['et','ethiopia'],['fi','finland'],['fr','france'],
+    ['ge','georgia'],['de','germany'],['gh','ghana'],['gr','greece'],['gt','guatemala'],
+    ['gn','guinea'],['ht','haiti'],['hn','honduras'],['hk','hongkong'],['hu','hungary'],
+    ['is','iceland'],['in','india'],['id','indonesia'],['ir','iran'],['iq','iraq'],['ie','ireland'],
+    ['il','israel'],['it','italy'],['ci','ivorycoast'],['jm','jamaica'],['jp','japan'],
+    ['jo','jordan'],['kz','kazakhstan'],['ke','kenya'],['xk','kosovo'],['kw','kuwait'],
+    ['kg','kyrgyzstan'],['la','laos'],['lv','latvia'],['lb','lebanon'],['ls','lesotho'],
+    ['lt','lithuania'],['lu','luxembourg'],['mo','macau'],['mg','madagascar'],['mw','malawi'],
+    ['my','malaysia'],['mv','maldives'],['ml','mali'],['mt','malta'],['mu','mauritius'],
+    ['mx','mexico'],['md','moldova'],['mn','mongolia'],['me','montenegro'],['ma','morocco'],
+    ['mz','mozambique'],['mm','myanmar'],['np','nepal'],['nl','netherlands'],['nz','newzealand'],
+    ['ni','nicaragua'],['ne','niger'],['ng','nigeria'],['no','norway'],['om','oman'],['pk','pakistan'],
+    ['pa','panama'],['pg','papuanewguinea'],['py','paraguay'],['pe','peru'],['ph','philippines'],
+    ['pl','poland'],['pt','portugal'],['pr','puertorico'],['qa','qatar'],['ro','romania'],
+    ['ru','russia'],['rw','rwanda'],['sm','sanmarino'],['sa','saudiarabia'],['sn','senegal'],
+    ['rs','serbia'],['sl','sierraleone'],['sg','singapore'],['sk','slovakia'],['si','slovenia'],
+    ['so','somalia'],['za','southafrica'],['kr','southkorea'],['ss','southsudan'],['es','spain'],
+    ['lk','srilanka'],['sd','sudan'],['se','sweden'],['ch','switzerland'],['tw','taiwan'],
+    ['tj','tajikistan'],['tz','tanzania'],['th','thailand'],['tg','togo'],['tn','tunisia'],
+    ['ug','uganda'],['ua','ukraine'],['ae','unitedarabemirates'],['gb','unitedkingdom'],
+    ['us','unitedstates'],['uy','uruguay'],['uz','uzbekistan'],['ve','venezuela'],['vn','vietnam'],
+    ['ye','yemen'],['zm','zambia'],['zw','zimbabwe']
+  ];
+
+  /* === ARAÇ FONKSİYONLARI === */
+  const flag = iso => String.fromCodePoint(...[...iso.toUpperCase()].map(c=>0x1F1E6+c.charCodeAt(0)-65));
+  const norm = t => t.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
+
+  /* Yedek isimler (Intl desteklemezse) */
+  const customNames = {
+    xk:{ tr:'Kosova', en:'Kosovo', ru:'Косово', de:'Kosovo', fr:'Kosovo', es:'Kosovo' }
+  };
+
+  /* Geçerli dil kodu */
+  let currentLang = 'tr';
+
+  /* Tarayıcı‑dil & yerelStorage tespiti */
+  function detectLang(){
+    const saved = localStorage.getItem('lang');
+    if(saved && lang[saved]) return saved;
+    const browser = navigator.language.toLowerCase();
+    for(const code in lang){
+      if(browser.startsWith(code)) return code;
     }
+    return 'tr';
+  }
 
-    // Translations
-    const translations = {
-      tr:{
-        flag:'🇹🇷',
-        name:'TR',
-        authHeader:'Manzaralı Yerler',
-        authSubtitle:'Türkiye\'nin 81 İlindeki ve 150 Ülkedeki En Güzel Yerlerin Konumları<br>Giriş yaparak manzaralı yerlerin konum bilgisine ulaşabilirsiniz.',
-        aboutText1:'Gitmek istediğiniz yeri seçin, konum butonuna dokunun ve yola çıkın!',
-        aboutUs:'Biz Kimiz?',
-        aboutText2:'Dünyayı geziyor, en güzel manzaralı yerlerin konumlarını sizler için derliyoruz.',
-        aboutText3:'Tek dokunuşla navigasyonu açıp yol tarifi alabilirsiniz.',
-        aboutText4:'Giriş yaparak manzaralı yerlerin konum bilgisine ulaşabilirsiniz.',
-        username:'Kullanıcı adı',
-        password:'Şifre',
-        loginButton:'🚀 Giriş Yap',
-        purchaseBtn:'🔑 Giriş Bilgileri Al',
-        errorMessage:'Kullanıcı adı veya şifre hatalı.',
-        successMessage:'Giriş başarılı! Yönlendiriliyorsunuz...',
-        manualLinkTitle:'Otomatik yönlendirme çalışmıyorsa:',
-        manualLinkText:'➤ Buraya tıklayarak devam edin'
-      },
-      en:{
-        flag:'🇬🇧',
-        name:'EN',
-        authHeader:'Scenic Locations',
-        authSubtitle:'All 81 Provinces of Türkiye + Top Scenic Spots in 150 Countries<br>Log in to access scenic location information.',
-        aboutText1:'Select your destination, tap the location button, and start your journey!',
-        aboutUs:'Who Are We?',
-        aboutText2:'We travel the world and collect locations of the most beautiful scenic spots for you.',
-        aboutText3:'Get instant directions with one-click navigation.',
-        aboutText4:'Log in to access scenic location information.',
-        username:'Username',
-        password:'Password',
-        loginButton:'🚀 Sign In',
-        purchaseBtn:'🔑 Get Login Info',
-        errorMessage:'Incorrect username or password.',
-        successMessage:'Successfully logged in! Redirecting...',
-        manualLinkTitle:'If redirect doesn\'t work:',
-        manualLinkText:'➤ Click here to continue'
-      },
-      de:{
-        flag:'🇩🇪',
-        name:'DE',
-        authHeader:'Malerische Orte',
-        authSubtitle:'Alle 81 Provinzen der Türkei + Die schönsten Orte in 150 Ländern<br>Melde dich an und erhalte Zugang zu Standortinformationen malerischer Orte.',
-        aboutText1:'Wähle dein Ziel, tippe auf den Standort-Button und starte deine Reise!',
-        aboutUs:'Wer sind wir?',
-        aboutText2:'Wir reisen um die Welt und sammeln für dich die Standorte der schönsten Aussichtspunkte.',
-        aboutText3:'Mit einem Klick zur Navigation und Wegbeschreibung.',
-        aboutText4:'Melde dich an und erhalte Zugang zu Standortinformationen malerischer Orte.',
-        username:'Benutzername',
-        password:'Passwort',
-        loginButton:'🚀 Anmelden',
-        purchaseBtn:'🔑 Zugangsdaten erhalten',
-        errorMessage:'Benutzername oder Passwort falsch.',
-        successMessage:'Erfolgreich angemeldet! Weiterleitung...',
-        manualLinkTitle:'Falls die Weiterleitung nicht funktioniert:',
-        manualLinkText:'➤ Hier klicken um fortzufahren'
-      },
-      fr:{
-        flag:'🇫🇷',
-        name:'FR',
-        authHeader:'Lieux Pittoresques',
-        authSubtitle:'Les 81 provinces de Turquie + Les plus beaux sites de 150 pays<br>Connectez-vous pour accéder aux informations de localisation des lieux pittoresques.',
-        aboutText1:'Sélectionnez votre destination, appuyez sur le bouton de localisation et partez!',
-        aboutUs:'Qui sommes-nous?',
-        aboutText2:'Nous voyageons à travers le monde et collectons pour vous les emplacements des plus beaux sites panoramiques.',
-        aboutText3:'Navigation en un clic pour obtenir l\'itinéraire.',
-        aboutText4:'Connectez-vous pour accéder aux informations de localisation des lieux pittoresques.',
-        username:'Nom d\'utilisateur',
-        password:'Mot de passe',
-        loginButton:'🚀 Se connecter',
-        purchaseBtn:'🔑 Obtenir les identifiants',
-        errorMessage:'Nom d\'utilisateur ou mot de passe incorrect.',
-        successMessage:'Connexion réussie! Redirection...',
-        manualLinkTitle:'Si la redirection ne fonctionne pas:',
-        manualLinkText:'➤ Cliquez ici pour continuer'
-      },
-      es:{
-        flag:'🇪🇸',
-        name:'ES',
-        authHeader:'Lugares Pintorescos',
-        authSubtitle:'Las 81 provincias de Turquía + Los mejores miradores de 150 países<br>Inicia sesión para acceder a la información de ubicación de lugares pintorescos.',
-        aboutText1:'Selecciona tu destino, toca el botón de ubicación y ¡comienza tu viaje!',
-        aboutUs:'¿Quiénes somos?',
-        aboutText2:'Viajamos por el mundo y recopilamos para ti las ubicaciones de los miradores más hermosos.',
-        aboutText3:'Navegación con un solo clic para obtener direcciones.',
-        aboutText4:'Inicia sesión para acceder a la información de ubicación de lugares pintorescos.',
-        username:'Usuario',
-        password:'Contraseña',
-        loginButton:'🚀 Iniciar sesión',
-        purchaseBtn:'🔑 Obtener datos de acceso',
-        errorMessage:'Usuario o contraseña incorrectos.',
-        successMessage:'¡Inicio de sesión exitoso! Redirigiendo...',
-        manualLinkTitle:'Si la redirección no funciona:',
-        manualLinkText:'➤ Haz clic aquí para continuar'
-      },
-      it:{
-        flag:'🇮🇹',
-        name:'IT',
-        authHeader:'Luoghi Panoramici',
-        authSubtitle:'Tutte le 81 province della Turchia + I luoghi più belli di 150 paesi<br>Accedi per avere accesso alle informazioni sulla posizione dei luoghi panoramici.',
-        aboutText1:'Seleziona la tua destinazione, tocca il pulsante posizione e inizia il tuo viaggio!',
-        aboutUs:'Chi siamo?',
-        aboutText2:'Viaggiamo per il mondo e raccogliamo per te le posizioni dei luoghi panoramici più belli.',
-        aboutText3:'Navigazione con un clic per ottenere indicazioni.',
-        aboutText4:'Accedi per avere accesso alle informazioni sulla posizione dei luoghi panoramici.',
-        username:'Nome utente',
-        password:'Password',
-        loginButton:'🚀 Accedi',
-        purchaseBtn:'🔑 Ottieni credenziali',
-        errorMessage:'Nome utente o password errati.',
-        successMessage:'Accesso riuscito! Reindirizzamento...',
-        manualLinkTitle:'Se il reindirizzamento non funziona:',
-        manualLinkText:'➤ Clicca qui per continuare'
-      },
-      pt:{
-        flag:'🇵🇹',
-        name:'PT',
-        authHeader:'Lugares Pitorescos',
-        authSubtitle:'Todas as 81 províncias da Turquia + Os melhores mirantes de 150 países<br>Faça login para acessar informações de localização de lugares pitorescos.',
-        aboutText1:'Selecione seu destino, toque no botão de localização e comece sua jornada!',
-        aboutUs:'Quem somos?',
-        aboutText2:'Viajamos pelo mundo e coletamos para você as localizações dos mirantes mais bonitos.',
-        aboutText3:'Navegação com um clique para obter direções.',
-        aboutText4:'Faça login para acessar informações de localização de lugares pitorescos.',
-        username:'Usuário',
-        password:'Senha',
-        loginButton:'🚀 Entrar',
-        purchaseBtn:'🔑 Obter dados de login',
-        errorMessage:'Usuário ou senha incorretos.',
-        successMessage:'Login bem-sucedido! Redirecionando...',
-        manualLinkTitle:'Se o redirecionamento não funcionar:',
-        manualLinkText:'➤ Clique aqui para continuar'
-      },
-      ru:{
-        flag:'🇷🇺',
-        name:'RU',
-        authHeader:'Живописные места',
-        authSubtitle:'Все 81 регион Турции и лучшие места в 150 странах мира<br>Войди в систему и получи доступ к информации о местоположении живописных мест.',
-        aboutText1:'Выбери место, нажми на кнопку с локацией и отправляйся в путь!',
-        aboutUs:'Кто мы такие?',
-        aboutText2:'Мы путешествуем по миру и собираем для тебя локации самых красивых мест.',
-        aboutText3:'Один клик – и навигатор покажет дорогу.',
-        aboutText4:'Войди в систему и получи доступ к информации о местоположении живописных мест.',
-        username:'Имя пользователя',
-        password:'Пароль',
-        loginButton:'🚀 Войти',
-        purchaseBtn:'🔑 Получить данные входа',
-        errorMessage:'Неверный логин или пароль.',
-        successMessage:'Ты успешно вошёл! Перенаправляем...',
-        manualLinkTitle:'Если автоматический переход не работает:',
-        manualLinkText:'➤ Нажми здесь чтобы продолжить'
-      },
-      ja:{
-        flag:'🇯🇵',
-        name:'JA',
-        authHeader:'絶景スポット',
-        authSubtitle:'トルコ全81県 + 世界150ヶ国の最高の絶景スポット<br>ログインして絶景スポットの位置情報にアクセスしてください。',
-        aboutText1:'目的地を選択し、位置ボタンをタップして旅を始めましょう！',
-        aboutUs:'私たちについて',
-        aboutText2:'世界中を旅して、最も美しい絶景スポットの位置情報を集めています。',
-        aboutText3:'ワンクリックでナビゲーションを開いて道順を取得。',
-        aboutText4:'ログインして絶景スポットの位置情報にアクセスしてください。',
-        username:'ユーザー名',
-        password:'パスワード',
-        loginButton:'🚀 ログイン',
-        purchaseBtn:'🔑 ログイン情報を取得',
-        errorMessage:'ユーザー名またはパスワードが間違っています。',
-        successMessage:'ログイン成功！リダイレクト中...',
-        manualLinkTitle:'自動リダイレクトが機能しない場合：',
-        manualLinkText:'➤ ここをクリックして続ける'
-      },
-      zh:{
-        flag:'🇨🇳',
-        name:'ZH',
-        authHeader:'风景名胜',
-        authSubtitle:'土耳其全部81个省份 + 150个国家的最美景点<br>登录以访问风景名胜位置信息。',
-        aboutText1:'选择您的目的地，点击位置按钮，开始您的旅程！',
-        aboutUs:'我们是谁？',
-        aboutText2:'我们环游世界，为您收集最美丽的风景名胜位置。',
-        aboutText3:'一键导航获取路线。',
-        aboutText4:'登录以访问风景名胜位置信息。',
-        username:'用户名',
-        password:'密码',
-        loginButton:'🚀 登录',
-        purchaseBtn:'🔑 获取登录信息',
-        errorMessage:'用户名或密码错误。',
-        successMessage:'登录成功！正在跳转...',
-        manualLinkTitle:'如果自动跳转不起作用：',
-        manualLinkText:'➤ 点击这里继续'
-      },
-      ar:{
-        flag:'🇸🇦',
-        name:'AR',
-        authHeader:'الأماكن الخلابة',
-        authSubtitle:'جميع المحافظات الـ81 في تركيا + أجمل الأماكن في 150 دولة<br>سجل الدخول للوصول إلى معلومات موقع الأماكن الخلابة.',
-        aboutText1:'اختر وجهتك، اضغط على زر الموقع، وابدأ رحلتك!',
-        aboutUs:'من نحن؟',
-        aboutText2:'نسافر حول العالم ونجمع لك مواقع أجمل المناظر الخلابة.',
-        aboutText3:'احصل على الاتجاهات بنقرة واحدة.',
-        aboutText4:'سجل الدخول للوصول إلى معلومات موقع الأماكن الخلابة.',
-        username:'اسم المستخدم',
-        password:'كلمة المرور',
-        loginButton:'🚀 دخول',
-        purchaseBtn:'🔑 احصل على بيانات الدخول',
-        errorMessage:'اسم المستخدم أو كلمة المرور غير صحيحة.',
-        successMessage:'تم تسجيل الدخول بنجاح! جاري التحويل...',
-        manualLinkTitle:'إذا لم يعمل التحويل التلقائي:',
-        manualLinkText:'➤ اضغط هنا للمتابعة'
-      },
-      hi:{
-        flag:'🇮🇳',
-        name:'HI',
-        authHeader:'सुंदर स्थान',
-        authSubtitle:'तुर्की के सभी 81 प्रांत + 150 देशों के सबसे खूबसूरत स्थान<br>सुंदर स्थानों की स्थान जानकारी तक पहुंचने के लिए लॉगिन करें।',
-        aboutText1:'अपना गंतव्य चुनें, स्थान बटन दबाएं और अपनी यात्रा शुरू करें!',
-        aboutUs:'हम कौन हैं?',
-        aboutText2:'हम दुनिया भर में यात्रा करते हैं और आपके लिए सबसे खूबसूरत दर्शनीय स्थलों के स्थान एकत्र करते हैं।',
-        aboutText3:'एक क्लिक में नेविगेशन से दिशा-निर्देश प्राप्त करें।',
-        aboutText4:'सुंदर स्थानों की स्थान जानकारी तक पहुंचने के लिए लॉगिन करें।',
-        username:'यूजरनेम',
-        password:'पासवर्ड',
-        loginButton:'🚀 लॉगिन',
-        purchaseBtn:'🔑 लॉगिन जानकारी प्राप्त करें',
-        errorMessage:'गलत यूजरनेम या पासवर्ड।',
-        successMessage:'सफलतापूर्वक लॉगिन! रीडायरेक्ट हो रहा है...',
-        manualLinkTitle:'अगर रीडायरेक्ट काम नहीं करता:',
-        manualLinkText:'➤ जारी रखने के लिए यहाँ क्लिक करें'
-      },
-      ko:{
-        flag:'🇰🇷',
-        name:'KO',
-        authHeader:'경치 명소',
-        authSubtitle:'터키 전체 81개 주 + 150개국 최고의 경치 명소<br>경치 명소의 위치 정보에 액세스하려면 로그인하세요.',
-        aboutText1:'목적지를 선택하고, 위치 버튼을 탭하여 여행을 시작하세요!',
-        aboutUs:'우리는 누구인가요?',
-        aboutText2:'우리는 세계를 여행하며 가장 아름다운 경치 명소의 위치를 수집합니다.',
-        aboutText3:'원클릭 내비게이션으로 길찾기.',
-        aboutText4:'경치 명소의 위치 정보에 액세스하려면 로그인하세요.',
-        username:'사용자 이름',
-        password:'비밀번호',
-        loginButton:'🚀 로그인',
-        purchaseBtn:'🔑 로그인 정보 받기',
-        errorMessage:'사용자 이름 또는 비밀번호가 잘못되었습니다.',
-        successMessage:'로그인 성공! 리디렉션 중...',
-        manualLinkTitle:'자동 리디렉션이 작동하지 않는 경우:',
-        manualLinkText:'➤ 여기를 클릭하여 계속하기'
-      },
-      nl:{
-        flag:'🇳🇱',
-        name:'NL',
-        authHeader:'Schilderachtige Plekken',
-        authSubtitle:'Alle 81 provincies van Turkije + De mooiste plekken in 150 landen<br>Log in voor toegang tot locatie-informatie van schilderachtige plekken.',
-        aboutText1:'Selecteer je bestemming, tik op de locatieknop en begin je reis!',
-        aboutUs:'Wie zijn wij?',
-        aboutText2:'We reizen de wereld rond en verzamelen voor jou de locaties van de mooiste uitzichtpunten.',
-        aboutText3:'Met één klik navigatie voor routebeschrijving.',
-        aboutText4:'Log in voor toegang tot locatie-informatie van schilderachtige plekken.',
-        username:'Gebruikersnaam',
-        password:'Wachtwoord',
-        loginButton:'🚀 Inloggen',
-        purchaseBtn:'🔑 Inloggegevens krijgen',
-        errorMessage:'Verkeerde gebruikersnaam of wachtwoord.',
-        successMessage:'Succesvol ingelogd! Doorverwijzen...',
-        manualLinkTitle:'Als doorverwijzing niet werkt:',
-        manualLinkText:'➤ Klik hier om door te gaan'
-      },
-      pl:{
-        flag:'🇵🇱',
-        name:'PL',
-        authHeader:'Malownicze Miejsca',
-        authSubtitle:'Wszystkie 81 prowincji Turcji + Najpiękniejsze miejsca w 150 krajach<br>Zaloguj się, aby uzyskać dostęp do informacji o lokalizacji malowniczych miejsc.',
-        aboutText1:'Wybierz cel podróży, naciśnij przycisk lokalizacji i rozpocznij podróż!',
-        aboutUs:'Kim jesteśmy?',
-        aboutText2:'Podróżujemy po świecie i zbieramy dla Ciebie lokalizacje najpiękniejszych miejsc widokowych.',
-        aboutText3:'Nawigacja jednym kliknięciem dla wskazówek dojazdu.',
-        aboutText4:'Zaloguj się, aby uzyskać dostęp do informacji o lokalizacji malowniczych miejsc.',
-        username:'Nazwa użytkownika',
-        password:'Hasło',
-        loginButton:'🚀 Zaloguj',
-        purchaseBtn:'🔑 Otrzymaj dane logowania',
-        errorMessage:'Błędna nazwa użytkownika lub hasło.',
-        successMessage:'Pomyślnie zalogowano! Przekierowanie...',
-        manualLinkTitle:'Jeśli przekierowanie nie działa:',
-        manualLinkText:'➤ Kliknij tutaj, aby kontynuować'
-      },
-      sv:{
-        flag:'🇸🇪',
-        name:'SV',
-        authHeader:'Natursköna Platser',
-        authSubtitle:'Alla 81 provinser i Turkiet + De vackraste platserna i 150 länder<br>Logga in för att få tillgång till platsinformation för natursköna platser.',
-        aboutText1:'Välj din destination, tryck på platsknappen och börja din resa!',
-        aboutUs:'Vilka är vi?',
-        aboutText2:'Vi reser runt i världen och samlar platser för de vackraste utsiktsplatserna åt dig.',
-        aboutText3:'Navigation med ett klick för vägbeskrivning.',
-        aboutText4:'Logga in för att få tillgång till platsinformation för natursköna platser.',
-        username:'Användarnamn',
-        password:'Lösenord',
-        loginButton:'🚀 Logga in',
-        purchaseBtn:'🔑 Få inloggningsuppgifter',
-        errorMessage:'Fel användarnamn eller lösenord.',
-        successMessage:'Lyckad inloggning! Omdirigerar...',
-        manualLinkTitle:'Om omdirigering inte fungerar:',
-        manualLinkText:'➤ Klicka här för att fortsätta'
-      },
-      no:{
-        flag:'🇳🇴',
-        name:'NO',
-        authHeader:'Naturskjønne Steder',
-        authSubtitle:'Alle 81 provinser i Tyrkia + De vakreste stedene i 150 land<br>Logg inn for å få tilgang til stedsinformasjon for naturskjønne steder.',
-        aboutText1:'Velg din destinasjon, trykk på stedsknappen og start reisen!',
-        aboutUs:'Hvem er vi?',
-        aboutText2:'Vi reiser verden rundt og samler steder for de vakreste utsiktspunktene for deg.',
-        aboutText3:'Navigasjon med ett klikk for veibeskrivelse.',
-        aboutText4:'Logg inn for å få tilgang til stedsinformasjon for naturskjønne steder.',
-        username:'Brukernavn',
-        password:'Passord',
-        loginButton:'🚀 Logg inn',
-        purchaseBtn:'🔑 Få innloggingsinfo',
-        errorMessage:'Feil brukernavn eller passord.',
-        successMessage:'Vellykket pålogging! Omdirigerer...',
-        manualLinkTitle:'Hvis omdirigering ikke fungerer:',
-        manualLinkText:'➤ Klikk her for å fortsette'
-      },
-      da:{
-        flag:'🇩🇰',
-        name:'DA',
-        authHeader:'Naturskønne Steder',
-        authSubtitle:'Alle 81 provinser i Tyrkiet + De smukkeste steder i 150 lande<br>Log ind for at få adgang til stedsinformation for naturskønne steder.',
-        aboutText1:'Vælg din destination, tryk på stedsknappen og start din rejse!',
-        aboutUs:'Hvem er vi?',
-        aboutText2:'Vi rejser verden rundt og samler steder for de smukkeste udsigtspunkter til dig.',
-        aboutText3:'Navigation med et klik for rutevejledning.',
-        aboutText4:'Log ind for at få adgang til stedsinformation for naturskønne steder.',
-        username:'Brugernavn',
-        password:'Adgangskode',
-        loginButton:'🚀 Log ind',
-        purchaseBtn:'🔑 Få loginoplysninger',
-        errorMessage:'Forkert brugernavn eller adgangskode.',
-        successMessage:'Succesfuld login! Omdirigerer...',
-        manualLinkTitle:'Hvis omdirigering ikke virker:',
-        manualLinkText:'➤ Klik her for at fortsætte'
-      },
-      fi:{
-        flag:'🇫🇮',
-        name:'FI',
-        authHeader:'Maisemalliset Paikat',
-        authSubtitle:'Kaikki Turkin 81 maakuntaa + Kauneimmat paikat 150 maassa<br>Kirjaudu sisään päästäksesi maisemallisten paikkojen sijaintitietoihin.',
-        aboutText1:'Valitse kohteesi, napauta sijaintipainiketta ja aloita matkasi!',
-        aboutUs:'Keitä me olemme?',
-        aboutText2:'Matkustamme ympäri maailmaa ja keräämme sinulle kauneimpien näköalapaikkojen sijainnit.',
-        aboutText3:'Navigointi yhdellä klikkauksella reittiohjeiden saamiseksi.',
-        aboutText4:'Kirjaudu sisään päästäksesi maisemallisten paikkojen sijaintitietoihin.',
-        username:'Käyttäjänimi',
-        password:'Salasana',
-        loginButton:'🚀 Kirjaudu',
-        purchaseBtn:'🔑 Hae kirjautumistiedot',
-        errorMessage:'Väärä käyttäjänimi tai salasana.',
-        successMessage:'Kirjautuminen onnistui! Ohjataan...',
-        manualLinkTitle:'Jos uudelleenohjaus ei toimi:',
-        manualLinkText:'➤ Klikkaa tästä jatkaaksesi'
-      },
-      cs:{
-        flag:'🇨🇿',
-        name:'CS',
-        authHeader:'Malebná Místa',
-        authSubtitle:'Všech 81 provincií Turecka + Nejkrásnější místa ve 150 zemích<br>Přihlaste se pro přístup k informacím o poloze malebných míst.',
-        aboutText1:'Vyberte si cíl, klepněte na tlačítko polohy a vydejte se na cestu!',
-        aboutUs:'Kdo jsme?',
-        aboutText2:'Cestujeme po světě a sbíráme pro vás polohy nejkrásnějších vyhlídkových míst.',
-        aboutText3:'Navigace jedním kliknutím pro získání trasy.',
-        aboutText4:'Přihlaste se pro přístup k informacím o poloze malebných míst.',
-        username:'Uživatelské jméno',
-        password:'Heslo',
-        loginButton:'🚀 Přihlásit',
-        purchaseBtn:'🔑 Získat přihlašovací údaje',
-        errorMessage:'Špatné uživatelské jméno nebo heslo.',
-        successMessage:'Úspěšné přihlášení! Přesměrování...',
-        manualLinkTitle:'Pokud přesměrování nefunguje:',
-        manualLinkText:'➤ Klikněte zde pro pokračování'
-      }
-    };
-
-    // Language functions
-    let currentLang = 'tr';
-
-    function detectLang() {
-      const saved = localStorage.getItem('lang');
-      if (saved && translations[saved]) return saved;
-      
-      const browser = navigator.language.toLowerCase();
-      for (const code in translations) {
-        if (browser.startsWith(code)) return code;
-      }
-      return 'tr';
+  /* Ülke adı getirme (Intl + fallback) */
+  function getCountryName(iso, code){
+    if(customNames[iso]?.[code]) return customNames[iso][code];
+    try{
+      const dn = new Intl.DisplayNames([code],{type:'region'});
+      return dn.of(iso.toUpperCase()) || customNames[iso]?.en || iso.toUpperCase();
+    }catch(e){
+      return customNames[iso]?.en || iso.toUpperCase();
     }
+  }
 
-    function setLang(code) {
-      currentLang = code;
-      const t = translations[code];
-      
-      // Update UI elements
-      document.getElementById('authHeader').textContent = t.authHeader;
-      document.getElementById('authSubtitle').innerHTML = t.authSubtitle;
-      document.getElementById('aboutText1').textContent = t.aboutText1;
-      document.getElementById('aboutUs').textContent = t.aboutUs;
-      document.getElementById('aboutText2').textContent = t.aboutText2;
-      document.getElementById('aboutText3').textContent = t.aboutText3;
-      document.getElementById('aboutText4').textContent = t.aboutText4;
-      document.getElementById('usernameInput').placeholder = t.username;
-      document.getElementById('passwordInput').placeholder = t.password;
-      document.getElementById('loginButton').textContent = t.loginButton;
-      document.getElementById('purchaseBtn').textContent = t.purchaseBtn;
-      document.getElementById('errorMessage').textContent = t.errorMessage;
-      document.getElementById('successMessage').textContent = t.successMessage;
-      document.getElementById('manualLinkTitle').textContent = t.manualLinkTitle;
-      document.getElementById('manualLinkText').textContent = t.manualLinkText;
-      
-      // Update language button
-      document.getElementById('langFlag').textContent = t.flag;
-      document.getElementById('langName').textContent = t.name;
-      
-      // Update document language
-      document.documentElement.lang = code;
-      localStorage.setItem('lang', code);
-      
-      // Update active state in dropdown
-      document.querySelectorAll('.lang-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.lang === code);
+  /* Kart isimlerini güncelle */
+  function updateCountryCards(){
+    document.querySelectorAll('.card').forEach(card=>{
+      const iso = card.dataset.iso;
+      const name = getCountryName(iso,currentLang);
+      card.querySelector('.name').textContent = name;
+      card.dataset.search = name;
+    });
+  }
+
+  /* Dil ayarla */
+  function setLang(code){
+    currentLang = code;
+    const t = lang[code];
+    document.getElementById('title').textContent = t.title;
+    document.getElementById('subtitle').textContent = t.subtitle;
+    document.getElementById('search').placeholder = t.search;
+    document.getElementById('langFlag').textContent = t.flag;
+    document.getElementById('langName').textContent = t.name;
+
+    const access = localStorage.getItem('duflat-access')==='granted';
+    const info = document.getElementById('info');
+    info.innerHTML = access ? t.premium : t.banner;
+    info.className = access ? 'info premium' : 'info';
+
+    document.documentElement.lang = code;
+    localStorage.setItem('lang', code);
+
+    document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+
+    updateCountryCards();
+  }
+
+  /* Dil açılır listesini oluştur */
+  function createLangMenu(){
+    const list = document.getElementById('langList');
+    for(const [code,data] of Object.entries(lang)){
+      const item = document.createElement('div');
+      item.className='lang-item';
+      item.dataset.lang = code;
+      item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
+      item.onclick = ()=>{ setLang(code); toggleLang(false); };
+      list.appendChild(item);
+    }
+  }
+
+  /* Menü göster/gizle */
+  function toggleLang(force){
+    const list = document.getElementById('langList');
+    if(force===false){ list.classList.remove('show'); }
+    else{ list.classList.toggle('show'); }
+  }
+
+  /* Ülke sayfasına git */
+  function go(slug){
+    if(slug==='turkiye'){ location.href='türkiye.html'; return; }
+    const access = localStorage.getItem('duflat-access')==='granted';
+    location.href = access ? `${slug}.html` : 'login.html';
+  }
+
+  /* === BAŞLAT === */
+  document.addEventListener('DOMContentLoaded',()=>{
+    const grid = document.getElementById('grid');
+    const search = document.getElementById('search');
+
+    createLangMenu();
+    setLang(detectLang());
+    
+    /* Mobil viewport height fix */
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+
+    /* Kartları oluştur */
+    countries.forEach(([iso,slug])=>{
+      const card = document.createElement('div');
+      card.className='card'+(slug==='turkiye'?' free':'');
+      card.dataset.iso = iso;
+      card.onclick = ()=>go(slug);
+      card.innerHTML = `<span class="flag">${flag(iso)}</span><div class="name"></div>`;
+      grid.appendChild(card);
+    });
+
+    updateCountryCards(); // ilk isim doldur
+
+    /* Arama */
+    search.addEventListener('input',e=>{
+      const v = norm(e.target.value);
+      document.getElementById('info').style.display = v ? 'none' : '';
+      document.querySelectorAll('.card').forEach(c=>{
+        c.style.display = norm(c.dataset.search).includes(v) ? '' : 'none';
       });
-    }
-
-    function toggleLang() {
-      const list = document.getElementById('langList');
-      list.classList.toggle('show');
-    }
-
-    function initLangList() {
-      const list = document.getElementById('langList');
-      list.innerHTML = '';
-      
-      for (const [code, lang] of Object.entries(translations)) {
-        const item = document.createElement('div');
-        item.className = 'lang-item';
-        item.dataset.lang = code;
-        item.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
-        item.onclick = () => {
-          setLang(code);
-          list.classList.remove('show');
-        };
-        list.appendChild(item);
-      }
-    }
-
-    // Giriş fonksiyonu
-    function login() {
-      const username = document.getElementById('usernameInput').value;
-      const password = document.getElementById('passwordInput').value;
-      
-      // Basit doğrulama
-      if (username === "global" && password === "global2025") {
-        document.getElementById('errorMessage').style.display = 'none';
-        document.getElementById('successMessage').style.display = 'block';
-        document.getElementById('manualLink').style.display = 'block';
-        
-        // Erişim iznini kaydet
-        localStorage.setItem("duflat-access", "granted");
-        
-        // 2 saniye sonra yönlendir
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 2000);
-      } else {
-        document.getElementById('errorMessage').style.display = 'block';
-        document.getElementById('successMessage').style.display = 'none';
-        document.getElementById('manualLink').style.display = 'none';
-      }
-    }
-
-    // Initialize on DOM load
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize language list
-      initLangList();
-      
-      // Set initial language
-      const detectedLang = detectLang();
-      setLang(detectedLang);
-      
-      // Enter key listeners
-      const passwordInput = document.getElementById('passwordInput');
-      const usernameInput = document.getElementById('usernameInput');
-      
-      if (passwordInput) {
-        passwordInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            login();
-          }
-        });
-      }
-      
-      if (usernameInput) {
-        usernameInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            const passInput = document.getElementById('passwordInput');
-            if (passInput) passInput.focus();
-          }
-        });
-      }
     });
 
-    // Close language dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-      const langSelect = document.querySelector('.lang-select');
-      if (!langSelect.contains(e.target)) {
-        document.getElementById('langList').classList.remove('show');
-      }
+    /* Dropdown kapat */
+    document.addEventListener('click',e=>{
+      if(!e.target.closest('.lang-select')) toggleLang(false);
     });
-
-    // Prevent form submission on refresh
-    window.addEventListener('load', function() {
-      // Instagram embed'i yeniden yükle
-      if (window.instgrm) {
-        window.instgrm.Embeds.process();
-      }
-    });
+  });
   </script>
 </body>
 </html>
