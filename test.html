@@ -410,6 +410,83 @@ const cities = [
   ['yalova','Yalova'],['yozgat','Yozgat'],['zonguldak','Zonguldak']
 ];
 
+// İl ismi çevirileri
+const cityTranslations = {
+  istanbul: {
+    en: 'Istanbul', de: 'Istanbul', fr: 'Istanbul', es: 'Estambul', it: 'Istanbul',
+    pt: 'Istambul', ru: 'Стамбул', ja: 'イスタンブール', zh: '伊斯坦布尔', ar: 'إسطنبول', ko: '이스탄불'
+  },
+  izmir: {
+    en: 'Izmir', de: 'Izmir', fr: 'Izmir', es: 'Esmirna', it: 'Smirne',
+    pt: 'Esmirna', ru: 'Измир', ja: 'イズミル', zh: '伊兹密尔', ar: 'إزمير', ko: '이즈미르'
+  },
+  ankara: {
+    en: 'Ankara', de: 'Ankara', fr: 'Ankara', es: 'Ankara', it: 'Ankara',
+    pt: 'Ancara', ru: 'Анкара', ja: 'アンカラ', zh: '安卡拉', ar: 'أنقرة', ko: '앙카라'
+  },
+  antalya: {
+    en: 'Antalya', de: 'Antalya', fr: 'Antalya', es: 'Antalya', it: 'Antalya',
+    pt: 'Antália', ru: 'Анталья', ja: 'アンタルヤ', zh: '安塔利亚', ar: 'أنطاليا', ko: '안탈리아'
+  },
+  bursa: {
+    en: 'Bursa', de: 'Bursa', fr: 'Bursa', es: 'Bursa', it: 'Bursa',
+    pt: 'Bursa', ru: 'Бурса', ja: 'ブルサ', zh: '布尔萨', ar: 'بورصة', ko: '부르사'
+  },
+  edirne: {
+    en: 'Edirne', de: 'Edirne', fr: 'Edirne', es: 'Edirne', it: 'Edirne',
+    pt: 'Edirne', ru: 'Эдирне', ja: 'エディルネ', zh: '埃迪尔内', ar: 'أدرنة', ko: '에디르네'
+  },
+  trabzon: {
+    en: 'Trabzon', de: 'Trabzon', fr: 'Trébizonde', es: 'Trebisonda', it: 'Trebisonda',
+    pt: 'Trebizonda', ru: 'Трабзон', ja: 'トラブゾン', zh: '特拉布宗', ar: 'طرابزون', ko: '트라브존'
+  },
+  canakkale: {
+    en: 'Canakkale', de: 'Tschanakkale', fr: 'Çanakkale', es: 'Çanakkale', it: 'Çanakkale',
+    pt: 'Çanakkale', ru: 'Чанаккале', ja: 'チャナッカレ', zh: '恰纳卡莱', ar: 'جناق قلعة', ko: '차나칼레'
+  },
+  konya: {
+    en: 'Konya', de: 'Konya', fr: 'Konya', es: 'Konya', it: 'Konya',
+    pt: 'Konya', ru: 'Конья', ja: 'コンヤ', zh: '科尼亚', ar: 'قونية', ko: '코니아'
+  },
+  kayseri: {
+    en: 'Kayseri', de: 'Kayseri', fr: 'Kayseri', es: 'Kayseri', it: 'Kayseri',
+    pt: 'Kayseri', ru: 'Кайсери', ja: 'カイセリ', zh: '开塞利', ar: 'قيصري', ko: '카이세리'
+  }
+};
+
+// İl ismini dile göre getir
+function getCityName(slug, originalName, langCode) {
+  if (langCode === 'tr') return originalName;
+  if (cityTranslations[slug] && cityTranslations[slug][langCode]) {
+    return cityTranslations[slug][langCode];
+  }
+  return originalName;
+}
+
+// Kartları güncelle
+function updateCards() {
+  if (typeof currentLang === 'undefined') return;
+  
+  document.querySelectorAll('.card').forEach(card => {
+    const slug = card.dataset.slug;
+    const originalName = card.dataset.originalName;
+    if (!slug || !originalName) return;
+    
+    const translatedName = getCityName(slug, originalName, currentLang);
+    
+    // İlk 2 harfi güncelle
+    const code = translatedName.substring(0, 2).toUpperCase();
+    const codeElement = card.querySelector('.city-code');
+    const nameElement = card.querySelector('.city-name');
+    
+    if (codeElement) codeElement.textContent = code;
+    if (nameElement) nameElement.textContent = translatedName;
+    
+    // Arama için veriyi güncelle
+    card.dataset.search = translatedName;
+  });
+}
+
 // Normalize fonksiyonu
 const norm = t => t.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
 
@@ -446,6 +523,9 @@ function setLang(code){
   localStorage.setItem('lang', code);
   
   document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+  
+  // Kartları güncelle
+  updateCards();
 }
 
 // Dil menüsünü oluştur
@@ -481,14 +561,19 @@ document.addEventListener('DOMContentLoaded', () => {
   cities.forEach(([slug, name]) => {
     const card = document.createElement('div');
     card.className = 'card' + (slug === 'antalya' ? ' free' : '');
-    card.dataset.search = name;
+    card.dataset.slug = slug;
+    card.dataset.originalName = name;
+    
+    // Dile göre ismi al
+    const translatedName = getCityName(slug, name, currentLang);
+    card.dataset.search = translatedName;
     
     // İlk 2 harfi büyük yap
-    const code = name.substring(0, 2).toUpperCase();
+    const code = translatedName.substring(0, 2).toUpperCase();
     
     const locked = (!access && slug !== 'antalya');
     let cardContent = `<div class="city-code">${code}</div>`;
-    cardContent += `<div class="city-name">${name}</div>`;
+    cardContent += `<div class="city-name">${translatedName}</div>`;
     if(locked) {
       cardContent += `<span class="lock-icon">🔒</span>`;
     }
