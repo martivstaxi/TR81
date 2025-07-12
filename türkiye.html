@@ -919,7 +919,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     card.onclick = () => {
       if(access || slug === 'antalya') {
-        location.href = slug === 'antalya' ? 'antalya_demo.html' : `${slug}.html`;
+        // Eğer granted ise tüm iller için normal .html sayfasına git
+        // Eğer granted değilse sadece antalya için demo sayfasına git
+        if(access) {
+          location.href = `${slug}.html`;
+        } else if(slug === 'antalya') {
+          location.href = 'antalya_demo.html';
+        }
       } else {
         location.href = 'login.html';
       }
