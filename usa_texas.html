@@ -1,0 +1,1400 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Texas</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Texas</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Worth+Stockyards/@32.7892754,-97.3470204,17z/data=!3m1!4b1!4m6!3m5!1s0x864e76a42759fe4d:0x475f2ff64a820fcb!8m2!3d32.7892754!4d-97.3470204!16zL20vMDVqem0z?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Stockyards National Historic District 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_1/public" data-location="Stockyards National Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_1/public" alt="Stockyards National Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_2/public" data-location="Stockyards National Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_2/public" alt="Stockyards National Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_3/public" data-location="Stockyards National Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_3/public" alt="Stockyards National Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_4/public" data-location="Stockyards National Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_4/public" alt="Stockyards National Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_5/public" data-location="Stockyards National Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_5/public" alt="Stockyards National Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_6/public" data-location="Stockyards National Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_stockyards_national_historic_district_6/public" alt="Stockyards National Historic District"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Palo+Duro+Canyon+State+Park/@34.9372503,-101.6589305,17z/data=!3m1!4b1!4m6!3m5!1s0x8701146102a464b1:0x1d91f4660724f974!8m2!3d34.9372503!4d-101.6589305!16zL20vMDFuaDdz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Palo Duro Canyon State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_1/public" data-location="Palo Duro Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_1/public" alt="Palo Duro Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_2/public" data-location="Palo Duro Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_2/public" alt="Palo Duro Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_3/public" data-location="Palo Duro Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_3/public" alt="Palo Duro Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_4/public" data-location="Palo Duro Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_4/public" alt="Palo Duro Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_5/public" data-location="Palo Duro Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_5/public" alt="Palo Duro Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_6/public" data-location="Palo Duro Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_palo_duro_canyon_state_park_6/public" alt="Palo Duro Canyon State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/San+Antonio+Missions+National+Historical+Park/@29.3292707,-98.4535781,17z/data=!3m1!4b1!4m6!3m5!1s0x865cf7debf487a37:0xde8be4fc850ff8bb!8m2!3d29.3292707!4d-98.4535781!16zL20vMDZneXMx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Missions National Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_1/public" data-location="Missions National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_1/public" alt="Missions National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_2/public" data-location="Missions National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_2/public" alt="Missions National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_3/public" data-location="Missions National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_3/public" alt="Missions National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_4/public" data-location="Missions National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_4/public" alt="Missions National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_5/public" data-location="Missions National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_5/public" alt="Missions National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_6/public" data-location="Missions National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_missions_national_historical_park_6/public" alt="Missions National Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Enchanted+Rock+State+Natural+Area/@30.4951229,-98.8199993,17z/data=!3m1!4b1!4m6!3m5!1s0x865bec1584eb84e7:0xf758d5a9830ee484!8m2!3d30.4951229!4d-98.8199993!16s%2Fg%2F1hc0gs3q4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Enchanted Rock State Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_1/public" data-location="Enchanted Rock State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_1/public" alt="Enchanted Rock State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_2/public" data-location="Enchanted Rock State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_2/public" alt="Enchanted Rock State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_3/public" data-location="Enchanted Rock State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_3/public" alt="Enchanted Rock State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_4/public" data-location="Enchanted Rock State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_4/public" alt="Enchanted Rock State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_5/public" data-location="Enchanted Rock State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_5/public" alt="Enchanted Rock State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_6/public" data-location="Enchanted Rock State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_enchanted_rock_state_natural_area_6/public" alt="Enchanted Rock State Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brazos+Bend+State+Park/@29.3709621,-95.6319208,17z/data=!3m1!4b1!4m6!3m5!1s0x8640f99a6781a199:0x89bdf3b5f5af0955!8m2!3d29.3709621!4d-95.6319208!16zL20vMDcyMjEz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Brazos Bend State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_1/public" data-location="Brazos Bend State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_1/public" alt="Brazos Bend State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_2/public" data-location="Brazos Bend State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_2/public" alt="Brazos Bend State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_3/public" data-location="Brazos Bend State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_3/public" alt="Brazos Bend State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_4/public" data-location="Brazos Bend State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_4/public" alt="Brazos Bend State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_5/public" data-location="Brazos Bend State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_5/public" alt="Brazos Bend State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_6/public" data-location="Brazos Bend State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_brazos_bend_state_park_6/public" alt="Brazos Bend State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Longhorn+Cavern+State+Park/@30.6838595,-98.3523472,17z/data=!3m1!4b1!4m6!3m5!1s0x865afc5a48d813e7:0x5c57024714e3d4b5!8m2!3d30.6838595!4d-98.3523472!16s%2Fm%2F02q_ww4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Longhorn Cavern State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_1/public" data-location="Longhorn Cavern State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_1/public" alt="Longhorn Cavern State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_2/public" data-location="Longhorn Cavern State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_2/public" alt="Longhorn Cavern State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_3/public" data-location="Longhorn Cavern State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_3/public" alt="Longhorn Cavern State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_4/public" data-location="Longhorn Cavern State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_4/public" alt="Longhorn Cavern State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_5/public" data-location="Longhorn Cavern State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_5/public" alt="Longhorn Cavern State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_6/public" data-location="Longhorn Cavern State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_longhorn_cavern_state_park_6/public" alt="Longhorn Cavern State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lost+Maples+State+Natural+Area/@29.8076231,-99.5706069,17z/data=!3m1!4b1!4m6!3m5!1s0x8659352858e2d1cf:0x758a2f6120f08732!8m2!3d29.8076231!4d-99.5706069!16zL20vMDYxajdo?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lost Maples State Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_1/public" data-location="Lost Maples State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_1/public" alt="Lost Maples State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_2/public" data-location="Lost Maples State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_2/public" alt="Lost Maples State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_3/public" data-location="Lost Maples State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_3/public" alt="Lost Maples State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_4/public" data-location="Lost Maples State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_4/public" alt="Lost Maples State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_5/public" data-location="Lost Maples State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_5/public" alt="Lost Maples State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_6/public" data-location="Lost Maples State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_lost_maples_state_natural_area_6/public" alt="Lost Maples State Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Caprock+Canyons+State+Park+%26+Trailway/@34.4369909,-101.0598617,17z/data=!3m1!4b1!4m6!3m5!1s0x8700415e7eff7261:0x3828cf2012ed7b58!8m2!3d34.4369909!4d-101.0598617!16zL20vMGNjejJj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Caprock Canyons State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_1/public" data-location="Caprock Canyons State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_1/public" alt="Caprock Canyons State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_2/public" data-location="Caprock Canyons State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_2/public" alt="Caprock Canyons State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_3/public" data-location="Caprock Canyons State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_3/public" alt="Caprock Canyons State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_4/public" data-location="Caprock Canyons State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_4/public" alt="Caprock Canyons State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_5/public" data-location="Caprock Canyons State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_5/public" alt="Caprock Canyons State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_6/public" data-location="Caprock Canyons State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_caprock_canyons_state_park_6/public" alt="Caprock Canyons State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Padre+Island+National+Seashore/@27.0855137,-97.3841147,17z/data=!3m1!4b1!4m6!3m5!1s0x8668f72d242ea921:0x5902b6a335d2af60!8m2!3d27.0855137!4d-97.3841147!16zL20vMGdsZDI?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Padre Island National Seashore 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_1/public" data-location="Padre Island National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_1/public" alt="Padre Island National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_2/public" data-location="Padre Island National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_2/public" alt="Padre Island National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_3/public" data-location="Padre Island National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_3/public" alt="Padre Island National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_4/public" data-location="Padre Island National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_4/public" alt="Padre Island National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_5/public" data-location="Padre Island National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_5/public" alt="Padre Island National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_6/public" data-location="Padre Island National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_padre_island_national_seashore_6/public" alt="Padre Island National Seashore"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cave+Without+A+Name/@29.8862892,-98.61844,17z/data=!3m1!4b1!4m6!3m5!1s0x865b87f44617b1b1:0xac5f5e569852bda2!8m2!3d29.8862892!4d-98.61844!16s%2Fm%2F02plqms?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cave Without a Name 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_1/public" data-location="Cave Without a Name"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_1/public" alt="Cave Without a Name"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_2/public" data-location="Cave Without a Name"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_2/public" alt="Cave Without a Name"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_3/public" data-location="Cave Without a Name"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_3/public" alt="Cave Without a Name"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_4/public" data-location="Cave Without a Name"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_4/public" alt="Cave Without a Name"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_5/public" data-location="Cave Without a Name"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_5/public" alt="Cave Without a Name"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_6/public" data-location="Cave Without a Name"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_cave_without_a_name_6/public" alt="Cave Without a Name"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Daingerfield+State+Park/@33.0089095,-94.6963384,17z/data=!3m1!4b1!4m6!3m5!1s0x8635df990a6ecb25:0xabdfcad063db87b4!8m2!3d33.0089095!4d-94.6963384!16s%2Fm%2F0c0275m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Daingerfield State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_1/public" data-location="Daingerfield State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_1/public" alt="Daingerfield State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_2/public" data-location="Daingerfield State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_2/public" alt="Daingerfield State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_3/public" data-location="Daingerfield State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_3/public" alt="Daingerfield State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_4/public" data-location="Daingerfield State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_4/public" alt="Daingerfield State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_5/public" data-location="Daingerfield State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_5/public" alt="Daingerfield State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_6/public" data-location="Daingerfield State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_daingerfield_state_park_6/public" alt="Daingerfield State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Davis+Mountains+State+Park/@30.5991199,-103.9294064,17z/data=!3m1!4b1!4m6!3m5!1s0x86ef9357ff141757:0xe083eef78ed050d1!8m2!3d30.5991199!4d-103.9294064!16s%2Fm%2F04_0tql?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Davis Mountains State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_1/public" data-location="Davis Mountains State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_1/public" alt="Davis Mountains State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_2/public" data-location="Davis Mountains State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_2/public" alt="Davis Mountains State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_3/public" data-location="Davis Mountains State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_3/public" alt="Davis Mountains State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_4/public" data-location="Davis Mountains State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_4/public" alt="Davis Mountains State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_5/public" data-location="Davis Mountains State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_5/public" alt="Davis Mountains State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_6/public" data-location="Davis Mountains State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_davis_mountains_state_park_6/public" alt="Davis Mountains State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Davis+National+Historic+Site/@30.5988071,-103.8954292,17z/data=!3m1!4b1!4m6!3m5!1s0x86efeb5f1108b8af:0x6b6f2988ba3b6085!8m2!3d30.5988071!4d-103.8954292!16zL20vMDZxbTdy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Davis National Historic Site 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_1/public" data-location="Fort Davis National Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_1/public" alt="Fort Davis National Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_2/public" data-location="Fort Davis National Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_2/public" alt="Fort Davis National Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_3/public" data-location="Fort Davis National Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_3/public" alt="Fort Davis National Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_4/public" data-location="Fort Davis National Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_4/public" alt="Fort Davis National Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_5/public" data-location="Fort Davis National Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_5/public" alt="Fort Davis National Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_6/public" data-location="Fort Davis National Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_fort_davis_national_historic_site_6/public" alt="Fort Davis National Historic Site"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Devil's+Backbone/@29.9320323,-98.1716205,17z/data=!3m1!4b1!4m6!3m5!1s0x865b60497ae8d595:0x2915da4dc7b7beab!8m2!3d29.9320323!4d-98.1716205!16s%2Fg%2F11bttglhbg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Devil’s Backbone Scenic Drive 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_1/public" data-location="Devil’s Backbone Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_1/public" alt="Devil’s Backbone Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_2/public" data-location="Devil’s Backbone Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_2/public" alt="Devil’s Backbone Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_3/public" data-location="Devil’s Backbone Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_3/public" alt="Devil’s Backbone Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_4/public" data-location="Devil’s Backbone Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_4/public" alt="Devil’s Backbone Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_5/public" data-location="Devil’s Backbone Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_5/public" alt="Devil’s Backbone Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_6/public" data-location="Devil’s Backbone Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_backbone_scenic_drive_6/public" alt="Devil’s Backbone Scenic Drive"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Bend+Ranch+State+Park/@29.4771863,-103.9914471,17z/data=!3m1!4b1!4m6!3m5!1s0x86ee73c219a7d809:0xaf69a1e8e271ec40!8m2!3d29.4771863!4d-103.9914471!16s%2Fm%2F04yc_bf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Bend Ranch State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_1/public" data-location="Big Bend Ranch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_1/public" alt="Big Bend Ranch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_2/public" data-location="Big Bend Ranch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_2/public" alt="Big Bend Ranch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_3/public" data-location="Big Bend Ranch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_3/public" alt="Big Bend Ranch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_4/public" data-location="Big Bend Ranch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_4/public" alt="Big Bend Ranch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_5/public" data-location="Big Bend Ranch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_5/public" alt="Big Bend Ranch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_6/public" data-location="Big Bend Ranch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_big_bend_ranch_state_park_6/public" alt="Big Bend Ranch State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hill+Country+State+Natural+Area/@29.6280547,-99.1810439,17z/data=!3m1!4b1!4m6!3m5!1s0x865ea7e60901d6cd:0x86c57d6ad354e410!8m2!3d29.6280547!4d-99.1810439!16s%2Fm%2F04ldl_d?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hill Country State Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_1/public" data-location="Hill Country State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_1/public" alt="Hill Country State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_2/public" data-location="Hill Country State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_2/public" alt="Hill Country State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_3/public" data-location="Hill Country State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_3/public" alt="Hill Country State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_4/public" data-location="Hill Country State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_4/public" alt="Hill Country State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_5/public" data-location="Hill Country State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_5/public" alt="Hill Country State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_6/public" data-location="Hill Country State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hill_country_state_natural_area_6/public" alt="Hill Country State Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Antique+Rose+Emporium+-+Nursery+%26+Display+Gardens/@30.3133537,-96.3468739,17z/data=!3m1!4b1!4m6!3m5!1s0x8646a6d31def251b:0x8426d6373be426e3!8m2!3d30.3133537!4d-96.3468739!16s%2Fg%2F1v27vx25?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Antique Rose Emporium 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_1/public" data-location="Antique Rose Emporium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_1/public" alt="Antique Rose Emporium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_2/public" data-location="Antique Rose Emporium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_2/public" alt="Antique Rose Emporium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_3/public" data-location="Antique Rose Emporium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_3/public" alt="Antique Rose Emporium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_4/public" data-location="Antique Rose Emporium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_4/public" alt="Antique Rose Emporium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_5/public" data-location="Antique Rose Emporium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_5/public" alt="Antique Rose Emporium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_6/public" data-location="Antique Rose Emporium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_antique_rose_emporium_6/public" alt="Antique Rose Emporium"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Historic+Downtown+Grapevine/@32.9355829,-97.0783932,17z/data=!3m1!4b1!4m6!3m5!1s0x864c2b86885c52a3:0x84706303df7da46!8m2!3d32.9355829!4d-97.0783932!16s%2Fg%2F11s_wzsqtq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Historic Main Street 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_1/public" data-location="Historic Main Street"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_1/public" alt="Historic Main Street"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_2/public" data-location="Historic Main Street"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_2/public" alt="Historic Main Street"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_3/public" data-location="Historic Main Street"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_3/public" alt="Historic Main Street"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_4/public" data-location="Historic Main Street"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_4/public" alt="Historic Main Street"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_5/public" data-location="Historic Main Street"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_5/public" alt="Historic Main Street"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_6/public" data-location="Historic Main Street"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_historic_main_street_6/public" alt="Historic Main Street"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Devils+River+State+Natural+Area/@29.9401792,-100.9698151,17z/data=!3m1!4b1!4m6!3m5!1s0x86f6130253c9f76b:0xbf129af7a04a278a!8m2!3d29.9401792!4d-100.9698151!16s%2Fm%2F012smvq8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Devil’s River State Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_1/public" data-location="Devil’s River State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_1/public" alt="Devil’s River State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_2/public" data-location="Devil’s River State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_2/public" alt="Devil’s River State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_3/public" data-location="Devil’s River State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_3/public" alt="Devil’s River State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_4/public" data-location="Devil’s River State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_4/public" alt="Devil’s River State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_5/public" data-location="Devil’s River State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_5/public" alt="Devil’s River State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_6/public" data-location="Devil’s River State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_devils_river_state_natural_area_6/public" alt="Devil’s River State Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/San+Antonio+River+Walk/@29.4229737,-98.486034,17z/data=!3m1!4b1!4m6!3m5!1s0x865c58ab354bbc89:0xa2c6d9687aae23c8!8m2!3d29.4229737!4d-98.486034!16zL20vMDY2dmdt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>River Walk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_1/public" data-location="River Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_1/public" alt="River Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_2/public" data-location="River Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_2/public" alt="River Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_3/public" data-location="River Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_3/public" alt="River Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_4/public" data-location="River Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_4/public" alt="River Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_5/public" data-location="River Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_5/public" alt="River Walk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_6/public" data-location="River Walk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_river_walk_6/public" alt="River Walk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hermann+Park/@29.7135921,-95.3893025,17z/data=!3m1!4b1!4m6!3m5!1s0x8640bf86e7025947:0xb126236b43ef0b41!8m2!3d29.7135921!4d-95.3893025!16zL20vMGM5bGs2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hermann Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_1/public" data-location="Hermann Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_1/public" alt="Hermann Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_2/public" data-location="Hermann Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_2/public" alt="Hermann Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_3/public" data-location="Hermann Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_3/public" alt="Hermann Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_4/public" data-location="Hermann Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_4/public" alt="Hermann Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_5/public" data-location="Hermann Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_5/public" alt="Hermann Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_6/public" data-location="Hermann Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_hermann_park_6/public" alt="Hermann Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Dallas+Arboretum+and+Botanical+Garden/@32.8236184,-96.7166236,17z/data=!3m1!4b1!4m6!3m5!1s0x864ea19a64681b47:0x68139237078b7642!8m2!3d32.8236184!4d-96.7166236!16zL20vMGN0NGRw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Arboretum and Botanical Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_1/public" data-location="Arboretum and Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_1/public" alt="Arboretum and Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_2/public" data-location="Arboretum and Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_2/public" alt="Arboretum and Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_3/public" data-location="Arboretum and Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_3/public" alt="Arboretum and Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_4/public" data-location="Arboretum and Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_4/public" alt="Arboretum and Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_5/public" data-location="Arboretum and Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_5/public" alt="Arboretum and Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_6/public" data-location="Arboretum and Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_arboretum_and_botanical_garden_6/public" alt="Arboretum and Botanical Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Natural+Bridge+Caverns/@29.6924095,-98.3427276,17z/data=!3m1!4b1!4m6!3m5!1s0x865c8f99eb9516a7:0x16fbded8f973449f!8m2!3d29.6924095!4d-98.3427276!16zL20vMDF2MXh5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Natural Bridge Caverns 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_1/public" data-location="Natural Bridge Caverns"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_1/public" alt="Natural Bridge Caverns"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_2/public" data-location="Natural Bridge Caverns"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_2/public" alt="Natural Bridge Caverns"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_3/public" data-location="Natural Bridge Caverns"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_3/public" alt="Natural Bridge Caverns"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_4/public" data-location="Natural Bridge Caverns"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_4/public" alt="Natural Bridge Caverns"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_5/public" data-location="Natural Bridge Caverns"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_5/public" alt="Natural Bridge Caverns"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_6/public" data-location="Natural Bridge Caverns"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_natural_bridge_caverns_6/public" alt="Natural Bridge Caverns"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Reunion+Tower/@32.7755975,-96.8089687,17z/data=!3m1!4b1!4m6!3m5!1s0x864e9913f6124ce3:0x3265806ad4f33a17!8m2!3d32.7755975!4d-96.8089687!16zL20vMDVrdGo5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Reunion Tower Observation Deck 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_1/public" data-location="Reunion Tower Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_1/public" alt="Reunion Tower Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_2/public" data-location="Reunion Tower Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_2/public" alt="Reunion Tower Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_3/public" data-location="Reunion Tower Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_3/public" alt="Reunion Tower Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_4/public" data-location="Reunion Tower Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_4/public" alt="Reunion Tower Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_5/public" data-location="Reunion Tower Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_5/public" alt="Reunion Tower Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_6/public" data-location="Reunion Tower Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_reunion_tower_observation_deck_6/public" alt="Reunion Tower Observation Deck"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gerald+D.+Hines+Waterwall+Park/@29.7359479,-95.4613024,17z/data=!3m1!4b1!4m6!3m5!1s0x8640c16de81f3ca5:0xf43e0b60ae539ac9!8m2!3d29.7359479!4d-95.4613024!16zL20vMDc2dl8y?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gerald D. Hines Waterwall Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_1/public" data-location="Gerald D. Hines Waterwall Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_1/public" alt="Gerald D. Hines Waterwall Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_2/public" data-location="Gerald D. Hines Waterwall Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_2/public" alt="Gerald D. Hines Waterwall Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_3/public" data-location="Gerald D. Hines Waterwall Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_3/public" alt="Gerald D. Hines Waterwall Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_4/public" data-location="Gerald D. Hines Waterwall Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_4/public" alt="Gerald D. Hines Waterwall Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_5/public" data-location="Gerald D. Hines Waterwall Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_5/public" alt="Gerald D. Hines Waterwall Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_6/public" data-location="Gerald D. Hines Waterwall Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gerald_d_hines_waterwall_park_6/public" alt="Gerald D. Hines Waterwall Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/San+Antonio+Botanical+Garden/@29.4576699,-98.4574396,17z/data=!3m1!4b1!4m6!3m5!1s0x865cf5bc6292e565:0x24614769d579f8ef!8m2!3d29.4576699!4d-98.4574396!16s%2Fm%2F025_6ng?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>San Antonio Botanical Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_1/public" data-location="San Antonio Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_1/public" alt="San Antonio Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_2/public" data-location="San Antonio Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_2/public" alt="San Antonio Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_3/public" data-location="San Antonio Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_3/public" alt="San Antonio Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_4/public" data-location="San Antonio Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_4/public" alt="San Antonio Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_5/public" data-location="San Antonio Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_5/public" alt="San Antonio Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_6/public" data-location="San Antonio Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_san_antonio_botanical_garden_6/public" alt="San Antonio Botanical Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gruene+Hall/@29.7383595,-98.104373,17z/data=!3m1!4b1!4m6!3m5!1s0x865ca2c5997013ff:0x4592e0cfc0568e16!8m2!3d29.7383595!4d-98.104373!16zL20vMDljNzl0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gruene Dance Hall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_1/public" data-location="Gruene Dance Hall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_1/public" alt="Gruene Dance Hall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_2/public" data-location="Gruene Dance Hall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_2/public" alt="Gruene Dance Hall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_3/public" data-location="Gruene Dance Hall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_3/public" alt="Gruene Dance Hall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_4/public" data-location="Gruene Dance Hall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_4/public" alt="Gruene Dance Hall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_5/public" data-location="Gruene Dance Hall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_5/public" alt="Gruene Dance Hall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_6/public" data-location="Gruene Dance Hall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_gruene_dance_hall_6/public" alt="Gruene Dance Hall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Inner+Space+Cavern/@30.6079091,-97.6881364,17z/data=!3m1!4b1!4m6!3m5!1s0x8644d69a1ca8c563:0x8afc77f99e8fe49b!8m2!3d30.6079091!4d-97.6881364!16zL20vMDM2MDdi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Inner Space Cavern 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_1/public" data-location="Inner Space Cavern"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_1/public" alt="Inner Space Cavern"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_2/public" data-location="Inner Space Cavern"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_2/public" alt="Inner Space Cavern"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_3/public" data-location="Inner Space Cavern"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_3/public" alt="Inner Space Cavern"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_4/public" data-location="Inner Space Cavern"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_4/public" alt="Inner Space Cavern"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_5/public" data-location="Inner Space Cavern"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_5/public" alt="Inner Space Cavern"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_6/public" data-location="Inner Space Cavern"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/texas_inner_space_cavern_6/public" alt="Inner Space Cavern"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
