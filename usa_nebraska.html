@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nebraska</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Nebraska</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Holy+Family+Shrine/@41.0751506,-96.2782322,17z/data=!3m1!4b1!4m6!3m5!1s0x879407aa10b0b1fb:0x11ad9e6dd671178b!8m2!3d41.0751506!4d-96.2782322!16s%2Fg%2F1v1slqyq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Holy Family Shrine 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_1/public" data-location="Holy Family Shrine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_1/public" alt="Holy Family Shrine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_2/public" data-location="Holy Family Shrine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_2/public" alt="Holy Family Shrine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_3/public" data-location="Holy Family Shrine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_3/public" alt="Holy Family Shrine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_4/public" data-location="Holy Family Shrine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_4/public" alt="Holy Family Shrine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_5/public" data-location="Holy Family Shrine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_5/public" alt="Holy Family Shrine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_6/public" data-location="Holy Family Shrine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holy_family_shrine_6/public" alt="Holy Family Shrine"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lauritzen+Gardens/@41.2341687,-95.9165125,17z/data=!3m1!4b1!4m6!3m5!1s0x87938f6ce7ec260b:0xb48ff168e026a73e!8m2!3d41.2341687!4d-95.9165125!16s%2Fm%2F03bxgzh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lauritzen Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_1/public" data-location="Lauritzen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_1/public" alt="Lauritzen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_2/public" data-location="Lauritzen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_2/public" alt="Lauritzen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_3/public" data-location="Lauritzen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_3/public" alt="Lauritzen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_4/public" data-location="Lauritzen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_4/public" alt="Lauritzen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_5/public" data-location="Lauritzen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_5/public" alt="Lauritzen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_6/public" data-location="Lauritzen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lauritzen_gardens_6/public" alt="Lauritzen Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bob+Kerrey+Pedestrian+Bridge./@41.2656331,-95.9223128,17z/data=!3m1!4b1!4m6!3m5!1s0x87938fbec72b8345:0x7ac7a8fab259a8df!8m2!3d41.2656331!4d-95.9223128!16s%2Fm%2F025v_y_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bob Kerrey Pedestrian Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_1/public" data-location="Bob Kerrey Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_1/public" alt="Bob Kerrey Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_2/public" data-location="Bob Kerrey Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_2/public" alt="Bob Kerrey Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_3/public" data-location="Bob Kerrey Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_3/public" alt="Bob Kerrey Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_4/public" data-location="Bob Kerrey Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_4/public" alt="Bob Kerrey Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_5/public" data-location="Bob Kerrey Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_5/public" alt="Bob Kerrey Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_6/public" data-location="Bob Kerrey Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bob_kerrey_pedestrian_bridge_6/public" alt="Bob Kerrey Pedestrian Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Scotts+Bluff+National+Monument/@41.8343571,-103.7072063,17z/data=!3m1!4b1!4m6!3m5!1s0x87655092be71b949:0xb0bdbfc59d74c4d!8m2!3d41.8343571!4d-103.7072063!16zL20vMDIzMTJz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Scotts Bluff National Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_1/public" data-location="Scotts Bluff National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_1/public" alt="Scotts Bluff National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_2/public" data-location="Scotts Bluff National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_2/public" alt="Scotts Bluff National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_3/public" data-location="Scotts Bluff National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_3/public" alt="Scotts Bluff National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_4/public" data-location="Scotts Bluff National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_4/public" alt="Scotts Bluff National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_5/public" data-location="Scotts Bluff National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_5/public" alt="Scotts Bluff National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_6/public" data-location="Scotts Bluff National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_scotts_bluff_national_monument_6/public" alt="Scotts Bluff National Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Strategic+Air+Command+%26+Aerospace+Museum/@41.0180478,-96.3203526,17z/data=!3m1!4b1!4m6!3m5!1s0x8794040848dbbb55:0x81e6c9aa65b8a0de!8m2!3d41.0180478!4d-96.3203526!16zL20vMDkzanA0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Strategic Air Command Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_1/public" data-location="Strategic Air Command Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_1/public" alt="Strategic Air Command Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_2/public" data-location="Strategic Air Command Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_2/public" alt="Strategic Air Command Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_3/public" data-location="Strategic Air Command Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_3/public" alt="Strategic Air Command Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_4/public" data-location="Strategic Air Command Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_4/public" alt="Strategic Air Command Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_5/public" data-location="Strategic Air Command Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_5/public" alt="Strategic Air Command Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_6/public" data-location="Strategic Air Command Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_strategic_air_command_museum_6/public" alt="Strategic Air Command Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fontenelle+Forest/@41.1797528,-95.9178333,17z/data=!3m1!4b1!4m6!3m5!1s0x8793889306b17101:0xee4dd9ff542db632!8m2!3d41.1797528!4d-95.9178333!16s%2Fm%2F03c577b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fontenelle Forest 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_1/public" data-location="Fontenelle Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_1/public" alt="Fontenelle Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_2/public" data-location="Fontenelle Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_2/public" alt="Fontenelle Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_3/public" data-location="Fontenelle Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_3/public" alt="Fontenelle Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_4/public" data-location="Fontenelle Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_4/public" alt="Fontenelle Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_5/public" data-location="Fontenelle Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_5/public" alt="Fontenelle Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_6/public" data-location="Fontenelle Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fontenelle_forest_6/public" alt="Fontenelle Forest"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Homestead+National+Historical+Park/@40.2854481,-96.8256721,17z/data=!3m1!4b1!4m6!3m5!1s0x87966fa270bf81bf:0x84ba104db4439e3f!8m2!3d40.2854481!4d-96.8256721!16zL20vMDZxbWYw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Homestead National Monument Prairie 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_1/public" data-location="Homestead National Monument Prairie"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_1/public" alt="Homestead National Monument Prairie"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_2/public" data-location="Homestead National Monument Prairie"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_2/public" alt="Homestead National Monument Prairie"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_3/public" data-location="Homestead National Monument Prairie"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_3/public" alt="Homestead National Monument Prairie"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_4/public" data-location="Homestead National Monument Prairie"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_4/public" alt="Homestead National Monument Prairie"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_5/public" data-location="Homestead National Monument Prairie"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_5/public" alt="Homestead National Monument Prairie"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_6/public" data-location="Homestead National Monument Prairie"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_homestead_national_monument_prairie_6/public" alt="Homestead National Monument Prairie"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ashfall+Fossil+Beds+State+Historical+Park/@42.421683,-98.1562905,17z/data=!3m1!4b1!4m6!3m5!1s0x878538218f4f35b3:0xdc034379d751cc90!8m2!3d42.421683!4d-98.1562905!16zL20vMDVydnh4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ashfall Fossil Beds State Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_1/public" data-location="Ashfall Fossil Beds State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_1/public" alt="Ashfall Fossil Beds State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_2/public" data-location="Ashfall Fossil Beds State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_2/public" alt="Ashfall Fossil Beds State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_3/public" data-location="Ashfall Fossil Beds State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_3/public" alt="Ashfall Fossil Beds State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_4/public" data-location="Ashfall Fossil Beds State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_4/public" alt="Ashfall Fossil Beds State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_5/public" data-location="Ashfall Fossil Beds State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_5/public" alt="Ashfall Fossil Beds State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_6/public" data-location="Ashfall Fossil Beds State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ashfall_fossil_beds_state_historical_park_6/public" alt="Ashfall Fossil Beds State Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Chadron+State+Park/@42.7080981,-103.0090292,17z/data=!3m1!4b1!4m6!3m5!1s0x877b12f1be6b4973:0xe348c38c0fef787a!8m2!3d42.7080981!4d-103.0090292!16s%2Fm%2F03whcvc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Chadron State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_1/public" data-location="Chadron State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_1/public" alt="Chadron State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_2/public" data-location="Chadron State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_2/public" alt="Chadron State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_3/public" data-location="Chadron State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_3/public" alt="Chadron State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_4/public" data-location="Chadron State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_4/public" alt="Chadron State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_5/public" data-location="Chadron State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_5/public" alt="Chadron State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_6/public" data-location="Chadron State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_chadron_state_park_6/public" alt="Chadron State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sunken+Gardens/@40.8022322,-96.6833591,17z/data=!3m1!4b1!4m6!3m5!1s0x8796be60e05420c7:0xe9ca08c6602dada7!8m2!3d40.8022322!4d-96.6833591!16s%2Fm%2F05q8bzg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sunken Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_1/public" data-location="Sunken Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_1/public" alt="Sunken Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_2/public" data-location="Sunken Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_2/public" alt="Sunken Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_3/public" data-location="Sunken Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_3/public" alt="Sunken Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_4/public" data-location="Sunken Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_4/public" alt="Sunken Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_5/public" data-location="Sunken Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_5/public" alt="Sunken Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_6/public" data-location="Sunken Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sunken_gardens_6/public" alt="Sunken Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gene+Leahy+Mall+at+The+RiverFront/@41.2580197,-95.931216,17z/data=!3m1!4b1!4m6!3m5!1s0x87938faff5cfd2b7:0x2a62048c6b897d2b!8m2!3d41.2580197!4d-95.931216!16s%2Fm%2F02xcqjp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gene Leahy Mall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_1/public" data-location="Gene Leahy Mall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_1/public" alt="Gene Leahy Mall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_2/public" data-location="Gene Leahy Mall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_2/public" alt="Gene Leahy Mall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_3/public" data-location="Gene Leahy Mall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_3/public" alt="Gene Leahy Mall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_4/public" data-location="Gene Leahy Mall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_4/public" alt="Gene Leahy Mall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_5/public" data-location="Gene Leahy Mall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_5/public" alt="Gene Leahy Mall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_6/public" data-location="Gene Leahy Mall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_gene_leahy_mall_6/public" alt="Gene Leahy Mall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pioneers+Park+Nature+Center/@40.7744241,-96.7766675,17z/data=!3m1!4b1!4m6!3m5!1s0x8796c012213f439b:0x6c9d2ace807457a!8m2!3d40.7744241!4d-96.7766675!16s%2Fm%2F02vqf4f?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pioneers Park Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_1/public" data-location="Pioneers Park Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_1/public" alt="Pioneers Park Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_2/public" data-location="Pioneers Park Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_2/public" alt="Pioneers Park Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_3/public" data-location="Pioneers Park Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_3/public" alt="Pioneers Park Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_4/public" data-location="Pioneers Park Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_4/public" alt="Pioneers Park Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_5/public" data-location="Pioneers Park Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_5/public" alt="Pioneers Park Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_6/public" data-location="Pioneers Park Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_pioneers_park_nature_center_6/public" alt="Pioneers Park Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Platte+River+State+Park/@40.9892966,-96.2168602,17z/data=!3m1!4b1!4m6!3m5!1s0x8796bea5a577d16b:0xcb2214e6db884fd7!8m2!3d40.9892966!4d-96.2168602!16s%2Fm%2F02wb031?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Platte River State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_1/public" data-location="Platte River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_1/public" alt="Platte River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_2/public" data-location="Platte River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_2/public" alt="Platte River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_3/public" data-location="Platte River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_3/public" alt="Platte River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_4/public" data-location="Platte River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_4/public" alt="Platte River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_5/public" data-location="Platte River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_5/public" alt="Platte River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_6/public" data-location="Platte River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_platte_river_state_park_6/public" alt="Platte River State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Golden+Spike+Tower/@41.144225,-100.829387,17z/data=!3m1!4b1!4m6!3m5!1s0x87763ceec029ec87:0x787e59f8e3b6bd15!8m2!3d41.144225!4d-100.829387!16s%2Fg%2F1tfzmv5s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Golden Spike Tower 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_1/public" data-location="Golden Spike Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_1/public" alt="Golden Spike Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_2/public" data-location="Golden Spike Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_2/public" alt="Golden Spike Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_3/public" data-location="Golden Spike Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_3/public" alt="Golden Spike Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_4/public" data-location="Golden Spike Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_4/public" alt="Golden Spike Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_5/public" data-location="Golden Spike Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_5/public" alt="Golden Spike Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_6/public" data-location="Golden Spike Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_golden_spike_tower_6/public" alt="Golden Spike Tower"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Mcconaughy+State+Recreation+Area+And+Wildlife+Management+Area/@41.241732,-101.8093583,17z/data=!3m1!4b1!4m6!3m5!1s0x8776d96b5cdb17c1:0xc611c46a522a36e4!8m2!3d41.241732!4d-101.8093583!16s%2Fg%2F1trxks7j?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake McConaughy Sand Beaches 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_1/public" data-location="Lake McConaughy Sand Beaches"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_1/public" alt="Lake McConaughy Sand Beaches"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_2/public" data-location="Lake McConaughy Sand Beaches"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_2/public" alt="Lake McConaughy Sand Beaches"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_3/public" data-location="Lake McConaughy Sand Beaches"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_3/public" alt="Lake McConaughy Sand Beaches"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_4/public" data-location="Lake McConaughy Sand Beaches"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_4/public" alt="Lake McConaughy Sand Beaches"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_5/public" data-location="Lake McConaughy Sand Beaches"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_5/public" alt="Lake McConaughy Sand Beaches"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_6/public" data-location="Lake McConaughy Sand Beaches"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_lake_mcconaughy_sand_beaches_6/public" alt="Lake McConaughy Sand Beaches"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tree+Adventure/@40.6804,-95.8851639,17z/data=!3m1!4b1!4m6!3m5!1s0x87945adba9567c79:0x8d497b60f23578ad!8m2!3d40.6804!4d-95.8851639!16s%2Fg%2F11hcp6jj52?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Arbor Lodge Treehouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_1/public" data-location="Arbor Lodge Treehouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_1/public" alt="Arbor Lodge Treehouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_2/public" data-location="Arbor Lodge Treehouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_2/public" alt="Arbor Lodge Treehouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_3/public" data-location="Arbor Lodge Treehouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_3/public" alt="Arbor Lodge Treehouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_4/public" data-location="Arbor Lodge Treehouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_4/public" alt="Arbor Lodge Treehouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_5/public" data-location="Arbor Lodge Treehouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_5/public" alt="Arbor Lodge Treehouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_6/public" data-location="Arbor Lodge Treehouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_arbor_lodge_treehouse_6/public" alt="Arbor Lodge Treehouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ponca+State+Park/@42.5940407,-96.709481,17z/data=!3m1!4b1!4m6!3m5!1s0x878e15cfb370a62f:0x481d289278d53bfd!8m2!3d42.5940407!4d-96.709481!16zL20vMGI1cnFy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ponca State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_1/public" data-location="Ponca State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_1/public" alt="Ponca State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_2/public" data-location="Ponca State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_2/public" alt="Ponca State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_3/public" data-location="Ponca State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_3/public" alt="Ponca State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_4/public" data-location="Ponca State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_4/public" alt="Ponca State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_5/public" data-location="Ponca State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_5/public" alt="Ponca State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_6/public" data-location="Ponca State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_ponca_state_park_6/public" alt="Ponca State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Robinson+State+Park/@42.6688568,-103.4646916,17z/data=!3m1!4b1!4m6!3m5!1s0x877b372051bf3bc1:0xeda1c70fc2c3757f!8m2!3d42.6688568!4d-103.4646916!16s%2Fg%2F11bc5_py21?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Robinson State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_1/public" data-location="Fort Robinson State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_1/public" alt="Fort Robinson State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_2/public" data-location="Fort Robinson State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_2/public" alt="Fort Robinson State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_3/public" data-location="Fort Robinson State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_3/public" alt="Fort Robinson State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_4/public" data-location="Fort Robinson State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_4/public" alt="Fort Robinson State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_5/public" data-location="Fort Robinson State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_5/public" alt="Fort Robinson State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_6/public" data-location="Fort Robinson State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_robinson_state_park_6/public" alt="Fort Robinson State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Stuhr+Museum/@40.8837625,-98.3733648,17z/data=!3m1!4b1!4m6!3m5!1s0x8799843d9fcb859b:0x3380e77bce7d2c9e!8m2!3d40.8837625!4d-98.3733648!16s%2Fm%2F02pvvkt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Stuhr Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_1/public" data-location="Stuhr Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_1/public" alt="Stuhr Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_2/public" data-location="Stuhr Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_2/public" alt="Stuhr Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_3/public" data-location="Stuhr Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_3/public" alt="Stuhr Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_4/public" data-location="Stuhr Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_4/public" alt="Stuhr Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_5/public" data-location="Stuhr Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_5/public" alt="Stuhr Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_6/public" data-location="Stuhr Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_stuhr_museum_6/public" alt="Stuhr Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Holmes+Lake+Park/@40.7761005,-96.6334095,17z/data=!3m1!4b1!4m6!3m5!1s0x8796bd902d3aafe7:0x8584042dfeb6cf72!8m2!3d40.7761005!4d-96.6334095!16s%2Fg%2F1w97vw_x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Holmes Lake Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_1/public" data-location="Holmes Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_1/public" alt="Holmes Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_2/public" data-location="Holmes Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_2/public" alt="Holmes Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_3/public" data-location="Holmes Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_3/public" alt="Holmes Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_4/public" data-location="Holmes Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_4/public" alt="Holmes Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_5/public" data-location="Holmes Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_5/public" alt="Holmes Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_6/public" data-location="Holmes Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_holmes_lake_park_6/public" alt="Holmes Lake Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Crane+Trust+Nature+%26+Visitor+Center/@40.7960301,-98.4927751,17z/data=!3m1!4b1!4m6!3m5!1s0x879977d817444b31:0x40eaf99b560b67db!8m2!3d40.7960301!4d-98.4927751!16s%2Fg%2F1tgpnjlc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sandhill Crane Migration 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_1/public" data-location="Sandhill Crane Migration"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_1/public" alt="Sandhill Crane Migration"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_2/public" data-location="Sandhill Crane Migration"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_2/public" alt="Sandhill Crane Migration"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_3/public" data-location="Sandhill Crane Migration"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_3/public" alt="Sandhill Crane Migration"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_4/public" data-location="Sandhill Crane Migration"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_4/public" alt="Sandhill Crane Migration"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_5/public" data-location="Sandhill Crane Migration"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_5/public" alt="Sandhill Crane Migration"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_6/public" data-location="Sandhill Crane Migration"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_sandhill_crane_migration_6/public" alt="Sandhill Crane Migration"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Calamus+Reservoir+State+Recreation+Area+and+Wildlife+Management+Area/@41.8401098,-99.2052381,17z/data=!3m1!4b1!4m6!3m5!1s0x879ca21c0d84fd09:0x3238fa4c32ae9c1b!8m2!3d41.8401098!4d-99.2052381!16s%2Fg%2F1tcv6ttf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Calamus Reservoir SRA 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_1/public" data-location="Calamus Reservoir SRA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_1/public" alt="Calamus Reservoir SRA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_2/public" data-location="Calamus Reservoir SRA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_2/public" alt="Calamus Reservoir SRA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_3/public" data-location="Calamus Reservoir SRA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_3/public" alt="Calamus Reservoir SRA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_4/public" data-location="Calamus Reservoir SRA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_4/public" alt="Calamus Reservoir SRA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_5/public" data-location="Calamus Reservoir SRA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_5/public" alt="Calamus Reservoir SRA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_6/public" data-location="Calamus Reservoir SRA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_calamus_reservoir_sra_6/public" alt="Calamus Reservoir SRA"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nebraska+National+Forest/@42.6548577,-103.0011331,17z/data=!3m1!4b1!4m6!3m5!1s0x87798dbeea115d97:0xd4930987a7d05519!8m2!3d42.6548577!4d-103.0011331!16zL20vMDg1NzNs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nebraska National Forest 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_1/public" data-location="Nebraska National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_1/public" alt="Nebraska National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_2/public" data-location="Nebraska National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_2/public" alt="Nebraska National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_3/public" data-location="Nebraska National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_3/public" alt="Nebraska National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_4/public" data-location="Nebraska National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_4/public" alt="Nebraska National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_5/public" data-location="Nebraska National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_5/public" alt="Nebraska National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_6/public" data-location="Nebraska National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_nebraska_national_forest_6/public" alt="Nebraska National Forest"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Toadstool+Geological+Park+and+Campground/@42.8576672,-103.5839159,17z/data=!3m1!4b1!4m6!3m5!1s0x8764ad042bcdec9b:0x216ccf9e657315b5!8m2!3d42.8576672!4d-103.5839159!16zL20vMDk2cThf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Toadstool Geologic Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_1/public" data-location="Toadstool Geologic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_1/public" alt="Toadstool Geologic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_2/public" data-location="Toadstool Geologic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_2/public" alt="Toadstool Geologic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_3/public" data-location="Toadstool Geologic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_3/public" alt="Toadstool Geologic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_4/public" data-location="Toadstool Geologic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_4/public" alt="Toadstool Geologic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_5/public" data-location="Toadstool Geologic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_5/public" alt="Toadstool Geologic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_6/public" data-location="Toadstool Geologic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_toadstool_geologic_park_6/public" alt="Toadstool Geologic Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Legacy+of+the+Plains+Museum/@41.8223812,-103.6871574,17z/data=!3m1!4b1!4m6!3m5!1s0x876551270e73fecb:0x32b26de5ac57e741!8m2!3d41.8223812!4d-103.6871574!16s%2Fg%2F1vk6zq93?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Legacy of the Plains Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_1/public" data-location="Legacy of the Plains Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_1/public" alt="Legacy of the Plains Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_2/public" data-location="Legacy of the Plains Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_2/public" alt="Legacy of the Plains Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_3/public" data-location="Legacy of the Plains Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_3/public" alt="Legacy of the Plains Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_4/public" data-location="Legacy of the Plains Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_4/public" alt="Legacy of the Plains Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_5/public" data-location="Legacy of the Plains Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_5/public" alt="Legacy of the Plains Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_6/public" data-location="Legacy of the Plains Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_legacy_of_the_plains_museum_6/public" alt="Legacy of the Plains Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Atkinson+State+Historical+Park/@41.4539789,-96.0140718,17z/data=!3m1!4b1!4m6!3m5!1s0x8793be3ad0ac83ef:0x1dbe771732918db!8m2!3d41.4539789!4d-96.0140718!16zL20vMDdxemc3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Atkinson State Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_1/public" data-location="Fort Atkinson State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_1/public" alt="Fort Atkinson State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_2/public" data-location="Fort Atkinson State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_2/public" alt="Fort Atkinson State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_3/public" data-location="Fort Atkinson State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_3/public" alt="Fort Atkinson State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_4/public" data-location="Fort Atkinson State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_4/public" alt="Fort Atkinson State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_5/public" data-location="Fort Atkinson State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_5/public" alt="Fort Atkinson State Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_6/public" data-location="Fort Atkinson State Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_fort_atkinson_state_historical_park_6/public" alt="Fort Atkinson State Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Museum+of+the+Fur+Trade/@42.8237487,-102.9281607,17z/data=!3m1!4b1!4m6!3m5!1s0x877b73d91ec09459:0xdf58aa0eebb41f06!8m2!3d42.8237487!4d-102.9281607!16s%2Fg%2F11b5pkjfdc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Museum of the Fur Trade 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_1/public" data-location="Museum of the Fur Trade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_1/public" alt="Museum of the Fur Trade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_2/public" data-location="Museum of the Fur Trade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_2/public" alt="Museum of the Fur Trade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_3/public" data-location="Museum of the Fur Trade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_3/public" alt="Museum of the Fur Trade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_4/public" data-location="Museum of the Fur Trade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_4/public" alt="Museum of the Fur Trade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_5/public" data-location="Museum of the Fur Trade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_5/public" alt="Museum of the Fur Trade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_6/public" data-location="Museum of the Fur Trade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_museum_of_the_fur_trade_6/public" alt="Museum of the Fur Trade"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Alliance+Knight+Museum/@42.1036404,-102.8670396,17z/data=!3m1!4b1!4m6!3m5!1s0x877a8b093a9dec15:0xfefb3204f9e23992!8m2!3d42.1036404!4d-102.8670396!16s%2Fg%2F1v2jddn9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Knight Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_1/public" data-location="Knight Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_1/public" alt="Knight Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_2/public" data-location="Knight Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_2/public" alt="Knight Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_3/public" data-location="Knight Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_3/public" alt="Knight Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_4/public" data-location="Knight Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_4/public" alt="Knight Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_5/public" data-location="Knight Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_5/public" alt="Knight Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_6/public" data-location="Knight Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_knight_museum_6/public" alt="Knight Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nebraska+National+Forest,+Bessey+Ranger+District/@41.9013136,-100.2979182,17z/data=!3m1!4b1!4m6!3m5!1s0x879d46448e9d051f:0xe477d00a2751ca6c!8m2!3d41.9013136!4d-100.2979182!16s%2Fg%2F1tg6l18l?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bessey Ranger District 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_1/public" data-location="Bessey Ranger District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_1/public" alt="Bessey Ranger District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_2/public" data-location="Bessey Ranger District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_2/public" alt="Bessey Ranger District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_3/public" data-location="Bessey Ranger District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_3/public" alt="Bessey Ranger District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_4/public" data-location="Bessey Ranger District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_4/public" alt="Bessey Ranger District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_5/public" data-location="Bessey Ranger District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_5/public" alt="Bessey Ranger District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_6/public" data-location="Bessey Ranger District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nebraska_bessey_ranger_district_6/public" alt="Bessey Ranger District"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
