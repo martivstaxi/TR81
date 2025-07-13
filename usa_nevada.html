@@ -1,0 +1,1383 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nevada</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Nevada</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Memorial+Point+Scenic+Overlook/@39.2098982,-119.9295949,17z/data=!3m1!4b1!4m6!3m5!1s0x809970dfdeab82d9:0x3e7f6f6a425d1042!8m2!3d39.2098982!4d-119.9295949!16s%2Fg%2F119w759n3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Virginia City Scenic Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_1/public" data-location="Virginia City Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_1/public" alt="Virginia City Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_2/public" data-location="Virginia City Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_2/public" alt="Virginia City Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_3/public" data-location="Virginia City Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_3/public" alt="Virginia City Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_4/public" data-location="Virginia City Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_4/public" alt="Virginia City Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_5/public" data-location="Virginia City Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_5/public" alt="Virginia City Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_6/public" data-location="Virginia City Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_virginia_city_scenic_overlook_6/public" alt="Virginia City Scenic Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fountains+of+Bellagio/@36.1127187,-115.1739109,16z/data=!3m1!4b1!4m6!3m5!1s0x80c8c43aaa9a0bb3:0xe2474a6cdc71f0d6!8m2!3d36.1127187!4d-115.1739109!16s%2Fg%2F1hcnfpzm5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bellagio Fountains 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_1/public" data-location="Bellagio Fountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_1/public" alt="Bellagio Fountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_2/public" data-location="Bellagio Fountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_2/public" alt="Bellagio Fountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_3/public" data-location="Bellagio Fountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_3/public" alt="Bellagio Fountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_4/public" data-location="Bellagio Fountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_4/public" alt="Bellagio Fountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_5/public" data-location="Bellagio Fountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_5/public" alt="Bellagio Fountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_6/public" data-location="Bellagio Fountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_bellagio_fountains_6/public" alt="Bellagio Fountains"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/K%C4%B1z%C4%B1l+Kaya+Kanyonu+Ulusal+Koruma+Alan%C4%B1/@36.1944273,-115.4382967,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8bd0795a08535:0x74ced81d2afcb24c!8m2!3d36.1944273!4d-115.4382967!16zL20vMDFjZjgw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Red Rock Canyon National Conservation Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_1/public" data-location="Red Rock Canyon National Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_1/public" alt="Red Rock Canyon National Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_2/public" data-location="Red Rock Canyon National Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_2/public" alt="Red Rock Canyon National Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_3/public" data-location="Red Rock Canyon National Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_3/public" alt="Red Rock Canyon National Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_4/public" data-location="Red Rock Canyon National Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_4/public" alt="Red Rock Canyon National Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_5/public" data-location="Red Rock Canyon National Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_5/public" alt="Red Rock Canyon National Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_6/public" data-location="Red Rock Canyon National Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_red_rock_canyon_national_conservation_area_6/public" alt="Red Rock Canyon National Conservation Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Valley+of+Fire+State+Park/@36.4756593,-114.5383925,17z/data=!3m1!4b1!4m6!3m5!1s0x80c96b2bca0cabf5:0x4c5d735aaf7cb075!8m2!3d36.4756593!4d-114.5383925!16zL20vMDVtZ3Nq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Valley of Fire State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_1/public" data-location="Valley of Fire State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_1/public" alt="Valley of Fire State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_2/public" data-location="Valley of Fire State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_2/public" alt="Valley of Fire State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_3/public" data-location="Valley of Fire State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_3/public" alt="Valley of Fire State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_4/public" data-location="Valley of Fire State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_4/public" alt="Valley of Fire State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_5/public" data-location="Valley of Fire State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_5/public" alt="Valley of Fire State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_6/public" data-location="Valley of Fire State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_valley_of_fire_state_park_6/public" alt="Valley of Fire State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Desert+View+Overlook/@36.3365886,-115.6288467,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8824512a5de15:0x60d3da84ea455111!8m2!3d36.3365886!4d-115.6288467!16s%2Fg%2F11bc6pv6d_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Charleston Scenic Byway 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_1/public" data-location="Mount Charleston Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_1/public" alt="Mount Charleston Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_2/public" data-location="Mount Charleston Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_2/public" alt="Mount Charleston Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_3/public" data-location="Mount Charleston Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_3/public" alt="Mount Charleston Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_4/public" data-location="Mount Charleston Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_4/public" alt="Mount Charleston Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_5/public" data-location="Mount Charleston Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_5/public" alt="Mount Charleston Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_6/public" data-location="Mount Charleston Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_mount_charleston_scenic_byway_6/public" alt="Mount Charleston Scenic Byway"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kings+Canyon+Waterfalls/@39.1551562,-119.8179025,17z/data=!3m1!4b1!4m6!3m5!1s0x80997565e2afa643:0x6baaace12df6cf36!8m2!3d39.1551562!4d-119.8179025!16s%2Fg%2F11f06nw2cb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kings Canyon Waterfall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_1/public" data-location="Kings Canyon Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_1/public" alt="Kings Canyon Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_2/public" data-location="Kings Canyon Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_2/public" alt="Kings Canyon Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_3/public" data-location="Kings Canyon Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_3/public" alt="Kings Canyon Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_4/public" data-location="Kings Canyon Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_4/public" alt="Kings Canyon Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_5/public" data-location="Kings Canyon Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_5/public" alt="Kings Canyon Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_6/public" data-location="Kings Canyon Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_kings_canyon_waterfall_6/public" alt="Kings Canyon Waterfall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cave+Rock/@39.0462965,-119.9490713,15z/data=!3m1!4b1!4m6!3m5!1s0x80999c96423b2f75:0x7c50b185e6a15de1!8m2!3d39.046297!4d-119.9490713!16s%2Fg%2F1tg798rr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cave Rock 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_1/public" data-location="Cave Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_1/public" alt="Cave Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_2/public" data-location="Cave Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_2/public" alt="Cave Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_3/public" data-location="Cave Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_3/public" alt="Cave Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_4/public" data-location="Cave Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_4/public" alt="Cave Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_5/public" data-location="Cave Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_5/public" alt="Cave Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_6/public" data-location="Cave Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_cave_rock_6/public" alt="Cave Rock"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hunter+Creek+Falls/@39.464811,-119.917688,17z/data=!3m1!4b1!4m6!3m5!1s0x809943ae6d4a7021:0xb3ac927449442a15!8m2!3d39.464811!4d-119.917688!16s%2Fg%2F11dzw57jfp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hunter Creek Trail Waterfall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_1/public" data-location="Hunter Creek Trail Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_1/public" alt="Hunter Creek Trail Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_2/public" data-location="Hunter Creek Trail Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_2/public" alt="Hunter Creek Trail Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_3/public" data-location="Hunter Creek Trail Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_3/public" alt="Hunter Creek Trail Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_4/public" data-location="Hunter Creek Trail Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_4/public" alt="Hunter Creek Trail Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_5/public" data-location="Hunter Creek Trail Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_5/public" alt="Hunter Creek Trail Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_6/public" data-location="Hunter Creek Trail Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hunter_creek_trail_waterfall_6/public" alt="Hunter Creek Trail Waterfall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Springs+Preserve/@36.1693608,-115.1906908,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8c1631eb3d2ab:0xdb10f97b8c706342!8m2!3d36.1693608!4d-115.1906908!16zL20vMGZjczY4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Springs Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_1/public" data-location="Springs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_1/public" alt="Springs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_2/public" data-location="Springs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_2/public" alt="Springs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_3/public" data-location="Springs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_3/public" alt="Springs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_4/public" data-location="Springs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_4/public" alt="Springs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_5/public" data-location="Springs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_5/public" alt="Springs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_6/public" data-location="Springs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_springs_preserve_6/public" alt="Springs Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Floyd+Lamb+Park/@36.3215465,-115.2685145,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8ece479ece85f:0xacb27ef03bc40ae9!8m2!3d36.3215465!4d-115.2685145!16zL20vMDZoeWhf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Floyd Lamb Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_1/public" data-location="Floyd Lamb Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_1/public" alt="Floyd Lamb Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_2/public" data-location="Floyd Lamb Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_2/public" alt="Floyd Lamb Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_3/public" data-location="Floyd Lamb Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_3/public" alt="Floyd Lamb Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_4/public" data-location="Floyd Lamb Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_4/public" alt="Floyd Lamb Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_5/public" data-location="Floyd Lamb Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_5/public" alt="Floyd Lamb Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_6/public" data-location="Floyd Lamb Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_floyd_lamb_park_6/public" alt="Floyd Lamb Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Clark+County+Wetlands+Park/@36.1011164,-115.0231015,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8da7362579e2f:0x2d59245e89e77974!8m2!3d36.1011164!4d-115.0231015!16zL20vMDVyMTdr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wetlands Park Nature Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_1/public" data-location="Wetlands Park Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_1/public" alt="Wetlands Park Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_2/public" data-location="Wetlands Park Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_2/public" alt="Wetlands Park Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_3/public" data-location="Wetlands Park Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_3/public" alt="Wetlands Park Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_4/public" data-location="Wetlands Park Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_4/public" alt="Wetlands Park Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_5/public" data-location="Wetlands Park Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_5/public" alt="Wetlands Park Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_6/public" data-location="Wetlands Park Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_wetlands_park_nature_preserve_6/public" alt="Wetlands Park Nature Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Mead+-+Lakeview+Overlook/@36.0170145,-114.7619766,17z/data=!3m1!4b1!4m6!3m5!1s0x80c92ce27707c413:0x41b8da47a700696e!8m2!3d36.0170145!4d-114.7619766!16s%2Fg%2F11bxjg0wxn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake Mead Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_1/public" data-location="Lake Mead Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_1/public" alt="Lake Mead Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_2/public" data-location="Lake Mead Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_2/public" alt="Lake Mead Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_3/public" data-location="Lake Mead Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_3/public" alt="Lake Mead Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_4/public" data-location="Lake Mead Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_4/public" alt="Lake Mead Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_5/public" data-location="Lake Mead Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_5/public" alt="Lake Mead Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_6/public" data-location="Lake Mead Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_overlook_6/public" alt="Lake Mead Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rancho+San+Rafael+Regional+Park/@39.5456988,-119.8239912,17z/data=!3m1!4b1!4m6!3m5!1s0x8099471b3802d239:0x86f735f0d2ccb67a!8m2!3d39.5456988!4d-119.8239912!16s%2Fg%2F1tg5cby3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rancho San Rafael Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_1/public" data-location="Rancho San Rafael Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_1/public" alt="Rancho San Rafael Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_2/public" data-location="Rancho San Rafael Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_2/public" alt="Rancho San Rafael Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_3/public" data-location="Rancho San Rafael Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_3/public" alt="Rancho San Rafael Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_4/public" data-location="Rancho San Rafael Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_4/public" alt="Rancho San Rafael Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_5/public" data-location="Rancho San Rafael Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_5/public" alt="Rancho San Rafael Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_6/public" data-location="Rancho San Rafael Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_rancho_san_rafael_park_6/public" alt="Rancho San Rafael Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nelson+Ghost+Town/@35.7098416,-114.8029596,17z/data=!3m1!4b1!4m6!3m5!1s0x80cedc3e01b6900b:0xb14d97443686c9ac!8m2!3d35.7098416!4d-114.8029596!16s%2Fg%2F11bwqbl1j3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nelson Ghost Town 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_1/public" data-location="Nelson Ghost Town"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_1/public" alt="Nelson Ghost Town"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_2/public" data-location="Nelson Ghost Town"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_2/public" alt="Nelson Ghost Town"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_3/public" data-location="Nelson Ghost Town"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_3/public" alt="Nelson Ghost Town"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_4/public" data-location="Nelson Ghost Town"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_4/public" alt="Nelson Ghost Town"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_5/public" data-location="Nelson Ghost Town"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_5/public" alt="Nelson Ghost Town"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_6/public" data-location="Nelson Ghost Town"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelson_ghost_town_6/public" alt="Nelson Ghost Town"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Secret+Cove+Nude+Beach/@39.154857,-119.9330985,17z/data=!3m1!4b1!4m6!3m5!1s0x8099770131952115:0xfabb0461d3669976!8m2!3d39.1550134!4d-119.9330357!16s%2Fg%2F1q69rghx4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Secret Cove Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_1/public" data-location="Secret Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_1/public" alt="Secret Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_2/public" data-location="Secret Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_2/public" alt="Secret Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_3/public" data-location="Secret Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_3/public" alt="Secret Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_4/public" data-location="Secret Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_4/public" alt="Secret Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_5/public" data-location="Secret Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_5/public" alt="Secret Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_6/public" data-location="Secret Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_secret_cove_beach_6/public" alt="Secret Cove Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lehman+Caves/@39.005579,-114.2198812,17z/data=!3m1!4b1!4m6!3m5!1s0x80b160a371a50757:0x6c4b43487ae4b348!8m2!3d39.005579!4d-114.2198812!16s%2Fg%2F120hnrcd?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lehman Caves 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_1/public" data-location="Lehman Caves"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_1/public" alt="Lehman Caves"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_2/public" data-location="Lehman Caves"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_2/public" alt="Lehman Caves"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_3/public" data-location="Lehman Caves"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_3/public" alt="Lehman Caves"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_4/public" data-location="Lehman Caves"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_4/public" alt="Lehman Caves"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_5/public" data-location="Lehman Caves"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_5/public" alt="Lehman Caves"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_6/public" data-location="Lehman Caves"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lehman_caves_6/public" alt="Lehman Caves"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Geiger+Lookout+Point/@39.384092,-119.7040631,17z/data=!3m1!4b1!4m6!3m5!1s0x809913dc4fa0d7d7:0xf8045f2c02510f8f!8m2!3d39.384092!4d-119.7040631!16s%2Fg%2F11dx8j7znm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Geiger Scenic Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_1/public" data-location="Geiger Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_1/public" alt="Geiger Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_2/public" data-location="Geiger Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_2/public" alt="Geiger Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_3/public" data-location="Geiger Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_3/public" alt="Geiger Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_4/public" data-location="Geiger Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_4/public" alt="Geiger Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_5/public" data-location="Geiger Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_5/public" alt="Geiger Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_6/public" data-location="Geiger Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_geiger_scenic_overlook_6/public" alt="Geiger Scenic Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hidden+Beach+Plaza/@39.2216215,-119.9286615,15z/data=!3m1!4b1!4m6!3m5!1s0x80997720ae3a5625:0x625b8a9d2827ad89!8m2!3d39.221622!4d-119.9286615!16s%2Fg%2F11ck59xmrq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hidden Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_1/public" data-location="Hidden Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_1/public" alt="Hidden Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_2/public" data-location="Hidden Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_2/public" alt="Hidden Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_3/public" data-location="Hidden Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_3/public" alt="Hidden Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_4/public" data-location="Hidden Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_4/public" alt="Hidden Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_5/public" data-location="Hidden Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_5/public" alt="Hidden Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_6/public" data-location="Hidden Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_hidden_beach_6/public" alt="Hidden Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nelson's+Landing/@35.7090625,-114.7110625,17z/data=!3m1!4b1!4m6!3m5!1s0x80cec349bbf29b59:0x1185c4c6d3c15b66!8m2!3d35.7090625!4d-114.7110625!16s%2Fg%2F11s6102yv5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nelson's Landing 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_1/public" data-location="Nelson's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_1/public" alt="Nelson's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_2/public" data-location="Nelson's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_2/public" alt="Nelson's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_3/public" data-location="Nelson's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_3/public" alt="Nelson's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_4/public" data-location="Nelson's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_4/public" alt="Nelson's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_5/public" data-location="Nelson's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_5/public" alt="Nelson's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_6/public" data-location="Nelson's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_nelsons_landing_6/public" alt="Nelson's Landing"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Welcome+to+Fabulous+Las+Vegas+Sign/@36.0820727,-115.172779,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8d1348932683b:0x42027a27dabd9309!8m2!3d36.0820727!4d-115.172779!16zL20vMDVxOHR0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Welcome to Fabulous Las Vegas Sign 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_1/public" data-location="Welcome to Fabulous Las Vegas Sign"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_1/public" alt="Welcome to Fabulous Las Vegas Sign"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_2/public" data-location="Welcome to Fabulous Las Vegas Sign"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_2/public" alt="Welcome to Fabulous Las Vegas Sign"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_3/public" data-location="Welcome to Fabulous Las Vegas Sign"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_3/public" alt="Welcome to Fabulous Las Vegas Sign"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_4/public" data-location="Welcome to Fabulous Las Vegas Sign"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_4/public" alt="Welcome to Fabulous Las Vegas Sign"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_5/public" data-location="Welcome to Fabulous Las Vegas Sign"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_5/public" alt="Welcome to Fabulous Las Vegas Sign"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_6/public" data-location="Welcome to Fabulous Las Vegas Sign"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_welcome_to_fabulous_las_vegas_sign_6/public" alt="Welcome to Fabulous Las Vegas Sign"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/High+Roller/@36.1176309,-115.1682936,17z/data=!3m1!4b1!4m6!3m5!1s0x80c8c4391fe604bb:0x2ef9528190f64cb7!8m2!3d36.1176309!4d-115.1682936!16s%2Fm%2F0hhs_rk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>High Roller Observation Wheel 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_1/public" data-location="High Roller Observation Wheel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_1/public" alt="High Roller Observation Wheel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_2/public" data-location="High Roller Observation Wheel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_2/public" alt="High Roller Observation Wheel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_3/public" data-location="High Roller Observation Wheel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_3/public" alt="High Roller Observation Wheel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_4/public" data-location="High Roller Observation Wheel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_4/public" alt="High Roller Observation Wheel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_5/public" data-location="High Roller Observation Wheel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_5/public" alt="High Roller Observation Wheel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_6/public" data-location="High Roller Observation Wheel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_high_roller_observation_wheel_6/public" alt="High Roller Observation Wheel"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Mead+National+Recreation+Area/@36.1550863,-114.4559303,17z/data=!3m1!4b1!4m6!3m5!1s0x80c92b3473766c93:0x6b38aa13f507663c!8m2!3d36.1550863!4d-114.4559303!16zL20vMDJxbDBt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake Mead National Recreation Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_1/public" data-location="Lake Mead National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_1/public" alt="Lake Mead National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_2/public" data-location="Lake Mead National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_2/public" alt="Lake Mead National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_3/public" data-location="Lake Mead National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_3/public" alt="Lake Mead National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_4/public" data-location="Lake Mead National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_4/public" alt="Lake Mead National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_5/public" data-location="Lake Mead National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_5/public" alt="Lake Mead National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_6/public" data-location="Lake Mead National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_lake_mead_national_recreation_area_6/public" alt="Lake Mead National Recreation Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Idlewild+Park/@39.5218409,-119.8329796,17z/data=!3m1!4b1!4m6!3m5!1s0x8099472b2d88afcf:0x720041bf51c79664!8m2!3d39.5218409!4d-119.8329796!16s%2Fm%2F0glpcrp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Idlewild Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_1/public" data-location="Idlewild Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_1/public" alt="Idlewild Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_2/public" data-location="Idlewild Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_2/public" alt="Idlewild Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_3/public" data-location="Idlewild Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_3/public" alt="Idlewild Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_4/public" data-location="Idlewild Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_4/public" alt="Idlewild Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_5/public" data-location="Idlewild Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_5/public" alt="Idlewild Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_6/public" data-location="Idlewild Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_idlewild_park_6/public" alt="Idlewild Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eiffel+Tower+Viewing+Deck/@36.1124833,-115.1725102,16z/data=!3m1!4b1!4m6!3m5!1s0x80c8c43097072893:0x4af812113ba77ba0!8m2!3d36.1124833!4d-115.1725102!16s%2Fg%2F1hf59f1rz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eiffel Tower Viewing Deck 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_1/public" data-location="Eiffel Tower Viewing Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_1/public" alt="Eiffel Tower Viewing Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_2/public" data-location="Eiffel Tower Viewing Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_2/public" alt="Eiffel Tower Viewing Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_3/public" data-location="Eiffel Tower Viewing Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_3/public" alt="Eiffel Tower Viewing Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_4/public" data-location="Eiffel Tower Viewing Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_4/public" alt="Eiffel Tower Viewing Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_5/public" data-location="Eiffel Tower Viewing Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_5/public" alt="Eiffel Tower Viewing Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_6/public" data-location="Eiffel Tower Viewing Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_eiffel_tower_viewing_deck_6/public" alt="Eiffel Tower Viewing Deck"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Bend+of+the+Colorado+State+Recreation+Area/@35.1184164,-114.64332,17z/data=!3m1!4b1!4m6!3m5!1s0x80ce443b7346dc87:0x907020d05403f268!8m2!3d35.1184164!4d-114.64332!16zL20vMGNoMzF2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Bend of the Colorado Recreation Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_1/public" data-location="Big Bend of the Colorado Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_1/public" alt="Big Bend of the Colorado Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_2/public" data-location="Big Bend of the Colorado Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_2/public" alt="Big Bend of the Colorado Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_3/public" data-location="Big Bend of the Colorado Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_3/public" alt="Big Bend of the Colorado Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_4/public" data-location="Big Bend of the Colorado Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_4/public" alt="Big Bend of the Colorado Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_5/public" data-location="Big Bend of the Colorado Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_5/public" alt="Big Bend of the Colorado Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_6/public" data-location="Big Bend of the Colorado Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_big_bend_of_the_colorado_recreation_area_6/public" alt="Big Bend of the Colorado Recreation Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pahranagat+National+Wildlife+Refuge/@37.2471297,-115.1088704,17z/data=!3m1!4b1!4m6!3m5!1s0x80b7d79c9efb8685:0xfe64d20b875a5474!8m2!3d37.2471297!4d-115.1088704!16zL20vMDhidjJt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pahranagat National Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_1/public" data-location="Pahranagat National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_1/public" alt="Pahranagat National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_2/public" data-location="Pahranagat National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_2/public" alt="Pahranagat National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_3/public" data-location="Pahranagat National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_3/public" alt="Pahranagat National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_4/public" data-location="Pahranagat National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_4/public" alt="Pahranagat National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_5/public" data-location="Pahranagat National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_5/public" alt="Pahranagat National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_6/public" data-location="Pahranagat National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_pahranagat_national_wildlife_refuge_6/public" alt="Pahranagat National Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Zephyr+Cove+Day+Use+Area/@39.0090437,-119.948255,17z/data=!3m1!4b1!4m6!3m5!1s0x80999b16586ca2a7:0xcc6716a9b4f3604a!8m2!3d39.0090437!4d-119.948255!16s%2Fg%2F11bx8r_1n3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Zephyr Cove Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_1/public" data-location="Zephyr Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_1/public" alt="Zephyr Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_2/public" data-location="Zephyr Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_2/public" alt="Zephyr Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_3/public" data-location="Zephyr Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_3/public" alt="Zephyr Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_4/public" data-location="Zephyr Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_4/public" alt="Zephyr Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_5/public" data-location="Zephyr Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_5/public" alt="Zephyr Cove Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_6/public" data-location="Zephyr Cove Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/nevada_zephyr_cove_beach_6/public" alt="Zephyr Cove Beach"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
