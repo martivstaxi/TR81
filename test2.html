@@ -85,12 +85,12 @@
   .info a:hover{color:var(--primary-dark);text-decoration:underline;}
   /* Grid === */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);
-    gap:16px;padding-bottom:40px;position:relative;z-index:1;
+    gap:12px;padding-bottom:40px;position:relative;z-index:1;
     max-width:600px;margin:0 auto;}
   .card{background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
-    border-radius:20px;padding:12px 10px;text-align:center;cursor:pointer;transition:.3s
+    border-radius:16px;padding:0;text-align:center;cursor:pointer;transition:.3s
     cubic-bezier(.4,0,.2,1);position:relative;box-shadow:var(--shadow-lg);
-    aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
   .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
   .flag{font-size:2.5rem;margin-bottom:8px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1));
     line-height:1;
@@ -143,7 +143,7 @@
     0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
     100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
   }
-  .name{font-weight:500;font-size:14px;color:var(--text-primary);text-align:center;line-height:1.2;}
+  .name{font-weight:500;font-size:13px;color:var(--text-primary);text-align:center;line-height:1.1;word-break:break-word;}
   .card.free{background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);backdrop-filter:blur(20px);border:2px solid rgba(245,158,11,.4);}
   
   /* Mobil için arka plan düzeltmesi */
@@ -219,7 +219,7 @@
     }
     /* Grid - mobilde sabit 3 sütun ve ortalama */
     .grid {
-      gap:10px;
+      gap:8px;
       padding-bottom:40px;
       grid-template-columns: repeat(3, 1fr);
       max-width: 100%;
@@ -227,13 +227,14 @@
     }
     /* Kart boyutları mobilde */
     .card {
-      padding: 10px 8px !important;
-      aspect-ratio: 1/1 !important;
+      padding: 0 !important;
+      aspect-ratio: 4/3 !important;
       width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      border-radius: 12px !important;
     }
     .flag{font-size:2rem !important;margin-bottom:6px !important;}
     .flag-img {
@@ -270,11 +271,12 @@
       gap:10px;
     }
     .card{
-      padding: 8px 6px !important;
-      aspect-ratio: 1/1 !important;
+      padding: 0 !important;
+      aspect-ratio: 4/3 !important;
+      border-radius: 10px !important;
     }
     .flag{font-size:1.75rem !important;}
-    .name{font-size:11px !important;}
+    .name{font-size:10px !important;line-height:1 !important;}
   }}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .card{animation:fadeIn .3s ease;}
@@ -290,7 +292,7 @@
       grid-template-columns: repeat(3, 1fr);
     }
     .card {
-      aspect-ratio: 1/1;
+      aspect-ratio: 4/3;
     }
   }
   </style>
@@ -611,27 +613,32 @@
       card.dataset.iso = iso;
       card.onclick = ()=>go(slug);
       
+      // İçerik wrapper
+      const contentWrapper = document.createElement('div');
+      contentWrapper.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; gap: 4px;';
+      
       // Bayrak görseli için img elementi
       const flagImg = document.createElement('img');
-      flagImg.src = `https://flagcdn.com/w80/${iso.toLowerCase()}.png`;
+      flagImg.src = `https://flagcdn.com/w160/${iso.toLowerCase()}.png`;
       flagImg.alt = `${iso.toUpperCase()} flag`;
-      flagImg.style.cssText = 'width: 56px; height: 42px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 6px;';
+      flagImg.style.cssText = 'width: 80%; max-width: 80px; height: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));';
       flagImg.loading = 'lazy';
       
       // Görsel yüklenemezse ISO kodunu göster
       flagImg.onerror = function() {
         const placeholder = document.createElement('div');
-        placeholder.className = 'flag-placeholder';
         placeholder.textContent = iso.toUpperCase();
-        placeholder.style.cssText = 'width: 56px; height: 42px; margin: 0 auto 6px;';
+        placeholder.style.cssText = 'font-size: 28px; font-weight: 700; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;';
         this.parentNode.replaceChild(placeholder, this);
       };
       
       const nameDiv = document.createElement('div');
       nameDiv.className = 'name';
+      nameDiv.style.cssText = 'margin-top: 2px;';
       
-      card.appendChild(flagImg);
-      card.appendChild(nameDiv);
+      contentWrapper.appendChild(flagImg);
+      contentWrapper.appendChild(nameDiv);
+      card.appendChild(contentWrapper);
       
       grid.appendChild(card);
     });
