@@ -1094,7 +1094,14 @@
             const line = lines[i].trim();
             if (!line) continue;
             
-            const cells = line.split(',');
+            // Tab karakteri ile ayırma (Google Sheets kopyalama için)
+            let cells = line.split('\t');
+            
+            // Eğer tab ile ayrılmamışsa virgül ile dene
+            if (cells.length < 2) {
+              cells = line.split(',');
+            }
+            
             if (cells.length < 2) continue;
             
             const name = cells[0].trim();
@@ -1103,7 +1110,7 @@
             if (!name || !link) continue;
             
             const photos = [];
-            // C sütunundan H sütununa kadar fotoğraflar
+            // C sütunundan H sütununa kadar fotoğraflar (2'den 7'ye kadar index)
             for (let j = 2; j < cells.length && j < 8; j++) {
               const photoUrl = cells[j].trim();
               if (photoUrl && photoUrl.startsWith('http')) {
