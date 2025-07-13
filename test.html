@@ -645,7 +645,7 @@
       window.location.href = "index.html";
     }
 
-    // Translations - 40 dil (Tüm çeviriler doğal ve anlaşılır)
+    // Translations - 40 dil
     const translations = {
       tr:{
         flag:'🇹🇷',
@@ -1406,3 +1406,151 @@
         successMessage:'登入成功！轉緊去...',
         manualLinkTitle:'如果自動轉向唔得：',
         manualLinkText:'➤ 撳呢度繼續'
+      }
+    };
+
+    // Language functions
+    let currentLang = 'tr';
+
+    function detectLang() {
+      const saved = localStorage.getItem('lang');
+      if (saved && translations[saved]) return saved;
+      
+      const browser = navigator.language.toLowerCase();
+      for (const code in translations) {
+        if (browser.startsWith(code)) return code;
+      }
+      return 'tr';
+    }
+
+    function setLang(code) {
+      currentLang = code;
+      const t = translations[code];
+      
+      // Update UI elements
+      document.getElementById('authHeader').textContent = t.authHeader;
+      document.getElementById('authSubtitle').innerHTML = t.authSubtitle;
+      document.getElementById('aboutText1').textContent = t.aboutText1;
+      document.getElementById('aboutUs').textContent = t.aboutUs;
+      document.getElementById('aboutText2').textContent = t.aboutText2;
+      document.getElementById('aboutText3').textContent = t.aboutText3;
+      document.getElementById('aboutText4').textContent = t.aboutText4;
+      document.getElementById('usernameInput').placeholder = t.username;
+      document.getElementById('passwordInput').placeholder = t.password;
+      document.getElementById('loginButton').textContent = t.loginButton;
+      document.getElementById('purchaseBtn').textContent = t.purchaseBtn;
+      document.getElementById('errorMessage').textContent = t.errorMessage;
+      document.getElementById('successMessage').textContent = t.successMessage;
+      document.getElementById('manualLinkTitle').textContent = t.manualLinkTitle;
+      document.getElementById('manualLinkText').textContent = t.manualLinkText;
+      
+      // Update language button
+      document.getElementById('langFlag').textContent = t.flag;
+      document.getElementById('langName').textContent = t.name;
+      
+      // Update document language
+      document.documentElement.lang = code;
+      localStorage.setItem('lang', code);
+      
+      // Update active state in dropdown
+      document.querySelectorAll('.lang-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.lang === code);
+      });
+    }
+
+    function toggleLang() {
+      const list = document.getElementById('langList');
+      list.classList.toggle('show');
+    }
+
+    function initLangList() {
+      const list = document.getElementById('langList');
+      list.innerHTML = '';
+      
+      for (const [code, lang] of Object.entries(translations)) {
+        const item = document.createElement('div');
+        item.className = 'lang-item';
+        item.dataset.lang = code;
+        item.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
+        item.onclick = () => {
+          setLang(code);
+          list.classList.remove('show');
+        };
+        list.appendChild(item);
+      }
+    }
+
+    // Giriş fonksiyonu
+    function login() {
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+      
+      // Basit doğrulama
+      if (username === "global" && password === "global2025") {
+        document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('manualLink').style.display = 'block';
+        
+        // Erişim iznini kaydet
+        localStorage.setItem("duflat-access", "granted");
+        
+        // 2 saniye sonra yönlendir
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      } else {
+        document.getElementById('errorMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('manualLink').style.display = 'none';
+      }
+    }
+
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize language list
+      initLangList();
+      
+      // Set initial language
+      const detectedLang = detectLang();
+      setLang(detectedLang);
+      
+      // Enter key listeners
+      const passwordInput = document.getElementById('passwordInput');
+      const usernameInput = document.getElementById('usernameInput');
+      
+      if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            login();
+          }
+        });
+      }
+      
+      if (usernameInput) {
+        usernameInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const passInput = document.getElementById('passwordInput');
+            if (passInput) passInput.focus();
+          }
+        });
+      }
+    });
+
+    // Close language dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const langSelect = document.querySelector('.lang-select');
+      if (!langSelect.contains(e.target)) {
+        document.getElementById('langList').classList.remove('show');
+      }
+    });
+
+    // Prevent form submission on refresh
+    window.addEventListener('load', function() {
+      // Instagram embed'i yeniden yükle
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    });
+  </script>
+</body>
+</html>
