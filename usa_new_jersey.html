@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Jersey</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">New Jersey</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cape+May+County+Park+%26+Zoo/@39.1023159,-74.8123127,17z/data=!3m1!4b1!4m6!3m5!1s0x89c0af096d857127:0xc0ad0746fe45d56!8m2!3d39.1023159!4d-74.8123127!16zL20vMDJsZjF6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape May County Park & Zoo 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_1/public" data-location="Cape May County Park & Zoo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_1/public" alt="Cape May County Park & Zoo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_2/public" data-location="Cape May County Park & Zoo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_2/public" alt="Cape May County Park & Zoo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_3/public" data-location="Cape May County Park & Zoo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_3/public" alt="Cape May County Park & Zoo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_4/public" data-location="Cape May County Park & Zoo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_4/public" alt="Cape May County Park & Zoo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_5/public" data-location="Cape May County Park & Zoo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_5/public" alt="Cape May County Park & Zoo"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_6/public" data-location="Cape May County Park & Zoo"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_county_park_zoo_6/public" alt="Cape May County Park & Zoo"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Grounds+For+Sculpture/@40.2367777,-74.7188915,17z/data=!3m1!4b1!4m6!3m5!1s0x89c158ee9944c18f:0x974069ccd6428196!8m2!3d40.2367777!4d-74.7188915!16s%2Fm%2F02637b0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Grounds for Sculpture 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_1/public" data-location="Grounds for Sculpture"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_1/public" alt="Grounds for Sculpture"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_2/public" data-location="Grounds for Sculpture"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_2/public" alt="Grounds for Sculpture"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_3/public" data-location="Grounds for Sculpture"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_3/public" alt="Grounds for Sculpture"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_4/public" data-location="Grounds for Sculpture"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_4/public" alt="Grounds for Sculpture"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_5/public" data-location="Grounds for Sculpture"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_5/public" alt="Grounds for Sculpture"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_6/public" data-location="Grounds for Sculpture"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_grounds_for_sculpture_6/public" alt="Grounds for Sculpture"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Barnegat+Lighthouse+State+Park/@39.7632135,-74.1063824,17z/data=!3m1!4b1!4m6!3m5!1s0x89c1a41525c6e2cd:0x8b49b56ac4ec611!8m2!3d39.7632135!4d-74.1063824!16zL20vMGRrMGg4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Barnegat Lighthouse State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_1/public" data-location="Barnegat Lighthouse State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_1/public" alt="Barnegat Lighthouse State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_2/public" data-location="Barnegat Lighthouse State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_2/public" alt="Barnegat Lighthouse State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_3/public" data-location="Barnegat Lighthouse State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_3/public" alt="Barnegat Lighthouse State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_4/public" data-location="Barnegat Lighthouse State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_4/public" alt="Barnegat Lighthouse State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_5/public" data-location="Barnegat Lighthouse State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_5/public" alt="Barnegat Lighthouse State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_6/public" data-location="Barnegat Lighthouse State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_barnegat_lighthouse_state_park_6/public" alt="Barnegat Lighthouse State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eagle+Rock+Reservation/@40.8106183,-74.2337063,17z/data=!3m1!4b1!4m6!3m5!1s0x89c3aadc734582f5:0x1c17eecbc40f813c!8m2!3d40.8106183!4d-74.2337063!16zL20vMDFxeWhm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eagle Rock Reservation 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_1/public" data-location="Eagle Rock Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_1/public" alt="Eagle Rock Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_2/public" data-location="Eagle Rock Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_2/public" alt="Eagle Rock Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_3/public" data-location="Eagle Rock Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_3/public" alt="Eagle Rock Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_4/public" data-location="Eagle Rock Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_4/public" alt="Eagle Rock Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_5/public" data-location="Eagle Rock Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_5/public" alt="Eagle Rock Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_6/public" data-location="Eagle Rock Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_eagle_rock_reservation_6/public" alt="Eagle Rock Reservation"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Duke+Farms/@40.5443318,-74.6239317,17z/data=!3m1!4b1!4m6!3m5!1s0x89c390adb5e4ca11:0xf44aeffd29713ec8!8m2!3d40.5443318!4d-74.6239317!16s%2Fm%2F0bhbpnc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Duke Farms 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_1/public" data-location="Duke Farms"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_1/public" alt="Duke Farms"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_2/public" data-location="Duke Farms"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_2/public" alt="Duke Farms"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_3/public" data-location="Duke Farms"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_3/public" alt="Duke Farms"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_4/public" data-location="Duke Farms"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_4/public" alt="Duke Farms"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_5/public" data-location="Duke Farms"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_5/public" alt="Duke Farms"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_6/public" data-location="Duke Farms"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_duke_farms_6/public" alt="Duke Farms"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Holmdel+Park/@40.3700247,-74.1833052,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2328edad3bef7:0x7d4b071762b8f8c6!8m2!3d40.3700247!4d-74.1833052!16s%2Fm%2F0glnr6m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Holmdel Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_1/public" data-location="Holmdel Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_1/public" alt="Holmdel Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_2/public" data-location="Holmdel Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_2/public" alt="Holmdel Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_3/public" data-location="Holmdel Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_3/public" alt="Holmdel Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_4/public" data-location="Holmdel Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_4/public" alt="Holmdel Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_5/public" data-location="Holmdel Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_5/public" alt="Holmdel Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_6/public" data-location="Holmdel Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_holmdel_park_6/public" alt="Holmdel Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Batsto+Village/@39.6433733,-74.64825,17z/data=!3m1!4b1!4m6!3m5!1s0x89c120c3b5f62f2d:0xa3a5cac5ba8a5f22!8m2!3d39.6433733!4d-74.64825!16s%2Fm%2F025yt6f?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Batsto Village 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_1/public" data-location="Batsto Village"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_1/public" alt="Batsto Village"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_2/public" data-location="Batsto Village"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_2/public" alt="Batsto Village"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_3/public" data-location="Batsto Village"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_3/public" alt="Batsto Village"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_4/public" data-location="Batsto Village"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_4/public" alt="Batsto Village"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_5/public" data-location="Batsto Village"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_5/public" alt="Batsto Village"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_6/public" data-location="Batsto Village"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_batsto_village_6/public" alt="Batsto Village"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Deep+Cut+Gardens/@40.3905567,-74.1285645,17z/data=!3m1!4b1!4m6!3m5!1s0x89c233d9bb122ed5:0x18da147624bfbe89!8m2!3d40.3905567!4d-74.1285645!16s%2Fg%2F1tc_4_q7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Deep Cut Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_1/public" data-location="Deep Cut Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_1/public" alt="Deep Cut Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_2/public" data-location="Deep Cut Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_2/public" alt="Deep Cut Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_3/public" data-location="Deep Cut Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_3/public" alt="Deep Cut Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_4/public" data-location="Deep Cut Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_4/public" alt="Deep Cut Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_5/public" data-location="Deep Cut Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_5/public" alt="Deep Cut Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_6/public" data-location="Deep Cut Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_deep_cut_gardens_6/public" alt="Deep Cut Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lakota+Wolf+Preserve/@40.9716012,-75.0720862,17z/data=!3m1!4b1!4m6!3m5!1s0x89c48723f40e6afd:0x3281710aba774501!8m2!3d40.9716012!4d-75.0720862!16s%2Fg%2F11cs69lgz8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lakota Wolf Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_1/public" data-location="Lakota Wolf Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_1/public" alt="Lakota Wolf Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_2/public" data-location="Lakota Wolf Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_2/public" alt="Lakota Wolf Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_3/public" data-location="Lakota Wolf Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_3/public" alt="Lakota Wolf Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_4/public" data-location="Lakota Wolf Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_4/public" alt="Lakota Wolf Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_5/public" data-location="Lakota Wolf Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_5/public" alt="Lakota Wolf Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_6/public" data-location="Lakota Wolf Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_lakota_wolf_preserve_6/public" alt="Lakota Wolf Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Twin+Lights+State+Historic+Site/@40.3962568,-73.9857754,17z/data=!3m1!4b1!4m6!3m5!1s0x89c23a2ba8413ec7:0x214930e4dbcae57d!8m2!3d40.3962568!4d-73.9857754!16zL20vMDU0ZGJt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Twin Lights Historic Site 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_1/public" data-location="Twin Lights Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_1/public" alt="Twin Lights Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_2/public" data-location="Twin Lights Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_2/public" alt="Twin Lights Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_3/public" data-location="Twin Lights Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_3/public" alt="Twin Lights Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_4/public" data-location="Twin Lights Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_4/public" alt="Twin Lights Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_5/public" data-location="Twin Lights Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_5/public" alt="Twin Lights Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_6/public" data-location="Twin Lights Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_twin_lights_historic_site_6/public" alt="Twin Lights Historic Site"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hartshorne+Woods+Park/@40.3913811,-73.9885416,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2369bdc8c9f25:0xe078e33c1a242be4!8m2!3d40.3913811!4d-73.9885416!16zL20vMGRkMGh6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hartshorne Woods Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_1/public" data-location="Hartshorne Woods Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_1/public" alt="Hartshorne Woods Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_2/public" data-location="Hartshorne Woods Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_2/public" alt="Hartshorne Woods Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_3/public" data-location="Hartshorne Woods Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_3/public" alt="Hartshorne Woods Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_4/public" data-location="Hartshorne Woods Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_4/public" alt="Hartshorne Woods Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_5/public" data-location="Hartshorne Woods Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_5/public" alt="Hartshorne Woods Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_6/public" data-location="Hartshorne Woods Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_hartshorne_woods_park_6/public" alt="Hartshorne Woods Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Historic+Smithville+Park/@39.9870194,-74.7488289,17z/data=!3m1!4b1!4m6!3m5!1s0x89c1465b8fdf5353:0xdc608b8ed5efb4ee!8m2!3d39.9870194!4d-74.7488289!16s%2Fg%2F11crzxz0bk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Smithville Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_1/public" data-location="Smithville Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_1/public" alt="Smithville Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_2/public" data-location="Smithville Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_2/public" alt="Smithville Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_3/public" data-location="Smithville Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_3/public" alt="Smithville Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_4/public" data-location="Smithville Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_4/public" alt="Smithville Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_5/public" data-location="Smithville Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_5/public" alt="Smithville Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_6/public" data-location="Smithville Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_smithville_park_6/public" alt="Smithville Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Mitchill+Scenic+Overlook/@40.4079793,-74.0049905,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2398b61e4c207:0xa51c3da93372334!8m2!3d40.4079793!4d-74.0049905!16s%2Fg%2F1tcz96t8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Mitchill Scenic Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_1/public" data-location="Mount Mitchill Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_1/public" alt="Mount Mitchill Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_2/public" data-location="Mount Mitchill Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_2/public" alt="Mount Mitchill Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_3/public" data-location="Mount Mitchill Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_3/public" alt="Mount Mitchill Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_4/public" data-location="Mount Mitchill Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_4/public" alt="Mount Mitchill Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_5/public" data-location="Mount Mitchill Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_5/public" alt="Mount Mitchill Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_6/public" data-location="Mount Mitchill Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_mitchill_scenic_overlook_6/public" alt="Mount Mitchill Scenic Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Reeves-Reed+Arboretum/@40.725988,-74.3496685,17z/data=!3m1!4b1!4m6!3m5!1s0x89c3ae5795e0454d:0x3fd74fa2da6255c3!8m2!3d40.725988!4d-74.3496685!16zL20vMDlicDg5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Reeves-Reed Arboretum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_1/public" data-location="Reeves-Reed Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_1/public" alt="Reeves-Reed Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_2/public" data-location="Reeves-Reed Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_2/public" alt="Reeves-Reed Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_3/public" data-location="Reeves-Reed Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_3/public" alt="Reeves-Reed Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_4/public" data-location="Reeves-Reed Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_4/public" alt="Reeves-Reed Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_5/public" data-location="Reeves-Reed Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_5/public" alt="Reeves-Reed Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_6/public" data-location="Reeves-Reed Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_reevesreed_arboretum_6/public" alt="Reeves-Reed Arboretum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/High+Point+Monument/@41.3209557,-74.6616168,17z/data=!3m1!4b1!4m6!3m5!1s0x89c346f56eb573dd:0x84ba4abdb2b2df56!8m2!3d41.3209557!4d-74.6616168!16s%2Fg%2F11c47tdw3b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>High Point Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_1/public" data-location="High Point Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_1/public" alt="High Point Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_2/public" data-location="High Point Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_2/public" alt="High Point Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_3/public" data-location="High Point Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_3/public" alt="High Point Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_4/public" data-location="High Point Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_4/public" alt="High Point Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_5/public" data-location="High Point Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_5/public" alt="High Point Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_6/public" data-location="High Point Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_high_point_monument_6/public" alt="High Point Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ken+Lockwood+Gorge+Wildlife+Management+Area/@40.6883523,-74.8800783,17z/data=!3m1!4b1!4m6!3m5!1s0x89c3894f39312367:0xdb57b55571be91ce!8m2!3d40.6883523!4d-74.8800783!16s%2Fm%2F04gv7p5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ken Lockwood Gorge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_1/public" data-location="Ken Lockwood Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_1/public" alt="Ken Lockwood Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_2/public" data-location="Ken Lockwood Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_2/public" alt="Ken Lockwood Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_3/public" data-location="Ken Lockwood Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_3/public" alt="Ken Lockwood Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_4/public" data-location="Ken Lockwood Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_4/public" alt="Ken Lockwood Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_5/public" data-location="Ken Lockwood Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_5/public" alt="Ken Lockwood Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_6/public" data-location="Ken Lockwood Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ken_lockwood_gorge_6/public" alt="Ken Lockwood Gorge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Maurice+River+Bluffs+Preserve/@39.3537997,-75.0381124,17z/data=!3m1!4b1!4m6!3m5!1s0x89c735bfa24bd7e3:0xcb3bf757f4a0335f!8m2!3d39.3537997!4d-75.0381124!16s%2Fg%2F11b5w825md?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Maurice River Bluffs Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_1/public" data-location="Maurice River Bluffs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_1/public" alt="Maurice River Bluffs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_2/public" data-location="Maurice River Bluffs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_2/public" alt="Maurice River Bluffs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_3/public" data-location="Maurice River Bluffs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_3/public" alt="Maurice River Bluffs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_4/public" data-location="Maurice River Bluffs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_4/public" alt="Maurice River Bluffs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_5/public" data-location="Maurice River Bluffs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_5/public" alt="Maurice River Bluffs Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_6/public" data-location="Maurice River Bluffs Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_maurice_river_bluffs_preserve_6/public" alt="Maurice River Bluffs Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Natirar+Park/@40.7004899,-74.6442752,17z/data=!3m1!4b1!4m6!3m5!1s0x89c397095b252d59:0x36642bbc182948ce!8m2!3d40.7004899!4d-74.6442752!16zL20vMDV0MDk0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Natirar Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_1/public" data-location="Natirar Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_1/public" alt="Natirar Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_2/public" data-location="Natirar Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_2/public" alt="Natirar Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_3/public" data-location="Natirar Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_3/public" alt="Natirar Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_4/public" data-location="Natirar Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_4/public" alt="Natirar Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_5/public" data-location="Natirar Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_5/public" alt="Natirar Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_6/public" data-location="Natirar Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_natirar_park_6/public" alt="Natirar Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Edwin+B.+Forsythe+National+Wildlife+Refuge/@39.4644363,-74.4505376,17z/data=!3m1!4b1!4m6!3m5!1s0x89c10133ffffffff:0x74c6ec4637c2a2de!8m2!3d39.4644363!4d-74.4505376!16s%2Fg%2F11rn27j67t?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Edwin B. Forsythe NWR 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_1/public" data-location="Edwin B. Forsythe NWR"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_1/public" alt="Edwin B. Forsythe NWR"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_2/public" data-location="Edwin B. Forsythe NWR"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_2/public" alt="Edwin B. Forsythe NWR"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_3/public" data-location="Edwin B. Forsythe NWR"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_3/public" alt="Edwin B. Forsythe NWR"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_4/public" data-location="Edwin B. Forsythe NWR"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_4/public" alt="Edwin B. Forsythe NWR"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_5/public" data-location="Edwin B. Forsythe NWR"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_5/public" alt="Edwin B. Forsythe NWR"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_6/public" data-location="Edwin B. Forsythe NWR"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_edwin_b_forsythe_nwr_6/public" alt="Edwin B. Forsythe NWR"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Stone+Harbor+Beach/@39.0532923,-74.7545442,15z/data=!3m1!4b1!4m6!3m5!1s0x89c0a67506a7d5b7:0x4207622b6a8391b0!8m2!3d39.0532929!4d-74.7545442!16s%2Fg%2F11fx8wxhvl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Stone Harbor Point Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_1/public" data-location="Stone Harbor Point Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_1/public" alt="Stone Harbor Point Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_2/public" data-location="Stone Harbor Point Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_2/public" alt="Stone Harbor Point Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_3/public" data-location="Stone Harbor Point Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_3/public" alt="Stone Harbor Point Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_4/public" data-location="Stone Harbor Point Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_4/public" alt="Stone Harbor Point Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_5/public" data-location="Stone Harbor Point Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_5/public" alt="Stone Harbor Point Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_6/public" data-location="Stone Harbor Point Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_stone_harbor_point_beach_6/public" alt="Stone Harbor Point Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Tammany/@40.967987,-75.1130788,15z/data=!3m1!4b1!4m6!3m5!1s0x89c487a1d1cc7e09:0xb7025a796e384e98!8m2!3d40.9679876!4d-75.1130788!16zL20vMDcxdzk5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Tammany 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_1/public" data-location="Mount Tammany"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_1/public" alt="Mount Tammany"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_2/public" data-location="Mount Tammany"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_2/public" alt="Mount Tammany"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_3/public" data-location="Mount Tammany"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_3/public" alt="Mount Tammany"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_4/public" data-location="Mount Tammany"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_4/public" alt="Mount Tammany"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_5/public" data-location="Mount Tammany"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_5/public" alt="Mount Tammany"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_6/public" data-location="Mount Tammany"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_mount_tammany_6/public" alt="Mount Tammany"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Paulinskill+Viaduct/@40.9480254,-75.0613387,17z/data=!3m1!4b1!4m6!3m5!1s0x89c487534dbd1701:0x53aa9a23265aa224!8m2!3d40.9480254!4d-75.0613387!16zL20vMGcyanF5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Paulinskill Viaduct 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_1/public" data-location="Paulinskill Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_1/public" alt="Paulinskill Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_2/public" data-location="Paulinskill Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_2/public" alt="Paulinskill Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_3/public" data-location="Paulinskill Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_3/public" alt="Paulinskill Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_4/public" data-location="Paulinskill Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_4/public" alt="Paulinskill Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_5/public" data-location="Paulinskill Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_5/public" alt="Paulinskill Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_6/public" data-location="Paulinskill Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_paulinskill_viaduct_6/public" alt="Paulinskill Viaduct"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Castle+Point+Lookout/@40.7443853,-74.0238383,17z/data=!3m1!4b1!4m6!3m5!1s0x89c259dc242ad643:0xed9707177c47f5af!8m2!3d40.7443853!4d-74.0238383!16s%2Fg%2F1th5_ql9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Castle Point Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_1/public" data-location="Castle Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_1/public" alt="Castle Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_2/public" data-location="Castle Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_2/public" alt="Castle Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_3/public" data-location="Castle Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_3/public" alt="Castle Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_4/public" data-location="Castle Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_4/public" alt="Castle Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_5/public" data-location="Castle Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_5/public" alt="Castle Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_6/public" data-location="Castle Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_castle_point_lookout_6/public" alt="Castle Point Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Liberty+State+Park/@40.7057531,-74.0491477,17z/data=!3m1!4b1!4m6!3m5!1s0x89c250934b02cba3:0xbd6035c2e0daafcc!8m2!3d40.7057531!4d-74.0491477!16zL20vMDJ6cjBt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Liberty State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_1/public" data-location="Liberty State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_1/public" alt="Liberty State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_2/public" data-location="Liberty State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_2/public" alt="Liberty State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_3/public" data-location="Liberty State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_3/public" alt="Liberty State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_4/public" data-location="Liberty State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_4/public" alt="Liberty State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_5/public" data-location="Liberty State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_5/public" alt="Liberty State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_6/public" data-location="Liberty State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_liberty_state_park_6/public" alt="Liberty State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Boardwalk,+Ocean+City,+NJ+08226,+Amerika+Birle%C5%9Fik+Devletleri/@39.2731438,-74.5765785,17z/data=!3m1!4b1!4m6!3m5!1s0x89c0954c816b3629:0x2c6614591e41524d!8m2!3d39.2731438!4d-74.5765785!16s%2Fg%2F1tp308gh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ocean City Boardwalk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_1/public" data-location="Ocean City Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_1/public" alt="Ocean City Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_2/public" data-location="Ocean City Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_2/public" alt="Ocean City Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_3/public" data-location="Ocean City Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_3/public" alt="Ocean City Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_4/public" data-location="Ocean City Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_4/public" alt="Ocean City Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_5/public" data-location="Ocean City Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_5/public" alt="Ocean City Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_6/public" data-location="Ocean City Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_ocean_city_boardwalk_6/public" alt="Ocean City Boardwalk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/South+Mountain+Reservation/@40.7534061,-74.2896523,17z/data=!3m1!4b1!4m6!3m5!1s0x89c3ac128a076313:0x7bf38cd5c0404ebb!8m2!3d40.7534061!4d-74.2896523!16zL20vMDR0cHpf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>South Mountain Reservation 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_1/public" data-location="South Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_1/public" alt="South Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_2/public" data-location="South Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_2/public" alt="South Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_3/public" data-location="South Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_3/public" alt="South Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_4/public" data-location="South Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_4/public" alt="South Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_5/public" data-location="South Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_5/public" alt="South Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_6/public" data-location="South Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_south_mountain_reservation_6/public" alt="South Mountain Reservation"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Delaware+Water+Gap+National+Recreation+Area/@41.1043945,-74.9442585,17z/data=!3m1!4b1!4m6!3m5!1s0x89c362726c5eaadd:0xfd39a58f82825bf9!8m2!3d41.1043945!4d-74.9442585!16zL20vMDg0YjNs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Delaware Water Gap Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_1/public" data-location="Delaware Water Gap Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_1/public" alt="Delaware Water Gap Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_2/public" data-location="Delaware Water Gap Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_2/public" alt="Delaware Water Gap Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_3/public" data-location="Delaware Water Gap Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_3/public" alt="Delaware Water Gap Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_4/public" data-location="Delaware Water Gap Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_4/public" alt="Delaware Water Gap Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_5/public" data-location="Delaware Water Gap Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_5/public" alt="Delaware Water Gap Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_6/public" data-location="Delaware Water Gap Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_delaware_water_gap_overlook_6/public" alt="Delaware Water Gap Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cape+May+Lighthouse/@38.9330534,-74.9603719,17z/data=!3m1!4b1!4m6!3m5!1s0x89bf54b171740e8b:0xc8fc1602a72363cb!8m2!3d38.9330534!4d-74.9603719!16zL20vMDMydzYw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape May Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_1/public" data-location="Cape May Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_1/public" alt="Cape May Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_2/public" data-location="Cape May Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_2/public" alt="Cape May Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_3/public" data-location="Cape May Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_3/public" alt="Cape May Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_4/public" data-location="Cape May Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_4/public" alt="Cape May Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_5/public" data-location="Cape May Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_5/public" alt="Cape May Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_6/public" data-location="Cape May Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_cape_may_lighthouse_6/public" alt="Cape May Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Garret+Mountain+Reservation/@40.9007508,-74.178574,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2fe78918f1c19:0x163905d002bccfa6!8m2!3d40.9007508!4d-74.178574!16zL20vMGZjcjF3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Garret Mountain Reservation 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_1/public" data-location="Garret Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_1/public" alt="Garret Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_2/public" data-location="Garret Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_2/public" alt="Garret Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_3/public" data-location="Garret Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_3/public" alt="Garret Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_4/public" data-location="Garret Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_4/public" alt="Garret Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_5/public" data-location="Garret Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_5/public" alt="Garret Mountain Reservation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_6/public" data-location="Garret Mountain Reservation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_garret_mountain_reservation_6/public" alt="Garret Mountain Reservation"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Buttermilk+Falls/@41.1367809,-74.8890584,17z/data=!3m1!4b1!4m6!3m5!1s0x89c363bdf13b1649:0x9c1bd22179812308!8m2!3d41.1367809!4d-74.8890584!16s%2Fg%2F1td6nlkh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Buttermilk Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_1/public" data-location="Buttermilk Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_1/public" alt="Buttermilk Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_2/public" data-location="Buttermilk Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_2/public" alt="Buttermilk Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_3/public" data-location="Buttermilk Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_3/public" alt="Buttermilk Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_4/public" data-location="Buttermilk Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_4/public" alt="Buttermilk Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_5/public" data-location="Buttermilk Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_5/public" alt="Buttermilk Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_6/public" data-location="Buttermilk Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/newjersey_buttermilk_falls_6/public" alt="Buttermilk Falls"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
