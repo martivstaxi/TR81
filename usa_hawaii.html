@@ -1,0 +1,1383 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hawaii</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Hawaii</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waimea+Kanyonu+Eyalet+Park%C4%B1/@22.0726785,-159.6656013,17z/data=!3m1!4b1!4m6!3m5!1s0x7c06555527af99f9:0x9f5bd265abc54f33!8m2!3d22.0726785!4d-159.6656013!16zL20vMDM1MWxo?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waimea Canyon State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_1/public" data-location="Waimea Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_1/public" alt="Waimea Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_2/public" data-location="Waimea Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_2/public" alt="Waimea Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_3/public" data-location="Waimea Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_3/public" alt="Waimea Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_4/public" data-location="Waimea Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_4/public" alt="Waimea Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_5/public" data-location="Waimea Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_5/public" alt="Waimea Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_6/public" data-location="Waimea Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_canyon_state_park_6/public" alt="Waimea Canyon State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mauna+Kea+G%C3%B6zlemevleri/@19.8230355,-155.4694483,17z/data=!3m1!4b1!4m6!3m5!1s0x7953bd838daa46cd:0xf288d380869e8d89!8m2!3d19.8230355!4d-155.4694483!16zL20vMDFuanFw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mauna Kea Observatories 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_1/public" data-location="Mauna Kea Observatories"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_1/public" alt="Mauna Kea Observatories"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_2/public" data-location="Mauna Kea Observatories"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_2/public" alt="Mauna Kea Observatories"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_3/public" data-location="Mauna Kea Observatories"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_3/public" alt="Mauna Kea Observatories"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_4/public" data-location="Mauna Kea Observatories"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_4/public" alt="Mauna Kea Observatories"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_5/public" data-location="Mauna Kea Observatories"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_5/public" alt="Mauna Kea Observatories"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_6/public" data-location="Mauna Kea Observatories"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_mauna_kea_observatories_6/public" alt="Mauna Kea Observatories"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waimea+Bay/@21.6429581,-158.0670594,16z/data=!3m1!4b1!4m6!3m5!1s0x7c005996dfee7245:0x79446210daa03dd0!8m2!3d21.6415052!4d-158.0671269!16zL20vMDFibjZs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waimea Bay 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_1/public" data-location="Waimea Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_1/public" alt="Waimea Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_2/public" data-location="Waimea Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_2/public" alt="Waimea Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_3/public" data-location="Waimea Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_3/public" alt="Waimea Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_4/public" data-location="Waimea Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_4/public" alt="Waimea Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_5/public" data-location="Waimea Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_5/public" alt="Waimea Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_6/public" data-location="Waimea Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimea_bay_6/public" alt="Waimea Bay"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kalaupapa+Lookout/@21.1770112,-157.00506,17z/data=!3m1!4b1!4m6!3m5!1s0x7eaab80f35f21e7d:0x7d7c05bfddad01fa!8m2!3d21.1770112!4d-157.00506!16s%2Fg%2F11c2ply_xc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kalaupapa Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_1/public" data-location="Kalaupapa Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_1/public" alt="Kalaupapa Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_2/public" data-location="Kalaupapa Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_2/public" alt="Kalaupapa Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_3/public" data-location="Kalaupapa Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_3/public" alt="Kalaupapa Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_4/public" data-location="Kalaupapa Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_4/public" alt="Kalaupapa Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_5/public" data-location="Kalaupapa Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_5/public" alt="Kalaupapa Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_6/public" data-location="Kalaupapa Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalaupapa_lookout_6/public" alt="Kalaupapa Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waimoku+Falls/@20.678776,-156.0566329,15z/data=!3m1!4b1!4m6!3m5!1s0x7954b010161cda5f:0x1b7e0f157f749b8a!8m2!3d20.6787764!4d-156.0566329!16s%2Fg%2F1tvm2zp_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waimoku Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_1/public" data-location="Waimoku Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_1/public" alt="Waimoku Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_2/public" data-location="Waimoku Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_2/public" alt="Waimoku Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_3/public" data-location="Waimoku Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_3/public" alt="Waimoku Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_4/public" data-location="Waimoku Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_4/public" alt="Waimoku Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_5/public" data-location="Waimoku Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_5/public" alt="Waimoku Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_6/public" data-location="Waimoku Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waimoku_falls_6/public" alt="Waimoku Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Makapu%CA%BBu+Lookout/@21.3094013,-157.6568288,17z/data=!3m1!4b1!4m6!3m5!1s0x7c00117a56befc3b:0xb05cbc8c4a131471!8m2!3d21.3094013!4d-157.6568288!16s%2Fg%2F1hc6p6lxl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Makapu'u Point Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_1/public" data-location="Makapu'u Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_1/public" alt="Makapu'u Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_2/public" data-location="Makapu'u Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_2/public" alt="Makapu'u Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_3/public" data-location="Makapu'u Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_3/public" alt="Makapu'u Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_4/public" data-location="Makapu'u Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_4/public" alt="Makapu'u Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_5/public" data-location="Makapu'u Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_5/public" alt="Makapu'u Point Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_6/public" data-location="Makapu'u Point Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makapuu_point_lookout_6/public" alt="Makapu'u Point Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lanikai+Pillbox+Trail/@21.3901479,-157.7194376,17z/data=!3m1!4b1!4m6!3m5!1s0x7c0014f9ed024149:0x7fa4fc39bdb1f0ce!8m2!3d21.3901479!4d-157.7194376!16s%2Fg%2F1q66_kw9l?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lanikai Pillbox Hike 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_1/public" data-location="Lanikai Pillbox Hike"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_1/public" alt="Lanikai Pillbox Hike"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_2/public" data-location="Lanikai Pillbox Hike"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_2/public" alt="Lanikai Pillbox Hike"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_3/public" data-location="Lanikai Pillbox Hike"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_3/public" alt="Lanikai Pillbox Hike"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_4/public" data-location="Lanikai Pillbox Hike"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_4/public" alt="Lanikai Pillbox Hike"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_5/public" data-location="Lanikai Pillbox Hike"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_5/public" alt="Lanikai Pillbox Hike"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_6/public" data-location="Lanikai Pillbox Hike"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lanikai_pillbox_hike_6/public" alt="Lanikai Pillbox Hike"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tantalus+Lookout+-+Puu+Ualakaa+State+Park/@21.3134333,-157.8228472,17z/data=!3m1!4b1!4m6!3m5!1s0x7c006db013b8d9ef:0xc206ab217259706c!8m2!3d21.3134333!4d-157.8228472!16s%2Fg%2F11c1nl5c6s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tantalus Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_1/public" data-location="Tantalus Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_1/public" alt="Tantalus Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_2/public" data-location="Tantalus Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_2/public" alt="Tantalus Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_3/public" data-location="Tantalus Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_3/public" alt="Tantalus Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_4/public" data-location="Tantalus Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_4/public" alt="Tantalus Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_5/public" data-location="Tantalus Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_5/public" alt="Tantalus Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_6/public" data-location="Tantalus Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_tantalus_lookout_6/public" alt="Tantalus Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/L%C4%81%CA%BBie+Point+State+Wayside/@21.6484801,-157.9144369,17z/data=!3m1!4b1!4m6!3m5!1s0x7c00457c8ae267bd:0x99d860e28f909350!8m2!3d21.6484801!4d-157.9144369!16s%2Fg%2F1tdr8d6f?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Laie Point State Wayside 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_1/public" data-location="Laie Point State Wayside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_1/public" alt="Laie Point State Wayside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_2/public" data-location="Laie Point State Wayside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_2/public" alt="Laie Point State Wayside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_3/public" data-location="Laie Point State Wayside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_3/public" alt="Laie Point State Wayside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_4/public" data-location="Laie Point State Wayside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_4/public" alt="Laie Point State Wayside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_5/public" data-location="Laie Point State Wayside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_5/public" alt="Laie Point State Wayside"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_6/public" data-location="Laie Point State Wayside"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_laie_point_state_wayside_6/public" alt="Laie Point State Wayside"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ka%CA%BBena+Point+State+Park/@21.5746638,-158.2778378,17z/data=!3m1!4b1!4m6!3m5!1s0x7c00f3ae95bf19d1:0xc41ea90b918ddc35!8m2!3d21.5746638!4d-158.2778378!16zL20vMDIzMV9x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ka'ena Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_1/public" data-location="Ka'ena Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_1/public" alt="Ka'ena Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_2/public" data-location="Ka'ena Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_2/public" alt="Ka'ena Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_3/public" data-location="Ka'ena Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_3/public" alt="Ka'ena Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_4/public" data-location="Ka'ena Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_4/public" alt="Ka'ena Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_5/public" data-location="Ka'ena Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_5/public" alt="Ka'ena Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_6/public" data-location="Ka'ena Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kaena_point_6/public" alt="Ka'ena Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Polol%C5%AB+Valley+Lookout/@20.2035807,-155.7338497,17z/data=!3m1!4b1!4m6!3m5!1s0x79537bbc2a268a8b:0x28946c1e3aab8ebe!8m2!3d20.2035807!4d-155.7338497!16s%2Fg%2F11c6fb_zxl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pololu Valley Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_1/public" data-location="Pololu Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_1/public" alt="Pololu Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_2/public" data-location="Pololu Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_2/public" alt="Pololu Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_3/public" data-location="Pololu Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_3/public" alt="Pololu Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_4/public" data-location="Pololu Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_4/public" alt="Pololu Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_5/public" data-location="Pololu Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_5/public" alt="Pololu Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_6/public" data-location="Pololu Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_pololu_valley_lookout_6/public" alt="Pololu Valley Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Na+Pali+Coast+State+Park/@22.1682018,-159.6577381,17z/data=!3m1!4b1!4m6!3m5!1s0x7c06f8a4b13bbcef:0x3b12ba01041a867e!8m2!3d22.1682018!4d-159.6577381!16zL20vMDZjYjZu?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nā Pali Coast 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_1/public" data-location="Nā Pali Coast"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_1/public" alt="Nā Pali Coast"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_2/public" data-location="Nā Pali Coast"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_2/public" alt="Nā Pali Coast"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_3/public" data-location="Nā Pali Coast"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_3/public" alt="Nā Pali Coast"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_4/public" data-location="Nā Pali Coast"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_4/public" alt="Nā Pali Coast"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_5/public" data-location="Nā Pali Coast"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_5/public" alt="Nā Pali Coast"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_6/public" data-location="Nā Pali Coast"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_n_pali_coast_6/public" alt="Nā Pali Coast"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kalalau+Lookout/@22.1511297,-159.6459593,17z/data=!3m1!4b1!4m6!3m5!1s0x7c06ff49c4cda1e7:0xeac3caed4a3d5668!8m2!3d22.1511297!4d-159.6459593!16s%2Fg%2F1hc22xlz5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kalalau Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_1/public" data-location="Kalalau Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_1/public" alt="Kalalau Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_2/public" data-location="Kalalau Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_2/public" alt="Kalalau Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_3/public" data-location="Kalalau Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_3/public" alt="Kalalau Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_4/public" data-location="Kalalau Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_4/public" alt="Kalalau Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_5/public" data-location="Kalalau Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_5/public" alt="Kalalau Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_6/public" data-location="Kalalau Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalalau_lookout_6/public" alt="Kalalau Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waihee+Ridge+Trail/@20.9529323,-156.5316222,17z/data=!3m1!4b1!4m6!3m5!1s0x7eab2b7af9533b0f:0x7ece6dcb872ff0a0!8m2!3d20.9529323!4d-156.5316222!16s%2Fg%2F1jglw0p6h?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waihee Ridge Trail View 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_1/public" data-location="Waihee Ridge Trail View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_1/public" alt="Waihee Ridge Trail View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_2/public" data-location="Waihee Ridge Trail View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_2/public" alt="Waihee Ridge Trail View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_3/public" data-location="Waihee Ridge Trail View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_3/public" alt="Waihee Ridge Trail View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_4/public" data-location="Waihee Ridge Trail View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_4/public" alt="Waihee Ridge Trail View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_5/public" data-location="Waihee Ridge Trail View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_5/public" alt="Waihee Ridge Trail View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_6/public" data-location="Waihee Ridge Trail View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waihee_ridge_trail_view_6/public" alt="Waihee Ridge Trail View"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hanalei+Valley+Lookout/@22.212719,-159.4756572,17z/data=!3m1!4b1!4m6!3m5!1s0x7c06e54d07b5ba43:0xb6e52e07c316647c!8m2!3d22.212719!4d-159.4756572!16s%2Fg%2F11bbx0pccr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hanalei Valley Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_1/public" data-location="Hanalei Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_1/public" alt="Hanalei Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_2/public" data-location="Hanalei Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_2/public" alt="Hanalei Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_3/public" data-location="Hanalei Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_3/public" alt="Hanalei Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_4/public" data-location="Hanalei Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_4/public" alt="Hanalei Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_5/public" data-location="Hanalei Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_5/public" alt="Hanalei Valley Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_6/public" data-location="Hanalei Valley Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_valley_lookout_6/public" alt="Hanalei Valley Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hanalei+Bay/@22.2072622,-159.507088,16z/data=!3m1!4b1!4m6!3m5!1s0x7c06fa94b9ee0563:0xd6a3af0fd27553bf!8m2!3d22.2090776!4d-159.5067583!16zL20vMGY5NXBj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hanalei Bay 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_1/public" data-location="Hanalei Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_1/public" alt="Hanalei Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_2/public" data-location="Hanalei Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_2/public" alt="Hanalei Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_3/public" data-location="Hanalei Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_3/public" alt="Hanalei Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_4/public" data-location="Hanalei Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_4/public" alt="Hanalei Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_5/public" data-location="Hanalei Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_5/public" alt="Hanalei Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_6/public" data-location="Hanalei Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hanalei_bay_6/public" alt="Hanalei Bay"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sunset+Beach+Park/@21.6742181,-158.0402232,17z/data=!3m1!4b1!4m6!3m5!1s0x7c005135ee95fa1d:0x82dda9cce24c03d4!8m2!3d21.6742181!4d-158.0402232!16s%2Fg%2F11nn2thr3m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sunset Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_1/public" data-location="Sunset Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_1/public" alt="Sunset Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_2/public" data-location="Sunset Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_2/public" alt="Sunset Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_3/public" data-location="Sunset Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_3/public" alt="Sunset Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_4/public" data-location="Sunset Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_4/public" alt="Sunset Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_5/public" data-location="Sunset Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_5/public" alt="Sunset Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_6/public" data-location="Sunset Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_sunset_beach_6/public" alt="Sunset Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ho%CA%BBomaluhia+Botanical+Garden/@21.3866022,-157.804555,17z/data=!3m1!4b1!4m6!3m5!1s0x7c006b0b31ee406d:0x7fc7a3bb510eef28!8m2!3d21.3866022!4d-157.804555!16zL20vMGRfaG0y?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ho'omaluhia Botanical Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_1/public" data-location="Ho'omaluhia Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_1/public" alt="Ho'omaluhia Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_2/public" data-location="Ho'omaluhia Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_2/public" alt="Ho'omaluhia Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_3/public" data-location="Ho'omaluhia Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_3/public" alt="Ho'omaluhia Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_4/public" data-location="Ho'omaluhia Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_4/public" alt="Ho'omaluhia Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_5/public" data-location="Ho'omaluhia Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_5/public" alt="Ho'omaluhia Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_6/public" data-location="Ho'omaluhia Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_hoomaluhia_botanical_garden_6/public" alt="Ho'omaluhia Botanical Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nu%CA%BBuanu+Pali+Lookout/@21.3671383,-157.7931316,17z/data=!3m1!4b1!4m6!3m5!1s0x7c006b6247261c9b:0xc97922b8ab8815d7!8m2!3d21.3671383!4d-157.7931316!16s%2Fg%2F11btyv7108?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nuuanu Pali Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_1/public" data-location="Nuuanu Pali Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_1/public" alt="Nuuanu Pali Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_2/public" data-location="Nuuanu Pali Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_2/public" alt="Nuuanu Pali Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_3/public" data-location="Nuuanu Pali Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_3/public" alt="Nuuanu Pali Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_4/public" data-location="Nuuanu Pali Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_4/public" alt="Nuuanu Pali Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_5/public" data-location="Nuuanu Pali Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_5/public" alt="Nuuanu Pali Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_6/public" data-location="Nuuanu Pali Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nuuanu_pali_lookout_6/public" alt="Nuuanu Pali Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nakalele+Blowhole/@21.0271397,-156.5885569,17z/data=!3m1!4b1!4m6!3m5!1s0x7eab299218324df7:0xfcac81f56ba48b2d!8m2!3d21.0271397!4d-156.5885569!16s%2Fm%2F027bk6c?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nakalele Blowhole 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_1/public" data-location="Nakalele Blowhole"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_1/public" alt="Nakalele Blowhole"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_2/public" data-location="Nakalele Blowhole"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_2/public" alt="Nakalele Blowhole"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_3/public" data-location="Nakalele Blowhole"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_3/public" alt="Nakalele Blowhole"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_4/public" data-location="Nakalele Blowhole"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_4/public" alt="Nakalele Blowhole"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_5/public" data-location="Nakalele Blowhole"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_5/public" alt="Nakalele Blowhole"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_6/public" data-location="Nakalele Blowhole"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_nakalele_blowhole_6/public" alt="Nakalele Blowhole"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wai%CA%BB%C4%81napanapa+State+Park/@20.7834865,-155.997711,17z/data=!3m1!4b1!4m6!3m5!1s0x7954ac52bd0b2d53:0x233079fa168faa55!8m2!3d20.7834865!4d-155.997711!16s%2Fm%2F04ld5tj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waianapanapa State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_1/public" data-location="Waianapanapa State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_1/public" alt="Waianapanapa State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_2/public" data-location="Waianapanapa State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_2/public" alt="Waianapanapa State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_3/public" data-location="Waianapanapa State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_3/public" alt="Waianapanapa State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_4/public" data-location="Waianapanapa State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_4/public" alt="Waianapanapa State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_5/public" data-location="Waianapanapa State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_5/public" alt="Waianapanapa State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_6/public" data-location="Waianapanapa State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_waianapanapa_state_park_6/public" alt="Waianapanapa State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lahaina+Banyan+Court/@20.8718511,-156.6776043,17z/data=!3m1!4b1!4m6!3m5!1s0x79552bb840ab7649:0x20049bc15959892c!8m2!3d20.8718511!4d-156.6776043!16s%2Fm%2F0hzmr3r?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lahaina Banyan Tree Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_1/public" data-location="Lahaina Banyan Tree Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_1/public" alt="Lahaina Banyan Tree Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_2/public" data-location="Lahaina Banyan Tree Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_2/public" alt="Lahaina Banyan Tree Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_3/public" data-location="Lahaina Banyan Tree Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_3/public" alt="Lahaina Banyan Tree Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_4/public" data-location="Lahaina Banyan Tree Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_4/public" alt="Lahaina Banyan Tree Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_5/public" data-location="Lahaina Banyan Tree Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_5/public" alt="Lahaina Banyan Tree Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_6/public" data-location="Lahaina Banyan Tree Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_lahaina_banyan_tree_park_6/public" alt="Lahaina Banyan Tree Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lili%CA%BBuokalani+Gardens/@19.726372,-155.068079,17z/data=!3m1!4b1!4m6!3m5!1s0x79524c9eda2be319:0x112029be93bb227a!8m2!3d19.726372!4d-155.068079!16zL20vMGY3d19j?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Liliuokalani Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_1/public" data-location="Liliuokalani Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_1/public" alt="Liliuokalani Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_2/public" data-location="Liliuokalani Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_2/public" alt="Liliuokalani Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_3/public" data-location="Liliuokalani Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_3/public" alt="Liliuokalani Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_4/public" data-location="Liliuokalani Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_4/public" alt="Liliuokalani Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_5/public" data-location="Liliuokalani Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_5/public" alt="Liliuokalani Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_6/public" data-location="Liliuokalani Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_liliuokalani_gardens_6/public" alt="Liliuokalani Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Diamond+Head/@21.2637984,-157.8040943,17z/data=!3m1!4b1!4m6!3m5!1s0x7c00728901172099:0x429e0b513230e252!8m2!3d21.2637984!4d-157.8040943!16s%2Fm%2F0bq6zxg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Diamond Head State Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_1/public" data-location="Diamond Head State Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_1/public" alt="Diamond Head State Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_2/public" data-location="Diamond Head State Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_2/public" alt="Diamond Head State Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_3/public" data-location="Diamond Head State Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_3/public" alt="Diamond Head State Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_4/public" data-location="Diamond Head State Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_4/public" alt="Diamond Head State Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_5/public" data-location="Diamond Head State Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_5/public" alt="Diamond Head State Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_6/public" data-location="Diamond Head State Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_diamond_head_state_monument_6/public" alt="Diamond Head State Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kaloko-Honokohau+National+Historical+Park/@19.6778522,-156.0216868,17z/data=!3m1!4b1!4m6!3m5!1s0x79540e0b76679667:0x14cda6041399181c!8m2!3d19.6778522!4d-156.0216868!16zL20vMDc1Zm55?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kaloko-Honokohau National Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_1/public" data-location="Kaloko-Honokohau National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_1/public" alt="Kaloko-Honokohau National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_2/public" data-location="Kaloko-Honokohau National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_2/public" alt="Kaloko-Honokohau National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_3/public" data-location="Kaloko-Honokohau National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_3/public" alt="Kaloko-Honokohau National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_4/public" data-location="Kaloko-Honokohau National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_4/public" alt="Kaloko-Honokohau National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_5/public" data-location="Kaloko-Honokohau National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_5/public" alt="Kaloko-Honokohau National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_6/public" data-location="Kaloko-Honokohau National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_kalokohonokohau_national_historical_park_6/public" alt="Kaloko-Honokohau National Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Makena+Beach/@20.6316213,-156.4447925,15z/data=!3m1!4b1!4m6!3m5!1s0x7eaad5ca21da6add:0xf2d3d66f2d3e5c3a!8m2!3d20.6316217!4d-156.4447925!16s%2Fg%2F1x6q1zbt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Makena Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_1/public" data-location="Makena Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_1/public" alt="Makena Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_2/public" data-location="Makena Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_2/public" alt="Makena Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_3/public" data-location="Makena Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_3/public" alt="Makena Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_4/public" data-location="Makena Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_4/public" alt="Makena Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_5/public" data-location="Makena Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_5/public" alt="Makena Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_6/public" data-location="Makena Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_makena_beach_6/public" alt="Makena Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Poipu+Beach/@21.8731483,-159.4550602,18z/data=!3m1!4b1!4m6!3m5!1s0x7c071a97c5564d5b:0x2fa8c81b52f14083!8m2!3d21.8733324!4d-159.4542012!16s%2Fg%2F1pzsxb5h_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Poipu Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_1/public" data-location="Poipu Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_1/public" alt="Poipu Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_2/public" data-location="Poipu Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_2/public" alt="Poipu Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_3/public" data-location="Poipu Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_3/public" alt="Poipu Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_4/public" data-location="Poipu Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_4/public" alt="Poipu Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_5/public" data-location="Poipu Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_5/public" alt="Poipu Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_6/public" data-location="Poipu Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/hawaii_poipu_beach_6/public" alt="Poipu Beach"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
