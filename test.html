@@ -778,11 +778,173 @@
 
   /* === ARAÇ FONKSİYONLARI === */
   const flag = iso => String.fromCodePoint(...[...iso.toUpperCase()].map(c=>0x1F1E6+c.charCodeAt(0)-65));
-  const norm = t => t.toLowerCase().replace(/[çğıöşü]/g,ch=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u'}[ch]));
+  const norm = t => t.toLowerCase().replace(/[çğıöşüáàäâéèëêíìïîóòöôúùüûñ]/g,ch=>({
+    ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u',
+    á:'a',à:'a',ä:'a',â:'a',
+    é:'e',è:'e',ë:'e',ê:'e',
+    í:'i',ì:'i',ï:'i',î:'i',
+    ó:'o',ò:'o',ö:'o',ô:'o',
+    ú:'u',ù:'u',ü:'u',û:'u',
+    ñ:'n'
+  }[ch])||ch);
 
   /* Yedek isimler (Intl desteklemezse) */
   const customNames = {
     xk:{ tr:'Kosova', en:'Kosovo', ru:'Косово', de:'Kosovo', fr:'Kosovo', es:'Kosovo' }
+  };
+
+  /* Çoklu dil arama için ülke isimleri ve kısaltmaları */
+  const countrySearchTerms = {
+    tr: ['türkiye', 'turkiye', 'turkey', 'turquie', 'turquia', 'турция', 'tc'],
+    us: ['abd', 'usa', 'amerika', 'america', 'united states', 'états-unis', 'estados unidos', 'сша', 'америка'],
+    fr: ['fransa', 'france', 'francia', 'frankreich', 'франция'],
+    es: ['ispanya', 'spain', 'españa', 'espagne', 'spanien', 'испания'],
+    it: ['italya', 'italy', 'italia', 'italie', 'italien', 'италия'],
+    mx: ['meksika', 'mexico', 'méxico', 'mexique', 'mexiko', 'мексика'],
+    gb: ['ingiltere', 'birleşik krallık', 'uk', 'united kingdom', 'royaume-uni', 'reino unido', 'великобритания', 'англия'],
+    de: ['almanya', 'germany', 'deutschland', 'allemagne', 'alemania', 'германия'],
+    gr: ['yunanistan', 'greece', 'grèce', 'grecia', 'griechenland', 'греция', 'ελλάδα'],
+    at: ['avusturya', 'austria', 'autriche', 'österreich', 'австрия'],
+    jp: ['japonya', 'japan', 'japon', 'japón', 'япония', '日本', 'nippon'],
+    my: ['malezya', 'malaysia', 'malaisie', 'malasia', 'малайзия'],
+    th: ['tayland', 'thailand', 'thaïlande', 'tailandia', 'таиланд', 'ประเทศไทย'],
+    sa: ['suudi arabistan', 'saudi arabia', 'arabie saoudite', 'arabia saudita', 'саудовская аравия', 'ksa'],
+    ae: ['birleşik arap emirlikleri', 'bae', 'uae', 'united arab emirates', 'émirats arabes unis', 'оаэ', 'dubai'],
+    pt: ['portekiz', 'portugal', 'португалия'],
+    cn: ['çin', 'china', 'chine', 'cina', 'китай', '中国', 'zhongguo'],
+    hr: ['hırvatistan', 'croatia', 'croatie', 'croacia', 'kroatien', 'хорватия', 'hrvatska'],
+    pl: ['polonya', 'poland', 'pologne', 'polonia', 'polen', 'польша', 'polska'],
+    nl: ['hollanda', 'netherlands', 'pays-bas', 'países bajos', 'niederlande', 'нидерланды', 'nederland'],
+    hu: ['macaristan', 'hungary', 'hongrie', 'hungría', 'ungarn', 'венгрия', 'magyarország'],
+    bh: ['bahreyn', 'bahrain', 'bahreïn', 'bahrein', 'бахрейн'],
+    ca: ['kanada', 'canada', 'canadá', 'канада'],
+    kr: ['güney kore', 'south korea', 'corée du sud', 'corea del sur', 'südkorea', 'южная корея', '한국'],
+    ma: ['fas', 'morocco', 'maroc', 'marruecos', 'marokko', 'марокко'],
+    vn: ['vietnam', 'viet nam', 'viêt nam', 'вьетнам'],
+    cz: ['çekya', 'czech republic', 'tchéquie', 'república checa', 'tschechien', 'чехия', 'česko'],
+    sg: ['singapur', 'singapore', 'singapour', 'сингапур'],
+    ro: ['romanya', 'romania', 'roumanie', 'rumania', 'rumänien', 'румыния', 'românia'],
+    id: ['endonezya', 'indonesia', 'indonésie', 'indonesien', 'индонезия'],
+    eg: ['mısır', 'egypt', 'égypte', 'egipto', 'ägypten', 'египет', 'misr'],
+    dk: ['danimarka', 'denmark', 'danemark', 'dinamarca', 'dänemark', 'дания', 'danmark'],
+    ch: ['isviçre', 'switzerland', 'suisse', 'suiza', 'schweiz', 'швейцария'],
+    be: ['belçika', 'belgium', 'belgique', 'bélgica', 'belgien', 'бельгия', 'belgië'],
+    al: ['arnavutluk', 'albania', 'albanie', 'albanien', 'албания', 'shqipëri'],
+    kz: ['kazakistan', 'kazakhstan', 'казахстан', 'қазақстан'],
+    do: ['dominik', 'dominican republic', 'république dominicaine', 'república dominicana', 'доминикана'],
+    se: ['isveç', 'sweden', 'suède', 'suecia', 'schweden', 'швеция', 'sverige'],
+    ie: ['irlanda', 'ireland', 'irlande', 'irlanda', 'irland', 'ирландия', 'éire'],
+    ph: ['filipinler', 'philippines', 'filipinas', 'philippinen', 'филиппины', 'pilipinas'],
+    in: ['hindistan', 'india', 'inde', 'indien', 'индия', 'भारत', 'bharat'],
+    bs: ['bahamalar', 'bahamas', 'багамы'],
+    au: ['avustralya', 'australia', 'australie', 'австралия'],
+    bg: ['bulgaristan', 'bulgaria', 'bulgarie', 'bulgarien', 'болгария', 'българия'],
+    tw: ['tayvan', 'taiwan', 'taïwan', 'тайвань', '台湾', '臺灣'],
+    br: ['brezilya', 'brazil', 'brésil', 'brasil', 'brasilien', 'бразилия'],
+    tn: ['tunus', 'tunisia', 'tunisie', 'túnez', 'tunesien', 'тунис'],
+    ru: ['rusya', 'russia', 'russie', 'rusia', 'russland', 'россия', 'rossiya'],
+    uz: ['özbekistan', 'uzbekistan', 'ouzbékistan', 'usbekistan', 'узбекистан', 'oʻzbekiston'],
+    ar: ['arjantin', 'argentina', 'argentine', 'argentinien', 'аргентина'],
+    qa: ['katar', 'qatar', 'catar', 'катар', 'قطر'],
+    co: ['kolombiya', 'colombia', 'colombie', 'kolumbien', 'колумбия'],
+    za: ['güney afrika', 'south africa', 'afrique du sud', 'sudáfrica', 'südafrika', 'юар', 'южная африка'],
+    no: ['norveç', 'norway', 'norvège', 'noruega', 'norwegen', 'норвегия', 'norge'],
+    nz: ['yeni zelanda', 'new zealand', 'nouvelle-zélande', 'nueva zelanda', 'neuseeland', 'новая зеландия'],
+    pe: ['peru', 'pérou', 'perú', 'перу'],
+    md: ['moldova', 'moldavie', 'moldavia', 'moldau', 'молдова'],
+    sk: ['slovakya', 'slovakia', 'slovaquie', 'eslovaquia', 'slowakei', 'словакия', 'slovensko'],
+    kh: ['kamboçya', 'cambodia', 'cambodge', 'camboya', 'kambodscha', 'камбоджа'],
+    ad: ['andorra', 'andorre', 'андорра'],
+    ge: ['gürcistan', 'georgia', 'géorgie', 'georgien', 'грузия', 'საქართველო', 'sakartvelo'],
+    jo: ['ürdün', 'jordan', 'jordanie', 'jordania', 'jordanien', 'иордания', 'الأردن'],
+    si: ['slovenya', 'slovenia', 'slovénie', 'eslovenia', 'slowenien', 'словения', 'slovenija'],
+    rs: ['sırbistan', 'serbia', 'serbie', 'serbien', 'сербия', 'србија', 'srbija'],
+    jm: ['jamaika', 'jamaica', 'jamaïque', 'jamaika', 'ямайка'],
+    om: ['umman', 'oman', 'оман', 'عمان'],
+    cy: ['kıbrıs', 'cyprus', 'chypre', 'chipre', 'zypern', 'кипр', 'κύπρος'],
+    uy: ['uruguay', 'уругвай'],
+    cl: ['şili', 'chile', 'chili', 'чили'],
+    hk: ['hong kong', 'hongkong', 'гонконг', '香港'],
+    mo: ['makao', 'macau', 'macao', 'макао', '澳門'],
+    la: ['laos', 'лаос', 'ລາວ'],
+    sv: ['el salvador', 'salvador', 'сальвадор'],
+    dz: ['cezayir', 'algeria', 'algérie', 'argelia', 'algerien', 'алжир', 'الجزائر'],
+    il: ['israil', 'israel', 'israël', 'израиль', 'ישראל'],
+    kw: ['kuveyt', 'kuwait', 'koweït', 'кувейт', 'الكويت'],
+    mt: ['malta', 'malte', 'мальта'],
+    kg: ['kırgızistan', 'kyrgyzstan', 'kirghizistan', 'kirgisistan', 'киргизия', 'кыргызстан'],
+    lb: ['lübnan', 'lebanon', 'liban', 'líbano', 'libanon', 'ливан', 'لبنان'],
+    pk: ['pakistan', 'пакистан', 'پاکستان'],
+    fi: ['finlandiya', 'finland', 'finlande', 'finlandia', 'finnland', 'финляндия', 'suomi'],
+    pa: ['panama', 'panamá', 'панама'],
+    me: ['karadağ', 'montenegro', 'monténégro', 'черногория', 'crna gora'],
+    pr: ['porto riko', 'puerto rico', 'porto rico', 'пуэрто-рико'],
+    cr: ['kosta rika', 'costa rica', 'коста-рика'],
+    cu: ['küba', 'cuba', 'kuba', 'куба'],
+    az: ['azerbaycan', 'azerbaijan', 'azerbaïdjan', 'azerbaiyán', 'aserbaidschan', 'азербайджан', 'azərbaycan'],
+    ke: ['kenya', 'kenia', 'кения'],
+    am: ['ermenistan', 'armenia', 'arménie', 'armenien', 'армения', 'հայաստան', 'hayastan'],
+    is: ['izlanda', 'iceland', 'islande', 'islandia', 'island', 'исландия', 'ísland'],
+    zm: ['zambiya', 'zambia', 'zambie', 'sambia', 'замбия'],
+    lk: ['sri lanka', 'шри-ланка', 'ශ්‍රී ලංකා'],
+    mv: ['maldivler', 'maldives', 'maldivas', 'malediven', 'мальдивы'],
+    mz: ['mozambik', 'mozambique', 'mosambik', 'мозамбик', 'moçambique'],
+    tz: ['tanzanya', 'tanzania', 'tanzanie', 'tansania', 'танзания'],
+    sm: ['san marino', 'saint-marin', 'сан-марино'],
+    gt: ['guatemala', 'гватемала'],
+    ee: ['estonya', 'estonia', 'estonie', 'estland', 'эстония', 'eesti'],
+    zw: ['zimbabve', 'zimbabwe', 'simbabwe', 'зимбабве'],
+    bo: ['bolivya', 'bolivia', 'bolivie', 'bolivien', 'боливия'],
+    lu: ['lüksemburg', 'luxembourg', 'luxemburg', 'люксембург', 'lëtzebuerg'],
+    ec: ['ekvador', 'ecuador', 'équateur', 'эквадор'],
+    aw: ['aruba', 'аруба'],
+    rw: ['ruanda', 'rwanda', 'руанда'],
+    lv: ['letonya', 'latvia', 'lettonie', 'letonia', 'lettland', 'латвия', 'latvija'],
+    sn: ['senegal', 'sénégal', 'сенегал'],
+    ug: ['uganda', 'ouganda', 'уганда'],
+    tj: ['tacikistan', 'tajikistan', 'tadjikistan', 'tadschikistan', 'таджикистан', 'тоҷикистон'],
+    mu: ['mauritius', 'maurice', 'mauricio', 'маврикий'],
+    mm: ['myanmar', 'birmanie', 'birmania', 'мьянма', 'burma'],
+    ve: ['venezuela', 'vénézuéla', 'венесуэла'],
+    ni: ['nikaragua', 'nicaragua', 'никарагуа'],
+    ng: ['nijerya', 'nigeria', 'nigéria', 'нигерия'],
+    ba: ['bosna hersek', 'bosnia', 'bosnie', 'bosnien', 'босния', 'bih'],
+    et: ['etiyopya', 'ethiopia', 'éthiopie', 'etiopía', 'äthiopien', 'эфиопия'],
+    np: ['nepal', 'népal', 'непал', 'नेपाल'],
+    ls: ['lesotho', 'лесото'],
+    gh: ['gana', 'ghana', 'гана'],
+    lt: ['litvanya', 'lithuania', 'lituanie', 'lituania', 'litauen', 'литва', 'lietuva'],
+    xk: ['kosova', 'kosovo', 'косово'],
+    cd: ['kongo', 'dr congo', 'drc', 'rd congo', 'конго', 'drc congo'],
+    mn: ['moğolistan', 'mongolia', 'mongolie', 'mongolei', 'монголия', 'монгол'],
+    ir: ['iran', 'иран', 'ایران'],
+    bd: ['bangladeş', 'bangladesh', 'бангладеш', 'বাংলাদেশ'],
+    sd: ['sudan', 'soudan', 'судан', 'السودان'],
+    iq: ['irak', 'iraq', 'ирак', 'العراق'],
+    af: ['afganistan', 'afghanistan', 'афганистан'],
+    ao: ['angola', 'ангола'],
+    ua: ['ukrayna', 'ukraine', 'украина', 'україна', 'ukrayina'],
+    ye: ['yemen', 'yémen', 'йемен', 'اليمن'],
+    mg: ['madagaskar', 'madagascar', 'мадагаскар'],
+    ci: ['fildişi sahili', 'ivory coast', 'côte d\'ivoire', 'elfenbeinküste', 'кот-д\'ивуар'],
+    cm: ['kamerun', 'cameroon', 'cameroun', 'camerún', 'камерун'],
+    ne: ['nijer', 'niger', 'нигер'],
+    ml: ['mali', 'мали'],
+    bf: ['burkina faso', 'буркина-фасо'],
+    mw: ['malavi', 'malawi', 'малави'],
+    td: ['çad', 'chad', 'tchad', 'tschad', 'чад'],
+    so: ['somali', 'somalia', 'somalie', 'сомали'],
+    bj: ['benin', 'bénin', 'бенин'],
+    gn: ['gine', 'guinea', 'guinée', 'гвинея'],
+    bi: ['burundi', 'бурунди'],
+    ss: ['güney sudan', 'south sudan', 'soudan du sud', 'südsudan', 'южный судан'],
+    ht: ['haiti', 'haïti', 'гаити'],
+    hn: ['honduras', 'гондурас'],
+    pg: ['papua yeni gine', 'papua new guinea', 'papouasie', 'papua-neuguinea', 'папуа'],
+    tg: ['togo', 'того'],
+    sl: ['sierra leone', 'сьерра-леоне'],
+    by: ['belarus', 'bélarus', 'weißrussland', 'беларусь', 'білорусь'],
+    py: ['paraguay', 'парагвай']
   };
 
   /* Geçerli dil kodu */
@@ -817,6 +979,8 @@
       const name = getCountryName(iso,currentLang);
       card.querySelector('.name').textContent = name;
       card.dataset.search = name;
+      // Çoklu dil arama için tüm isimleri ekle
+      card.dataset.searchTerms = (countrySearchTerms[iso] || []).join(' ');
     });
   }
 
@@ -941,7 +1105,11 @@
       const v = norm(e.target.value);
       document.getElementById('info').style.display = v ? 'none' : '';
       document.querySelectorAll('.card').forEach(c=>{
-        c.style.display = norm(c.dataset.search).includes(v) ? '' : 'none';
+        // Hem gösterilen isimde hem de tüm alternatif isimlerde ara
+        const displayName = norm(c.dataset.search);
+        const allTerms = norm(c.dataset.searchTerms || '');
+        const matches = displayName.includes(v) || allTerms.includes(v);
+        c.style.display = matches ? '' : 'none';
       });
     });
 
