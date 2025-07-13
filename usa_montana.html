@@ -1,0 +1,1281 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Montana</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Montana</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Natural+Bridge+Falls+Picnic+Area/@45.54962,-110.20614,17z/data=!3m1!4b1!4m6!3m5!1s0x534f79540951736f:0x7349c1d7595d4a0d!8m2!3d45.54962!4d-110.20614!16s%2Fg%2F11bx1gyl_0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Natural Bridge Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_1/public" data-location="Natural Bridge Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_1/public" alt="Natural Bridge Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_2/public" data-location="Natural Bridge Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_2/public" alt="Natural Bridge Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_3/public" data-location="Natural Bridge Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_3/public" alt="Natural Bridge Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_4/public" data-location="Natural Bridge Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_4/public" alt="Natural Bridge Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_5/public" data-location="Natural Bridge Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_5/public" alt="Natural Bridge Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_6/public" data-location="Natural Bridge Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_natural_bridge_falls_6/public" alt="Natural Bridge Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Devil's+Canyon+Overlook/@45.0218287,-108.2513725,17z/data=!3m1!4b1!4m6!3m5!1s0x534974a3b7c988db:0x63d88c60a11247e3!8m2!3d45.0218287!4d-108.2513725!16s%2Fg%2F11cn5pwzzx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Devil's Canyon Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_1/public" data-location="Devil's Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_1/public" alt="Devil's Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_2/public" data-location="Devil's Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_2/public" alt="Devil's Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_3/public" data-location="Devil's Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_3/public" alt="Devil's Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_4/public" data-location="Devil's Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_4/public" alt="Devil's Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_5/public" data-location="Devil's Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_5/public" alt="Devil's Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_6/public" data-location="Devil's Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_devils_canyon_overlook_6/public" alt="Devil's Canyon Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Avalanche+Lake/@48.656184,-113.7866722,16z/data=!3m1!4b1!4m6!3m5!1s0x5368a7c6d5377a49:0x7041ac7c482cf764!8m2!3d48.6553472!4d-113.7870306!16s%2Fm%2F0gg4nnn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Avalanche Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_1/public" data-location="Avalanche Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_1/public" alt="Avalanche Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_2/public" data-location="Avalanche Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_2/public" alt="Avalanche Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_3/public" data-location="Avalanche Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_3/public" alt="Avalanche Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_4/public" data-location="Avalanche Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_4/public" alt="Avalanche Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_5/public" data-location="Avalanche Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_5/public" alt="Avalanche Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_6/public" data-location="Avalanche Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_avalanche_lake_6/public" alt="Avalanche Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Two+Medicine+Lake/@48.4800057,-113.3877221,15z/data=!3m1!4b1!4m6!3m5!1s0x53689090d1c259b7:0xeced60b14c1d7692!8m2!3d48.4766883!4d-113.3868111!16s%2Fm%2F0g53k42?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Two Medicine 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_1/public" data-location="Two Medicine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_1/public" alt="Two Medicine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_2/public" data-location="Two Medicine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_2/public" alt="Two Medicine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_3/public" data-location="Two Medicine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_3/public" alt="Two Medicine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_4/public" data-location="Two Medicine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_4/public" alt="Two Medicine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_5/public" data-location="Two Medicine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_5/public" alt="Two Medicine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_6/public" data-location="Two Medicine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_two_medicine_6/public" alt="Two Medicine"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sun+Point+Nature+Trail/@48.6758251,-113.580355,17z/data=!3m1!4b1!4m6!3m5!1s0x5368a4d549f180ed:0xe4d71c7b5f91b87a!8m2!3d48.6758251!4d-113.580355!16s%2Fg%2F1pzvqx7xs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sun Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_1/public" data-location="Sun Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_1/public" alt="Sun Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_2/public" data-location="Sun Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_2/public" alt="Sun Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_3/public" data-location="Sun Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_3/public" alt="Sun Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_4/public" data-location="Sun Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_4/public" alt="Sun Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_5/public" data-location="Sun Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_5/public" alt="Sun Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_6/public" data-location="Sun Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_sun_point_6/public" alt="Sun Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Giant+Springs+State+Park/@47.534446,-111.228842,17z/data=!3m1!4b1!4m6!3m5!1s0x53423a95c026cc33:0x5f5ad0f78197359b!8m2!3d47.534446!4d-111.228842!16s%2Fm%2F02tbm6p?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Giant Springs State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_1/public" data-location="Giant Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_1/public" alt="Giant Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_2/public" data-location="Giant Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_2/public" alt="Giant Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_3/public" data-location="Giant Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_3/public" alt="Giant Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_4/public" data-location="Giant Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_4/public" alt="Giant Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_5/public" data-location="Giant Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_5/public" alt="Giant Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_6/public" data-location="Giant Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_giant_springs_state_park_6/public" alt="Giant Springs State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bighorn+Canyon+National+Recreation+Area/@45.0534639,-108.2466665,17z/data=!3m1!4b1!4m6!3m5!1s0x5349b66e0ce9bd0b:0xdbdc2ad86ff55551!8m2!3d45.0534639!4d-108.2466665!16zL20vMDE5ZmY1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bighorn Canyon 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_1/public" data-location="Bighorn Canyon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_1/public" alt="Bighorn Canyon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_2/public" data-location="Bighorn Canyon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_2/public" alt="Bighorn Canyon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_3/public" data-location="Bighorn Canyon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_3/public" alt="Bighorn Canyon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_4/public" data-location="Bighorn Canyon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_4/public" alt="Bighorn Canyon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_5/public" data-location="Bighorn Canyon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_5/public" alt="Bighorn Canyon"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_6/public" data-location="Bighorn Canyon"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_bighorn_canyon_6/public" alt="Bighorn Canyon"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Makoshika+State+Park/@47.089797,-104.7063288,17z/data=!3m1!4b1!4m6!3m5!1s0x532527277bc3c919:0x4fffcc698d317d93!8m2!3d47.089797!4d-104.7063288!16zL20vMGd6bjQ4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Makoshika State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_1/public" data-location="Makoshika State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_1/public" alt="Makoshika State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_2/public" data-location="Makoshika State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_2/public" alt="Makoshika State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_3/public" data-location="Makoshika State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_3/public" alt="Makoshika State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_4/public" data-location="Makoshika State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_4/public" alt="Makoshika State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_5/public" data-location="Makoshika State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_5/public" alt="Makoshika State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_6/public" data-location="Makoshika State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_makoshika_state_park_6/public" alt="Makoshika State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+McDonald/@48.5838459,-113.9339942,12z/data=!3m1!4b1!4m6!3m5!1s0x53661bbe7f2d62f5:0xe1f1f691338e9e6d!8m2!3d48.5831721!4d-113.9255736!16zL20vMDc5enhm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake McDonald 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_1/public" data-location="Lake McDonald"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_1/public" alt="Lake McDonald"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_2/public" data-location="Lake McDonald"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_2/public" alt="Lake McDonald"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_3/public" data-location="Lake McDonald"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_3/public" alt="Lake McDonald"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_4/public" data-location="Lake McDonald"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_4/public" alt="Lake McDonald"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_5/public" data-location="Lake McDonald"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_5/public" alt="Lake McDonald"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_6/public" data-location="Lake McDonald"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_lake_mcdonald_6/public" alt="Lake McDonald"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Blodgett+Overlook+Trailhead/@46.2527862,-114.2469395,17z/data=!3m1!4b1!4m6!3m5!1s0x535eb81bc04006c3:0xcffcd75a90481ec3!8m2!3d46.2527862!4d-114.2469395!16s%2Fg%2F11bwymqrpj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Blodgett Canyon Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_1/public" data-location="Blodgett Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_1/public" alt="Blodgett Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_2/public" data-location="Blodgett Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_2/public" alt="Blodgett Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_3/public" data-location="Blodgett Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_3/public" alt="Blodgett Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_4/public" data-location="Blodgett Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_4/public" alt="Blodgett Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_5/public" data-location="Blodgett Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_5/public" alt="Blodgett Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_6/public" data-location="Blodgett Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_blodgett_canyon_overlook_6/public" alt="Blodgett Canyon Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Columbia+Mountain+Trailhead/@48.3814662,-114.1151619,17z/data=!3m1!4b1!4m6!3m5!1s0x536640829b87a855:0x524054c74048f01b!8m2!3d48.3814662!4d-114.1151619!16s%2Fg%2F1hdywcmnv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Columbia Mountain Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_1/public" data-location="Columbia Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_1/public" alt="Columbia Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_2/public" data-location="Columbia Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_2/public" alt="Columbia Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_3/public" data-location="Columbia Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_3/public" alt="Columbia Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_4/public" data-location="Columbia Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_4/public" alt="Columbia Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_5/public" data-location="Columbia Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_5/public" alt="Columbia Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_6/public" data-location="Columbia Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_columbia_mountain_trail_6/public" alt="Columbia Mountain Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Grinnell+Glacier+Trail,+Montana+59417,+Amerika+Birle%C5%9Fik+Devletleri/@48.7747544,-113.6979408,17z/data=!3m1!4b1!4m6!3m5!1s0x5368b20023e82d97:0xb6fe0abc4e71c5e7!8m2!3d48.7747544!4d-113.6979408!16s%2Fg%2F1hjh8b2bm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Grinnell Glacier Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_1/public" data-location="Grinnell Glacier Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_1/public" alt="Grinnell Glacier Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_2/public" data-location="Grinnell Glacier Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_2/public" alt="Grinnell Glacier Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_3/public" data-location="Grinnell Glacier Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_3/public" alt="Grinnell Glacier Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_4/public" data-location="Grinnell Glacier Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_4/public" alt="Grinnell Glacier Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_5/public" data-location="Grinnell Glacier Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_5/public" alt="Grinnell Glacier Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_6/public" data-location="Grinnell Glacier Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grinnell_glacier_trail_6/public" alt="Grinnell Glacier Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Little+Bighorn+Battlefield+National+Monument/@45.5658033,-107.4273719,17z/data=!3m1!4b1!4m6!3m5!1s0x5337d2121e3281d1:0x5984413c1c22e3a9!8m2!3d45.5658033!4d-107.4273719!16zL20vMDRqN2I2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Little Bighorn Battlefield 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_1/public" data-location="Little Bighorn Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_1/public" alt="Little Bighorn Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_2/public" data-location="Little Bighorn Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_2/public" alt="Little Bighorn Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_3/public" data-location="Little Bighorn Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_3/public" alt="Little Bighorn Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_4/public" data-location="Little Bighorn Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_4/public" alt="Little Bighorn Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_5/public" data-location="Little Bighorn Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_5/public" alt="Little Bighorn Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_6/public" data-location="Little Bighorn Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_little_bighorn_battlefield_6/public" alt="Little Bighorn Battlefield"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Whitefish+Mountain+Resort/@48.4930375,-114.3476532,17z/data=!3m1!4b1!4m6!3m5!1s0x53666ebcef4a8761:0xee1d351150a0c145!8m2!3d48.4930375!4d-114.3476532!16s%2Fg%2F11hv4j_zg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Whitefish Mountain Summit 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_1/public" data-location="Whitefish Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_1/public" alt="Whitefish Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_2/public" data-location="Whitefish Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_2/public" alt="Whitefish Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_3/public" data-location="Whitefish Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_3/public" alt="Whitefish Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_4/public" data-location="Whitefish Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_4/public" alt="Whitefish Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_5/public" data-location="Whitefish Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_5/public" alt="Whitefish Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_6/public" data-location="Whitefish Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_whitefish_mountain_summit_6/public" alt="Whitefish Mountain Summit"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/CSKT+Bison+Range/@47.3706165,-114.2570519,17z/data=!3m1!4b1!4m6!3m5!1s0x535df4aa94786a5d:0x12eb5ab2472a4204!8m2!3d47.3706165!4d-114.2570519!16zL20vMDlucGhf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>National Bison Range 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_1/public" data-location="National Bison Range"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_1/public" alt="National Bison Range"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_2/public" data-location="National Bison Range"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_2/public" alt="National Bison Range"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_3/public" data-location="National Bison Range"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_3/public" alt="National Bison Range"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_4/public" data-location="National Bison Range"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_4/public" alt="National Bison Range"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_5/public" data-location="National Bison Range"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_5/public" alt="National Bison Range"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_6/public" data-location="National Bison Range"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_national_bison_range_6/public" alt="National Bison Range"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gates+of+the+Mountains/@46.8321182,-111.9526308,17z/data=!3m1!4b1!4m6!3m5!1s0x53434e3a89ad940d:0xcc23c1ae64e145f9!8m2!3d46.8321182!4d-111.9526308!16s%2Fg%2F1ptx779ck?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gates of the Mountains 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_1/public" data-location="Gates of the Mountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_1/public" alt="Gates of the Mountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_2/public" data-location="Gates of the Mountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_2/public" alt="Gates of the Mountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_3/public" data-location="Gates of the Mountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_3/public" alt="Gates of the Mountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_4/public" data-location="Gates of the Mountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_4/public" alt="Gates of the Mountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_5/public" data-location="Gates of the Mountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_5/public" alt="Gates of the Mountains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_6/public" data-location="Gates of the Mountains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_gates_of_the_mountains_6/public" alt="Gates of the Mountains"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Grant-Kohrs+Ranch+National+Historic+Site/@46.406069,-112.736682,17z/data=!3m1!4b1!4m6!3m5!1s0x535c825fc2f43295:0xbb3a55d8473647e5!8m2!3d46.406069!4d-112.736682!16zL20vMDZxbWNt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Grant-Kohrs Ranch 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_1/public" data-location="Grant-Kohrs Ranch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_1/public" alt="Grant-Kohrs Ranch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_2/public" data-location="Grant-Kohrs Ranch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_2/public" alt="Grant-Kohrs Ranch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_3/public" data-location="Grant-Kohrs Ranch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_3/public" alt="Grant-Kohrs Ranch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_4/public" data-location="Grant-Kohrs Ranch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_4/public" alt="Grant-Kohrs Ranch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_5/public" data-location="Grant-Kohrs Ranch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_5/public" alt="Grant-Kohrs Ranch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_6/public" data-location="Grant-Kohrs Ranch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_grantkohrs_ranch_6/public" alt="Grant-Kohrs Ranch"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Upper+Missouri+River+Breaks+National+Monument/@47.804574,-109.0548532,17z/data=!3m1!4b1!4m6!3m5!1s0x53407c4eb65d4181:0xf057ed173e55f544!8m2!3d47.804574!4d-109.0548532!16zL20vMDZxY3Jf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Missouri Breaks 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_1/public" data-location="Missouri Breaks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_1/public" alt="Missouri Breaks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_2/public" data-location="Missouri Breaks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_2/public" alt="Missouri Breaks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_3/public" data-location="Missouri Breaks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_3/public" alt="Missouri Breaks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_4/public" data-location="Missouri Breaks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_4/public" alt="Missouri Breaks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_5/public" data-location="Missouri Breaks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_5/public" alt="Missouri Breaks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_6/public" data-location="Missouri Breaks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_missouri_breaks_6/public" alt="Missouri Breaks"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Medicine+Rocks+State+Park/@46.0443947,-104.4707361,17z/data=!3m1!4b1!4m6!3m5!1s0x5330281c2ae3639d:0xd80e5d7136bb8e32!8m2!3d46.0443947!4d-104.4707361!16s%2Fm%2F0czbg1_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Medicine Rocks 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_1/public" data-location="Medicine Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_1/public" alt="Medicine Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_2/public" data-location="Medicine Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_2/public" alt="Medicine Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_3/public" data-location="Medicine Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_3/public" alt="Medicine Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_4/public" data-location="Medicine Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_4/public" alt="Medicine Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_5/public" data-location="Medicine Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_5/public" alt="Medicine Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_6/public" data-location="Medicine Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_medicine_rocks_6/public" alt="Medicine Rocks"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Old+Fort+Benton/@47.8212113,-110.6633034,17z/data=!3m1!4b1!4m6!3m5!1s0x5341eb3d01002eb7:0x6c3fef2b52ab6938!8m2!3d47.8212113!4d-110.6633034!16s%2Fg%2F1hc2tzhg7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Benton Levee 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_1/public" data-location="Fort Benton Levee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_1/public" alt="Fort Benton Levee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_2/public" data-location="Fort Benton Levee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_2/public" alt="Fort Benton Levee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_3/public" data-location="Fort Benton Levee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_3/public" alt="Fort Benton Levee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_4/public" data-location="Fort Benton Levee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_4/public" alt="Fort Benton Levee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_5/public" data-location="Fort Benton Levee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_5/public" alt="Fort Benton Levee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_6/public" data-location="Fort Benton Levee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_fort_benton_levee_6/public" alt="Fort Benton Levee"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Many+Glacier+Hotel/@48.7967004,-113.6577747,17z/data=!3m1!4b1!4m9!3m8!1s0x5368a612427c77f7:0xd8537917ee3bb6f!5m2!4m1!1i2!8m2!3d48.7967004!4d-113.6577747!16zL20vMGNxdjZn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Many Glacier Hotel View 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_1/public" data-location="Many Glacier Hotel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_1/public" alt="Many Glacier Hotel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_2/public" data-location="Many Glacier Hotel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_2/public" alt="Many Glacier Hotel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_3/public" data-location="Many Glacier Hotel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_3/public" alt="Many Glacier Hotel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_4/public" data-location="Many Glacier Hotel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_4/public" alt="Many Glacier Hotel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_5/public" data-location="Many Glacier Hotel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_5/public" alt="Many Glacier Hotel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_6/public" data-location="Many Glacier Hotel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/montana_many_glacier_hotel_view_6/public" alt="Many Glacier Hotel View"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
