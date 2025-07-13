@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oregon</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Oregon</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Silver+%C5%9Eelalesi+Eyalet+Park%C4%B1/@44.8697025,-122.6370075,17z/data=!3m1!4b1!4m6!3m5!1s0x54bfedda86d4a279:0x3d55c036fa2ccf71!8m2!3d44.8697025!4d-122.6370075!16s%2Fm%2F0268vc1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Silver Falls State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_1/public" data-location="Silver Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_1/public" alt="Silver Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_2/public" data-location="Silver Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_2/public" alt="Silver Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_3/public" data-location="Silver Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_3/public" alt="Silver Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_4/public" data-location="Silver Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_4/public" alt="Silver Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_5/public" data-location="Silver Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_5/public" alt="Silver Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_6/public" data-location="Silver Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_silver_falls_state_park_6/public" alt="Silver Falls State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Smith+Rock+Eyalet+Park%C4%B1/@44.3682459,-121.1405814,17z/data=!3m1!4b1!4m6!3m5!1s0x54bed6922acbc81d:0x6438e6cee6e05e97!8m2!3d44.3682459!4d-121.1405814!16zL20vMDY2Nzc1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Smith Rock State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_1/public" data-location="Smith Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_1/public" alt="Smith Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_2/public" data-location="Smith Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_2/public" alt="Smith Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_3/public" data-location="Smith Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_3/public" alt="Smith Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_4/public" data-location="Smith Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_4/public" alt="Smith Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_5/public" data-location="Smith Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_5/public" alt="Smith Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_6/public" data-location="Smith Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_smith_rock_state_park_6/public" alt="Smith Rock State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Shore+Acres+State+Park/@43.322609,-124.3853162,17z/data=!3m1!4b1!4m6!3m5!1s0x54c378b8051ea9cd:0x7a3dd8fc1f71112c!8m2!3d43.322609!4d-124.3853162!16s%2Fm%2F026lbgq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Shore Acres State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_1/public" data-location="Shore Acres State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_1/public" alt="Shore Acres State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_2/public" data-location="Shore Acres State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_2/public" alt="Shore Acres State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_3/public" data-location="Shore Acres State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_3/public" alt="Shore Acres State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_4/public" data-location="Shore Acres State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_4/public" alt="Shore Acres State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_5/public" data-location="Shore Acres State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_5/public" alt="Shore Acres State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_6/public" data-location="Shore Acres State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_shore_acres_state_park_6/public" alt="Shore Acres State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rowena+Crest+Viewpoint/@45.6827367,-121.2992539,17z/data=!3m1!4b1!4m6!3m5!1s0x54961a222daa6039:0x6ff5db7101043183!8m2!3d45.6827367!4d-121.2992539!16s%2Fg%2F1td32ryy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rowena Crest Viewpoint 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_1/public" data-location="Rowena Crest Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_1/public" alt="Rowena Crest Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_2/public" data-location="Rowena Crest Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_2/public" alt="Rowena Crest Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_3/public" data-location="Rowena Crest Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_3/public" alt="Rowena Crest Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_4/public" data-location="Rowena Crest Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_4/public" alt="Rowena Crest Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_5/public" data-location="Rowena Crest Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_5/public" alt="Rowena Crest Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_6/public" data-location="Rowena Crest Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_rowena_crest_viewpoint_6/public" alt="Rowena Crest Viewpoint"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Haystack+Rock/@45.8841173,-123.9684844,17z/data=!3m1!4b1!4m6!3m5!1s0x5494a4e035d8201b:0x8d6303935747e922!8m2!3d45.8841173!4d-123.9684844!16zL20vMDRyNDRi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Haystack Rock 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_1/public" data-location="Haystack Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_1/public" alt="Haystack Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_2/public" data-location="Haystack Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_2/public" alt="Haystack Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_3/public" data-location="Haystack Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_3/public" alt="Haystack Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_4/public" data-location="Haystack Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_4/public" alt="Haystack Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_5/public" data-location="Haystack Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_5/public" alt="Haystack Rock"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_6/public" data-location="Haystack Rock"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_haystack_rock_6/public" alt="Haystack Rock"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Astoria+Column/@46.1813205,-123.8175132,17z/data=!3m1!4b1!4m6!3m5!1s0x54937b53d91dc8bd:0xb3a9b55263ae5a1e!8m2!3d46.1813205!4d-123.8175132!16zL20vMDN0eHhi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Astoria Column 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_1/public" data-location="Astoria Column"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_1/public" alt="Astoria Column"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_2/public" data-location="Astoria Column"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_2/public" alt="Astoria Column"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_3/public" data-location="Astoria Column"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_3/public" alt="Astoria Column"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_4/public" data-location="Astoria Column"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_4/public" alt="Astoria Column"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_5/public" data-location="Astoria Column"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_5/public" alt="Astoria Column"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_6/public" data-location="Astoria Column"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_astoria_column_6/public" alt="Astoria Column"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Hood+National+Forest/@45.2270965,-121.8357948,17z/data=!3m1!4b1!4m6!3m5!1s0x54959ad6cca60deb:0xc5a043e2f635f!8m2!3d45.2270965!4d-121.8357948!16zL20vMDZuNjBo?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Hood National Forest USA 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_1/public" data-location="Mount Hood National Forest USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_1/public" alt="Mount Hood National Forest USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_2/public" data-location="Mount Hood National Forest USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_2/public" alt="Mount Hood National Forest USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_3/public" data-location="Mount Hood National Forest USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_3/public" alt="Mount Hood National Forest USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_4/public" data-location="Mount Hood National Forest USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_4/public" alt="Mount Hood National Forest USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_5/public" data-location="Mount Hood National Forest USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_5/public" alt="Mount Hood National Forest USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_6/public" data-location="Mount Hood National Forest USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_mount_hood_national_forest_usa_6/public" alt="Mount Hood National Forest USA"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/International+Rose+Test+Garden/@45.5189524,-122.7052687,17z/data=!3m1!4b1!4m6!3m5!1s0x5495098a88c9aa7d:0x91fbfe94968fdfc6!8m2!3d45.5189524!4d-122.7052687!16zL20vMDI3amtm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>International Rose Test Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_1/public" data-location="International Rose Test Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_1/public" alt="International Rose Test Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_2/public" data-location="International Rose Test Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_2/public" alt="International Rose Test Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_3/public" data-location="International Rose Test Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_3/public" alt="International Rose Test Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_4/public" data-location="International Rose Test Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_4/public" alt="International Rose Test Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_5/public" data-location="International Rose Test Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_5/public" alt="International Rose Test Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_6/public" data-location="International Rose Test Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_international_rose_test_garden_6/public" alt="International Rose Test Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Vista+House+at+Crown+Point/@45.5395694,-122.2443611,17z/data=!3m1!4b1!4m6!3m5!1s0x549595d331b13b2d:0x4c72a4fe3cf86bdb!8m2!3d45.5395694!4d-122.2443611!16s%2Fm%2F06_5319?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Vista House at Crown Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_1/public" data-location="Vista House at Crown Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_1/public" alt="Vista House at Crown Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_2/public" data-location="Vista House at Crown Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_2/public" alt="Vista House at Crown Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_3/public" data-location="Vista House at Crown Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_3/public" alt="Vista House at Crown Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_4/public" data-location="Vista House at Crown Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_4/public" alt="Vista House at Crown Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_5/public" data-location="Vista House at Crown Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_5/public" alt="Vista House at Crown Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_6/public" data-location="Vista House at Crown Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_vista_house_at_crown_point_6/public" alt="Vista House at Crown Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yaquina+Head+Outstanding+Natural+Area/@44.6762003,-124.0772211,17z/data=!3m1!4b1!4m6!3m5!1s0x54ea78eecad2748d:0xeaed977c5971020c!8m2!3d44.6762003!4d-124.0772211!16s%2Fg%2F11b77hs3gm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yaquina Head Outstanding Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_1/public" data-location="Yaquina Head Outstanding Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_1/public" alt="Yaquina Head Outstanding Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_2/public" data-location="Yaquina Head Outstanding Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_2/public" alt="Yaquina Head Outstanding Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_3/public" data-location="Yaquina Head Outstanding Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_3/public" alt="Yaquina Head Outstanding Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_4/public" data-location="Yaquina Head Outstanding Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_4/public" alt="Yaquina Head Outstanding Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_5/public" data-location="Yaquina Head Outstanding Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_5/public" alt="Yaquina Head Outstanding Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_6/public" data-location="Yaquina Head Outstanding Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_yaquina_head_outstanding_natural_area_6/public" alt="Yaquina Head Outstanding Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ecola+State+Park/@45.9406128,-123.9861941,17z/data=!3m1!4b1!4m6!3m5!1s0x5494a44336cd1c75:0x8384fe84d0320cee!8m2!3d45.9406128!4d-123.9861941!16s%2Fg%2F11bw7ckqx5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ecola State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_1/public" data-location="Ecola State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_1/public" alt="Ecola State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_2/public" data-location="Ecola State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_2/public" alt="Ecola State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_3/public" data-location="Ecola State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_3/public" alt="Ecola State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_4/public" data-location="Ecola State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_4/public" alt="Ecola State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_5/public" data-location="Ecola State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_5/public" alt="Ecola State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_6/public" data-location="Ecola State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_ecola_state_park_6/public" alt="Ecola State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Thor's+Well/@44.2803059,-124.1132247,15z/data=!3m1!4b1!4m6!3m5!1s0x54c193405b03cd45:0xba4518c22f250ee7!8m2!3d44.2803065!4d-124.1132247!16s%2Fg%2F11h0p_t5d?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Thor’s Well 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_1/public" data-location="Thor’s Well"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_1/public" alt="Thor’s Well"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_2/public" data-location="Thor’s Well"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_2/public" alt="Thor’s Well"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_3/public" data-location="Thor’s Well"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_3/public" alt="Thor’s Well"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_4/public" data-location="Thor’s Well"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_4/public" alt="Thor’s Well"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_5/public" data-location="Thor’s Well"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_5/public" alt="Thor’s Well"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_6/public" data-location="Thor’s Well"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_thors_well_6/public" alt="Thor’s Well"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Harris+Beach+State+Park/@42.0674363,-124.3110792,17z/data=!3m1!4b1!4m6!3m5!1s0x54daa205c9dfe353:0x821e5aa0f476fbec!8m2!3d42.0674363!4d-124.3110792!16s%2Fm%2F02z328w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Harris Beach State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_1/public" data-location="Harris Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_1/public" alt="Harris Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_2/public" data-location="Harris Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_2/public" alt="Harris Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_3/public" data-location="Harris Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_3/public" alt="Harris Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_4/public" data-location="Harris Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_4/public" alt="Harris Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_5/public" data-location="Harris Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_5/public" alt="Harris Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_6/public" data-location="Harris Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_harris_beach_state_park_6/public" alt="Harris Beach State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cape+Kiwanda+State+Natural+Area/@45.2328335,-123.9701863,17z/data=!3m1!4b1!4m6!3m5!1s0x54eaddab22751a2d:0xbef531292e6b9369!8m2!3d45.2328335!4d-123.9701863!16zL20vMDlxbW50?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape Kiwanda State Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_1/public" data-location="Cape Kiwanda State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_1/public" alt="Cape Kiwanda State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_2/public" data-location="Cape Kiwanda State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_2/public" alt="Cape Kiwanda State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_3/public" data-location="Cape Kiwanda State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_3/public" alt="Cape Kiwanda State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_4/public" data-location="Cape Kiwanda State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_4/public" alt="Cape Kiwanda State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_5/public" data-location="Cape Kiwanda State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_5/public" alt="Cape Kiwanda State Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_6/public" data-location="Cape Kiwanda State Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_kiwanda_state_natural_area_6/public" alt="Cape Kiwanda State Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Oregon+Dunes+National+Recreation+Area+-+Siuslaw+National+Forest/@43.7035323,-124.1059618,17z/data=!3m1!4b1!4m6!3m5!1s0x54c3c6aa240bff39:0x7590e9c9e0b4eef4!8m2!3d43.7035323!4d-124.1059618!16zL20vMDVqbmJq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Oregon Dunes National Recreation Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_1/public" data-location="Oregon Dunes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_1/public" alt="Oregon Dunes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_2/public" data-location="Oregon Dunes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_2/public" alt="Oregon Dunes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_3/public" data-location="Oregon Dunes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_3/public" alt="Oregon Dunes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_4/public" data-location="Oregon Dunes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_4/public" alt="Oregon Dunes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_5/public" data-location="Oregon Dunes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_5/public" alt="Oregon Dunes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_6/public" data-location="Oregon Dunes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_oregon_dunes_national_recreation_area_6/public" alt="Oregon Dunes National Recreation Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rhododendron+Garden/@44.0392428,-123.0575362,17z/data=!3m1!4b1!4m6!3m5!1s0x54c11f57c40ec3f3:0x4f1cb104eb6ff394!8m2!3d44.0392428!4d-123.0575362!16s%2Fg%2F11h53m9hlw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hendricks Park Rhododendron Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_1/public" data-location="Hendricks Park Rhododendron Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_1/public" alt="Hendricks Park Rhododendron Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_2/public" data-location="Hendricks Park Rhododendron Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_2/public" alt="Hendricks Park Rhododendron Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_3/public" data-location="Hendricks Park Rhododendron Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_3/public" alt="Hendricks Park Rhododendron Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_4/public" data-location="Hendricks Park Rhododendron Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_4/public" alt="Hendricks Park Rhododendron Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_5/public" data-location="Hendricks Park Rhododendron Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_5/public" alt="Hendricks Park Rhododendron Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_6/public" data-location="Hendricks Park Rhododendron Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_hendricks_park_rhododendron_garden_6/public" alt="Hendricks Park Rhododendron Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Heceta+Head+Lighthouse/@44.1373757,-124.1281224,17z/data=!3m1!4b1!4m6!3m5!1s0x54c18f638d78ea8b:0xf8d4f33d4bfe56ba!8m2!3d44.1373757!4d-124.1281224!16zL20vMGJkZjVj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Heceta Head Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_1/public" data-location="Heceta Head Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_1/public" alt="Heceta Head Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_2/public" data-location="Heceta Head Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_2/public" alt="Heceta Head Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_3/public" data-location="Heceta Head Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_3/public" alt="Heceta Head Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_4/public" data-location="Heceta Head Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_4/public" alt="Heceta Head Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_5/public" data-location="Heceta Head Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_5/public" alt="Heceta Head Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_6/public" data-location="Heceta Head Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_heceta_head_lighthouse_6/public" alt="Heceta Head Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Face+Rock+State+Scenic+Viewpoint/@43.1053223,-124.4340947,17z/data=!3m1!4b1!4m6!3m5!1s0x54c49bbca380e155:0x6d2bf3c5c1791d47!8m2!3d43.1053223!4d-124.4340947!16s%2Fm%2F04q3g5m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Face Rock State Scenic Viewpoint 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_1/public" data-location="Face Rock State Scenic Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_1/public" alt="Face Rock State Scenic Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_2/public" data-location="Face Rock State Scenic Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_2/public" alt="Face Rock State Scenic Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_3/public" data-location="Face Rock State Scenic Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_3/public" alt="Face Rock State Scenic Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_4/public" data-location="Face Rock State Scenic Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_4/public" alt="Face Rock State Scenic Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_5/public" data-location="Face Rock State Scenic Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_5/public" alt="Face Rock State Scenic Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_6/public" data-location="Face Rock State Scenic Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_face_rock_state_scenic_viewpoint_6/public" alt="Face Rock State Scenic Viewpoint"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Samuel+H.+Boardman+State+Scenic+Corridor/@42.1575318,-124.3614082,17z/data=!3m1!4b1!4m6!3m5!1s0x54dabcf7e650e5b5:0x1049c3ce6d33edfe!8m2!3d42.1575318!4d-124.3614082!16s%2Fm%2F04652c_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Samuel H. Boardman State Scenic Corridor 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_1/public" data-location="Samuel H. Boardman State Scenic Corridor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_1/public" alt="Samuel H. Boardman State Scenic Corridor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_2/public" data-location="Samuel H. Boardman State Scenic Corridor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_2/public" alt="Samuel H. Boardman State Scenic Corridor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_3/public" data-location="Samuel H. Boardman State Scenic Corridor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_3/public" alt="Samuel H. Boardman State Scenic Corridor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_4/public" data-location="Samuel H. Boardman State Scenic Corridor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_4/public" alt="Samuel H. Boardman State Scenic Corridor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_5/public" data-location="Samuel H. Boardman State Scenic Corridor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_5/public" alt="Samuel H. Boardman State Scenic Corridor"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_6/public" data-location="Samuel H. Boardman State Scenic Corridor"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_samuel_h_boardman_state_scenic_corridor_6/public" alt="Samuel H. Boardman State Scenic Corridor"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cape+Arago+State+Park/@43.3063127,-124.3986423,17z/data=!3m1!4b1!4m6!3m5!1s0x54c37f2ca329088b:0x2dc14b638072b5f7!8m2!3d43.3063127!4d-124.3986423!16s%2Fm%2F04q7kmb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape Arago State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_1/public" data-location="Cape Arago State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_1/public" alt="Cape Arago State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_2/public" data-location="Cape Arago State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_2/public" alt="Cape Arago State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_3/public" data-location="Cape Arago State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_3/public" alt="Cape Arago State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_4/public" data-location="Cape Arago State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_4/public" alt="Cape Arago State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_5/public" data-location="Cape Arago State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_5/public" alt="Cape Arago State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_6/public" data-location="Cape Arago State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_cape_arago_state_park_6/public" alt="Cape Arago State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Natural+Bridges/@42.1898948,-124.3660065,17z/data=!3m1!4b1!4m6!3m5!1s0x54dabc1af1f96d77:0x3687968a5e4b70db!8m2!3d42.1898948!4d-124.3660065!16s%2Fg%2F1tw1dkld?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Natural Bridges Cove 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_1/public" data-location="Natural Bridges Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_1/public" alt="Natural Bridges Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_2/public" data-location="Natural Bridges Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_2/public" alt="Natural Bridges Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_3/public" data-location="Natural Bridges Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_3/public" alt="Natural Bridges Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_4/public" data-location="Natural Bridges Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_4/public" alt="Natural Bridges Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_5/public" data-location="Natural Bridges Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_5/public" alt="Natural Bridges Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_6/public" data-location="Natural Bridges Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_natural_bridges_cove_6/public" alt="Natural Bridges Cove"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Portland+Women's+Forum+State+Scenic+Viewpoint/@45.5344103,-122.2612151,17z/data=!3m1!4b1!4m6!3m5!1s0x5495967debdac98f:0x28696903d1ec92a7!8m2!3d45.5344103!4d-122.2612151!16zL20vMGZoZ2x3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Portland Women’s Forum Viewpoint 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_1/public" data-location="Portland Women’s Forum Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_1/public" alt="Portland Women’s Forum Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_2/public" data-location="Portland Women’s Forum Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_2/public" alt="Portland Women’s Forum Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_3/public" data-location="Portland Women’s Forum Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_3/public" alt="Portland Women’s Forum Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_4/public" data-location="Portland Women’s Forum Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_4/public" alt="Portland Women’s Forum Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_5/public" data-location="Portland Women’s Forum Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_5/public" alt="Portland Women’s Forum Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_6/public" data-location="Portland Women’s Forum Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_portland_womens_forum_viewpoint_6/public" alt="Portland Women’s Forum Viewpoint"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Trillium+Lake/@45.2708486,-121.7382197,16z/data=!3m1!4b1!4m6!3m5!1s0x54be185d1c9fbbdf:0xd9a336f0bca80d5a!8m2!3d45.2706606!4d-121.7389868!16s%2Fm%2F0272j4x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Trillium Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_1/public" data-location="Trillium Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_1/public" alt="Trillium Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_2/public" data-location="Trillium Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_2/public" alt="Trillium Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_3/public" data-location="Trillium Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_3/public" alt="Trillium Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_4/public" data-location="Trillium Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_4/public" alt="Trillium Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_5/public" data-location="Trillium Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_5/public" alt="Trillium Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_6/public" data-location="Trillium Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_trillium_lake_6/public" alt="Trillium Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tumalo+Falls/@44.0339551,-121.5668789,15z/data=!3m1!4b1!4m6!3m5!1s0x54b8b10ed248cd3f:0x25fba35d1e66310f!8m2!3d44.0339557!4d-121.5668789!16s%2Fm%2F0jk_w2g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tumalo Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_1/public" data-location="Tumalo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_1/public" alt="Tumalo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_2/public" data-location="Tumalo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_2/public" alt="Tumalo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_3/public" data-location="Tumalo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_3/public" alt="Tumalo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_4/public" data-location="Tumalo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_4/public" alt="Tumalo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_5/public" data-location="Tumalo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_5/public" alt="Tumalo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_6/public" data-location="Tumalo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_tumalo_falls_6/public" alt="Tumalo Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Steens+Mountain+Wilderness/@42.7434375,-118.6348125,17z/data=!3m1!4b1!4m6!3m5!1s0x54b6b8df1be7e26d:0xc1556e856e0acff1!8m2!3d42.7434375!4d-118.6348125!16s%2Fg%2F1hmbqptsq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Steens Mountain Wilderness 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_1/public" data-location="Steens Mountain Wilderness"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_1/public" alt="Steens Mountain Wilderness"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_2/public" data-location="Steens Mountain Wilderness"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_2/public" alt="Steens Mountain Wilderness"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_3/public" data-location="Steens Mountain Wilderness"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_3/public" alt="Steens Mountain Wilderness"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_4/public" data-location="Steens Mountain Wilderness"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_4/public" alt="Steens Mountain Wilderness"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_5/public" data-location="Steens Mountain Wilderness"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_5/public" alt="Steens Mountain Wilderness"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_6/public" data-location="Steens Mountain Wilderness"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_steens_mountain_wilderness_6/public" alt="Steens Mountain Wilderness"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sparks+Lake/@44.0145452,-121.7422718,14z/data=!3m1!4b1!4m6!3m5!1s0x54b8ac04da3e703b:0x9459b0864c001532!8m2!3d44.0162204!4d-121.7441995!16s%2Fm%2F027__tp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sparks Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_1/public" data-location="Sparks Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_1/public" alt="Sparks Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_2/public" data-location="Sparks Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_2/public" alt="Sparks Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_3/public" data-location="Sparks Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_3/public" alt="Sparks Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_4/public" data-location="Sparks Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_4/public" alt="Sparks Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_5/public" data-location="Sparks Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_5/public" alt="Sparks Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_6/public" data-location="Sparks Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_sparks_lake_6/public" alt="Sparks Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/John+Day+Fossil+Beds+National+Monument+-+Painted+Hills+Unit/@44.6599169,-120.2585342,17z/data=!3m1!4b1!4m6!3m5!1s0x54bc051cab56eccd:0xc98fc285a9bb2b2c!8m2!3d44.6599169!4d-120.2585342!16s%2Fg%2F1tkktll5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Painted Hills Unit, John Day Fossil Beds 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_1/public" data-location="Painted Hills Unit, John Day Fossil Beds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_1/public" alt="Painted Hills Unit, John Day Fossil Beds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_2/public" data-location="Painted Hills Unit, John Day Fossil Beds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_2/public" alt="Painted Hills Unit, John Day Fossil Beds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_3/public" data-location="Painted Hills Unit, John Day Fossil Beds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_3/public" alt="Painted Hills Unit, John Day Fossil Beds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_4/public" data-location="Painted Hills Unit, John Day Fossil Beds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_4/public" alt="Painted Hills Unit, John Day Fossil Beds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_5/public" data-location="Painted Hills Unit, John Day Fossil Beds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_5/public" alt="Painted Hills Unit, John Day Fossil Beds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_6/public" data-location="Painted Hills Unit, John Day Fossil Beds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_painted_hills_unit_john_day_fossil_beds_6/public" alt="Painted Hills Unit, John Day Fossil Beds"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pittock+Mansion/@45.5252324,-122.7162331,17z/data=!3m1!4b1!4m6!3m5!1s0x549509920bd06f53:0xbfea2f6e1ea1c0fa!8m2!3d45.5252061!4d-122.7162689!16zL20vMDI5bXFt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pittock Mansion 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_1/public" data-location="Pittock Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_1/public" alt="Pittock Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_2/public" data-location="Pittock Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_2/public" alt="Pittock Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_3/public" data-location="Pittock Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_3/public" alt="Pittock Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_4/public" data-location="Pittock Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_4/public" alt="Pittock Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_5/public" data-location="Pittock Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_5/public" alt="Pittock Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_6/public" data-location="Pittock Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_pittock_mansion_6/public" alt="Pittock Mansion"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Stevens+State+Park/@46.1888553,-123.976136,17z/data=!3m1!4b1!4m6!3m5!1s0x549365e7b416899f:0xe6d2b271686f4771!8m2!3d46.1888553!4d-123.976136!16s%2Fg%2F1n3dw4ynx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Stevens State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_1/public" data-location="Fort Stevens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_1/public" alt="Fort Stevens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_2/public" data-location="Fort Stevens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_2/public" alt="Fort Stevens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_3/public" data-location="Fort Stevens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_3/public" alt="Fort Stevens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_4/public" data-location="Fort Stevens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_4/public" alt="Fort Stevens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_5/public" data-location="Fort Stevens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_5/public" alt="Fort Stevens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_6/public" data-location="Fort Stevens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/oregon_fort_stevens_state_park_6/public" alt="Fort Stevens State Park"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
