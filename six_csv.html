@@ -1,34 +1,4 @@
-<div class="edit-panel" id="editPanel">
-    <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
-    
-    <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVFile(event)">
-    <button class="csv-btn" onclick="document.getElementById('csvFileInput').click()">📊 CSV Dosyası Yükle</button>
-    
-    <div class="csv-info-box">
-      <strong>📋 CSV Dosya Formatı:</strong>
-      <ul>
-        <li>A1: Şehir Adı</li>
-        <li>A2-A3...: Konum Adları</li>
-        <li>B2-B3...: Google Maps Linkleri</li>
-        <li>C2-H2...: Fotoğraf URL'leri (6 adet)</li>
-      </ul>
-    </div>
-    
-    <div class="divider">veya</div>
-    
-    <div class="info-box">
-      <strong>📝 Manuel Veri Formatı:</strong>
-      <code>ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6</code>
-    </div>
-    
-    <textarea id="cityData" placeholder="Örnek:
-İstanbul@@@Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://picsum.photos/380/380?random=4@@https://picsum.photos/380/380?random=5@@https://picsum.photos/380/380?random=6@@https://picsum.photos/380/380?random=7@@https://picsum.photos/380/380?random=8@@https://picsum.photos/380/380?random=9@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://picsum.photos/380/380?random=10@@https://picsum.photos/380/380?random=11@@https://picsum.photos/380/380?random=12@@https://picsum.photos/380/380?random=13@@https://picsum.photos/380/380?random=14@@https://picsum.photos/380/380?random=15"></textarea>
-    
-    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
-    <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
-    <button class="clear-btn" onclick="clearCityData()">🗑️ Verileri Temizle</button>
-    <button onclick="toggleEditPanel()">❌ Paneli Kapat</button>
-  </div><!DOCTYPE html>  
+<!DOCTYPE html>  
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -1103,7 +1073,7 @@
       reader.onload = function(e) {
         try {
           const csvContent = e.target.result;
-          const lines = csvContent.split(/\r?\n/);
+          const lines = csvContent.split('\n');
           
           if (lines.length < 2) {
             alert('CSV dosyası en az 2 satır içermelidir!');
@@ -1111,135 +1081,7 @@
           }
           
           // İlk satır şehir adı
-          const firstLine = lines[0].trim();
-          const cityName = firstLine.split(',')[0].trim();
-          
-          if (!cityName) {
-            alert('Şehir adı (A1) boş olamaz!');
-            return;
-          }
-          
-          const locations = [];
-          
-          // Basit bir CSV parser - her satırı virgülle ayır ama ilk tırnaklı değeri özel olarak al
-          for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
-            
-            // İlk virgülü bul (konum adından sonra)
-            const firstCommaIndex = line.indexOf(',');
-            if (firstCommaIndex === -1) continue;
-            
-            const name = line.substring(0, firstCommaIndex).trim();
-            let restOfLine = line.substring(firstCommaIndex + 1);
-            
-            // Escape edilmiş tırnakları temizle
-            restOfLine = restOfLine.replace(/\\"/g, '"');
-            
-            // Eğer tırnakla başlıyorsa, kapanış tırnağını bul
-            let link = '';
-            let photosPart = '';
-            
-            if (restOfLine.startsWith('"')) {
-              // Son tırnağı bul
-              let endIndex = restOfLine.lastIndexOf('"');
-              
-              if (endIndex > 0) {
-                link = restOfLine.substring(1, endIndex);
-                // Virgülden sonraki kısım fotoğraflar
-                const commaAfterLink = restOfLine.indexOf(',', endIndex);
-                if (commaAfterLink !== -1) {
-                  photosPart = restOfLine.substring(commaAfterLink + 1);
-                }
-              }
-            } else {
-              // Tırnak yoksa normal virgülle ayır
-              const parts = restOfLine.split(',');
-              link = parts[0].trim();
-              photosPart = parts.slice(1).join(',');
-            }
-            
-            if (!name) continue;
-            
-            if (!link || link === '') {
-              continue;
-            }
-            
-            // Fotoğrafları ayır
-            const photos = [];
-            if (photosPart) {
-              const photoParts = photosPart.split(',');
-              for (let j = 0; j < photoParts.length && j < 6; j++) {
-                const photoUrl = photoParts[j].trim();
-                if (photoUrl && photoUrl.startsWith('http')) {
-                  photos.push(photoUrl);
-                }
-              }
-            }
-            
-            locations.push({
-              name: name,
-              photos: photos,
-              link: link
-            });
-          }
-          
-          if (locations.length === 0) {
-            alert('CSV dosyasında geçerli konum verisi bulunamadı!');
-            return;
-          }
-          
-          // Memory'de sakla
-          cityData = {
-            cityName: cityName,
-            locations: locations
-          };
-          
-          updatePageTitle();
-          renderLocations();
-          
-          // Input'u temizle
-          event.target.value = '';
-          
-        } catch (error) {
-          console.error('CSV işleme hatası:', error);
-          alert('CSV dosyası işlenirken bir hata oluştu!');
-        }
-      };
-      
-      reader.readAsText(file, 'UTF-8');
-    }
-
-    // CSV dosya işleme fonksiyonu
-    function handleCSVFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const csvContent = e.target.result;
-          console.log('CSV içeriği:', csvContent); // Debug için
-          
-          const lines = csvContent.split(/\r?\n/); // Hem \n hem \r\n destekle
-          console.log('Satır sayısı:', lines.length); // Debug için
-          
-          if (lines.length < 2) {
-            alert('CSV dosyası en az 2 satır içermelidir!');
-            return;
-          }
-          
-          // İlk satırdan şehir adını al
-          const firstLine = lines[0].trim();
-          let cityName = '';
-          
-          // Tab veya virgül ile ayrılmış olabilir
-          if (firstLine.includes('\t')) {
-            cityName = firstLine.split('\t')[0].trim();
-          } else {
-            cityName = firstLine.split(',')[0].trim();
-          }
-          
+          const cityName = lines[0].split(',')[0].trim();
           if (!cityName) {
             alert('Şehir adı (A1) boş olamaz!');
             return;
@@ -1252,42 +1094,22 @@
             const line = lines[i].trim();
             if (!line) continue;
             
-            console.log('Satır ' + i + ':', line); // Debug için
-            
-            // Tab karakteri ile ayırma
-            let cells;
-            if (line.includes('\t')) {
-              cells = line.split('\t');
-            } else {
-              cells = line.split(',');
-            }
-            
-            console.log('Hücre sayısı:', cells.length, 'Hücreler:', cells); // Debug için
-            
+            const cells = line.split(',');
             if (cells.length < 2) continue;
             
             const name = cells[0].trim();
-            let link = cells[1].trim();
-            
-            // Eğer link sadece "https://www.goog" gibi kısaysa, tam halini kontrol et
-            if (link && !link.startsWith('http')) {
-              console.warn('Geçersiz link:', link);
-              continue;
-            }
+            const link = cells[1].trim();
             
             if (!name || !link) continue;
             
             const photos = [];
             // C sütunundan H sütununa kadar fotoğraflar
-            for (let j = 2; j < cells.length && photos.length < 6; j++) {
-              const photoUrl = cells[j] ? cells[j].trim() : '';
+            for (let j = 2; j < cells.length && j < 8; j++) {
+              const photoUrl = cells[j].trim();
               if (photoUrl && photoUrl.startsWith('http')) {
                 photos.push(photoUrl);
-                console.log('Fotoğraf eklendi:', photoUrl); // Debug için
               }
             }
-            
-            console.log('Konum oluşturuldu:', name, 'Fotoğraf sayısı:', photos.length); // Debug için
             
             locations.push({
               name: name,
@@ -1301,9 +1123,6 @@
             return;
           }
           
-          console.log('Toplam konum sayısı:', locations.length); // Debug için
-          console.log('Konumlar:', locations); // Debug için
-          
           // Memory'de sakla
           cityData = {
             cityName: cityName,
@@ -1313,12 +1132,14 @@
           updatePageTitle();
           renderLocations();
           
+          alert('✅ CSV dosyası başarıyla işlendi! ' + locations.length + ' konum eklendi.');
+          
           // Input'u temizle
           event.target.value = '';
           
         } catch (error) {
           console.error('CSV işleme hatası:', error);
-          alert('CSV dosyası işlenirken bir hata oluştu: ' + error.message);
+          alert('CSV dosyası işlenirken bir hata oluştu!');
         }
       };
       
@@ -1390,6 +1211,7 @@
         renderLocations();
         
         document.getElementById('cityData').value = '';
+        alert('✅ Şehir verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
         
       } catch (error) {
         console.error('Veri işleme hatası:', error);
