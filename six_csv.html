@@ -1114,8 +1114,10 @@
           const firstLine = lines[0].trim();
           let cityName = '';
           
-          // Tab veya virgül ile ayrılmış olabilir
-          if (firstLine.includes('\t')) {
+          // @ işareti, tab veya virgül ile ayrılmış olabilir
+          if (firstLine.includes('@')) {
+            cityName = firstLine.split('@')[0].trim();
+          } else if (firstLine.includes('\t')) {
             cityName = firstLine.split('\t')[0].trim();
           } else {
             cityName = firstLine.split(',')[0].trim();
@@ -1133,9 +1135,15 @@
             const line = lines[i].trim();
             if (!line) continue;
             
-            // Tab karakteri ile ayırma (Google Sheets için)
+            // @ işareti, tab veya virgül ile ayırma
             let cells;
-            if (line.includes('\t')) {
+            if (line.includes(' @@ ')) {
+              // Boşluklu @@ ile ayır
+              cells = line.split(' @@ ');
+            } else if (line.includes('@@')) {
+              // Boşluksuz @@ ile ayır
+              cells = line.split('@@');
+            } else if (line.includes('\t')) {
               cells = line.split('\t');
             } else {
               cells = line.split(',');
@@ -1144,20 +1152,20 @@
             if (cells.length < 2) continue;
             
             const name = cells[0].trim();
-            let link = cells[1].trim();
+            let link = cells[1] ? cells[1].trim() : '';
             
             if (!name) continue;
             
             // Google Sheets bazen linkleri kısaltıyor, tam halini oluştur
-            if (link && !link.startsWith('http')) {
-              // Eğer "www.goog" gibi kısaltılmışsa, Google Maps linki olarak tamamla
-              if (link.includes('goog') || link === '') {
+            if (link) {
+              // Kısaltılmış Google linkleri için
+              if (link === 'https://www.goog' || link === 'www.goog' || link.includes('www.goog')) {
                 // Konum adından Google Maps linki oluştur
                 link = 'https://www.google.com/maps/search/' + encodeURIComponent(name);
-              } else {
+              } else if (!link.startsWith('http')) {
                 link = 'https://' + link;
               }
-            } else if (!link) {
+            } else {
               // Link yoksa konum adından oluştur
               link = 'https://www.google.com/maps/search/' + encodeURIComponent(name);
             }
