@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alabama</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Alabama</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yellow+Creek+Falls/@34.2274491,-85.7313854,17z/data=!3m1!4b1!4m6!3m5!1s0x888a651b8e0463a9:0x67ce10948fa42549!8m2!3d34.2274491!4d-85.7313854!16s%2Fg%2F11cjj0fgk0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yellow Creek Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_1/public" data-location="Yellow Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_1/public" alt="Yellow Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_2/public" data-location="Yellow Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_2/public" alt="Yellow Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_3/public" data-location="Yellow Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_3/public" alt="Yellow Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_4/public" data-location="Yellow Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_4/public" alt="Yellow Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_5/public" data-location="Yellow Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_5/public" alt="Yellow Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_6/public" data-location="Yellow Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_yellow_creek_falls_6/public" alt="Yellow Creek Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bald+Rock/@33.4953855,-85.8082963,15z/data=!3m1!4b1!4m6!3m5!1s0x888bbba9e620943f:0x24038fa542ef3f60!8m2!3d33.495386!4d-85.8082963!16s%2Fg%2F1tdb51c1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bald Rock Trail Boardwalk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_1/public" data-location="Bald Rock Trail Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_1/public" alt="Bald Rock Trail Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_2/public" data-location="Bald Rock Trail Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_2/public" alt="Bald Rock Trail Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_3/public" data-location="Bald Rock Trail Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_3/public" alt="Bald Rock Trail Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_4/public" data-location="Bald Rock Trail Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_4/public" alt="Bald Rock Trail Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_5/public" data-location="Bald Rock Trail Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_5/public" alt="Bald Rock Trail Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_6/public" data-location="Bald Rock Trail Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bald_rock_trail_boardwalk_6/public" alt="Bald Rock Trail Boardwalk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/USS+Alabama/@30.6818034,-88.0144261,17z/data=!3m1!4b1!4m6!3m5!1s0x889a4546cbb67455:0x2b8464983e59f46a!8m2!3d30.6818034!4d-88.0144261!16zL20vMDE5emhu?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>USS Alabama Battleship Memorial Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_1/public" data-location="USS Alabama Battleship Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_1/public" alt="USS Alabama Battleship Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_2/public" data-location="USS Alabama Battleship Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_2/public" alt="USS Alabama Battleship Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_3/public" data-location="USS Alabama Battleship Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_3/public" alt="USS Alabama Battleship Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_4/public" data-location="USS Alabama Battleship Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_4/public" alt="USS Alabama Battleship Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_5/public" data-location="USS Alabama Battleship Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_5/public" alt="USS Alabama Battleship Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_6/public" data-location="USS Alabama Battleship Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_uss_alabama_battleship_memorial_park_6/public" alt="USS Alabama Battleship Memorial Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gulf+Shores+Public+Beach/@30.2476689,-87.6909473,17z/data=!3m1!4b1!4m6!3m5!1s0x889a04b0de24b3bf:0xa4acefddb36d22de!8m2!3d30.2476689!4d-87.6909473!16s%2Fg%2F12lkyx_38?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gulf Shores Public Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_1/public" data-location="Gulf Shores Public Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_1/public" alt="Gulf Shores Public Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_2/public" data-location="Gulf Shores Public Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_2/public" alt="Gulf Shores Public Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_3/public" data-location="Gulf Shores Public Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_3/public" alt="Gulf Shores Public Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_4/public" data-location="Gulf Shores Public Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_4/public" alt="Gulf Shores Public Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_5/public" data-location="Gulf Shores Public Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_5/public" alt="Gulf Shores Public Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_6/public" data-location="Gulf Shores Public Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_gulf_shores_public_beach_6/public" alt="Gulf Shores Public Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Spring+International+Park/@34.7292298,-86.5866757,17z/data=!3m1!4b1!4m6!3m5!1s0x88626b5685b7f3c5:0xa3abd6b23a6a48e5!8m2!3d34.7292298!4d-86.5866757!16zL20vMDc0bWdx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Spring International Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_1/public" data-location="Big Spring International Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_1/public" alt="Big Spring International Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_2/public" data-location="Big Spring International Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_2/public" alt="Big Spring International Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_3/public" data-location="Big Spring International Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_3/public" alt="Big Spring International Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_4/public" data-location="Big Spring International Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_4/public" alt="Big Spring International Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_5/public" data-location="Big Spring International Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_5/public" alt="Big Spring International Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_6/public" data-location="Big Spring International Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_big_spring_international_park_6/public" alt="Big Spring International Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bellingrath+Gardens+%26+Home/@30.4314315,-88.140816,17z/data=!3m1!4b1!4m6!3m5!1s0x889a34bca0d0b825:0x8bd34f06705d1edf!8m2!3d30.4314315!4d-88.140816!16zL20vMDZxeDhf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bellingrath Gardens and Home 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_1/public" data-location="Bellingrath Gardens and Home"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_1/public" alt="Bellingrath Gardens and Home"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_2/public" data-location="Bellingrath Gardens and Home"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_2/public" alt="Bellingrath Gardens and Home"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_3/public" data-location="Bellingrath Gardens and Home"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_3/public" alt="Bellingrath Gardens and Home"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_4/public" data-location="Bellingrath Gardens and Home"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_4/public" alt="Bellingrath Gardens and Home"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_5/public" data-location="Bellingrath Gardens and Home"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_5/public" alt="Bellingrath Gardens and Home"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_6/public" data-location="Bellingrath Gardens and Home"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_bellingrath_gardens_and_home_6/public" alt="Bellingrath Gardens and Home"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cathedral+Caverns+State+Park/@34.575038,-86.2291954,17z/data=!3m1!4b1!4m6!3m5!1s0x8861f8f02f0fd9c9:0x5ce917ea0b7b2f51!8m2!3d34.575038!4d-86.2291954!16zL20vMDVsNGw4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cathedral Caverns State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_1/public" data-location="Cathedral Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_1/public" alt="Cathedral Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_2/public" data-location="Cathedral Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_2/public" alt="Cathedral Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_3/public" data-location="Cathedral Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_3/public" alt="Cathedral Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_4/public" data-location="Cathedral Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_4/public" alt="Cathedral Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_5/public" data-location="Cathedral Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_5/public" alt="Cathedral Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_6/public" data-location="Cathedral Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cathedral_caverns_state_park_6/public" alt="Cathedral Caverns State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Monte+Sano+State+Park/@34.7342528,-86.5179981,17z/data=!3m1!4b1!4m6!3m5!1s0x8862146d0e36ee4b:0x3b30f262cc8ef0dc!8m2!3d34.7342528!4d-86.5179981!16zL20vMDVsNDYx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Monte Sano State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_1/public" data-location="Monte Sano State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_1/public" alt="Monte Sano State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_2/public" data-location="Monte Sano State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_2/public" alt="Monte Sano State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_3/public" data-location="Monte Sano State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_3/public" alt="Monte Sano State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_4/public" data-location="Monte Sano State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_4/public" alt="Monte Sano State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_5/public" data-location="Monte Sano State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_5/public" alt="Monte Sano State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_6/public" data-location="Monte Sano State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_monte_sano_state_park_6/public" alt="Monte Sano State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/DeSoto+State+Park/@34.4970688,-85.6273209,17z/data=!3m1!4b1!4m6!3m5!1s0x8861d4bec77050b7:0x3c382809f0a711ae!8m2!3d34.4970688!4d-85.6273209!16s%2Fm%2F02wc663?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Desoto State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_1/public" data-location="Desoto State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_1/public" alt="Desoto State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_2/public" data-location="Desoto State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_2/public" alt="Desoto State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_3/public" data-location="Desoto State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_3/public" alt="Desoto State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_4/public" data-location="Desoto State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_4/public" alt="Desoto State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_5/public" data-location="Desoto State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_5/public" alt="Desoto State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_6/public" data-location="Desoto State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_desoto_state_park_6/public" alt="Desoto State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Little+River+Canyon+National+Preserve/@34.4166084,-85.6016674,17z/data=!3m1!4b1!4m6!3m5!1s0x8861d5589e66e36d:0x1dcc640b9f1a73b5!8m2!3d34.4166084!4d-85.6016674!16zL20vMDVsMnNf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Little River Canyon Mouth Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_1/public" data-location="Little River Canyon Mouth Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_1/public" alt="Little River Canyon Mouth Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_2/public" data-location="Little River Canyon Mouth Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_2/public" alt="Little River Canyon Mouth Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_3/public" data-location="Little River Canyon Mouth Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_3/public" alt="Little River Canyon Mouth Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_4/public" data-location="Little River Canyon Mouth Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_4/public" alt="Little River Canyon Mouth Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_5/public" data-location="Little River Canyon Mouth Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_5/public" alt="Little River Canyon Mouth Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_6/public" data-location="Little River Canyon Mouth Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_canyon_mouth_park_6/public" alt="Little River Canyon Mouth Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Moss+Rock+Preserve/@33.381717,-86.8400919,17z/data=!3m1!4b1!4m6!3m5!1s0x888921e84c1dd4a3:0xb907ac36c276f7b8!8m2!3d33.381717!4d-86.8400919!16s%2Fg%2F1hc3fgb2s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Moss Rock Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_1/public" data-location="Moss Rock Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_1/public" alt="Moss Rock Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_2/public" data-location="Moss Rock Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_2/public" alt="Moss Rock Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_3/public" data-location="Moss Rock Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_3/public" alt="Moss Rock Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_4/public" data-location="Moss Rock Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_4/public" alt="Moss Rock Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_5/public" data-location="Moss Rock Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_5/public" alt="Moss Rock Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_6/public" data-location="Moss Rock Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_moss_rock_preserve_6/public" alt="Moss Rock Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ave+Maria+Grotto/@34.1753639,-86.8163979,17z/data=!3m1!4b1!4m6!3m5!1s0x8889c96667cd22ff:0x7fbc06ed58a0500b!8m2!3d34.1753639!4d-86.8163979!16s%2Fm%2F04n1pq2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ave Maria Grotto 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_1/public" data-location="Ave Maria Grotto"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_1/public" alt="Ave Maria Grotto"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_2/public" data-location="Ave Maria Grotto"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_2/public" alt="Ave Maria Grotto"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_3/public" data-location="Ave Maria Grotto"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_3/public" alt="Ave Maria Grotto"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_4/public" data-location="Ave Maria Grotto"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_4/public" alt="Ave Maria Grotto"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_5/public" data-location="Ave Maria Grotto"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_5/public" alt="Ave Maria Grotto"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_6/public" data-location="Ave Maria Grotto"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_ave_maria_grotto_6/public" alt="Ave Maria Grotto"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cook+Museum+of+Natural+Science/@34.6050454,-86.9833663,17z/data=!3m1!4b1!4m6!3m5!1s0x8862841fdc642e75:0xf1bbcafa865b5e1!8m2!3d34.6050454!4d-86.9833663!16s%2Fg%2F1v3kj775?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cook’s Natural Science Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_1/public" data-location="Cook’s Natural Science Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_1/public" alt="Cook’s Natural Science Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_2/public" data-location="Cook’s Natural Science Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_2/public" alt="Cook’s Natural Science Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_3/public" data-location="Cook’s Natural Science Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_3/public" alt="Cook’s Natural Science Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_4/public" data-location="Cook’s Natural Science Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_4/public" alt="Cook’s Natural Science Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_5/public" data-location="Cook’s Natural Science Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_5/public" alt="Cook’s Natural Science Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_6/public" data-location="Cook’s Natural Science Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cooks_natural_science_museum_6/public" alt="Cook’s Natural Science Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Graham+Creek+Nature+Preserve/@30.347877,-87.6325522,17z/data=!3m1!4b1!4m6!3m5!1s0x889a0f368ea9cebb:0x751b28bd76f61551!8m2!3d30.347877!4d-87.6325522!16s%2Fg%2F11h0vjxks?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Graham Creek Nature Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_1/public" data-location="Graham Creek Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_1/public" alt="Graham Creek Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_2/public" data-location="Graham Creek Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_2/public" alt="Graham Creek Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_3/public" data-location="Graham Creek Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_3/public" alt="Graham Creek Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_4/public" data-location="Graham Creek Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_4/public" alt="Graham Creek Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_5/public" data-location="Graham Creek Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_5/public" alt="Graham Creek Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_6/public" data-location="Graham Creek Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_graham_creek_nature_preserve_6/public" alt="Graham Creek Nature Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Walls+of+Jericho+Alabama+Trailhead/@34.9767058,-86.0805812,17z/data=!3m1!4b1!4m6!3m5!1s0x88619aa7713a9013:0xc45480cd97aa9ca7!8m2!3d34.9767058!4d-86.0805812!16s%2Fg%2F1hc18bdxb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Walls of Jericho 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_1/public" data-location="Walls of Jericho"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_1/public" alt="Walls of Jericho"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_2/public" data-location="Walls of Jericho"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_2/public" alt="Walls of Jericho"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_3/public" data-location="Walls of Jericho"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_3/public" alt="Walls of Jericho"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_4/public" data-location="Walls of Jericho"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_4/public" alt="Walls of Jericho"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_5/public" data-location="Walls of Jericho"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_5/public" alt="Walls of Jericho"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_6/public" data-location="Walls of Jericho"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_walls_of_jericho_6/public" alt="Walls of Jericho"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kreher+Preserve+%26+Nature+Center/@32.6593337,-85.4883015,17z/data=!3m1!4b1!4m6!3m5!1s0x888c8ef22841ec47:0x8421293082d227b9!8m2!3d32.6593337!4d-85.4883015!16s%2Fg%2F11f38wst59?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kreher Preserve & Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_1/public" data-location="Kreher Preserve & Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_1/public" alt="Kreher Preserve & Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_2/public" data-location="Kreher Preserve & Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_2/public" alt="Kreher Preserve & Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_3/public" data-location="Kreher Preserve & Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_3/public" alt="Kreher Preserve & Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_4/public" data-location="Kreher Preserve & Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_4/public" alt="Kreher Preserve & Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_5/public" data-location="Kreher Preserve & Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_5/public" alt="Kreher Preserve & Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_6/public" data-location="Kreher Preserve & Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kreher_preserve_nature_center_6/public" alt="Kreher Preserve & Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brow+Park/@34.5837631,-85.5905079,17z/data=!3m1!4b1!4m6!3m5!1s0x88602d38440591eb:0x9c671e43a2b4a1b!8m2!3d34.5837631!4d-85.5905079!16s%2Fg%2F11g9glkg5y?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mentone Brow Lookout 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_1/public" data-location="Mentone Brow Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_1/public" alt="Mentone Brow Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_2/public" data-location="Mentone Brow Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_2/public" alt="Mentone Brow Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_3/public" data-location="Mentone Brow Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_3/public" alt="Mentone Brow Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_4/public" data-location="Mentone Brow Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_4/public" alt="Mentone Brow Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_5/public" data-location="Mentone Brow Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_5/public" alt="Mentone Brow Lookout"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_6/public" data-location="Mentone Brow Lookout"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_mentone_brow_lookout_6/public" alt="Mentone Brow Lookout"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Orbix+Hot+Glass/@34.2994731,-85.7047507,17z/data=!3m1!4b1!4m6!3m5!1s0x888a7b754836c339:0x2e7becc79a164cc7!8m2!3d34.2994731!4d-85.7047507!16s%2Fg%2F1xgzck62?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Orbix Hot Glass Outlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_1/public" data-location="Orbix Hot Glass Outlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_1/public" alt="Orbix Hot Glass Outlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_2/public" data-location="Orbix Hot Glass Outlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_2/public" alt="Orbix Hot Glass Outlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_3/public" data-location="Orbix Hot Glass Outlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_3/public" alt="Orbix Hot Glass Outlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_4/public" data-location="Orbix Hot Glass Outlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_4/public" alt="Orbix Hot Glass Outlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_5/public" data-location="Orbix Hot Glass Outlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_5/public" alt="Orbix Hot Glass Outlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_6/public" data-location="Orbix Hot Glass Outlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_orbix_hot_glass_outlook_6/public" alt="Orbix Hot Glass Outlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Five+Rivers+Delta+Center/@30.675456,-87.9312915,17z/data=!3m1!4b1!4m6!3m5!1s0x889a449faaf9c355:0xa91a821a255924e6!8m2!3d30.675456!4d-87.9312915!16s%2Fg%2F1trprl41?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>5 Rivers Delta Resource Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_1/public" data-location="5 Rivers Delta Resource Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_1/public" alt="5 Rivers Delta Resource Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_2/public" data-location="5 Rivers Delta Resource Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_2/public" alt="5 Rivers Delta Resource Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_3/public" data-location="5 Rivers Delta Resource Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_3/public" alt="5 Rivers Delta Resource Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_4/public" data-location="5 Rivers Delta Resource Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_4/public" alt="5 Rivers Delta Resource Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_5/public" data-location="5 Rivers Delta Resource Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_5/public" alt="5 Rivers Delta Resource Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_6/public" data-location="5 Rivers Delta Resource Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_rivers_delta_resource_center_6/public" alt="5 Rivers Delta Resource Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Historic+Easley+Covered+Bridge/@33.9710698,-86.5183972,17z/data=!3m1!4b1!4m6!3m5!1s0x888996df8db1ae3f:0x9f9e73e3679928fd!8m2!3d33.9710698!4d-86.5183972!16s%2Fm%2F02x8cz1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Easley Covered Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_1/public" data-location="Easley Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_1/public" alt="Easley Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_2/public" data-location="Easley Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_2/public" alt="Easley Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_3/public" data-location="Easley Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_3/public" alt="Easley Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_4/public" data-location="Easley Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_4/public" alt="Easley Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_5/public" data-location="Easley Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_5/public" alt="Easley Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_6/public" data-location="Easley Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_easley_covered_bridge_6/public" alt="Easley Covered Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eberhart+Point+Overlook/@34.3523913,-85.6756749,17z/data=!3m1!4b1!4m6!3m5!1s0x888a7eafa2228f8d:0xd90c4fbbbb009dad!8m2!3d34.3523913!4d-85.6756749!16s%2Fg%2F11d_th7vjg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eberhart Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_1/public" data-location="Eberhart Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_1/public" alt="Eberhart Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_2/public" data-location="Eberhart Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_2/public" alt="Eberhart Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_3/public" data-location="Eberhart Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_3/public" alt="Eberhart Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_4/public" data-location="Eberhart Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_4/public" alt="Eberhart Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_5/public" data-location="Eberhart Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_5/public" alt="Eberhart Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_6/public" data-location="Eberhart Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_eberhart_point_6/public" alt="Eberhart Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kinlock+Falls/@34.3084312,-87.5028001,15z/data=!3m1!4b1!4m6!3m5!1s0x888807d5aca9ac47:0xf574ed1b8fd04f61!8m2!3d34.3084317!4d-87.5028001!16s%2Fg%2F1tcyy5p3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kinlock Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_1/public" data-location="Kinlock Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_1/public" alt="Kinlock Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_2/public" data-location="Kinlock Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_2/public" alt="Kinlock Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_3/public" data-location="Kinlock Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_3/public" alt="Kinlock Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_4/public" data-location="Kinlock Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_4/public" alt="Kinlock Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_5/public" data-location="Kinlock Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_5/public" alt="Kinlock Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_6/public" data-location="Kinlock Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_kinlock_falls_6/public" alt="Kinlock Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Canyon+View+Overlook/@34.3643402,-85.6599699,17z/data=!3m1!4b1!4m6!3m5!1s0x888a7f936308a387:0xa3ee546cff9909f0!8m2!3d34.3643402!4d-85.6599699!16s%2Fg%2F11hdbjxhbq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Canyon Rim Scenic Drive 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_1/public" data-location="Canyon Rim Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_1/public" alt="Canyon Rim Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_2/public" data-location="Canyon Rim Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_2/public" alt="Canyon Rim Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_3/public" data-location="Canyon Rim Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_3/public" alt="Canyon Rim Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_4/public" data-location="Canyon Rim Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_4/public" alt="Canyon Rim Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_5/public" data-location="Canyon Rim Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_5/public" alt="Canyon Rim Scenic Drive"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_6/public" data-location="Canyon Rim Scenic Drive"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_canyon_rim_scenic_drive_6/public" alt="Canyon Rim Scenic Drive"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Little+River+Falls/@34.3950884,-85.6269085,15z/data=!3m1!4b1!4m6!3m5!1s0x888a7fb72250b3af:0x76410c4c30f06bcb!8m2!3d34.395089!4d-85.6269085!16s%2Fm%2F0gg5_c3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Little River Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_1/public" data-location="Little River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_1/public" alt="Little River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_2/public" data-location="Little River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_2/public" alt="Little River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_3/public" data-location="Little River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_3/public" alt="Little River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_4/public" data-location="Little River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_4/public" alt="Little River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_5/public" data-location="Little River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_5/public" alt="Little River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_6/public" data-location="Little River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_little_river_falls_6/public" alt="Little River Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Riverwalk/@32.3808394,-86.3124835,17z/data=!3m1!4b1!4m6!3m5!1s0x888e816610bc7d77:0xb0fff5bc73ccfc85!8m2!3d32.3808394!4d-86.3124835!16s%2Fg%2F11cjkq0kd8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Riverwalk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_1/public" data-location="Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_1/public" alt="Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_2/public" data-location="Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_2/public" alt="Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_3/public" data-location="Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_3/public" alt="Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_4/public" data-location="Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_4/public" alt="Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_5/public" data-location="Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_5/public" alt="Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_6/public" data-location="Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_riverwalk_6/public" alt="Riverwalk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Vulcan+Park+and+Museum/@33.4917,-86.795537,17z/data=!3m1!4b1!4m6!3m5!1s0x88891bd90950f017:0x4a5843a1e1144cf!8m2!3d33.4917!4d-86.795537!16zL20vMDN6eTBt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Vulcan Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_1/public" data-location="Vulcan Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_1/public" alt="Vulcan Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_2/public" data-location="Vulcan Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_2/public" alt="Vulcan Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_3/public" data-location="Vulcan Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_3/public" alt="Vulcan Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_4/public" data-location="Vulcan Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_4/public" alt="Vulcan Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_5/public" data-location="Vulcan Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_5/public" alt="Vulcan Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_6/public" data-location="Vulcan Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_vulcan_park_6/public" alt="Vulcan Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Morgan+State+Historic+Site/@30.2311568,-88.0191909,17z/data=!3m1!4b1!4m6!3m5!1s0x889a28af775bd9a1:0xd24c3fcd407b3ac3!8m2!3d30.2311568!4d-88.0191909!16s%2Fg%2F11h0kt0f4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Morgan Historic Site 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_1/public" data-location="Fort Morgan Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_1/public" alt="Fort Morgan Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_2/public" data-location="Fort Morgan Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_2/public" alt="Fort Morgan Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_3/public" data-location="Fort Morgan Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_3/public" alt="Fort Morgan Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_4/public" data-location="Fort Morgan Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_4/public" alt="Fort Morgan Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_5/public" data-location="Fort Morgan Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_5/public" alt="Fort Morgan Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_6/public" data-location="Fort Morgan Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_fort_morgan_historic_site_6/public" alt="Fort Morgan Historic Site"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Oak+Mountain+State+Park/@33.3361069,-86.7312359,17z/data=!3m1!4b1!4m6!3m5!1s0x88893cd9624e4bbf:0x8a4463bd7a179d16!8m2!3d33.3361069!4d-86.7312359!16zL20vMDVfZzJm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Oak Mountain State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_1/public" data-location="Oak Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_1/public" alt="Oak Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_2/public" data-location="Oak Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_2/public" alt="Oak Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_3/public" data-location="Oak Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_3/public" alt="Oak Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_4/public" data-location="Oak Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_4/public" alt="Oak Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_5/public" data-location="Oak Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_5/public" alt="Oak Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_6/public" data-location="Oak Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_oak_mountain_state_park_6/public" alt="Oak Mountain State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Huntsville+Botanical+Garden/@34.7074956,-86.6340375,17z/data=!3m1!4b1!4m6!3m5!1s0x88626c6e9ec1e7c5:0x9cecb08319fc29da!8m2!3d34.7074956!4d-86.6340375!16zL20vMDZnMjN3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Huntsville Botanical Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_1/public" data-location="Huntsville Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_1/public" alt="Huntsville Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_2/public" data-location="Huntsville Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_2/public" alt="Huntsville Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_3/public" data-location="Huntsville Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_3/public" alt="Huntsville Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_4/public" data-location="Huntsville Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_4/public" alt="Huntsville Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_5/public" data-location="Huntsville Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_5/public" alt="Huntsville Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_6/public" data-location="Huntsville Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_huntsville_botanical_garden_6/public" alt="Huntsville Botanical Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cheaha+State+Park/@33.4785937,-85.8093894,17z/data=!3m1!4b1!4m6!3m5!1s0x888bbb9b76bf6443:0xb9f27e35b32429db!8m2!3d33.4785937!4d-85.8093894!16s%2Fm%2F02ww53w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cheaha Skyway 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_1/public" data-location="Cheaha Skyway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_1/public" alt="Cheaha Skyway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_2/public" data-location="Cheaha Skyway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_2/public" alt="Cheaha Skyway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_3/public" data-location="Cheaha Skyway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_3/public" alt="Cheaha Skyway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_4/public" data-location="Cheaha Skyway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_4/public" alt="Cheaha Skyway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_5/public" data-location="Cheaha Skyway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_5/public" alt="Cheaha Skyway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_6/public" data-location="Cheaha Skyway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alabama_cheaha_skyway_6/public" alt="Cheaha Skyway"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
