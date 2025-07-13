@@ -1,0 +1,1400 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>South Carolina</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">South Carolina</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Falls+Park+on+the+Reedy/@34.8449748,-82.4015955,17z/data=!3m1!4b1!4m6!3m5!1s0x88583032e50b3971:0x3020815fa96b7664!8m2!3d34.8449748!4d-82.4015955!16zL20vMGcxNHlj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Falls Park on the Reedy 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_1/public" data-location="Falls Park on the Reedy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_1/public" alt="Falls Park on the Reedy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_2/public" data-location="Falls Park on the Reedy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_2/public" alt="Falls Park on the Reedy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_3/public" data-location="Falls Park on the Reedy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_3/public" alt="Falls Park on the Reedy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_4/public" data-location="Falls Park on the Reedy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_4/public" alt="Falls Park on the Reedy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_5/public" data-location="Falls Park on the Reedy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_5/public" alt="Falls Park on the Reedy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_6/public" data-location="Falls Park on the Reedy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_falls_park_on_the_reedy_6/public" alt="Falls Park on the Reedy"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jumping+Off+Rock+Overlook/@35.0112598,-82.8956052,17z/data=!3m1!4b1!4m6!3m5!1s0x8859aab212bf646f:0x8df45c036382d01a!8m2!3d35.0112598!4d-82.8956052!16s%2Fg%2F11cp1xn42m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jumping Off Rock Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_1/public" data-location="Jumping Off Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_1/public" alt="Jumping Off Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_2/public" data-location="Jumping Off Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_2/public" alt="Jumping Off Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_3/public" data-location="Jumping Off Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_3/public" alt="Jumping Off Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_4/public" data-location="Jumping Off Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_4/public" alt="Jumping Off Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_5/public" data-location="Jumping Off Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_5/public" alt="Jumping Off Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_6/public" data-location="Jumping Off Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jumping_off_rock_overlook_6/public" alt="Jumping Off Rock Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yellow+Branch+Falls/@34.7950693,-83.1341676,17z/data=!3m1!4b1!4m6!3m5!1s0x8858ef015d9c5931:0x5e3de1e1201749b7!8m2!3d34.7950693!4d-83.1341676!16s%2Fg%2F11clyqzzk6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yellow Branch Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_1/public" data-location="Yellow Branch Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_1/public" alt="Yellow Branch Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_2/public" data-location="Yellow Branch Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_2/public" alt="Yellow Branch Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_3/public" data-location="Yellow Branch Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_3/public" alt="Yellow Branch Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_4/public" data-location="Yellow Branch Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_4/public" alt="Yellow Branch Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_5/public" data-location="Yellow Branch Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_5/public" alt="Yellow Branch Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_6/public" data-location="Yellow Branch Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_yellow_branch_falls_6/public" alt="Yellow Branch Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Huntington+Beach+State+Park/@33.5145618,-79.0609293,17z/data=!3m1!4b1!4m6!3m5!1s0x8900384a8d7c9123:0xcbbe8dc9020190f5!8m2!3d33.5145618!4d-79.0609293!16zL20vMDU0bTg4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Huntington Beach State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_1/public" data-location="Huntington Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_1/public" alt="Huntington Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_2/public" data-location="Huntington Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_2/public" alt="Huntington Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_3/public" data-location="Huntington Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_3/public" alt="Huntington Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_4/public" data-location="Huntington Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_4/public" alt="Huntington Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_5/public" data-location="Huntington Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_5/public" alt="Huntington Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_6/public" data-location="Huntington Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_huntington_beach_state_park_6/public" alt="Huntington Beach State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Patriots+Point+Naval+%26+Maritime+Museum/@32.7905312,-79.9056076,17z/data=!3m1!4b1!4m6!3m5!1s0x88fe709056b59e09:0x25fb102b9df262d6!8m2!3d32.7905312!4d-79.9056076!16zL20vMDd6MV8w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Patriots Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_1/public" data-location="Patriots Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_1/public" alt="Patriots Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_2/public" data-location="Patriots Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_2/public" alt="Patriots Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_3/public" data-location="Patriots Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_3/public" alt="Patriots Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_4/public" data-location="Patriots Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_4/public" alt="Patriots Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_5/public" data-location="Patriots Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_5/public" alt="Patriots Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_6/public" data-location="Patriots Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_patriots_point_6/public" alt="Patriots Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brookgreen+Gardens/@33.5305604,-79.0812935,17z/data=!3m1!4b1!4m6!3m5!1s0x8900399c5a253ea9:0x3ab7f571a5936e6c!8m2!3d33.5305604!4d-79.0812935!16zL20vMDJmNTJf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Brookgreen Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_1/public" data-location="Brookgreen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_1/public" alt="Brookgreen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_2/public" data-location="Brookgreen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_2/public" alt="Brookgreen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_3/public" data-location="Brookgreen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_3/public" alt="Brookgreen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_4/public" data-location="Brookgreen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_4/public" alt="Brookgreen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_5/public" data-location="Brookgreen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_5/public" alt="Brookgreen Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_6/public" data-location="Brookgreen Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_brookgreen_gardens_6/public" alt="Brookgreen Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Table+Rock+State+Park/@35.0367587,-82.7105554,17z/data=!3m1!4b1!4m6!3m5!1s0x8859b2fba48b5bfb:0x4949a3b421298dbc!8m2!3d35.0367587!4d-82.7105554!16s%2Fm%2F02r1m9h?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Table Rock State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_1/public" data-location="Table Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_1/public" alt="Table Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_2/public" data-location="Table Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_2/public" alt="Table Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_3/public" data-location="Table Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_3/public" alt="Table Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_4/public" data-location="Table Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_4/public" alt="Table Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_5/public" data-location="Table Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_5/public" alt="Table Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_6/public" data-location="Table Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_state_park_6/public" alt="Table Rock State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Swan+Lake+Iris+Gardens/@33.9194566,-80.3708248,17z/data=!3m1!4b1!4m6!3m5!1s0x88ff68d3cb837055:0xa9412815c43b9697!8m2!3d33.9194566!4d-80.3708248!16zL20vMGZsNm40?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Swan Lake Iris Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_1/public" data-location="Swan Lake Iris Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_1/public" alt="Swan Lake Iris Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_2/public" data-location="Swan Lake Iris Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_2/public" alt="Swan Lake Iris Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_3/public" data-location="Swan Lake Iris Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_3/public" alt="Swan Lake Iris Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_4/public" data-location="Swan Lake Iris Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_4/public" alt="Swan Lake Iris Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_5/public" data-location="Swan Lake Iris Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_5/public" alt="Swan Lake Iris Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_6/public" data-location="Swan Lake Iris Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_swan_lake_iris_gardens_6/public" alt="Swan Lake Iris Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Conway+Riverwalk/@33.8343299,-79.0447339,17z/data=!3m1!4b1!4m6!3m5!1s0x8900129902aa970f:0x6ac76dabc54df9ab!8m2!3d33.8343299!4d-79.0447339!16s%2Fg%2F11c0wdq943?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Conway Riverwalk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_1/public" data-location="Conway Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_1/public" alt="Conway Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_2/public" data-location="Conway Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_2/public" alt="Conway Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_3/public" data-location="Conway Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_3/public" alt="Conway Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_4/public" data-location="Conway Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_4/public" alt="Conway Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_5/public" data-location="Conway Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_5/public" alt="Conway Riverwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_6/public" data-location="Conway Riverwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_conway_riverwalk_6/public" alt="Conway Riverwalk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hatcher+Garden+and+Woodland+Preserve/@34.9300907,-81.9583676,17z/data=!3m1!4b1!4m6!3m5!1s0x88579de131cebba5:0x3d60fdaeb4912369!8m2!3d34.9300907!4d-81.9583676!16s%2Fm%2F03crmbq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hatcher Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_1/public" data-location="Hatcher Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_1/public" alt="Hatcher Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_2/public" data-location="Hatcher Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_2/public" alt="Hatcher Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_3/public" data-location="Hatcher Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_3/public" alt="Hatcher Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_4/public" data-location="Hatcher Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_4/public" alt="Hatcher Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_5/public" data-location="Hatcher Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_5/public" alt="Hatcher Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_6/public" data-location="Hatcher Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_hatcher_garden_6/public" alt="Hatcher Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fred+W.+Symmes+Chapel/@35.1337959,-82.5754264,17z/data=!3m1!4b1!4m6!3m5!1s0x8859b7c458ab4f1b:0x2bf179fd15e9c427!8m2!3d35.1337959!4d-82.5754264!16s%2Fg%2F1td72qkb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pretty Place 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_1/public" data-location="Pretty Place"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_1/public" alt="Pretty Place"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_2/public" data-location="Pretty Place"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_2/public" alt="Pretty Place"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_3/public" data-location="Pretty Place"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_3/public" alt="Pretty Place"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_4/public" data-location="Pretty Place"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_4/public" alt="Pretty Place"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_5/public" data-location="Pretty Place"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_5/public" alt="Pretty Place"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_6/public" data-location="Pretty Place"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_pretty_place_6/public" alt="Pretty Place"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Old+Sheldon+Church+Ruins/@32.6185261,-80.7804393,17z/data=!3m1!4b1!4m6!3m5!1s0x88fc071109f5302f:0xc5743f9e19453ae2!8m2!3d32.6185261!4d-80.7804393!16s%2Fm%2F03d92fd?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Old Sheldon Church Ruins 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_1/public" data-location="Old Sheldon Church Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_1/public" alt="Old Sheldon Church Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_2/public" data-location="Old Sheldon Church Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_2/public" alt="Old Sheldon Church Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_3/public" data-location="Old Sheldon Church Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_3/public" alt="Old Sheldon Church Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_4/public" data-location="Old Sheldon Church Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_4/public" alt="Old Sheldon Church Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_5/public" data-location="Old Sheldon Church Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_5/public" alt="Old Sheldon Church Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_6/public" data-location="Old Sheldon Church Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_sheldon_church_ruins_6/public" alt="Old Sheldon Church Ruins"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kings+Mountain+National+Military+Park/@35.1413644,-81.3772167,17z/data=!3m1!4b1!4m6!3m5!1s0x8856e4518c7958c5:0x7368bbd750154bf5!8m2!3d35.1413644!4d-81.3772167!16zL20vMDZwOXZz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kings Mountain National Military Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_1/public" data-location="Kings Mountain National Military Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_1/public" alt="Kings Mountain National Military Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_2/public" data-location="Kings Mountain National Military Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_2/public" alt="Kings Mountain National Military Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_3/public" data-location="Kings Mountain National Military Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_3/public" alt="Kings Mountain National Military Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_4/public" data-location="Kings Mountain National Military Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_4/public" alt="Kings Mountain National Military Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_5/public" data-location="Kings Mountain National Military Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_5/public" alt="Kings Mountain National Military Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_6/public" data-location="Kings Mountain National Military Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_kings_mountain_national_military_park_6/public" alt="Kings Mountain National Military Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cancer+Survivors+Park/@34.8414497,-82.3979741,17z/data=!3m1!4b1!4m6!3m5!1s0x8858302da3f89a8d:0x5a02cf8a24e018e8!8m2!3d34.8414497!4d-82.3979741!16s%2Fg%2F11c58pks8g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cancer Survivors Park & Boardwalk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_1/public" data-location="Cancer Survivors Park & Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_1/public" alt="Cancer Survivors Park & Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_2/public" data-location="Cancer Survivors Park & Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_2/public" alt="Cancer Survivors Park & Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_3/public" data-location="Cancer Survivors Park & Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_3/public" alt="Cancer Survivors Park & Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_4/public" data-location="Cancer Survivors Park & Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_4/public" alt="Cancer Survivors Park & Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_5/public" data-location="Cancer Survivors Park & Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_5/public" alt="Cancer Survivors Park & Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_6/public" data-location="Cancer Survivors Park & Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_cancer_survivors_park_boardwalk_6/public" alt="Cancer Survivors Park & Boardwalk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Raven+Cliff+Falls/@35.106156,-82.6604636,15z/data=!3m1!4b1!4m6!3m5!1s0x8859b139b3daa7f1:0xe06664908795d6e4!8m2!3d35.1061565!4d-82.6604636!16s%2Fm%2F0260tyk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Raven Cliff Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_1/public" data-location="Raven Cliff Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_1/public" alt="Raven Cliff Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_2/public" data-location="Raven Cliff Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_2/public" alt="Raven Cliff Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_3/public" data-location="Raven Cliff Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_3/public" alt="Raven Cliff Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_4/public" data-location="Raven Cliff Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_4/public" alt="Raven Cliff Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_5/public" data-location="Raven Cliff Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_5/public" alt="Raven Cliff Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_6/public" data-location="Raven Cliff Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_raven_cliff_falls_6/public" alt="Raven Cliff Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Old+Santee+Canal+Park/@33.1929585,-79.9712278,17z/data=!3m1!4b1!4m6!3m5!1s0x88fe5a660a3ed58b:0x47f646df75bf3d54!8m2!3d33.1929585!4d-79.9712278!16s%2Fg%2F1tdr9143?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Old Santee Canal Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_1/public" data-location="Old Santee Canal Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_1/public" alt="Old Santee Canal Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_2/public" data-location="Old Santee Canal Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_2/public" alt="Old Santee Canal Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_3/public" data-location="Old Santee Canal Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_3/public" alt="Old Santee Canal Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_4/public" data-location="Old Santee Canal Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_4/public" alt="Old Santee Canal Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_5/public" data-location="Old Santee Canal Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_5/public" alt="Old Santee Canal Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_6/public" data-location="Old Santee Canal Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_old_santee_canal_park_6/public" alt="Old Santee Canal Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jones+Gap+State+Park/@35.1250793,-82.5782661,17z/data=!3m1!4b1!4m6!3m5!1s0x8859b7d692d09d87:0x6f08a14d92b9d230!8m2!3d35.1250793!4d-82.5782661!16s%2Fm%2F02z6_7f?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jones Gap State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_1/public" data-location="Jones Gap State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_1/public" alt="Jones Gap State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_2/public" data-location="Jones Gap State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_2/public" alt="Jones Gap State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_3/public" data-location="Jones Gap State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_3/public" alt="Jones Gap State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_4/public" data-location="Jones Gap State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_4/public" alt="Jones Gap State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_5/public" data-location="Jones Gap State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_5/public" alt="Jones Gap State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_6/public" data-location="Jones Gap State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_jones_gap_state_park_6/public" alt="Jones Gap State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Table+Rock+Summit+Trailhead/@35.0319923,-82.7003067,17z/data=!3m1!4b1!4m6!3m5!1s0x8859b2fa4f7d31f3:0x7dbeba162bbab940!8m2!3d35.0319923!4d-82.7003067!16s%2Fg%2F11dfpk4n34?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Table Rock Mountain Summit 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_1/public" data-location="Table Rock Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_1/public" alt="Table Rock Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_2/public" data-location="Table Rock Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_2/public" alt="Table Rock Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_3/public" data-location="Table Rock Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_3/public" alt="Table Rock Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_4/public" data-location="Table Rock Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_4/public" alt="Table Rock Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_5/public" data-location="Table Rock Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_5/public" alt="Table Rock Mountain Summit"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_6/public" data-location="Table Rock Mountain Summit"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_table_rock_mountain_summit_6/public" alt="Table Rock Mountain Summit"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Botany+Bay+Heritage+Preserve%2FWildlife+Management+Area/@32.5528232,-80.2561074,17z/data=!3m1!4b1!4m6!3m5!1s0x88fc25aaaaaaaaab:0x2ccb66e8cf5b6cf9!8m2!3d32.5528232!4d-80.2561074!16s%2Fm%2F0nfvw8q?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>ACE Basin’s Botany Bay 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_1/public" data-location="ACE Basin’s Botany Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_1/public" alt="ACE Basin’s Botany Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_2/public" data-location="ACE Basin’s Botany Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_2/public" alt="ACE Basin’s Botany Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_3/public" data-location="ACE Basin’s Botany Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_3/public" alt="ACE Basin’s Botany Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_4/public" data-location="ACE Basin’s Botany Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_4/public" alt="ACE Basin’s Botany Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_5/public" data-location="ACE Basin’s Botany Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_5/public" alt="ACE Basin’s Botany Bay"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_6/public" data-location="ACE Basin’s Botany Bay"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_ace_basins_botany_bay_6/public" alt="ACE Basin’s Botany Bay"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sassafras+Mountain/@35.0645322,-82.7745546,15z/data=!3m1!4b1!4m6!3m5!1s0x8859adb54d91bb45:0x4740149e58efb290!8m2!3d35.0645327!4d-82.7745546!16zL20vMDN3bnA5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sassafras Mountain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_1/public" data-location="Sassafras Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_1/public" alt="Sassafras Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_2/public" data-location="Sassafras Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_2/public" alt="Sassafras Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_3/public" data-location="Sassafras Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_3/public" alt="Sassafras Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_4/public" data-location="Sassafras Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_4/public" alt="Sassafras Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_5/public" data-location="Sassafras Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_5/public" alt="Sassafras Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_6/public" data-location="Sassafras Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_sassafras_mountain_6/public" alt="Sassafras Mountain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Morris+Island+Lighthouse/@32.6953444,-79.8836403,17z/data=!3m1!4b1!4m6!3m5!1s0x88fe77b70f7b8a23:0xb6f874db3e5a2a38!8m2!3d32.6953444!4d-79.8836403!16zL20vMGdoc3Jj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Morris Island Lighthouse Viewpoint 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_1/public" data-location="Morris Island Lighthouse Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_1/public" alt="Morris Island Lighthouse Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_2/public" data-location="Morris Island Lighthouse Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_2/public" alt="Morris Island Lighthouse Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_3/public" data-location="Morris Island Lighthouse Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_3/public" alt="Morris Island Lighthouse Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_4/public" data-location="Morris Island Lighthouse Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_4/public" alt="Morris Island Lighthouse Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_5/public" data-location="Morris Island Lighthouse Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_5/public" alt="Morris Island Lighthouse Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_6/public" data-location="Morris Island Lighthouse Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_morris_island_lighthouse_viewpoint_6/public" alt="Morris Island Lighthouse Viewpoint"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Issaqueena+Falls/@34.8062042,-83.1209872,15z/data=!3m1!4b1!4m6!3m5!1s0x8858efa9f429667d:0x27d110d624b295c6!8m2!3d34.8062047!4d-83.1209872!16s%2Fm%2F04ghb00?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Issaqueena Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_1/public" data-location="Issaqueena Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_1/public" alt="Issaqueena Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_2/public" data-location="Issaqueena Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_2/public" alt="Issaqueena Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_3/public" data-location="Issaqueena Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_3/public" alt="Issaqueena Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_4/public" data-location="Issaqueena Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_4/public" alt="Issaqueena Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_5/public" data-location="Issaqueena Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_5/public" alt="Issaqueena Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_6/public" data-location="Issaqueena Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_issaqueena_falls_6/public" alt="Issaqueena Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Riverbanks+Zoo+%26+Garden/@34.0086627,-81.0733959,17z/data=!3m1!4b1!4m6!3m5!1s0x88f8a3558f7221af:0x5194361d1b5e0bb8!8m2!3d34.0086627!4d-81.0733959!16zL20vMDN3bXA0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Riverbanks Zoo & Botanical Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_1/public" data-location="Riverbanks Zoo & Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_1/public" alt="Riverbanks Zoo & Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_2/public" data-location="Riverbanks Zoo & Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_2/public" alt="Riverbanks Zoo & Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_3/public" data-location="Riverbanks Zoo & Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_3/public" alt="Riverbanks Zoo & Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_4/public" data-location="Riverbanks Zoo & Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_4/public" alt="Riverbanks Zoo & Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_5/public" data-location="Riverbanks Zoo & Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_5/public" alt="Riverbanks Zoo & Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_6/public" data-location="Riverbanks Zoo & Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_riverbanks_zoo_botanical_garden_6/public" alt="Riverbanks Zoo & Botanical Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Sumter+National+Monument/@32.7523476,-79.8746925,17z/data=!3m1!4b1!4m6!3m5!1s0x88fe76d4e9efb1c1:0xeb621a56355d9e74!8m2!3d32.7523476!4d-79.8746925!16zL20vMGtfNF8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Sumter National Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_1/public" data-location="Fort Sumter National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_1/public" alt="Fort Sumter National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_2/public" data-location="Fort Sumter National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_2/public" alt="Fort Sumter National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_3/public" data-location="Fort Sumter National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_3/public" alt="Fort Sumter National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_4/public" data-location="Fort Sumter National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_4/public" alt="Fort Sumter National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_5/public" data-location="Fort Sumter National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_5/public" alt="Fort Sumter National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_6/public" data-location="Fort Sumter National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_fort_sumter_national_monument_6/public" alt="Fort Sumter National Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Coligny+Beach+Park/@32.141562,-80.7510617,17z/data=!3m1!4b1!4m6!3m5!1s0x88fc790e6548b887:0x3a2f4d6835885d69!8m2!3d32.141562!4d-80.7510617!16s%2Fg%2F1tgwnk2n?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Coligny Beach Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_1/public" data-location="Coligny Beach Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_1/public" alt="Coligny Beach Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_2/public" data-location="Coligny Beach Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_2/public" alt="Coligny Beach Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_3/public" data-location="Coligny Beach Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_3/public" alt="Coligny Beach Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_4/public" data-location="Coligny Beach Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_4/public" alt="Coligny Beach Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_5/public" data-location="Coligny Beach Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_5/public" alt="Coligny Beach Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_6/public" data-location="Coligny Beach Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_coligny_beach_park_6/public" alt="Coligny Beach Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Angel+Oak+Tree/@32.7170636,-80.0804319,17z/data=!3m1!4b1!4m6!3m5!1s0x88fe7fc67ad258a5:0xc2afb5846c29cdab!8m2!3d32.7170636!4d-80.0804319!16s%2Fg%2F1n0bxs0hp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Angel Oak 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_1/public" data-location="Angel Oak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_1/public" alt="Angel Oak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_2/public" data-location="Angel Oak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_2/public" alt="Angel Oak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_3/public" data-location="Angel Oak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_3/public" alt="Angel Oak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_4/public" data-location="Angel Oak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_4/public" alt="Angel Oak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_5/public" data-location="Angel Oak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_5/public" alt="Angel Oak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_6/public" data-location="Angel Oak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_angel_oak_6/public" alt="Angel Oak"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waterfront+Park/@32.778966,-79.9255465,17z/data=!3m1!4b1!4m6!3m5!1s0x88fe7a0eb59b6ebf:0x7d0c56da8ca89475!8m2!3d32.778966!4d-79.9255465!16s%2Fm%2F064pvcj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waterfront Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_1/public" data-location="Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_1/public" alt="Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_2/public" data-location="Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_2/public" alt="Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_3/public" data-location="Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_3/public" alt="Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_4/public" data-location="Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_4/public" alt="Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_5/public" data-location="Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_5/public" alt="Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_6/public" data-location="Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_waterfront_park_6/public" alt="Waterfront Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Myrtle+Beach+State+Park/@33.6510918,-78.9312975,15z/data=!3m1!4b1!4m6!3m5!1s0x8900420063c85b95:0xe908749f5585c51e!8m2!3d33.6511978!4d-78.930625!16s%2Fm%2F03c1lvc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Myrtle Beach State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_1/public" data-location="Myrtle Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_1/public" alt="Myrtle Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_2/public" data-location="Myrtle Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_2/public" alt="Myrtle Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_3/public" data-location="Myrtle Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_3/public" alt="Myrtle Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_4/public" data-location="Myrtle Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_4/public" alt="Myrtle Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_5/public" data-location="Myrtle Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_5/public" alt="Myrtle Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_6/public" data-location="Myrtle Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/southcarolina_myrtle_beach_state_park_6/public" alt="Myrtle Beach State Park"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
