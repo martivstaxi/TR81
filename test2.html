@@ -83,11 +83,14 @@
     backdrop-filter:blur(20px);border-color:rgba(22,163,74,.4);color:#16a34a;}
   .info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
   .info a:hover{color:var(--primary-dark);text-decoration:underline;}
+  /* Grid === */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
     gap:16px;padding-bottom:40px;position:relative;z-index:1;}
   .card{background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
     border-radius:20px;padding:28px 18px;text-align:center;cursor:pointer;transition:.3s
-    cubic-bezier(.4,0,.2,1);position:relative;box-shadow:var(--shadow-lg);}
+    cubic-bezier(.4,0,.2,1);position:relative;box-shadow:var(--shadow-lg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-height:140px;}
   .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
   .flag{font-size:2.875rem;margin-bottom:10px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1));
     line-height:1;
@@ -108,7 +111,7 @@
     height: 36px;
     background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin: 0 auto 10px auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -118,7 +121,7 @@
     text-transform: uppercase;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-  .name{font-weight:500;font-size:15px;color:var(--text-primary);}
+  .name{font-weight:500;font-size:15px;color:var(--text-primary);text-align:center;}
   .card.free{background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);backdrop-filter:blur(20px);border:2px solid rgba(245,158,11,.4);}
   
   /* Mobil için arka plan düzeltmesi */
@@ -213,6 +216,11 @@
     .flag-img {
       width: 40px !important;
       height: 30px !important;
+    }
+    .flag-placeholder {
+      width: 40px !important;
+      height: 30px !important;
+      font-size: 12px !important;
     }
     .name{font-size:13px !important;line-height:1.2;}
     .info {
@@ -580,37 +588,48 @@
       card.dataset.iso = iso;
       card.onclick = ()=>go(slug);
       
-      // Masaüstü için görsel bayrak, mobil için emoji
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      // Bayrak placeholder olarak ISO kodu göster
+      const flagDiv = document.createElement('div');
+      flagDiv.className = 'flag-placeholder';
+      flagDiv.textContent = iso.toUpperCase();
       
-      if (isMobile) {
-        // Mobilde emoji kullan
-        card.innerHTML = `<span class="flag">${flag(iso)}</span><div class="name"></div>`;
-      } else {
-        // Desktop'ta görsel kullan
-        const flagImg = document.createElement('img');
-        flagImg.className = 'flag-img';
-        flagImg.src = getFlagUrl(iso);
-        flagImg.alt = `${iso.toUpperCase()} flag`;
-        flagImg.loading = 'lazy';
-        
-        // Görsel yüklenemezse emoji'ye geri dön
-        flagImg.onerror = function() {
-          this.style.display = 'none';
-          const emojiSpan = document.createElement('span');
-          emojiSpan.className = 'flag';
-          emojiSpan.textContent = flag(iso);
-          this.parentNode.insertBefore(emojiSpan, this);
-        };
-        
-        const nameDiv = document.createElement('div');
-        nameDiv.className = 'name';
-        
-        card.appendChild(flagImg);
-        card.appendChild(nameDiv);
-      }
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'name';
+      
+      card.appendChild(flagDiv);
+      card.appendChild(nameDiv);
       
       grid.appendChild(card);
+      
+      // Arka planda bayrak emoji'sini dene
+      setTimeout(() => {
+        try {
+          const testEmoji = flag(iso);
+          // Emoji test et
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          ctx.font = '16px sans-serif';
+          ctx.fillText(testEmoji, 0, 16);
+          const imageData = ctx.getImageData(0, 0, 16, 16);
+          
+          // Eğer emoji render edilmişse kullan
+          let hasColor = false;
+          for (let i = 0; i < imageData.data.length; i += 4) {
+            if (imageData.data[i] > 0 || imageData.data[i + 1] > 0 || imageData.data[i + 2] > 0) {
+              hasColor = true;
+              break;
+            }
+          }
+          
+          if (hasColor || /Android|iPhone|iPad/i.test(navigator.userAgent)) {
+            flagDiv.className = 'flag';
+            flagDiv.textContent = testEmoji;
+            flagDiv.style.fontFamily = 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, Android Emoji, sans-serif';
+          }
+        } catch(e) {
+          // Hata durumunda placeholder kalsın
+        }
+      }, 10);
     });
 
     updateCountryCards(); // ilk isim doldur
