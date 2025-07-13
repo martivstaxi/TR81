@@ -472,21 +472,24 @@
     }
     
     .grid {
-      gap:12px;
+      gap:10px;
       padding-bottom:40px;
       grid-template-columns: repeat(3, 1fr);
-      max-width: 100%;
+      max-width: calc(100% - 24px);
       margin: 0 auto;
+      padding: 0 12px;
     }
     
     .card {
-      padding: 20px 12px !important;
+      padding: 16px 8px !important;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       width: 100%;
-      aspect-ratio: 1/0.85 !important;
+      aspect-ratio: 1/1 !important;
+      min-width: 0;
+      overflow: hidden;
     }
     
     /* Mobile flag optimization - force emoji on mobile */
@@ -504,9 +507,10 @@
     /* Always show emoji on mobile */
     .flag-emoji {
       display: block !important;
-      font-size: 2.5rem !important;
+      font-size: 2.25rem !important;
       position: static !important;
       transform: none !important;
+      margin-bottom: 6px;
     }
     
     .name{
@@ -528,19 +532,25 @@
   @media(max-width:480px){
     .grid{
       grid-template-columns:repeat(3, 1fr);
-      gap:10px;
+      gap:8px;
+      padding: 0 8px;
+      max-width: calc(100% - 16px);
     }
     
     .card{
-      padding: 18px 10px !important;
-      aspect-ratio: 1/0.85 !important;
+      padding: 14px 6px !important;
+      aspect-ratio: 1/1 !important;
     }
     
     .flag-emoji {
-      font-size: 2.2rem !important;
+      font-size: 2rem !important;
+      margin-bottom: 4px;
     }
     
-    .name{font-size:12px !important;}
+    .name{
+      font-size:11px !important;
+      line-height: 1.1;
+    }
   }
   
   /* Desktop specific */
@@ -938,9 +948,10 @@
     /* Force emoji for browsers with poor flag image support */
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isMobile = window.innerWidth <= 768;
     
-    if (isSafari || isIOS) {
-      // On Safari/iOS, prefer emoji flags
+    if (isSafari || isIOS || isMobile) {
+      // On Safari/iOS/Mobile, prefer emoji flags
       document.querySelectorAll('.flag-wrapper').forEach(wrapper => {
         wrapper.classList.add('show-emoji');
       });
