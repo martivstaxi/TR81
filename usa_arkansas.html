@@ -1,0 +1,1366 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arkansas</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Arkansas</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Blanchard+Springs+Caverns/@35.9638659,-92.1793056,17z/data=!3m1!4b1!4m6!3m5!1s0x87d1f48c7b793c6b:0xf7e635682166f402!8m2!3d35.9638659!4d-92.1793056!16zL20vMDF3M3dm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Blanchard Springs 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_1/public" data-location="Blanchard Springs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_1/public" alt="Blanchard Springs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_2/public" data-location="Blanchard Springs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_2/public" alt="Blanchard Springs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_3/public" data-location="Blanchard Springs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_3/public" alt="Blanchard Springs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_4/public" data-location="Blanchard Springs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_4/public" alt="Blanchard Springs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_5/public" data-location="Blanchard Springs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_5/public" alt="Blanchard Springs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_6/public" data-location="Blanchard Springs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_blanchard_springs_6/public" alt="Blanchard Springs"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yellow+Rock+Overlook/@35.7877751,-94.2485185,17z/data=!3m1!4b1!4m6!3m5!1s0x87cbd77188fb620f:0xf9b9636aa572441e!8m2!3d35.7877751!4d-94.2485185!16s%2Fg%2F11f3_6501x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yellow Rock Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_1/public" data-location="Yellow Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_1/public" alt="Yellow Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_2/public" data-location="Yellow Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_2/public" alt="Yellow Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_3/public" data-location="Yellow Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_3/public" alt="Yellow Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_4/public" data-location="Yellow Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_4/public" alt="Yellow Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_5/public" data-location="Yellow Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_5/public" alt="Yellow Rock Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_6/public" data-location="Yellow Rock Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_yellow_rock_overlook_6/public" alt="Yellow Rock Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Crystal+Bridges+Museum+of+American+Art/@36.3826566,-94.2025312,16z/data=!3m1!4b1!4m6!3m5!1s0x87c91a14c433925b:0xad260359e45b143b!8m2!3d36.3818542!4d-94.2026525!16zL20vMGJiNDYx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Crystal Bridges Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_1/public" data-location="Crystal Bridges Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_1/public" alt="Crystal Bridges Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_2/public" data-location="Crystal Bridges Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_2/public" alt="Crystal Bridges Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_3/public" data-location="Crystal Bridges Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_3/public" alt="Crystal Bridges Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_4/public" data-location="Crystal Bridges Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_4/public" alt="Crystal Bridges Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_5/public" data-location="Crystal Bridges Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_5/public" alt="Crystal Bridges Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_6/public" data-location="Crystal Bridges Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_crystal_bridges_museum_6/public" alt="Crystal Bridges Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sugarloaf+Mountain/@34.5203666,-93.0821251,15z/data=!3m1!4b1!4m6!3m5!1s0x87cd2a66a567a3e7:0xfe54a23e58df7936!8m2!3d34.5203672!4d-93.0821251!16s%2Fm%2F05mqrwh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sugar Loaf Mountain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_1/public" data-location="Sugar Loaf Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_1/public" alt="Sugar Loaf Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_2/public" data-location="Sugar Loaf Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_2/public" alt="Sugar Loaf Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_3/public" data-location="Sugar Loaf Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_3/public" alt="Sugar Loaf Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_4/public" data-location="Sugar Loaf Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_4/public" alt="Sugar Loaf Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_5/public" data-location="Sugar Loaf Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_5/public" alt="Sugar Loaf Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_6/public" data-location="Sugar Loaf Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_6/public" alt="Sugar Loaf Mountain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Petit+Jean+State+Park/@35.1242439,-92.9234759,17z/data=!3m1!4b1!4m6!3m5!1s0x87cd089ebb675daf:0xa1934e4c60bec4b7!8m2!3d35.1242439!4d-92.9234759!16zL20vMDF4d2xn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Petit Jean State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_1/public" data-location="Petit Jean State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_1/public" alt="Petit Jean State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_2/public" data-location="Petit Jean State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_2/public" alt="Petit Jean State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_3/public" data-location="Petit Jean State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_3/public" alt="Petit Jean State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_4/public" data-location="Petit Jean State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_4/public" alt="Petit Jean State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_5/public" data-location="Petit Jean State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_5/public" alt="Petit Jean State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_6/public" data-location="Petit Jean State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_petit_jean_state_park_6/public" alt="Petit Jean State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Buffalo+National+River/@35.9828912,-92.7548041,17z/data=!3m1!4b1!4m6!3m5!1s0x87ce7018049d5945:0x7cbe3a567c1e1e!8m2!3d35.9828912!4d-92.7548041!16zL20vMDFycHFk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Buffalo National River 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_1/public" data-location="Buffalo National River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_1/public" alt="Buffalo National River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_2/public" data-location="Buffalo National River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_2/public" alt="Buffalo National River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_3/public" data-location="Buffalo National River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_3/public" alt="Buffalo National River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_4/public" data-location="Buffalo National River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_4/public" alt="Buffalo National River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_5/public" data-location="Buffalo National River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_5/public" alt="Buffalo National River"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_6/public" data-location="Buffalo National River"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_buffalo_national_river_6/public" alt="Buffalo National River"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Thorncrown+Chapel/@36.416316,-93.7726242,17z/data=!3m1!4b1!4m6!3m5!1s0x87c92d1b7e797997:0xfc568300fbf20fe9!8m2!3d36.416316!4d-93.7726242!16zL20vMDRqMnRw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Thorncrown Chapel 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_1/public" data-location="Thorncrown Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_1/public" alt="Thorncrown Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_2/public" data-location="Thorncrown Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_2/public" alt="Thorncrown Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_3/public" data-location="Thorncrown Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_3/public" alt="Thorncrown Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_4/public" data-location="Thorncrown Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_4/public" alt="Thorncrown Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_5/public" data-location="Thorncrown Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_5/public" alt="Thorncrown Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_6/public" data-location="Thorncrown Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_thorncrown_chapel_6/public" alt="Thorncrown Chapel"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tanyard+Creek+Nature+Trail/@36.4718824,-94.2609679,17z/data=!3m1!4b1!4m6!3m5!1s0x87c9036caa062463:0x4d0d49d951f640a6!8m2!3d36.4718824!4d-94.2609679!16s%2Fg%2F1tdww6n3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tanyard Creek Nature Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_1/public" data-location="Tanyard Creek Nature Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_1/public" alt="Tanyard Creek Nature Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_2/public" data-location="Tanyard Creek Nature Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_2/public" alt="Tanyard Creek Nature Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_3/public" data-location="Tanyard Creek Nature Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_3/public" alt="Tanyard Creek Nature Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_4/public" data-location="Tanyard Creek Nature Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_4/public" alt="Tanyard Creek Nature Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_5/public" data-location="Tanyard Creek Nature Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_5/public" alt="Tanyard Creek Nature Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_6/public" data-location="Tanyard Creek Nature Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_tanyard_creek_nature_trail_6/public" alt="Tanyard Creek Nature Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Magazine+State+Park/@35.1686949,-93.6260549,17z/data=!3m1!4b1!4m6!3m5!1s0x87cc7df417b5d61f:0xfad2749c77056f66!8m2!3d35.1686949!4d-93.6260549!16s%2Fm%2F0h_9czw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Magazine State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_1/public" data-location="Mount Magazine State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_1/public" alt="Mount Magazine State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_2/public" data-location="Mount Magazine State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_2/public" alt="Mount Magazine State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_3/public" data-location="Mount Magazine State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_3/public" alt="Mount Magazine State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_4/public" data-location="Mount Magazine State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_4/public" alt="Mount Magazine State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_5/public" data-location="Mount Magazine State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_5/public" alt="Mount Magazine State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_6/public" data-location="Mount Magazine State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_state_park_6/public" alt="Mount Magazine State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pinnacle+Mountain+State+Park/@34.8366143,-92.4710906,17z/data=!3m1!4b1!4m6!3m5!1s0x87cd5fe325f64fb1:0x66e7e940ef0fb8a8!8m2!3d34.8366143!4d-92.4710906!16zL20vMDVzZmg1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pinnacle Mountain State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_1/public" data-location="Pinnacle Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_1/public" alt="Pinnacle Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_2/public" data-location="Pinnacle Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_2/public" alt="Pinnacle Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_3/public" data-location="Pinnacle Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_3/public" alt="Pinnacle Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_4/public" data-location="Pinnacle Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_4/public" alt="Pinnacle Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_5/public" data-location="Pinnacle Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_5/public" alt="Pinnacle Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_6/public" data-location="Pinnacle Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_pinnacle_mountain_state_park_6/public" alt="Pinnacle Mountain State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Nebo+State+Park/@35.2185729,-93.2527448,17z/data=!3m1!4b1!4m6!3m5!1s0x87cc5704e1973aa9:0x29c0fab8fd6bc5a1!8m2!3d35.2185729!4d-93.2527448!16s%2Fg%2F1w456428?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Nebo Sunset Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_1/public" data-location="Mount Nebo Sunset Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_1/public" alt="Mount Nebo Sunset Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_2/public" data-location="Mount Nebo Sunset Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_2/public" alt="Mount Nebo Sunset Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_3/public" data-location="Mount Nebo Sunset Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_3/public" alt="Mount Nebo Sunset Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_4/public" data-location="Mount Nebo Sunset Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_4/public" alt="Mount Nebo Sunset Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_5/public" data-location="Mount Nebo Sunset Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_5/public" alt="Mount Nebo Sunset Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_6/public" data-location="Mount Nebo Sunset Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_nebo_sunset_point_6/public" alt="Mount Nebo Sunset Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Devil's+Den+State+Park/@35.7819774,-94.2526856,17z/data=!3m1!4b1!4m6!3m5!1s0x87cbd76c737b5537:0xed231129ead6920b!8m2!3d35.7819774!4d-94.2526856!16s%2Fg%2F11h2k35mv7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Devil's Den State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_1/public" data-location="Devil's Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_1/public" alt="Devil's Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_2/public" data-location="Devil's Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_2/public" alt="Devil's Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_3/public" data-location="Devil's Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_3/public" alt="Devil's Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_4/public" data-location="Devil's Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_4/public" alt="Devil's Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_5/public" data-location="Devil's Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_5/public" alt="Devil's Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_6/public" data-location="Devil's Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_devils_den_state_park_6/public" alt="Devil's Den State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hobbs+State+Park-Conservation+Area/@36.285926,-93.939028,17z/data=!3m1!4b1!4m6!3m5!1s0x87c930cf955e64cf:0x5fbf15a25f8fc872!8m2!3d36.285926!4d-93.939028!16s%2Fm%2F0gty2sb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hobbs State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_1/public" data-location="Hobbs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_1/public" alt="Hobbs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_2/public" data-location="Hobbs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_2/public" alt="Hobbs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_3/public" data-location="Hobbs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_3/public" alt="Hobbs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_4/public" data-location="Hobbs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_4/public" alt="Hobbs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_5/public" data-location="Hobbs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_5/public" alt="Hobbs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_6/public" data-location="Hobbs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_hobbs_state_park_6/public" alt="Hobbs State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Arkansas+Grand+Canyon/@35.9451607,-93.1629303,17z/data=!3m1!4b1!4m6!3m5!1s0x87ce86b1bfaee157:0x8fa2a591b39398a9!8m2!3d35.9451607!4d-93.1629303!16s%2Fg%2F11c1wxblvz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Arkansas Grand Canyon Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_1/public" data-location="Arkansas Grand Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_1/public" alt="Arkansas Grand Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_2/public" data-location="Arkansas Grand Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_2/public" alt="Arkansas Grand Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_3/public" data-location="Arkansas Grand Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_3/public" alt="Arkansas Grand Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_4/public" data-location="Arkansas Grand Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_4/public" alt="Arkansas Grand Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_5/public" data-location="Arkansas Grand Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_5/public" alt="Arkansas Grand Canyon Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_6/public" data-location="Arkansas Grand Canyon Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_arkansas_grand_canyon_overlook_6/public" alt="Arkansas Grand Canyon Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hawksbill+Crag%2FWhitaker+Point/@35.8909025,-93.4404467,17z/data=!3m1!4b1!4m6!3m5!1s0x87cea04088b88427:0x458d1616a0179dbb!8m2!3d35.8909025!4d-93.4404467!16s%2Fg%2F1s04czscz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Whitaker Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_1/public" data-location="Whitaker Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_1/public" alt="Whitaker Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_2/public" data-location="Whitaker Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_2/public" alt="Whitaker Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_3/public" data-location="Whitaker Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_3/public" alt="Whitaker Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_4/public" data-location="Whitaker Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_4/public" alt="Whitaker Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_5/public" data-location="Whitaker Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_5/public" alt="Whitaker Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_6/public" data-location="Whitaker Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_whitaker_point_6/public" alt="Whitaker Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lost+Valley+Trailhead/@36.0101515,-93.3745662,17z/data=!3m1!4b1!4m6!3m5!1s0x87ce984c77bb4c91:0x253680199b930c53!8m2!3d36.0101515!4d-93.3745662!16s%2Fg%2F1tfd7hxs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lost Valley Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_1/public" data-location="Lost Valley Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_1/public" alt="Lost Valley Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_2/public" data-location="Lost Valley Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_2/public" alt="Lost Valley Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_3/public" data-location="Lost Valley Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_3/public" alt="Lost Valley Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_4/public" data-location="Lost Valley Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_4/public" alt="Lost Valley Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_5/public" data-location="Lost Valley Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_5/public" alt="Lost Valley Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_6/public" data-location="Lost Valley Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_lost_valley_trail_6/public" alt="Lost Valley Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rotary+Ann+Overlook/@35.6694412,-93.0987777,17z/data=!3m1!4b1!4m6!3m5!1s0x87cc32cd5c41ea05:0x185e4728fd77b469!8m2!3d35.6694412!4d-93.0987777!16s%2Fg%2F11b6gddt5g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rotary Ann Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_1/public" data-location="Rotary Ann Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_1/public" alt="Rotary Ann Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_2/public" data-location="Rotary Ann Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_2/public" alt="Rotary Ann Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_3/public" data-location="Rotary Ann Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_3/public" alt="Rotary Ann Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_4/public" data-location="Rotary Ann Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_4/public" alt="Rotary Ann Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_5/public" data-location="Rotary Ann Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_5/public" alt="Rotary Ann Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_6/public" data-location="Rotary Ann Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_rotary_ann_overlook_6/public" alt="Rotary Ann Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cossatot+River+State+Park+-+Natural+Area/@34.2938191,-94.1774524,17z/data=!3m1!4b1!4m6!3m5!1s0x8634d03874c02297:0x9ce347b022d1f499!8m2!3d34.2938191!4d-94.1774524!16zL20vMDF5MTkx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cossatot River State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_1/public" data-location="Cossatot River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_1/public" alt="Cossatot River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_2/public" data-location="Cossatot River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_2/public" alt="Cossatot River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_3/public" data-location="Cossatot River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_3/public" alt="Cossatot River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_4/public" data-location="Cossatot River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_4/public" alt="Cossatot River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_5/public" data-location="Cossatot River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_5/public" alt="Cossatot River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_6/public" data-location="Cossatot River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_river_state_park_6/public" alt="Cossatot River State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Falling+Water+Falls/@35.7219162,-92.949317,15z/data=!3m1!4b1!4m6!3m5!1s0x87cdd0122edc29c7:0xa8f96a830b7af574!8m2!3d35.7219167!4d-92.949317!16s%2Fg%2F1td6srzq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Falling Water Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_1/public" data-location="Falling Water Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_1/public" alt="Falling Water Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_2/public" data-location="Falling Water Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_2/public" alt="Falling Water Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_3/public" data-location="Falling Water Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_3/public" alt="Falling Water Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_4/public" data-location="Falling Water Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_4/public" alt="Falling Water Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_5/public" data-location="Falling Water Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_5/public" alt="Falling Water Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_6/public" data-location="Falling Water Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_falling_water_falls_6/public" alt="Falling Water Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Magazine+Mountain/@35.1673115,-93.6449152,15z/data=!3m1!4b1!4m6!3m5!1s0x87cc7df3a3deba49:0xa00510e07fa0fe9e!8m2!3d35.167312!4d-93.6449152!16zL20vMDF3MXRz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Magazine 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_1/public" data-location="Mount Magazine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_1/public" alt="Mount Magazine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_2/public" data-location="Mount Magazine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_2/public" alt="Mount Magazine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_3/public" data-location="Mount Magazine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_3/public" alt="Mount Magazine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_4/public" data-location="Mount Magazine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_4/public" alt="Mount Magazine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_5/public" data-location="Mount Magazine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_5/public" alt="Mount Magazine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_6/public" data-location="Mount Magazine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_mount_magazine_6/public" alt="Mount Magazine"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hemmed-In+Hollow+Falls/@36.0721383,-93.3073511,17z/data=!3m1!4b1!4m6!3m5!1s0x87ce90f194bef9b5:0x748e97ee1e3e14da!8m2!3d36.0721383!4d-93.3073511!16s%2Fm%2F02w5kfy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Barnes Hollow Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_1/public" data-location="Barnes Hollow Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_1/public" alt="Barnes Hollow Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_2/public" data-location="Barnes Hollow Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_2/public" alt="Barnes Hollow Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_3/public" data-location="Barnes Hollow Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_3/public" alt="Barnes Hollow Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_4/public" data-location="Barnes Hollow Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_4/public" alt="Barnes Hollow Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_5/public" data-location="Barnes Hollow Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_5/public" alt="Barnes Hollow Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_6/public" data-location="Barnes Hollow Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_barnes_hollow_falls_6/public" alt="Barnes Hollow Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sugar+Loaf+Mountain+Nature+Trail/@35.5623914,-92.2642702,17z/data=!3m1!4b1!4m6!3m5!1s0x87d212df30374da1:0x35093f4150872f39!8m2!3d35.5623914!4d-92.2642702!16s%2Fg%2F11h0qsjq5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sugar Loaf Mountain Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_1/public" data-location="Sugar Loaf Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_1/public" alt="Sugar Loaf Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_2/public" data-location="Sugar Loaf Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_2/public" alt="Sugar Loaf Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_3/public" data-location="Sugar Loaf Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_3/public" alt="Sugar Loaf Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_4/public" data-location="Sugar Loaf Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_4/public" alt="Sugar Loaf Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_5/public" data-location="Sugar Loaf Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_5/public" alt="Sugar Loaf Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_6/public" data-location="Sugar Loaf Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_sugar_loaf_mountain_trail_6/public" alt="Sugar Loaf Mountain Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kyles+Landing+Campground/@36.0557433,-93.2807627,17z/data=!3m1!4b1!4m9!3m8!1s0x87ce906d7ec07667:0xe55ec2c3c21c46b5!5m2!4m1!1i2!8m2!3d36.0557433!4d-93.2807627!16s%2Fg%2F12hk9nnq7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kyle's Landing 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_1/public" data-location="Kyle's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_1/public" alt="Kyle's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_2/public" data-location="Kyle's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_2/public" alt="Kyle's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_3/public" data-location="Kyle's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_3/public" alt="Kyle's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_4/public" data-location="Kyle's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_4/public" alt="Kyle's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_5/public" data-location="Kyle's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_5/public" alt="Kyle's Landing"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_6/public" data-location="Kyle's Landing"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_kyles_landing_6/public" alt="Kyle's Landing"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cossatot+Falls/@34.3202076,-94.2269683,17z/data=!3m1!4b1!4m6!3m5!1s0x8634d1df6d6433c9:0xa8c293f185fd1a63!8m2!3d34.3202076!4d-94.2269683!16s%2Fg%2F11g68x59lp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cossatot Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_1/public" data-location="Cossatot Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_1/public" alt="Cossatot Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_2/public" data-location="Cossatot Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_2/public" alt="Cossatot Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_3/public" data-location="Cossatot Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_3/public" alt="Cossatot Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_4/public" data-location="Cossatot Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_4/public" alt="Cossatot Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_5/public" data-location="Cossatot Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_5/public" alt="Cossatot Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_6/public" data-location="Cossatot Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_cossatot_falls_6/public" alt="Cossatot Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Six+Finger+Falls/@35.7616667,-92.9375333,17z/data=!3m1!4b1!4m6!3m5!1s0x87cdda77d7c2ae21:0x477c0d7faac031aa!8m2!3d35.7616667!4d-92.9375333!16s%2Fg%2F11d_75s5y2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Six Finger Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_1/public" data-location="Six Finger Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_1/public" alt="Six Finger Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_2/public" data-location="Six Finger Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_2/public" alt="Six Finger Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_3/public" data-location="Six Finger Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_3/public" alt="Six Finger Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_4/public" data-location="Six Finger Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_4/public" alt="Six Finger Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_5/public" data-location="Six Finger Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_5/public" alt="Six Finger Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_6/public" data-location="Six Finger Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_six_finger_falls_6/public" alt="Six Finger Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Boxley+Valley+Historic+District/@36.0189778,-93.3573663,17z/data=!3m1!4b1!4m6!3m5!1s0x87ce99951060c3e9:0x690563476e7e5c07!8m2!3d36.0189778!4d-93.3573663!16s%2Fm%2F04z_705?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Boxley Valley 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_1/public" data-location="Boxley Valley"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_1/public" alt="Boxley Valley"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_2/public" data-location="Boxley Valley"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_2/public" alt="Boxley Valley"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_3/public" data-location="Boxley Valley"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_3/public" alt="Boxley Valley"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_4/public" data-location="Boxley Valley"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_4/public" alt="Boxley Valley"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_5/public" data-location="Boxley Valley"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_5/public" alt="Boxley Valley"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_6/public" data-location="Boxley Valley"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/arkansas_boxley_valley_6/public" alt="Boxley Valley"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
