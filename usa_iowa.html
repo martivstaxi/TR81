@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iowa</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Iowa</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Shrine+of+the+Grotto+of+the+Redemption/@42.963937,-94.4461309,17z/data=!3m1!4b1!4m6!3m5!1s0x87f2f9ae69addecb:0x4172e7c6de62ab01!8m2!3d42.963937!4d-94.4461309!16zL20vMDQ2bHdo?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Grotto of the Redemption 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_1/public" data-location="Grotto of the Redemption"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_1/public" alt="Grotto of the Redemption"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_2/public" data-location="Grotto of the Redemption"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_2/public" alt="Grotto of the Redemption"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_3/public" data-location="Grotto of the Redemption"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_3/public" alt="Grotto of the Redemption"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_4/public" data-location="Grotto of the Redemption"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_4/public" alt="Grotto of the Redemption"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_5/public" data-location="Grotto of the Redemption"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_5/public" alt="Grotto of the Redemption"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_6/public" data-location="Grotto of the Redemption"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grotto_of_the_redemption_6/public" alt="Grotto of the Redemption"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lime+Creek+Nature+Center/@43.1838114,-93.1927745,17z/data=!3m1!4b1!4m6!3m5!1s0x87f106bed4098c41:0x17bb682520e9f12c!8m2!3d43.1838114!4d-93.1927745!16s%2Fg%2F1tdp5lry?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lime Creek Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_1/public" data-location="Lime Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_1/public" alt="Lime Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_2/public" data-location="Lime Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_2/public" alt="Lime Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_3/public" data-location="Lime Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_3/public" alt="Lime Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_4/public" data-location="Lime Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_4/public" alt="Lime Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_5/public" data-location="Lime Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_5/public" alt="Lime Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_6/public" data-location="Lime Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_lime_creek_nature_center_6/public" alt="Lime Creek Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Maquoketa+Caves+State+Park/@42.1201868,-90.7660557,17z/data=!3m1!4b1!4m6!3m5!1s0x87e310f6e455469d:0x693667007ffdb2c2!8m2!3d42.1201868!4d-90.7660557!16zL20vMDRubDF2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Maquoketa Caves State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_1/public" data-location="Maquoketa Caves State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_1/public" alt="Maquoketa Caves State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_2/public" data-location="Maquoketa Caves State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_2/public" alt="Maquoketa Caves State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_3/public" data-location="Maquoketa Caves State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_3/public" alt="Maquoketa Caves State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_4/public" data-location="Maquoketa Caves State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_4/public" alt="Maquoketa Caves State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_5/public" data-location="Maquoketa Caves State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_5/public" alt="Maquoketa Caves State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_6/public" data-location="Maquoketa Caves State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_maquoketa_caves_state_park_6/public" alt="Maquoketa Caves State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ledges+State+Park/@41.9948596,-93.8801043,17z/data=!3m1!4b1!4m6!3m5!1s0x87edd0154c39ae01:0x226b00ef00f593f1!8m2!3d41.9948596!4d-93.8801043!16zL20vMDJjY3g5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ledges State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_1/public" data-location="Ledges State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_1/public" alt="Ledges State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_2/public" data-location="Ledges State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_2/public" alt="Ledges State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_3/public" data-location="Ledges State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_3/public" alt="Ledges State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_4/public" data-location="Ledges State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_4/public" alt="Ledges State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_5/public" data-location="Ledges State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_5/public" alt="Ledges State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_6/public" data-location="Ledges State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ledges_state_park_6/public" alt="Ledges State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pikes+Peak+State+Park/@42.9955083,-91.1659498,17z/data=!3m1!4b1!4m6!3m5!1s0x87fc82d5237ccf0f:0xbe5d58546cc94296!8m2!3d42.9955083!4d-91.1659498!16s%2Fm%2F02rnbhz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pikes Peak State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_1/public" data-location="Pikes Peak State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_1/public" alt="Pikes Peak State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_2/public" data-location="Pikes Peak State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_2/public" alt="Pikes Peak State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_3/public" data-location="Pikes Peak State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_3/public" alt="Pikes Peak State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_4/public" data-location="Pikes Peak State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_4/public" alt="Pikes Peak State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_5/public" data-location="Pikes Peak State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_5/public" alt="Pikes Peak State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_6/public" data-location="Pikes Peak State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pikes_peak_state_park_6/public" alt="Pikes Peak State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Iowa+State+Capitol/@41.5912022,-93.6036389,17z/data=!3m1!4b1!4m6!3m5!1s0x87ee99b65e8492bb:0x119c58a0f1130c12!8m2!3d41.5912022!4d-93.6036389!16zL20vMDRodmt3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Iowa State Capitol 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_1/public" data-location="Iowa State Capitol"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_1/public" alt="Iowa State Capitol"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_2/public" data-location="Iowa State Capitol"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_2/public" alt="Iowa State Capitol"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_3/public" data-location="Iowa State Capitol"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_3/public" alt="Iowa State Capitol"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_4/public" data-location="Iowa State Capitol"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_4/public" alt="Iowa State Capitol"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_5/public" data-location="Iowa State Capitol"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_5/public" alt="Iowa State Capitol"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_6/public" data-location="Iowa State Capitol"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_state_capitol_6/public" alt="Iowa State Capitol"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Dunning's+Spring+Park/@43.3114755,-91.7899322,17z/data=!3m1!4b1!4m6!3m5!1s0x87fbad8171013e59:0x851a10b548c383fe!8m2!3d43.3114755!4d-91.7899322!16s%2Fg%2F1tf3zyd_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Dunning's Spring Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_1/public" data-location="Dunning's Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_1/public" alt="Dunning's Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_2/public" data-location="Dunning's Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_2/public" alt="Dunning's Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_3/public" data-location="Dunning's Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_3/public" alt="Dunning's Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_4/public" data-location="Dunning's Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_4/public" alt="Dunning's Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_5/public" data-location="Dunning's Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_5/public" alt="Dunning's Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_6/public" data-location="Dunning's Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_dunnings_spring_park_6/public" alt="Dunning's Spring Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ada+Hayden+Heritage+Park/@42.0723472,-93.6237163,17z/data=!3m1!4b1!4m6!3m5!1s0x87ee7104dee25edd:0xf18cb870760a7de2!8m2!3d42.0723472!4d-93.6237163!16s%2Fg%2F1thsggs9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ada Hayden Heritage Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_1/public" data-location="Ada Hayden Heritage Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_1/public" alt="Ada Hayden Heritage Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_2/public" data-location="Ada Hayden Heritage Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_2/public" alt="Ada Hayden Heritage Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_3/public" data-location="Ada Hayden Heritage Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_3/public" alt="Ada Hayden Heritage Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_4/public" data-location="Ada Hayden Heritage Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_4/public" alt="Ada Hayden Heritage Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_5/public" data-location="Ada Hayden Heritage Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_5/public" alt="Ada Hayden Heritage Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_6/public" data-location="Ada Hayden Heritage Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_ada_hayden_heritage_park_6/public" alt="Ada Hayden Heritage Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wildcat+Den+State+Park/@41.4680796,-90.8752155,17z/data=!3m1!4b1!4m6!3m5!1s0x87e3c2f1e9092bc9:0x10bdf09947e183b0!8m2!3d41.4680796!4d-90.8752155!16zL20vMGdxa216?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wildcat Den State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_1/public" data-location="Wildcat Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_1/public" alt="Wildcat Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_2/public" data-location="Wildcat Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_2/public" alt="Wildcat Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_3/public" data-location="Wildcat Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_3/public" alt="Wildcat Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_4/public" data-location="Wildcat Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_4/public" alt="Wildcat Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_5/public" data-location="Wildcat Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_5/public" alt="Wildcat Den State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_6/public" data-location="Wildcat Den State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_wildcat_den_state_park_6/public" alt="Wildcat Den State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Reiman+Gardens/@42.0106058,-93.6385731,17z/data=!3m1!4b1!4m6!3m5!1s0x87ee709a56cf29d9:0x59887400abe88d3d!8m2!3d42.0106058!4d-93.6385731!16zL20vMDdqaHpy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Reiman Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_1/public" data-location="Reiman Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_1/public" alt="Reiman Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_2/public" data-location="Reiman Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_2/public" alt="Reiman Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_3/public" data-location="Reiman Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_3/public" alt="Reiman Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_4/public" data-location="Reiman Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_4/public" alt="Reiman Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_5/public" data-location="Reiman Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_5/public" alt="Reiman Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_6/public" data-location="Reiman Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_reiman_gardens_6/public" alt="Reiman Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Indian+Creek+Nature+Center/@41.966607,-91.589038,17z/data=!3m1!4b1!4m6!3m5!1s0x87e4f43f956061d9:0xc3e9342ba21e841a!8m2!3d41.966607!4d-91.589038!16s%2Fg%2F1hg4_s3t2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Indian Creek Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_1/public" data-location="Indian Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_1/public" alt="Indian Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_2/public" data-location="Indian Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_2/public" alt="Indian Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_3/public" data-location="Indian Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_3/public" alt="Indian Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_4/public" data-location="Indian Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_4/public" alt="Indian Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_5/public" data-location="Indian Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_5/public" alt="Indian Creek Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_6/public" data-location="Indian Creek Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_indian_creek_nature_center_6/public" alt="Indian Creek Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yellow+River+State+Forest+-+Paint+Creek+Unit/@43.1743872,-91.2408463,17z/data=!3m1!4b1!4m6!3m5!1s0x87fb7f65051693e9:0x3ff92d3052fbd3d!8m2!3d43.1743872!4d-91.2408463!16s%2Fm%2F02qylnn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yellow River State Forest 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_1/public" data-location="Yellow River State Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_1/public" alt="Yellow River State Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_2/public" data-location="Yellow River State Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_2/public" alt="Yellow River State Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_3/public" data-location="Yellow River State Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_3/public" alt="Yellow River State Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_4/public" data-location="Yellow River State Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_4/public" alt="Yellow River State Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_5/public" data-location="Yellow River State Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_5/public" alt="Yellow River State Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_6/public" data-location="Yellow River State Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_yellow_river_state_forest_6/public" alt="Yellow River State Forest"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hogback+Covered+Bridge/@41.3864919,-94.0475211,17z/data=!3m1!4b1!4m6!3m5!1s0x87ec1295b8db619f:0x38fa072274a50d2a!8m2!3d41.3864919!4d-94.0475211!16s%2Fm%2F06_9tnr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hogback Covered Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_1/public" data-location="Hogback Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_1/public" alt="Hogback Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_2/public" data-location="Hogback Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_2/public" alt="Hogback Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_3/public" data-location="Hogback Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_3/public" alt="Hogback Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_4/public" data-location="Hogback Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_4/public" alt="Hogback Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_5/public" data-location="Hogback Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_5/public" alt="Hogback Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_6/public" data-location="Hogback Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_hogback_covered_bridge_6/public" alt="Hogback Covered Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lacey-Keosauqua+State+Park/@40.711171,-91.9753759,17z/data=!3m1!4b1!4m6!3m5!1s0x87e651e58ba48b37:0xa0dc2e8bad676a84!8m2!3d40.711171!4d-91.9753759!16s%2Fg%2F11cn8x_ykt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lacey-Keosauqua State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_1/public" data-location="Lacey-Keosauqua State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_1/public" alt="Lacey-Keosauqua State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_2/public" data-location="Lacey-Keosauqua State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_2/public" alt="Lacey-Keosauqua State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_3/public" data-location="Lacey-Keosauqua State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_3/public" alt="Lacey-Keosauqua State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_4/public" data-location="Lacey-Keosauqua State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_4/public" alt="Lacey-Keosauqua State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_5/public" data-location="Lacey-Keosauqua State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_5/public" alt="Lacey-Keosauqua State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_6/public" data-location="Lacey-Keosauqua State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_laceykeosauqua_state_park_6/public" alt="Lacey-Keosauqua State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mount+Hosmer+Park/@43.365971,-91.2218002,17z/data=!3m1!4b1!4m6!3m5!1s0x87fb89c617e1210f:0x32fb8b9153dbf6f4!8m2!3d43.365971!4d-91.2218002!16s%2Fg%2F1wh4gdyh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Hosmer Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_1/public" data-location="Mount Hosmer Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_1/public" alt="Mount Hosmer Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_2/public" data-location="Mount Hosmer Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_2/public" alt="Mount Hosmer Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_3/public" data-location="Mount Hosmer Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_3/public" alt="Mount Hosmer Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_4/public" data-location="Mount Hosmer Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_4/public" alt="Mount Hosmer Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_5/public" data-location="Mount Hosmer Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_5/public" alt="Mount Hosmer Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_6/public" data-location="Mount Hosmer Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mount_hosmer_park_6/public" alt="Mount Hosmer Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Swiss+Valley+Nature+Preserve+and+Nature+Center/@42.4233528,-90.7582675,17z/data=!3m1!4b1!4m6!3m5!1s0x87e33029290ae2a9:0x2b197551f2d0fbd9!8m2!3d42.4233528!4d-90.7582675!16s%2Fg%2F11fylpq52c?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Swiss Valley Nature Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_1/public" data-location="Swiss Valley Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_1/public" alt="Swiss Valley Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_2/public" data-location="Swiss Valley Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_2/public" alt="Swiss Valley Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_3/public" data-location="Swiss Valley Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_3/public" alt="Swiss Valley Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_4/public" data-location="Swiss Valley Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_4/public" alt="Swiss Valley Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_5/public" data-location="Swiss Valley Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_5/public" alt="Swiss Valley Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_6/public" data-location="Swiss Valley Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_swiss_valley_nature_preserve_6/public" alt="Swiss Valley Nature Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/High+Trestle+Trail+Bridge/@41.8667373,-93.8692964,17z/data=!3m1!4b1!4m6!3m5!1s0x87edd2d8b48618c5:0x31257c29d4b36a43!8m2!3d41.8667373!4d-93.8692964!16s%2Fg%2F1tdwfg_x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>High Trestle Trail Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_1/public" data-location="High Trestle Trail Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_1/public" alt="High Trestle Trail Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_2/public" data-location="High Trestle Trail Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_2/public" alt="High Trestle Trail Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_3/public" data-location="High Trestle Trail Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_3/public" alt="High Trestle Trail Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_4/public" data-location="High Trestle Trail Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_4/public" alt="High Trestle Trail Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_5/public" data-location="High Trestle Trail Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_5/public" alt="High Trestle Trail Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_6/public" data-location="High Trestle Trail Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_high_trestle_trail_bridge_6/public" alt="High Trestle Trail Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Whiterock+Conservancy/@41.855324,-94.661046,17z/data=!3m1!4b1!4m9!3m8!1s0x87ed1e036faabec5:0xdac259d4aa2d2888!5m2!4m1!1i2!8m2!3d41.855324!4d-94.661046!16s%2Fg%2F1262h7jbj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Whiterock Conservancy 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_1/public" data-location="Whiterock Conservancy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_1/public" alt="Whiterock Conservancy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_2/public" data-location="Whiterock Conservancy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_2/public" alt="Whiterock Conservancy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_3/public" data-location="Whiterock Conservancy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_3/public" alt="Whiterock Conservancy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_4/public" data-location="Whiterock Conservancy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_4/public" alt="Whiterock Conservancy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_5/public" data-location="Whiterock Conservancy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_5/public" alt="Whiterock Conservancy"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_6/public" data-location="Whiterock Conservancy"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_whiterock_conservancy_6/public" alt="Whiterock Conservancy"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cedar+Rock+State+Park+-+Frank+Lloyd+Wright+designed+Walter+Estate/@42.4122225,-91.7716025,17z/data=!3m1!4b1!4m6!3m5!1s0x87e4d722846f4751:0xf7f941c2367b4263!8m2!3d42.4122225!4d-91.7716025!16s%2Fm%2F076xg3p?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rock Crest Historic District 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_1/public" data-location="Rock Crest Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_1/public" alt="Rock Crest Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_2/public" data-location="Rock Crest Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_2/public" alt="Rock Crest Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_3/public" data-location="Rock Crest Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_3/public" alt="Rock Crest Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_4/public" data-location="Rock Crest Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_4/public" alt="Rock Crest Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_5/public" data-location="Rock Crest Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_5/public" alt="Rock Crest Historic District"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_6/public" data-location="Rock Crest Historic District"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_rock_crest_historic_district_6/public" alt="Rock Crest Historic District"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Clark+Tower/@41.3199582,-94.0041786,17z/data=!3m1!4b1!4m6!3m5!1s0x87ec0d2b3370ffdf:0x6c706f92017b3fab!8m2!3d41.3199582!4d-94.0041786!16zL20vMGRzbmR5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Clark Tower 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_1/public" data-location="Clark Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_1/public" alt="Clark Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_2/public" data-location="Clark Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_2/public" alt="Clark Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_3/public" data-location="Clark Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_3/public" alt="Clark Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_4/public" data-location="Clark Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_4/public" alt="Clark Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_5/public" data-location="Clark Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_5/public" alt="Clark Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_6/public" data-location="Clark Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_clark_tower_6/public" alt="Clark Tower"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pearson+Lakes+Art+Center/@43.3953804,-95.1283441,17z/data=!3m1!4b1!4m6!3m5!1s0x878cb5c4281b07e7:0xb183a1451399ac57!8m2!3d43.3953804!4d-95.1283441!16s%2Fg%2F1thtdms1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pearson Lakes Art Center Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_1/public" data-location="Pearson Lakes Art Center Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_1/public" alt="Pearson Lakes Art Center Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_2/public" data-location="Pearson Lakes Art Center Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_2/public" alt="Pearson Lakes Art Center Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_3/public" data-location="Pearson Lakes Art Center Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_3/public" alt="Pearson Lakes Art Center Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_4/public" data-location="Pearson Lakes Art Center Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_4/public" alt="Pearson Lakes Art Center Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_5/public" data-location="Pearson Lakes Art Center Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_5/public" alt="Pearson Lakes Art Center Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_6/public" data-location="Pearson Lakes Art Center Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_pearson_lakes_art_center_garden_6/public" alt="Pearson Lakes Art Center Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Iowa+Great+Lakes+Maritime+Museum/@43.3655931,-95.1358631,17z/data=!3m1!4b1!4m6!3m5!1s0x878cca06f74d9195:0x846eb127b3741f1b!8m2!3d43.3655931!4d-95.1358631!16s%2Fm%2F0k711_1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Iowa Great Lakes Maritime Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_1/public" data-location="Iowa Great Lakes Maritime Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_1/public" alt="Iowa Great Lakes Maritime Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_2/public" data-location="Iowa Great Lakes Maritime Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_2/public" alt="Iowa Great Lakes Maritime Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_3/public" data-location="Iowa Great Lakes Maritime Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_3/public" alt="Iowa Great Lakes Maritime Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_4/public" data-location="Iowa Great Lakes Maritime Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_4/public" alt="Iowa Great Lakes Maritime Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_5/public" data-location="Iowa Great Lakes Maritime Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_5/public" alt="Iowa Great Lakes Maritime Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_6/public" data-location="Iowa Great Lakes Maritime Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_iowa_great_lakes_maritime_museum_6/public" alt="Iowa Great Lakes Maritime Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Buxton+Park+Arboretum/@41.3667717,-93.5625497,17z/data=!3m1!4b1!4m6!3m5!1s0x87eeb0159d302edd:0x387cc20fdb6eff18!8m2!3d41.3667717!4d-93.5625497!16zL20vMDc1bHdi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Buxton Park Arboretum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_1/public" data-location="Buxton Park Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_1/public" alt="Buxton Park Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_2/public" data-location="Buxton Park Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_2/public" alt="Buxton Park Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_3/public" data-location="Buxton Park Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_3/public" alt="Buxton Park Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_4/public" data-location="Buxton Park Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_4/public" alt="Buxton Park Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_5/public" data-location="Buxton Park Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_5/public" alt="Buxton Park Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_6/public" data-location="Buxton Park Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_buxton_park_arboretum_6/public" alt="Buxton Park Arboretum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Loess+Hills+Scenic+Overlook/@41.9052459,-95.945721,17z/data=!3m1!4b1!4m6!3m5!1s0x87924f74afbb6a8b:0x70f17068b5d61f4d!8m2!3d41.9052459!4d-95.945721!16s%2Fg%2F11b6_9k4vn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Loess Hills Scenic Byway 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_1/public" data-location="Loess Hills Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_1/public" alt="Loess Hills Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_2/public" data-location="Loess Hills Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_2/public" alt="Loess Hills Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_3/public" data-location="Loess Hills Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_3/public" alt="Loess Hills Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_4/public" data-location="Loess Hills Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_4/public" alt="Loess Hills Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_5/public" data-location="Loess Hills Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_5/public" alt="Loess Hills Scenic Byway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_6/public" data-location="Loess Hills Scenic Byway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_loess_hills_scenic_byway_6/public" alt="Loess Hills Scenic Byway"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mississippi+Riverwalk/@42.4956902,-90.6566166,17z/data=!3m1!4b1!4m6!3m5!1s0x87e32b7063c749c1:0xe14ec42b498be0e3!8m2!3d42.4956902!4d-90.6566166!16s%2Fg%2F11fnwj36zn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mississippi Riverfront 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_1/public" data-location="Mississippi Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_1/public" alt="Mississippi Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_2/public" data-location="Mississippi Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_2/public" alt="Mississippi Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_3/public" data-location="Mississippi Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_3/public" alt="Mississippi Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_4/public" data-location="Mississippi Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_4/public" alt="Mississippi Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_5/public" data-location="Mississippi Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_5/public" alt="Mississippi Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_6/public" data-location="Mississippi Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_mississippi_riverfront_6/public" alt="Mississippi Riverfront"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Field+of+Dreams+Movie+Site/@42.4978632,-91.0541695,17z/data=!3m1!4b1!4m6!3m5!1s0x87e34d88d2d4f709:0xc7f292cb89e201ed!8m2!3d42.4978632!4d-91.0541695!16zL20vMDVkeHpf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Field of Dreams Movie Site 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_1/public" data-location="Field of Dreams Movie Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_1/public" alt="Field of Dreams Movie Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_2/public" data-location="Field of Dreams Movie Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_2/public" alt="Field of Dreams Movie Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_3/public" data-location="Field of Dreams Movie Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_3/public" alt="Field of Dreams Movie Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_4/public" data-location="Field of Dreams Movie Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_4/public" alt="Field of Dreams Movie Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_5/public" data-location="Field of Dreams Movie Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_5/public" alt="Field of Dreams Movie Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_6/public" data-location="Field of Dreams Movie Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_field_of_dreams_movie_site_6/public" alt="Field of Dreams Movie Site"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Vander+Veer+Botanical+Park/@41.5442018,-90.5748458,17z/data=!3m1!4b1!4m6!3m5!1s0x87e234edc7d00529:0x81847468b1231ba1!8m2!3d41.5442018!4d-90.5748458!16zL20vMDVzczhy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Vander Veer Botanical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_1/public" data-location="Vander Veer Botanical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_1/public" alt="Vander Veer Botanical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_2/public" data-location="Vander Veer Botanical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_2/public" alt="Vander Veer Botanical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_3/public" data-location="Vander Veer Botanical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_3/public" alt="Vander Veer Botanical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_4/public" data-location="Vander Veer Botanical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_4/public" alt="Vander Veer Botanical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_5/public" data-location="Vander Veer Botanical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_5/public" alt="Vander Veer Botanical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_6/public" data-location="Vander Veer Botanical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_vander_veer_botanical_park_6/public" alt="Vander Veer Botanical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gray's+Lake+Park/@41.5722537,-93.6437862,17z/data=!3m1!4b1!4m6!3m5!1s0x87ee98c2aa749001:0xb49fbe6b7c06295d!8m2!3d41.5722537!4d-93.6437862!16s%2Fm%2F0k3r2g9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gray's Lake Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_1/public" data-location="Gray's Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_1/public" alt="Gray's Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_2/public" data-location="Gray's Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_2/public" alt="Gray's Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_3/public" data-location="Gray's Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_3/public" alt="Gray's Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_4/public" data-location="Gray's Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_4/public" alt="Gray's Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_5/public" data-location="Gray's Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_5/public" alt="Gray's Lake Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_6/public" data-location="Gray's Lake Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_grays_lake_park_6/public" alt="Gray's Lake Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Backbone+State+Park/@42.6009139,-91.5328204,17z/data=!3m1!4b1!4m6!3m5!1s0x87fb342ce481536f:0x4500387e4f184aae!8m2!3d42.6009139!4d-91.5328204!16s%2Fm%2F02rnng7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Backbone State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_1/public" data-location="Backbone State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_1/public" alt="Backbone State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_2/public" data-location="Backbone State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_2/public" alt="Backbone State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_3/public" data-location="Backbone State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_3/public" alt="Backbone State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_4/public" data-location="Backbone State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_4/public" alt="Backbone State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_5/public" data-location="Backbone State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_5/public" alt="Backbone State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_6/public" data-location="Backbone State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_backbone_state_park_6/public" alt="Backbone State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Palisades-Kepler+State+Park/@41.9110261,-91.5024973,17z/data=!3m1!4b1!4m6!3m5!1s0x87e4600301313177:0xd22c8fc47acb0ec4!8m2!3d41.9110261!4d-91.5024973!16s%2Fg%2F1tdml0nj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Palisades-Kepler State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_1/public" data-location="Palisades-Kepler State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_1/public" alt="Palisades-Kepler State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_2/public" data-location="Palisades-Kepler State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_2/public" alt="Palisades-Kepler State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_3/public" data-location="Palisades-Kepler State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_3/public" alt="Palisades-Kepler State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_4/public" data-location="Palisades-Kepler State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_4/public" alt="Palisades-Kepler State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_5/public" data-location="Palisades-Kepler State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_5/public" alt="Palisades-Kepler State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_6/public" data-location="Palisades-Kepler State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/iowa_palisadeskepler_state_park_6/public" alt="Palisades-Kepler State Park"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
