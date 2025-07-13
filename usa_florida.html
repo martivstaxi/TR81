@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Florida</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Florida</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sholom+Park/@29.1157288,-82.2523246,17z/data=!3m1!4b1!4m6!3m5!1s0x88e87f265914ce41:0x82e7711fe5054f03!8m2!3d29.1157288!4d-82.2523246!16s%2Fg%2F11cp7w31br?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sholom Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_1/public" data-location="Sholom Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_1/public" alt="Sholom Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_2/public" data-location="Sholom Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_2/public" alt="Sholom Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_3/public" data-location="Sholom Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_3/public" alt="Sholom Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_4/public" data-location="Sholom Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_4/public" alt="Sholom Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_5/public" data-location="Sholom Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_5/public" alt="Sholom Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_6/public" data-location="Sholom Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_sholom_park_6/public" alt="Sholom Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Blue+Spring+State+Park/@28.9467012,-81.338922,17z/data=!3m1!4b1!4m6!3m5!1s0x88e70fff6a1481c9:0x6d9b3334ffafdb6a!8m2!3d28.9467012!4d-81.338922!16zL20vMDV5cDQ1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Blue Spring State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_1/public" data-location="Blue Spring State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_1/public" alt="Blue Spring State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_2/public" data-location="Blue Spring State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_2/public" alt="Blue Spring State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_3/public" data-location="Blue Spring State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_3/public" alt="Blue Spring State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_4/public" data-location="Blue Spring State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_4/public" alt="Blue Spring State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_5/public" data-location="Blue Spring State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_5/public" alt="Blue Spring State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_6/public" data-location="Blue Spring State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_blue_spring_state_park_6/public" alt="Blue Spring State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/St.+Andrews+State+Park/@30.1314437,-85.7365997,17z/data=!3m1!4b1!4m6!3m5!1s0x889387b4c097cd3b:0xff1b2046f7c8b12!8m2!3d30.1314437!4d-85.7365997!16zL20vMDRfZDR3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>St. Andrews State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_1/public" data-location="St. Andrews State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_1/public" alt="St. Andrews State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_2/public" data-location="St. Andrews State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_2/public" alt="St. Andrews State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_3/public" data-location="St. Andrews State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_3/public" alt="St. Andrews State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_4/public" data-location="St. Andrews State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_4/public" alt="St. Andrews State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_5/public" data-location="St. Andrews State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_5/public" alt="St. Andrews State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_6/public" data-location="St. Andrews State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_st_andrews_state_park_6/public" alt="St. Andrews State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bok+Tower+Gardens/@27.9372683,-81.5773804,17z/data=!3m1!4b1!4m6!3m5!1s0x88dd090ea5023a99:0x834c281787a1fea1!8m2!3d27.9372683!4d-81.5773804!16zL20vMDkxZ3A2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bok Tower Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_1/public" data-location="Bok Tower Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_1/public" alt="Bok Tower Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_2/public" data-location="Bok Tower Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_2/public" alt="Bok Tower Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_3/public" data-location="Bok Tower Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_3/public" alt="Bok Tower Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_4/public" data-location="Bok Tower Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_4/public" alt="Bok Tower Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_5/public" data-location="Bok Tower Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_5/public" alt="Bok Tower Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_6/public" data-location="Bok Tower Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_bok_tower_gardens_6/public" alt="Bok Tower Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ponce+de+Leon+Inlet+Lighthouse+%26+Museum/@29.0807986,-80.9284404,17z/data=!3m1!4b1!4m6!3m5!1s0x88e729bbcb4b65c3:0xa60da69918bba613!8m2!3d29.0807986!4d-80.9284404!16zL20vMGI4d3Y1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ponce de Leon Inlet Lighthouse & Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_1/public" data-location="Ponce de Leon Inlet Lighthouse & Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_1/public" alt="Ponce de Leon Inlet Lighthouse & Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_2/public" data-location="Ponce de Leon Inlet Lighthouse & Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_2/public" alt="Ponce de Leon Inlet Lighthouse & Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_3/public" data-location="Ponce de Leon Inlet Lighthouse & Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_3/public" alt="Ponce de Leon Inlet Lighthouse & Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_4/public" data-location="Ponce de Leon Inlet Lighthouse & Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_4/public" alt="Ponce de Leon Inlet Lighthouse & Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_5/public" data-location="Ponce de Leon Inlet Lighthouse & Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_5/public" alt="Ponce de Leon Inlet Lighthouse & Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_6/public" data-location="Ponce de Leon Inlet Lighthouse & Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ponce_de_leon_inlet_lighthouse_museum_6/public" alt="Ponce de Leon Inlet Lighthouse & Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Morikami+Museum+and+Japanese+Gardens/@26.4291544,-80.1564321,17z/data=!3m1!4b1!4m6!3m5!1s0x88d91f0bc74d6d0f:0x9a664acec097120a!8m2!3d26.4291544!4d-80.1564321!16zL20vMDhibGdu?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Morikami Museum and Japanese Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_1/public" data-location="Morikami Museum and Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_1/public" alt="Morikami Museum and Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_2/public" data-location="Morikami Museum and Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_2/public" alt="Morikami Museum and Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_3/public" data-location="Morikami Museum and Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_3/public" alt="Morikami Museum and Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_4/public" data-location="Morikami Museum and Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_4/public" alt="Morikami Museum and Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_5/public" data-location="Morikami Museum and Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_5/public" alt="Morikami Museum and Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_6/public" data-location="Morikami Museum and Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_morikami_museum_and_japanese_gardens_6/public" alt="Morikami Museum and Japanese Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kissimmee+Lakefront+Park/@28.2904142,-81.405871,17z/data=!3m1!4b1!4m6!3m5!1s0x88dd841507468d25:0x982e97c07b61d7cf!8m2!3d28.2904142!4d-81.405871!16s%2Fg%2F1pv19zz40?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lakefront Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_1/public" data-location="Lakefront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_1/public" alt="Lakefront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_2/public" data-location="Lakefront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_2/public" alt="Lakefront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_3/public" data-location="Lakefront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_3/public" alt="Lakefront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_4/public" data-location="Lakefront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_4/public" alt="Lakefront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_5/public" data-location="Lakefront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_5/public" alt="Lakefront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_6/public" data-location="Lakefront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_lakefront_park_6/public" alt="Lakefront Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+John+and+Mable+Ringling+Museum+of+Art/@27.3815477,-82.5605716,17z/data=!3m1!4b1!4m6!3m5!1s0x88c33fd8c79d2deb:0x92f8e4124648865a!8m2!3d27.3815477!4d-82.5605716!16zL20vMDdtZnNn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Ringling Museum & Ca’ d’Zan Mansion 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_1/public" data-location="The Ringling Museum & Ca’ d’Zan Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_1/public" alt="The Ringling Museum & Ca’ d’Zan Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_2/public" data-location="The Ringling Museum & Ca’ d’Zan Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_2/public" alt="The Ringling Museum & Ca’ d’Zan Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_3/public" data-location="The Ringling Museum & Ca’ d’Zan Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_3/public" alt="The Ringling Museum & Ca’ d’Zan Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_4/public" data-location="The Ringling Museum & Ca’ d’Zan Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_4/public" alt="The Ringling Museum & Ca’ d’Zan Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_5/public" data-location="The Ringling Museum & Ca’ d’Zan Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_5/public" alt="The Ringling Museum & Ca’ d’Zan Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_6/public" data-location="The Ringling Museum & Ca’ d’Zan Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_the_ringling_museum_ca_dzan_mansion_6/public" alt="The Ringling Museum & Ca’ d’Zan Mansion"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Henderson+Beach+State+Park/@30.3847271,-86.4424244,17z/data=!3m1!4b1!4m6!3m5!1s0x8891449e8a73e0e5:0xd6ee28074b665bdd!8m2!3d30.3847271!4d-86.4424244!16zL20vMDRfY196?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Henderson Beach State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_1/public" data-location="Henderson Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_1/public" alt="Henderson Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_2/public" data-location="Henderson Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_2/public" alt="Henderson Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_3/public" data-location="Henderson Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_3/public" alt="Henderson Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_4/public" data-location="Henderson Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_4/public" alt="Henderson Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_5/public" data-location="Henderson Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_5/public" alt="Henderson Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_6/public" data-location="Henderson Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_henderson_beach_state_park_6/public" alt="Henderson Beach State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ichetucknee+Springs+State+Park/@29.9756006,-82.762972,17z/data=!3m1!4b1!4m6!3m5!1s0x88ef2d2eccda12db:0x87449cf3709bf5be!8m2!3d29.9756006!4d-82.762972!16zL20vMDlfdjIy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ichetucknee Springs State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_1/public" data-location="Ichetucknee Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_1/public" alt="Ichetucknee Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_2/public" data-location="Ichetucknee Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_2/public" alt="Ichetucknee Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_3/public" data-location="Ichetucknee Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_3/public" alt="Ichetucknee Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_4/public" data-location="Ichetucknee Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_4/public" alt="Ichetucknee Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_5/public" data-location="Ichetucknee Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_5/public" alt="Ichetucknee Springs State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_6/public" data-location="Ichetucknee Springs State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_ichetucknee_springs_state_park_6/public" alt="Ichetucknee Springs State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Anastasia+State+Park/@29.8822905,-81.2776713,17z/data=!3m1!4b1!4m6!3m5!1s0x88e42768d2b404bf:0x9d524dcc94481e75!8m2!3d29.8822905!4d-81.2776713!16zL20vMDlzcXZn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Anastasia State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_1/public" data-location="Anastasia State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_1/public" alt="Anastasia State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_2/public" data-location="Anastasia State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_2/public" alt="Anastasia State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_3/public" data-location="Anastasia State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_3/public" alt="Anastasia State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_4/public" data-location="Anastasia State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_4/public" alt="Anastasia State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_5/public" data-location="Anastasia State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_5/public" alt="Anastasia State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_6/public" data-location="Anastasia State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_anastasia_state_park_6/public" alt="Anastasia State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Coquina+Beach/@27.4483324,-82.6921634,15z/data=!3m1!4b1!4m6!3m5!1s0x88c33d7155cce2e5:0xc69046c6b47499d7!8m2!3d27.4483328!4d-82.6921634!16s%2Fg%2F11cmbfc5ct?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Coquina Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_1/public" data-location="Coquina Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_1/public" alt="Coquina Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_2/public" data-location="Coquina Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_2/public" alt="Coquina Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_3/public" data-location="Coquina Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_3/public" alt="Coquina Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_4/public" data-location="Coquina Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_4/public" alt="Coquina Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_5/public" data-location="Coquina Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_5/public" alt="Coquina Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_6/public" data-location="Coquina Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_coquina_beach_6/public" alt="Coquina Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Clinch+State+Park/@30.6990695,-81.4567371,17z/data=!3m1!4b1!4m6!3m5!1s0x88e4fed1e73cd5c7:0xf72c46fc1102bcbc!8m2!3d30.6990695!4d-81.4567371!16zL20vMDl4cjE3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Clinch State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_1/public" data-location="Fort Clinch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_1/public" alt="Fort Clinch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_2/public" data-location="Fort Clinch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_2/public" alt="Fort Clinch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_3/public" data-location="Fort Clinch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_3/public" alt="Fort Clinch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_4/public" data-location="Fort Clinch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_4/public" alt="Fort Clinch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_5/public" data-location="Fort Clinch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_5/public" alt="Fort Clinch State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_6/public" data-location="Fort Clinch State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fort_clinch_state_park_6/public" alt="Fort Clinch State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Florida+Caverns+State+Park/@30.8150095,-85.2318582,17z/data=!3m1!4b1!4m6!3m5!1s0x8892df61cf156061:0xbde70890a7da2fd4!8m2!3d30.8150095!4d-85.2318582!16zL20vMDRfY3l3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Florida Caverns State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_1/public" data-location="Florida Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_1/public" alt="Florida Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_2/public" data-location="Florida Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_2/public" alt="Florida Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_3/public" data-location="Florida Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_3/public" alt="Florida Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_4/public" data-location="Florida Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_4/public" alt="Florida Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_5/public" data-location="Florida Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_5/public" alt="Florida Caverns State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_6/public" data-location="Florida Caverns State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_florida_caverns_state_park_6/public" alt="Florida Caverns State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fairchild+Tropical+Botanic+Garden/@25.6767893,-80.2720386,17z/data=!3m1!4b1!4m6!3m5!1s0x88d9c87406b8f7bb:0xc82b4c6cdca00310!8m2!3d25.6767893!4d-80.2720386!16zL20vMDVtOHlm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fairchild Tropical Botanic Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_1/public" data-location="Fairchild Tropical Botanic Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_1/public" alt="Fairchild Tropical Botanic Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_2/public" data-location="Fairchild Tropical Botanic Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_2/public" alt="Fairchild Tropical Botanic Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_3/public" data-location="Fairchild Tropical Botanic Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_3/public" alt="Fairchild Tropical Botanic Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_4/public" data-location="Fairchild Tropical Botanic Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_4/public" alt="Fairchild Tropical Botanic Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_5/public" data-location="Fairchild Tropical Botanic Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_5/public" alt="Fairchild Tropical Botanic Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_6/public" data-location="Fairchild Tropical Botanic Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_fairchild_tropical_botanic_garden_6/public" alt="Fairchild Tropical Botanic Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Washington+Oaks+Gardens+State+Park/@29.6347565,-81.2048898,17z/data=!3m1!4b1!4m6!3m5!1s0x88e696557ed5a08f:0x2a5c655a2f369b5c!8m2!3d29.6347565!4d-81.2048898!16zL20vMGI1OXNn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Washington Oaks Gardens State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_1/public" data-location="Washington Oaks Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_1/public" alt="Washington Oaks Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_2/public" data-location="Washington Oaks Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_2/public" alt="Washington Oaks Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_3/public" data-location="Washington Oaks Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_3/public" alt="Washington Oaks Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_4/public" data-location="Washington Oaks Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_4/public" alt="Washington Oaks Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_5/public" data-location="Washington Oaks Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_5/public" alt="Washington Oaks Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_6/public" data-location="Washington Oaks Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_washington_oaks_gardens_state_park_6/public" alt="Washington Oaks Gardens State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Canaveral+National+Seashore/@28.7953098,-80.7600947,17z/data=!3m1!4b1!4m6!3m5!1s0x88e0cba51eb3aad9:0x13152a54a1dab89e!8m2!3d28.7953098!4d-80.7600947!16zL20vMGI1ZDBx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Canaveral National Seashore 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_1/public" data-location="Canaveral National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_1/public" alt="Canaveral National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_2/public" data-location="Canaveral National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_2/public" alt="Canaveral National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_3/public" data-location="Canaveral National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_3/public" alt="Canaveral National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_4/public" data-location="Canaveral National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_4/public" alt="Canaveral National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_5/public" data-location="Canaveral National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_5/public" alt="Canaveral National Seashore"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_6/public" data-location="Canaveral National Seashore"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_canaveral_national_seashore_6/public" alt="Canaveral National Seashore"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Seven+Mile+Bridge/@24.7023719,-81.1550476,17z/data=!3m1!4b1!4m6!3m5!1s0x88d0de257deeaddd:0x1c3c7c8107b6721d!8m2!3d24.7023719!4d-81.1550476!16zL20vMDN3YjRj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Seven Mile Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_1/public" data-location="Seven Mile Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_1/public" alt="Seven Mile Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_2/public" data-location="Seven Mile Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_2/public" alt="Seven Mile Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_3/public" data-location="Seven Mile Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_3/public" alt="Seven Mile Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_4/public" data-location="Seven Mile Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_4/public" alt="Seven Mile Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_5/public" data-location="Seven Mile Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_5/public" alt="Seven Mile Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_6/public" data-location="Seven Mile Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_seven_mile_bridge_6/public" alt="Seven Mile Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Grayton+Beach+State+Park/@30.3315546,-86.1571851,17z/data=!3m1!4b1!4m6!3m5!1s0x8893e489d246f1c9:0x36b362bfd5f72c98!8m2!3d30.3315546!4d-86.1571851!16zL20vMDRfY184?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Grayton Beach State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_1/public" data-location="Grayton Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_1/public" alt="Grayton Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_2/public" data-location="Grayton Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_2/public" alt="Grayton Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_3/public" data-location="Grayton Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_3/public" alt="Grayton Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_4/public" data-location="Grayton Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_4/public" alt="Grayton Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_5/public" data-location="Grayton Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_5/public" alt="Grayton Beach State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_6/public" data-location="Grayton Beach State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_grayton_beach_state_park_6/public" alt="Grayton Beach State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Henry+Morrison+Flagler+Museum/@26.7138135,-80.043551,17z/data=!3m1!4b1!4m6!3m5!1s0x88d8d68e35c0dbed:0xd0d8ada1f6da9c92!8m2!3d26.7138135!4d-80.043551!16zL20vMDlwenZm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Flagler Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_1/public" data-location="Flagler Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_1/public" alt="Flagler Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_2/public" data-location="Flagler Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_2/public" alt="Flagler Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_3/public" data-location="Flagler Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_3/public" alt="Flagler Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_4/public" data-location="Flagler Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_4/public" alt="Flagler Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_5/public" data-location="Flagler Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_5/public" alt="Flagler Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_6/public" data-location="Flagler Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_flagler_museum_6/public" alt="Flagler Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kraft+Azalea+Garden/@28.6106889,-81.3448917,17z/data=!3m1!4b1!4m6!3m5!1s0x88e7702144f038f9:0x675b88adafa936b3!8m2!3d28.6106889!4d-81.3448917!16s%2Fm%2F03h41dt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kraft Azalea Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_1/public" data-location="Kraft Azalea Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_1/public" alt="Kraft Azalea Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_2/public" data-location="Kraft Azalea Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_2/public" alt="Kraft Azalea Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_3/public" data-location="Kraft Azalea Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_3/public" alt="Kraft Azalea Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_4/public" data-location="Kraft Azalea Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_4/public" alt="Kraft Azalea Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_5/public" data-location="Kraft Azalea Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_5/public" alt="Kraft Azalea Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_6/public" data-location="Kraft Azalea Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_kraft_azalea_garden_6/public" alt="Kraft Azalea Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Dry+Tortugas+National+Park/@24.628074,-82.8688043,16z/data=!3m1!4b1!4m6!3m5!1s0x88ce55d10406f657:0x5bb10efd57331da1!8m2!3d24.628477!4d-82.8731874!16zL20vMDJ6anQx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Dry Tortugas National Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_1/public" data-location="Dry Tortugas National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_1/public" alt="Dry Tortugas National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_2/public" data-location="Dry Tortugas National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_2/public" alt="Dry Tortugas National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_3/public" data-location="Dry Tortugas National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_3/public" alt="Dry Tortugas National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_4/public" data-location="Dry Tortugas National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_4/public" alt="Dry Tortugas National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_5/public" data-location="Dry Tortugas National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_5/public" alt="Dry Tortugas National Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_6/public" data-location="Dry Tortugas National Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_dry_tortugas_national_park_6/public" alt="Dry Tortugas National Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/T.H.+Stone+Memorial+St.+Joseph+Peninsula+State+Park/@29.7584944,-85.396662,17z/data=!3m1!4b1!4m6!3m5!1s0x889491bf5f30ee31:0xb0673365a8b6f451!8m2!3d29.7584944!4d-85.396662!16zL20vMDRfZDVr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>T.H. Stone Memorial St. Joseph Peninsula State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_1/public" data-location="T.H. Stone Memorial St. Joseph Peninsula State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_1/public" alt="T.H. Stone Memorial St. Joseph Peninsula State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_2/public" data-location="T.H. Stone Memorial St. Joseph Peninsula State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_2/public" alt="T.H. Stone Memorial St. Joseph Peninsula State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_3/public" data-location="T.H. Stone Memorial St. Joseph Peninsula State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_3/public" alt="T.H. Stone Memorial St. Joseph Peninsula State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_4/public" data-location="T.H. Stone Memorial St. Joseph Peninsula State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_4/public" alt="T.H. Stone Memorial St. Joseph Peninsula State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_5/public" data-location="T.H. Stone Memorial St. Joseph Peninsula State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_5/public" alt="T.H. Stone Memorial St. Joseph Peninsula State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_6/public" data-location="T.H. Stone Memorial St. Joseph Peninsula State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_th_stone_memorial_st_joseph_peninsula_state_park_6/public" alt="T.H. Stone Memorial St. Joseph Peninsula State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Alfred+B.+Maclay+Gardens+State+Park/@30.5135456,-84.2474874,17z/data=!3m1!4b1!4m6!3m5!1s0x88ec589501cd3871:0x597cd8f20d92bf27!8m2!3d30.5135456!4d-84.2474874!16zL20vMDhsa2sy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Alfred B. Maclay Gardens State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_1/public" data-location="Alfred B. Maclay Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_1/public" alt="Alfred B. Maclay Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_2/public" data-location="Alfred B. Maclay Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_2/public" alt="Alfred B. Maclay Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_3/public" data-location="Alfred B. Maclay Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_3/public" alt="Alfred B. Maclay Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_4/public" data-location="Alfred B. Maclay Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_4/public" alt="Alfred B. Maclay Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_5/public" data-location="Alfred B. Maclay Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_5/public" alt="Alfred B. Maclay Gardens State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_6/public" data-location="Alfred B. Maclay Gardens State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_alfred_b_maclay_gardens_state_park_6/public" alt="Alfred B. Maclay Gardens State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Peace+River+Wildlife+Center-Education+Center/@26.910993,-82.0953436,17z/data=!3m1!4b1!4m6!3m5!1s0x88db56575bc77c79:0x10f4623dbc588799!8m2!3d26.910993!4d-82.0953436!16s%2Fg%2F1v_sp0ql?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Peace River Wildlife Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_1/public" data-location="Peace River Wildlife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_1/public" alt="Peace River Wildlife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_2/public" data-location="Peace River Wildlife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_2/public" alt="Peace River Wildlife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_3/public" data-location="Peace River Wildlife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_3/public" alt="Peace River Wildlife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_4/public" data-location="Peace River Wildlife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_4/public" alt="Peace River Wildlife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_5/public" data-location="Peace River Wildlife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_5/public" alt="Peace River Wildlife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_6/public" data-location="Peace River Wildlife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_peace_river_wildlife_center_6/public" alt="Peace River Wildlife Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Crab+Island/@30.3962244,-86.5205085,17z/data=!3m1!4b1!4m6!3m5!1s0x8891411d8376ed7b:0x9bf1c1f7223b72e5!8m2!3d30.3962244!4d-86.5205085!16s%2Fg%2F11f658bmxp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Crab Island Sandbar 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_1/public" data-location="Crab Island Sandbar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_1/public" alt="Crab Island Sandbar"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_2/public" data-location="Crab Island Sandbar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_2/public" alt="Crab Island Sandbar"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_3/public" data-location="Crab Island Sandbar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_3/public" alt="Crab Island Sandbar"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_4/public" data-location="Crab Island Sandbar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_4/public" alt="Crab Island Sandbar"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_5/public" data-location="Crab Island Sandbar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_5/public" alt="Crab Island Sandbar"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_6/public" data-location="Crab Island Sandbar"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_crab_island_sandbar_6/public" alt="Crab Island Sandbar"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Talbot+Island+State+Park/@30.4788294,-81.4407859,17z/data=!3m1!4b1!4m6!3m5!1s0x88e453cdcae5bf51:0xe4fc05eb181116ed!8m2!3d30.4788294!4d-81.4407859!16zL20vMDl0YnN2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Talbot Island State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_1/public" data-location="Big Talbot Island State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_1/public" alt="Big Talbot Island State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_2/public" data-location="Big Talbot Island State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_2/public" alt="Big Talbot Island State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_3/public" data-location="Big Talbot Island State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_3/public" alt="Big Talbot Island State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_4/public" data-location="Big Talbot Island State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_4/public" alt="Big Talbot Island State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_5/public" data-location="Big Talbot Island State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_5/public" alt="Big Talbot Island State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_6/public" data-location="Big Talbot Island State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_big_talbot_island_state_park_6/public" alt="Big Talbot Island State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Merritt+Island+National+Wildlife+Refuge+Visitor+Center/@28.6412987,-80.7355703,17z/data=!3m1!4b1!4m6!3m5!1s0x88e0b40ed45a10e5:0x1051b535112edd2!8m2!3d28.6412987!4d-80.7355703!16zL20vMDJxcTU2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Merritt Island National Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_1/public" data-location="Merritt Island National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_1/public" alt="Merritt Island National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_2/public" data-location="Merritt Island National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_2/public" alt="Merritt Island National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_3/public" data-location="Merritt Island National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_3/public" alt="Merritt Island National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_4/public" data-location="Merritt Island National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_4/public" alt="Merritt Island National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_5/public" data-location="Merritt Island National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_5/public" alt="Merritt Island National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_6/public" data-location="Merritt Island National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_merritt_island_national_wildlife_refuge_6/public" alt="Merritt Island National Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Perdido+Key+State+Park/@30.2919955,-87.4687355,17z/data=!3m1!4b1!4m6!3m5!1s0x8890a8c90175a47b:0x651804d6f5c44f62!8m2!3d30.2919955!4d-87.4687355!16zL20vMDRfZDQ1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Perdido Key State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_1/public" data-location="Perdido Key State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_1/public" alt="Perdido Key State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_2/public" data-location="Perdido Key State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_2/public" alt="Perdido Key State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_3/public" data-location="Perdido Key State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_3/public" alt="Perdido Key State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_4/public" data-location="Perdido Key State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_4/public" alt="Perdido Key State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_5/public" data-location="Perdido Key State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_5/public" alt="Perdido Key State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_6/public" data-location="Perdido Key State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/florida_perdido_key_state_park_6/public" alt="Perdido Key State Park"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
