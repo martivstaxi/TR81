@@ -1133,45 +1133,25 @@
             const name = line.substring(0, firstCommaIndex).trim();
             let restOfLine = line.substring(firstCommaIndex + 1);
             
-            console.log('Satır ' + i + ':', line);
-            console.log('Konum adı:', name);
-            console.log('Kalan satır:', restOfLine);
+            // Escape edilmiş tırnakları temizle
+            restOfLine = restOfLine.replace(/\\"/g, '"');
             
             // Eğer tırnakla başlıyorsa, kapanış tırnağını bul
             let link = '';
             let photosPart = '';
             
             if (restOfLine.startsWith('"')) {
-              // Son tırnağı bul (en sondaki değil, link bitimindeki)
-              let quoteCount = 0;
-              let endIndex = -1;
+              // Son tırnağı bul
+              let endIndex = restOfLine.lastIndexOf('"');
               
-              for (let j = 0; j < restOfLine.length; j++) {
-                if (restOfLine[j] === '"') {
-                  quoteCount++;
-                  if (quoteCount === 2) {
-                    endIndex = j;
-                    break;
-                  }
-                }
-              }
-              
-              if (endIndex !== -1) {
+              if (endIndex > 0) {
                 link = restOfLine.substring(1, endIndex);
-                // Kalan kısım (virgül + fotoğraflar)
-                photosPart = restOfLine.substring(endIndex + 2); // +2 = tırnak + virgül
-              } else {
-                // Tek tırnak varsa, sonraki virgüle kadar al
-                const nextComma = restOfLine.indexOf(',', 1);
-                if (nextComma !== -1) {
-                  link = restOfLine.substring(1, nextComma);
-                  photosPart = restOfLine.substring(nextComma + 1);
-                } else {
-                  link = restOfLine.substring(1);
+                // Virgülden sonraki kısım fotoğraflar
+                const commaAfterLink = restOfLine.indexOf(',', endIndex);
+                if (commaAfterLink !== -1) {
+                  photosPart = restOfLine.substring(commaAfterLink + 1);
                 }
               }
-              
-              console.log('Tırnaklı link bulundu:', link);
             } else {
               // Tırnak yoksa normal virgülle ayır
               const parts = restOfLine.split(',');
@@ -1182,11 +1162,8 @@
             if (!name) continue;
             
             if (!link || link === '') {
-              console.log('Link boş, atlaniyor');
               continue;
             }
-            
-            console.log('Final link:', link);
             
             // Fotoğrafları ayır
             const photos = [];
