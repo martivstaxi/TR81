@@ -1110,7 +1110,7 @@
             return;
           }
           
-          // İlk satırdan şehir adını al
+          // İlk satır şehir adı
           const firstLine = lines[0].trim();
           const cityName = firstLine.split(',')[0].trim();
           
@@ -1126,7 +1126,7 @@
             const line = lines[i].trim();
             if (!line) continue;
             
-            // CSV parsing - tırnak işaretli değerleri düzgün parse et
+            // Regex ile CSV parse - tırnak içindeki virgülleri görmezden gel
             const cells = [];
             let current = '';
             let inQuotes = false;
@@ -1134,10 +1134,8 @@
             for (let j = 0; j < line.length; j++) {
               const char = line[j];
               
-              if (char === '"' && (j === 0 || line[j-1] === ',')) {
-                inQuotes = true;
-              } else if (char === '"' && inQuotes) {
-                inQuotes = false;
+              if (char === '"') {
+                inQuotes = !inQuotes;
               } else if (char === ',' && !inQuotes) {
                 cells.push(current.trim());
                 current = '';
@@ -1146,19 +1144,30 @@
               }
             }
             // Son hücreyi ekle
-            if (current) {
-              cells.push(current.trim());
-            }
+            cells.push(current.trim());
             
             if (cells.length < 2) continue;
             
             const name = cells[0].trim();
-            const link = cells[1].trim();
+            let link = cells[1] ? cells[1].trim() : '';
             
-            if (!name || !link) continue;
+            // Başta ve sondaki tırnakları temizle
+            link = link.replace(/^["']|["']$/g, '');
+            
+            if (!name) continue;
+            
+            // Eğer link yoksa veya boşsa, konum adından oluştur
+            if (!link || link === '') {
+              locations.push({
+                name: name,
+                photos: [],
+                link: 'https://www.google.com/maps/search/' + encodeURIComponent(name)
+              });
+              continue;
+            }
             
             const photos = [];
-            // C sütunundan H sütununa kadar fotoğraflar (index 2-7)
+            // C sütunundan H sütununa kadar fotoğraflar
             for (let j = 2; j < cells.length && j < 8; j++) {
               const photoUrl = cells[j] ? cells[j].trim() : '';
               if (photoUrl && photoUrl.startsWith('http')) {
