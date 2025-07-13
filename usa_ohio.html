@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ohio</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Ohio</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Arcade/@41.4999444,-81.6902444,17z/data=!3m1!4b1!4m6!3m5!1s0x8830fa8007ffae13:0xf25487669de23152!8m2!3d41.4999444!4d-81.6902444!16zL20vMDU5XzF0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Arcade 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_1/public" data-location="The Arcade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_1/public" alt="The Arcade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_2/public" data-location="The Arcade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_2/public" alt="The Arcade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_3/public" data-location="The Arcade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_3/public" alt="The Arcade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_4/public" data-location="The Arcade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_4/public" alt="The Arcade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_5/public" data-location="The Arcade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_5/public" alt="The Arcade"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_6/public" data-location="The Arcade"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_arcade_6/public" alt="The Arcade"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ash+Cave/@39.3996064,-82.5443682,17z/data=!3m1!4b1!4m6!3m5!1s0x8847c03d11ca6ca5:0x10afe428eb224409!8m2!3d39.3996064!4d-82.5443682!16s%2Fg%2F11b7729fr9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ash Cave 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_1/public" data-location="Ash Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_1/public" alt="Ash Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_2/public" data-location="Ash Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_2/public" alt="Ash Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_3/public" data-location="Ash Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_3/public" alt="Ash Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_4/public" data-location="Ash Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_4/public" alt="Ash Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_5/public" data-location="Ash Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_5/public" alt="Ash Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_6/public" data-location="Ash Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_ash_cave_6/public" alt="Ash Cave"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Conkle%E2%80%99s+Hollow/@39.453245,-82.5733428,17z/data=!3m1!4b1!4m6!3m5!1s0x884795561a33ff69:0x24b20bdddd58f14!8m2!3d39.453245!4d-82.5733428!16s%2Fg%2F11ghfn_dc4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Conkle’s Hollow Rim Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_1/public" data-location="Conkle’s Hollow Rim Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_1/public" alt="Conkle’s Hollow Rim Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_2/public" data-location="Conkle’s Hollow Rim Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_2/public" alt="Conkle’s Hollow Rim Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_3/public" data-location="Conkle’s Hollow Rim Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_3/public" alt="Conkle’s Hollow Rim Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_4/public" data-location="Conkle’s Hollow Rim Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_4/public" alt="Conkle’s Hollow Rim Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_5/public" data-location="Conkle’s Hollow Rim Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_5/public" alt="Conkle’s Hollow Rim Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_6/public" data-location="Conkle’s Hollow Rim Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_conkles_hollow_rim_trail_6/public" alt="Conkle’s Hollow Rim Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/F.A.+Seiberling+Nature+Realm/@41.1399175,-81.5757635,17z/data=!3m1!4b1!4m6!3m5!1s0x8830d9db7c7837ef:0x5506d6b5b3daa04a!8m2!3d41.1399175!4d-81.5757635!16s%2Fg%2F1tdc5w77?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>F.A. Seiberling Nature Realm 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_1/public" data-location="F.A. Seiberling Nature Realm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_1/public" alt="F.A. Seiberling Nature Realm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_2/public" data-location="F.A. Seiberling Nature Realm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_2/public" alt="F.A. Seiberling Nature Realm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_3/public" data-location="F.A. Seiberling Nature Realm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_3/public" alt="F.A. Seiberling Nature Realm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_4/public" data-location="F.A. Seiberling Nature Realm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_4/public" alt="F.A. Seiberling Nature Realm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_5/public" data-location="F.A. Seiberling Nature Realm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_5/public" alt="F.A. Seiberling Nature Realm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_6/public" data-location="F.A. Seiberling Nature Realm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fa_seiberling_nature_realm_6/public" alt="F.A. Seiberling Nature Realm"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Old+Man's+Cave/@39.4331726,-82.5429533,17z/data=!3m1!4b1!4m6!3m5!1s0x8847eb863357459d:0x7db0a623870bde68!8m2!3d39.4331726!4d-82.5429533!16s%2Fg%2F11rg5v4qwv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Old Man’s Cave 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_1/public" data-location="Old Man’s Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_1/public" alt="Old Man’s Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_2/public" data-location="Old Man’s Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_2/public" alt="Old Man’s Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_3/public" data-location="Old Man’s Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_3/public" alt="Old Man’s Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_4/public" data-location="Old Man’s Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_4/public" alt="Old Man’s Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_5/public" data-location="Old Man’s Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_5/public" alt="Old Man’s Cave"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_6/public" data-location="Old Man’s Cave"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_old_mans_cave_6/public" alt="Old Man’s Cave"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lanterman's+Mill/@41.0668378,-80.6821128,17z/data=!3m1!4b1!4m6!3m5!1s0x8833e4d473dcab1d:0x29bfcfaaaf576d62!8m2!3d41.0668378!4d-80.6821128!16s%2Fg%2F1tfpkghb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lanterman’s Mill 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_1/public" data-location="Lanterman’s Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_1/public" alt="Lanterman’s Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_2/public" data-location="Lanterman’s Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_2/public" alt="Lanterman’s Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_3/public" data-location="Lanterman’s Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_3/public" alt="Lanterman’s Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_4/public" data-location="Lanterman’s Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_4/public" alt="Lanterman’s Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_5/public" data-location="Lanterman’s Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_5/public" alt="Lanterman’s Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_6/public" data-location="Lanterman’s Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lantermans_mill_6/public" alt="Lanterman’s Mill"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Beaver+Marsh+Boardwalk+View/@41.1879111,-81.5796139,17z/data=!3m1!4b1!4m6!3m5!1s0x8830d91364c00279:0xd63b103eb81fbb37!8m2!3d41.1879111!4d-81.5796139!16s%2Fg%2F1tfp_gyy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Beaver Marsh Boardwalk 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_1/public" data-location="Beaver Marsh Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_1/public" alt="Beaver Marsh Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_2/public" data-location="Beaver Marsh Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_2/public" alt="Beaver Marsh Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_3/public" data-location="Beaver Marsh Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_3/public" alt="Beaver Marsh Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_4/public" data-location="Beaver Marsh Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_4/public" alt="Beaver Marsh Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_5/public" data-location="Beaver Marsh Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_5/public" alt="Beaver Marsh Boardwalk"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_6/public" data-location="Beaver Marsh Boardwalk"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_beaver_marsh_boardwalk_6/public" alt="Beaver Marsh Boardwalk"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Franklin+Park+Conservatory+and+Botanical+Gardens/@39.9658716,-82.9532009,17z/data=!3m1!4b1!4m6!3m5!1s0x883888f96e85d907:0x711ea5b338375fe1!8m2!3d39.9658716!4d-82.9532009!16zL20vMGIzYmp4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Franklin Park Conservatory 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_1/public" data-location="Franklin Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_1/public" alt="Franklin Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_2/public" data-location="Franklin Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_2/public" alt="Franklin Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_3/public" data-location="Franklin Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_3/public" alt="Franklin Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_4/public" data-location="Franklin Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_4/public" alt="Franklin Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_5/public" data-location="Franklin Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_5/public" alt="Franklin Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_6/public" data-location="Franklin Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_franklin_park_conservatory_6/public" alt="Franklin Park Conservatory"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brandywine+Falls/@41.2769085,-81.538565,17z/data=!3m1!4b1!4m6!3m5!1s0x8830dfc2653d9f25:0x70d0c5198b1178ac!8m2!3d41.2769085!4d-81.538565!16s%2Fg%2F11c4bcvhyg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Brandywine Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_1/public" data-location="Brandywine Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_1/public" alt="Brandywine Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_2/public" data-location="Brandywine Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_2/public" alt="Brandywine Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_3/public" data-location="Brandywine Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_3/public" alt="Brandywine Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_4/public" data-location="Brandywine Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_4/public" alt="Brandywine Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_5/public" data-location="Brandywine Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_5/public" alt="Brandywine Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_6/public" data-location="Brandywine Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_brandywine_falls_6/public" alt="Brandywine Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Marblehead+Lighthouse+Historical+Society/@41.5364745,-82.7125177,17z/data=!3m1!4b1!4m6!3m5!1s0x883a51f7e6d74f5b:0xa6b05a6f43ddceb!8m2!3d41.5364745!4d-82.7125177!16zL20vMDVzMnBs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Marblehead Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_1/public" data-location="Marblehead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_1/public" alt="Marblehead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_2/public" data-location="Marblehead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_2/public" alt="Marblehead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_3/public" data-location="Marblehead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_3/public" alt="Marblehead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_4/public" data-location="Marblehead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_4/public" alt="Marblehead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_5/public" data-location="Marblehead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_5/public" alt="Marblehead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_6/public" data-location="Marblehead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_marblehead_lighthouse_6/public" alt="Marblehead Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Carillon+Historical+Park/@39.7287819,-84.1983182,17z/data=!3m1!4b1!4m6!3m5!1s0x88408696d0b32887:0xa47e33172ee1dc89!8m2!3d39.7287819!4d-84.1983182!16zL20vMDhxOHk2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Carillon Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_1/public" data-location="Carillon Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_1/public" alt="Carillon Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_2/public" data-location="Carillon Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_2/public" alt="Carillon Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_3/public" data-location="Carillon Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_3/public" alt="Carillon Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_4/public" data-location="Carillon Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_4/public" alt="Carillon Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_5/public" data-location="Carillon Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_5/public" alt="Carillon Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_6/public" data-location="Carillon Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_carillon_historical_park_6/public" alt="Carillon Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Stan+Hywet+Hall+%26+Gardens/@41.1164046,-81.5488581,17z/data=!3m1!4b1!4m6!3m5!1s0x8830d79af43a79b1:0xd367e53b4bf0864e!8m2!3d41.1164046!4d-81.5488581!16zL20vMGN0OXJs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Stan Hywet Hall & Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_1/public" data-location="Stan Hywet Hall & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_1/public" alt="Stan Hywet Hall & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_2/public" data-location="Stan Hywet Hall & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_2/public" alt="Stan Hywet Hall & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_3/public" data-location="Stan Hywet Hall & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_3/public" alt="Stan Hywet Hall & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_4/public" data-location="Stan Hywet Hall & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_4/public" alt="Stan Hywet Hall & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_5/public" data-location="Stan Hywet Hall & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_5/public" alt="Stan Hywet Hall & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_6/public" data-location="Stan Hywet Hall & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_stan_hywet_hall_gardens_6/public" alt="Stan Hywet Hall & Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gallipolis+City+Park/@38.8068724,-82.2057325,17z/data=!3m1!4b1!4m6!3m5!1s0x88489e066f18b96b:0xa861a05d44b484f5!8m2!3d38.8068724!4d-82.2057325!16s%2Fg%2F1tfyf7tg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gallipolis City Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_1/public" data-location="Gallipolis City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_1/public" alt="Gallipolis City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_2/public" data-location="Gallipolis City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_2/public" alt="Gallipolis City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_3/public" data-location="Gallipolis City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_3/public" alt="Gallipolis City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_4/public" data-location="Gallipolis City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_4/public" alt="Gallipolis City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_5/public" data-location="Gallipolis City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_5/public" alt="Gallipolis City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_6/public" data-location="Gallipolis City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_gallipolis_city_park_6/public" alt="Gallipolis City Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fellows+Riverside+Gardens/@41.0993356,-80.6762988,17z/data=!3m1!4b1!4m6!3m5!1s0x8833e501bc946713:0x9f28c6f0560acbe0!8m2!3d41.0993356!4d-80.6762988!16zL20vMGJobnYx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fellows Riverside Gardens USA 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_1/public" data-location="Fellows Riverside Gardens USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_1/public" alt="Fellows Riverside Gardens USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_2/public" data-location="Fellows Riverside Gardens USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_2/public" alt="Fellows Riverside Gardens USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_3/public" data-location="Fellows Riverside Gardens USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_3/public" alt="Fellows Riverside Gardens USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_4/public" data-location="Fellows Riverside Gardens USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_4/public" alt="Fellows Riverside Gardens USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_5/public" data-location="Fellows Riverside Gardens USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_5/public" alt="Fellows Riverside Gardens USA"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_6/public" data-location="Fellows Riverside Gardens USA"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_fellows_riverside_gardens_usa_6/public" alt="Fellows Riverside Gardens USA"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Clifton+Gorge+State+Nature+Preserve/@39.7941094,-83.8314927,17z/data=!3m1!4b1!4m6!3m5!1s0x8840a73901ac7191:0x96e91468106a17d8!8m2!3d39.7941094!4d-83.8314927!16s%2Fg%2F1td3s562?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Clifton Gorge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_1/public" data-location="Clifton Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_1/public" alt="Clifton Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_2/public" data-location="Clifton Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_2/public" alt="Clifton Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_3/public" data-location="Clifton Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_3/public" alt="Clifton Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_4/public" data-location="Clifton Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_4/public" alt="Clifton Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_5/public" data-location="Clifton Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_5/public" alt="Clifton Gorge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_6/public" data-location="Clifton Gorge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_clifton_gorge_6/public" alt="Clifton Gorge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Chagrin+Falls+Waterfall/@41.4312849,-81.3921345,17z/data=!3m1!4b1!4m6!3m5!1s0x88311b2e55c40217:0x6f0a3e45daf63109!8m2!3d41.4312849!4d-81.3921345!16s%2Fg%2F1tkp0ffl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Chagrin Falls Waterfall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_1/public" data-location="Chagrin Falls Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_1/public" alt="Chagrin Falls Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_2/public" data-location="Chagrin Falls Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_2/public" alt="Chagrin Falls Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_3/public" data-location="Chagrin Falls Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_3/public" alt="Chagrin Falls Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_4/public" data-location="Chagrin Falls Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_4/public" alt="Chagrin Falls Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_5/public" data-location="Chagrin Falls Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_5/public" alt="Chagrin Falls Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_6/public" data-location="Chagrin Falls Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_chagrin_falls_waterfall_6/public" alt="Chagrin Falls Waterfall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cantwell+Cliffs/@39.5398216,-82.5758805,17z/data=!3m1!4b1!4m6!3m5!1s0x88479332dcecc79b:0x3c3be121599c0176!8m2!3d39.5398216!4d-82.5758805!16s%2Fg%2F12hxxs8kn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cantwell Cliffs Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_1/public" data-location="Cantwell Cliffs Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_1/public" alt="Cantwell Cliffs Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_2/public" data-location="Cantwell Cliffs Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_2/public" alt="Cantwell Cliffs Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_3/public" data-location="Cantwell Cliffs Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_3/public" alt="Cantwell Cliffs Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_4/public" data-location="Cantwell Cliffs Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_4/public" alt="Cantwell Cliffs Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_5/public" data-location="Cantwell Cliffs Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_5/public" alt="Cantwell Cliffs Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_6/public" data-location="Cantwell Cliffs Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_cantwell_cliffs_overlook_6/public" alt="Cantwell Cliffs Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sugarcreek+MetroPark/@39.6175066,-84.0964368,17z/data=!3m1!4b1!4m6!3m5!1s0x884091d5997b02ed:0x973fc09d9d099e26!8m2!3d39.6175066!4d-84.0964368!16s%2Fg%2F1txc7qc1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sugarcreek MetroPark 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_1/public" data-location="Sugarcreek MetroPark"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_1/public" alt="Sugarcreek MetroPark"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_2/public" data-location="Sugarcreek MetroPark"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_2/public" alt="Sugarcreek MetroPark"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_3/public" data-location="Sugarcreek MetroPark"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_3/public" alt="Sugarcreek MetroPark"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_4/public" data-location="Sugarcreek MetroPark"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_4/public" alt="Sugarcreek MetroPark"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_5/public" data-location="Sugarcreek MetroPark"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_5/public" alt="Sugarcreek MetroPark"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_6/public" data-location="Sugarcreek MetroPark"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_sugarcreek_metropark_6/public" alt="Sugarcreek MetroPark"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Erie+Bluffs/@41.7884218,-81.174568,17z/data=!3m1!4b1!4m6!3m5!1s0x8831bd8523bf6a99:0x4dbe8bcd82f57454!8m2!3d41.7884218!4d-81.174568!16s%2Fg%2F11h0_f219?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake Erie Bluffs 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_1/public" data-location="Lake Erie Bluffs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_1/public" alt="Lake Erie Bluffs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_2/public" data-location="Lake Erie Bluffs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_2/public" alt="Lake Erie Bluffs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_3/public" data-location="Lake Erie Bluffs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_3/public" alt="Lake Erie Bluffs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_4/public" data-location="Lake Erie Bluffs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_4/public" alt="Lake Erie Bluffs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_5/public" data-location="Lake Erie Bluffs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_5/public" alt="Lake Erie Bluffs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_6/public" data-location="Lake Erie Bluffs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_lake_erie_bluffs_6/public" alt="Lake Erie Bluffs"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Secrest+Arboretum/@40.7829842,-81.9172033,17z/data=!3m1!4b1!4m6!3m5!1s0x883746eab8724013:0x576733cd51185241!8m2!3d40.7829842!4d-81.9172033!16zL20vMGI2NWtr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Secrest Arboretum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_1/public" data-location="Secrest Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_1/public" alt="Secrest Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_2/public" data-location="Secrest Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_2/public" alt="Secrest Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_3/public" data-location="Secrest Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_3/public" alt="Secrest Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_4/public" data-location="Secrest Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_4/public" alt="Secrest Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_5/public" data-location="Secrest Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_5/public" alt="Secrest Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_6/public" data-location="Secrest Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_secrest_arboretum_6/public" alt="Secrest Arboretum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Muirfield+Village+Golf+Club/@40.1399222,-83.1420924,17z/data=!3m1!4b1!4m6!3m5!1s0x8838ec8c598f485f:0x22d0fbffae883216!8m2!3d40.1399222!4d-83.1420924!16s%2Fm%2F04vwd9b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Muirfield Village Golf Club 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_1/public" data-location="Muirfield Village Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_1/public" alt="Muirfield Village Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_2/public" data-location="Muirfield Village Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_2/public" alt="Muirfield Village Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_3/public" data-location="Muirfield Village Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_3/public" alt="Muirfield Village Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_4/public" data-location="Muirfield Village Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_4/public" alt="Muirfield Village Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_5/public" data-location="Muirfield Village Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_5/public" alt="Muirfield Village Golf Club"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_6/public" data-location="Muirfield Village Golf Club"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_muirfield_village_golf_club_6/public" alt="Muirfield Village Golf Club"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Merry-Go-Round+Museum/@41.4539442,-82.7128728,17z/data=!3m1!4b1!4m6!3m5!1s0x883a45de3d59f971:0x7181b97db6804f7c!8m2!3d41.4539442!4d-82.7128728!16s%2Fg%2F11fd6dgzws?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Merry-Go-Round Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_1/public" data-location="Merry-Go-Round Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_1/public" alt="Merry-Go-Round Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_2/public" data-location="Merry-Go-Round Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_2/public" alt="Merry-Go-Round Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_3/public" data-location="Merry-Go-Round Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_3/public" alt="Merry-Go-Round Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_4/public" data-location="Merry-Go-Round Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_4/public" alt="Merry-Go-Round Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_5/public" data-location="Merry-Go-Round Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_5/public" alt="Merry-Go-Round Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_6/public" data-location="Merry-Go-Round Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_merrygoround_museum_6/public" alt="Merry-Go-Round Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ledges+Overlook/@41.2203112,-81.5123348,15z/data=!3m1!4b1!4m6!3m5!1s0x8830df5e3875ad41:0xd850bbe31697094!8m2!3d41.2203118!4d-81.5123348!16s%2Fg%2F1tgj9gg7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Ledges Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_1/public" data-location="The Ledges Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_1/public" alt="The Ledges Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_2/public" data-location="The Ledges Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_2/public" alt="The Ledges Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_3/public" data-location="The Ledges Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_3/public" alt="The Ledges Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_4/public" data-location="The Ledges Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_4/public" alt="The Ledges Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_5/public" data-location="The Ledges Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_5/public" alt="The Ledges Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_6/public" data-location="The Ledges Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ledges_overlook_6/public" alt="The Ledges Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/William+McKinley+Memorial/@40.8073595,-81.393203,17z/data=!3m1!4b1!4m6!3m5!1s0x8836d085138a2195:0xb2752c1e8e91618a!8m2!3d40.8073595!4d-81.393203!16s%2Fm%2F06_428_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>McKinley National Memorial 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_1/public" data-location="McKinley National Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_1/public" alt="McKinley National Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_2/public" data-location="McKinley National Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_2/public" alt="McKinley National Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_3/public" data-location="McKinley National Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_3/public" alt="McKinley National Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_4/public" data-location="McKinley National Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_4/public" alt="McKinley National Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_5/public" data-location="McKinley National Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_5/public" alt="McKinley National Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_6/public" data-location="McKinley National Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_mckinley_national_memorial_6/public" alt="McKinley National Memorial"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eiffel+Tower/@39.3433,-84.2668694,17z/data=!3m1!4b1!4m6!3m5!1s0x8840f801aed74f9d:0x2dbd25c859bc37fd!8m2!3d39.3433!4d-84.2668694!16s%2Fg%2F1th6418j?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kings Island Eiffel Tower 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_1/public" data-location="Kings Island Eiffel Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_1/public" alt="Kings Island Eiffel Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_2/public" data-location="Kings Island Eiffel Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_2/public" alt="Kings Island Eiffel Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_3/public" data-location="Kings Island Eiffel Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_3/public" alt="Kings Island Eiffel Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_4/public" data-location="Kings Island Eiffel Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_4/public" alt="Kings Island Eiffel Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_5/public" data-location="Kings Island Eiffel Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_5/public" alt="Kings Island Eiffel Tower"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_6/public" data-location="Kings Island Eiffel Tower"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_kings_island_eiffel_tower_6/public" alt="Kings Island Eiffel Tower"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jungle+Jim's+International+Market/@39.3354869,-84.5253006,17z/data=!3m1!4b1!4m6!3m5!1s0x884048caf258747f:0x83086d8a7d5aa1a8!8m2!3d39.3354869!4d-84.5253006!16s%2Fg%2F1tdb4zbd?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jungle Jim’s International Market 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_1/public" data-location="Jungle Jim’s International Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_1/public" alt="Jungle Jim’s International Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_2/public" data-location="Jungle Jim’s International Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_2/public" alt="Jungle Jim’s International Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_3/public" data-location="Jungle Jim’s International Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_3/public" alt="Jungle Jim’s International Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_4/public" data-location="Jungle Jim’s International Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_4/public" alt="Jungle Jim’s International Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_5/public" data-location="Jungle Jim’s International Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_5/public" alt="Jungle Jim’s International Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_6/public" data-location="Jungle Jim’s International Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_jungle_jims_international_market_6/public" alt="Jungle Jim’s International Market"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/West+Side+Market/@41.4847078,-81.7028394,17z/data=!3m1!4b1!4m6!3m5!1s0x8830f06dbbd9379f:0xabb436e31c9dcc5e!8m2!3d41.4847078!4d-81.7028394!16zL20vMGI4NHYx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>West Side Market 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_1/public" data-location="West Side Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_1/public" alt="West Side Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_2/public" data-location="West Side Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_2/public" alt="West Side Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_3/public" data-location="West Side Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_3/public" alt="West Side Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_4/public" data-location="West Side Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_4/public" alt="West Side Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_5/public" data-location="West Side Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_5/public" alt="West Side Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_6/public" data-location="West Side Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_west_side_market_6/public" alt="West Side Market"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Findlay+Market/@39.1153116,-84.5190724,17z/data=!3m1!4b1!4m6!3m5!1s0x8841b3f96aa9a5b3:0x263afcd98b6e84b0!8m2!3d39.1153116!4d-84.5190724!16zL20vMDZuM2df?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Findlay Market 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_1/public" data-location="Findlay Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_1/public" alt="Findlay Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_2/public" data-location="Findlay Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_2/public" alt="Findlay Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_3/public" data-location="Findlay Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_3/public" alt="Findlay Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_4/public" data-location="Findlay Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_4/public" alt="Findlay Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_5/public" data-location="Findlay Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_5/public" alt="Findlay Market"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_6/public" data-location="Findlay Market"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_findlay_market_6/public" alt="Findlay Market"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pro+Football+Hall+of+Fame/@40.8211015,-81.3978536,17z/data=!3m1!4b1!4m6!3m5!1s0x8836d0ed1b0f2943:0x81a2e7c2b2278a78!8m2!3d40.8211015!4d-81.3978536!16zL20vMDFuem1w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pro Football Hall of Fame 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_1/public" data-location="Pro Football Hall of Fame"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_1/public" alt="Pro Football Hall of Fame"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_2/public" data-location="Pro Football Hall of Fame"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_2/public" alt="Pro Football Hall of Fame"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_3/public" data-location="Pro Football Hall of Fame"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_3/public" alt="Pro Football Hall of Fame"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_4/public" data-location="Pro Football Hall of Fame"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_4/public" alt="Pro Football Hall of Fame"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_5/public" data-location="Pro Football Hall of Fame"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_5/public" alt="Pro Football Hall of Fame"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_6/public" data-location="Pro Football Hall of Fame"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_pro_football_hall_of_fame_6/public" alt="Pro Football Hall of Fame"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ohio+Stadium/@40.0023549,-83.0196832,17z/data=!3m1!4b1!4m6!3m5!1s0x88388e9401f27f55:0x4b4983cd164998a5!8m2!3d40.0023549!4d-83.0196832!16zL20vMDNidDAx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Ohio Stadium 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_1/public" data-location="The Ohio Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_1/public" alt="The Ohio Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_2/public" data-location="The Ohio Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_2/public" alt="The Ohio Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_3/public" data-location="The Ohio Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_3/public" alt="The Ohio Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_4/public" data-location="The Ohio Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_4/public" alt="The Ohio Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_5/public" data-location="The Ohio Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_5/public" alt="The Ohio Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_6/public" data-location="The Ohio Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ohio_the_ohio_stadium_6/public" alt="The Ohio Stadium"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
