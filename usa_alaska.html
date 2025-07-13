@@ -1,0 +1,1383 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alaska</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Alaska</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mendenhall+Buzulu/@58.4409454,-134.5458632,15z/data=!3m1!4b1!4m6!3m5!1s0x5400e4eba2eeab11:0xc72817f944e14b91!8m2!3d58.4409459!4d-134.5458632!16zL20vMDNzNjV2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mendenhall Glacier 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_1/public" data-location="Mendenhall Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_1/public" alt="Mendenhall Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_2/public" data-location="Mendenhall Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_2/public" alt="Mendenhall Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_3/public" data-location="Mendenhall Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_3/public" alt="Mendenhall Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_4/public" data-location="Mendenhall Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_4/public" alt="Mendenhall Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_5/public" data-location="Mendenhall Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_5/public" alt="Mendenhall Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_6/public" data-location="Mendenhall Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_mendenhall_glacier_6/public" alt="Mendenhall Glacier"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Aurora+In+Alaska,+LLC%E2%84%A2/@64.8280935,-147.8533491,17z/data=!3m1!4b1!4m6!3m5!1s0x51325b1956275f2f:0xd2182702a858ec3!8m2!3d64.8280935!4d-147.8533491!16s%2Fg%2F11r_gjwntn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Northern Lights 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_1/public" data-location="Northern Lights"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_1/public" alt="Northern Lights"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_2/public" data-location="Northern Lights"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_2/public" alt="Northern Lights"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_3/public" data-location="Northern Lights"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_3/public" alt="Northern Lights"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_4/public" data-location="Northern Lights"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_4/public" alt="Northern Lights"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_5/public" data-location="Northern Lights"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_5/public" alt="Northern Lights"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_6/public" data-location="Northern Lights"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_northern_lights_6/public" alt="Northern Lights"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Horsetail+Falls/@61.0675376,-145.9070964,17z/data=!3m1!4b1!4m6!3m5!1s0x56b65eafe6f3f1f5:0x9a3a198e7ed5d122!8m2!3d61.0675376!4d-145.9070964!16s%2Fg%2F11c1p92qgs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Horsetail Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_1/public" data-location="Horsetail Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_1/public" alt="Horsetail Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_2/public" data-location="Horsetail Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_2/public" alt="Horsetail Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_3/public" data-location="Horsetail Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_3/public" alt="Horsetail Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_4/public" data-location="Horsetail Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_4/public" alt="Horsetail Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_5/public" data-location="Horsetail Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_5/public" alt="Horsetail Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_6/public" data-location="Horsetail Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_horsetail_falls_6/public" alt="Horsetail Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hatcher+Pass/@61.7697218,-149.308889,15z/data=!3m1!4b1!4m6!3m5!1s0x56c9238d8f23c4a7:0xfe8b08bc33b478ba!8m2!3d61.7697222!4d-149.308889!16zL20vMDh4cnd4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hatcher Pass 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_1/public" data-location="Hatcher Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_1/public" alt="Hatcher Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_2/public" data-location="Hatcher Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_2/public" alt="Hatcher Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_3/public" data-location="Hatcher Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_3/public" alt="Hatcher Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_4/public" data-location="Hatcher Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_4/public" alt="Hatcher Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_5/public" data-location="Hatcher Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_5/public" alt="Hatcher Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_6/public" data-location="Hatcher Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hatcher_pass_6/public" alt="Hatcher Pass"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Nugget+Falls/@58.4269335,-134.5375927,15z/data=!3m1!4b1!4m6!3m5!1s0x5400e3c4b22bd0e3:0x1e4fe7e19266002f!8m2!3d58.4269339!4d-134.5375927!16s%2Fm%2F065yrql?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Nugget Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_1/public" data-location="Nugget Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_1/public" alt="Nugget Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_2/public" data-location="Nugget Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_2/public" alt="Nugget Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_3/public" data-location="Nugget Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_3/public" alt="Nugget Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_4/public" data-location="Nugget Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_4/public" alt="Nugget Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_5/public" data-location="Nugget Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_5/public" alt="Nugget Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_6/public" data-location="Nugget Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_nugget_falls_6/public" alt="Nugget Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Friends+of+Kodiak+State+Parks/@57.83263,-152.354522,17z/data=!3m1!4b1!4m6!3m5!1s0x56eac6ba26deb167:0xc1c481d61a27759e!8m2!3d57.83263!4d-152.354522!16s%2Fm%2F03hgv12?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Abercrombie State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_1/public" data-location="Fort Abercrombie State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_1/public" alt="Fort Abercrombie State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_2/public" data-location="Fort Abercrombie State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_2/public" alt="Fort Abercrombie State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_3/public" data-location="Fort Abercrombie State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_3/public" alt="Fort Abercrombie State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_4/public" data-location="Fort Abercrombie State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_4/public" alt="Fort Abercrombie State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_5/public" data-location="Fort Abercrombie State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_5/public" alt="Fort Abercrombie State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_6/public" data-location="Fort Abercrombie State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_fort_abercrombie_state_park_6/public" alt="Fort Abercrombie State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tongass+National+Forest/@56.9304426,-133.6247965,17z/data=!3m1!4b1!4m6!3m5!1s0x54010304808eb99b:0x822af834f3f1722b!8m2!3d56.9304426!4d-133.6247965!16zL20vMDE2amt0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tongass National Forest 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_1/public" data-location="Tongass National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_1/public" alt="Tongass National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_2/public" data-location="Tongass National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_2/public" alt="Tongass National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_3/public" data-location="Tongass National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_3/public" alt="Tongass National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_4/public" data-location="Tongass National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_4/public" alt="Tongass National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_5/public" data-location="Tongass National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_5/public" alt="Tongass National Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_6/public" data-location="Tongass National Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_tongass_national_forest_6/public" alt="Tongass National Forest"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kenai+Fjords+Tours/@60.117488,-149.439373,17z/data=!3m1!4b1!4m6!3m5!1s0x56c79c77ec7bba4d:0x73b2548b9a980845!8m2!3d60.117488!4d-149.439373!16s%2Fg%2F1thhk7b3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kenai Fjords Boat Tour 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_1/public" data-location="Kenai Fjords Boat Tour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_1/public" alt="Kenai Fjords Boat Tour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_2/public" data-location="Kenai Fjords Boat Tour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_2/public" alt="Kenai Fjords Boat Tour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_3/public" data-location="Kenai Fjords Boat Tour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_3/public" alt="Kenai Fjords Boat Tour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_4/public" data-location="Kenai Fjords Boat Tour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_4/public" alt="Kenai Fjords Boat Tour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_5/public" data-location="Kenai Fjords Boat Tour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_5/public" alt="Kenai Fjords Boat Tour"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_6/public" data-location="Kenai Fjords Boat Tour"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_fjords_boat_tour_6/public" alt="Kenai Fjords Boat Tour"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sitka+National+Historical+Park/@57.0483239,-135.3159986,17z/data=!3m1!4b1!4m6!3m5!1s0x54046795e9ffb72d:0x4ad441b42fe14156!8m2!3d57.0483239!4d-135.3159986!16zL20vMDZxbXFj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sitka National Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_1/public" data-location="Sitka National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_1/public" alt="Sitka National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_2/public" data-location="Sitka National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_2/public" alt="Sitka National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_3/public" data-location="Sitka National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_3/public" alt="Sitka National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_4/public" data-location="Sitka National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_4/public" alt="Sitka National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_5/public" data-location="Sitka National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_5/public" alt="Sitka National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_6/public" data-location="Sitka National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_sitka_national_historical_park_6/public" alt="Sitka National Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Glen+Alps+%2F+Flattop+Trailhead/@61.1030473,-149.6840599,17z/data=!3m1!4b1!4m6!3m5!1s0x56c89a9f0e760871:0x41551d96dba29326!8m2!3d61.1030473!4d-149.6840599!16s%2Fg%2F11c1s_0n5q?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Flattop Mountain Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_1/public" data-location="Flattop Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_1/public" alt="Flattop Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_2/public" data-location="Flattop Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_2/public" alt="Flattop Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_3/public" data-location="Flattop Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_3/public" alt="Flattop Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_4/public" data-location="Flattop Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_4/public" alt="Flattop Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_5/public" data-location="Flattop Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_5/public" alt="Flattop Mountain Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_6/public" data-location="Flattop Mountain Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_flattop_mountain_trail_6/public" alt="Flattop Mountain Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eagle+River+Nature+Center/@61.2342489,-149.2711197,17z/data=!3m1!4b1!4m6!3m5!1s0x56c8f341835e3255:0xfa292305668b62f!8m2!3d61.2342489!4d-149.2711197!16s%2Fg%2F11cjkmnn6x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eagle River Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_1/public" data-location="Eagle River Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_1/public" alt="Eagle River Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_2/public" data-location="Eagle River Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_2/public" alt="Eagle River Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_3/public" data-location="Eagle River Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_3/public" alt="Eagle River Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_4/public" data-location="Eagle River Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_4/public" alt="Eagle River Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_5/public" data-location="Eagle River Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_5/public" alt="Eagle River Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_6/public" data-location="Eagle River Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eagle_river_nature_center_6/public" alt="Eagle River Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Denali+Viewpoint+South/@62.5922885,-150.2396842,17z/data=!3m1!4b1!4m6!3m5!1s0x56ce837c0db30431:0xe2a311dbbfcc48d2!8m2!3d62.5922885!4d-150.2396842!16s%2Fg%2F1hhh2gzyg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Denali South Viewpoint 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_1/public" data-location="Denali South Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_1/public" alt="Denali South Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_2/public" data-location="Denali South Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_2/public" alt="Denali South Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_3/public" data-location="Denali South Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_3/public" alt="Denali South Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_4/public" data-location="Denali South Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_4/public" alt="Denali South Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_5/public" data-location="Denali South Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_5/public" alt="Denali South Viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_6/public" data-location="Denali South Viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_denali_south_viewpoint_6/public" alt="Denali South Viewpoint"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Savage+River+Loop+Trailhead/@63.7398242,-149.2916163,17z/data=!3m1!4b1!4m6!3m5!1s0x56cd228ed992ea9f:0xce9b0b439c1cde31!8m2!3d63.7398242!4d-149.2916163!16s%2Fg%2F1q4knqb96?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Savage River Loop Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_1/public" data-location="Savage River Loop Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_1/public" alt="Savage River Loop Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_2/public" data-location="Savage River Loop Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_2/public" alt="Savage River Loop Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_3/public" data-location="Savage River Loop Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_3/public" alt="Savage River Loop Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_4/public" data-location="Savage River Loop Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_4/public" alt="Savage River Loop Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_5/public" data-location="Savage River Loop Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_5/public" alt="Savage River Loop Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_6/public" data-location="Savage River Loop Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_savage_river_loop_trail_6/public" alt="Savage River Loop Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eielson+Visitor+Center/@63.4309992,-150.3114272,17z/data=!3m1!4b1!4m6!3m5!1s0x56cd98abb36084b1:0xa1fc94d3023189a0!8m2!3d63.4309992!4d-150.3114272!16s%2Fg%2F11g_rk8sh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eielson Visitor Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_1/public" data-location="Eielson Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_1/public" alt="Eielson Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_2/public" data-location="Eielson Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_2/public" alt="Eielson Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_3/public" data-location="Eielson Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_3/public" alt="Eielson Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_4/public" data-location="Eielson Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_4/public" alt="Eielson Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_5/public" data-location="Eielson Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_5/public" alt="Eielson Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_6/public" data-location="Eielson Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eielson_visitor_center_6/public" alt="Eielson Visitor Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Exit+Buzulu/@60.1783825,-149.649439,15z/data=!3m1!4b1!4m6!3m5!1s0x56c7a20152619e79:0x9734a7fe89cfa1a7!8m2!3d60.178383!4d-149.649439!16zL20vMGdqemJx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Exit Glacier 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_1/public" data-location="Exit Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_1/public" alt="Exit Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_2/public" data-location="Exit Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_2/public" alt="Exit Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_3/public" data-location="Exit Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_3/public" alt="Exit Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_4/public" data-location="Exit Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_4/public" alt="Exit Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_5/public" data-location="Exit Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_5/public" alt="Exit Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_6/public" data-location="Exit Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_exit_glacier_6/public" alt="Exit Glacier"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eklutna+Lake/@61.3733317,-149.0646538,12z/data=!3m1!4b1!4m6!3m5!1s0x56c8fa0f2af61a27:0xaff1731c055855c1!8m2!3d61.3753858!4d-149.0349587!16s%2Fg%2F122jq9j8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eklutna Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_1/public" data-location="Eklutna Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_1/public" alt="Eklutna Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_2/public" data-location="Eklutna Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_2/public" alt="Eklutna Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_3/public" data-location="Eklutna Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_3/public" alt="Eklutna Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_4/public" data-location="Eklutna Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_4/public" alt="Eklutna Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_5/public" data-location="Eklutna Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_5/public" alt="Eklutna Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_6/public" data-location="Eklutna Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_eklutna_lake_6/public" alt="Eklutna Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bridal+Veil+Falls/@61.0702773,-145.8936111,15z/data=!3m1!4b1!4m6!3m5!1s0x56b65e94b49efbb3:0x6c0e9dcc897c3628!8m2!3d61.0702778!4d-145.8936111!16s%2Fg%2F11g6rkq6m0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bridal Veil Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_1/public" data-location="Bridal Veil Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_1/public" alt="Bridal Veil Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_2/public" data-location="Bridal Veil Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_2/public" alt="Bridal Veil Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_3/public" data-location="Bridal Veil Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_3/public" alt="Bridal Veil Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_4/public" data-location="Bridal Veil Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_4/public" alt="Bridal Veil Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_5/public" data-location="Bridal Veil Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_5/public" alt="Bridal Veil Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_6/public" data-location="Bridal Veil Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_bridal_veil_falls_6/public" alt="Bridal Veil Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hubbard+Buzulu/@60.3138886,-139.370833,15z/data=!3m1!4b1!4m6!3m5!1s0x56ac556feae8f89d:0xffc065e0ad0fe073!8m2!3d60.313889!4d-139.370833!16zL20vMDMwNzQx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hubbard Glacier 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_1/public" data-location="Hubbard Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_1/public" alt="Hubbard Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_2/public" data-location="Hubbard Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_2/public" alt="Hubbard Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_3/public" data-location="Hubbard Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_3/public" alt="Hubbard Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_4/public" data-location="Hubbard Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_4/public" alt="Hubbard Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_5/public" data-location="Hubbard Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_5/public" alt="Hubbard Glacier"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_6/public" data-location="Hubbard Glacier"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_hubbard_glacier_6/public" alt="Hubbard Glacier"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/White+Pass+%26+Yukon+Route+Railway/@59.4531431,-135.3181086,17z/data=!3m1!4b1!4m6!3m5!1s0x56aaa8d807ca09ff:0x9813652bad73dbf0!8m2!3d59.4531431!4d-135.3181086!16zL20vMDF4dmQy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>White Pass & Yukon Route 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_1/public" data-location="White Pass & Yukon Route"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_1/public" alt="White Pass & Yukon Route"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_2/public" data-location="White Pass & Yukon Route"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_2/public" alt="White Pass & Yukon Route"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_3/public" data-location="White Pass & Yukon Route"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_3/public" alt="White Pass & Yukon Route"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_4/public" data-location="White Pass & Yukon Route"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_4/public" alt="White Pass & Yukon Route"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_5/public" data-location="White Pass & Yukon Route"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_5/public" alt="White Pass & Yukon Route"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_6/public" data-location="White Pass & Yukon Route"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_white_pass_yukon_route_6/public" alt="White Pass & Yukon Route"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Beluga+Point/@61.0067501,-149.6943857,17z/data=!3m1!4b1!4m6!3m5!1s0x56c8847ecea3bec1:0x6c498aac81852499!8m2!3d61.0067501!4d-149.6943857!16s%2Fm%2F06_jr5w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Beluga Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_1/public" data-location="Beluga Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_1/public" alt="Beluga Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_2/public" data-location="Beluga Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_2/public" alt="Beluga Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_3/public" data-location="Beluga Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_3/public" alt="Beluga Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_4/public" data-location="Beluga Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_4/public" alt="Beluga Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_5/public" data-location="Beluga Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_5/public" alt="Beluga Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_6/public" data-location="Beluga Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_beluga_point_6/public" alt="Beluga Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Friends+of+Creamers+Field+at+Creamer's+Field+Migratory+Waterfowl+Refuge/@64.8633179,-147.738081,17z/data=!3m1!4b1!4m6!3m5!1s0x5132450fd07261b9:0x4227272ee8741d21!8m2!3d64.8633179!4d-147.738081!16zL20vMDVfenQ0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Creamer's Field 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_1/public" data-location="Creamer's Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_1/public" alt="Creamer's Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_2/public" data-location="Creamer's Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_2/public" alt="Creamer's Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_3/public" data-location="Creamer's Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_3/public" alt="Creamer's Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_4/public" data-location="Creamer's Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_4/public" alt="Creamer's Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_5/public" data-location="Creamer's Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_5/public" alt="Creamer's Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_6/public" data-location="Creamer's Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_creamers_field_6/public" alt="Creamer's Field"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Totem+Bight+State+Historical+Park/@55.4201157,-131.7725377,17z/data=!3m1!4b1!4m6!3m5!1s0x540c27080d87fa57:0xf1b11ec1ccb109ce!8m2!3d55.4201157!4d-131.7725377!16s%2Fm%2F06_jsby?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Totem Bight State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_1/public" data-location="Totem Bight State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_1/public" alt="Totem Bight State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_2/public" data-location="Totem Bight State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_2/public" alt="Totem Bight State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_3/public" data-location="Totem Bight State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_3/public" alt="Totem Bight State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_4/public" data-location="Totem Bight State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_4/public" alt="Totem Bight State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_5/public" data-location="Totem Bight State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_5/public" alt="Totem Bight State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_6/public" data-location="Totem Bight State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_totem_bight_state_park_6/public" alt="Totem Bight State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kenai+Beach/@60.5519625,-151.273863,15z/data=!3m1!4b1!4m6!3m5!1s0x56c67c8faac5d68b:0xe98187ec414f946!8m2!3d60.551963!4d-151.273863!16s%2Fg%2F1tdqt856?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kenai Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_1/public" data-location="Kenai Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_1/public" alt="Kenai Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_2/public" data-location="Kenai Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_2/public" alt="Kenai Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_3/public" data-location="Kenai Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_3/public" alt="Kenai Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_4/public" data-location="Kenai Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_4/public" alt="Kenai Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_5/public" data-location="Kenai Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_5/public" alt="Kenai Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_6/public" data-location="Kenai Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_kenai_beach_6/public" alt="Kenai Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Russian+River+Falls/@60.4546406,-149.9871313,17z/data=!3m1!4b1!4m6!3m5!1s0x56c7b38207f3c983:0xd2751ba22d5af236!8m2!3d60.4546406!4d-149.9871313!16s%2Fg%2F11c45w8jtq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Russian River Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_1/public" data-location="Russian River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_1/public" alt="Russian River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_2/public" data-location="Russian River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_2/public" alt="Russian River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_3/public" data-location="Russian River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_3/public" alt="Russian River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_4/public" data-location="Russian River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_4/public" alt="Russian River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_5/public" data-location="Russian River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_5/public" alt="Russian River Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_6/public" data-location="Russian River Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_russian_river_falls_6/public" alt="Russian River Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Alaska+SeaLife+Center/@60.0998464,-149.4407077,17z/data=!3m1!4b1!4m6!3m5!1s0x56c79c622bf41389:0x95b8a62ab521529!8m2!3d60.0998464!4d-149.4407077!16zL20vMDhrMjk4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Alaska SeaLife Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_1/public" data-location="Alaska SeaLife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_1/public" alt="Alaska SeaLife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_2/public" data-location="Alaska SeaLife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_2/public" alt="Alaska SeaLife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_3/public" data-location="Alaska SeaLife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_3/public" alt="Alaska SeaLife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_4/public" data-location="Alaska SeaLife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_4/public" alt="Alaska SeaLife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_5/public" data-location="Alaska SeaLife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_5/public" alt="Alaska SeaLife Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_6/public" data-location="Alaska SeaLife Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_alaska_sealife_center_6/public" alt="Alaska SeaLife Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Thunderbird+Falls/@61.4491375,-149.3703505,17z/data=!3m1!4b1!4m6!3m5!1s0x56c8e9386f1e1d51:0x715efb28e4a02d6!8m2!3d61.4491375!4d-149.3703505!16s%2Fg%2F1tgcrm51?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Thunderbird Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_1/public" data-location="Thunderbird Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_1/public" alt="Thunderbird Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_2/public" data-location="Thunderbird Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_2/public" alt="Thunderbird Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_3/public" data-location="Thunderbird Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_3/public" alt="Thunderbird Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_4/public" data-location="Thunderbird Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_4/public" alt="Thunderbird Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_5/public" data-location="Thunderbird Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_5/public" alt="Thunderbird Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_6/public" data-location="Thunderbird Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_thunderbird_falls_6/public" alt="Thunderbird Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Alyeska+Pipeline+%2F+Viewing+Point/@64.9295414,-147.6297414,17z/data=!3m1!4b1!4m6!3m5!1s0x5132467b3bfef615:0xcb990d63a5745267!8m2!3d64.9295414!4d-147.6297414!16s%2Fg%2F11cm3j0m3m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Trans-Alaska Pipeline viewpoint 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_1/public" data-location="Trans-Alaska Pipeline viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_1/public" alt="Trans-Alaska Pipeline viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_2/public" data-location="Trans-Alaska Pipeline viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_2/public" alt="Trans-Alaska Pipeline viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_3/public" data-location="Trans-Alaska Pipeline viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_3/public" alt="Trans-Alaska Pipeline viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_4/public" data-location="Trans-Alaska Pipeline viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_4/public" alt="Trans-Alaska Pipeline viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_5/public" data-location="Trans-Alaska Pipeline viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_5/public" alt="Trans-Alaska Pipeline viewpoint"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_6/public" data-location="Trans-Alaska Pipeline viewpoint"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/alaska_transalaska_pipeline_viewpoint_6/public" alt="Trans-Alaska Pipeline viewpoint"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
