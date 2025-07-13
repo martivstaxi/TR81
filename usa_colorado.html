@@ -1,0 +1,1332 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorado</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Colorado</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sky+Pond/@40.2779264,-105.6688768,18z/data=!3m1!4b1!4m6!3m5!1s0x87697c0d8a73ee7b:0xb66654f95464f009!8m2!3d40.2781592!4d-105.668747!16s%2Fg%2F1tdvf1kc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sky Pond & Lake of Glass 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_1/public" data-location="Sky Pond & Lake of Glass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_1/public" alt="Sky Pond & Lake of Glass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_2/public" data-location="Sky Pond & Lake of Glass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_2/public" alt="Sky Pond & Lake of Glass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_3/public" data-location="Sky Pond & Lake of Glass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_3/public" alt="Sky Pond & Lake of Glass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_4/public" data-location="Sky Pond & Lake of Glass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_4/public" alt="Sky Pond & Lake of Glass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_5/public" data-location="Sky Pond & Lake of Glass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_5/public" alt="Sky Pond & Lake of Glass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_6/public" data-location="Sky Pond & Lake of Glass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sky_pond_lake_of_glass_6/public" alt="Sky Pond & Lake of Glass"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Red+Rocks+Park+and+Amphitheatre/@39.6655381,-105.2052116,17z/data=!3m1!4b1!4m6!3m5!1s0x876b82da0e6cc8d7:0x7c83e707392cd6ad!8m2!3d39.6655381!4d-105.2052116!16zL20vMDJiamo1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Red Rocks Park and Amphitheatre 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_1/public" data-location="Red Rocks Park and Amphitheatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_1/public" alt="Red Rocks Park and Amphitheatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_2/public" data-location="Red Rocks Park and Amphitheatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_2/public" alt="Red Rocks Park and Amphitheatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_3/public" data-location="Red Rocks Park and Amphitheatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_3/public" alt="Red Rocks Park and Amphitheatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_4/public" data-location="Red Rocks Park and Amphitheatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_4/public" alt="Red Rocks Park and Amphitheatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_5/public" data-location="Red Rocks Park and Amphitheatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_5/public" alt="Red Rocks Park and Amphitheatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_6/public" data-location="Red Rocks Park and Amphitheatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_red_rocks_park_and_amphitheatre_6/public" alt="Red Rocks Park and Amphitheatre"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yampa+River+Botanic+Park/@40.4697475,-106.8289787,17z/data=!3m1!4b1!4m6!3m5!1s0x8742693036e51f27:0xd26eb21c33ee036c!8m2!3d40.4697475!4d-106.8289787!16zL20vMDdnaDg4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yampa River Botanic Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_1/public" data-location="Yampa River Botanic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_1/public" alt="Yampa River Botanic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_2/public" data-location="Yampa River Botanic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_2/public" alt="Yampa River Botanic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_3/public" data-location="Yampa River Botanic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_3/public" alt="Yampa River Botanic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_4/public" data-location="Yampa River Botanic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_4/public" alt="Yampa River Botanic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_5/public" data-location="Yampa River Botanic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_5/public" alt="Yampa River Botanic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_6/public" data-location="Yampa River Botanic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_yampa_river_botanic_park_6/public" alt="Yampa River Botanic Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Colorado+National+Monument/@39.0505442,-108.6920904,17z/data=!3m1!4b1!4m6!3m5!1s0x874703c11ec34369:0x157515ff9931c0ed!8m2!3d39.0505442!4d-108.6920904!16zL20vMDJfZnps?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Colorado National Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_1/public" data-location="Colorado National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_1/public" alt="Colorado National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_2/public" data-location="Colorado National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_2/public" alt="Colorado National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_3/public" data-location="Colorado National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_3/public" alt="Colorado National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_4/public" data-location="Colorado National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_4/public" alt="Colorado National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_5/public" data-location="Colorado National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_5/public" alt="Colorado National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_6/public" data-location="Colorado National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_colorado_national_monument_6/public" alt="Colorado National Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Guanella+Pass/@39.5949867,-105.7111165,15z/data=!3m1!4b1!4m6!3m5!1s0x876baa3606f9657f:0x4c8f9bcbab3ab242!8m2!3d39.5949872!4d-105.7111165!16zL20vMDV3cjV3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Guanella Pass 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_1/public" data-location="Guanella Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_1/public" alt="Guanella Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_2/public" data-location="Guanella Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_2/public" alt="Guanella Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_3/public" data-location="Guanella Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_3/public" alt="Guanella Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_4/public" data-location="Guanella Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_4/public" alt="Guanella Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_5/public" data-location="Guanella Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_5/public" alt="Guanella Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_6/public" data-location="Guanella Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_guanella_pass_6/public" alt="Guanella Pass"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Molas+Pass/@37.7377745,-107.6981179,15z/data=!3m1!4b1!4m6!3m5!1s0x873ec23f3229d581:0x85b03f3742c99308!8m2!3d37.7377751!4d-107.6981179!16zL20vMGRqa201?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Molas Pass 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_1/public" data-location="Molas Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_1/public" alt="Molas Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_2/public" data-location="Molas Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_2/public" alt="Molas Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_3/public" data-location="Molas Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_3/public" alt="Molas Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_4/public" data-location="Molas Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_4/public" alt="Molas Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_5/public" data-location="Molas Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_5/public" alt="Molas Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_6/public" data-location="Molas Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_molas_pass_6/public" alt="Molas Pass"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sprague+Lake/@40.3201769,-105.6048203,18z/data=!3m1!4b1!4m6!3m5!1s0x87697b376a524819:0x283df688480abef4!8m2!3d40.3200876!4d-105.6042337!16s%2Fm%2F054qq2j?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sprague Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_1/public" data-location="Sprague Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_1/public" alt="Sprague Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_2/public" data-location="Sprague Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_2/public" alt="Sprague Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_3/public" data-location="Sprague Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_3/public" alt="Sprague Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_4/public" data-location="Sprague Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_4/public" alt="Sprague Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_5/public" data-location="Sprague Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_5/public" alt="Sprague Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_6/public" data-location="Sprague Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_sprague_lake_6/public" alt="Sprague Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wolf+Creek+Pass/@37.4827025,-106.8021225,15z/data=!3m1!4b1!4m6!3m5!1s0x873e0975ed94814b:0x6e9a3df7dfea0a52!8m2!3d37.482703!4d-106.8021225!16zL20vMDI5NTEy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wolf Creek Pass 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_1/public" data-location="Wolf Creek Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_1/public" alt="Wolf Creek Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_2/public" data-location="Wolf Creek Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_2/public" alt="Wolf Creek Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_3/public" data-location="Wolf Creek Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_3/public" alt="Wolf Creek Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_4/public" data-location="Wolf Creek Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_4/public" alt="Wolf Creek Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_5/public" data-location="Wolf Creek Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_5/public" alt="Wolf Creek Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_6/public" data-location="Wolf Creek Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_wolf_creek_pass_6/public" alt="Wolf Creek Pass"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cottonwood+Pass/@38.8278447,-106.4092156,15z/data=!3m1!4b1!4m6!3m5!1s0x876aacc476c1e10b:0xb42555e8ca97fd21!8m2!3d38.8278452!4d-106.4092156!16s%2Fm%2F09ghw3w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cottonwood Pass 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_1/public" data-location="Cottonwood Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_1/public" alt="Cottonwood Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_2/public" data-location="Cottonwood Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_2/public" alt="Cottonwood Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_3/public" data-location="Cottonwood Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_3/public" alt="Cottonwood Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_4/public" data-location="Cottonwood Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_4/public" alt="Cottonwood Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_5/public" data-location="Cottonwood Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_5/public" alt="Cottonwood Pass"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_6/public" data-location="Cottonwood Pass"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cottonwood_pass_6/public" alt="Cottonwood Pass"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Isabelle/@40.0688434,-105.6187791,17z/data=!3m1!4b1!4m6!3m5!1s0x876bd03decf1f62d:0x822cf7c6b8d6ea94!8m2!3d40.0693832!4d-105.6185272!16s%2Fg%2F1hhjslkz3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake Isabelle 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_1/public" data-location="Lake Isabelle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_1/public" alt="Lake Isabelle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_2/public" data-location="Lake Isabelle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_2/public" alt="Lake Isabelle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_3/public" data-location="Lake Isabelle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_3/public" alt="Lake Isabelle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_4/public" data-location="Lake Isabelle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_4/public" alt="Lake Isabelle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_5/public" data-location="Lake Isabelle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_5/public" alt="Lake Isabelle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_6/public" data-location="Lake Isabelle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_lake_isabelle_6/public" alt="Lake Isabelle"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tanr%C4%B1lar%C4%B1n+Bah%C3%A7esi/@38.8717933,-104.8861757,17z/data=!3m1!4b1!4m6!3m5!1s0x87135012b5cc9c93:0x4e9df5263bf6dab!8m2!3d38.8717933!4d-104.8861757!16zL20vMDF5Z2Ni?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Garden of the Gods 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_1/public" data-location="Garden of the Gods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_1/public" alt="Garden of the Gods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_2/public" data-location="Garden of the Gods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_2/public" alt="Garden of the Gods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_3/public" data-location="Garden of the Gods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_3/public" alt="Garden of the Gods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_4/public" data-location="Garden of the Gods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_4/public" alt="Garden of the Gods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_5/public" data-location="Garden of the Gods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_5/public" alt="Garden of the Gods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_6/public" data-location="Garden of the Gods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_garden_of_the_gods_6/public" alt="Garden of the Gods"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gunnison'un+Black+Kanyonu+Ulusal+Park%C4%B1/@38.5748599,-107.7351729,13z/data=!3m1!4b1!4m6!3m5!1s0x873f5efc49376af1:0x3f31d692b3ad8bbc!8m2!3d38.5753936!4d-107.7415961!16zL20vMDF3a2p3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Black Canyon North Rim 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_1/public" data-location="Black Canyon North Rim"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_1/public" alt="Black Canyon North Rim"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_2/public" data-location="Black Canyon North Rim"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_2/public" alt="Black Canyon North Rim"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_3/public" data-location="Black Canyon North Rim"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_3/public" alt="Black Canyon North Rim"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_4/public" data-location="Black Canyon North Rim"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_4/public" alt="Black Canyon North Rim"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_5/public" data-location="Black Canyon North Rim"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_5/public" alt="Black Canyon North Rim"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_6/public" data-location="Black Canyon North Rim"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_black_canyon_north_rim_6/public" alt="Black Canyon North Rim"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pikes+Peak/@38.8408702,-105.0422595,15z/data=!3m1!4b1!4m6!3m5!1s0x8714a806033005bd:0xa67b8c79d6580c1e!8m2!3d38.8408707!4d-105.0422595!16zL20vMDFmd216?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pikes Peak 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_1/public" data-location="Pikes Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_1/public" alt="Pikes Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_2/public" data-location="Pikes Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_2/public" alt="Pikes Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_3/public" data-location="Pikes Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_3/public" alt="Pikes Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_4/public" data-location="Pikes Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_4/public" alt="Pikes Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_5/public" data-location="Pikes Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_5/public" alt="Pikes Peak"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_6/public" data-location="Pikes Peak"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_pikes_peak_6/public" alt="Pikes Peak"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Chautauqua+Park/@39.9991996,-105.2814996,17z/data=!3m1!4b1!4m6!3m5!1s0x876bec4712c4dfc1:0x761597124a9e2eab!8m2!3d39.9991996!4d-105.2814996!16zL20vMGJqZDk2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Chautauqua Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_1/public" data-location="Chautauqua Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_1/public" alt="Chautauqua Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_2/public" data-location="Chautauqua Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_2/public" alt="Chautauqua Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_3/public" data-location="Chautauqua Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_3/public" alt="Chautauqua Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_4/public" data-location="Chautauqua Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_4/public" alt="Chautauqua Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_5/public" data-location="Chautauqua Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_5/public" alt="Chautauqua Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_6/public" data-location="Chautauqua Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_chautauqua_park_6/public" alt="Chautauqua Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Castlewood+Canyon+State+Park/@39.3336344,-104.7401173,17z/data=!3m1!4b1!4m6!3m5!1s0x876cbe70782828f5:0x7b83e016f4ee4c57!8m2!3d39.3336344!4d-104.7401173!16s%2Fm%2F02vrs6x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Castlewood Canyon State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_1/public" data-location="Castlewood Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_1/public" alt="Castlewood Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_2/public" data-location="Castlewood Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_2/public" alt="Castlewood Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_3/public" data-location="Castlewood Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_3/public" alt="Castlewood Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_4/public" data-location="Castlewood Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_4/public" alt="Castlewood Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_5/public" data-location="Castlewood Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_5/public" alt="Castlewood Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_6/public" data-location="Castlewood Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_castlewood_canyon_state_park_6/public" alt="Castlewood Canyon State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Golden+Gate+Canyon+State+Park/@39.8414296,-105.4197987,17z/data=!3m1!4b1!4m9!3m8!1s0x876bbfa961fc9d69:0x539a6b8673b1b84!5m2!4m1!1i2!8m2!3d39.8414296!4d-105.4197987!16s%2Fm%2F06zl1mr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Golden Gate Canyon State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_1/public" data-location="Golden Gate Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_1/public" alt="Golden Gate Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_2/public" data-location="Golden Gate Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_2/public" alt="Golden Gate Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_3/public" data-location="Golden Gate Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_3/public" alt="Golden Gate Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_4/public" data-location="Golden Gate Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_4/public" alt="Golden Gate Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_5/public" data-location="Golden Gate Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_5/public" alt="Golden Gate Canyon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_6/public" data-location="Golden Gate Canyon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_golden_gate_canyon_state_park_6/public" alt="Golden Gate Canyon State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Roxborough+State+Park/@39.429625,-105.0691276,17z/data=!3m1!4b1!4m6!3m5!1s0x876b624459ddc8a1:0xe5c1072f59bc2b96!8m2!3d39.429625!4d-105.0691276!16zL20vMDVfcXBz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Roxborough State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_1/public" data-location="Roxborough State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_1/public" alt="Roxborough State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_2/public" data-location="Roxborough State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_2/public" alt="Roxborough State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_3/public" data-location="Roxborough State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_3/public" alt="Roxborough State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_4/public" data-location="Roxborough State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_4/public" alt="Roxborough State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_5/public" data-location="Roxborough State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_5/public" alt="Roxborough State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_6/public" data-location="Roxborough State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_roxborough_state_park_6/public" alt="Roxborough State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Box+Ca%C3%B1on+Falls+Park/@38.0181918,-107.6776344,17z/data=!3m1!4b1!4m6!3m5!1s0x873f21d6c92b1c4d:0x9ed63b409cda5c1c!8m2!3d38.0181918!4d-107.6776344!16s%2Fg%2F1tdkh3lj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Box Canyon Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_1/public" data-location="Box Canyon Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_1/public" alt="Box Canyon Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_2/public" data-location="Box Canyon Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_2/public" alt="Box Canyon Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_3/public" data-location="Box Canyon Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_3/public" alt="Box Canyon Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_4/public" data-location="Box Canyon Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_4/public" alt="Box Canyon Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_5/public" data-location="Box Canyon Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_5/public" alt="Box Canyon Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_6/public" data-location="Box Canyon Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_box_canyon_falls_6/public" alt="Box Canyon Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Emerald+Lake/@40.309739,-105.6683178,17z/data=!3m1!4b1!4m6!3m5!1s0x87697bc1afee98d1:0x5830177297a1ce5a!8m2!3d40.309934!4d-105.668747!16s%2Fm%2F0dk11lh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Emerald Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_1/public" data-location="Emerald Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_1/public" alt="Emerald Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_2/public" data-location="Emerald Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_2/public" alt="Emerald Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_3/public" data-location="Emerald Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_3/public" alt="Emerald Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_4/public" data-location="Emerald Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_4/public" alt="Emerald Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_5/public" data-location="Emerald Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_5/public" alt="Emerald Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_6/public" data-location="Emerald Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_emerald_lake_6/public" alt="Emerald Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fish+Creek+Falls/@40.4816436,-106.7711591,15z/data=!3m1!4b1!4m6!3m5!1s0x87426ef8af7d1fd3:0x38a0910ef40990dc!8m2!3d40.4816442!4d-106.7711591!16s%2Fm%2F03mht9v?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fish Creek Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_1/public" data-location="Fish Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_1/public" alt="Fish Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_2/public" data-location="Fish Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_2/public" alt="Fish Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_3/public" data-location="Fish Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_3/public" alt="Fish Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_4/public" data-location="Fish Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_4/public" alt="Fish Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_5/public" data-location="Fish Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_5/public" alt="Fish Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_6/public" data-location="Fish Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_fish_creek_falls_6/public" alt="Fish Creek Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Curecanti+National+Recreation+Area/@38.4659112,-107.1667169,17z/data=!3m1!4b1!4m6!3m5!1s0x873f765df427880f:0x1ae1cbbbea661c3f!8m2!3d38.4659112!4d-107.1667169!16zL20vMDY3cjVm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Curecanti 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_1/public" data-location="Curecanti"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_1/public" alt="Curecanti"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_2/public" data-location="Curecanti"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_2/public" alt="Curecanti"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_3/public" data-location="Curecanti"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_3/public" alt="Curecanti"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_4/public" data-location="Curecanti"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_4/public" alt="Curecanti"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_5/public" data-location="Curecanti"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_5/public" alt="Curecanti"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_6/public" data-location="Curecanti"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_curecanti_6/public" alt="Curecanti"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cliff+Palace/@37.1668761,-108.4737257,17z/data=!3m1!4b1!4m6!3m5!1s0x873bdf9e437bfabf:0x984d8ade24aab01a!8m2!3d37.1668761!4d-108.4737257!16zL20vMDJ0Mmd5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cliff Palace 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_1/public" data-location="Cliff Palace"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_1/public" alt="Cliff Palace"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_2/public" data-location="Cliff Palace"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_2/public" alt="Cliff Palace"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_3/public" data-location="Cliff Palace"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_3/public" alt="Cliff Palace"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_4/public" data-location="Cliff Palace"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_4/public" alt="Cliff Palace"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_5/public" data-location="Cliff Palace"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_5/public" alt="Cliff Palace"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_6/public" data-location="Cliff Palace"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_cliff_palace_6/public" alt="Cliff Palace"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/John+Denver+Sanctuary/@39.192331,-106.816678,16z/data=!3m1!4b1!4m6!3m5!1s0x87403bd648e2bc41:0x90aa9694c2229d1e!8m2!3d39.192331!4d-106.816678!16s%2Fg%2F11b8tx9rx9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>John Denver Sanctuary 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_1/public" data-location="John Denver Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_1/public" alt="John Denver Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_2/public" data-location="John Denver Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_2/public" alt="John Denver Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_3/public" data-location="John Denver Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_3/public" alt="John Denver Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_4/public" data-location="John Denver Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_4/public" alt="John Denver Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_5/public" data-location="John Denver Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_5/public" alt="John Denver Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_6/public" data-location="John Denver Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_john_denver_sanctuary_6/public" alt="John Denver Sanctuary"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bent's+Old+Fort+National+Historic+Site/@38.0404024,-103.4295755,17z/data=!3m1!4b1!4m6!3m5!1s0x870dfa0a20fd70bb:0x62bf7e3a41ee776e!8m2!3d38.0404024!4d-103.4295755!16zL20vMDZneW40?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bent’s Old Fort NHS 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_1/public" data-location="Bent’s Old Fort NHS"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_1/public" alt="Bent’s Old Fort NHS"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_2/public" data-location="Bent’s Old Fort NHS"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_2/public" alt="Bent’s Old Fort NHS"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_3/public" data-location="Bent’s Old Fort NHS"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_3/public" alt="Bent’s Old Fort NHS"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_4/public" data-location="Bent’s Old Fort NHS"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_4/public" alt="Bent’s Old Fort NHS"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_5/public" data-location="Bent’s Old Fort NHS"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_5/public" alt="Bent’s Old Fort NHS"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_6/public" data-location="Bent’s Old Fort NHS"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/colorado_bents_old_fort_nhs_6/public" alt="Bent’s Old Fort NHS"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
