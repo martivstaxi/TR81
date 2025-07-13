@@ -1,468 +1,359 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Şehir</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title id="page-title">Şehir</title>
 
-  <!-- GOOGLE FONT -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<!-- Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
-  <!--  TÜM STİLLER  -->
-  <style>
-    /*  ------------------ GENEL ------------------ */
-    :root{
-      --primary:#3b82f6;--primary-dark:#1d4ed8;--accent:#f97316;
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:'Inter',sans-serif;
-      background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
-      color:#334155;line-height:1.6;padding:12px;min-height:100vh;
-      overflow-y:auto;padding-bottom:100px;
-    }
-    a{text-decoration:none}
+<style>
+/* ---------- TEMEL ---------- */
+:root{--primary:#3b82f6;--primary-dark:#1d4ed8;--accent:#f97316}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
+     color:#334155;line-height:1.6;min-height:100vh;padding:12px 12px 100px}
+a{text-decoration:none}
 
-    /*  ------------------ LOGO ------------------ */
-    .logo{position:fixed;top:16px;left:16px;width:50px;height:50px;
-      display:flex;align-items:center;justify-content:center;
-      background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
-      border-radius:50%;font-size:26px;color:#1e293b;z-index:100;
-      box-shadow:0 6px 24px rgba(0,0,0,.1);transition:.3s}
-    .logo:hover{transform:scale(1.1) rotate(10deg);
-      box-shadow:0 8px 32px rgba(0,0,0,.15)}
-
-    /*  ------------------ BAŞLIK ------------------ */
-    h1{margin:70px 0 40px;text-align:center;font-weight:700;
-      font-size:clamp(24px,5vw,38px)}
-    .gradient-text{
-      background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .camera-emoji{margin-right:8px}
-
-    /*  ------------------ ŞEHİR BÖLÜMÜ ------------------ */
-    .city-section{margin:0 auto 36px;max-width:1000px;overflow:hidden;
-      background:rgba(255,255,255,.95);backdrop-filter:blur(20px);
-      border-radius:20px;box-shadow:0 6px 24px rgba(0,0,0,.08);
-      transition:.3s;border:1px solid rgba(255,255,255,.2)}
-    .city-section:hover{transform:translateY(-3px);
-      box-shadow:0 12px 40px rgba(0,0,0,.12)}
-    .city-header{padding:18px 22px 12px}
-    .city-title{font-size:clamp(16px,3.5vw,20px);color:#1e293b;font-weight:700}
-    .city-photos{display:flex;gap:16px;overflow-x:auto;
-      padding:12px 22px 22px;scroll-snap-type:x mandatory}
-    .city-photos::-webkit-scrollbar{display:none}
-
-    /*  foto kartı  */
-    .photo-card{flex:0 0 auto;width:260px;height:260px;
-      border-radius:14px;overflow:hidden;cursor:pointer;
-      box-shadow:0 6px 20px rgba(0,0,0,.12);scroll-snap-align:start;
-      transition:.4s cubic-bezier(.4,0,.2,1)}
-    .photo-card:hover{transform:scale(1.05) translateY(-6px);
-      box-shadow:0 16px 32px rgba(0,0,0,.2)}
-    .photo-card img{width:100%;height:100%;object-fit:cover;
-      transition:transform .4s}
-    .photo-card:hover img{transform:scale(1.1)}
-
-    /*  maps linki  */
-    .location-link{display:inline-flex;align-items:center;gap:6px;
-      padding:10px 16px;border-radius:25px;font-weight:600;
-      font-size:clamp(13px,2.5vw,16px);color:var(--primary);
-      background:linear-gradient(135deg,rgba(59,130,246,.1),
-      rgba(139,92,246,.1));border:2px solid transparent;
+/* ---------- LOGO ---------- */
+.logo{position:fixed;top:16px;left:16px;width:50px;height:50px;border-radius:50%;font-size:26px;
+      display:flex;align-items:center;justify-content:center;color:#1e293b;cursor:pointer;z-index:100;
+      background:rgba(255,255,255,.9);backdrop-filter:blur(10px);box-shadow:0 6px 24px rgba(0,0,0,.1);
       transition:.3s}
-    .location-link:hover{transform:translateY(-2px);
-      background:linear-gradient(135deg,rgba(59,130,246,.2),
-      rgba(139,92,246,.2));color:#1e293b;border-color:rgba(59,130,246,.3);
-      box-shadow:0 6px 20px rgba(59,130,246,.25)}
-    .click-icon::before{content:"➤";font-size:10px;color:var(--accent)}
+.logo:hover{transform:scale(1.1) rotate(10deg);box-shadow:0 8px 32px rgba(0,0,0,.15)}
 
-    /* -------- MODAL -------- */
-    .photo-modal{position:fixed;inset:0;display:none;justify-content:center;
-      align-items:center;padding:20px;background:rgba(0,0,0,.95);
-      backdrop-filter:blur(10px);z-index:3000;opacity:0;
-      transition:opacity .3s ease-out}
-    .photo-modal.show{opacity:1}
-    .modal-content{max-width:90vw;max-height:90vh;transform:scale(.8);
-      transition:transform .3s ease-out;position:relative}
-    .photo-modal.show .modal-content{transform:scale(1)}
-    .modal-image{max-width:100%;max-height:100%;
-      border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-    .modal-close{position:absolute;top:-50px;right:-10px;width:40px;height:40px;
-      display:flex;align-items:center;justify-content:center;border:none;
-      border-radius:50%;cursor:pointer;font-size:20px;
-      background:rgba(255,255,255,.9);color:#1e293b;
-      backdrop-filter:blur(10px);transition:.3s;z-index:3001}
-    .modal-close:hover{transform:scale(1.1);
-      box-shadow:0 4px 15px rgba(0,0,0,.2)}
-    .modal-info{position:absolute;bottom:-60px;left:50%;
-      transform:translateX(-50%);background:rgba(255,255,255,.9);
-      padding:8px 16px;border-radius:20px;font-size:14px;font-weight:600}
+/* ---------- BAŞLIK ---------- */
+h1{margin:70px 0 40px;text-align:center;font-size:clamp(24px,5vw,38px);font-weight:700}
+.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+               -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.camera-emoji{margin-right:8px}
 
-    /* ---- PROMOSYON ---- */
-    .promotion-section{margin:36px auto;max-width:1000px;text-align:center;
-      background:linear-gradient(135deg,#fff7ed 0%,#fde68a 100%);
-      border:2px solid #fbbf24;border-radius:20px;padding:24px;
-      color:#92400e;box-shadow:0 8px 32px rgba(251,191,36,.2)}
-    .purchase-btn,.instagram-btn{display:inline-block;font-weight:700;
-      padding:12px 24px;border-radius:25px;color:#fff!important;
-      transition:.4s cubic-bezier(.4,0,.2,1);box-shadow:0 6px 24px
-      rgba(225,48,108,.4)}
-    .purchase-btn{background:linear-gradient(135deg,#ffd700,#ff8c00);
-      max-width:320px;width:100%}
-    .purchase-btn:hover{transform:translateY(-3px);
-      background:linear-gradient(135deg,#ff8c00,#ffd700);
-      box-shadow:0 15px 45px rgba(255,215,0,.6)}
-    .instagram-btn{background:linear-gradient(135deg,#405de6 0%,#fd1d1d 100%);
-      margin:12px 0}
-    .instagram-btn:hover{transform:translateY(-3px);
-      background:linear-gradient(135deg,#fd1d1d 0%,#405de6 100%);
-      box-shadow:0 15px 45px rgba(225,48,108,.6)}
-    .promo-text{margin:16px 0;font-size:clamp(17px,3vw,22px);
-      line-height:1.6}
+/* ---------- ŞEHİR BÖLÜMÜ ---------- */
+.city-section{margin:0 auto 36px;max-width:1000px;border-radius:20px;overflow:hidden;
+              background:rgba(255,255,255,.95);backdrop-filter:blur(20px);
+              border:1px solid rgba(255,255,255,.2);box-shadow:0 6px 24px rgba(0,0,0,.08);
+              transition:.3s}
+.city-section:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.12)}
+.city-header{padding:18px 22px 12px}
+.city-title{font-size:clamp(16px,3.5vw,20px);font-weight:700;color:#1e293b}
+.city-photos{display:flex;gap:16px;overflow-x:auto;padding:12px 22px 22px;
+             scroll-snap-type:x mandatory}.city-photos::-webkit-scrollbar{display:none}
+.photo-card{flex:0 0 auto;width:260px;height:260px;border-radius:14px;cursor:pointer;
+            box-shadow:0 6px 20px rgba(0,0,0,.12);scroll-snap-align:start;
+            transition:.4s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.photo-card:hover{transform:scale(1.05) translateY(-6px);box-shadow:0 16px 32px rgba(0,0,0,.2)}
+.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.photo-card:hover img{transform:scale(1.1)}
+.location-link{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:25px;
+               font-size:clamp(13px,2.5vw,16px);font-weight:600;color:var(--primary);
+               background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(139,92,246,.1));
+               transition:.3s;border:2px solid transparent}
+.location-link:hover{transform:translateY(-2px);color:#1e293b;
+                     background:linear-gradient(135deg,rgba(59,130,246,.2),rgba(139,92,246,.2));
+                     border-color:rgba(59,130,246,.3);box-shadow:0 6px 20px rgba(59,130,246,.25)}
+.click-icon::before{content:"➤";font-size:10px;color:var(--accent)}
 
-    /* ---- EDIT PANEL ---- */
-    .edit-btn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;
-      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-      color:#fff;border-radius:50%;font-size:24px;cursor:pointer;z-index:1500;
-      box-shadow:0 6px 20px rgba(59,130,246,.4);transition:.3s}
-    .edit-btn:hover{transform:scale(1.1);
-      background:linear-gradient(135deg,var(--primary-dark),#1e40af)}
+/* ---------- MODAL ---------- */
+.photo-modal{position:fixed;inset:0;display:none;justify-content:center;align-items:center;
+             padding:20px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:3000;
+             opacity:0;transition:opacity .3s ease-out}
+.photo-modal.show{opacity:1}
+.modal-content{max-width:90vw;max-height:90vh;transform:scale(.8);transition:transform .3s ease-out;
+              position:relative}
+.photo-modal.show .modal-content{transform:scale(1)}
+.modal-image{max-width:100%;max-height:100%;border-radius:12px;
+             box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal-close{position:absolute;top:-50px;right:-10px;width:40px;height:40px;border:none;
+             border-radius:50%;display:flex;align-items:center;justify-content:center;
+             cursor:pointer;font-size:20px;background:rgba(255,255,255,.9);color:#1e293b;
+             backdrop-filter:blur(10px);transition:.3s;z-index:1}
+.modal-close:hover{transform:scale(1.1);box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.modal-info{position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
+            background:rgba(255,255,255,.9);padding:8px 16px;border-radius:20px;font-size:14px;font-weight:600}
 
-    .edit-panel{position:fixed;top:20px;right:20px;width:400px;max-height:80vh;
-      background:rgba(255,255,255,.98);backdrop-filter:blur(15px);
-      border:2px solid #e2e8f0;border-radius:12px;padding:20px;overflow:auto;
-      box-shadow:0 10px 40px rgba(0,0,0,.15);z-index:2000;display:none}
-    .edit-panel h3{margin:0 0 15px;text-align:center;font-size:18px;
-      font-weight:700;color:#1e293b;border-bottom:2px solid var(--primary);
-      padding-bottom:10px}
+/* ---------- PROMOSYON ---------- */
+.promotion-section{margin:36px auto;max-width:1000px;text-align:center;padding:24px;
+                   border-radius:20px;border:2px solid #fbbf24;
+                   background:linear-gradient(135deg,#fff7ed 0%,#fde68a 100%);
+                   box-shadow:0 8px 32px rgba(251,191,36,.2);color:#92400e}
+.promo-text{margin:16px 0;font-size:clamp(17px,3vw,22px);line-height:1.6}
+.btn{display:inline-block;font-weight:700;padding:12px 24px;border-radius:25px;color:#fff!important;
+     transition:.3s;box-shadow:0 6px 24px rgba(0,0,0,.2)}
+.purchase-btn{background:linear-gradient(135deg,#ffd700,#ff8c00);max-width:320px;width:100%}
+.purchase-btn:hover{transform:translateY(-3px);background:linear-gradient(135deg,#ff8c00,#ffd700);
+                    box-shadow:0 15px 45px rgba(255,215,0,.6)}
+.instagram-btn{background:linear-gradient(135deg,#405de6 0%,#fd1d1d 100%);margin:12px 0}
+.instagram-btn:hover{transform:translateY(-3px);background:linear-gradient(135deg,#fd1d1d 0%,#405de6 100%);
+                     box-shadow:0 15px 45px rgba(225,48,108,.6)}
 
-    /* dosya seçici */
-    .file-input{display:none}
-    .file-label{display:inline-block;width:100%;padding:12px 20px;
-      background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;
-      border-radius:8px;cursor:pointer;font-weight:600;text-align:center;
-      transition:.3s}
-    .file-label:hover{transform:translateY(-2px);
-      background:linear-gradient(135deg,#4f46e5,#4338ca);
-      box-shadow:0 4px 12px rgba(99,102,241,.4)}
-    .file-info{margin-top:10px;font-size:12px;color:#64748b;text-align:center}
+/* ---------- EDIT BUTON & PANEL ---------- */
+.edit-btn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;z-index:1500;
+          background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:24px;
+          display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;
+          box-shadow:0 6px 20px rgba(59,130,246,.4)}
+.edit-btn:hover{transform:scale(1.1);background:linear-gradient(135deg,var(--primary-dark),#1e40af)}
+.edit-panel{position:fixed;top:20px;right:20px;width:400px;max-height:80vh;overflow:auto;z-index:2000;
+            background:rgba(255,255,255,.98);backdrop-filter:blur(15px);border:2px solid #e2e8f0;
+            border-radius:12px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.15);display:none}
+.edit-panel.open{display:block}
+.edit-panel h3{margin:0 0 15px;text-align:center;font-size:18px;font-weight:700;color:#1e293b;
+               border-bottom:2px solid var(--primary);padding-bottom:10px}
+.file-label,.panel-btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;color:#fff;
+                       cursor:pointer;transition:.3s}
+.file-label{background:linear-gradient(135deg,#6366f1,#4f46e5);margin-bottom:10px;text-align:center}
+.file-label:hover{background:linear-gradient(135deg,#4f46e5,#4338ca);transform:translateY(-2px)}
+.process-btn{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.export-btn{background:linear-gradient(135deg,#10b981,#047857)}
+.clear-btn{background:linear-gradient(135deg,#ef4444,#dc2626);margin-bottom:4px}
+.close-btn{background:#64748b}
+.file-info{margin-top:8px;font-size:12px;color:#64748b;text-align:center}
+.info-box{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid #0ea5e9;border-radius:8px;
+          padding:15px;font-size:12px;line-height:1.5;margin-bottom:15px}
 
-    .process-btn,.export-btn,.clear-btn,.close-btn{
-      width:100%;padding:12px;border:none;border-radius:8px;cursor:pointer;
-      font-weight:600;margin:8px 0;color:#fff;transition:.3s}
-    .process-btn{background:linear-gradient(135deg,var(--primary),
-      var(--primary-dark))}
-    .export-btn{background:linear-gradient(135deg,#10b981,#047857)}
-    .clear-btn{background:linear-gradient(135deg,#ef4444,#dc2626)}
-    .close-btn{background:#64748b}
-
-    /* küçük ekran düzenlemeleri */
-    @media(max-width:768px){
-      body{padding:8px 8px 80px}
-      .logo{top:12px;left:12px;font-size:20px;width:40px;height:40px}
-      h1{margin:50px 0 24px}
-      .city-section{margin-bottom:24px;border-radius:16px}
-      .city-photos{padding:8px 16px 16px;gap:12px}
-      .photo-card{width:180px;height:180px}
-      .edit-panel{left:10px;right:10px;top:10px;width:auto;max-height:70vh}
-      .edit-btn{width:55px;height:55px;font-size:20px}
-    }
-  </style>
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:768px){
+  body{padding:8px 8px 80px}
+  .logo{top:12px;left:12px;font-size:20px;width:40px;height:40px}
+  h1{margin:50px 0 24px}
+  .city-section{margin-bottom:24px}
+  .city-photos{padding:8px 16px 16px;gap:12px}
+  .photo-card{width:180px;height:180px}
+  .edit-panel{left:10px;right:10px;top:10px;width:auto;max-height:70vh}
+  .edit-btn{width:55px;height:55px;font-size:20px}
+}
+/* touch target */
+@media(hover:none) and (pointer:coarse){
+  .modal-close{min-width:44px;min-height:44px}
+}
+</style>
 </head>
 <body>
-  <!-- sabit logo -->
-  <a href="https://tr81.tr/login.html" class="logo"
-     onclick="window.open(this.href,'_blank');return false;">🌐</a>
 
-  <!-- başlık -->
-  <h1 id="city-header">
-    <span class="camera-emoji">📸</span>
-    <span class="gradient-text" id="city-name">Demo Şehir</span>
-  </h1>
+<!-- LOGO -->
+<a href="https://tr81.tr/login.html" class="logo"
+   onclick="window.open(this.href,'_blank');return false;">🌐</a>
 
-  <!-- konumlar -->
-  <div id="locations-container">
-    <!-- Demo içerik başlangıçta -->
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="https://maps.google.com/?q=Demo+Konum"
-             target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>Demo Konum 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-        <div class="photo-card" data-photo="https://picsum.photos/380/380?random=1"
-             data-location="Demo Konum">
-          <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
-        </div>
-        <div class="photo-card" data-photo="https://picsum.photos/380/380?random=2"
-             data-location="Demo Konum">
-          <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
-        </div>
-        <div class="photo-card" data-photo="https://picsum.photos/380/380?random=3"
-             data-location="Demo Konum">
-          <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- BAŞLIK -->
+<h1><span class="camera-emoji">📸</span><span class="gradient-text"
+    id="city-name">Demo Şehir</span></h1>
 
-  <!-- promosyon -->
-  <div class="promotion-section">
-    <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">
-      🏠 Main Menu
-    </a>
-    <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
-    <a href="https://www.instagram.com/tr81.tr/" target="_blank"
-       class="instagram-btn" id="instagramBtn">
-      📩Bir tıkla bize ulaşın: @tr81.tr
-    </a>
-  </div>
-
-  <!-- edit panel aç/kapat butonu -->
-  <button class="edit-btn" onclick="toggleEditPanel()" title="Editörü Aç">✎</button>
-
-  <!-- edit panel -->
-  <div class="edit-panel" id="editPanel">
-    <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
-
-    <div class="info-box" style="background:linear-gradient(135deg,#f0f9ff,#e0f2fe);
-         border:1px solid #0ea5e9;border-radius:8px;padding:15px;font-size:12px;">
-      <strong>📋 CSV Dosya Formatı</strong>
-      <ul style="margin:5px 0 0 20px;padding:0">
-        <li>A1: <b>Şehir Adı</b></li>
-        <li>A2: Konum Adı | B2: Maps Linki | C2‑H2: 6 Foto Linki</li>
-        <li>A3: Konum Adı | B3: Maps Linki | C3‑H3: 6 Foto Linki</li>
-        <li>… ve aynı şekilde devam eder</li>
-      </ul>
-    </div>
-
-    <input type="file" id="csvFile" accept=".csv" class="file-input"
-           onchange="handleFileSelect(event)">
-    <label for="csvFile" class="file-label">📂 CSV Dosyası Seç</label>
-    <div class="file-info" id="fileInfo"></div>
-
-    <button class="process-btn" onclick="processCSVFile()">🔄 CSV Verilerini İşle</button>
-    <button class="export-btn"  onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
-    <button class="clear-btn"   onclick="clearCityData()">🗑️ Verileri Temizle</button>
-    <button class="close-btn"   onclick="toggleEditPanel()">❌ Paneli Kapat</button>
-  </div>
-
-  <!-- fotoğraf modal -->
-  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
-      <img class="modal-image" id="modalImage" src="" alt="">
-      <div class="modal-info" id="modalInfo">Konum Adı</div>
-    </div>
-  </div>
-
-  <!-- PapaParse -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
-  <!--  UYGULAMA KODU  -->
-  <script>
-    /* ------------------ DİL ÇEVİRİSİ ------------------ */
-    const translations={
-      tr:{loginBtn:'🏠 Ana Menü',questionsText:'Sorularınız için → Bize ulaşın!',
-          instagramBtn:'📩Bir tıkla bize ulaşın: @tr81.tr'},
-      en:{loginBtn:'🏠 Main Menu',questionsText:'Questions? → Contact us!',
-          instagramBtn:'📩Contact us with one click: @tr81.tr'},
-      /* … diğer diller (kırpıldı, tam listede bırakılabilir) */
-    };
-    function detectLanguage(){
-      const saved=sessionStorage.getItem('preferred-language');
-      if(saved&&translations[saved])return saved;
-      const lang=(navigator.language||navigator.userLanguage).toLowerCase();
-      if(lang.startsWith('tr'))return'tr';
-      for(const l in translations)if(lang.startsWith(l))return l;
-      return'en';
-    }
-    function updateLanguageUI(lang){
-      const t=translations[lang]||translations.en;
-      ['loginBtn','questionsText','instagramBtn']
-        .forEach(id=>{const el=document.getElementById(id);
-          if(el) (id==='loginBtn'||id==='instagramBtn')?
-            el.innerHTML=t[id]:el.textContent=t[id];});
-      document.documentElement.lang=lang;
-      sessionStorage.setItem('preferred-language',lang);
-    }
-
-    /* ------------------ VERİ ------------------ */
-    let cityData={
-      cityName:'Demo Şehir',
-      locations:[{name:'Demo Konum',link:'https://maps.google.com/?q=Demo+Konum',
-          photos:['https://picsum.photos/380/380?random=1',
-                  'https://picsum.photos/380/380?random=2',
-                  'https://picsum.photos/380/380?random=3']}]
-    };
-    let selectedFile=null;
-
-    /* ------------------ DOSYA SEÇ ------------------ */
-    function handleFileSelect(e){
-      selectedFile=e.target.files[0];
-      document.getElementById('fileInfo').textContent=
-        selectedFile?'✅ Seçilen dosya: '+selectedFile.name:'';
-    }
-
-    /* ------------------ CSV İŞLE ------------------ */
-    function processCSVFile(){
-      if(!selectedFile){alert('Lütfen bir CSV dosyası seçin!');return;}
-      const reader=new FileReader();
-      reader.onload=e=>{
-        try{
-          const csv=e.target.result;
-          const parsed=Papa.parse(csv,{skipEmptyLines:true});
-          if(parsed.data.length<2){
-            alert('CSV en az iki satır içermeli!');return;}
-          const cityName=parsed.data[0][0]?.trim();
-          if(!cityName){alert('A1 hücresinde şehir adı bulunamadı!');return;}
-          const locations=[];
-          for(let i=1;i<parsed.data.length;i++){
-            const row=parsed.data[i];
-            if(row.length<2)continue;
-            const name=row[0].trim(),link=row[1].trim();
-            if(!name||!link)continue;
-            const photos=row.slice(2,8).filter(p=>p&&/^https?:\/\//.test(p.trim()))
-                                         .map(p=>p.trim());
-            locations.push({name,link,photos});
-          }
-          if(!locations.length){
-            alert('Konum verisi bulunamadı!');return;}
-          cityData={cityName,locations};
-          updatePageTitle();renderLocations();
-          // ekranda uyarı göstermiyoruz → console
-          console.log(`✔ ${locations.length} konum yüklendi.`);
-          // panel temizliği
-          document.getElementById('csvFile').value='';
-          document.getElementById('fileInfo').textContent='';
-          selectedFile=null;
-        }catch(err){
-          console.error(err);alert('CSV işlenirken hata oluştu.');}
-      };
-      reader.onerror=()=>alert('Dosya okunamadı!');
-      reader.readAsText(selectedFile,'UTF-8');
-    }
-
-    /* ------------------ SAYFA GÜNCELLE ------------------ */
-    function renderLocations(){
-      const container=document.getElementById('locations-container');
-      container.innerHTML='';
-      cityData.locations.forEach(loc=>{
-        const section=document.createElement('div');
-        section.className='city-section';
-        const photosHTML=loc.photos.map(p=>
-          `<div class="photo-card" data-photo="${p}" data-location="${loc.name}">
-            <img src="${p}" alt="${loc.name}">
-          </div>`).join('');
-        section.innerHTML=
-          `<div class="city-header"><h2 class="city-title">
-            <a href="${loc.link}" target="_blank" rel="noopener noreferrer"
-               class="location-link"><span class="click-icon"></span>
-               ${loc.name} 📍</a></h2></div>
-           <div class="city-photos">${photosHTML}</div>`;
-        container.appendChild(section);
-      });
-    }
-    function updatePageTitle(){
-      document.getElementById('city-name').textContent=cityData.cityName;
-      document.getElementById('page-title').textContent=cityData.cityName;
-    }
-    function clearCityData(){
-      if(!confirm('Tüm verileri temizlemek istediğinizden emin misiniz?'))return;
-      cityData={cityName:'Demo Şehir',locations:[{name:'Demo Konum',
-        link:'https://maps.google.com/?q=Demo+Konum',
-        photos:['https://picsum.photos/380/380?random=1',
-                'https://picsum.photos/380/380?random=2',
-                'https://picsum.photos/380/380?random=3']}]};
-      updatePageTitle();renderLocations();
-      document.getElementById('fileInfo').textContent='';
-      document.getElementById('csvFile').value='';
-      selectedFile=null;
-    }
-
-    /* ------------------ MODAL ------------------ */
-    function openPhotoModal(src,loc){
-      const modal=document.getElementById('photoModal');
-      document.getElementById('modalImage').src=src;
-      document.getElementById('modalInfo').textContent=loc;
-      modal.style.display='flex';document.body.style.overflow='hidden';
-      setTimeout(()=>modal.classList.add('show'),10);
-    }
-    function closePhotoModal(){
-      const modal=document.getElementById('photoModal');
-      modal.classList.remove('show');
-      setTimeout(()=>{modal.style.display='none';
-        document.body.style.overflow='auto';},300);
-    }
-    document.addEventListener('keydown',e=>{
-      if(e.key==='Escape')closePhotoModal();
-    });
-    document.addEventListener('click',e=>{
-      const card=e.target.closest('.photo-card');
-      if(card){
-        const img=card.querySelector('img');
-        openPhotoModal(img.src,img.alt);
-      }
-    });
-
-    /* ------------------ PANEL ------------------ */
-    function toggleEditPanel(){
-      const panel=document.getElementById('editPanel');
-      panel.style.display=panel.style.display==='block'?'none':'block';
-    }
-
-    /* ------------------ HTML EXPORT ------------------ */
-    function exportHTML(){
-      if(!cityData.locations.length){alert('Önce konum ekleyin!');return;}
-      const styleContent=document.querySelector('style').innerHTML;
-      const modalHTML=document.querySelector('.photo-modal').outerHTML;
-      const promoHTML=document.querySelector('.promotion-section').outerHTML;
-      const locHTML=cityData.locations.map(loc=>{
-        const ph=loc.photos.map(p=>
-`        <div class="photo-card" data-photo="${p}" data-location="${loc.name}">
-          <img src="${p}" alt="${loc.name}">
-        </div>`).join('\n');
-        return`
-    <div class="city-section">
-      <div class="city-header">
-        <h2 class="city-title">
-          <a href="${loc.link}" target="_blank" rel="noopener noreferrer" class="location-link">
-            <span class="click-icon"></span>${loc.name} 📍
-          </a>
-        </h2>
-      </div>
-      <div class="city-photos">
-${ph}
-      </div>
-    </div>`;}).join('\n');
-      const full=`<!DOCTYPE html>
-<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>${cityData.cityName}</title><style>${styleContent}</style></head><body>
-<a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href,'_blank');return false;">🌐</a>
-<h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
+<!-- KONUM CONTAINER -->
 <div id="locations-container">
-${locHTML}
+  <div class="city-section">
+    <div class="city-header">
+      <h2 class="city-title">
+        <a href="https://maps.google.com/?q=Demo+Konum" target="_blank"
+           rel="noopener noreferrer" class="location-link">
+          <span class="click-icon"></span>Demo Konum 📍
+        </a>
+      </h2>
+    </div>
+    <div class="city-photos">
+      <div class="photo-card" data-photo="https://picsum.photos/380/380?random=1" data-location="Demo Konum">
+        <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
+      </div>
+      <div class="photo-card" data-photo="https://picsum.photos/380/380?random=2" data-location="Demo Konum">
+        <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
+      </div>
+      <div class="photo-card" data-photo="https://picsum.photos/380/380?random=3" data-location="Demo Konum">
+        <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
+      </div>
+    </div>
+  </div>
 </div>
-${promoHTML}
-${modalHTML}
-<script>/* dil, modal, vv. – yukarıdaki script blok aynı şekilde buraya kopyalanabilir */</script>
-</body></html>`;
-      navigator.clipboard.writeText(full)
-        .then(()=>alert('✔ HTML kodu panoya kopyalandı.'))
-        .catch(()=>prompt('Kopyalayamadı, elle alın:',full));
-    }
 
-    /* ------------------ BAŞLANGIÇ ------------------ */
-    document.addEventListener('DOMContentLoaded',()=>{
+<!-- PROMOSYON -->
+<div class="promotion-section">
+  <a href="index.html" target="_blank" class="btn purchase-btn" id="loginBtn">🏠 Main Menu</a>
+  <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
+  <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="btn instagram-btn" id="instagramBtn">
+    📩Bir tıkla bize ulaşın: @tr81.tr</a>
+</div>
+
+<!-- EDIT BUTON -->
+<button class="edit-btn" id="toggleBtn" title="Editörü Aç">✎</button>
+
+<!-- EDIT PANEL -->
+<div class="edit-panel" id="editPanel">
+  <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
+
+  <div class="info-box">
+    <strong>📋 CSV Dosya Formatı</strong>
+    <ul>
+      <li>A1: <b>Şehir Adı</b></li>
+      <li>A2‑A…: Konum Adı</li>
+      <li>B2‑B…: Google Maps Linki</li>
+      <li>C2‑H…: 6 adet foto URL</li>
+    </ul>
+  </div>
+
+  <input type="file" id="csvFile" accept=".csv" hidden
+         onchange="handleFileSelect(event)">
+  <label for="csvFile" class="file-label">📂 CSV Dosyası Seç</label>
+  <div class="file-info" id="fileInfo"></div>
+
+  <button class="panel-btn process-btn" onclick="processCSVFile()">🔄 CSV Verilerini İşle</button>
+  <button class="panel-btn export-btn"  onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
+  <button class="panel-btn clear-btn"   onclick="clearCityData()">🗑️ Verileri Temizle</button>
+  <button class="panel-btn close-btn"   onclick="toggleEditPanel()">❌ Paneli Kapat</button>
+</div>
+
+<!-- MODAL -->
+<div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+    <img class="modal-image" id="modalImage" src="" alt="">
+    <div class="modal-info" id="modalInfo">Konum Adı</div>
+  </div>
+</div>
+
+<!-- PapaParse -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+/* ---------- ÇEVİRİ ---------- */
+const translations={
+  tr:{loginBtn:'🏠 Ana Menü',questionsText:'Sorularınız için → Bize ulaşın!',
+      instagramBtn:'📩Bir tıkla bize ulaşın: @tr81.tr'},
+  en:{loginBtn:'🏠 Main Menu',questionsText:'Questions? → Contact us!',
+      instagramBtn:'📩Contact us with one click: @tr81.tr'}
+};
+function detectLanguage(){const save=sessionStorage.getItem('preferred-language');
+  if(save&&translations[save])return save;
+  const lang=(navigator.language||navigator.userLanguage).toLowerCase();
+  if(lang.startsWith('tr'))return'tr';
+  return lang.startsWith('en')?'en':'tr';}
+function updateLanguageUI(lang){
+  const t=translations[lang]||translations.tr;
+  [['loginBtn','innerHTML'],['questionsText','textContent'],['instagramBtn','innerHTML']]
+    .forEach(([id,prop])=>{const el=document.getElementById(id);if(el)el[prop]=t[id];});
+  document.documentElement.lang=lang;sessionStorage.setItem('preferred-language',lang);
+}
+
+/* ---------- VERİ ---------- */
+let cityData={cityName:'Demo Şehir',locations:[{name:'Demo Konum',
+  link:'https://maps.google.com/?q=Demo+Konum',
+  photos:['https://picsum.photos/380/380?random=1',
+          'https://picsum.photos/380/380?random=2',
+          'https://picsum.photos/380/380?random=3']}]};
+let selectedFile=null;
+
+/* ---------- PANEL ---------- */
+function toggleEditPanel(){
+  document.getElementById('editPanel').classList.toggle('open');
+}
+document.getElementById('toggleBtn').addEventListener('click',toggleEditPanel);
+
+/* ---------- CSV SEÇ & İŞLE ---------- */
+function handleFileSelect(e){
+  selectedFile=e.target.files[0];
+  document.getElementById('fileInfo').textContent=
+    selectedFile?'✅ '+selectedFile.name+' seçildi':'';
+}
+function processCSVFile(){
+  if(!selectedFile){alert('Lütfen bir CSV dosyası seçin!');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const parsed=Papa.parse(e.target.result,{skipEmptyLines:true});
+      if(parsed.data.length<2){alert('CSV en az 2 satır içermeli!');return;}
+      const cityName=parsed.data[0][0]?.trim();
+      if(!cityName){alert('A1 hücresinde şehir adı yok!');return;}
+      const locations=[];
+      for(let i=1;i<parsed.data.length;i++){
+        const row=parsed.data[i];
+        if(row.length<2)continue;
+        const name=row[0].trim(),link=row[1].trim();
+        if(!name||!link)continue;
+        const photos=row.slice(2,8).filter(p=>p&&/^https?:\/\//.test(p.trim()))
+                                    .map(p=>p.trim());
+        locations.push({name,link,photos});
+      }
+      if(!locations.length){alert('Geçerli konum verisi bulunamadı!');return;}
+      cityData={cityName,locations};
       updatePageTitle();renderLocations();
-      updateLanguageUI(detectLanguage());
-    });
-  </script>
+      document.getElementById('csvFile').value='';selectedFile=null;
+      document.getElementById('fileInfo').textContent='';
+      console.log(`✔ ${locations.length} konum yüklendi.`);
+    }catch(err){console.error(err);alert('CSV işlenirken hata!');}
+  };
+  reader.onerror=()=>alert('Dosya okunamadı!');
+  reader.readAsText(selectedFile,'UTF-8');
+}
+
+/* ---------- RENDER ---------- */
+function renderLocations(){
+  const cont=document.getElementById('locations-container');
+  cont.innerHTML='';
+  cityData.locations.forEach(loc=>{
+    const ph=loc.photos.map(p=>
+      `<div class="photo-card" data-photo="${p}" data-location="${loc.name}">
+         <img src="${p}" alt="${loc.name}">
+       </div>`).join('');
+    cont.insertAdjacentHTML('beforeend',
+    `<div class="city-section">
+       <div class="city-header">
+         <h2 class="city-title">
+           <a href="${loc.link}" target="_blank" rel="noopener noreferrer" class="location-link">
+             <span class="click-icon"></span>${loc.name} 📍
+           </a>
+         </h2>
+       </div>
+       <div class="city-photos">${ph}</div>
+     </div>`);
+  });
+}
+function updatePageTitle(){
+  document.getElementById('city-name').textContent=cityData.cityName;
+  document.getElementById('page-title').textContent=cityData.cityName;
+}
+
+/* ---------- MODAL ---------- */
+function openPhotoModal(src,loc){
+  const modal=document.getElementById('photoModal');
+  document.getElementById('modalImage').src=src;
+  document.getElementById('modalInfo').textContent=loc;
+  modal.style.display='flex';document.body.style.overflow='hidden';
+  setTimeout(()=>modal.classList.add('show'),10);
+}
+function closePhotoModal(){
+  const modal=document.getElementById('photoModal');
+  modal.classList.remove('show');
+  setTimeout(()=>{modal.style.display='none';document.body.style.overflow='auto';},300);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePhotoModal();});
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.photo-card');
+  if(card){const img=card.querySelector('img');openPhotoModal(img.src,img.alt);}
+});
+
+/* ---------- EXPORT ---------- */
+function exportHTML(){
+  if(!cityData.locations.length){alert('Önce konum ekleyin!');return;}
+  const style=document.querySelector('style').innerHTML,
+        promo=document.querySelector('.promotion-section').outerHTML,
+        modal=document.querySelector('.photo-modal').outerHTML;
+  const locHTML=document.getElementById('locations-container').innerHTML;
+  const full=`<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${cityData.cityName}</title><style>${style}</style></head><body>
+<a href="https://tr81.tr/login.html" class="logo"
+   onclick="window.open(this.href,'_blank');return false;">🌐</a>
+<h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
+<div id="locations-container">${locHTML}</div>${promo}${modal}
+<!-- script bloğunuzu buraya manuel ekleyin -->
+</body></html>`;
+  navigator.clipboard.writeText(full).then(()=>alert('✔ HTML panoya kopyalandı.'))
+    .catch(()=>prompt('Kopyalayamadı, elle alın:',full));
+}
+
+/* ---------- BAŞLAT ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  updatePageTitle();renderLocations();updateLanguageUI(detectLanguage());
+});
+</script>
 </body>
 </html>
