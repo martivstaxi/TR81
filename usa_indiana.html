@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indiana</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Indiana</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Basilica+of+the+Sacred+Heart/@41.7026336,-86.2397856,17z/data=!3m1!4b1!4m6!3m5!1s0x8816cd4762093aab:0x19056d411e749a72!8m2!3d41.7026336!4d-86.2397856!16zL20vMDgzYzdz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Basilica of the Sacred Heart 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_1/public" data-location="Basilica of the Sacred Heart"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_1/public" alt="Basilica of the Sacred Heart"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_2/public" data-location="Basilica of the Sacred Heart"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_2/public" alt="Basilica of the Sacred Heart"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_3/public" data-location="Basilica of the Sacred Heart"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_3/public" alt="Basilica of the Sacred Heart"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_4/public" data-location="Basilica of the Sacred Heart"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_4/public" alt="Basilica of the Sacred Heart"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_5/public" data-location="Basilica of the Sacred Heart"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_5/public" alt="Basilica of the Sacred Heart"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_6/public" data-location="Basilica of the Sacred Heart"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_basilica_of_the_sacred_heart_6/public" alt="Basilica of the Sacred Heart"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hoosier+Gym/@39.7999589,-85.5246672,17z/data=!3m1!4b1!4m6!3m5!1s0x886ad6b16295d0e5:0xdaf1a05ec4d2a09!8m2!3d39.7999589!4d-85.5246672!16s%2Fm%2F03qnc9g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hoosier Gym 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_1/public" data-location="Hoosier Gym"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_1/public" alt="Hoosier Gym"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_2/public" data-location="Hoosier Gym"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_2/public" alt="Hoosier Gym"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_3/public" data-location="Hoosier Gym"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_3/public" alt="Hoosier Gym"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_4/public" data-location="Hoosier Gym"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_4/public" alt="Hoosier Gym"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_5/public" data-location="Hoosier Gym"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_5/public" alt="Hoosier Gym"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_6/public" data-location="Hoosier Gym"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_hoosier_gym_6/public" alt="Hoosier Gym"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bean+Blossom+Overlook/@39.254479,-86.2532242,17z/data=!3m1!4b1!4m6!3m5!1s0x886b8111c2dd3e1d:0xaebcb929b11ea60d!8m2!3d39.254479!4d-86.2532242!16s%2Fg%2F11rhqdmjlk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Beanblossom Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_1/public" data-location="Beanblossom Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_1/public" alt="Beanblossom Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_2/public" data-location="Beanblossom Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_2/public" alt="Beanblossom Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_3/public" data-location="Beanblossom Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_3/public" alt="Beanblossom Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_4/public" data-location="Beanblossom Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_4/public" alt="Beanblossom Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_5/public" data-location="Beanblossom Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_5/public" alt="Beanblossom Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_6/public" data-location="Beanblossom Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_beanblossom_overlook_6/public" alt="Beanblossom Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Garfield+Park+Conservatory/@39.7324501,-86.1413077,17z/data=!3m1!4b1!4m6!3m5!1s0x886b5a6763a09bbb:0x86bbddf267d9417c!8m2!3d39.7324501!4d-86.1413077!16s%2Fg%2F11d_d3kqc7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Garfield Park Conservatory 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_1/public" data-location="Garfield Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_1/public" alt="Garfield Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_2/public" data-location="Garfield Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_2/public" alt="Garfield Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_3/public" data-location="Garfield Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_3/public" alt="Garfield Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_4/public" data-location="Garfield Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_4/public" alt="Garfield Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_5/public" data-location="Garfield Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_5/public" alt="Garfield Park Conservatory"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_6/public" data-location="Garfield Park Conservatory"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_garfield_park_conservatory_6/public" alt="Garfield Park Conservatory"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brown+County+State+Park/@39.1933217,-86.2165859,17z/data=!3m1!4b1!4m6!3m5!1s0x886b8711f4892c03:0xae862da38db4aebc!8m2!3d39.1933217!4d-86.2165859!16zL20vMDY3ZjJs?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Brown County State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_1/public" data-location="Brown County State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_1/public" alt="Brown County State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_2/public" data-location="Brown County State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_2/public" alt="Brown County State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_3/public" data-location="Brown County State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_3/public" alt="Brown County State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_4/public" data-location="Brown County State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_4/public" alt="Brown County State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_5/public" data-location="Brown County State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_5/public" alt="Brown County State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_6/public" data-location="Brown County State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_brown_county_state_park_6/public" alt="Brown County State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Indianapolis+Motor+Speedway+Museum/@39.7903146,-86.2336611,17z/data=!3m1!4b1!4m6!3m5!1s0x886b57b65f433f97:0x44dc8a3673e3ab00!8m2!3d39.7903146!4d-86.2336611!16s%2Fg%2F11fzyv5g7f?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Motor Speedway Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_1/public" data-location="Motor Speedway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_1/public" alt="Motor Speedway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_2/public" data-location="Motor Speedway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_2/public" alt="Motor Speedway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_3/public" data-location="Motor Speedway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_3/public" alt="Motor Speedway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_4/public" data-location="Motor Speedway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_4/public" alt="Motor Speedway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_5/public" data-location="Motor Speedway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_5/public" alt="Motor Speedway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_6/public" data-location="Motor Speedway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_motor_speedway_museum_6/public" alt="Motor Speedway Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/McCormick's+Creek+State+Park/@39.298033,-86.724033,17z/data=!3m1!4b1!4m6!3m5!1s0x886cf7bdc3654c3d:0x5499f97b684ae18a!8m2!3d39.298033!4d-86.724033!16zL20vMDJ5MW13?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>McCormick’s Creek State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_1/public" data-location="McCormick’s Creek State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_1/public" alt="McCormick’s Creek State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_2/public" data-location="McCormick’s Creek State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_2/public" alt="McCormick’s Creek State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_3/public" data-location="McCormick’s Creek State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_3/public" alt="McCormick’s Creek State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_4/public" data-location="McCormick’s Creek State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_4/public" alt="McCormick’s Creek State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_5/public" data-location="McCormick’s Creek State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_5/public" alt="McCormick’s Creek State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_6/public" data-location="McCormick’s Creek State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_mccormicks_creek_state_park_6/public" alt="McCormick’s Creek State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cox+Arboretum/@39.1707328,-86.5189842,17z/data=!3m1!4b1!4m6!3m5!1s0x886c66b8b0b62e8b:0x301e253059ab2826!8m2!3d39.1707328!4d-86.5189842!16s%2Fg%2F1tklr943?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Indiana University Arboretum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_1/public" data-location="Indiana University Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_1/public" alt="Indiana University Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_2/public" data-location="Indiana University Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_2/public" alt="Indiana University Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_3/public" data-location="Indiana University Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_3/public" alt="Indiana University Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_4/public" data-location="Indiana University Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_4/public" alt="Indiana University Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_5/public" data-location="Indiana University Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_5/public" alt="Indiana University Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_6/public" data-location="Indiana University Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_arboretum_6/public" alt="Indiana University Arboretum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Historic+Bridgeton+Bridge/@39.649515,-87.1761168,17z/data=!3m1!4b1!4m6!3m5!1s0x886d3e51ece221c7:0xefa28965eb20680e!8m2!3d39.649515!4d-87.1761168!16s%2Fm%2F02z8fct?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bridgeton Covered Bridge & Mill 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_1/public" data-location="Bridgeton Covered Bridge & Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_1/public" alt="Bridgeton Covered Bridge & Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_2/public" data-location="Bridgeton Covered Bridge & Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_2/public" alt="Bridgeton Covered Bridge & Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_3/public" data-location="Bridgeton Covered Bridge & Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_3/public" alt="Bridgeton Covered Bridge & Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_4/public" data-location="Bridgeton Covered Bridge & Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_4/public" alt="Bridgeton Covered Bridge & Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_5/public" data-location="Bridgeton Covered Bridge & Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_5/public" alt="Bridgeton Covered Bridge & Mill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_6/public" data-location="Bridgeton Covered Bridge & Mill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_bridgeton_covered_bridge_mill_6/public" alt="Bridgeton Covered Bridge & Mill"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Shrine+of+Christ's+Passion/@41.4258353,-87.4708042,17z/data=!3m1!4b1!4m6!3m5!1s0x8811e344b5cbb55d:0x32fc8a8d463cec5e!8m2!3d41.4258353!4d-87.4708042!16s%2Fg%2F1tdc179x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Shrine of Christ’s Passion 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_1/public" data-location="Shrine of Christ’s Passion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_1/public" alt="Shrine of Christ’s Passion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_2/public" data-location="Shrine of Christ’s Passion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_2/public" alt="Shrine of Christ’s Passion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_3/public" data-location="Shrine of Christ’s Passion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_3/public" alt="Shrine of Christ’s Passion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_4/public" data-location="Shrine of Christ’s Passion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_4/public" alt="Shrine of Christ’s Passion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_5/public" data-location="Shrine of Christ’s Passion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_5/public" alt="Shrine of Christ’s Passion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_6/public" data-location="Shrine of Christ’s Passion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_shrine_of_christs_passion_6/public" alt="Shrine of Christ’s Passion"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Celery+Bog+Nature+Area/@40.4514907,-86.9356462,17z/data=!3m1!4b1!4m6!3m5!1s0x8812fd247d4c6147:0x125d4b578439e15c!8m2!3d40.4514907!4d-86.9356462!16s%2Fg%2F1tdxr1r7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Celery Bog Nature Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_1/public" data-location="Celery Bog Nature Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_1/public" alt="Celery Bog Nature Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_2/public" data-location="Celery Bog Nature Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_2/public" alt="Celery Bog Nature Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_3/public" data-location="Celery Bog Nature Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_3/public" alt="Celery Bog Nature Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_4/public" data-location="Celery Bog Nature Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_4/public" alt="Celery Bog Nature Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_5/public" data-location="Celery Bog Nature Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_5/public" alt="Celery Bog Nature Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_6/public" data-location="Celery Bog Nature Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_celery_bog_nature_area_6/public" alt="Celery Bog Nature Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Michigan+City+East+Pierhead+Lighthouse/@41.7289759,-86.9116365,17z/data=!3m1!4b1!4m6!3m5!1s0x8811a900370307cd:0x9f7dfa91b933d784!8m2!3d41.7289759!4d-86.9116365!16s%2Fg%2F11f67bnq0k?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>East Pierhead Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_1/public" data-location="East Pierhead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_1/public" alt="East Pierhead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_2/public" data-location="East Pierhead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_2/public" alt="East Pierhead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_3/public" data-location="East Pierhead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_3/public" alt="East Pierhead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_4/public" data-location="East Pierhead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_4/public" alt="East Pierhead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_5/public" data-location="East Pierhead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_5/public" alt="East Pierhead Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_6/public" data-location="East Pierhead Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_east_pierhead_lighthouse_6/public" alt="East Pierhead Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sample+Gates/@39.1665451,-86.5266131,17z/data=!3m1!4b1!4m6!3m5!1s0x886c66c2426c95bf:0xe4f2c09b1d829cf0!8m2!3d39.1665451!4d-86.5266131!16s%2Fg%2F1vppt84v?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Indiana University Sample Gates 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_1/public" data-location="Indiana University Sample Gates"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_1/public" alt="Indiana University Sample Gates"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_2/public" data-location="Indiana University Sample Gates"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_2/public" alt="Indiana University Sample Gates"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_3/public" data-location="Indiana University Sample Gates"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_3/public" alt="Indiana University Sample Gates"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_4/public" data-location="Indiana University Sample Gates"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_4/public" alt="Indiana University Sample Gates"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_5/public" data-location="Indiana University Sample Gates"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_5/public" alt="Indiana University Sample Gates"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_6/public" data-location="Indiana University Sample Gates"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_university_sample_gates_6/public" alt="Indiana University Sample Gates"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Buskirk-Chumley+Theater/@39.1662778,-86.5328222,17z/data=!3m1!4b1!4m6!3m5!1s0x886c66dd9923f0e3:0x636cce56f9e06ec6!8m2!3d39.1662778!4d-86.5328222!16s%2Fg%2F11ghrc2hl5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Buskirk-Chumley Theater 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_1/public" data-location="Buskirk-Chumley Theater"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_1/public" alt="Buskirk-Chumley Theater"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_2/public" data-location="Buskirk-Chumley Theater"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_2/public" alt="Buskirk-Chumley Theater"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_3/public" data-location="Buskirk-Chumley Theater"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_3/public" alt="Buskirk-Chumley Theater"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_4/public" data-location="Buskirk-Chumley Theater"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_4/public" alt="Buskirk-Chumley Theater"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_5/public" data-location="Buskirk-Chumley Theater"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_5/public" alt="Buskirk-Chumley Theater"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_6/public" data-location="Buskirk-Chumley Theater"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_buskirkchumley_theater_6/public" alt="Buskirk-Chumley Theater"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/DePauw+Nature+Park/@39.6355108,-86.8847775,17z/data=!3m1!4b1!4m6!3m5!1s0x886cdf94ac3aea65:0x62171b84c6ebf28e!8m2!3d39.6355108!4d-86.8847775!16s%2Fg%2F12hk49shl?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>DePauw Nature Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_1/public" data-location="DePauw Nature Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_1/public" alt="DePauw Nature Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_2/public" data-location="DePauw Nature Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_2/public" alt="DePauw Nature Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_3/public" data-location="DePauw Nature Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_3/public" alt="DePauw Nature Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_4/public" data-location="DePauw Nature Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_4/public" alt="DePauw Nature Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_5/public" data-location="DePauw Nature Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_5/public" alt="DePauw Nature Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_6/public" data-location="DePauw Nature Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_depauw_nature_park_6/public" alt="DePauw Nature Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cathedral+Immaculate+Conception+FW/@41.0757138,-85.138157,17z/data=!3m1!4b1!4m6!3m5!1s0x8815e4ed79a93005:0x43330b2cf50b0469!8m2!3d41.0757138!4d-85.138157!16zL20vMDd0MGY0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cathedral of Immaculate Conception 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_1/public" data-location="Cathedral of Immaculate Conception"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_1/public" alt="Cathedral of Immaculate Conception"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_2/public" data-location="Cathedral of Immaculate Conception"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_2/public" alt="Cathedral of Immaculate Conception"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_3/public" data-location="Cathedral of Immaculate Conception"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_3/public" alt="Cathedral of Immaculate Conception"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_4/public" data-location="Cathedral of Immaculate Conception"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_4/public" alt="Cathedral of Immaculate Conception"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_5/public" data-location="Cathedral of Immaculate Conception"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_5/public" alt="Cathedral of Immaculate Conception"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_6/public" data-location="Cathedral of Immaculate Conception"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cathedral_of_immaculate_conception_6/public" alt="Cathedral of Immaculate Conception"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Upper+Cataract+Falls/@39.4344892,-86.8133413,15z/data=!3m1!4b1!4m6!3m5!1s0x886cfb5047dcb995:0x7cef3551f8b85d7d!8m2!3d39.4344897!4d-86.8133413!16s%2Fm%2F02pq75g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cataract Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_1/public" data-location="Cataract Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_1/public" alt="Cataract Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_2/public" data-location="Cataract Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_2/public" alt="Cataract Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_3/public" data-location="Cataract Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_3/public" alt="Cataract Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_4/public" data-location="Cataract Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_4/public" alt="Cataract Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_5/public" data-location="Cataract Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_5/public" alt="Cataract Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_6/public" data-location="Cataract Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_cataract_falls_6/public" alt="Cataract Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rotary+Jail+Museum/@40.0438309,-86.9017114,17z/data=!3m1!4b1!4m6!3m5!1s0x881329df929b8b15:0x423a324f2bf099fa!8m2!3d40.0438309!4d-86.9017114!16s%2Fg%2F1q5bp6w4d?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rotary Jail Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_1/public" data-location="Rotary Jail Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_1/public" alt="Rotary Jail Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_2/public" data-location="Rotary Jail Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_2/public" alt="Rotary Jail Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_3/public" data-location="Rotary Jail Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_3/public" alt="Rotary Jail Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_4/public" data-location="Rotary Jail Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_4/public" alt="Rotary Jail Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_5/public" data-location="Rotary Jail Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_5/public" alt="Rotary Jail Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_6/public" data-location="Rotary Jail Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_rotary_jail_museum_6/public" alt="Rotary Jail Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gene+Stratton-Porter+State+Historic+Site/@41.479845,-85.348788,17z/data=!3m1!4b1!4m6!3m5!1s0x88166a25cb42ae5b:0xe9151828eba129a6!8m2!3d41.479845!4d-85.348788!16s%2Fg%2F1vg_dgg3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gene Stratton-Porter Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_1/public" data-location="Gene Stratton-Porter Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_1/public" alt="Gene Stratton-Porter Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_2/public" data-location="Gene Stratton-Porter Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_2/public" alt="Gene Stratton-Porter Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_3/public" data-location="Gene Stratton-Porter Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_3/public" alt="Gene Stratton-Porter Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_4/public" data-location="Gene Stratton-Porter Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_4/public" alt="Gene Stratton-Porter Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_5/public" data-location="Gene Stratton-Porter Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_5/public" alt="Gene Stratton-Porter Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_6/public" data-location="Gene Stratton-Porter Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_gene_strattonporter_gardens_6/public" alt="Gene Stratton-Porter Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eskenazi+Museum+of+Art/@39.1691444,-86.5197216,17z/data=!3m1!4b1!4m6!3m5!1s0x886c66bede74f4ed:0x2e718f08daaac40f!8m2!3d39.1691444!4d-86.5197216!16zL20vMDI3NDVx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eskenazi Museum of Art 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_1/public" data-location="Eskenazi Museum of Art"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_1/public" alt="Eskenazi Museum of Art"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_2/public" data-location="Eskenazi Museum of Art"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_2/public" alt="Eskenazi Museum of Art"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_3/public" data-location="Eskenazi Museum of Art"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_3/public" alt="Eskenazi Museum of Art"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_4/public" data-location="Eskenazi Museum of Art"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_4/public" alt="Eskenazi Museum of Art"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_5/public" data-location="Eskenazi Museum of Art"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_5/public" alt="Eskenazi Museum of Art"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_6/public" data-location="Eskenazi Museum of Art"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eskenazi_museum_of_art_6/public" alt="Eskenazi Museum of Art"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Roofless+Church/@38.1318256,-87.9356726,17z/data=!3m1!4b1!4m6!3m5!1s0x8871ba0051b64dcd:0x7e43c03e976d0b6b!8m2!3d38.1318256!4d-87.9356726!16s%2Fg%2F11fk137r6c?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Roofless Church 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_1/public" data-location="Roofless Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_1/public" alt="Roofless Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_2/public" data-location="Roofless Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_2/public" alt="Roofless Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_3/public" data-location="Roofless Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_3/public" alt="Roofless Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_4/public" data-location="Roofless Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_4/public" alt="Roofless Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_5/public" data-location="Roofless Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_5/public" alt="Roofless Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_6/public" data-location="Roofless Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_roofless_church_6/public" alt="Roofless Church"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Inn+at+Irwin+Gardens/@39.203891,-85.918026,17z/data=!3m1!4b1!4m9!3m8!1s0x886ba1cdc5fb41fb:0xb563887c0256129e!5m2!4m1!1i2!8m2!3d39.203891!4d-85.918026!16s%2Fg%2F1tp_740t?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Irwin Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_1/public" data-location="Irwin Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_1/public" alt="Irwin Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_2/public" data-location="Irwin Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_2/public" alt="Irwin Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_3/public" data-location="Irwin Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_3/public" alt="Irwin Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_4/public" data-location="Irwin Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_4/public" alt="Irwin Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_5/public" data-location="Irwin Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_5/public" alt="Irwin Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_6/public" data-location="Irwin Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_irwin_gardens_6/public" alt="Irwin Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Historic+West+Union+Covered+Bridge/@39.8550391,-87.335848,17z/data=!3m1!4b1!4m6!3m5!1s0x886d4e8ecfe77a61:0x1beec6d5a683ec50!8m2!3d39.8550391!4d-87.335848!16s%2Fm%2F06_15bf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ernie Pyle Covered Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_1/public" data-location="Ernie Pyle Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_1/public" alt="Ernie Pyle Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_2/public" data-location="Ernie Pyle Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_2/public" alt="Ernie Pyle Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_3/public" data-location="Ernie Pyle Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_3/public" alt="Ernie Pyle Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_4/public" data-location="Ernie Pyle Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_4/public" alt="Ernie Pyle Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_5/public" data-location="Ernie Pyle Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_5/public" alt="Ernie Pyle Covered Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_6/public" data-location="Ernie Pyle Covered Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_ernie_pyle_covered_bridge_6/public" alt="Ernie Pyle Covered Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Soldiers+%26+Sailors+Monument/@39.7685459,-86.1580437,17z/data=!3m1!4b1!4m6!3m5!1s0x886b50bc261a1291:0x4efb96966bb31be9!8m2!3d39.7685459!4d-86.1580437!16zL20vMDdtcDln?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Soldiers & Sailors Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_1/public" data-location="Soldiers & Sailors Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_1/public" alt="Soldiers & Sailors Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_2/public" data-location="Soldiers & Sailors Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_2/public" alt="Soldiers & Sailors Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_3/public" data-location="Soldiers & Sailors Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_3/public" alt="Soldiers & Sailors Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_4/public" data-location="Soldiers & Sailors Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_4/public" alt="Soldiers & Sailors Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_5/public" data-location="Soldiers & Sailors Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_5/public" alt="Soldiers & Sailors Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_6/public" data-location="Soldiers & Sailors Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_soldiers_sailors_monument_6/public" alt="Soldiers & Sailors Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Indiana+Dunes+State+Park/@41.6625588,-87.039377,17z/data=!3m1!4b1!4m6!3m5!1s0x8811a4b036e1fcc3:0x284c6c6a46485b61!8m2!3d41.6625588!4d-87.039377!16zL20vMDVzdDNn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Indiana Dunes State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_1/public" data-location="Indiana Dunes State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_1/public" alt="Indiana Dunes State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_2/public" data-location="Indiana Dunes State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_2/public" alt="Indiana Dunes State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_3/public" data-location="Indiana Dunes State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_3/public" alt="Indiana Dunes State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_4/public" data-location="Indiana Dunes State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_4/public" alt="Indiana Dunes State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_5/public" data-location="Indiana Dunes State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_5/public" alt="Indiana Dunes State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_6/public" data-location="Indiana Dunes State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_indiana_dunes_state_park_6/public" alt="Indiana Dunes State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Newfields/@39.8259606,-86.1856632,17z/data=!3m1!4b1!4m6!3m5!1s0x886b56ae51fbcabd:0xd8a3fd923ddf98ea!8m2!3d39.8259606!4d-86.1856632!16zL20vMGZiMDdt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Newfields 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_1/public" data-location="Newfields"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_1/public" alt="Newfields"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_2/public" data-location="Newfields"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_2/public" alt="Newfields"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_3/public" data-location="Newfields"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_3/public" alt="Newfields"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_4/public" data-location="Newfields"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_4/public" alt="Newfields"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_5/public" data-location="Newfields"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_5/public" alt="Newfields"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_6/public" data-location="Newfields"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_newfields_6/public" alt="Newfields"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eagle+Creek+Park/@39.873789,-86.296203,17z/data=!3m1!4b1!4m6!3m5!1s0x886caba640774c91:0x6b111ce66c64dd11!8m2!3d39.873789!4d-86.296203!16zL20vMDNwazMy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eagle Creek Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_1/public" data-location="Eagle Creek Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_1/public" alt="Eagle Creek Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_2/public" data-location="Eagle Creek Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_2/public" alt="Eagle Creek Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_3/public" data-location="Eagle Creek Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_3/public" alt="Eagle Creek Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_4/public" data-location="Eagle Creek Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_4/public" alt="Eagle Creek Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_5/public" data-location="Eagle Creek Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_5/public" alt="Eagle Creek Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_6/public" data-location="Eagle Creek Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_eagle_creek_park_6/public" alt="Eagle Creek Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/White+River+State+Park/@39.7665464,-86.1707858,17z/data=!3m1!4b1!4m6!3m5!1s0x886b50b232bf8c67:0x9ba7e83083e863d7!8m2!3d39.7665464!4d-86.1707858!16zL20vMDUyd2s3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Downtown Riverfront 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_1/public" data-location="Downtown Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_1/public" alt="Downtown Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_2/public" data-location="Downtown Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_2/public" alt="Downtown Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_3/public" data-location="Downtown Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_3/public" alt="Downtown Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_4/public" data-location="Downtown Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_4/public" alt="Downtown Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_5/public" data-location="Downtown Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_5/public" alt="Downtown Riverfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_6/public" data-location="Downtown Riverfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_downtown_riverfront_6/public" alt="Downtown Riverfront"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Harrison+State+Park/@39.8683896,-86.019344,17z/data=!3m1!4b1!4m6!3m5!1s0x886b4c7c38b5cab3:0x113172404232ba5!8m2!3d39.8683896!4d-86.019344!16zL20vMDgzOTA0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Harrison State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_1/public" data-location="Fort Harrison State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_1/public" alt="Fort Harrison State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_2/public" data-location="Fort Harrison State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_2/public" alt="Fort Harrison State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_3/public" data-location="Fort Harrison State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_3/public" alt="Fort Harrison State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_4/public" data-location="Fort Harrison State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_4/public" alt="Fort Harrison State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_5/public" data-location="Fort Harrison State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_5/public" alt="Fort Harrison State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_6/public" data-location="Fort Harrison State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_fort_harrison_state_park_6/public" alt="Fort Harrison State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Clifty+Falls+State+Park/@38.7703093,-85.4363079,17z/data=!3m1!4b1!4m6!3m5!1s0x886a3a969b6396d9:0x2ca8c3cd1d47542c!8m2!3d38.7703093!4d-85.4363079!16zL20vMDgyOGw0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Clifty Falls State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_1/public" data-location="Clifty Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_1/public" alt="Clifty Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_2/public" data-location="Clifty Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_2/public" alt="Clifty Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_3/public" data-location="Clifty Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_3/public" alt="Clifty Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_4/public" data-location="Clifty Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_4/public" alt="Clifty Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_5/public" data-location="Clifty Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_5/public" alt="Clifty Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_6/public" data-location="Clifty Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/indiana_clifty_falls_state_park_6/public" alt="Clifty Falls State Park"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
