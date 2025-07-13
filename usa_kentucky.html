@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kentucky</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Kentucky</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Princess+Arch/@37.8274354,-83.6196677,17z/data=!3m1!4b1!4m6!3m5!1s0x884380475d81f549:0x7ef7a114c6ce1485!8m2!3d37.8274354!4d-83.6196677!16s%2Fg%2F1vn9psbb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Princess Arch 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_1/public" data-location="Princess Arch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_1/public" alt="Princess Arch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_2/public" data-location="Princess Arch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_2/public" alt="Princess Arch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_3/public" data-location="Princess Arch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_3/public" alt="Princess Arch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_4/public" data-location="Princess Arch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_4/public" alt="Princess Arch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_5/public" data-location="Princess Arch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_5/public" alt="Princess Arch"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_6/public" data-location="Princess Arch"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_princess_arch_6/public" alt="Princess Arch"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Natural+Bridge+State+Resort+Park/@37.7769761,-83.6832894,17z/data=!3m1!4b1!4m9!3m8!1s0x884378d1e5957a57:0x2122fccee06464bc!5m2!4m1!1i2!8m2!3d37.7769761!4d-83.6832894!16zL20vMGJqZDVj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Natural Bridge State Resort Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_1/public" data-location="Natural Bridge State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_1/public" alt="Natural Bridge State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_2/public" data-location="Natural Bridge State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_2/public" alt="Natural Bridge State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_3/public" data-location="Natural Bridge State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_3/public" alt="Natural Bridge State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_4/public" data-location="Natural Bridge State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_4/public" alt="Natural Bridge State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_5/public" data-location="Natural Bridge State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_5/public" alt="Natural Bridge State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_6/public" data-location="Natural Bridge State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_natural_bridge_state_resort_park_6/public" alt="Natural Bridge State Resort Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bernheim+Forest+and+Arboretum/@37.9020908,-85.62184,17z/data=!3m1!4b1!4m6!3m5!1s0x886901be88691ce5:0x144bd64c5a4cecf6!8m2!3d37.9020908!4d-85.62184!16zL20vMDZnYzQw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bernheim Arboretum and Research Forest 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_1/public" data-location="Bernheim Arboretum and Research Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_1/public" alt="Bernheim Arboretum and Research Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_2/public" data-location="Bernheim Arboretum and Research Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_2/public" alt="Bernheim Arboretum and Research Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_3/public" data-location="Bernheim Arboretum and Research Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_3/public" alt="Bernheim Arboretum and Research Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_4/public" data-location="Bernheim Arboretum and Research Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_4/public" alt="Bernheim Arboretum and Research Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_5/public" data-location="Bernheim Arboretum and Research Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_5/public" alt="Bernheim Arboretum and Research Forest"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_6/public" data-location="Bernheim Arboretum and Research Forest"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_bernheim_arboretum_and_research_forest_6/public" alt="Bernheim Arboretum and Research Forest"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Woodford+Reserve+Distillery/@38.1132942,-84.8108389,17z/data=!3m1!4b1!4m6!3m5!1s0x88427180dbb0577b:0x77f187acf3b68972!8m2!3d38.1132942!4d-84.8108389!16s%2Fg%2F11ckj207f0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Woodford Reserve Distillery 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_1/public" data-location="Woodford Reserve Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_1/public" alt="Woodford Reserve Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_2/public" data-location="Woodford Reserve Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_2/public" alt="Woodford Reserve Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_3/public" data-location="Woodford Reserve Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_3/public" alt="Woodford Reserve Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_4/public" data-location="Woodford Reserve Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_4/public" alt="Woodford Reserve Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_5/public" data-location="Woodford Reserve Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_5/public" alt="Woodford Reserve Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_6/public" data-location="Woodford Reserve Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_woodford_reserve_distillery_6/public" alt="Woodford Reserve Distillery"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Keeneland/@38.0469517,-84.6062404,17z/data=!3m1!4b1!4m6!3m5!1s0x8842681e2b4560ff:0x3b91c3c4cd0fdb10!8m2!3d38.0469517!4d-84.6062404!16zL20vMDI5d2Yz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Keeneland Race Course 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_1/public" data-location="Keeneland Race Course"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_1/public" alt="Keeneland Race Course"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_2/public" data-location="Keeneland Race Course"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_2/public" alt="Keeneland Race Course"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_3/public" data-location="Keeneland Race Course"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_3/public" alt="Keeneland Race Course"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_4/public" data-location="Keeneland Race Course"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_4/public" alt="Keeneland Race Course"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_5/public" data-location="Keeneland Race Course"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_5/public" alt="Keeneland Race Course"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_6/public" data-location="Keeneland Race Course"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_keeneland_race_course_6/public" alt="Keeneland Race Course"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cherokee+Park/@38.2399656,-85.6993663,17z/data=!3m1!4b1!4m6!3m5!1s0x8869734d173161c1:0xe3472083a0cad7da!8m2!3d38.2399656!4d-85.6993663!16zL20vMDJmZGRz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cherokee State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_1/public" data-location="Cherokee State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_1/public" alt="Cherokee State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_2/public" data-location="Cherokee State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_2/public" alt="Cherokee State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_3/public" data-location="Cherokee State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_3/public" alt="Cherokee State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_4/public" data-location="Cherokee State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_4/public" alt="Cherokee State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_5/public" data-location="Cherokee State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_5/public" alt="Cherokee State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_6/public" data-location="Cherokee State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cherokee_state_park_6/public" alt="Cherokee State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hidden+River+Cave+%26+American+Cave+Museum/@37.1793152,-85.9058748,17z/data=!3m1!4b1!4m6!3m5!1s0x886621b43a40f5bf:0x50501881a1aa567!8m2!3d37.1793152!4d-85.9058748!16s%2Fg%2F1tdch2wb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Hidden River Cave and American Cave Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_1/public" data-location="Hidden River Cave and American Cave Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_1/public" alt="Hidden River Cave and American Cave Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_2/public" data-location="Hidden River Cave and American Cave Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_2/public" alt="Hidden River Cave and American Cave Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_3/public" data-location="Hidden River Cave and American Cave Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_3/public" alt="Hidden River Cave and American Cave Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_4/public" data-location="Hidden River Cave and American Cave Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_4/public" alt="Hidden River Cave and American Cave Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_5/public" data-location="Hidden River Cave and American Cave Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_5/public" alt="Hidden River Cave and American Cave Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_6/public" data-location="Hidden River Cave and American Cave Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_hidden_river_cave_and_american_cave_museum_6/public" alt="Hidden River Cave and American Cave Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Arboretum,+State+Botanical+Garden+of+Kentucky/@38.0149756,-84.5036149,17z/data=!3m1!4b1!4m6!3m5!1s0x88425b4980adf899:0x1a4f21962d109ef4!8m2!3d38.0149756!4d-84.5036149!16s%2Fg%2F122rv52r?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lexington Arboretum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_1/public" data-location="Lexington Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_1/public" alt="Lexington Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_2/public" data-location="Lexington Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_2/public" alt="Lexington Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_3/public" data-location="Lexington Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_3/public" alt="Lexington Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_4/public" data-location="Lexington Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_4/public" alt="Lexington Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_5/public" data-location="Lexington Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_5/public" alt="Lexington Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_6/public" data-location="Lexington Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_lexington_arboretum_6/public" alt="Lexington Arboretum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Four+Bridge/@38.2658035,-85.7392394,17z/data=!3m1!4b1!4m6!3m5!1s0x886972e81092e457:0x13d342e0ee8066f!8m2!3d38.2658035!4d-85.7392394!16zL20vMGM1czVi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Four Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_1/public" data-location="Big Four Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_1/public" alt="Big Four Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_2/public" data-location="Big Four Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_2/public" alt="Big Four Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_3/public" data-location="Big Four Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_3/public" alt="Big Four Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_4/public" data-location="Big Four Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_4/public" alt="Big Four Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_5/public" data-location="Big Four Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_5/public" alt="Big Four Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_6/public" data-location="Big Four Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_big_four_bridge_6/public" alt="Big Four Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Raven+Run+Nature+Sanctuary/@37.8893876,-84.3945334,17z/data=!3m1!4b1!4m6!3m5!1s0x884257ab24c14abb:0xa57c0f2d32d79cf6!8m2!3d37.8893876!4d-84.3945334!16s%2Fg%2F1tddswn0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Raven Run Nature Sanctuary 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_1/public" data-location="Raven Run Nature Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_1/public" alt="Raven Run Nature Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_2/public" data-location="Raven Run Nature Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_2/public" alt="Raven Run Nature Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_3/public" data-location="Raven Run Nature Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_3/public" alt="Raven Run Nature Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_4/public" data-location="Raven Run Nature Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_4/public" alt="Raven Run Nature Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_5/public" data-location="Raven Run Nature Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_5/public" alt="Raven Run Nature Sanctuary"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_6/public" data-location="Raven Run Nature Sanctuary"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_raven_run_nature_sanctuary_6/public" alt="Raven Run Nature Sanctuary"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cumberland+Falls/@36.8389698,-84.3452147,15z/data=!3m1!4b1!4m6!3m5!1s0x885d21f2f468c3e1:0x6dbe58eaf280abae!8m2!3d36.8389703!4d-84.3452147!16zL20vMGhyY3k?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cumberland Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_1/public" data-location="Cumberland Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_1/public" alt="Cumberland Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_2/public" data-location="Cumberland Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_2/public" alt="Cumberland Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_3/public" data-location="Cumberland Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_3/public" alt="Cumberland Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_4/public" data-location="Cumberland Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_4/public" alt="Cumberland Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_5/public" data-location="Cumberland Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_5/public" alt="Cumberland Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_6/public" data-location="Cumberland Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_6/public" alt="Cumberland Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Red+River+Gorge+Geological+Area/@37.813894,-83.6279389,17z/data=!3m1!4b1!4m6!3m5!1s0x884378977589d7ab:0x55a70d0d0f335d4e!8m2!3d37.813894!4d-83.6279389!16zL20vMGhyYms?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Red River Gorge Geological Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_1/public" data-location="Red River Gorge Geological Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_1/public" alt="Red River Gorge Geological Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_2/public" data-location="Red River Gorge Geological Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_2/public" alt="Red River Gorge Geological Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_3/public" data-location="Red River Gorge Geological Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_3/public" alt="Red River Gorge Geological Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_4/public" data-location="Red River Gorge Geological Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_4/public" alt="Red River Gorge Geological Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_5/public" data-location="Red River Gorge Geological Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_5/public" alt="Red River Gorge Geological Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_6/public" data-location="Red River Gorge Geological Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_red_river_gorge_geological_area_6/public" alt="Red River Gorge Geological Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kingdom+Come+State+Park/@36.9896349,-82.9846847,17z/data=!3m1!4b1!4m6!3m5!1s0x885b295cf2eed2a9:0x472bd07150db479b!8m2!3d36.9896349!4d-82.9846847!16zL20vMGJscjF3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kingdom Come State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_1/public" data-location="Kingdom Come State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_1/public" alt="Kingdom Come State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_2/public" data-location="Kingdom Come State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_2/public" alt="Kingdom Come State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_3/public" data-location="Kingdom Come State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_3/public" alt="Kingdom Come State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_4/public" data-location="Kingdom Come State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_4/public" alt="Kingdom Come State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_5/public" data-location="Kingdom Come State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_5/public" alt="Kingdom Come State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_6/public" data-location="Kingdom Come State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_kingdom_come_state_park_6/public" alt="Kingdom Come State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Berea+College+Forestry+Outreach+Center+at+the+Pinnacles/@37.5538288,-84.2406864,17z/data=!3m1!4b1!4m6!3m5!1s0x88431e4505d2c90b:0xb27dae6346e31ffd!8m2!3d37.5538288!4d-84.2406864!16s%2Fg%2F11f102j1c1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Berea Pinnacles 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_1/public" data-location="Berea Pinnacles"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_1/public" alt="Berea Pinnacles"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_2/public" data-location="Berea Pinnacles"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_2/public" alt="Berea Pinnacles"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_3/public" data-location="Berea Pinnacles"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_3/public" alt="Berea Pinnacles"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_4/public" data-location="Berea Pinnacles"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_4/public" alt="Berea Pinnacles"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_5/public" data-location="Berea Pinnacles"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_5/public" alt="Berea Pinnacles"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_6/public" data-location="Berea Pinnacles"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_berea_pinnacles_6/public" alt="Berea Pinnacles"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Old+Mulkey+Meetinghouse+State+Historic+Site/@36.6778165,-85.7043645,17z/data=!3m1!4b1!4m6!3m5!1s0x886651bd0143c657:0x210f21f22b313bbe!8m2!3d36.6778165!4d-85.7043645!16s%2Fm%2F027zztn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Old Mulkey Meetinghouse State Historic Site 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_1/public" data-location="Old Mulkey Meetinghouse State Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_1/public" alt="Old Mulkey Meetinghouse State Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_2/public" data-location="Old Mulkey Meetinghouse State Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_2/public" alt="Old Mulkey Meetinghouse State Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_3/public" data-location="Old Mulkey Meetinghouse State Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_3/public" alt="Old Mulkey Meetinghouse State Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_4/public" data-location="Old Mulkey Meetinghouse State Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_4/public" alt="Old Mulkey Meetinghouse State Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_5/public" data-location="Old Mulkey Meetinghouse State Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_5/public" alt="Old Mulkey Meetinghouse State Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_6/public" data-location="Old Mulkey Meetinghouse State Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_old_mulkey_meetinghouse_state_historic_site_6/public" alt="Old Mulkey Meetinghouse State Historic Site"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Churchill+Downs/@38.2037252,-85.7723988,17z/data=!3m1!4b1!4m6!3m5!1s0x88691281343a54f1:0x1b3c756e82ea09be!8m2!3d38.2037252!4d-85.7723988!16zL20vMDN0M2xx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Churchill Downs 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_1/public" data-location="Churchill Downs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_1/public" alt="Churchill Downs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_2/public" data-location="Churchill Downs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_2/public" alt="Churchill Downs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_3/public" data-location="Churchill Downs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_3/public" alt="Churchill Downs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_4/public" data-location="Churchill Downs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_4/public" alt="Churchill Downs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_5/public" data-location="Churchill Downs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_5/public" alt="Churchill Downs"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_6/public" data-location="Churchill Downs"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_churchill_downs_6/public" alt="Churchill Downs"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/National+Corvette+Museum/@37.0041426,-86.374617,17z/data=!3m1!4b1!4m6!3m5!1s0x8865e4367e69442d:0x5d4ad89350a49c8a!8m2!3d37.0041426!4d-86.374617!16zL20vMDFxOHgw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>National Corvette Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_1/public" data-location="National Corvette Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_1/public" alt="National Corvette Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_2/public" data-location="National Corvette Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_2/public" alt="National Corvette Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_3/public" data-location="National Corvette Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_3/public" alt="National Corvette Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_4/public" data-location="National Corvette Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_4/public" alt="National Corvette Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_5/public" data-location="National Corvette Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_5/public" alt="National Corvette Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_6/public" data-location="National Corvette Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_national_corvette_museum_6/public" alt="National Corvette Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waterfront+Park/@38.2607389,-85.7426013,17z/data=!3m1!4b1!4m6!3m5!1s0x886972e9e4e6f1f7:0x4ae335f4dd2f6190!8m2!3d38.2607389!4d-85.7426013!16zL20vMDcyczIx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Louisville Waterfront Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_1/public" data-location="Louisville Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_1/public" alt="Louisville Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_2/public" data-location="Louisville Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_2/public" alt="Louisville Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_3/public" data-location="Louisville Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_3/public" alt="Louisville Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_4/public" data-location="Louisville Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_4/public" alt="Louisville Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_5/public" data-location="Louisville Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_5/public" alt="Louisville Waterfront Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_6/public" data-location="Louisville Waterfront Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_louisville_waterfront_park_6/public" alt="Louisville Waterfront Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cumberland+Falls+State+Resort+Park/@36.83866,-84.33862,17z/data=!3m1!4b1!4m9!3m8!1s0x885d2192942ec5b5:0x6f09226b1dde63d4!5m2!4m1!1i2!8m2!3d36.83866!4d-84.33862!16s%2Fm%2F027z8j8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cumberland Falls State Resort Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_1/public" data-location="Cumberland Falls State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_1/public" alt="Cumberland Falls State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_2/public" data-location="Cumberland Falls State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_2/public" alt="Cumberland Falls State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_3/public" data-location="Cumberland Falls State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_3/public" alt="Cumberland Falls State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_4/public" data-location="Cumberland Falls State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_4/public" alt="Cumberland Falls State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_5/public" data-location="Cumberland Falls State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_5/public" alt="Cumberland Falls State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_6/public" data-location="Cumberland Falls State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cumberland_falls_state_resort_park_6/public" alt="Cumberland Falls State Resort Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Buffalo+Trace+Distillery/@38.2165649,-84.8710442,17z/data=!3m1!4b1!4m6!3m5!1s0x88420b4fdd43582f:0x361dd99483cf9fcc!8m2!3d38.2165649!4d-84.8710442!16s%2Fm%2F03c3_7b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Buffalo Trace Distillery 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_1/public" data-location="Buffalo Trace Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_1/public" alt="Buffalo Trace Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_2/public" data-location="Buffalo Trace Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_2/public" alt="Buffalo Trace Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_3/public" data-location="Buffalo Trace Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_3/public" alt="Buffalo Trace Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_4/public" data-location="Buffalo Trace Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_4/public" alt="Buffalo Trace Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_5/public" data-location="Buffalo Trace Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_5/public" alt="Buffalo Trace Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_6/public" data-location="Buffalo Trace Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_buffalo_trace_distillery_6/public" alt="Buffalo Trace Distillery"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Abraham+Lincoln+Do%C4%9Fum+Yeri+Ulusal+Tarih+Park%C4%B1/@37.5311219,-85.7374931,17z/data=!3m1!4b1!4m6!3m5!1s0x88688d198f125605:0x9d91225cfeef713b!8m2!3d37.5311219!4d-85.7374931!16zL20vMDczdjB3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Abraham Lincoln Birthplace National Historical Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_1/public" data-location="Abraham Lincoln Birthplace National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_1/public" alt="Abraham Lincoln Birthplace National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_2/public" data-location="Abraham Lincoln Birthplace National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_2/public" alt="Abraham Lincoln Birthplace National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_3/public" data-location="Abraham Lincoln Birthplace National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_3/public" alt="Abraham Lincoln Birthplace National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_4/public" data-location="Abraham Lincoln Birthplace National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_4/public" alt="Abraham Lincoln Birthplace National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_5/public" data-location="Abraham Lincoln Birthplace National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_5/public" alt="Abraham Lincoln Birthplace National Historical Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_6/public" data-location="Abraham Lincoln Birthplace National Historical Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_abraham_lincoln_birthplace_national_historical_park_6/public" alt="Abraham Lincoln Birthplace National Historical Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Devou+Park/@39.0800036,-84.5404834,17z/data=!3m1!4b1!4m6!3m5!1s0x8841b6dccbaa6797:0xb1a700d54d752681!8m2!3d39.0800036!4d-84.5404834!16s%2Fm%2F0v3f3fp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Devou Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_1/public" data-location="Devou Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_1/public" alt="Devou Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_2/public" data-location="Devou Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_2/public" alt="Devou Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_3/public" data-location="Devou Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_3/public" alt="Devou Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_4/public" data-location="Devou Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_4/public" alt="Devou Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_5/public" data-location="Devou Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_5/public" alt="Devou Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_6/public" data-location="Devou Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_devou_park_6/public" alt="Devou Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Carter+Caves+State+Resort+Park/@38.3718793,-83.1272272,17z/data=!3m1!4b1!4m9!3m8!1s0x884425d55f8ce881:0x932179e8c5c46e5e!5m2!4m1!1i2!8m2!3d38.3718793!4d-83.1272272!16zL20vMGJzbnM0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Carter Caves State Resort Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_1/public" data-location="Carter Caves State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_1/public" alt="Carter Caves State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_2/public" data-location="Carter Caves State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_2/public" alt="Carter Caves State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_3/public" data-location="Carter Caves State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_3/public" alt="Carter Caves State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_4/public" data-location="Carter Caves State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_4/public" alt="Carter Caves State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_5/public" data-location="Carter Caves State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_5/public" alt="Carter Caves State Resort Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_6/public" data-location="Carter Caves State Resort Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_carter_caves_state_resort_park_6/public" alt="Carter Caves State Resort Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/John+A.+Roebling+Suspension+Bridge,+Amerika+Birle%C5%9Fik+Devletleri/@39.093571,-84.5100051,17z/data=!3m1!4b1!4m6!3m5!1s0x8841b146776b0d0f:0x6691d257a150ae64!8m2!3d39.093571!4d-84.5100051!16s%2Fg%2F1tmk956b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>John A. Roebling Suspension Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_1/public" data-location="John A. Roebling Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_1/public" alt="John A. Roebling Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_2/public" data-location="John A. Roebling Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_2/public" alt="John A. Roebling Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_3/public" data-location="John A. Roebling Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_3/public" alt="John A. Roebling Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_4/public" data-location="John A. Roebling Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_4/public" alt="John A. Roebling Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_5/public" data-location="John A. Roebling Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_5/public" alt="John A. Roebling Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_6/public" data-location="John A. Roebling Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_john_a_roebling_suspension_bridge_6/public" alt="John A. Roebling Suspension Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Shaker+Village+of+Pleasant+Hill/@37.8175139,-84.7403113,17z/data=!3m1!4b1!4m9!3m8!1s0x884288f9b4bc7af9:0x4a1186d129866663!5m2!4m1!1i2!8m2!3d37.8175139!4d-84.7403113!16s%2Fg%2F1tdy549x?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Shaker Village of Pleasant Hill 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_1/public" data-location="Shaker Village of Pleasant Hill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_1/public" alt="Shaker Village of Pleasant Hill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_2/public" data-location="Shaker Village of Pleasant Hill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_2/public" alt="Shaker Village of Pleasant Hill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_3/public" data-location="Shaker Village of Pleasant Hill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_3/public" alt="Shaker Village of Pleasant Hill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_4/public" data-location="Shaker Village of Pleasant Hill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_4/public" alt="Shaker Village of Pleasant Hill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_5/public" data-location="Shaker Village of Pleasant Hill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_5/public" alt="Shaker Village of Pleasant Hill"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_6/public" data-location="Shaker Village of Pleasant Hill"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_shaker_village_of_pleasant_hill_6/public" alt="Shaker Village of Pleasant Hill"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Four+Roses+Distillery/@37.9734293,-84.8975613,17z/data=!3m1!4b1!4m6!3m5!1s0x88427918ac40446d:0xda0173b9f2376191!8m2!3d37.9734293!4d-84.8975613!16s%2Fg%2F1hc42ztcz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Four Roses Distillery 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_1/public" data-location="Four Roses Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_1/public" alt="Four Roses Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_2/public" data-location="Four Roses Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_2/public" alt="Four Roses Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_3/public" data-location="Four Roses Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_3/public" alt="Four Roses Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_4/public" data-location="Four Roses Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_4/public" alt="Four Roses Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_5/public" data-location="Four Roses Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_5/public" alt="Four Roses Distillery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_6/public" data-location="Four Roses Distillery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_four_roses_distillery_6/public" alt="Four Roses Distillery"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rabbit+Hash+General+Store/@38.942204,-84.846017,17z/data=!3m1!4b1!4m6!3m5!1s0x8841dc10ac0f5c93:0xb8057c8f87f2a94d!8m2!3d38.942204!4d-84.846017!16s%2Fg%2F11b5w080wc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rabbit Hash General Store 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_1/public" data-location="Rabbit Hash General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_1/public" alt="Rabbit Hash General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_2/public" data-location="Rabbit Hash General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_2/public" alt="Rabbit Hash General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_3/public" data-location="Rabbit Hash General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_3/public" alt="Rabbit Hash General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_4/public" data-location="Rabbit Hash General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_4/public" alt="Rabbit Hash General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_5/public" data-location="Rabbit Hash General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_5/public" alt="Rabbit Hash General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_6/public" data-location="Rabbit Hash General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_rabbit_hash_general_store_6/public" alt="Rabbit Hash General Store"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cove+Spring+Park/@38.2184154,-84.8515767,17z/data=!3m1!4b1!4m6!3m5!1s0x88420cbb71f22701:0x942bb0a5aeb1bcaf!8m2!3d38.2184154!4d-84.8515767!16s%2Fg%2F1tdpmrz6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cove Spring Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_1/public" data-location="Cove Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_1/public" alt="Cove Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_2/public" data-location="Cove Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_2/public" alt="Cove Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_3/public" data-location="Cove Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_3/public" alt="Cove Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_4/public" data-location="Cove Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_4/public" alt="Cove Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_5/public" data-location="Cove Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_5/public" alt="Cove Spring Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_6/public" data-location="Cove Spring Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_cove_spring_park_6/public" alt="Cove Spring Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Land+Between+the+Lakes+National+Recreation+Area/@36.857492,-88.0714322,17z/data=!3m1!4b1!4m6!3m5!1s0x887afa602862ab65:0x330108019c1dcfe2!8m2!3d36.857492!4d-88.0714322!16zL20vMGY1djR5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Land Between the Lakes National Recreation Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_1/public" data-location="Land Between the Lakes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_1/public" alt="Land Between the Lakes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_2/public" data-location="Land Between the Lakes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_2/public" alt="Land Between the Lakes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_3/public" data-location="Land Between the Lakes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_3/public" alt="Land Between the Lakes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_4/public" data-location="Land Between the Lakes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_4/public" alt="Land Between the Lakes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_5/public" data-location="Land Between the Lakes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_5/public" alt="Land Between the Lakes National Recreation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_6/public" data-location="Land Between the Lakes National Recreation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kentucky_land_between_the_lakes_national_recreation_area_6/public" alt="Land Between the Lakes National Recreation Area"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
