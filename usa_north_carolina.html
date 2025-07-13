@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>North Carolina</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">North Carolina</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wheels+Through+Time+Motorcycle+Museum/@35.5136191,-83.0776725,17z/data=!3m1!4b1!4m6!3m5!1s0x8859702776caddc7:0x2b606388db0872fe!8m2!3d35.5136191!4d-83.0776725!16s%2Fg%2F1tmpfnd8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wheels Through Time Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_1/public" data-location="Wheels Through Time Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_1/public" alt="Wheels Through Time Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_2/public" data-location="Wheels Through Time Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_2/public" alt="Wheels Through Time Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_3/public" data-location="Wheels Through Time Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_3/public" alt="Wheels Through Time Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_4/public" data-location="Wheels Through Time Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_4/public" alt="Wheels Through Time Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_5/public" data-location="Wheels Through Time Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_5/public" alt="Wheels Through Time Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_6/public" data-location="Wheels Through Time Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wheels_through_time_museum_6/public" alt="Wheels Through Time Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Lure+Flowering+Bridge/@35.4362249,-82.2350478,17z/data=!3m1!4b1!4m6!3m5!1s0x8859e26870c53fbb:0xbd20244247d426c7!8m2!3d35.4362249!4d-82.2350478!16s%2Fg%2F1pp2v0bt8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Flowering Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_1/public" data-location="Flowering Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_1/public" alt="Flowering Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_2/public" data-location="Flowering Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_2/public" alt="Flowering Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_3/public" data-location="Flowering Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_3/public" alt="Flowering Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_4/public" data-location="Flowering Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_4/public" alt="Flowering Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_5/public" data-location="Flowering Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_5/public" alt="Flowering Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_6/public" data-location="Flowering Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_flowering_bridge_6/public" alt="Flowering Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mingo+Falls/@35.5320377,-83.2746107,17z/data=!3m1!4b1!4m6!3m5!1s0x885942c1d909bf0b:0xcfc2f3470408463f!8m2!3d35.5320377!4d-83.2746107!16s%2Fg%2F11c3ymw0lp?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mingo Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_1/public" data-location="Mingo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_1/public" alt="Mingo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_2/public" data-location="Mingo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_2/public" alt="Mingo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_3/public" data-location="Mingo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_3/public" alt="Mingo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_4/public" data-location="Mingo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_4/public" alt="Mingo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_5/public" data-location="Mingo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_5/public" alt="Mingo Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_6/public" data-location="Mingo Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mingo_falls_6/public" alt="Mingo Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Whitewater+Falls/@35.0352952,-83.0169403,17z/data=!3m1!4b1!4m6!3m5!1s0x8859026a7dbd8299:0x117bb52be99d6e4d!8m2!3d35.0352952!4d-83.0169403!16s%2Fm%2F02pr8gc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Whitewater Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_1/public" data-location="Whitewater Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_1/public" alt="Whitewater Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_2/public" data-location="Whitewater Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_2/public" alt="Whitewater Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_3/public" data-location="Whitewater Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_3/public" alt="Whitewater Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_4/public" data-location="Whitewater Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_4/public" alt="Whitewater Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_5/public" data-location="Whitewater Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_5/public" alt="Whitewater Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_6/public" data-location="Whitewater Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_whitewater_falls_6/public" alt="Whitewater Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Linn+Cove+Viaduct/@36.0949718,-81.812509,17z/data=!3m1!4b1!4m6!3m5!1s0x8850ec5d17be320d:0xe3698bb6f74e9971!8m2!3d36.0949718!4d-81.812509!16s%2Fg%2F11cs2htlfd?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Linn Cove Viaduct 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_1/public" data-location="Linn Cove Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_1/public" alt="Linn Cove Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_2/public" data-location="Linn Cove Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_2/public" alt="Linn Cove Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_3/public" data-location="Linn Cove Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_3/public" alt="Linn Cove Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_4/public" data-location="Linn Cove Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_4/public" alt="Linn Cove Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_5/public" data-location="Linn Cove Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_5/public" alt="Linn Cove Viaduct"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_6/public" data-location="Linn Cove Viaduct"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_linn_cove_viaduct_6/public" alt="Linn Cove Viaduct"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cape+Lookout+Lighthouse/@34.6229511,-76.5245021,17z/data=!3m1!4b1!4m6!3m5!1s0x89a88338b489f7f3:0x591986c01b41dff6!8m2!3d34.6229511!4d-76.5245021!16zL20vMGQzZ2Ju?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape Lookout Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_1/public" data-location="Cape Lookout Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_1/public" alt="Cape Lookout Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_2/public" data-location="Cape Lookout Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_2/public" alt="Cape Lookout Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_3/public" data-location="Cape Lookout Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_3/public" alt="Cape Lookout Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_4/public" data-location="Cape Lookout Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_4/public" alt="Cape Lookout Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_5/public" data-location="Cape Lookout Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_5/public" alt="Cape Lookout Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_6/public" data-location="Cape Lookout Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_lookout_lighthouse_6/public" alt="Cape Lookout Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Top+of+Mt.+Mitchell/@35.764966,-82.265096,17z/data=!3m1!4b1!4m6!3m5!1s0x885a06dbcfc1e0e5:0x495c6ca0fec5a871!8m2!3d35.764966!4d-82.265096!16s%2Fg%2F1tfzhh1n?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mount Mitchell Observation Deck 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_1/public" data-location="Mount Mitchell Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_1/public" alt="Mount Mitchell Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_2/public" data-location="Mount Mitchell Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_2/public" alt="Mount Mitchell Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_3/public" data-location="Mount Mitchell Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_3/public" alt="Mount Mitchell Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_4/public" data-location="Mount Mitchell Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_4/public" alt="Mount Mitchell Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_5/public" data-location="Mount Mitchell Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_5/public" alt="Mount Mitchell Observation Deck"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_6/public" data-location="Mount Mitchell Observation Deck"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mount_mitchell_observation_deck_6/public" alt="Mount Mitchell Observation Deck"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lejeune+Memorial+Gardens/@34.747793,-77.414881,17z/data=!3m1!4b1!4m6!3m5!1s0x89a910303d427e95:0x30f6a3b39c981105!8m2!3d34.747793!4d-77.414881!16s%2Fg%2F11cp71_1v9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lejeune Memorial Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_1/public" data-location="Lejeune Memorial Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_1/public" alt="Lejeune Memorial Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_2/public" data-location="Lejeune Memorial Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_2/public" alt="Lejeune Memorial Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_3/public" data-location="Lejeune Memorial Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_3/public" alt="Lejeune Memorial Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_4/public" data-location="Lejeune Memorial Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_4/public" alt="Lejeune Memorial Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_5/public" data-location="Lejeune Memorial Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_5/public" alt="Lejeune Memorial Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_6/public" data-location="Lejeune Memorial Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_lejeune_memorial_gardens_6/public" alt="Lejeune Memorial Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Table+Rock+Mountain/@35.8909601,-81.882886,15z/data=!3m1!4b1!4m6!3m5!1s0x8850b8b9fdfebc2f:0xd8c8e189b89c9adf!8m2!3d35.8909606!4d-81.882886!16s%2Fm%2F06w74_g?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Table Rock Mountain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_1/public" data-location="Table Rock Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_1/public" alt="Table Rock Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_2/public" data-location="Table Rock Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_2/public" alt="Table Rock Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_3/public" data-location="Table Rock Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_3/public" alt="Table Rock Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_4/public" data-location="Table Rock Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_4/public" alt="Table Rock Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_5/public" data-location="Table Rock Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_5/public" alt="Table Rock Mountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_6/public" data-location="Table Rock Mountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_table_rock_mountain_6/public" alt="Table Rock Mountain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Battleship+North+Carolina/@34.2365524,-77.9543704,17z/data=!3m1!4b1!4m6!3m5!1s0x89aa1fb84831ad59:0x9d2e579b1bd2d539!8m2!3d34.2365524!4d-77.9543704!16zL20vMDFid3Rz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Battleship North Carolina 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_1/public" data-location="Battleship North Carolina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_1/public" alt="Battleship North Carolina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_2/public" data-location="Battleship North Carolina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_2/public" alt="Battleship North Carolina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_3/public" data-location="Battleship North Carolina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_3/public" alt="Battleship North Carolina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_4/public" data-location="Battleship North Carolina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_4/public" alt="Battleship North Carolina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_5/public" data-location="Battleship North Carolina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_5/public" alt="Battleship North Carolina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_6/public" data-location="Battleship North Carolina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_battleship_north_carolina_6/public" alt="Battleship North Carolina"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Wright+Brothers+National+Memorial/@36.0168023,-75.6681803,17z/data=!3m1!4b1!4m6!3m5!1s0x89a4e2a6f25f17b5:0xfb696e1a15347b2b!8m2!3d36.0168023!4d-75.6681803!16zL20vMDczdHkw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Wright Brothers Memorial 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_1/public" data-location="Wright Brothers Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_1/public" alt="Wright Brothers Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_2/public" data-location="Wright Brothers Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_2/public" alt="Wright Brothers Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_3/public" data-location="Wright Brothers Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_3/public" alt="Wright Brothers Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_4/public" data-location="Wright Brothers Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_4/public" alt="Wright Brothers Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_5/public" data-location="Wright Brothers Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_5/public" alt="Wright Brothers Memorial"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_6/public" data-location="Wright Brothers Memorial"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_wright_brothers_memorial_6/public" alt="Wright Brothers Memorial"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Chimney+Rock+State+Park/@35.4397021,-82.2485749,17z/data=!3m1!4b1!4m6!3m5!1s0x8859e24ed64aa0a1:0x41aced3a86d2b83c!8m2!3d35.4397021!4d-82.2485749!16zL20vMGc1cXY1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Chimney Rock State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_1/public" data-location="Chimney Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_1/public" alt="Chimney Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_2/public" data-location="Chimney Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_2/public" alt="Chimney Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_3/public" data-location="Chimney Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_3/public" alt="Chimney Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_4/public" data-location="Chimney Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_4/public" alt="Chimney Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_5/public" data-location="Chimney Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_5/public" alt="Chimney Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_6/public" data-location="Chimney Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_chimney_rock_state_park_6/public" alt="Chimney Rock State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Oconaluftee+Visitor+Center/@35.5130615,-83.3061509,17z/data=!3m1!4b1!4m6!3m5!1s0x885943084a5a0cc1:0x2cb5dc8a86dd8004!8m2!3d35.5130615!4d-83.3061509!16s%2Fm%2F02x6ndq?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Oconaluftee Visitor Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_1/public" data-location="Oconaluftee Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_1/public" alt="Oconaluftee Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_2/public" data-location="Oconaluftee Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_2/public" alt="Oconaluftee Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_3/public" data-location="Oconaluftee Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_3/public" alt="Oconaluftee Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_4/public" data-location="Oconaluftee Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_4/public" alt="Oconaluftee Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_5/public" data-location="Oconaluftee Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_5/public" alt="Oconaluftee Visitor Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_6/public" data-location="Oconaluftee Visitor Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_oconaluftee_visitor_center_6/public" alt="Oconaluftee Visitor Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pilot+Mountain+State+Park/@36.3411911,-80.4775189,17z/data=!3m1!4b1!4m6!3m5!1s0x885235c4cc12516d:0xdbae8d00cae0f0ad!8m2!3d36.3411911!4d-80.4775189!16zL20vMDJ5cGdn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pilot Mountain State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_1/public" data-location="Pilot Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_1/public" alt="Pilot Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_2/public" data-location="Pilot Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_2/public" alt="Pilot Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_3/public" data-location="Pilot Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_3/public" alt="Pilot Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_4/public" data-location="Pilot Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_4/public" alt="Pilot Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_5/public" data-location="Pilot Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_5/public" alt="Pilot Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_6/public" data-location="Pilot Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pilot_mountain_state_park_6/public" alt="Pilot Mountain State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rhododendron+Gardens/@36.1003096,-82.1343902,17z/data=!3m1!4b1!4m6!3m5!1s0x88509c08e85a734f:0x6c509d6686f3ea39!8m2!3d36.1003096!4d-82.1343902!16s%2Fg%2F11g6rkry2b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Roan Mountain Rhododendron Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_1/public" data-location="Roan Mountain Rhododendron Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_1/public" alt="Roan Mountain Rhododendron Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_2/public" data-location="Roan Mountain Rhododendron Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_2/public" alt="Roan Mountain Rhododendron Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_3/public" data-location="Roan Mountain Rhododendron Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_3/public" alt="Roan Mountain Rhododendron Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_4/public" data-location="Roan Mountain Rhododendron Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_4/public" alt="Roan Mountain Rhododendron Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_5/public" data-location="Roan Mountain Rhododendron Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_5/public" alt="Roan Mountain Rhododendron Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_6/public" data-location="Roan Mountain Rhododendron Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_roan_mountain_rhododendron_gardens_6/public" alt="Roan Mountain Rhododendron Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Macon+State+Park/@34.7000206,-76.6922289,17z/data=!3m1!4b1!4m6!3m5!1s0x89a89056c0f43ec7:0x6c0115083a6b4e42!8m2!3d34.7000206!4d-76.6922289!16zL20vMDJ5cDc3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Macon State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_1/public" data-location="Fort Macon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_1/public" alt="Fort Macon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_2/public" data-location="Fort Macon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_2/public" alt="Fort Macon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_3/public" data-location="Fort Macon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_3/public" alt="Fort Macon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_4/public" data-location="Fort Macon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_4/public" alt="Fort Macon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_5/public" data-location="Fort Macon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_5/public" alt="Fort Macon State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_6/public" data-location="Fort Macon State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_fort_macon_state_park_6/public" alt="Fort Macon State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jockey's+Ridge+State+Park/@35.9637835,-75.6326293,17z/data=!3m1!4b1!4m6!3m5!1s0x89a4e39b3da4206d:0xc2a0fe6b3bf1ffe7!8m2!3d35.9637835!4d-75.6326293!16zL20vMDJ5cDh6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jockey’s Ridge State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_1/public" data-location="Jockey’s Ridge State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_1/public" alt="Jockey’s Ridge State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_2/public" data-location="Jockey’s Ridge State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_2/public" alt="Jockey’s Ridge State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_3/public" data-location="Jockey’s Ridge State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_3/public" alt="Jockey’s Ridge State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_4/public" data-location="Jockey’s Ridge State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_4/public" alt="Jockey’s Ridge State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_5/public" data-location="Jockey’s Ridge State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_5/public" alt="Jockey’s Ridge State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_6/public" data-location="Jockey’s Ridge State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jockeys_ridge_state_park_6/public" alt="Jockey’s Ridge State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Hatteras+Burnu+Deniz+Feneri/@35.2505108,-75.5287823,17z/data=!3m1!4b1!4m6!3m5!1s0x89a4307f5824bd11:0x932abbc9e9fe117b!8m2!3d35.2505365!4d-75.5288245!16zL20vMDJzM2J2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cape Hatteras Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_1/public" data-location="Cape Hatteras Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_1/public" alt="Cape Hatteras Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_2/public" data-location="Cape Hatteras Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_2/public" alt="Cape Hatteras Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_3/public" data-location="Cape Hatteras Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_3/public" alt="Cape Hatteras Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_4/public" data-location="Cape Hatteras Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_4/public" alt="Cape Hatteras Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_5/public" data-location="Cape Hatteras Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_5/public" alt="Cape Hatteras Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_6/public" data-location="Cape Hatteras Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_cape_hatteras_lighthouse_6/public" alt="Cape Hatteras Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mile+High+Swinging+Bridge/@36.0949786,-81.8322841,17z/data=!3m1!4b1!4m6!3m5!1s0x8850ecf2908a701b:0x412ab1757b902115!8m2!3d36.0949786!4d-81.8322841!16s%2Fg%2F1tcy9lss?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mile High Swinging Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_1/public" data-location="Mile High Swinging Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_1/public" alt="Mile High Swinging Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_2/public" data-location="Mile High Swinging Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_2/public" alt="Mile High Swinging Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_3/public" data-location="Mile High Swinging Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_3/public" alt="Mile High Swinging Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_4/public" data-location="Mile High Swinging Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_4/public" alt="Mile High Swinging Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_5/public" data-location="Mile High Swinging Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_5/public" alt="Mile High Swinging Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_6/public" data-location="Mile High Swinging Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mile_high_swinging_bridge_6/public" alt="Mile High Swinging Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Morrow+Mountain+State+Park/@35.3703453,-80.101062,17z/data=!3m1!4b1!4m6!3m5!1s0x88548799e36e448b:0xd47461a395934fa0!8m2!3d35.3703453!4d-80.101062!16zL20vMDJ5cGRk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Morrow Mountain State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_1/public" data-location="Morrow Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_1/public" alt="Morrow Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_2/public" data-location="Morrow Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_2/public" alt="Morrow Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_3/public" data-location="Morrow Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_3/public" alt="Morrow Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_4/public" data-location="Morrow Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_4/public" alt="Morrow Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_5/public" data-location="Morrow Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_5/public" alt="Morrow Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_6/public" data-location="Morrow Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_morrow_mountain_state_park_6/public" alt="Morrow Mountain State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kuwohi/@35.5627583,-83.4984356,17z/data=!3m1!4b1!4m6!3m5!1s0x88594e0302f0a0ab:0x756a068785c2f619!8m2!3d35.5627546!4d-83.4984981!16zL20vMDNqZzJ6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Clingmans Dome 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_1/public" data-location="Clingmans Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_1/public" alt="Clingmans Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_2/public" data-location="Clingmans Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_2/public" alt="Clingmans Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_3/public" data-location="Clingmans Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_3/public" alt="Clingmans Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_4/public" data-location="Clingmans Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_4/public" alt="Clingmans Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_5/public" data-location="Clingmans Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_5/public" alt="Clingmans Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_6/public" data-location="Clingmans Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_clingmans_dome_6/public" alt="Clingmans Dome"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Airlie+Gardens/@34.2182979,-77.8302416,17z/data=!3m1!4b1!4m6!3m5!1s0x89a9f379ea187269:0x7c9a2d9ec1ad6806!8m2!3d34.2182979!4d-77.8302416!16zL20vMGYwM2ox?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Airlie Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_1/public" data-location="Airlie Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_1/public" alt="Airlie Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_2/public" data-location="Airlie Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_2/public" alt="Airlie Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_3/public" data-location="Airlie Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_3/public" alt="Airlie Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_4/public" data-location="Airlie Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_4/public" alt="Airlie Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_5/public" data-location="Airlie Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_5/public" alt="Airlie Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_6/public" data-location="Airlie Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_airlie_gardens_6/public" alt="Airlie Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/JC+Raulston+Arboretum/@35.7945517,-78.6999457,17z/data=!3m1!4b1!4m6!3m5!1s0x89acf5ca9b046e95:0x28a478c8bab52c30!8m2!3d35.7945517!4d-78.6999457!16zL20vMDlueXgw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>JC Raulston Arboretum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_1/public" data-location="JC Raulston Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_1/public" alt="JC Raulston Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_2/public" data-location="JC Raulston Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_2/public" alt="JC Raulston Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_3/public" data-location="JC Raulston Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_3/public" alt="JC Raulston Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_4/public" data-location="JC Raulston Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_4/public" alt="JC Raulston Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_5/public" data-location="JC Raulston Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_5/public" alt="JC Raulston Arboretum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_6/public" data-location="JC Raulston Arboretum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_jc_raulston_arboretum_6/public" alt="JC Raulston Arboretum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pea+Island+National+Wildlife+Refuge/@35.7166672,-75.4937378,17z/data=!3m1!4b1!4m6!3m5!1s0x89a4584f25e4dc9f:0x13f6218f89351016!8m2!3d35.7166672!4d-75.4937378!16zL20vMGI5dzlz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pea Island Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_1/public" data-location="Pea Island Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_1/public" alt="Pea Island Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_2/public" data-location="Pea Island Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_2/public" alt="Pea Island Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_3/public" data-location="Pea Island Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_3/public" alt="Pea Island Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_4/public" data-location="Pea Island Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_4/public" alt="Pea Island Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_5/public" data-location="Pea Island Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_5/public" alt="Pea Island Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_6/public" data-location="Pea Island Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_pea_island_wildlife_refuge_6/public" alt="Pea Island Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Eno+River+State+Park/@36.0765737,-79.0136595,17z/data=!3m1!4b1!4m6!3m5!1s0x89ace0ffd5420f91:0x530354e8ab740044!8m2!3d36.0765737!4d-79.0136595!16zL20vMDJ5cDV2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Eno River State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_1/public" data-location="Eno River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_1/public" alt="Eno River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_2/public" data-location="Eno River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_2/public" alt="Eno River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_3/public" data-location="Eno River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_3/public" alt="Eno River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_4/public" data-location="Eno River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_4/public" alt="Eno River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_5/public" data-location="Eno River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_5/public" alt="Eno River State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_6/public" data-location="Eno River State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_eno_river_state_park_6/public" alt="Eno River State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Original+Mast+General+Store/@36.2103333,-81.7815667,17z/data=!3m1!4b1!4m6!3m5!1s0x8850f3d9ae632a27:0xda2e25689dce7151!8m2!3d36.2103333!4d-81.7815667!16s%2Fg%2F11_ryx3kv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mast General Store 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_1/public" data-location="Mast General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_1/public" alt="Mast General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_2/public" data-location="Mast General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_2/public" alt="Mast General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_3/public" data-location="Mast General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_3/public" alt="Mast General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_4/public" data-location="Mast General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_4/public" alt="Mast General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_5/public" data-location="Mast General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_5/public" alt="Mast General Store"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_6/public" data-location="Mast General Store"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_mast_general_store_6/public" alt="Mast General Store"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Guilford+Courthouse+National+Military+Park/@36.1315218,-79.8466256,17z/data=!3m1!4b1!4m6!3m5!1s0x88531c2d6202ab5d:0xc15824eace5ea18e!8m2!3d36.1315218!4d-79.8466256!16zL20vMDdubXh6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Guilford Courthouse NMP 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_1/public" data-location="Guilford Courthouse NMP"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_1/public" alt="Guilford Courthouse NMP"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_2/public" data-location="Guilford Courthouse NMP"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_2/public" alt="Guilford Courthouse NMP"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_3/public" data-location="Guilford Courthouse NMP"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_3/public" alt="Guilford Courthouse NMP"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_4/public" data-location="Guilford Courthouse NMP"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_4/public" alt="Guilford Courthouse NMP"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_5/public" data-location="Guilford Courthouse NMP"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_5/public" alt="Guilford Courthouse NMP"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_6/public" data-location="Guilford Courthouse NMP"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_guilford_courthouse_nmp_6/public" alt="Guilford Courthouse NMP"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tanger+Family+Bicentennial+Garden/@36.0927904,-79.8413328,17z/data=!3m1!4b1!4m6!3m5!1s0x88531c0867ff4333:0x1c62876ce2da51c1!8m2!3d36.0927904!4d-79.8413328!16s%2Fm%2F0ds3f6s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tanger Bicentennial Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_1/public" data-location="Tanger Bicentennial Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_1/public" alt="Tanger Bicentennial Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_2/public" data-location="Tanger Bicentennial Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_2/public" alt="Tanger Bicentennial Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_3/public" data-location="Tanger Bicentennial Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_3/public" alt="Tanger Bicentennial Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_4/public" data-location="Tanger Bicentennial Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_4/public" alt="Tanger Bicentennial Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_5/public" data-location="Tanger Bicentennial Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_5/public" alt="Tanger Bicentennial Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_6/public" data-location="Tanger Bicentennial Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_tanger_bicentennial_garden_6/public" alt="Tanger Bicentennial Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Latta+Nature+Preserve/@35.3575614,-80.9069764,17z/data=!3m1!4b1!4m6!3m5!1s0x8856a4348f234a89:0x6cf25978a6ebc906!8m2!3d35.3575614!4d-80.9069764!16s%2Fg%2F11bv3rltz6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Latta Plantation Nature Preserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_1/public" data-location="Latta Plantation Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_1/public" alt="Latta Plantation Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_2/public" data-location="Latta Plantation Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_2/public" alt="Latta Plantation Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_3/public" data-location="Latta Plantation Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_3/public" alt="Latta Plantation Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_4/public" data-location="Latta Plantation Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_4/public" alt="Latta Plantation Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_5/public" data-location="Latta Plantation Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_5/public" alt="Latta Plantation Nature Preserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_6/public" data-location="Latta Plantation Nature Preserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_latta_plantation_nature_preserve_6/public" alt="Latta Plantation Nature Preserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Basilica+of+Saint+Lawrence,+Deacon+and+Martyr/@35.5972123,-82.5562229,17z/data=!3m1!4b1!4m6!3m5!1s0x8859f3560855ce0f:0xb87146ce2059043b!8m2!3d35.5972123!4d-82.5562229!16zL20vMGc5MDN4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Basilica of St. Lawrence 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_1/public" data-location="Basilica of St. Lawrence"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_1/public" alt="Basilica of St. Lawrence"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_2/public" data-location="Basilica of St. Lawrence"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_2/public" alt="Basilica of St. Lawrence"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_3/public" data-location="Basilica of St. Lawrence"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_3/public" alt="Basilica of St. Lawrence"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_4/public" data-location="Basilica of St. Lawrence"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_4/public" alt="Basilica of St. Lawrence"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_5/public" data-location="Basilica of St. Lawrence"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_5/public" alt="Basilica of St. Lawrence"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_6/public" data-location="Basilica of St. Lawrence"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/northcarolina_basilica_of_st_lawrence_6/public" alt="Basilica of St. Lawrence"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
