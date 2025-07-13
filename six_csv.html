@@ -1073,15 +1073,27 @@
       reader.onload = function(e) {
         try {
           const csvContent = e.target.result;
-          const lines = csvContent.split('\n');
+          console.log('CSV içeriği:', csvContent); // Debug için
+          
+          const lines = csvContent.split(/\r?\n/); // Hem \n hem \r\n destekle
+          console.log('Satır sayısı:', lines.length); // Debug için
           
           if (lines.length < 2) {
             alert('CSV dosyası en az 2 satır içermelidir!');
             return;
           }
           
-          // İlk satır şehir adı
-          const cityName = lines[0].split(',')[0].trim();
+          // İlk satırdan şehir adını al
+          const firstLine = lines[0].trim();
+          let cityName = '';
+          
+          // Tab veya virgül ile ayrılmış olabilir
+          if (firstLine.includes('\t')) {
+            cityName = firstLine.split('\t')[0].trim();
+          } else {
+            cityName = firstLine.split(',')[0].trim();
+          }
+          
           if (!cityName) {
             alert('Şehir adı (A1) boş olamaz!');
             return;
@@ -1094,29 +1106,42 @@
             const line = lines[i].trim();
             if (!line) continue;
             
-            // Tab karakteri ile ayırma (Google Sheets kopyalama için)
-            let cells = line.split('\t');
+            console.log('Satır ' + i + ':', line); // Debug için
             
-            // Eğer tab ile ayrılmamışsa virgül ile dene
-            if (cells.length < 2) {
+            // Tab karakteri ile ayırma
+            let cells;
+            if (line.includes('\t')) {
+              cells = line.split('\t');
+            } else {
               cells = line.split(',');
             }
+            
+            console.log('Hücre sayısı:', cells.length, 'Hücreler:', cells); // Debug için
             
             if (cells.length < 2) continue;
             
             const name = cells[0].trim();
-            const link = cells[1].trim();
+            let link = cells[1].trim();
+            
+            // Eğer link sadece "https://www.goog" gibi kısaysa, tam halini kontrol et
+            if (link && !link.startsWith('http')) {
+              console.warn('Geçersiz link:', link);
+              continue;
+            }
             
             if (!name || !link) continue;
             
             const photos = [];
-            // C sütunundan H sütununa kadar fotoğraflar (2'den 7'ye kadar index)
-            for (let j = 2; j < cells.length && j < 8; j++) {
-              const photoUrl = cells[j].trim();
+            // C sütunundan H sütununa kadar fotoğraflar
+            for (let j = 2; j < cells.length && photos.length < 6; j++) {
+              const photoUrl = cells[j] ? cells[j].trim() : '';
               if (photoUrl && photoUrl.startsWith('http')) {
                 photos.push(photoUrl);
+                console.log('Fotoğraf eklendi:', photoUrl); // Debug için
               }
             }
+            
+            console.log('Konum oluşturuldu:', name, 'Fotoğraf sayısı:', photos.length); // Debug için
             
             locations.push({
               name: name,
@@ -1129,6 +1154,9 @@
             alert('CSV dosyasında geçerli konum verisi bulunamadı!');
             return;
           }
+          
+          console.log('Toplam konum sayısı:', locations.length); // Debug için
+          console.log('Konumlar:', locations); // Debug için
           
           // Memory'de sakla
           cityData = {
@@ -1144,7 +1172,7 @@
           
         } catch (error) {
           console.error('CSV işleme hatası:', error);
-          alert('CSV dosyası işlenirken bir hata oluştu!');
+          alert('CSV dosyası işlenirken bir hata oluştu: ' + error.message);
         }
       };
       
