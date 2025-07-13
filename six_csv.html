@@ -1121,57 +1121,82 @@
           
           const locations = [];
           
-          // 2. satırdan itibaren konum verileri
+          // Basit bir CSV parser - her satırı virgülle ayır ama ilk tırnaklı değeri özel olarak al
           for (let i = 1; i < lines.length; i++) {
             const line = lines[i].trim();
             if (!line) continue;
             
-            // Regex ile CSV parse - tırnak içindeki virgülleri görmezden gel
-            const cells = [];
-            let current = '';
-            let inQuotes = false;
+            // İlk virgülü bul (konum adından sonra)
+            const firstCommaIndex = line.indexOf(',');
+            if (firstCommaIndex === -1) continue;
             
-            for (let j = 0; j < line.length; j++) {
-              const char = line[j];
+            const name = line.substring(0, firstCommaIndex).trim();
+            let restOfLine = line.substring(firstCommaIndex + 1);
+            
+            console.log('Satır ' + i + ':', line);
+            console.log('Konum adı:', name);
+            console.log('Kalan satır:', restOfLine);
+            
+            // Eğer tırnakla başlıyorsa, kapanış tırnağını bul
+            let link = '';
+            let photosPart = '';
+            
+            if (restOfLine.startsWith('"')) {
+              // Son tırnağı bul (en sondaki değil, link bitimindeki)
+              let quoteCount = 0;
+              let endIndex = -1;
               
-              if (char === '"') {
-                inQuotes = !inQuotes;
-              } else if (char === ',' && !inQuotes) {
-                cells.push(current.trim());
-                current = '';
-              } else {
-                current += char;
+              for (let j = 0; j < restOfLine.length; j++) {
+                if (restOfLine[j] === '"') {
+                  quoteCount++;
+                  if (quoteCount === 2) {
+                    endIndex = j;
+                    break;
+                  }
+                }
               }
+              
+              if (endIndex !== -1) {
+                link = restOfLine.substring(1, endIndex);
+                // Kalan kısım (virgül + fotoğraflar)
+                photosPart = restOfLine.substring(endIndex + 2); // +2 = tırnak + virgül
+              } else {
+                // Tek tırnak varsa, sonraki virgüle kadar al
+                const nextComma = restOfLine.indexOf(',', 1);
+                if (nextComma !== -1) {
+                  link = restOfLine.substring(1, nextComma);
+                  photosPart = restOfLine.substring(nextComma + 1);
+                } else {
+                  link = restOfLine.substring(1);
+                }
+              }
+              
+              console.log('Tırnaklı link bulundu:', link);
+            } else {
+              // Tırnak yoksa normal virgülle ayır
+              const parts = restOfLine.split(',');
+              link = parts[0].trim();
+              photosPart = parts.slice(1).join(',');
             }
-            // Son hücreyi ekle
-            cells.push(current.trim());
-            
-            if (cells.length < 2) continue;
-            
-            const name = cells[0].trim();
-            let link = cells[1] ? cells[1].trim() : '';
-            
-            // Başta ve sondaki tırnakları temizle
-            link = link.replace(/^["']|["']$/g, '');
             
             if (!name) continue;
             
-            // Eğer link yoksa veya boşsa, konum adından oluştur
             if (!link || link === '') {
-              locations.push({
-                name: name,
-                photos: [],
-                link: 'https://www.google.com/maps/search/' + encodeURIComponent(name)
-              });
+              console.log('Link boş, atlaniyor');
               continue;
             }
             
+            console.log('Final link:', link);
+            
+            // Fotoğrafları ayır
             const photos = [];
-            // C sütunundan H sütununa kadar fotoğraflar
-            for (let j = 2; j < cells.length && j < 8; j++) {
-              const photoUrl = cells[j] ? cells[j].trim() : '';
-              if (photoUrl && photoUrl.startsWith('http')) {
-                photos.push(photoUrl);
+            if (photosPart) {
+              const photoParts = photosPart.split(',');
+              for (let j = 0; j < photoParts.length && j < 6; j++) {
+                const photoUrl = photoParts[j].trim();
+                if (photoUrl && photoUrl.startsWith('http')) {
+                  photos.push(photoUrl);
+                }
               }
             }
             
