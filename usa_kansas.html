@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kansas</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Kansas</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kansas+Motorcycle+Museum/@38.5541667,-97.8336111,17z/data=!3m1!4b1!4m6!3m5!1s0x87a3527eb0bee1cd:0xa9cf47ce9b09a208!8m2!3d38.5541667!4d-97.8336111!16s%2Fm%2F0hnfdsb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kansas Motorcycle Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_1/public" data-location="Kansas Motorcycle Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_1/public" alt="Kansas Motorcycle Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_2/public" data-location="Kansas Motorcycle Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_2/public" alt="Kansas Motorcycle Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_3/public" data-location="Kansas Motorcycle Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_3/public" alt="Kansas Motorcycle Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_4/public" data-location="Kansas Motorcycle Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_4/public" alt="Kansas Motorcycle Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_5/public" data-location="Kansas Motorcycle Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_5/public" alt="Kansas Motorcycle Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_6/public" data-location="Kansas Motorcycle Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kansas_motorcycle_museum_6/public" alt="Kansas Motorcycle Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Botanica,+The+Wichita+Gardens/@37.6964308,-97.361781,17z/data=!3m1!4b1!4m6!3m5!1s0x87bae16fc6bbd679:0xcec273723c51ad80!8m2!3d37.6964308!4d-97.361781!16zL20vMDV6eHh0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Botanica Wichita Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_1/public" data-location="Botanica Wichita Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_1/public" alt="Botanica Wichita Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_2/public" data-location="Botanica Wichita Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_2/public" alt="Botanica Wichita Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_3/public" data-location="Botanica Wichita Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_3/public" alt="Botanica Wichita Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_4/public" data-location="Botanica Wichita Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_4/public" alt="Botanica Wichita Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_5/public" data-location="Botanica Wichita Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_5/public" alt="Botanica Wichita Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_6/public" data-location="Botanica Wichita Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_botanica_wichita_gardens_6/public" alt="Botanica Wichita Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Castle+Rock/@38.8611215,-100.169852,15z/data=!3m1!4b1!4m6!3m5!1s0x87a0f609f8ed05af:0x3c7b9bb17dfb6e1!8m2!3d38.861122!4d-100.169852!16zL20vMDd5bnI4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Castle Rock formation 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_1/public" data-location="Castle Rock formation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_1/public" alt="Castle Rock formation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_2/public" data-location="Castle Rock formation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_2/public" alt="Castle Rock formation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_3/public" data-location="Castle Rock formation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_3/public" alt="Castle Rock formation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_4/public" data-location="Castle Rock formation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_4/public" alt="Castle Rock formation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_5/public" data-location="Castle Rock formation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_5/public" alt="Castle Rock formation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_6/public" data-location="Castle Rock formation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_castle_rock_formation_6/public" alt="Castle Rock formation"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Overland+Park+Arboretum+%26+Botanical+Gardens/@38.8035555,-94.6890435,17z/data=!3m1!4b1!4m6!3m5!1s0x87c0c729bf23cbe9:0x78eaeef7dbfd2139!8m2!3d38.8035555!4d-94.6890435!16zL20vMDczcWN4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Arboretum & Botanical Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_1/public" data-location="Arboretum & Botanical Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_1/public" alt="Arboretum & Botanical Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_2/public" data-location="Arboretum & Botanical Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_2/public" alt="Arboretum & Botanical Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_3/public" data-location="Arboretum & Botanical Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_3/public" alt="Arboretum & Botanical Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_4/public" data-location="Arboretum & Botanical Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_4/public" alt="Arboretum & Botanical Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_5/public" data-location="Arboretum & Botanical Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_5/public" alt="Arboretum & Botanical Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_6/public" data-location="Arboretum & Botanical Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arboretum_botanical_gardens_6/public" alt="Arboretum & Botanical Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Keeper+of+the+Plains/@37.6913539,-97.3497162,17z/data=!3m1!4b1!4m6!3m5!1s0x87bae3d8cd61415f:0xd6b8fec22dd0247c!8m2!3d37.6913539!4d-97.3497162!16zL20vMGZ4Nnpy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Arkansas River at Keeper Plaza 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_1/public" data-location="Arkansas River at Keeper Plaza"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_1/public" alt="Arkansas River at Keeper Plaza"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_2/public" data-location="Arkansas River at Keeper Plaza"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_2/public" alt="Arkansas River at Keeper Plaza"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_3/public" data-location="Arkansas River at Keeper Plaza"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_3/public" alt="Arkansas River at Keeper Plaza"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_4/public" data-location="Arkansas River at Keeper Plaza"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_4/public" alt="Arkansas River at Keeper Plaza"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_5/public" data-location="Arkansas River at Keeper Plaza"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_5/public" alt="Arkansas River at Keeper Plaza"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_6/public" data-location="Arkansas River at Keeper Plaza"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_arkansas_river_at_keeper_plaza_6/public" alt="Arkansas River at Keeper Plaza"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Antioch+Park/@39.0111512,-94.685656,17z/data=!3m1!4b1!4m6!3m5!1s0x87c0ec579ef2a2c5:0x957706aeba6c83ae!8m2!3d39.0111512!4d-94.685656!16s%2Fg%2F1tcz8vbj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Antioch Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_1/public" data-location="Antioch Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_1/public" alt="Antioch Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_2/public" data-location="Antioch Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_2/public" alt="Antioch Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_3/public" data-location="Antioch Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_3/public" alt="Antioch Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_4/public" data-location="Antioch Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_4/public" alt="Antioch Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_5/public" data-location="Antioch Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_5/public" alt="Antioch Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_6/public" data-location="Antioch Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_antioch_park_6/public" alt="Antioch Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tallgrass+Prairie+National+Preserve/@38.4322874,-96.5571865,17z/data=!3m1!4b1!4m6!3m5!1s0x87bbf843b32df71f:0x3092da1070758c89!8m2!3d38.4322874!4d-96.5571865!16zL20vMDNfZnl3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sand Prairie Natural Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_1/public" data-location="Sand Prairie Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_1/public" alt="Sand Prairie Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_2/public" data-location="Sand Prairie Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_2/public" alt="Sand Prairie Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_3/public" data-location="Sand Prairie Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_3/public" alt="Sand Prairie Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_4/public" data-location="Sand Prairie Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_4/public" alt="Sand Prairie Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_5/public" data-location="Sand Prairie Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_5/public" alt="Sand Prairie Natural Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_6/public" data-location="Sand Prairie Natural Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_sand_prairie_natural_area_6/public" alt="Sand Prairie Natural Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rock+City+Park/@39.0907091,-97.7353314,17z/data=!3m1!4b1!4m6!3m5!1s0x87bd2a42aa2970bd:0x31576a267c8ea809!8m2!3d39.0907091!4d-97.7353314!16zL20vMDd5bmtj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rock City Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_1/public" data-location="Rock City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_1/public" alt="Rock City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_2/public" data-location="Rock City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_2/public" alt="Rock City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_3/public" data-location="Rock City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_3/public" alt="Rock City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_4/public" data-location="Rock City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_4/public" alt="Rock City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_5/public" data-location="Rock City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_5/public" alt="Rock City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_6/public" data-location="Rock City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rock_city_park_6/public" alt="Rock City Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Grinter+Farms/@39.0470788,-95.1375005,17z/data=!3m1!4b1!4m6!3m5!1s0x87bf7caa6b6a57db:0xf4c685dcbbfc251e!8m2!3d39.0470788!4d-95.1375005!16s%2Fg%2F11c53c5wfg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Grinter Sunflower Farm 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_1/public" data-location="Grinter Sunflower Farm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_1/public" alt="Grinter Sunflower Farm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_2/public" data-location="Grinter Sunflower Farm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_2/public" alt="Grinter Sunflower Farm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_3/public" data-location="Grinter Sunflower Farm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_3/public" alt="Grinter Sunflower Farm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_4/public" data-location="Grinter Sunflower Farm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_4/public" alt="Grinter Sunflower Farm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_5/public" data-location="Grinter Sunflower Farm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_5/public" alt="Grinter Sunflower Farm"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_6/public" data-location="Grinter Sunflower Farm"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_grinter_sunflower_farm_6/public" alt="Grinter Sunflower Farm"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Great+Plains+Nature+Center/@37.73924,-97.263722,17z/data=!3m1!4b1!4m6!3m5!1s0x87bafd4c9f39ccbd:0xde6ef3fe66fe5115!8m2!3d37.73924!4d-97.263722!16s%2Fg%2F1tg9nnd7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Great Plains Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_1/public" data-location="Great Plains Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_1/public" alt="Great Plains Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_2/public" data-location="Great Plains Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_2/public" alt="Great Plains Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_3/public" data-location="Great Plains Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_3/public" alt="Great Plains Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_4/public" data-location="Great Plains Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_4/public" alt="Great Plains Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_5/public" data-location="Great Plains Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_5/public" alt="Great Plains Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_6/public" data-location="Great Plains Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_great_plains_nature_center_6/public" alt="Great Plains Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/St.+Fidelis+Basilica/@38.8564752,-99.150919,17z/data=!3m1!4b1!4m6!3m5!1s0x87a3d65e10322d8d:0xd4a34bc6f68385d8!8m2!3d38.8564752!4d-99.150919!16s%2Fm%2F06_67c2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cathedral of the Plains 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_1/public" data-location="Cathedral of the Plains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_1/public" alt="Cathedral of the Plains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_2/public" data-location="Cathedral of the Plains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_2/public" alt="Cathedral of the Plains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_3/public" data-location="Cathedral of the Plains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_3/public" alt="Cathedral of the Plains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_4/public" data-location="Cathedral of the Plains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_4/public" alt="Cathedral of the Plains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_5/public" data-location="Cathedral of the Plains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_5/public" alt="Cathedral of the Plains"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_6/public" data-location="Cathedral of the Plains"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cathedral_of_the_plains_6/public" alt="Cathedral of the Plains"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/K-State+Gardens+Fountain/@39.1959268,-96.5849898,17z/data=!3m1!4b1!4m6!3m5!1s0x87bdcd8cc0a7419b:0xf6cfe9dae415fd79!8m2!3d39.1959268!4d-96.5849898!16s%2Fg%2F12hn0jhxd?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>K-State University Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_1/public" data-location="K-State University Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_1/public" alt="K-State University Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_2/public" data-location="K-State University Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_2/public" alt="K-State University Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_3/public" data-location="K-State University Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_3/public" alt="K-State University Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_4/public" data-location="K-State University Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_4/public" alt="K-State University Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_5/public" data-location="K-State University Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_5/public" alt="K-State University Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_6/public" data-location="K-State University Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kstate_university_gardens_6/public" alt="K-State University Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Maxwell+Wildlife+Refuge/@38.477248,-97.4509933,17z/data=!3m1!4b1!4m6!3m5!1s0x87bca1c2ec98a377:0x5c771ce4adcefcb3!8m2!3d38.477248!4d-97.4509933!16s%2Fg%2F1tdhfj30?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Maxwell Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_1/public" data-location="Maxwell Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_1/public" alt="Maxwell Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_2/public" data-location="Maxwell Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_2/public" alt="Maxwell Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_3/public" data-location="Maxwell Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_3/public" alt="Maxwell Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_4/public" data-location="Maxwell Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_4/public" alt="Maxwell Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_5/public" data-location="Maxwell Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_5/public" alt="Maxwell Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_6/public" data-location="Maxwell Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_maxwell_wildlife_refuge_6/public" alt="Maxwell Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Coronado+Heights+Castle/@38.6129915,-97.7032171,17z/data=!3m1!4b1!4m6!3m5!1s0x87bcb3d4741b950f:0xd7773746de4e80ed!8m2!3d38.6129915!4d-97.7032171!16zL20vMGYxNG1r?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Coronado Heights Castle 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_1/public" data-location="Coronado Heights Castle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_1/public" alt="Coronado Heights Castle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_2/public" data-location="Coronado Heights Castle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_2/public" alt="Coronado Heights Castle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_3/public" data-location="Coronado Heights Castle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_3/public" alt="Coronado Heights Castle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_4/public" data-location="Coronado Heights Castle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_4/public" alt="Coronado Heights Castle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_5/public" data-location="Coronado Heights Castle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_5/public" alt="Coronado Heights Castle"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_6/public" data-location="Coronado Heights Castle"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_coronado_heights_castle_6/public" alt="Coronado Heights Castle"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Little+Jerusalem+Badlands+State+Park/@38.8025309,-100.9289044,17z/data=!3m1!4b1!4m6!3m5!1s0x870aef5fa866fe91:0xeb2ce9f8364d5928!8m2!3d38.8025309!4d-100.9289044!16s%2Fg%2F11j0bkkncx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Badlands of Gove County 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_1/public" data-location="Badlands of Gove County"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_1/public" alt="Badlands of Gove County"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_2/public" data-location="Badlands of Gove County"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_2/public" alt="Badlands of Gove County"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_3/public" data-location="Badlands of Gove County"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_3/public" alt="Badlands of Gove County"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_4/public" data-location="Badlands of Gove County"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_4/public" alt="Badlands of Gove County"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_5/public" data-location="Badlands of Gove County"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_5/public" alt="Badlands of Gove County"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_6/public" data-location="Badlands of Gove County"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_badlands_of_gove_county_6/public" alt="Badlands of Gove County"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Monument+Rocks/@38.7954826,-100.7641158,17z/data=!3m1!4b1!4m6!3m5!1s0x870a7d43e055d2d7:0x8f0e6a100bad71a9!8m2!3d38.7954826!4d-100.7641158!16zL20vMDd5bnZj?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Monument Rocks 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_1/public" data-location="Monument Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_1/public" alt="Monument Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_2/public" data-location="Monument Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_2/public" alt="Monument Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_3/public" data-location="Monument Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_3/public" alt="Monument Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_4/public" data-location="Monument Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_4/public" alt="Monument Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_5/public" data-location="Monument Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_5/public" alt="Monument Rocks"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_6/public" data-location="Monument Rocks"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_monument_rocks_6/public" alt="Monument Rocks"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Quivira+National+Wildlife+Refuge/@38.1089444,-98.489433,17z/data=!3m1!4b1!4m6!3m5!1s0x87a466b495908505:0xab937f66c9ed7ebf!8m2!3d38.1089444!4d-98.489433!16zL20vMDNrMTU3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Quivira National Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_1/public" data-location="Quivira National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_1/public" alt="Quivira National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_2/public" data-location="Quivira National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_2/public" alt="Quivira National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_3/public" data-location="Quivira National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_3/public" alt="Quivira National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_4/public" data-location="Quivira National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_4/public" alt="Quivira National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_5/public" data-location="Quivira National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_5/public" alt="Quivira National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_6/public" data-location="Quivira National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_quivira_national_wildlife_refuge_6/public" alt="Quivira National Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Alcove+Springs+Park/@39.7460674,-96.671831,17z/data=!3m1!4b1!4m6!3m5!1s0x87bdf5d4bdeae9d9:0xaa884188e651b0b5!8m2!3d39.7460674!4d-96.671831!16s%2Fg%2F1tg_m48m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Alcove Spring Historic Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_1/public" data-location="Alcove Spring Historic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_1/public" alt="Alcove Spring Historic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_2/public" data-location="Alcove Spring Historic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_2/public" alt="Alcove Spring Historic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_3/public" data-location="Alcove Spring Historic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_3/public" alt="Alcove Spring Historic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_4/public" data-location="Alcove Spring Historic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_4/public" alt="Alcove Spring Historic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_5/public" data-location="Alcove Spring Historic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_5/public" alt="Alcove Spring Historic Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_6/public" data-location="Alcove Spring Historic Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_alcove_spring_historic_park_6/public" alt="Alcove Spring Historic Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lake+Shawnee/@39.0007921,-95.6251057,14z/data=!3m1!4b1!4m6!3m5!1s0x87bf1b407dfd0299:0x14ebba075415294e!8m2!3d39.0019507!4d-95.6287092!16s%2Fg%2F1w0p6476?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lake Shawnee 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_1/public" data-location="Lake Shawnee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_1/public" alt="Lake Shawnee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_2/public" data-location="Lake Shawnee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_2/public" alt="Lake Shawnee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_3/public" data-location="Lake Shawnee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_3/public" alt="Lake Shawnee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_4/public" data-location="Lake Shawnee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_4/public" alt="Lake Shawnee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_5/public" data-location="Lake Shawnee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_5/public" alt="Lake Shawnee"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_6/public" data-location="Lake Shawnee"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_lake_shawnee_6/public" alt="Lake Shawnee"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/World's+Largest+Ball+of+Twine/@39.5092169,-98.433689,17z/data=!3m1!4b1!4m6!3m5!1s0x87a288823e563971:0xf108f3f6fdf7452f!8m2!3d39.5092169!4d-98.433689!16s%2Fg%2F1q5bpq4n8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>World's Largest Ball of Twine 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_1/public" data-location="World's Largest Ball of Twine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_1/public" alt="World's Largest Ball of Twine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_2/public" data-location="World's Largest Ball of Twine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_2/public" alt="World's Largest Ball of Twine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_3/public" data-location="World's Largest Ball of Twine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_3/public" alt="World's Largest Ball of Twine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_4/public" data-location="World's Largest Ball of Twine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_4/public" alt="World's Largest Ball of Twine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_5/public" data-location="World's Largest Ball of Twine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_5/public" alt="World's Largest Ball of Twine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_6/public" data-location="World's Largest Ball of Twine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_worlds_largest_ball_of_twine_6/public" alt="World's Largest Ball of Twine"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kanopolis+Lake+State+Park/@38.6548133,-97.9967682,17z/data=!3m1!4b1!4m6!3m5!1s0x87a34590c378cde5:0x58208439228fa2a5!8m2!3d38.6548133!4d-97.9967682!16s%2Fg%2F1ths9w32?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kanopolis State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_1/public" data-location="Kanopolis State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_1/public" alt="Kanopolis State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_2/public" data-location="Kanopolis State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_2/public" alt="Kanopolis State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_3/public" data-location="Kanopolis State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_3/public" alt="Kanopolis State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_4/public" data-location="Kanopolis State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_4/public" alt="Kanopolis State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_5/public" data-location="Kanopolis State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_5/public" alt="Kanopolis State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_6/public" data-location="Kanopolis State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_kanopolis_state_park_6/public" alt="Kanopolis State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ernie+Miller+Park+%26+Nature+Center/@38.8967913,-94.8409835,17z/data=!3m1!4b1!4m6!3m5!1s0x87c096259d876db7:0x50101f2a070d9c1d!8m2!3d38.8967913!4d-94.8409835!16s%2Fg%2F1tkb5mmm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ernie Miller Nature Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_1/public" data-location="Ernie Miller Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_1/public" alt="Ernie Miller Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_2/public" data-location="Ernie Miller Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_2/public" alt="Ernie Miller Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_3/public" data-location="Ernie Miller Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_3/public" alt="Ernie Miller Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_4/public" data-location="Ernie Miller Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_4/public" alt="Ernie Miller Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_5/public" data-location="Ernie Miller Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_5/public" alt="Ernie Miller Nature Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_6/public" data-location="Ernie Miller Nature Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_ernie_miller_nature_center_6/public" alt="Ernie Miller Nature Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mushroom+Rock+State+Park/@38.7267836,-98.0305123,17z/data=!3m1!4b1!4m6!3m5!1s0x87a338bb8e8374db:0xcc78d3b4950889d4!8m2!3d38.7267836!4d-98.0305123!16zL20vMDkycjVx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mushroom Rock State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_1/public" data-location="Mushroom Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_1/public" alt="Mushroom Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_2/public" data-location="Mushroom Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_2/public" alt="Mushroom Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_3/public" data-location="Mushroom Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_3/public" alt="Mushroom Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_4/public" data-location="Mushroom Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_4/public" alt="Mushroom Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_5/public" data-location="Mushroom Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_5/public" alt="Mushroom Rock State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_6/public" data-location="Mushroom Rock State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_mushroom_rock_state_park_6/public" alt="Mushroom Rock State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Little+House+on+the+Prairie+Museum/@37.1248842,-95.836398,17z/data=!3m1!4b1!4m6!3m5!1s0x87b780313c03d0f1:0x3b7932ab6754c04f!8m2!3d37.1248842!4d-95.836398!16s%2Fg%2F1tcwm1_r?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Little House on the Prairie Cabin 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_1/public" data-location="Little House on the Prairie Cabin"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_1/public" alt="Little House on the Prairie Cabin"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_2/public" data-location="Little House on the Prairie Cabin"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_2/public" alt="Little House on the Prairie Cabin"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_3/public" data-location="Little House on the Prairie Cabin"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_3/public" alt="Little House on the Prairie Cabin"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_4/public" data-location="Little House on the Prairie Cabin"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_4/public" alt="Little House on the Prairie Cabin"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_5/public" data-location="Little House on the Prairie Cabin"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_5/public" alt="Little House on the Prairie Cabin"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_6/public" data-location="Little House on the Prairie Cabin"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_little_house_on_the_prairie_cabin_6/public" alt="Little House on the Prairie Cabin"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/S.+P.+Dinsmoor's+Garden+of+Eden/@39.057952,-98.5351178,17z/data=!3m1!4b1!4m6!3m5!1s0x87a25451987be317:0xa69a66a4b09826b7!8m2!3d39.057952!4d-98.5351178!16s%2Fm%2F06z_wpx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Garden of Eden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_1/public" data-location="Garden of Eden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_1/public" alt="Garden of Eden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_2/public" data-location="Garden of Eden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_2/public" alt="Garden of Eden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_3/public" data-location="Garden of Eden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_3/public" alt="Garden of Eden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_4/public" data-location="Garden of Eden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_4/public" alt="Garden of Eden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_5/public" data-location="Garden of Eden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_5/public" alt="Garden of Eden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_6/public" data-location="Garden of Eden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_garden_of_eden_6/public" alt="Garden of Eden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Gunn+Park/@37.8293578,-94.7247386,17z/data=!3m1!4b1!4m6!3m5!1s0x87c7a1d9c653252f:0x840265914d51b6b6!8m2!3d37.8293578!4d-94.7247386!16s%2Fg%2F1vj5_q_k?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Gunn Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_1/public" data-location="Gunn Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_1/public" alt="Gunn Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_2/public" data-location="Gunn Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_2/public" alt="Gunn Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_3/public" data-location="Gunn Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_3/public" alt="Gunn Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_4/public" data-location="Gunn Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_4/public" alt="Gunn Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_5/public" data-location="Gunn Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_5/public" alt="Gunn Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_6/public" data-location="Gunn Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_gunn_park_6/public" alt="Gunn Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Pillsbury+Crossing+Wildlife+Area/@39.1290964,-96.4400172,17z/data=!3m1!4b1!4m6!3m5!1s0x87bc2adb33dfe6ff:0xfca26595ab8a8093!8m2!3d39.1290964!4d-96.4400172!16s%2Fg%2F11g81774g9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Pillsbury Crossing Waterfall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_1/public" data-location="Pillsbury Crossing Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_1/public" alt="Pillsbury Crossing Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_2/public" data-location="Pillsbury Crossing Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_2/public" alt="Pillsbury Crossing Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_3/public" data-location="Pillsbury Crossing Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_3/public" alt="Pillsbury Crossing Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_4/public" data-location="Pillsbury Crossing Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_4/public" alt="Pillsbury Crossing Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_5/public" data-location="Pillsbury Crossing Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_5/public" alt="Pillsbury Crossing Waterfall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_6/public" data-location="Pillsbury Crossing Waterfall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_pillsbury_crossing_waterfall_6/public" alt="Pillsbury Crossing Waterfall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Historic+Rainbow+Bridge/@37.0734681,-94.7408105,17z/data=!3m1!4b1!4m6!3m5!1s0x87c80d2777a4ad63:0xac6ff2cd5f835f16!8m2!3d37.0734681!4d-94.7408105!16s%2Fm%2F02pjp1p?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rainbow Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_1/public" data-location="Rainbow Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_1/public" alt="Rainbow Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_2/public" data-location="Rainbow Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_2/public" alt="Rainbow Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_3/public" data-location="Rainbow Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_3/public" alt="Rainbow Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_4/public" data-location="Rainbow Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_4/public" alt="Rainbow Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_5/public" data-location="Rainbow Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_5/public" alt="Rainbow Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_6/public" data-location="Rainbow Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_rainbow_bridge_6/public" alt="Rainbow Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Cheyenne+Bottoms+Refuge/@38.4695796,-98.6490584,17z/data=!3m1!4b1!4m6!3m5!1s0x87a385615b1b39c5:0x6601c3dc1e6d7cf1!8m2!3d38.4695796!4d-98.6490584!16s%2Fg%2F1jkyzsyzz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cheyenne Bottoms Wildlife Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_1/public" data-location="Cheyenne Bottoms Wildlife Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_1/public" alt="Cheyenne Bottoms Wildlife Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_2/public" data-location="Cheyenne Bottoms Wildlife Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_2/public" alt="Cheyenne Bottoms Wildlife Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_3/public" data-location="Cheyenne Bottoms Wildlife Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_3/public" alt="Cheyenne Bottoms Wildlife Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_4/public" data-location="Cheyenne Bottoms Wildlife Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_4/public" alt="Cheyenne Bottoms Wildlife Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_5/public" data-location="Cheyenne Bottoms Wildlife Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_5/public" alt="Cheyenne Bottoms Wildlife Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_6/public" data-location="Cheyenne Bottoms Wildlife Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/kansas_cheyenne_bottoms_wildlife_area_6/public" alt="Cheyenne Bottoms Wildlife Area"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
