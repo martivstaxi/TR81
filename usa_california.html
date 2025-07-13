@@ -1,0 +1,1434 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>California</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">California</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/General+Grant+Tree/@36.7482167,-118.9711957,17z/data=!3m1!4b1!4m6!3m5!1s0x8095720dc5ee4eab:0x65500536ad297931!8m2!3d36.7482167!4d-118.9711957!16s%2Fg%2F1yy3vlcsv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>General Grant Tree 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_1/public" data-location="General Grant Tree"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_1/public" alt="General Grant Tree"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_2/public" data-location="General Grant Tree"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_2/public" alt="General Grant Tree"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_3/public" data-location="General Grant Tree"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_3/public" alt="General Grant Tree"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_4/public" data-location="General Grant Tree"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_4/public" alt="General Grant Tree"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_5/public" data-location="General Grant Tree"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_5/public" alt="General Grant Tree"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_6/public" data-location="General Grant Tree"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_general_grant_tree_6/public" alt="General Grant Tree"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Armstrong+Redwoods+State+Natural+Reserve/@38.5370031,-123.0063252,17z/data=!3m1!4b1!4m6!3m5!1s0x80841edd0ec50c27:0xbccdbc978cbc9652!8m2!3d38.5370031!4d-123.0063252!16zL20vMDJkeDkz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Armstrong Redwoods Reserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_1/public" data-location="Armstrong Redwoods Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_1/public" alt="Armstrong Redwoods Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_2/public" data-location="Armstrong Redwoods Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_2/public" alt="Armstrong Redwoods Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_3/public" data-location="Armstrong Redwoods Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_3/public" alt="Armstrong Redwoods Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_4/public" data-location="Armstrong Redwoods Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_4/public" alt="Armstrong Redwoods Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_5/public" data-location="Armstrong Redwoods Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_5/public" alt="Armstrong Redwoods Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_6/public" data-location="Armstrong Redwoods Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_armstrong_redwoods_reserve_6/public" alt="Armstrong Redwoods Reserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Monta%C3%B1a+de+Oro+State+Park/@35.2576395,-120.8556366,17z/data=!3m1!4b1!4m6!3m5!1s0x80ecfcdf02594bd5:0x8ee0fd2da418ae8e!8m2!3d35.2576395!4d-120.8556366!16zL20vMGI1Z2s3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Montaña de Oro State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_1/public" data-location="Montaña de Oro State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_1/public" alt="Montaña de Oro State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_2/public" data-location="Montaña de Oro State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_2/public" alt="Montaña de Oro State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_3/public" data-location="Montaña de Oro State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_3/public" alt="Montaña de Oro State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_4/public" data-location="Montaña de Oro State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_4/public" alt="Montaña de Oro State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_5/public" data-location="Montaña de Oro State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_5/public" alt="Montaña de Oro State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_6/public" data-location="Montaña de Oro State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_montaa_de_oro_state_park_6/public" alt="Montaña de Oro State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jedediah+Smith+Redwoods+State+Park/@41.7955087,-124.1046827,17z/data=!3m1!4b1!4m6!3m5!1s0x54d3ff8ec25a1417:0x41eca06f15dfe664!8m2!3d41.7955087!4d-124.1046827!16zL20vMGJ4ZnIw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jedediah Smith Redwoods 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_1/public" data-location="Jedediah Smith Redwoods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_1/public" alt="Jedediah Smith Redwoods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_2/public" data-location="Jedediah Smith Redwoods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_2/public" alt="Jedediah Smith Redwoods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_3/public" data-location="Jedediah Smith Redwoods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_3/public" alt="Jedediah Smith Redwoods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_4/public" data-location="Jedediah Smith Redwoods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_4/public" alt="Jedediah Smith Redwoods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_5/public" data-location="Jedediah Smith Redwoods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_5/public" alt="Jedediah Smith Redwoods"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_6/public" data-location="Jedediah Smith Redwoods"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_jedediah_smith_redwoods_6/public" alt="Jedediah Smith Redwoods"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tunnel+View/@37.7157987,-119.6774827,17z/data=!3m1!4b1!4m6!3m5!1s0x8096edbfeb1daedd:0x7395fff9b5b839dc!8m2!3d37.7157987!4d-119.6774827!16zL20vMGZrZmpz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tunnel View 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_1/public" data-location="Tunnel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_1/public" alt="Tunnel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_2/public" data-location="Tunnel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_2/public" alt="Tunnel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_3/public" data-location="Tunnel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_3/public" alt="Tunnel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_4/public" data-location="Tunnel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_4/public" alt="Tunnel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_5/public" data-location="Tunnel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_5/public" alt="Tunnel View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_6/public" data-location="Tunnel View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tunnel_view_6/public" alt="Tunnel View"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Yosemite+%C5%9Eelaleleri/@37.7565957,-119.5969074,17z/data=!3m1!4b1!4m6!3m5!1s0x8096f1fb4d25adeb:0xca05cbdf2d93d1b8!8m2!3d37.7565957!4d-119.5969074!16zL20vMDE0NHow?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Yosemite Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_1/public" data-location="Yosemite Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_1/public" alt="Yosemite Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_2/public" data-location="Yosemite Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_2/public" alt="Yosemite Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_3/public" data-location="Yosemite Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_3/public" alt="Yosemite Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_4/public" data-location="Yosemite Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_4/public" alt="Yosemite Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_5/public" data-location="Yosemite Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_5/public" alt="Yosemite Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_6/public" data-location="Yosemite Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_yosemite_falls_6/public" alt="Yosemite Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Huntington+Japanese+Garden/@34.1260276,-118.1157343,17z/data=!3m1!4b1!4m6!3m5!1s0x80c2c4b383296c11:0x22b9f39f6cc27f8!8m2!3d34.1260276!4d-118.1157343!16s%2Fg%2F11f4pmm8n0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Japanese Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_1/public" data-location="Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_1/public" alt="Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_2/public" data-location="Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_2/public" alt="Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_3/public" data-location="Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_3/public" alt="Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_4/public" data-location="Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_4/public" alt="Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_5/public" data-location="Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_5/public" alt="Japanese Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_6/public" data-location="Japanese Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_japanese_gardens_6/public" alt="Japanese Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Olmsted+Point/@37.8107002,-119.4855348,17z/data=!3m1!4b1!4m6!3m5!1s0x8096f6e6587d64d3:0xb938b2acf66cdd7!8m2!3d37.8107002!4d-119.4855348!16zL20vMGZrZmQ4?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Olmsted Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_1/public" data-location="Olmsted Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_1/public" alt="Olmsted Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_2/public" data-location="Olmsted Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_2/public" alt="Olmsted Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_3/public" data-location="Olmsted Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_3/public" alt="Olmsted Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_4/public" data-location="Olmsted Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_4/public" alt="Olmsted Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_5/public" data-location="Olmsted Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_5/public" alt="Olmsted Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_6/public" data-location="Olmsted Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_olmsted_point_6/public" alt="Olmsted Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Self-Realization+Fellowship+Meditation+Gardens/@33.036572,-117.2946539,17z/data=!3m1!4b1!4m6!3m5!1s0x80dc0c3f72d16853:0xee8b9f63bd2a1e64!8m2!3d33.036572!4d-117.2946539!16s%2Fg%2F11c43_90pw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Meditation Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_1/public" data-location="Meditation Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_1/public" alt="Meditation Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_2/public" data-location="Meditation Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_2/public" alt="Meditation Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_3/public" data-location="Meditation Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_3/public" alt="Meditation Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_4/public" data-location="Meditation Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_4/public" alt="Meditation Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_5/public" data-location="Meditation Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_5/public" alt="Meditation Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_6/public" data-location="Meditation Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_meditation_gardens_6/public" alt="Meditation Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Half+Dome/@37.7459187,-119.5331992,15z/data=!3m1!4b1!4m6!3m5!1s0x8096f3eabdb1c0a3:0xa3a5442cc2ec7a64!8m2!3d37.7459192!4d-119.5331992!16zL20vMGRrZ3Y?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Half Dome 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_1/public" data-location="Half Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_1/public" alt="Half Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_2/public" data-location="Half Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_2/public" alt="Half Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_3/public" data-location="Half Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_3/public" alt="Half Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_4/public" data-location="Half Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_4/public" alt="Half Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_5/public" data-location="Half Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_5/public" alt="Half Dome"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_6/public" data-location="Half Dome"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_half_dome_6/public" alt="Half Dome"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Dante's+View/@36.2210638,-116.7256037,17z/data=!3m1!4b1!4m6!3m5!1s0x80c71e6785b673ff:0xa94a69f36db606a5!8m2!3d36.2210689!4d-116.7255878!16s%2Fm%2F03c1rvz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Dante’s View 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_1/public" data-location="Dante’s View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_1/public" alt="Dante’s View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_2/public" data-location="Dante’s View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_2/public" alt="Dante’s View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_3/public" data-location="Dante’s View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_3/public" alt="Dante’s View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_4/public" data-location="Dante’s View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_4/public" alt="Dante’s View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_5/public" data-location="Dante’s View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_5/public" alt="Dante’s View"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_6/public" data-location="Dante’s View"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_dantes_view_6/public" alt="Dante’s View"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Partington+Cove/@36.1749332,-121.6960314,17z/data=!3m1!4b1!4m6!3m5!1s0x808d81752fc3af99:0x6783b810782ced34!8m2!3d36.1749332!4d-121.6960314!16s%2Fg%2F1hf23cyvh?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Partington Cove 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_1/public" data-location="Partington Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_1/public" alt="Partington Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_2/public" data-location="Partington Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_2/public" alt="Partington Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_3/public" data-location="Partington Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_3/public" alt="Partington Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_4/public" data-location="Partington Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_4/public" alt="Partington Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_5/public" data-location="Partington Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_5/public" alt="Partington Cove"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_6/public" data-location="Partington Cove"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_partington_cove_6/public" alt="Partington Cove"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Rosecrans+National+Cemetery/@32.6887456,-117.2457075,17z/data=!3m1!4b1!4m6!3m5!1s0x80deac0d3ba44033:0xd7de681e7bc32d04!8m2!3d32.6887456!4d-117.2457075!16zL20vMDVkNHNu?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Rosecrans National Cemetery 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_1/public" data-location="Fort Rosecrans National Cemetery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_1/public" alt="Fort Rosecrans National Cemetery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_2/public" data-location="Fort Rosecrans National Cemetery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_2/public" alt="Fort Rosecrans National Cemetery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_3/public" data-location="Fort Rosecrans National Cemetery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_3/public" alt="Fort Rosecrans National Cemetery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_4/public" data-location="Fort Rosecrans National Cemetery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_4/public" alt="Fort Rosecrans National Cemetery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_5/public" data-location="Fort Rosecrans National Cemetery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_5/public" alt="Fort Rosecrans National Cemetery"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_6/public" data-location="Fort Rosecrans National Cemetery"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_fortrosecrans_national_cemetery_6/public" alt="Fort Rosecrans National Cemetery"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tenaya+G%C3%B6l%C3%BC/@37.8310487,-119.4596789,16z/data=!3m1!4b1!4m6!3m5!1s0x8096f7a8dc037fc1:0xb3dcc82251f2e847!8m2!3d37.8318506!4d-119.4600072!16zL20vMDVsbmJm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tenaya Lake 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_1/public" data-location="Tenaya Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_1/public" alt="Tenaya Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_2/public" data-location="Tenaya Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_2/public" alt="Tenaya Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_3/public" data-location="Tenaya Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_3/public" alt="Tenaya Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_4/public" data-location="Tenaya Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_4/public" alt="Tenaya Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_5/public" data-location="Tenaya Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_5/public" alt="Tenaya Lake"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_6/public" data-location="Tenaya Lake"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tenaya_lake_6/public" alt="Tenaya Lake"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Vernal+Fall/@37.7273968,-119.5437257,17z/data=!3m1!4b1!4m6!3m5!1s0x8096f3a675d9b863:0x318bef6f904dc592!8m2!3d37.7274261!4d-119.5437725!16zL20vMDZfNzVi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Vernal Fall 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_1/public" data-location="Vernal Fall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_1/public" alt="Vernal Fall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_2/public" data-location="Vernal Fall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_2/public" alt="Vernal Fall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_3/public" data-location="Vernal Fall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_3/public" alt="Vernal Fall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_4/public" data-location="Vernal Fall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_4/public" alt="Vernal Fall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_5/public" data-location="Vernal Fall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_5/public" alt="Vernal Fall"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_6/public" data-location="Vernal Fall"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_vernal_fall_6/public" alt="Vernal Fall"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Taft+Point/@37.7129822,-119.6046084,15z/data=!3m1!4b1!4m6!3m5!1s0x8096ed8776af2037:0xcb2930c1f7a239f6!8m2!3d37.7129827!4d-119.6046084!16zL20vMGZrZ3pi?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Taft Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_1/public" data-location="Taft Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_1/public" alt="Taft Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_2/public" data-location="Taft Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_2/public" alt="Taft Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_3/public" data-location="Taft Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_3/public" alt="Taft Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_4/public" data-location="Taft Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_4/public" alt="Taft Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_5/public" data-location="Taft Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_5/public" alt="Taft Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_6/public" data-location="Taft Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_taft_point_6/public" alt="Taft Point"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sea+Ranch+Chapel/@38.7335268,-123.4772817,17z/data=!3m1!4b1!4m6!3m5!1s0x80813664654365fd:0x670848cd892b33e8!8m2!3d38.7335268!4d-123.4772817!16s%2Fg%2F11cmcsqzb8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sea Ranch Chapel 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_1/public" data-location="Sea Ranch Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_1/public" alt="Sea Ranch Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_2/public" data-location="Sea Ranch Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_2/public" alt="Sea Ranch Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_3/public" data-location="Sea Ranch Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_3/public" alt="Sea Ranch Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_4/public" data-location="Sea Ranch Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_4/public" alt="Sea Ranch Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_5/public" data-location="Sea Ranch Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_5/public" alt="Sea Ranch Chapel"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_6/public" data-location="Sea Ranch Chapel"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_sea_ranch_chapel_6/public" alt="Sea Ranch Chapel"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Big+Pine+Lakes/@37.1293969,-118.5003219,15z/data=!3m1!4b1!4m6!3m5!1s0x80be2e3af2b3cc7b:0xcd15ebf4bc1e1b50!8m2!3d37.1303897!4d-118.5071974!16s%2Fg%2F1tgcy9pb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Big Pine Lakes 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_1/public" data-location="Big Pine Lakes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_1/public" alt="Big Pine Lakes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_2/public" data-location="Big Pine Lakes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_2/public" alt="Big Pine Lakes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_3/public" data-location="Big Pine Lakes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_3/public" alt="Big Pine Lakes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_4/public" data-location="Big Pine Lakes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_4/public" alt="Big Pine Lakes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_5/public" data-location="Big Pine Lakes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_5/public" alt="Big Pine Lakes"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_6/public" data-location="Big Pine Lakes"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_big_pine_lakes_6/public" alt="Big Pine Lakes"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/El+Capitan+Meadow/@37.7238149,-119.6354441,15z/data=!3m1!4b1!4m6!3m5!1s0x8096edc5accbb6dd:0x65bf1b5d8f4ca2e7!8m2!3d37.7238155!4d-119.6354441!16s%2Fg%2F1td9d_mg?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>El Capitan Meadow 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_1/public" data-location="El Capitan Meadow"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_1/public" alt="El Capitan Meadow"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_2/public" data-location="El Capitan Meadow"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_2/public" alt="El Capitan Meadow"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_3/public" data-location="El Capitan Meadow"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_3/public" alt="El Capitan Meadow"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_4/public" data-location="El Capitan Meadow"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_4/public" alt="El Capitan Meadow"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_5/public" data-location="El Capitan Meadow"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_5/public" alt="El Capitan Meadow"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_6/public" data-location="El Capitan Meadow"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elcapitan_meadow_6/public" alt="El Capitan Meadow"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Central+Park/@35.1296835,-117.9453826,17z/data=!3m1!4b1!4m6!3m5!1s0x80c22cdcfc4fafbf:0xc476253ffb66ca4a!8m2!3d35.1296835!4d-117.9453826!16s%2Fm%2F04gbz7b?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>City Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_1/public" data-location="City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_1/public" alt="City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_2/public" data-location="City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_2/public" alt="City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_3/public" data-location="City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_3/public" alt="City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_4/public" data-location="City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_4/public" alt="City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_5/public" data-location="City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_5/public" alt="City Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_6/public" data-location="City Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_city_park_6/public" alt="City Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tower+Bridge/@38.5805535,-121.5083621,17z/data=!3m1!4b1!4m6!3m5!1s0x809ad132835469cb:0xbf15c7037ac9db74!8m2!3d38.5805535!4d-121.5083621!16zL20vMGZ3NDRn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tower Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_1/public" data-location="Tower Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_1/public" alt="Tower Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_2/public" data-location="Tower Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_2/public" alt="Tower Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_3/public" data-location="Tower Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_3/public" alt="Tower Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_4/public" data-location="Tower Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_4/public" alt="Tower Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_5/public" data-location="Tower Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_5/public" alt="Tower Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_6/public" data-location="Tower Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_tower_bridge_6/public" alt="Tower Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Golden+Gate+K%C3%B6pr%C3%BCs%C3%BC/@37.8199109,-122.4785598,17z/data=!3m1!4b1!4m6!3m5!1s0x808586deffffffc3:0xcded139783705509!8m2!3d37.8199109!4d-122.4785598!16zL20vMDM1cDM?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Golden Gate Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_1/public" data-location="Golden Gate Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_1/public" alt="Golden Gate Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_2/public" data-location="Golden Gate Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_2/public" alt="Golden Gate Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_3/public" data-location="Golden Gate Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_3/public" alt="Golden Gate Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_4/public" data-location="Golden Gate Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_4/public" alt="Golden Gate Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_5/public" data-location="Golden Gate Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_5/public" alt="Golden Gate Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_6/public" data-location="Golden Gate Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_golden_gate_bridge_6/public" alt="Golden Gate Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Balboa+Park/@32.7341479,-117.144553,17z/data=!3m1!4b1!4m6!3m5!1s0x80d95496fa70cb03:0xedf30b3cb015f6c4!8m2!3d32.7341479!4d-117.144553!16zL20vMDMzem4w?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Balboa Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_1/public" data-location="Balboa Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_1/public" alt="Balboa Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_2/public" data-location="Balboa Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_2/public" alt="Balboa Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_3/public" data-location="Balboa Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_3/public" alt="Balboa Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_4/public" data-location="Balboa Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_4/public" alt="Balboa Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_5/public" data-location="Balboa Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_5/public" alt="Balboa Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_6/public" data-location="Balboa Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_balboa_park_6/public" alt="Balboa Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/USS+Midway+Museum/@32.7136879,-117.175235,18z/data=!3m1!4b1!4m6!3m5!1s0x80d954ab2a6e80c1:0xfbb78930404553b2!8m2!3d32.7137398!4d-117.1751265!16s%2Fm%2F027yb38?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>USS Midway Museum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_1/public" data-location="USS Midway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_1/public" alt="USS Midway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_2/public" data-location="USS Midway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_2/public" alt="USS Midway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_3/public" data-location="USS Midway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_3/public" alt="USS Midway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_4/public" data-location="USS Midway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_4/public" alt="USS Midway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_5/public" data-location="USS Midway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_5/public" alt="USS Midway Museum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_6/public" data-location="USS Midway Museum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_ussmidway_museum_6/public" alt="USS Midway Museum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Getty+Center/@34.0773438,-118.4732648,17z/data=!3m1!4b1!4m6!3m5!1s0x80c2bcd74227366f:0xda784a5a15aaaa25!8m2!3d34.0773438!4d-118.4732648!16zL20vMDFtdmw2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Getty Center 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_1/public" data-location="The Getty Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_1/public" alt="The Getty Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_2/public" data-location="The Getty Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_2/public" alt="The Getty Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_3/public" data-location="The Getty Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_3/public" alt="The Getty Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_4/public" data-location="The Getty Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_4/public" alt="The Getty Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_5/public" data-location="The Getty Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_5/public" alt="The Getty Center"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_6/public" data-location="The Getty Center"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_the_getty_center_6/public" alt="The Getty Center"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Palace+of+Fine+Arts/@37.8029308,-122.4484231,17z/data=!3m1!4b1!4m6!3m5!1s0x808586d510144681:0xe960db8a581aacf5!8m2!3d37.8029308!4d-122.4484231!16zL20vMDJqbjNx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Palace of Fine Arts 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_1/public" data-location="Palace of Fine Arts"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_1/public" alt="Palace of Fine Arts"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_2/public" data-location="Palace of Fine Arts"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_2/public" alt="Palace of Fine Arts"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_3/public" data-location="Palace of Fine Arts"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_3/public" alt="Palace of Fine Arts"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_4/public" data-location="Palace of Fine Arts"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_4/public" alt="Palace of Fine Arts"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_5/public" data-location="Palace of Fine Arts"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_5/public" alt="Palace of Fine Arts"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_6/public" data-location="Palace of Fine Arts"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palace_of_fine_arts_6/public" alt="Palace of Fine Arts"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Muir+Woods+Ulusal+An%C4%B1t%C4%B1/@37.8970199,-122.5811177,17z/data=!3m1!4b1!4m6!3m5!1s0x808591b4bd6762ad:0x7aff587668ffaff9!8m2!3d37.8970199!4d-122.5811177!16zL20vMDF5dl85?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Muir Woods National Monument 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_1/public" data-location="Muir Woods National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_1/public" alt="Muir Woods National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_2/public" data-location="Muir Woods National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_2/public" alt="Muir Woods National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_3/public" data-location="Muir Woods National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_3/public" alt="Muir Woods National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_4/public" data-location="Muir Woods National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_4/public" alt="Muir Woods National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_5/public" data-location="Muir Woods National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_5/public" alt="Muir Woods National Monument"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_6/public" data-location="Muir Woods National Monument"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_muir_woods_national_monument_6/public" alt="Muir Woods National Monument"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Torrey+Pines+State+Natural+Reserve/@32.9209345,-117.2514443,17z/data=!3m1!4b1!4m6!3m5!1s0x80dc0667ac55946b:0x87b6a72540002fb1!8m2!3d32.9209345!4d-117.2514443!16zL20vMDNrM2Nw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Torrey Pines State Reserve 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_1/public" data-location="Torrey Pines State Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_1/public" alt="Torrey Pines State Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_2/public" data-location="Torrey Pines State Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_2/public" alt="Torrey Pines State Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_3/public" data-location="Torrey Pines State Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_3/public" alt="Torrey Pines State Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_4/public" data-location="Torrey Pines State Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_4/public" alt="Torrey Pines State Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_5/public" data-location="Torrey Pines State Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_5/public" alt="Torrey Pines State Reserve"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_6/public" data-location="Torrey Pines State Reserve"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_torrey_pines_state_reserve_6/public" alt="Torrey Pines State Reserve"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Palm+Springs+Aerial+Tramway/@33.8370537,-116.6141062,17z/data=!3m1!4b1!4m6!3m5!1s0x80db10e9907f2593:0x98ecc9cc799b6df9!8m2!3d33.8370537!4d-116.6141062!16zL20vMDM1OHRw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Palm Springs Aerial Tramway 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_1/public" data-location="Palm Springs Aerial Tramway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_1/public" alt="Palm Springs Aerial Tramway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_2/public" data-location="Palm Springs Aerial Tramway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_2/public" alt="Palm Springs Aerial Tramway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_3/public" data-location="Palm Springs Aerial Tramway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_3/public" alt="Palm Springs Aerial Tramway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_4/public" data-location="Palm Springs Aerial Tramway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_4/public" alt="Palm Springs Aerial Tramway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_5/public" data-location="Palm Springs Aerial Tramway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_5/public" alt="Palm Springs Aerial Tramway"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_6/public" data-location="Palm Springs Aerial Tramway"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_palm_springs_aerial_tramway_6/public" alt="Palm Springs Aerial Tramway"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Elephant+Seal+Vista+Point/@35.6629651,-121.2577244,17z/data=!3m1!4b1!4m6!3m5!1s0x8092ca9b580dc385:0x56b9da1aa6ed2816!8m2!3d35.6629651!4d-121.2577244!16s%2Fg%2F12hl9lpzv?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Elephant Seal Vista Point 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_1/public" data-location="Elephant Seal Vista Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_1/public" alt="Elephant Seal Vista Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_2/public" data-location="Elephant Seal Vista Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_2/public" alt="Elephant Seal Vista Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_3/public" data-location="Elephant Seal Vista Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_3/public" alt="Elephant Seal Vista Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_4/public" data-location="Elephant Seal Vista Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_4/public" alt="Elephant Seal Vista Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_5/public" data-location="Elephant Seal Vista Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_5/public" alt="Elephant Seal Vista Point"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_6/public" data-location="Elephant Seal Vista Point"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/california_elephant_seal_vista_point_6/public" alt="Elephant Seal Vista Point"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
