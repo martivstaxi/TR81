@@ -24,7 +24,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Inter',sans-serif;
-  background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/b7f3d9a8-5c19-4a89-c289-9a8c69799c00/public');
+  background-image: url('https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -788,8 +788,8 @@ function setLang(code){
   
   const access = localStorage.getItem('duflat-access')==='granted';
   const info = document.getElementById('info');
-  info.innerHTML = access ? t.premium : t.banner;
-  info.className = access ? 'info premium' : 'info';
+  info.innerHTML = t.premium;
+  info.className = 'info premium';
   
   document.documentElement.lang = code;
   localStorage.setItem('lang', code);
@@ -844,31 +844,94 @@ document.addEventListener('DOMContentLoaded', () => {
     const translatedName = getStateName(slug, name, currentLang);
     card.dataset.search = translatedName;
     
-    const locked = !access;
+    const locked = false;
     let cardContent = `<div class="state-code">${code}</div>`;
     cardContent += `<div class="state-name">${translatedName}</div>`;
-    if(locked) {
-      cardContent += `<span class="lock-icon">🔒</span>`;
-    }
     card.innerHTML = cardContent;
     
     card.onclick = () => {
-      if(access) {
-        location.href = `usa_${slug}.html`;
-      } else {
-        location.href = 'login.html';
-      }
+      location.href = `usa_${slug}.html`;
     };
     
     grid.appendChild(card);
   });
   
+  // Enhanced search with all languages and abbreviations
+  const stateSearchTerms = {
+    alabama: ['alabama', 'al', 'алабама', 'アラバマ', '阿拉巴马', '앨라배마'],
+    alaska: ['alaska', 'ak', 'аляска', 'アラスカ', '阿拉斯加', '알래스카', 'alasca'],
+    arizona: ['arizona', 'az', 'аризона', 'アリゾナ', '亚利桑那', '애리조나'],
+    arkansas: ['arkansas', 'ar', 'арканзас', 'アーカンソー', '阿肯色', '아칸소'],
+    california: ['california', 'ca', 'калифорния', 'カリフォルニア', '加利福尼亚', '캘리포니아', 'californie', 'kalifornien', 'califórnia'],
+    colorado: ['colorado', 'co', 'колорадо', 'コロラド', '科罗拉多', '콜로라도'],
+    connecticut: ['connecticut', 'ct', 'коннектикут', 'コネチカット', '康涅狄格', '코네티컷'],
+    delaware: ['delaware', 'de', 'делавэр', 'デラウェア', '特拉华', '델라웨어'],
+    florida: ['florida', 'fl', 'флорида', 'フロリダ', '佛罗里达', '플로리다', 'floride', 'flórida'],
+    georgia: ['georgia', 'ga', 'джорджия', 'ジョージア', '佐治亚', '조지아', 'géorgie', 'geórgia'],
+    hawaii: ['hawaii', 'hi', 'гавайи', 'ハワイ', '夏威夷', '하와이', 'hawaï', 'havaí'],
+    idaho: ['idaho', 'id', 'айдахо', 'アイダホ', '爱达荷', '아이다호'],
+    illinois: ['illinois', 'il', 'иллинойс', 'イリノイ', '伊利诺伊', '일리노이'],
+    indiana: ['indiana', 'in', 'индиана', 'インディアナ', '印第安纳', '인디애나'],
+    iowa: ['iowa', 'ia', 'айова', 'アイオワ', '爱荷华', '아이오와'],
+    kansas: ['kansas', 'ks', 'канзас', 'カンザス', '堪萨斯', '캔자스'],
+    kentucky: ['kentucky', 'ky', 'кентукки', 'ケンタッキー', '肯塔基', '켄터키'],
+    louisiana: ['louisiana', 'la', 'луизиана', 'ルイジアナ', '路易斯安那', '루이지애나', 'louisiane', 'luisiana'],
+    maine: ['maine', 'me', 'мэн', 'メイン', '缅因', '메인'],
+    maryland: ['maryland', 'md', 'мэриленд', 'メリーランド', '马里兰', '메릴랜드'],
+    massachusetts: ['massachusetts', 'ma', 'массачусетс', 'マサチューセッツ', '马萨诸塞', '매사추세츠'],
+    michigan: ['michigan', 'mi', 'мичиган', 'ミシガン', '密歇根', '미시간', 'míchigan'],
+    minnesota: ['minnesota', 'mn', 'миннесота', 'ミネソタ', '明尼苏达', '미네소타'],
+    mississippi: ['mississippi', 'ms', 'миссисипи', 'ミシシッピ', '密西西比', '미시시피', 'misisipi'],
+    missouri: ['missouri', 'mo', 'миссури', 'ミズーリ', '密苏里', '미주리', 'misuri'],
+    montana: ['montana', 'mt', 'монтана', 'モンタナ', '蒙大拿', '몬태나'],
+    nebraska: ['nebraska', 'ne', 'небраска', 'ネブラスカ', '内布拉斯加', '네브래스카'],
+    nevada: ['nevada', 'nv', 'невада', 'ネバダ', '内华达', '네바다'],
+    new_hampshire: ['new hampshire', 'nh', 'нью-гэмпшир', 'ニューハンプシャー', '新罕布什尔', '뉴햄프셔', 'nuevo hampshire', 'nova hampshire'],
+    new_jersey: ['new jersey', 'nj', 'нью-джерси', 'ニュージャージー', '新泽西', '뉴저지', 'nueva jersey', 'nova jersey'],
+    new_mexico: ['new mexico', 'nm', 'нью-мексико', 'ニューメキシコ', '新墨西哥', '뉴멕시코', 'nuevo méxico', 'novo méxico', 'nouveau-mexique', 'nuovo messico'],
+    new_york: ['new york', 'ny', 'нью-йорк', 'ニューヨーク', '纽约', '뉴욕', 'nueva york', 'nova iorque', 'nowy jork'],
+    north_carolina: ['north carolina', 'nc', 'северная каролина', 'ノースカロライナ', '北卡罗来纳', '노스캐롤라이나', 'carolina del norte', 'caroline du nord', 'carolina do norte', 'kuzey carolina'],
+    north_dakota: ['north dakota', 'nd', 'северная дакота', 'ノースダコタ', '北达科他', '노스다코타', 'dakota del norte', 'dakota du nord', 'dakota do norte', 'kuzey dakota'],
+    ohio: ['ohio', 'oh', 'огайо', 'オハイオ', '俄亥俄', '오하이오'],
+    oklahoma: ['oklahoma', 'ok', 'оклахома', 'オクラホマ', '俄克拉荷马', '오클라호마'],
+    oregon: ['oregon', 'or', 'орегон', 'オレゴン', '俄勒冈', '오리건', 'oregón'],
+    pennsylvania: ['pennsylvania', 'pa', 'пенсильвания', 'ペンシルベニア', '宾夕法尼亚', '펜실베이니아', 'pensilvania', 'pennsylvanie', 'pensilvânia', 'pensylwania'],
+    rhode_island: ['rhode island', 'ri', 'род-айленд', 'ロードアイランド', '罗德岛', '로드아일랜드'],
+    south_carolina: ['south carolina', 'sc', 'южная каролина', 'サウスカロライナ', '南卡罗来纳', '사우스캐롤라이나', 'carolina del sur', 'caroline du sud', 'carolina do sul', 'güney carolina'],
+    south_dakota: ['south dakota', 'sd', 'южная дакота', 'サウスダコタ', '南达科他', '사우스다코타', 'dakota del sur', 'dakota du sud', 'dakota do sul', 'güney dakota'],
+    tennessee: ['tennessee', 'tn', 'теннесси', 'テネシー', '田纳西', '테네시'],
+    texas: ['texas', 'tx', 'техас', 'テキサス', '德克萨斯', '텍사스', 'tejas', 'teksas'],
+    utah: ['utah', 'ut', 'юта', 'ユタ', '犹他', '유타'],
+    vermont: ['vermont', 'vt', 'вермонт', 'バーモント', '佛蒙特', '버몬트'],
+    virginia: ['virginia', 'va', 'виргиния', 'バージニア', '弗吉尼亚', '버지니아', 'virginie', 'virgínia', 'wirginia'],
+    washington: ['washington', 'wa', 'вашингтон', 'ワシントン', '华盛顿', '워싱턴', 'waszyngton'],
+    west_virginia: ['west virginia', 'wv', 'западная виргиния', 'ウェストバージニア', '西弗吉尼亚', '웨스트버지니아', 'virginia occidental', 'virginie-occidentale', 'virgínia ocidental', 'batı virginia', 'wirginia zachodnia'],
+    wisconsin: ['wisconsin', 'wi', 'висконсин', 'ウィスコンシン', '威斯康星', '위스콘신'],
+    wyoming: ['wyoming', 'wy', 'вайоминг', 'ワイオミング', '怀俄明', '와이오밍']
+  };
+  
+  // Add common USA search terms
+  const usaTerms = ['usa', 'us', 'united states', 'america', 'amerika', 'états-unis', 'estados unidos', 'сша', 'америка', 'アメリカ', '美国', '미국', 'abd', 'amerika birleşik devletleri', 'eeuu', 'eua', 'vs', 'vereinigte staaten', 'stati uniti'];
+  
   // Search functionality
   search.addEventListener('input', e => {
     const v = norm(e.target.value);
     document.getElementById('info').style.display = v ? 'none' : '';
+    
+    // Check if searching for USA in general
+    const isSearchingUSA = usaTerms.some(term => norm(term).includes(v));
+    
     document.querySelectorAll('.card').forEach(c => {
-      c.style.display = norm(c.dataset.search).includes(v) ? '' : 'none';
+      const slug = c.dataset.slug;
+      const searchTerms = stateSearchTerms[slug] || [];
+      const translatedName = norm(c.dataset.search);
+      
+      // Show if matches USA general search, translated name, or any search term
+      const matches = isSearchingUSA || 
+                     translatedName.includes(v) || 
+                     searchTerms.some(term => norm(term).includes(v));
+      
+      c.style.display = matches ? '' : 'none';
     });
   });
   
