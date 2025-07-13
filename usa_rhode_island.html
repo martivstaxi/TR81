@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rhode Island</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Rhode Island</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Beavertail+State+Park/@41.4535106,-71.3975929,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5bb275dbe28e1:0x18de0411786e40d!8m2!3d41.4535106!4d-71.3975929!16s%2Fm%2F026499j?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Beavertail State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_1/public" data-location="Beavertail State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_1/public" alt="Beavertail State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_2/public" data-location="Beavertail State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_2/public" alt="Beavertail State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_3/public" data-location="Beavertail State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_3/public" alt="Beavertail State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_4/public" data-location="Beavertail State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_4/public" alt="Beavertail State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_5/public" data-location="Beavertail State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_5/public" alt="Beavertail State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_6/public" data-location="Beavertail State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_beavertail_state_park_6/public" alt="Beavertail State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Breakers/@41.4698401,-71.2982384,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5a5f9c5f4c9a9:0x85c788ce573bb7ee!8m2!3d41.4698401!4d-71.2982384!16zL20vMDJxajl5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>The Breakers Mansion 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_1/public" data-location="The Breakers Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_1/public" alt="The Breakers Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_2/public" data-location="The Breakers Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_2/public" alt="The Breakers Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_3/public" data-location="The Breakers Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_3/public" alt="The Breakers Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_4/public" data-location="The Breakers Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_4/public" alt="The Breakers Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_5/public" data-location="The Breakers Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_5/public" alt="The Breakers Mansion"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_6/public" data-location="The Breakers Mansion"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_the_breakers_mansion_6/public" alt="The Breakers Mansion"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brenton+Point+State+Park/@41.4526568,-71.3543688,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5a519c302c33d:0xb7e0d2629ed60dff!8m2!3d41.4526568!4d-71.3543688!16s%2Fm%2F026ljsw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Brenton Point State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_1/public" data-location="Brenton Point State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_1/public" alt="Brenton Point State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_2/public" data-location="Brenton Point State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_2/public" alt="Brenton Point State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_3/public" data-location="Brenton Point State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_3/public" alt="Brenton Point State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_4/public" data-location="Brenton Point State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_4/public" alt="Brenton Point State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_5/public" data-location="Brenton Point State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_5/public" alt="Brenton Point State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_6/public" data-location="Brenton Point State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brenton_point_state_park_6/public" alt="Brenton Point State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Sachuest+Point+National+Wildlife+Refuge/@41.4804796,-71.2444051,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5a8f294fae769:0x14aaa4dcd62cd9f!8m2!3d41.4804796!4d-71.2444051!16s%2Fm%2F080bhyy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Sachuest Point National Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_1/public" data-location="Sachuest Point National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_1/public" alt="Sachuest Point National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_2/public" data-location="Sachuest Point National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_2/public" alt="Sachuest Point National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_3/public" data-location="Sachuest Point National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_3/public" alt="Sachuest Point National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_4/public" data-location="Sachuest Point National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_4/public" alt="Sachuest Point National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_5/public" data-location="Sachuest Point National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_5/public" alt="Sachuest Point National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_6/public" data-location="Sachuest Point National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_sachuest_point_national_wildlife_refuge_6/public" alt="Sachuest Point National Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Black+Point+Trailhead/@41.3999236,-71.4646788,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5bc3cba3808f9:0x2a79c181c7952936!8m2!3d41.3999236!4d-71.4646788!16s%2Fg%2F11cjk9145_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Black Point Trail 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_1/public" data-location="Black Point Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_1/public" alt="Black Point Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_2/public" data-location="Black Point Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_2/public" alt="Black Point Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_3/public" data-location="Black Point Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_3/public" alt="Black Point Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_4/public" data-location="Black Point Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_4/public" alt="Black Point Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_5/public" data-location="Black Point Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_5/public" alt="Black Point Trail"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_6/public" data-location="Black Point Trail"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_black_point_trail_6/public" alt="Black Point Trail"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Napatree+Point+Conservation+Area/@41.3094804,-71.8767101,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5e39125f720f1:0xe3dd8c9a09887513!8m2!3d41.3094804!4d-71.8767101!16s%2Fm%2F04jnxx6?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Napatree Point Conservation Area 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_1/public" data-location="Napatree Point Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_1/public" alt="Napatree Point Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_2/public" data-location="Napatree Point Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_2/public" alt="Napatree Point Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_3/public" data-location="Napatree Point Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_3/public" alt="Napatree Point Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_4/public" data-location="Napatree Point Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_4/public" alt="Napatree Point Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_5/public" data-location="Napatree Point Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_5/public" alt="Napatree Point Conservation Area"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_6/public" data-location="Napatree Point Conservation Area"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_napatree_point_conservation_area_6/public" alt="Napatree Point Conservation Area"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Goat+Island/@41.4880953,-71.3269784,16z/data=!3m1!4b1!4m6!3m5!1s0x89e5af7098f9432f:0xaf7c01f68dcec1f2!8m2!3d41.4878051!4d-71.3278801!16zL20vMGc3OWw3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Goat Island 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_1/public" data-location="Goat Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_1/public" alt="Goat Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_2/public" data-location="Goat Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_2/public" alt="Goat Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_3/public" data-location="Goat Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_3/public" alt="Goat Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_4/public" data-location="Goat Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_4/public" alt="Goat Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_5/public" data-location="Goat Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_5/public" alt="Goat Island"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_6/public" data-location="Goat Island"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goat_island_6/public" alt="Goat Island"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Trustom+Pond+National+Wildlife+Refuge/@41.3770804,-71.5868837,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5c00fff04da9b:0xbd38ea85acdb209a!8m2!3d41.3770804!4d-71.5868837!16s%2Fg%2F1vkxn8ww?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Trustom Pond National Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_1/public" data-location="Trustom Pond National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_1/public" alt="Trustom Pond National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_2/public" data-location="Trustom Pond National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_2/public" alt="Trustom Pond National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_3/public" data-location="Trustom Pond National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_3/public" alt="Trustom Pond National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_4/public" data-location="Trustom Pond National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_4/public" alt="Trustom Pond National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_5/public" data-location="Trustom Pond National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_5/public" alt="Trustom Pond National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_6/public" data-location="Trustom Pond National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_trustom_pond_national_wildlife_refuge_6/public" alt="Trustom Pond National Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Michael+S.+Van+Leesten+Memorial+Bridge/@41.8203702,-71.4052908,17z/data=!3m1!4b1!4m6!3m5!1s0x89e445d0cc192fe9:0x355c2925c63a795!8m2!3d41.8203702!4d-71.4052908!16s%2Fg%2F11j5vqcb_m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Providence River Pedestrian Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_1/public" data-location="Providence River Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_1/public" alt="Providence River Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_2/public" data-location="Providence River Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_2/public" alt="Providence River Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_3/public" data-location="Providence River Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_3/public" alt="Providence River Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_4/public" data-location="Providence River Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_4/public" alt="Providence River Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_5/public" data-location="Providence River Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_5/public" alt="Providence River Pedestrian Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_6/public" data-location="Providence River Pedestrian Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_river_pedestrian_bridge_6/public" alt="Providence River Pedestrian Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Providence+Athenaeum/@41.825788,-71.406378,16z/data=!3m1!4b1!4m6!3m5!1s0x89e445162ad264c1:0xe611399a9987d5f7!8m2!3d41.825788!4d-71.406378!16s%2Fm%2F03gxpqm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Providence Athenaeum 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_1/public" data-location="Providence Athenaeum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_1/public" alt="Providence Athenaeum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_2/public" data-location="Providence Athenaeum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_2/public" alt="Providence Athenaeum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_3/public" data-location="Providence Athenaeum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_3/public" alt="Providence Athenaeum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_4/public" data-location="Providence Athenaeum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_4/public" alt="Providence Athenaeum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_5/public" data-location="Providence Athenaeum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_5/public" alt="Providence Athenaeum"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_6/public" data-location="Providence Athenaeum"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_providence_athenaeum_6/public" alt="Providence Athenaeum"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Roger+Williams+Park/@41.7829832,-71.4117265,17z/data=!3m1!4b1!4m6!3m5!1s0x89e44fcc2f7e35e5:0xc9068e63e4a1947c!8m2!3d41.7829832!4d-71.4117265!16zL20vMGJfc2pr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Roger Williams Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_1/public" data-location="Roger Williams Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_1/public" alt="Roger Williams Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_2/public" data-location="Roger Williams Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_2/public" alt="Roger Williams Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_3/public" data-location="Roger Williams Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_3/public" alt="Roger Williams Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_4/public" data-location="Roger Williams Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_4/public" alt="Roger Williams Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_5/public" data-location="Roger Williams Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_5/public" alt="Roger Williams Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_6/public" data-location="Roger Williams Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_roger_williams_park_6/public" alt="Roger Williams Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rocky+Point+State+Park/@41.690501,-71.366956,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4526fb93615a1:0x6e34662169f4b0bd!8m2!3d41.690501!4d-71.366956!16s%2Fg%2F11csp7j1n9?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rocky Point Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_1/public" data-location="Rocky Point Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_1/public" alt="Rocky Point Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_2/public" data-location="Rocky Point Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_2/public" alt="Rocky Point Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_3/public" data-location="Rocky Point Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_3/public" alt="Rocky Point Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_4/public" data-location="Rocky Point Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_4/public" alt="Rocky Point Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_5/public" data-location="Rocky Point Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_5/public" alt="Rocky Point Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_6/public" data-location="Rocky Point Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_rocky_point_park_6/public" alt="Rocky Point Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/RISD+Museum/@41.8261811,-71.4080569,17z/data=!3m1!4b1!4m6!3m5!1s0x89e445164b5ec617:0x49112556d05817bc!8m2!3d41.8261811!4d-71.4080569!16s%2Fm%2F02r0sh7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>RISD Museum Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_1/public" data-location="RISD Museum Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_1/public" alt="RISD Museum Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_2/public" data-location="RISD Museum Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_2/public" alt="RISD Museum Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_3/public" data-location="RISD Museum Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_3/public" alt="RISD Museum Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_4/public" data-location="RISD Museum Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_4/public" alt="RISD Museum Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_5/public" data-location="RISD Museum Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_5/public" alt="RISD Museum Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_6/public" data-location="RISD Museum Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_risd_museum_garden_6/public" alt="RISD Museum Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Southeast+Lighthouse/@41.1534397,-71.5521925,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5f3354057c4c1:0x3f4ba814b1906717!8m2!3d41.1535134!4d-71.5521369!16s%2Fg%2F11cjkvpj48?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Southeast Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_1/public" data-location="Southeast Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_1/public" alt="Southeast Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_2/public" data-location="Southeast Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_2/public" alt="Southeast Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_3/public" data-location="Southeast Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_3/public" alt="Southeast Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_4/public" data-location="Southeast Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_4/public" alt="Southeast Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_5/public" data-location="Southeast Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_5/public" alt="Southeast Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_6/public" data-location="Southeast Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_southeast_lighthouse_6/public" alt="Southeast Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Blithewold+Manor,+Gardens+%26+Arboretum/@41.6540758,-71.2659629,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4548cbceff4c3:0xbfbb77a9a2c8b26f!8m2!3d41.6540758!4d-71.2659629!16zL20vMDVxa3Bm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Blithewold Mansion & Gardens 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_1/public" data-location="Blithewold Mansion & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_1/public" alt="Blithewold Mansion & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_2/public" data-location="Blithewold Mansion & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_2/public" alt="Blithewold Mansion & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_3/public" data-location="Blithewold Mansion & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_3/public" alt="Blithewold Mansion & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_4/public" data-location="Blithewold Mansion & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_4/public" alt="Blithewold Mansion & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_5/public" data-location="Blithewold Mansion & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_5/public" alt="Blithewold Mansion & Gardens"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_6/public" data-location="Blithewold Mansion & Gardens"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_blithewold_mansion_gardens_6/public" alt="Blithewold Mansion & Gardens"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jaswell's+Farm+LLC/@41.8897967,-71.5507122,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4473821ccb3f7:0xfd64cd1a1700945a!8m2!3d41.8897967!4d-71.5507122!16s%2Fg%2F1vzv4p5d?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jaswell's Farm Sunflower Field 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_1/public" data-location="Jaswell's Farm Sunflower Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_1/public" alt="Jaswell's Farm Sunflower Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_2/public" data-location="Jaswell's Farm Sunflower Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_2/public" alt="Jaswell's Farm Sunflower Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_3/public" data-location="Jaswell's Farm Sunflower Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_3/public" alt="Jaswell's Farm Sunflower Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_4/public" data-location="Jaswell's Farm Sunflower Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_4/public" alt="Jaswell's Farm Sunflower Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_5/public" data-location="Jaswell's Farm Sunflower Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_5/public" alt="Jaswell's Farm Sunflower Field"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_6/public" data-location="Jaswell's Farm Sunflower Field"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_jaswells_farm_sunflower_field_6/public" alt="Jaswell's Farm Sunflower Field"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ninigret+National+Wildlife+Refuge/@41.3682713,-71.6718201,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5ea06d83c7ecf:0xe8822d7a2639f1ff!8m2!3d41.3682713!4d-71.6718201!16s%2Fm%2F09v1876?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ninigret National Wildlife Refuge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_1/public" data-location="Ninigret National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_1/public" alt="Ninigret National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_2/public" data-location="Ninigret National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_2/public" alt="Ninigret National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_3/public" data-location="Ninigret National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_3/public" alt="Ninigret National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_4/public" data-location="Ninigret National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_4/public" alt="Ninigret National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_5/public" data-location="Ninigret National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_5/public" alt="Ninigret National Wildlife Refuge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_6/public" data-location="Ninigret National Wildlife Refuge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_ninigret_national_wildlife_refuge_6/public" alt="Ninigret National Wildlife Refuge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Diamond+Hill+Vineyards/@41.977096,-71.403959,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4686985627d9d:0xc9a841881446207d!8m2!3d41.977096!4d-71.403959!16s%2Fg%2F1jgm2frjz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Diamond Hill Vineyards 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_1/public" data-location="Diamond Hill Vineyards"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_1/public" alt="Diamond Hill Vineyards"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_2/public" data-location="Diamond Hill Vineyards"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_2/public" alt="Diamond Hill Vineyards"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_3/public" data-location="Diamond Hill Vineyards"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_3/public" alt="Diamond Hill Vineyards"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_4/public" data-location="Diamond Hill Vineyards"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_4/public" alt="Diamond Hill Vineyards"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_5/public" data-location="Diamond Hill Vineyards"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_5/public" alt="Diamond Hill Vineyards"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_6/public" data-location="Diamond Hill Vineyards"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_diamond_hill_vineyards_6/public" alt="Diamond Hill Vineyards"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Church+of+St.+Mary+on+Broadway/@41.8177647,-71.4366952,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4459bed2c9a7b:0xbf0d485a3ce5e485!8m2!3d41.8177647!4d-71.4366952!16s%2Fg%2F1tcygg_s?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>St. Mary's Church 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_1/public" data-location="St. Mary's Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_1/public" alt="St. Mary's Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_2/public" data-location="St. Mary's Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_2/public" alt="St. Mary's Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_3/public" data-location="St. Mary's Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_3/public" alt="St. Mary's Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_4/public" data-location="St. Mary's Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_4/public" alt="St. Mary's Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_5/public" data-location="St. Mary's Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_5/public" alt="St. Mary's Church"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_6/public" data-location="St. Mary's Church"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_st_marys_church_6/public" alt="St. Mary's Church"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Lincoln+Woods+State+Park/@41.8975311,-71.4329048,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4439e221ee945:0xf7a8ec468d5597fb!8m2!3d41.8975311!4d-71.4329048!16s%2Fm%2F0ds6gtk?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Lincoln Woods State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_1/public" data-location="Lincoln Woods State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_1/public" alt="Lincoln Woods State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_2/public" data-location="Lincoln Woods State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_2/public" alt="Lincoln Woods State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_3/public" data-location="Lincoln Woods State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_3/public" alt="Lincoln Woods State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_4/public" data-location="Lincoln Woods State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_4/public" alt="Lincoln Woods State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_5/public" data-location="Lincoln Woods State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_5/public" alt="Lincoln Woods State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_6/public" data-location="Lincoln Woods State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_lincoln_woods_state_park_6/public" alt="Lincoln Woods State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Adams+State+Park/@41.4790898,-71.3358244,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5a57c27ae382b:0x9e5b020b4d18438b!8m2!3d41.4790898!4d-71.3358244!16s%2Fm%2F026ljz0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Adams State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_1/public" data-location="Fort Adams State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_1/public" alt="Fort Adams State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_2/public" data-location="Fort Adams State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_2/public" alt="Fort Adams State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_3/public" data-location="Fort Adams State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_3/public" alt="Fort Adams State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_4/public" data-location="Fort Adams State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_4/public" alt="Fort Adams State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_5/public" data-location="Fort Adams State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_5/public" alt="Fort Adams State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_6/public" data-location="Fort Adams State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_adams_state_park_6/public" alt="Fort Adams State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Misquamicut+State+Beach/@41.3237107,-71.802845,15z/data=!3m1!4b1!4m6!3m5!1s0x89e5e5d61d0024f9:0x1bd388e48ca12225!8m2!3d41.3237112!4d-71.802845!16zL20vMGZ2OTM0?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Misquamicut Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_1/public" data-location="Misquamicut Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_1/public" alt="Misquamicut Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_2/public" data-location="Misquamicut Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_2/public" alt="Misquamicut Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_3/public" data-location="Misquamicut Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_3/public" alt="Misquamicut Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_4/public" data-location="Misquamicut Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_4/public" alt="Misquamicut Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_5/public" data-location="Misquamicut Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_5/public" alt="Misquamicut Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_6/public" data-location="Misquamicut Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_misquamicut_beach_6/public" alt="Misquamicut Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Goddard+Memorial+State+Park/@41.6573476,-71.4358095,17z/data=!3m1!4b1!4m6!3m5!1s0x89e44cd8133bdc05:0xb74a37e5bfc49e71!8m2!3d41.6573476!4d-71.4358095!16s%2Fm%2F0p7bpjt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Goddard Memorial State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_1/public" data-location="Goddard Memorial State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_1/public" alt="Goddard Memorial State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_2/public" data-location="Goddard Memorial State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_2/public" alt="Goddard Memorial State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_3/public" data-location="Goddard Memorial State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_3/public" alt="Goddard Memorial State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_4/public" data-location="Goddard Memorial State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_4/public" alt="Goddard Memorial State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_5/public" data-location="Goddard Memorial State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_5/public" alt="Goddard Memorial State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_6/public" data-location="Goddard Memorial State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_goddard_memorial_state_park_6/public" alt="Goddard Memorial State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bowen's+Wharf/@41.4866483,-71.3162242,16z/data=!3m1!4b1!4m6!3m5!1s0x89e5af68e990afdd:0x5906e52aa3b36307!8m2!3d41.4866483!4d-71.3162242!16s%2Fg%2F1tf5fsdm?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Thames Street Waterfront 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_1/public" data-location="Thames Street Waterfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_1/public" alt="Thames Street Waterfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_2/public" data-location="Thames Street Waterfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_2/public" alt="Thames Street Waterfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_3/public" data-location="Thames Street Waterfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_3/public" alt="Thames Street Waterfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_4/public" data-location="Thames Street Waterfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_4/public" alt="Thames Street Waterfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_5/public" data-location="Thames Street Waterfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_5/public" alt="Thames Street Waterfront"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_6/public" data-location="Thames Street Waterfront"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_thames_street_waterfront_6/public" alt="Thames Street Waterfront"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Waterplace+Park/@41.8274486,-71.4139414,17z/data=!3m1!4b1!4m6!3m5!1s0x89e44510e1520037:0x622cd3cfc6974b20!8m2!3d41.8274486!4d-71.4139414!16zL20vMGcyOXN2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Waterplace Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_1/public" data-location="Waterplace Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_1/public" alt="Waterplace Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_2/public" data-location="Waterplace Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_2/public" alt="Waterplace Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_3/public" data-location="Waterplace Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_3/public" alt="Waterplace Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_4/public" data-location="Waterplace Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_4/public" alt="Waterplace Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_5/public" data-location="Waterplace Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_5/public" alt="Waterplace Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_6/public" data-location="Waterplace Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_waterplace_park_6/public" alt="Waterplace Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Castle+Hill+Inn/@41.463997,-71.3600038,17z/data=!3m1!4b1!4m9!3m8!1s0x89e5a515f48ffa8b:0xc5b2b1b3561d26e7!5m2!4m1!1i2!8m2!3d41.463997!4d-71.3600038!16s%2Fg%2F11b6yml4ws?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Castle Hill Inn & Lighthouse 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_1/public" data-location="Castle Hill Inn & Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_1/public" alt="Castle Hill Inn & Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_2/public" data-location="Castle Hill Inn & Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_2/public" alt="Castle Hill Inn & Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_3/public" data-location="Castle Hill Inn & Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_3/public" alt="Castle Hill Inn & Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_4/public" data-location="Castle Hill Inn & Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_4/public" alt="Castle Hill Inn & Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_5/public" data-location="Castle Hill Inn & Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_5/public" alt="Castle Hill Inn & Lighthouse"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_6/public" data-location="Castle Hill Inn & Lighthouse"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_castle_hill_inn_lighthouse_6/public" alt="Castle Hill Inn & Lighthouse"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Johnston+Memorial+Park/@41.827711,-71.5070559,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4463c82bce7ad:0xf403fad0e7ba9fdd!8m2!3d41.827711!4d-71.5070559!16s%2Fg%2F1wl4rmdz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Johnston War Memorial Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_1/public" data-location="Johnston War Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_1/public" alt="Johnston War Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_2/public" data-location="Johnston War Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_2/public" alt="Johnston War Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_3/public" data-location="Johnston War Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_3/public" alt="Johnston War Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_4/public" data-location="Johnston War Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_4/public" alt="Johnston War Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_5/public" data-location="Johnston War Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_5/public" alt="Johnston War Memorial Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_6/public" data-location="Johnston War Memorial Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_johnston_war_memorial_park_6/public" alt="Johnston War Memorial Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Wetherill+State+Park/@41.4778494,-71.3584623,17z/data=!3m1!4b1!4m6!3m5!1s0x89e5a56758b643b9:0x28de255c663ce01e!8m2!3d41.4778494!4d-71.3584623!16s%2Fm%2F0p3hq5p?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Wetherill State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_1/public" data-location="Fort Wetherill State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_1/public" alt="Fort Wetherill State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_2/public" data-location="Fort Wetherill State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_2/public" alt="Fort Wetherill State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_3/public" data-location="Fort Wetherill State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_3/public" alt="Fort Wetherill State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_4/public" data-location="Fort Wetherill State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_4/public" alt="Fort Wetherill State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_5/public" data-location="Fort Wetherill State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_5/public" alt="Fort Wetherill State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_6/public" data-location="Fort Wetherill State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_fort_wetherill_state_park_6/public" alt="Fort Wetherill State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Brown+%C3%9Cniversitesi/@41.8267718,-71.4025482,17z/data=!3m1!4b1!4m6!3m5!1s0x89e4452490b38e29:0xb7e69fcf7a220cb!8m2!3d41.8267718!4d-71.4025482!16zL20vMDFibV8?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Brown University 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_1/public" data-location="Brown University"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_1/public" alt="Brown University"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_2/public" data-location="Brown University"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_2/public" alt="Brown University"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_3/public" data-location="Brown University"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_3/public" alt="Brown University"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_4/public" data-location="Brown University"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_4/public" alt="Brown University"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_5/public" data-location="Brown University"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_5/public" alt="Brown University"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_6/public" data-location="Brown University"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/rhodeisland_brown_university_6/public" alt="Brown University"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
