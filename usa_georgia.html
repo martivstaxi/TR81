@@ -1,0 +1,1417 @@
+<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Georgia</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #8b5cf6;
+      --accent: #f97316;
+      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, .95);
+      --glass-bg: rgba(255, 255, 255, .60);
+      --glass-border: rgba(0, 0, 0, .08);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, .08);
+      --shadow-xl: 0 12px 40px rgba(0, 0, 0, .12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-color: #e2e8f0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 250, 252, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: .3s;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: var(--text-primary);
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, .3);
+    }
+    
+    h1 { 
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 80px 0 40px 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
+      display: inline-block;
+      position: relative;
+    }
+    
+    .camera-emoji {
+      color: #10b981;
+      background: none;
+      -webkit-text-fill-color: initial;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4));
+      font-size: 1.1em;
+    }
+    
+    .city-section {
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, .3);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: var(--shadow-lg);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
+    
+    .city-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    .city-header {
+      padding: 18px 22px 12px 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      text-align: left;
+    }
+    
+    .city-title {
+      margin: 0;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    
+    .city-photos {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 12px 22px 22px 22px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .city-photos::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .photo-card {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      background-color: white;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .photo-card:hover {
+      transform: scale(1.05) translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .location-link {
+      text-decoration: none;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      transition: all 0.3s ease;
+      font-size: clamp(13px, 2.5vw, 16px);
+      font-weight: 600;
+      max-width: fit-content;
+      border: 2px solid transparent;
+    }
+    
+    .location-link:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--primary-dark);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    }
+    
+    .click-icon {
+      color: var(--accent);
+      display: inline-flex;
+    }
+    
+    .click-icon::before {
+      content: "➤";
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    /* MODAL STYLES */
+    .photo-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .photo-modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease-out;
+    }
+
+    .photo-modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 3001;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-info {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Promotion Section */
+    .promotion-section {
+      background: linear-gradient(135deg, rgba(255, 247, 237, 0.3) 0%, rgba(254, 243, 199, 0.3) 50%, rgba(253, 230, 138, 0.3) 100%);
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 24px;
+      border-radius: 20px;
+      margin: 36px auto;
+      text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      max-width: 1000px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promotion-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #92400e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none !important;
+      display: inline-block;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 12px 0;
+      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .instagram-btn:hover {
+      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
+      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
+      color: white !important;
+      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
+    }
+
+    .promo-text {
+      margin: 16px 0;
+      font-size: clamp(17px, 3vw, 22px);
+      color: #92400e;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    .purchase-btn {
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 18px;
+      font-size: clamp(16px, 3vw, 20px);
+      font-weight: 800;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 16px 0 24px 0;
+      border: none;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
+      box-sizing: border-box;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .purchase-btn:hover {
+      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
+      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
+    }
+
+    /* Editor Panel */
+    .edit-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: none;
+      width: 400px;
+      font-size: 14px;
+    }
+    
+    .edit-panel h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .edit-panel textarea, .edit-panel button {
+      margin: 8px 0;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #10b981, #047857);
+      margin-top: 10px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .process-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    #cityData {
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      height: 200px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #0c4a6e;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .info-box code {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #1e40af;
+      word-break: break-all;
+    }
+    
+    .edit-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #1e40af);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      body {
+        min-height: 100vh;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 250, 252, 0.2);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 50px;
+      }
+      body { padding: 8px; padding-bottom: 80px; }
+      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
+      h1 { margin: 50px 0 24px 0; }
+      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .city-header { padding: 12px 16px 8px 16px; }
+      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
+      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
+      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
+      .photo-modal { padding: 10px; }
+      .modal-content { max-width: 95vw; max-height: 95vh; }
+      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
+      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
+      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
+      .promotion-title { margin-bottom: 8px; }
+      .promo-text { margin: 10px 0; }
+      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
+      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
+      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
+      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 6px; padding-bottom: 60px; }
+      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
+      h1 { margin: 40px 0 20px 0; }
+      .city-section { margin-bottom: 18px; border-radius: 12px; }
+      .city-header { padding: 10px 12px 6px 12px; }
+      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
+      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
+      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
+      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
+      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
+      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
+      .promotion-title { margin-bottom: 6px; }
+      .promo-text { margin: 8px 0; }
+      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
+      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-card { width: 120px; height: 120px; min-width: 120px; }
+      .location-link { font-size: 11px; padding: 4px 8px; }
+      .city-header { padding: 8px 10px 4px 10px; }
+      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+      .modal-close { min-width: 44px; min-height: 44px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .city-section { animation: fadeIn .3s ease; }
+  
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">Georgia</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+National+Infantry+Museum/@32.3890541,-84.95527,17z/data=!3m1!4b1!4m6!3m5!1s0x888cd32731abb4ad:0xf0c87fbbe23176de!8m2!3d32.3890541!4d-84.95527!16s%2Fm%2F064m0gy?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>National Infantry Museum Grounds 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_1/public" data-location="National Infantry Museum Grounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_1/public" alt="National Infantry Museum Grounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_2/public" data-location="National Infantry Museum Grounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_2/public" alt="National Infantry Museum Grounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_3/public" data-location="National Infantry Museum Grounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_3/public" alt="National Infantry Museum Grounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_4/public" data-location="National Infantry Museum Grounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_4/public" alt="National Infantry Museum Grounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_5/public" data-location="National Infantry Museum Grounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_5/public" alt="National Infantry Museum Grounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_6/public" data-location="National Infantry Museum Grounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_national_infantry_museum_grounds_6/public" alt="National Infantry Museum Grounds"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Museum+of+Aviation/@32.5921395,-83.5878582,17z/data=!3m1!4b1!4m6!3m5!1s0x88f3e1bbf7a3f79b:0xeedc5d1fec0ce726!8m2!3d32.5921395!4d-83.5878582!16s%2Fm%2F02q7159?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Museum of Aviation 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_1/public" data-location="Museum of Aviation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_1/public" alt="Museum of Aviation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_2/public" data-location="Museum of Aviation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_2/public" alt="Museum of Aviation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_3/public" data-location="Museum of Aviation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_3/public" alt="Museum of Aviation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_4/public" data-location="Museum of Aviation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_4/public" alt="Museum of Aviation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_5/public" data-location="Museum of Aviation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_5/public" alt="Museum of Aviation"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_6/public" data-location="Museum of Aviation"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_museum_of_aviation_6/public" alt="Museum of Aviation"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Consolidated+Gold+Mine/@34.5369517,-83.973032,17z/data=!3m1!4b1!4m6!3m5!1s0x885f67d55ca57ccb:0xc385d30a06a6ca9c!8m2!3d34.5369517!4d-83.973032!16s%2Fm%2F06_ncbc?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Consolidated Gold Mine 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_1/public" data-location="Consolidated Gold Mine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_1/public" alt="Consolidated Gold Mine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_2/public" data-location="Consolidated Gold Mine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_2/public" alt="Consolidated Gold Mine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_3/public" data-location="Consolidated Gold Mine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_3/public" alt="Consolidated Gold Mine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_4/public" data-location="Consolidated Gold Mine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_4/public" alt="Consolidated Gold Mine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_5/public" data-location="Consolidated Gold Mine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_5/public" alt="Consolidated Gold Mine"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_6/public" data-location="Consolidated Gold Mine"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_consolidated_gold_mine_6/public" alt="Consolidated Gold Mine"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bull+River+Marina+-+Private+Charters,+Fishing+Charters,+Bait+Shop,+Eco+and+Dolphin+Tours/@32.0344829,-80.9593445,17z/data=!3m1!4b1!4m6!3m5!1s0x88fb829e117f477b:0x6eff9c02170e5e4f!8m2!3d32.0344829!4d-80.9593445!16s%2Fg%2F1tdqcfbb?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Shrimp Boat Marina 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_1/public" data-location="Shrimp Boat Marina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_1/public" alt="Shrimp Boat Marina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_2/public" data-location="Shrimp Boat Marina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_2/public" alt="Shrimp Boat Marina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_3/public" data-location="Shrimp Boat Marina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_3/public" alt="Shrimp Boat Marina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_4/public" data-location="Shrimp Boat Marina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_4/public" alt="Shrimp Boat Marina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_5/public" data-location="Shrimp Boat Marina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_5/public" alt="Shrimp Boat Marina"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_6/public" data-location="Shrimp Boat Marina"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_shrimp_boat_marina_6/public" alt="Shrimp Boat Marina"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Main+Overlook/@34.8368561,-85.4789298,17z/data=!3m1!4b1!4m6!3m5!1s0x886049c3c782c88b:0x5eb1c41a8961d911!8m2!3d34.8368561!4d-85.4789298!16s%2Fg%2F11s4x_37zf?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Main Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_1/public" data-location="Main Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_1/public" alt="Main Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_2/public" data-location="Main Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_2/public" alt="Main Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_3/public" data-location="Main Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_3/public" alt="Main Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_4/public" data-location="Main Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_4/public" alt="Main Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_5/public" data-location="Main Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_5/public" alt="Main Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_6/public" data-location="Main Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_main_overlook_6/public" alt="Main Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kennesaw+Mountain+Summit/@33.9761769,-84.5794152,17z/data=!3m1!4b1!4m6!3m5!1s0x88f515bb31ceb8e5:0x8903c0827a9cdcfb!8m2!3d33.9761769!4d-84.5794152!16s%2Fg%2F11cnwc_727?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kennesaw Mountain Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_1/public" data-location="Kennesaw Mountain Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_1/public" alt="Kennesaw Mountain Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_2/public" data-location="Kennesaw Mountain Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_2/public" alt="Kennesaw Mountain Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_3/public" data-location="Kennesaw Mountain Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_3/public" alt="Kennesaw Mountain Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_4/public" data-location="Kennesaw Mountain Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_4/public" alt="Kennesaw Mountain Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_5/public" data-location="Kennesaw Mountain Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_5/public" alt="Kennesaw Mountain Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_6/public" data-location="Kennesaw Mountain Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_overlook_6/public" alt="Kennesaw Mountain Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Piedmont+Park/@33.7879265,-84.3721682,17z/data=!3m1!4b1!4m6!3m5!1s0x88f504395064ac19:0xf3aeea4ef52f350e!8m2!3d33.7879265!4d-84.3721682!16zL20vMDIwXzh2?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Piedmont Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_1/public" data-location="Piedmont Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_1/public" alt="Piedmont Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_2/public" data-location="Piedmont Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_2/public" alt="Piedmont Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_3/public" data-location="Piedmont Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_3/public" alt="Piedmont Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_4/public" data-location="Piedmont Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_4/public" alt="Piedmont Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_5/public" data-location="Piedmont Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_5/public" alt="Piedmont Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_6/public" data-location="Piedmont Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_piedmont_park_6/public" alt="Piedmont Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Amicalola+Falls+State+Park/@34.5760345,-84.2367133,17z/data=!3m1!4b1!4m6!3m5!1s0x885f7792a0e02d17:0x23ea5c785c024284!8m2!3d34.5760345!4d-84.2367133!16zL20vMDRocHFw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Amicalola Falls State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_1/public" data-location="Amicalola Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_1/public" alt="Amicalola Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_2/public" data-location="Amicalola Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_2/public" alt="Amicalola Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_3/public" data-location="Amicalola Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_3/public" alt="Amicalola Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_4/public" data-location="Amicalola Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_4/public" alt="Amicalola Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_5/public" data-location="Amicalola Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_5/public" alt="Amicalola Falls State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_6/public" data-location="Amicalola Falls State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_amicalola_falls_state_park_6/public" alt="Amicalola Falls State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Martin+Luther+King,+Jr.+National+Historical+Park/@33.7566739,-84.3731798,17z/data=!3m1!4b1!4m6!3m5!1s0x88f503f5ca515057:0x1c108ccc0ace4f10!8m2!3d33.7566739!4d-84.3731798!16zL20vMDUwbXkx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Martin Luther King Jr. Historic Site 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_1/public" data-location="Martin Luther King Jr. Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_1/public" alt="Martin Luther King Jr. Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_2/public" data-location="Martin Luther King Jr. Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_2/public" alt="Martin Luther King Jr. Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_3/public" data-location="Martin Luther King Jr. Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_3/public" alt="Martin Luther King Jr. Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_4/public" data-location="Martin Luther King Jr. Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_4/public" alt="Martin Luther King Jr. Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_5/public" data-location="Martin Luther King Jr. Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_5/public" alt="Martin Luther King Jr. Historic Site"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_6/public" data-location="Martin Luther King Jr. Historic Site"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_martin_luther_king_jr_historic_site_6/public" alt="Martin Luther King Jr. Historic Site"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Kennesaw+Mountain+National+Battlefield+Park/@33.9513354,-84.5963993,17z/data=!3m1!4b1!4m6!3m5!1s0x88f515a43b03f76d:0xb35596fd68d15ad5!8m2!3d33.9513354!4d-84.5963993!16zL20vMDJxMzlt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Kennesaw Mountain National Battlefield 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_1/public" data-location="Kennesaw Mountain National Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_1/public" alt="Kennesaw Mountain National Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_2/public" data-location="Kennesaw Mountain National Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_2/public" alt="Kennesaw Mountain National Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_3/public" data-location="Kennesaw Mountain National Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_3/public" alt="Kennesaw Mountain National Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_4/public" data-location="Kennesaw Mountain National Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_4/public" alt="Kennesaw Mountain National Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_5/public" data-location="Kennesaw Mountain National Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_5/public" alt="Kennesaw Mountain National Battlefield"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_6/public" data-location="Kennesaw Mountain National Battlefield"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_kennesaw_mountain_national_battlefield_6/public" alt="Kennesaw Mountain National Battlefield"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Savannah+Historic+District/@32.0761241,-81.0990759,17z/data=!3m1!4b1!4m6!3m5!1s0x887c536087b8cc33:0xb784225b64c3f0f3!8m2!3d32.0761241!4d-81.0990759!16s%2Fm%2F047vl_n?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>downtown historic buildings 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_1/public" data-location="downtown historic buildings"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_1/public" alt="downtown historic buildings"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_2/public" data-location="downtown historic buildings"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_2/public" alt="downtown historic buildings"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_3/public" data-location="downtown historic buildings"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_3/public" alt="downtown historic buildings"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_4/public" data-location="downtown historic buildings"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_4/public" alt="downtown historic buildings"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_5/public" data-location="downtown historic buildings"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_5/public" alt="downtown historic buildings"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_6/public" data-location="downtown historic buildings"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_downtown_historic_buildings_6/public" alt="downtown historic buildings"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+Cathedral+Basilica+of+St.+John+the+Baptist/@32.0733565,-81.0909827,17z/data=!3m1!4b1!4m6!3m5!1s0x88fb9e6ed75ad975:0xcf548d3215e87073!8m2!3d32.0733565!4d-81.0909827!16zL20vMGJtcGcz?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Cathedral of St. John the Baptist 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_1/public" data-location="Cathedral of St. John the Baptist"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_1/public" alt="Cathedral of St. John the Baptist"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_2/public" data-location="Cathedral of St. John the Baptist"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_2/public" alt="Cathedral of St. John the Baptist"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_3/public" data-location="Cathedral of St. John the Baptist"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_3/public" alt="Cathedral of St. John the Baptist"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_4/public" data-location="Cathedral of St. John the Baptist"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_4/public" alt="Cathedral of St. John the Baptist"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_5/public" data-location="Cathedral of St. John the Baptist"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_5/public" alt="Cathedral of St. John the Baptist"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_6/public" data-location="Cathedral of St. John the Baptist"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_cathedral_of_st_john_the_baptist_6/public" alt="Cathedral of St. John the Baptist"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fountain+at+Forsyth+Park/@32.0692426,-81.0955928,17z/data=!3m1!4b1!4m6!3m5!1s0x88fb9e6a4615c5dd:0xb4c8825a8a7a04d8!8m2!3d32.0692426!4d-81.0955928!16s%2Fg%2F11c6173_87?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Forsyth Park Fountain 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_1/public" data-location="Forsyth Park Fountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_1/public" alt="Forsyth Park Fountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_2/public" data-location="Forsyth Park Fountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_2/public" alt="Forsyth Park Fountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_3/public" data-location="Forsyth Park Fountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_3/public" alt="Forsyth Park Fountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_4/public" data-location="Forsyth Park Fountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_4/public" alt="Forsyth Park Fountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_5/public" data-location="Forsyth Park Fountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_5/public" alt="Forsyth Park Fountain"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_6/public" data-location="Forsyth Park Fountain"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_forsyth_park_fountain_6/public" alt="Forsyth Park Fountain"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/The+State+Botanical+Garden+of+Georgia/@33.9023502,-83.3846876,17z/data=!3m1!4b1!4m6!3m5!1s0x88f66dcea60030cd:0xb7674ccd93d249a8!8m2!3d33.9023502!4d-83.3846876!16zL20vMGQ1bl90?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>State Botanical Garden of Georgia 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_1/public" data-location="State Botanical Garden of Georgia"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_1/public" alt="State Botanical Garden of Georgia"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_2/public" data-location="State Botanical Garden of Georgia"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_2/public" alt="State Botanical Garden of Georgia"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_3/public" data-location="State Botanical Garden of Georgia"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_3/public" alt="State Botanical Garden of Georgia"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_4/public" data-location="State Botanical Garden of Georgia"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_4/public" alt="State Botanical Garden of Georgia"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_5/public" data-location="State Botanical Garden of Georgia"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_5/public" alt="State Botanical Garden of Georgia"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_6/public" data-location="State Botanical Garden of Georgia"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_state_botanical_garden_of_georgia_6/public" alt="State Botanical Garden of Georgia"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Driftwood+Beach/@31.1034108,-81.4038548,15z/data=!3m1!4b1!4m6!3m5!1s0x88e4dbb7ccace487:0xad5ded38020eb2c5!8m2!3d31.1034113!4d-81.4038548!16s%2Fg%2F11byl7fmj_?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Driftwood Beach 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_1/public" data-location="Driftwood Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_1/public" alt="Driftwood Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_2/public" data-location="Driftwood Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_2/public" alt="Driftwood Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_3/public" data-location="Driftwood Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_3/public" alt="Driftwood Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_4/public" data-location="Driftwood Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_4/public" alt="Driftwood Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_5/public" data-location="Driftwood Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_5/public" alt="Driftwood Beach"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_6/public" data-location="Driftwood Beach"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_driftwood_beach_6/public" alt="Driftwood Beach"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fort+Mountain+State+Park/@34.7626418,-84.7031349,17z/data=!3m1!4b1!4m6!3m5!1s0x885fc217054d4fb1:0x3c2c267a74ad7cee!8m2!3d34.7626418!4d-84.7031349!16zL20vMDRqM25q?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fort Mountain State Park Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_1/public" data-location="Fort Mountain State Park Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_1/public" alt="Fort Mountain State Park Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_2/public" data-location="Fort Mountain State Park Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_2/public" alt="Fort Mountain State Park Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_3/public" data-location="Fort Mountain State Park Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_3/public" alt="Fort Mountain State Park Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_4/public" data-location="Fort Mountain State Park Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_4/public" alt="Fort Mountain State Park Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_5/public" data-location="Fort Mountain State Park Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_5/public" alt="Fort Mountain State Park Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_6/public" data-location="Fort Mountain State Park Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fort_mountain_state_park_overlook_6/public" alt="Fort Mountain State Park Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Bell+Mountain/@34.9592579,-83.7292089,17z/data=!3m1!4b1!4m6!3m5!1s0x885f2f2e732d2821:0xae38718e90ff0783!8m2!3d34.9592579!4d-83.7292089!16s%2Fg%2F11cm15pm7t?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Bell Mountain Scenic Overlook 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_1/public" data-location="Bell Mountain Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_1/public" alt="Bell Mountain Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_2/public" data-location="Bell Mountain Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_2/public" alt="Bell Mountain Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_3/public" data-location="Bell Mountain Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_3/public" alt="Bell Mountain Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_4/public" data-location="Bell Mountain Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_4/public" alt="Bell Mountain Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_5/public" data-location="Bell Mountain Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_5/public" alt="Bell Mountain Scenic Overlook"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_6/public" data-location="Bell Mountain Scenic Overlook"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_bell_mountain_scenic_overlook_6/public" alt="Bell Mountain Scenic Overlook"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Black+Rock+Mountain+State+Park/@34.9045824,-83.4125349,17z/data=!3m1!4b1!4m6!3m5!1s0x8858da7ad56b9ff3:0x5b82469728afbe69!8m2!3d34.9045824!4d-83.4125349!16zL20vMDRneGQ1?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Black Rock Mountain State Park 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_1/public" data-location="Black Rock Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_1/public" alt="Black Rock Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_2/public" data-location="Black Rock Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_2/public" alt="Black Rock Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_3/public" data-location="Black Rock Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_3/public" alt="Black Rock Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_4/public" data-location="Black Rock Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_4/public" alt="Black Rock Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_5/public" data-location="Black Rock Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_5/public" alt="Black Rock Mountain State Park"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_6/public" data-location="Black Rock Mountain State Park"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_black_rock_mountain_state_park_6/public" alt="Black Rock Mountain State Park"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Ocmulgee+Mounds+National+Historical+Park/@32.8381287,-83.6020624,17z/data=!3m1!4b1!4m6!3m5!1s0x88f3fe174f145e49:0xeceda035ee3564b!8m2!3d32.8381287!4d-83.6020624!16zL20vMDRoMGgw?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Ocmulgee Mounds 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_1/public" data-location="Ocmulgee Mounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_1/public" alt="Ocmulgee Mounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_2/public" data-location="Ocmulgee Mounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_2/public" alt="Ocmulgee Mounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_3/public" data-location="Ocmulgee Mounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_3/public" alt="Ocmulgee Mounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_4/public" data-location="Ocmulgee Mounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_4/public" alt="Ocmulgee Mounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_5/public" data-location="Ocmulgee Mounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_5/public" alt="Ocmulgee Mounds"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_6/public" data-location="Ocmulgee Mounds"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_ocmulgee_mounds_6/public" alt="Ocmulgee Mounds"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Little+White+House+Historic+Site/@32.8817414,-84.6860327,17z/data=!3m1!4b1!4m6!3m5!1s0x88f35eac0ec79055:0x9bbd85eb7b041a51!8m2!3d32.8817414!4d-84.6860327!16zL20vMDNrNTJn?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>FDR’s Little White House 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_1/public" data-location="FDR’s Little White House"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_1/public" alt="FDR’s Little White House"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_2/public" data-location="FDR’s Little White House"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_2/public" alt="FDR’s Little White House"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_3/public" data-location="FDR’s Little White House"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_3/public" alt="FDR’s Little White House"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_4/public" data-location="FDR’s Little White House"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_4/public" alt="FDR’s Little White House"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_5/public" data-location="FDR’s Little White House"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_5/public" alt="FDR’s Little White House"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_6/public" data-location="FDR’s Little White House"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fdrs_little_white_house_6/public" alt="FDR’s Little White House"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Anna+Ruby+Falls/@34.7641662,-83.7123051,15z/data=!3m1!4b1!4m6!3m5!1s0x885f36e6fed703b5:0xcb54321e0cc736e1!8m2!3d34.7641668!4d-83.7123051!16zL20vMDdxXzNt?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Anna Ruby Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_1/public" data-location="Anna Ruby Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_1/public" alt="Anna Ruby Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_2/public" data-location="Anna Ruby Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_2/public" alt="Anna Ruby Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_3/public" data-location="Anna Ruby Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_3/public" alt="Anna Ruby Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_4/public" data-location="Anna Ruby Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_4/public" alt="Anna Ruby Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_5/public" data-location="Anna Ruby Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_5/public" alt="Anna Ruby Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_6/public" data-location="Anna Ruby Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_anna_ruby_falls_6/public" alt="Anna Ruby Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Dungeness+Ruins/@30.7485833,-81.4708917,17z/data=!3m1!4b1!4m6!3m5!1s0x88e4fc54b8805fb7:0x175f80c92080e50d!8m2!3d30.7485833!4d-81.4708917!16s%2Fm%2F05c15c7?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Dungeness Ruins 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_1/public" data-location="Dungeness Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_1/public" alt="Dungeness Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_2/public" data-location="Dungeness Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_2/public" alt="Dungeness Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_3/public" data-location="Dungeness Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_3/public" alt="Dungeness Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_4/public" data-location="Dungeness Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_4/public" alt="Dungeness Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_5/public" data-location="Dungeness Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_5/public" alt="Dungeness Ruins"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_6/public" data-location="Dungeness Ruins"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dungeness_ruins_6/public" alt="Dungeness Ruins"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Tallulah+Gorge+Rim+Trail/@34.7395385,-83.390815,17z/data=!3m1!4b1!4m6!3m5!1s0x8858c64540dcf043:0x1c9a6e7747660066!8m2!3d34.7395385!4d-83.390815!16s%2Fg%2F1pxwl1v3k?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Tallulah Gorge Suspension Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_1/public" data-location="Tallulah Gorge Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_1/public" alt="Tallulah Gorge Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_2/public" data-location="Tallulah Gorge Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_2/public" alt="Tallulah Gorge Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_3/public" data-location="Tallulah Gorge Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_3/public" alt="Tallulah Gorge Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_4/public" data-location="Tallulah Gorge Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_4/public" alt="Tallulah Gorge Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_5/public" data-location="Tallulah Gorge Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_5/public" alt="Tallulah Gorge Suspension Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_6/public" data-location="Tallulah Gorge Suspension Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_tallulah_gorge_suspension_bridge_6/public" alt="Tallulah Gorge Suspension Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Dukes+Creek+Falls/@34.702038,-83.7912924,15z/data=!3m1!4b1!4m6!3m5!1s0x885f4789abe4aef1:0x89ba16b3e6cfed14!8m2!3d34.7020386!4d-83.7912924!16s%2Fm%2F025_hrr?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Dukes Creek Falls 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_1/public" data-location="Dukes Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_1/public" alt="Dukes Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_2/public" data-location="Dukes Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_2/public" alt="Dukes Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_3/public" data-location="Dukes Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_3/public" alt="Dukes Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_4/public" data-location="Dukes Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_4/public" alt="Dukes Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_5/public" data-location="Dukes Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_5/public" alt="Dukes Creek Falls"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_6/public" data-location="Dukes Creek Falls"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_dukes_creek_falls_6/public" alt="Dukes Creek Falls"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Jackson+Street+Bridge/@33.7601771,-84.3743201,17z/data=!3m1!4b1!4m6!3m5!1s0x88f5057a608bd081:0xe6897f9bec2d5fcd!8m2!3d33.7601771!4d-84.3743201!16s%2Fg%2F11ny48m2l3?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Jackson Street Bridge 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_1/public" data-location="Jackson Street Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_1/public" alt="Jackson Street Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_2/public" data-location="Jackson Street Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_2/public" alt="Jackson Street Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_3/public" data-location="Jackson Street Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_3/public" alt="Jackson Street Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_4/public" data-location="Jackson Street Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_4/public" alt="Jackson Street Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_5/public" data-location="Jackson Street Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_5/public" alt="Jackson Street Bridge"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_6/public" data-location="Jackson Street Bridge"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_jackson_street_bridge_6/public" alt="Jackson Street Bridge"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Rylander+Theatre/@32.071843,-84.235164,17z/data=!3m1!4b1!4m6!3m5!1s0x88f257a4a7f48f57:0x67ba1674b61e7100!8m2!3d32.071843!4d-84.235164!16s%2Fg%2F1tgcn3h5?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Rylander Theatre 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_1/public" data-location="Rylander Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_1/public" alt="Rylander Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_2/public" data-location="Rylander Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_2/public" alt="Rylander Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_3/public" data-location="Rylander Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_3/public" alt="Rylander Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_4/public" data-location="Rylander Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_4/public" alt="Rylander Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_5/public" data-location="Rylander Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_5/public" alt="Rylander Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_6/public" data-location="Rylander Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_rylander_theatre_6/public" alt="Rylander Theatre"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Mercedes-Benz+Stadyumu/@33.7553232,-84.4005905,17z/data=!3m1!4b1!4m6!3m5!1s0x88f5037c38c799e3:0x6541be00805df0ee!8m2!3d33.7553232!4d-84.4005905!16s%2Fm%2F0n4844m?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Mercedes-Benz Stadium 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_1/public" data-location="Mercedes-Benz Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_1/public" alt="Mercedes-Benz Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_2/public" data-location="Mercedes-Benz Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_2/public" alt="Mercedes-Benz Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_3/public" data-location="Mercedes-Benz Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_3/public" alt="Mercedes-Benz Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_4/public" data-location="Mercedes-Benz Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_4/public" alt="Mercedes-Benz Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_5/public" data-location="Mercedes-Benz Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_5/public" alt="Mercedes-Benz Stadium"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_6/public" data-location="Mercedes-Benz Stadium"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_mercedesbenz_stadium_6/public" alt="Mercedes-Benz Stadium"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Atlanta+Botanical+Garden/@33.7899568,-84.3725988,17z/data=!3m1!4b1!4m6!3m5!1s0x88f5043825d515d1:0xa0eaf981e881d6b5!8m2!3d33.7899568!4d-84.3725988!16zL20vMDNqaDdu?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Atlanta Botanical Garden 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_1/public" data-location="Atlanta Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_1/public" alt="Atlanta Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_2/public" data-location="Atlanta Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_2/public" alt="Atlanta Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_3/public" data-location="Atlanta Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_3/public" alt="Atlanta Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_4/public" data-location="Atlanta Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_4/public" alt="Atlanta Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_5/public" data-location="Atlanta Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_5/public" alt="Atlanta Botanical Garden"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_6/public" data-location="Atlanta Botanical Garden"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_atlanta_botanical_garden_6/public" alt="Atlanta Botanical Garden"></div>
+      </div>
+    </div>
+    <div class="city-section">
+      <div class="city-header">
+        <h2 class="city-title">
+          <a href="https://www.google.com/maps/place/Fox+Theatre/@33.7726136,-84.3853395,17z/data=!3m1!4b1!4m6!3m5!1s0x88f5046f76d0c0db:0x1a9d789f6178c69e!8m2!3d33.7726136!4d-84.3853395!16zL20vMDRxcmhx?entry=ttu&g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="location-link">
+            <span class="click-icon"></span>Fox Theatre 📍
+          </a>
+        </h2>
+      </div>
+      <div class="city-photos">
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_1/public" data-location="Fox Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_1/public" alt="Fox Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_2/public" data-location="Fox Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_2/public" alt="Fox Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_3/public" data-location="Fox Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_3/public" alt="Fox Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_4/public" data-location="Fox Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_4/public" alt="Fox Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_5/public" data-location="Fox Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_5/public" alt="Fox Theatre"></div>
+        <div class="photo-card" data-photo="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_6/public" data-location="Fox Theatre"><img src="https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/georgia_fox_theatre_6/public" alt="Fox Theatre"></div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="promotion-section">
+      <a href="index.html" target="_blank" class="purchase-btn" id="loginBtn">🏠 Main Menu</a>
+      
+      <div class="promo-text" id="questionsText">Questions? → Contact us!</div>
+      
+      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">📩Contact us with one click: @tr81.tr</a>
+    </div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    </div>
+  </div>
+
+  <script>
+    // Dil verileri
+    const translations = {
+    "tr": {
+        "loginBtn": "🏠 Ana Menü",
+        "questionsText": "Sorularınız için → Bize ulaşın!",
+        "instagramBtn": "📩Bir tıkla bize ulaşın: @tr81.tr"
+    },
+    "en": {
+        "loginBtn": "🏠 Main Menu",
+        "questionsText": "Questions? → Contact us!",
+        "instagramBtn": "📩Contact us with one click: @tr81.tr"
+    },
+    "de": {
+        "loginBtn": "🏠 Hauptmenü",
+        "questionsText": "Fragen? → Kontaktiere uns!",
+        "instagramBtn": "📩Mit einem Klick erreichen: @tr81.tr"
+    },
+    "fr": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Des questions? → Contactez-nous!",
+        "instagramBtn": "📩Contactez-nous en un clic: @tr81.tr"
+    },
+    "es": {
+        "loginBtn": "🏠 Menú Principal",
+        "questionsText": "¿Preguntas? → ¡Contáctanos!",
+        "instagramBtn": "📩Contáctanos con un clic: @tr81.tr"
+    },
+    "it": {
+        "loginBtn": "🏠 Menu Principale",
+        "questionsText": "Domande? → Contattaci!",
+        "instagramBtn": "📩Contattaci con un clic: @tr81.tr"
+    },
+    "pt": {
+        "loginBtn": "🏠 Menu Principal",
+        "questionsText": "Dúvidas? → Fale conosco!",
+        "instagramBtn": "📩Fale conosco com um clique: @tr81.tr"
+    },
+    "ru": {
+        "loginBtn": "🏠 Главное меню",
+        "questionsText": "Вопросы? → Свяжитесь с нами!",
+        "instagramBtn": "📩Свяжитесь с нами одним кликом: @tr81.tr"
+    },
+    "ja": {
+        "loginBtn": "🏠 メインメニュー",
+        "questionsText": "ご質問は？→ お問い合わせください！",
+        "instagramBtn": "📩ワンクリックでお問い合わせ: @tr81.tr"
+    },
+    "zh": {
+        "loginBtn": "🏠 主菜单",
+        "questionsText": "有问题？→ 联系我们！",
+        "instagramBtn": "📩一键联系我们: @tr81.tr"
+    },
+    "ar": {
+        "loginBtn": "🏠 القائمة الرئيسية",
+        "questionsText": "أسئلة؟ → اتصل بنا!",
+        "instagramBtn": "📩تواصل معنا بنقرة واحدة: @tr81.tr"
+    },
+    "hi": {
+        "loginBtn": "🏠 मुख्य मेनू",
+        "questionsText": "प्रश्न? → हमसे संपर्क करें!",
+        "instagramBtn": "📩एक क्लिक में हमसे संपर्क करें: @tr81.tr"
+    },
+    "ko": {
+        "loginBtn": "🏠 메인 메뉴",
+        "questionsText": "질문이 있으신가요? → 문의하세요!",
+        "instagramBtn": "📩원클릭으로 문의하기: @tr81.tr"
+    },
+    "nl": {
+        "loginBtn": "🏠 Hoofdmenu",
+        "questionsText": "Vragen? → Neem contact op!",
+        "instagramBtn": "📩Bereik ons met één klik: @tr81.tr"
+    },
+    "pl": {
+        "loginBtn": "🏠 Menu Główne",
+        "questionsText": "Pytania? → Skontaktuj się z nami!",
+        "instagramBtn": "📩Skontaktuj się jednym kliknięciem: @tr81.tr"
+    },
+    "sv": {
+        "loginBtn": "🏠 Huvudmeny",
+        "questionsText": "Frågor? → Kontakta oss!",
+        "instagramBtn": "📩Kontakta oss med ett klick: @tr81.tr"
+    },
+    "no": {
+        "loginBtn": "🏠 Hovedmeny",
+        "questionsText": "Spørsmål? → Kontakt oss!",
+        "instagramBtn": "📩Kontakt oss med ett klikk: @tr81.tr"
+    },
+    "da": {
+        "loginBtn": "🏠 Hovedmenu",
+        "questionsText": "Spørgsmål? → Kontakt os!",
+        "instagramBtn": "📩Kontakt os med et klik: @tr81.tr"
+    },
+    "fi": {
+        "loginBtn": "🏠 Päävalikko",
+        "questionsText": "Kysymyksiä? → Ota yhteyttä!",
+        "instagramBtn": "📩Ota yhteyttä yhdellä klikkauksella: @tr81.tr"
+    },
+    "cs": {
+        "loginBtn": "🏠 Hlavní menu",
+        "questionsText": "Otázky? → Kontaktujte nás!",
+        "instagramBtn": "📩Kontaktujte nás jedním kliknutím: @tr81.tr"
+    }
+};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn' || id === 'nextBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
