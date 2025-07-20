@@ -453,7 +453,7 @@
       padding-bottom: 10px;
     }
     
-    .edit-panel textarea, .edit-panel button {
+    .edit-panel input[type="text"], .edit-panel textarea, .edit-panel button {
       margin: 8px 0;
       padding: 12px;
       width: 100%;
@@ -497,54 +497,6 @@
       transition: all 0.3s ease;
     }
     
-    .csv-btn {
-      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin-bottom: 15px;
-    }
-    
-    .csv-btn:hover {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-    }
-    
-    #csvFileInput {
-      display: none;
-    }
-    
-    .divider {
-      text-align: center;
-      margin: 20px 0;
-      color: var(--text-muted);
-      font-size: 12px;
-      position: relative;
-    }
-    
-    .divider::before,
-    .divider::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: #e2e8f0;
-    }
-    
-    .divider::before {
-      left: 0;
-    }
-    
-    .divider::after {
-      right: 0;
-    }
-    
     #cityData {
       font-family: 'Courier New', monospace;
       resize: vertical;
@@ -581,30 +533,12 @@
       word-break: break-all;
     }
     
-    .csv-info-box {
-      background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-      border: 1px solid #9333ea;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 15px 0;
-      font-size: 12px;
-      text-align: left;
-      line-height: 1.5;
+    .info-box ul {
+      margin: 5px 0 0 20px;
+      padding: 0;
     }
     
-    .csv-info-box strong {
-      color: #581c87;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-    }
-    
-    .csv-info-box ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-    
-    .csv-info-box li {
+    .info-box li {
       margin: 3px 0;
     }
     
@@ -632,6 +566,73 @@
       background: linear-gradient(135deg, var(--primary-dark), #1e40af);
       transform: scale(1.1);
       box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    .file-input-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    
+    .file-label:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .file-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+
+    .input-method-toggle {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+      justify-content: center;
+    }
+
+    .toggle-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .input-section {
+      display: none;
+    }
+
+    .input-section.active {
+      display: block;
     }
 
     /* Mobile Responsive Styles */
@@ -795,30 +796,52 @@
   <div class="edit-panel" id="editPanel">
     <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
     
-    <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVFile(event)">
-    <button class="csv-btn" onclick="document.getElementById('csvFileInput').click()">📊 CSV Dosyası Yükle</button>
-    
-    <div class="csv-info-box">
-      <strong>📋 CSV Dosya Formatı:</strong>
-      <ul>
-        <li>A1: Şehir Adı</li>
-        <li>A2-A3...: Konum Adları</li>
-        <li>B2-B3...: Google Maps Linkleri</li>
-        <li>C2-H2...: Fotoğraf URL'leri (6 adet)</li>
-      </ul>
+    <div class="input-method-toggle">
+      <button class="toggle-btn active" onclick="toggleInputMethod('text')" id="textToggle">📝 Metin Girişi</button>
+      <button class="toggle-btn" onclick="toggleInputMethod('csv')" id="csvToggle">📊 CSV Dosyası</button>
     </div>
     
-    <div class="divider">veya</div>
-    
-    <div class="info-box">
-      <strong>📝 Manuel Veri Formatı:</strong>
-      <code>ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6</code>
-    </div>
-    
-    <textarea id="cityData" placeholder="Örnek:
+    <!-- TEXT INPUT SECTION -->
+    <div class="input-section active" id="textInputSection">
+      <div class="info-box">
+        <strong>📝 Veri Formatı:</strong>
+        <code>ŞehirAdı@@@Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@Foto4@@Foto5@@Foto6</code>
+      </div>
+      
+      <textarea id="cityData" placeholder="Örnek:
 İstanbul@@@Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://picsum.photos/380/380?random=4@@https://picsum.photos/380/380?random=5@@https://picsum.photos/380/380?random=6@@https://picsum.photos/380/380?random=7@@https://picsum.photos/380/380?random=8@@https://picsum.photos/380/380?random=9@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://picsum.photos/380/380?random=10@@https://picsum.photos/380/380?random=11@@https://picsum.photos/380/380?random=12@@https://picsum.photos/380/380?random=13@@https://picsum.photos/380/380?random=14@@https://picsum.photos/380/380?random=15"></textarea>
+      
+      <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
+    </div>
     
-    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
+    <!-- CSV INPUT SECTION -->
+    <div class="input-section" id="csvInputSection">
+      <div class="info-box">
+        <strong>📝 CSV Dosya Formatı:</strong>
+        <ul>
+          <li>A1: Konum Adı | B1: Maps Linki | C1-H1: 6 Fotoğraf Linki</li>
+          <li>A2: Konum Adı | B2: Maps Linki | C2-H2: 6 Fotoğraf Linki</li>
+          <li>... ve bu şekilde devam eder</li>
+        </ul>
+        <strong>Örnek Satır:</strong>
+        <code style="font-size: 11px;">Gaziantep Kalesi | https://maps.google.com/?q=... | foto1.jpg | foto2.jpg | ... | foto6.jpg</code>
+      </div>
+      
+      <input type="text" id="cityNameInput" placeholder="Şehir adını girin (örn: Gaziantep)" 
+             style="width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e2e8f0; 
+                    border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+      
+      <div class="file-input-container">
+        <input type="file" id="csvFile" accept=".csv" class="file-input" onchange="handleFileSelect(event)">
+        <label for="csvFile" class="file-label">
+          📂 CSV Dosyası Seç
+        </label>
+        <div class="file-info" id="fileInfo"></div>
+      </div>
+      
+      <button class="process-btn" onclick="processCSVFile()">🔄 CSV Verilerini İşle</button>
+    </div>
+    
     <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
     <button class="clear-btn" onclick="clearCityData()">🗑️ Verileri Temizle</button>
     <button onclick="toggleEditPanel()">❌ Paneli Kapat</button>
@@ -832,6 +855,9 @@
       <div class="modal-info" id="modalInfo">Konum Adı</div>
     </div>
   </div>
+
+  <!-- PapaParse kütüphanesi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
   <script>
     // Dil verileri
@@ -957,6 +983,8 @@
       ]
     };
 
+    let selectedFile = null;
+
     // Dil algılama fonksiyonu
     function detectLanguage() {
       const savedLang = sessionStorage.getItem('preferred-language');
@@ -1064,89 +1092,105 @@
       }
     }
 
-    // CSV dosya işleme fonksiyonu
-    function handleCSVFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    function toggleInputMethod(method) {
+      const textSection = document.getElementById('textInputSection');
+      const csvSection = document.getElementById('csvInputSection');
+      const textToggle = document.getElementById('textToggle');
+      const csvToggle = document.getElementById('csvToggle');
       
+      if (method === 'text') {
+        textSection.classList.add('active');
+        csvSection.classList.remove('active');
+        textToggle.classList.add('active');
+        csvToggle.classList.remove('active');
+      } else {
+        textSection.classList.remove('active');
+        csvSection.classList.add('active');
+        textToggle.classList.remove('active');
+        csvToggle.classList.add('active');
+      }
+    }
+
+    function handleFileSelect(event) {
+      selectedFile = event.target.files[0];
+      const fileInfo = document.getElementById('fileInfo');
+      
+      if (selectedFile) {
+        fileInfo.textContent = '✅ Seçilen dosya: ' + selectedFile.name;
+      } else {
+        fileInfo.textContent = '';
+      }
+    }
+
+    function processCSVFile() {
+      if (!selectedFile) {
+        alert('Lütfen bir CSV dosyası seçin!');
+        return;
+      }
+
+      const cityNameInput = document.getElementById('cityNameInput').value.trim();
+      if (!cityNameInput) {
+        alert('Lütfen şehir adını girin!');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = function(e) {
         try {
           const csvContent = e.target.result;
-          console.log('CSV içeriği:', csvContent); // Debug için
+          console.log('CSV İçeriği:', csvContent);
           
-          const lines = csvContent.split(/\r?\n/); // Hem \n hem \r\n destekle
-          console.log('Satır sayısı:', lines.length); // Debug için
+          // PapaParse ile CSV'yi işle
+          const parsed = Papa.parse(csvContent, {
+            skipEmptyLines: true,
+            dynamicTyping: false,
+            transform: function(value) {
+              return value.trim();
+            }
+          });
           
-          if (lines.length < 2) {
-            alert('CSV dosyası en az 2 satır içermelidir!');
-            return;
-          }
-          
-          // İlk satırdan şehir adını al
-          const firstLine = lines[0].trim();
-          let cityName = '';
-          
-          // Tab veya virgül ile ayrılmış olabilir
-          if (firstLine.includes('\t')) {
-            cityName = firstLine.split('\t')[0].trim();
-          } else {
-            cityName = firstLine.split(',')[0].trim();
-          }
-          
-          if (!cityName) {
-            alert('Şehir adı (A1) boş olamaz!');
-            return;
-          }
+          console.log('Parsed data:', parsed.data);
           
           const locations = [];
           
-          // 2. satırdan itibaren konum verileri
-          for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
+          // Her satırı işle
+          for (let i = 0; i < parsed.data.length; i++) {
+            const row = parsed.data[i];
             
-            console.log('Satır ' + i + ':', line); // Debug için
+            if (row.length < 2) continue; // En az konum adı ve maps linki olmalı
             
-            // Tab karakteri ile ayırma
-            let cells;
-            if (line.includes('\t')) {
-              cells = line.split('\t');
-            } else {
-              cells = line.split(',');
-            }
+            const locationName = row[0];
+            const mapsLink = row[1];
             
-            console.log('Hücre sayısı:', cells.length, 'Hücreler:', cells); // Debug için
+            if (!locationName || !mapsLink) continue;
             
-            if (cells.length < 2) continue;
-            
-            const name = cells[0].trim();
-            let link = cells[1].trim();
-            
-            // Eğer link sadece "https://www.goog" gibi kısaysa, tam halini kontrol et
-            if (link && !link.startsWith('http')) {
-              console.warn('Geçersiz link:', link);
-              continue;
-            }
-            
-            if (!name || !link) continue;
-            
+            // Fotoğraf linklerini topla (maksimum 6 fotoğraf)
             const photos = [];
-            // C sütunundan H sütununa kadar fotoğraflar
-            for (let j = 2; j < cells.length && photos.length < 6; j++) {
-              const photoUrl = cells[j] ? cells[j].trim() : '';
-              if (photoUrl && photoUrl.startsWith('http')) {
-                photos.push(photoUrl);
-                console.log('Fotoğraf eklendi:', photoUrl); // Debug için
+            
+            // 2. indexten itibaren tüm hücreleri kontrol et (maksimum 8. indexe kadar - 6 fotoğraf)
+            for (let j = 2; j < row.length && j < 8; j++) {
+              if (row[j]) {
+                // Hücredeki değeri boşluklara göre ayır (birden fazla link olabilir)
+                const cellLinks = row[j].split(/\s+/).filter(link => link.trim());
+                
+                for (const link of cellLinks) {
+                  // HTTP/HTTPS ile başlayan linkleri al
+                  if (link.startsWith('http://') || link.startsWith('https://')) {
+                    if (photos.length < 6) { // Maksimum 6 fotoğraf
+                      photos.push(link);
+                      console.log('Fotoğraf eklendi:', link);
+                    }
+                  }
+                }
               }
             }
             
-            console.log('Konum oluşturuldu:', name, 'Fotoğraf sayısı:', photos.length); // Debug için
+            console.log(`Konum: ${locationName}, Fotoğraf sayısı: ${photos.length}`);
             
             locations.push({
-              name: name,
-              photos: photos,
-              link: link
+              name: locationName,
+              link: mapsLink,
+              photos: photos
             });
           }
           
@@ -1155,28 +1199,36 @@
             return;
           }
           
-          console.log('Toplam konum sayısı:', locations.length); // Debug için
-          console.log('Konumlar:', locations); // Debug için
-          
           // Memory'de sakla
           cityData = {
-            cityName: cityName,
+            cityName: cityNameInput,
             locations: locations
           };
+          
+          console.log('İşlenen veri:', cityData);
           
           updatePageTitle();
           renderLocations();
           
-          // Input'u temizle
-          event.target.value = '';
+          // Temizlik
+          document.getElementById('fileInfo').textContent = '';
+          document.getElementById('csvFile').value = '';
+          document.getElementById('cityNameInput').value = '';
+          selectedFile = null;
+          
+          alert(`✅ CSV verileri başarıyla işlendi! ${locations.length} konum eklendi.`);
           
         } catch (error) {
           console.error('CSV işleme hatası:', error);
-          alert('CSV dosyası işlenirken bir hata oluştu: ' + error.message);
+          alert('CSV dosyası işlenirken bir hata oluştu. Formatı kontrol edin.\n\nHata: ' + error.message);
         }
       };
-      
-      reader.readAsText(file, 'UTF-8');
+
+      reader.onerror = function() {
+        alert('Dosya okunamadı!');
+      };
+
+      reader.readAsText(selectedFile, 'UTF-8');
     }
 
     function processCityData() {
@@ -1244,6 +1296,7 @@
         renderLocations();
         
         document.getElementById('cityData').value = '';
+        alert('✅ Şehir verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
         
       } catch (error) {
         console.error('Veri işleme hatası:', error);
@@ -1298,6 +1351,10 @@
         updatePageTitle();
         renderLocations();
         document.getElementById('cityData').value = '';
+        document.getElementById('fileInfo').textContent = '';
+        document.getElementById('csvFile').value = '';
+        document.getElementById('cityNameInput').value = '';
+        selectedFile = null;
         alert('🗑️ Veriler temizlendi ve demo verileri yüklendi.');
       }
     }
@@ -1320,50 +1377,74 @@
         locationsHTML += '    <div class="city-section">\n      <div class="city-header">\n        <h2 class="city-title">\n          <a href="' + location.link + '" target="_blank" rel="noopener noreferrer" class="location-link">\n            <span class="click-icon"></span>' + location.name + ' 📍\n          </a>\n        </h2>\n      </div>\n      <div class="city-photos">\n' + photosHTML + '      </div>\n    </div>\n';
       }
 
-      const styleContent = document.querySelector('style').innerHTML;
-      const fullHTML = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + cityData.cityName + '</title>\n  \n  <!-- Fonts -->\n  <link rel="preconnect" href="https://fonts.googleapis.com">\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>\n  \n  <style>\n' + styleContent + '\n  </style>\n</head>\n<body>\n  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, \'_blank\'); return false;">🌐</a>\n  <h1><span class="camera-emoji">📸</span><span class="gradient-text">' + cityData.cityName + '</span></h1>\n  \n  <div class="container">\n    <div id="locations-container">\n' + locationsHTML + '    </div>\n    \n    ' + document.querySelector('.promotion-section').outerHTML + '\n  </div>\n\n  <!-- PHOTO MODAL -->\n  ' + document.querySelector('.photo-modal').outerHTML + '\n\n  <script>\n    // Dil verileri\n    const translations = ' + JSON.stringify(translations, null, 4) + ';\n\n    // Dil algılama fonksiyonu\n    function detectLanguage() {\n      const savedLang = sessionStorage.getItem(\'preferred-language\');\n      if (savedLang && translations[savedLang]) {\n        return savedLang;\n      }\n      \n      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();\n      \n      if (browserLang.startsWith(\'tr\')) {\n        return \'tr\';\n      }\n      \n      for (const lang in translations) {\n        if (browserLang.startsWith(lang)) {\n          return lang;\n        }\n      }\n      \n      return \'en\';\n    }\n\n    // UI güncelleme fonksiyonu\n    function updateLanguageUI(lang) {\n      const t = translations[lang];\n      if (!t) return;\n      \n      const elements = {\n        \'nextBtn\': t.nextBtn,\n        \'loginBtn\': t.loginBtn,\n        \'questionsText\': t.questionsText,\n        \'instagramBtn\': t.instagramBtn\n      };\n      \n      for (const [id, text] of Object.entries(elements)) {\n        const element = document.getElementById(id);\n        if (element) {\n          if (id === \'loginBtn\' || id === \'instagramBtn\' || id === \'nextBtn\') {\n            element.innerHTML = text;\n          } else {\n            element.textContent = text;\n          }\n        }\n      }\n      \n      document.documentElement.lang = lang;\n      sessionStorage.setItem(\'preferred-language\', lang);\n    }\n\n    // Photo modal functions\n    function openPhotoModal(imageUrl, locationName) {\n      const modal = document.getElementById(\'photoModal\');\n      const modalImage = document.getElementById(\'modalImage\');\n      const modalInfo = document.getElementById(\'modalInfo\');\n      \n      modalImage.src = imageUrl;\n      modalImage.alt = locationName;\n      modalInfo.textContent = locationName;\n      \n      modal.style.display = \'flex\';\n      document.body.style.overflow = \'hidden\';\n      \n      setTimeout(() => {\n        modal.classList.add(\'show\');\n      }, 10);\n    }\n\n    function closePhotoModal() {\n      const modal = document.getElementById(\'photoModal\');\n      \n      modal.classList.remove(\'show\');\n      \n      setTimeout(() => {\n        modal.style.display = \'none\';\n        document.body.style.overflow = \'auto\';\n      }, 300);\n    }\n\n    // ESC tuşu ile modal kapatma\n    document.addEventListener(\'keydown\', function(event) {\n      if (event.key === \'Escape\') {\n        closePhotoModal();\n      }\n    });\n\n    // Fotoğraf kartlarına tıklama olayları ekle\n    document.addEventListener(\'click\', function(e) {\n      if (e.target.closest(\'.photo-card\')) {\n        const card = e.target.closest(\'.photo-card\');\n        const img = card.querySelector(\'img\');\n        if (img) {\n          const imageUrl = img.src;\n          const locationName = img.alt;\n          openPhotoModal(imageUrl, locationName);\n        }\n      }\n    });\n\n    // Sayfa yüklendiğinde dil ayarla\n    document.addEventListener(\'DOMContentLoaded\', function() {\n      const detectedLang = detectLanguage();\n      updateLanguageUI(detectedLang);\n    });\n    \n    window.addEventListener(\'load\', function() {\n      const detectedLang = detectLanguage();\n      updateLanguageUI(detectedLang);\n    });\n\n    // Mobil viewport height fix\n    function setViewportHeight() {\n      let vh = window.innerHeight * 0.01;\n      document.documentElement.style.setProperty(\'--vh\', vh + \'px\');\n    }\n    \n    setViewportHeight();\n    window.addEventListener(\'resize\', setViewportHeight);\n    window.addEventListener(\'orientationchange\', setViewportHeight);\n  </' + 'script>\n</body>\n</html>';
-      
-      try {
-        navigator.clipboard.writeText(fullHTML);
-        alert('✅ HTML kodu kopyalandı! (Çok dilli çeviri özelliği dahil)');
-      } catch(err) {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = fullHTML;
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-          document.execCommand('copy');
-          alert('✅ HTML kodu kopyalandı!');
-        } catch(e) {
-          prompt('HTML kodu (Ctrl+C ile kopyalayın):', fullHTML);
-        }
-        document.body.removeChild(textarea);
-      }
-    }
-
-    // Sayfa yüklendiğinde çalışacak
-    window.addEventListener('DOMContentLoaded', function() {
-      updatePageTitle();
-      renderLocations();
-      const detectedLang = detectLanguage();
-      updateLanguageUI(detectedLang);
-    });
-
-    window.addEventListener('load', function() {
-      const detectedLang = detectLanguage();
-      updateLanguageUI(detectedLang);
-    });
-
-    // Mobil viewport height fix
-    function setViewportHeight() {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', vh + 'px');
-    }
+      const fullHTML = `<!DOCTYPE html>  
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${cityData.cityName}</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    ${document.querySelector('style').innerHTML}
+  </style>
+</head>
+<body>
+  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
+  <h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
+  
+  <div class="container">
+    <div id="locations-container">
+${locationsHTML}    </div>
     
-    setViewportHeight();
-    window.addEventListener('resize', setViewportHeight);
-    window.addEventListener('orientationchange', setViewportHeight);
-  </script>
-</body>
-</html>
+    ${document.querySelector('.promotion-section').outerHTML}
+  </div>
+
+  <!-- PHOTO MODAL -->
+  ${document.querySelector('.photo-modal').outerHTML}
+
+  <script>
+    // Dil verileri
+    const translations = ${JSON.stringify(translations, null, 4)};
+
+    // Dil algılama fonksiyonu
+    function detectLanguage() {
+      const savedLang = sessionStorage.getItem('preferred-language');
+      if (savedLang && translations[savedLang]) {
+        return savedLang;
+      }
+      
+      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+      
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      
+      for (const lang in translations) {
+        if (browserLang.startsWith(lang)) {
+          return lang;
+        }
+      }
+      
+      return 'en';
+    }
+
+    // UI güncelleme fonksiyonu
+    function updateLanguageUI(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      
+      const elements = {
+        'nextBtn': t.nextBtn,
+        'loginBtn': t.loginBtn,
+        'questionsText': t.questionsText,
+        'instagramBtn': t.instagramBtn
+      };
+      
+      for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
