@@ -1377,6 +1377,13 @@
         locationsHTML += '    <div class="city-section">\n      <div class="city-header">\n        <h2 class="city-title">\n          <a href="' + location.link + '" target="_blank" rel="noopener noreferrer" class="location-link">\n            <span class="click-icon"></span>' + location.name + ' 📍\n          </a>\n        </h2>\n      </div>\n      <div class="city-photos">\n' + photosHTML + '      </div>\n    </div>\n';
       }
 
+      // Style içeriğini al ve editor panel stillerini çıkar
+      let styleContent = document.querySelector('style').innerHTML;
+      const editPanelStart = styleContent.indexOf('/* Editor Panel */');
+      if (editPanelStart !== -1) {
+        styleContent = styleContent.substring(0, editPanelStart).trim();
+      }
+      
       const fullHTML = `<!DOCTYPE html>  
 <html lang="tr">
 <head>
@@ -1390,7 +1397,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   
   <style>
-    ${document.querySelector('style').innerHTML}
+    ${styleContent}
   </style>
 </head>
 <body>
@@ -1439,7 +1446,6 @@ ${locationsHTML}    </div>
       if (!t) return;
       
       const elements = {
-        'nextBtn': t.nextBtn,
         'loginBtn': t.loginBtn,
         'questionsText': t.questionsText,
         'instagramBtn': t.instagramBtn
@@ -1448,3 +1454,132 @@ ${locationsHTML}    </div>
       for (const [id, text] of Object.entries(elements)) {
         const element = document.getElementById(id);
         if (element) {
+          if (id === 'loginBtn' || id === 'instagramBtn') {
+            element.innerHTML = text;
+          } else {
+            element.textContent = text;
+          }
+        }
+      }
+      
+      document.documentElement.lang = lang;
+      sessionStorage.setItem('preferred-language', lang);
+    }
+
+    // Photo modal functions
+    function openPhotoModal(imageUrl, locationName) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalInfo = document.getElementById('modalInfo');
+      
+      modalImage.src = imageUrl;
+      modalImage.alt = locationName;
+      modalInfo.textContent = locationName;
+      
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById('photoModal');
+      
+      modal.classList.remove('show');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    // ESC tuşu ile modal kapatma
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePhotoModal();
+      }
+    });
+
+    // Fotoğraf kartlarına tıklama olayları ekle
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.photo-card')) {
+        const card = e.target.closest('.photo-card');
+        const img = card.querySelector('img');
+        if (img) {
+          const imageUrl = img.src;
+          const locationName = img.alt;
+          openPhotoModal(imageUrl, locationName);
+        }
+      }
+    });
+
+    // Sayfa yüklendiğinde dil ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+    
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  <\/script>
+</body>
+</html>`;
+
+      try {
+        navigator.clipboard.writeText(fullHTML);
+        alert('✅ HTML kodu kopyalandı! (Çok dilli çeviri özelliği dahil)');
+      } catch(err) {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = fullHTML;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          alert('✅ HTML kodu kopyalandı!');
+        } catch(e) {
+          prompt('HTML kodu (Ctrl+C ile kopyalayın):', fullHTML);
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // Sayfa yüklendiğinde çalışacak
+    window.addEventListener('DOMContentLoaded', function() {
+      updatePageTitle();
+      renderLocations();
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    window.addEventListener('load', function() {
+      const detectedLang = detectLanguage();
+      updateLanguageUI(detectedLang);
+    });
+
+    // Mobil viewport height fix
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px');
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+  </script>
+</body>
+</html>
