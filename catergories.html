@@ -2,7 +2,9 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>TravelPedia - Modern Seyahat Rehberi</title>
 
 <!-- Inter Font -->
@@ -17,39 +19,82 @@
   --bg-grad:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);--card-bg:rgba(255,255,255,.92);
   --glass-bg:rgba(255,255,255,.75);--glass-border:rgba(99,102,241,.12);--text-primary:#1e293b;
   --text-secondary:#475569;--text-muted:#64748b;--shadow-lg:0 10px 35px rgba(99,102,241,.08);
-  --shadow-xl:0 20px 50px rgba(99,102,241,.12);--mobile-padding:10px;
-  --mobile-gap:11px;--mobile-gap-small:10px;
+  --shadow-xl:0 20px 50px rgba(99,102,241,.12);
 }
 
-/* === Reset & Body === */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+/* === Reset & Performance Optimizations === */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Prevent overscroll and bounce effects */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
 body{
   font-family:'Inter',sans-serif;
   background:#e2e8f0;
   color:var(--text-primary);
-  min-height:100vh;
   line-height:1.6;
-  overflow-x:hidden;
-  position:relative;
-  -webkit-overflow-scrolling:touch;
-  scroll-behavior:smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
 }
 
-/* Background image as separate element for better performance */
+/* Main scrollable container */
+.main-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hardware acceleration for smooth scrolling */
+.main-wrapper > * {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Background - Simplified for performance */
 .bg-image{
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
+  background-color:#e2e8f0;
+  z-index:-2;
+  pointer-events:none;
+}
+
+/* Lazy load background images */
+.bg-image.loaded-desktop{
   background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  z-index:-2;
-  transform:translateZ(0);
 }
+
+.bg-image.loaded-mobile{
+  background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
 .bg-overlay{
   position:fixed;
   top:0;
@@ -61,45 +106,105 @@ body{
   pointer-events:none;
 }
 
-.container{max-width:900px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:0 16px;
+  position:relative;
+  z-index:1;
+}
 
-/* === Language Selector === */
+/* === Language Selector - Optimized === */
 .lang-select{
-  position:fixed;top:20px;right:20px;z-index:100;
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:100;
+  transform:translateZ(0);
 }
+
 .lang-btn{
-  background:rgba(255,255,255,.2);backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 16px;cursor:pointer;
-  font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;
-  box-shadow:0 4px 16px rgba(99,102,241,.06);transition:.3s;color:#475569;
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 16px rgba(99,102,241,.06);
+  transition:transform .2s ease;
+  color:#475569;
+  touch-action:manipulation;
 }
-.lang-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(99,102,241,.12);
-  background:rgba(255,255,255,.3);
-  border-color:rgba(139,92,246,.25);
+
+.lang-btn:active{
+  transform:scale(0.95);
 }
+
 .lang-list{
-  position:absolute;top:calc(100% + 8px);right:0;
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
   background:rgba(255,255,255,.98);
-  backdrop-filter:blur(20px);border:1px solid rgba(139,92,246,.12);border-radius:12px;
-  box-shadow:0 10px 40px rgba(99,102,241,.12);max-height:320px;overflow-y:auto;display:none;min-width:160px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(139,92,246,.12);
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(99,102,241,.12);
+  max-height:320px;
+  overflow-y:auto;
+  display:none;
+  min-width:160px;
+  transform:translateZ(0);
 }
-.lang-list.show{display:block;animation:fadeIn .3s ease;}
+
+.lang-list.show{
+  display:block;
+  animation:fadeIn .2s ease;
+}
+
 .lang-item{
-  padding:10px 16px;cursor:pointer;transition:all .2s;display:flex;
-  align-items:center;gap:8px;font-size:14px;color:#475569;
+  padding:10px 16px;
+  cursor:pointer;
+  transition:background-color .2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#475569;
+  touch-action:manipulation;
 }
-.lang-item:hover{background:rgba(139,92,246,.08);color:#6366f1;}
-.lang-item.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;}
+
+.lang-item:active{
+  background:rgba(139,92,246,.12);
+}
+
+.lang-item.active{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+}
 
 /* === Header === */
-.header{padding:80px 16px 60px;text-align:center;position:relative;z-index:1;}
+.header{
+  padding:80px 16px 60px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
 .title{
-  font-size:clamp(2.5rem,5vw,4rem);font-weight:800;margin-bottom:8px;
+  font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:800;
+  margin-bottom:8px;
   letter-spacing:-1px;
   line-height:1.1;
 }
+
 .subtitle{
   font-size:clamp(1.1rem,2.5vw,1.4rem);
   font-weight:500;
@@ -108,32 +213,18 @@ body{
   line-height:1.5;
   opacity:0.95;
 }
-/* Title colors - Elite look */
+
 .travel-part{
-  color:#1e293b; /* Dark navy */
+  color:#1e293b;
   font-weight:800;
-}
-.pedia-part{
-  color:#f59e0b; /* Golden amber */
-  font-weight:800;
-}
-.title-word{
-  display:inline-block;
-  margin:0 0.1em;
-  font-weight:800;
-  transition:all 0.3s ease;
-}
-.title-word:hover{
-  transform:translateY(-2px) scale(1.05);
-}
-.title-emoji{
-  display:inline-block;
-  font-size:1em;
-  vertical-align:middle;
-  margin-left:0.2em;
 }
 
-/* === Grid === */
+.pedia-part{
+  color:#f59e0b;
+  font-weight:800;
+}
+
+/* === Grid - Optimized for mobile === */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -144,51 +235,39 @@ body{
   max-width:600px;
   margin:0 auto;
 }
+
 .card{
   background:rgba(255,255,255,.3);
-  backdrop-filter:blur(20px);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   border:2px solid rgba(255,255,255,.4);
   border-radius:20px;
   padding:0;
   text-align:center;
   cursor:pointer;
-  transition:.3s cubic-bezier(.4,0,.2,1);
+  transition:transform .2s ease, box-shadow .2s ease;
   position:relative;
-  box-shadow:0 6px 24px rgba(0,0,0,.08);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
   aspect-ratio:1/1;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:flex-end;
   overflow:hidden;
+  touch-action:manipulation;
+  transform:translateZ(0);
+  will-change:transform;
 }
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 12px 40px rgba(0,0,0,.12);
-  border-color:var(--primary);
-  background:rgba(255,255,255,.5);
+
+.card:active{
+  transform:scale(0.95);
 }
-.card:hover .card-bg{
-  opacity:0.2;
-}
-.card:hover .card-icon{
-  transform:scale(1.1);
-  opacity:1;
-}
+
 .card.highlight{
   background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);
-  backdrop-filter:blur(20px);
   border:2px solid rgba(245,158,11,.4);
 }
-.card.highlight:hover{
-  transform:translateY(-6px);
-  box-shadow:0 12px 40px rgba(245,158,11,.2);
-  border-color:rgba(245,158,11,.6);
-  background:linear-gradient(135deg,rgba(254,243,199,.4) 0%,rgba(253,230,138,.4) 100%);
-}
-.card.highlight:hover .card-bg{
-  opacity:0.25;
-}
+
 .card-bg{
   position:absolute;
   top:0;
@@ -198,16 +277,10 @@ body{
   background-size:cover;
   background-position:center;
   z-index:1;
-  transition:filter 0.3s ease;
   opacity:0.15;
+  pointer-events:none;
 }
-.card-bg::after{
-  display:none;
-}
-.card.highlight .card-bg::after{
-  display:none;
-}
-/* Card icon removed - no styles needed */
+
 .card-title{
   font-weight:500;
   font-size:14px;
@@ -221,10 +294,11 @@ body{
   width:100%;
   text-align:center;
 }
+
 .card.highlight .card-title{
   color:#d97706;
-  background:transparent;
 }
+
 .card-index{
   position:absolute;
   top:10px;
@@ -234,146 +308,188 @@ body{
   color:#64748b;
   opacity:0.4;
   letter-spacing:0.3px;
+  z-index:2;
 }
+
 .card.highlight .card-index{
   color:#d97706;
   opacity:0.6;
 }
-.card.highlight .card-bg{
-  opacity:0.2;
+
+/* === Mobile Optimizations === */
+@media(max-width:768px){
+  .main-wrapper{
+    overscroll-behavior-y: contain;
+  }
+  
+  .container{
+    padding:0 12px;
+    padding-bottom:40px;
+  }
+  
+  .grid{
+    gap:10px;
+    padding:0 4px 40px;
+  }
+  
+  .card{
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  
+  .card-bg{
+    opacity:0.1;
+  }
+  
+  .card-title{
+    font-size:12px;
+    padding:16px 8px;
+  }
+  
+  .card-index{
+    font-size:9px;
+    top:8px;
+    right:8px;
+  }
+  
+  .lang-select{
+    top:16px;
+    right:16px;
+  }
+  
+  .lang-btn{
+    padding:8px 12px;
+    font-size:13px;
+  }
+  
+  .header{
+    padding:70px 16px 50px;
+  }
+  
+  .title{
+    font-size:2.2rem;
+  }
+  
+  .subtitle{
+    font-size:1rem;
+    margin-top:8px;
+  }
 }
 
-/* === Mobile === */
-@media(max-width:768px){
-  html,body{
-    height:100%;
-    margin:0;
-    padding:0;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
-    touch-action:pan-y;
-  }
-  body{
-    background:#e2e8f0;
-  }
-  .bg-image{
-    background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-    position:absolute;
-    transform:none;
-  }
-  .bg-overlay{
-    background:linear-gradient(135deg,rgba(248,250,252,0.25) 0%,rgba(241,245,249,0.15) 100%);
-    position:absolute;
-  }
-  .container{
-    max-width:100%;
-    min-height:100vh;
-    position: relative;
-    z-index: 1;
-    padding-bottom: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .grid {
-    gap:10px;
-    padding-bottom:40px;
-    grid-template-columns: repeat(3, 1fr);
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-  .card {
-    padding: 0 !important;
-    aspect-ratio: 1/1 !important;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content:flex-end;
-    align-items: center;
-    min-width: 0;
-    overflow: hidden;
-    border-radius: 14px;
-  }
-  .card-bg{height:100% !important;opacity:0.1 !important;}
-  .card-title{font-size:12px !important;padding:16px 8px !important;}
-  .card-index{font-size:9px !important;top:8px;right:8px;}
-  .lang-select{top:16px;right:16px}
-  .lang-btn{padding:8px 12px;font-size:13px}
-  .header{padding:70px 16px 50px}
-  .title{font-size:2.2rem}
-  .subtitle{font-size:1rem;margin-top:8px}
-}
 @media(max-width:480px){
   .grid{
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:8px;
-    padding: 0 6px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+    padding:0 6px 40px;
   }
+  
   .card{
-    padding: 0 !important;
-    aspect-ratio: 1/1 !important;
-    border-radius: 12px;
+    border-radius:12px;
   }
-  .card-bg{height:100% !important;opacity:0.08 !important;}
-  .card-title{font-size:11px !important;padding:12px 6px !important;}
-  .card-index{font-size:8px !important;}
+  
+  .card-bg{
+    opacity:0.08;
+  }
+  
+  .card-title{
+    font-size:11px;
+    padding:12px 6px;
+  }
+  
+  .card-index{
+    font-size:8px;
+  }
 }
 
 /* Desktop specific */
 @media(min-width:769px){
-  .grid {
-    max-width: 600px;
-    margin: 0 auto;
-    grid-template-columns: repeat(3, 1fr);
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 32px rgba(0,0,0,.08);
   }
-  .card {
-    aspect-ratio: 1/1;
+  
+  .card:hover .card-bg{
+    opacity:0.2;
+  }
+  
+  .lang-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(99,102,241,.12);
+  }
+  
+  .lang-item:hover{
+    background:rgba(139,92,246,.08);
+    color:#6366f1;
   }
 }
 
-/* Animations - Simplified for better performance */
+/* Simple fade animation */
 @keyframes fadeIn{
   from{opacity:0;}
   to{opacity:1;}
 }
-.card{animation:fadeIn .2s ease;}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
 </head>
 
 <body>
   <!-- Background elements -->
-  <div class="bg-image"></div>
+  <div class="bg-image" id="bgImage"></div>
   <div class="bg-overlay"></div>
 
-  <!-- Language Selector -->
-  <div class="lang-select">
-    <button class="lang-btn" onclick="toggleLang()">
-      <span id="langFlag">🇹🇷</span>
-      <span id="langName">TR</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div class="lang-list" id="langList"></div>
-  </div>
-
-  <div class="container">
-    <div class="header">
-      <h1 class="title" id="title">TravelPedia</h1>
-      <p class="subtitle" id="subtitle">Dünya genelinden binlerce seyahat sitesi tek platformda</p>
+  <!-- Main scrollable wrapper -->
+  <div class="main-wrapper">
+    <!-- Language Selector -->
+    <div class="lang-select">
+      <button class="lang-btn" id="langBtn">
+        <span id="langFlag">🇹🇷</span>
+        <span id="langName">TR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lang-list" id="langList"></div>
     </div>
 
-    <!-- Grid -->
-    <div id="grid" class="grid"></div>
+    <div class="container">
+      <div class="header">
+        <h1 class="title" id="title">TravelPedia</h1>
+        <p class="subtitle" id="subtitle">Dünya genelinden binlerce seyahat sitesi tek platformda</p>
+      </div>
+
+      <!-- Grid -->
+      <div id="grid" class="grid"></div>
+    </div>
   </div>
 
 <script>
-// Background images and icons for categories
+// Performance: Use passive event listeners
+const passiveSupported = (() => {
+  let passive = false;
+  try {
+    const options = {
+      get passive() {
+        passive = true;
+        return false;
+      }
+    };
+    window.addEventListener("test", null, options);
+    window.removeEventListener("test", null, options);
+  } catch(err) {}
+  return passive;
+})();
+
+const passive = passiveSupported ? { passive: true } : false;
+
+// Category styles
 const categoryStyles = {
   'Manzaralı Yerler': {
     bg: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
@@ -480,7 +596,7 @@ const lang = {
     subtitle:'दुनिया भर से हजारों यात्रा साइटें एक मंच पर'}
 };
 
-// Categories - 15 categories total
+// Categories
 const categories = [
   {title:'Manzaralı Yerler',url:'world.html',highlight:true},
   {title:'Konaklama',url:'2.html'},
@@ -499,7 +615,7 @@ const categories = [
   {title:'Dijital Kaynaklar',url:'15.html'}
 ];
 
-// Category translations - Updated with more natural, friendly language
+// Category translations
 const categoryTranslations = {
   'Manzaralı Yerler': {
     en: 'Scenic Spots',
@@ -743,7 +859,6 @@ function colorizeTitle() {
   const titleElement = document.getElementById('title');
   if (!titleElement) return;
   
-  // TravelPedia'yı Travel ve Pedia olarak ayır
   titleElement.innerHTML = '<span class="travel-part">Travel</span><span class="pedia-part">Pedia</span>';
 }
 
@@ -761,10 +876,7 @@ function setLang(code){
   
   document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
   
-  // Colorize title
   colorizeTitle();
-  
-  // Update cards
   updateCards();
 }
 
@@ -791,7 +903,7 @@ function createLangMenu(){
     item.className='lang-item';
     item.dataset.lang = code;
     item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
-    item.onclick = ()=>{ setLang(code); toggleLang(false); };
+    item.addEventListener('click', ()=>{ setLang(code); toggleLang(false); }, passive);
     list.appendChild(item);
   }
 }
@@ -803,6 +915,18 @@ function toggleLang(force){
   else{ list.classList.toggle('show'); }
 }
 
+// Load background image based on device
+function loadBackgroundImage() {
+  const bgImage = document.getElementById('bgImage');
+  const isMobile = window.innerWidth <= 768;
+  
+  if (isMobile) {
+    bgImage.classList.add('loaded-mobile');
+  } else {
+    bgImage.classList.add('loaded-desktop');
+  }
+}
+
 // Page load
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('grid');
@@ -810,15 +934,10 @@ document.addEventListener('DOMContentLoaded', () => {
   createLangMenu();
   setLang(detectLang());
   
-  /* Mobil viewport height fix - paste-1'den alınan özellik */
-  function setViewportHeight() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }
-  
-  setViewportHeight();
-  window.addEventListener('resize', setViewportHeight);
-  window.addEventListener('orientationchange', setViewportHeight);
+  // Load background image after DOM is ready
+  requestAnimationFrame(() => {
+    loadBackgroundImage();
+  });
   
   // Create cards
   categories.forEach((cat, index) => {
@@ -837,17 +956,37 @@ document.addEventListener('DOMContentLoaded', () => {
     
     card.innerHTML = cardContent;
     
-    card.onclick = () => {
+    card.addEventListener('click', () => {
       location.href = cat.url;
-    };
+    }, passive);
     
     grid.appendChild(card);
   });
   
+  // Language button click handler
+  document.getElementById('langBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLang();
+  }, passive);
+  
   // Close dropdown on outside click
-  document.addEventListener('click',e=>{
+  document.addEventListener('click', e => {
     if(!e.target.closest('.lang-select')) toggleLang(false);
-  });
+  }, passive);
+  
+  // Prevent iOS bounce effect
+  document.body.addEventListener('touchmove', (e) => {
+    if (e.target.closest('.lang-list')) {
+      e.stopPropagation();
+    }
+  }, { passive: false });
+});
+
+// Handle orientation change
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 100);
 });
 </script>
 </body>
