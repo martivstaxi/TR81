@@ -138,7 +138,7 @@ body::after{
   backdrop-filter:blur(20px);
   border:2px solid rgba(255,255,255,.4);
   border-radius:20px;
-  padding:20px 12px;
+  padding:0;
   text-align:center;
   cursor:pointer;
   transition:.3s cubic-bezier(.4,0,.2,1);
@@ -148,7 +148,7 @@ body::after{
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-end;
   overflow:hidden;
 }
 .card:hover{
@@ -156,6 +156,13 @@ body::after{
   box-shadow:0 12px 40px rgba(0,0,0,.12);
   border-color:var(--primary);
   background:rgba(255,255,255,.5);
+}
+.card:hover .card-bg{
+  opacity:0.2;
+}
+.card:hover .card-icon{
+  transform:scale(1.1);
+  opacity:1;
 }
 .card.highlight{
   background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);
@@ -168,42 +175,61 @@ body::after{
   border-color:rgba(245,158,11,.6);
   background:linear-gradient(135deg,rgba(254,243,199,.4) 0%,rgba(253,230,138,.4) 100%);
 }
-.card-icon{
-  width:60px;
-  height:60px;
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.card.highlight:hover .card-bg{
+  opacity:0.25;
 }
-.card-icon svg{
+.card-bg{
+  position:absolute;
+  top:0;
+  left:0;
   width:100%;
   height:100%;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.1));
+  background-size:cover;
+  background-position:center;
+  z-index:1;
+  transition:filter 0.3s ease;
+  opacity:0.15;
 }
+.card-bg::after{
+  display:none;
+}
+.card.highlight .card-bg::after{
+  display:none;
+}
+/* Card icon removed - no styles needed */
 .card-title{
-  font-weight:600;
+  font-weight:500;
   font-size:14px;
   color:var(--text-primary);
   line-height:1.3;
   word-break:break-word;
+  padding:20px 12px;
+  position:relative;
+  z-index:3;
+  background:transparent;
+  width:100%;
+  text-align:center;
 }
 .card.highlight .card-title{
-  color:#92400e;
+  color:#d97706;
+  background:transparent;
 }
 .card-index{
   position:absolute;
   top:10px;
   right:10px;
   font-size:10px;
-  font-weight:600;
-  color:#94a3b8;
-  opacity:0.5;
+  font-weight:500;
+  color:#64748b;
+  opacity:0.4;
   letter-spacing:0.3px;
 }
 .card.highlight .card-index{
   color:#d97706;
   opacity:0.6;
+}
+.card.highlight .card-bg{
+  opacity:0.2;
 }
 
 /* === Mobile === */
@@ -269,19 +295,19 @@ body::after{
     box-sizing: border-box;
   }
   .card {
-    padding: 18px 10px !important;
+    padding: 0 !important;
     aspect-ratio: 1/1 !important;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content:flex-end;
     align-items: center;
     min-width: 0;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 14px;
   }
-  .card-icon{width:45px !important;height:45px !important;margin-bottom:8px;}
-  .card-title{font-size:11px !important;line-height:1.2;}
+  .card-bg{height:100% !important;opacity:0.1 !important;}
+  .card-title{font-size:12px !important;padding:16px 8px !important;}
   .card-index{font-size:9px !important;top:8px;right:8px;}
   .lang-select{top:16px;right:16px}
   .lang-btn{padding:8px 12px;font-size:13px}
@@ -299,12 +325,12 @@ body::after{
     box-sizing: border-box;
   }
   .card{
-    padding: 15px 8px !important;
+    padding: 0 !important;
     aspect-ratio: 1/1 !important;
-    border-radius: 14px;
+    border-radius: 12px;
   }
-  .card-icon{width:40px !important;height:40px !important;margin-bottom:6px;}
-  .card-title{font-size:10px !important;}
+  .card-bg{height:100% !important;opacity:0.08 !important;}
+  .card-title{font-size:11px !important;padding:12px 6px !important;}
   .card-index{font-size:8px !important;}
 }
 
@@ -353,104 +379,68 @@ body::after{
   </div>
 
 <script>
-// SVG Icons for categories
-const categoryIcons = {
-  'Manzaralı Yerler': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 20h18L14 8l-4 6-3-4-4 10z" fill="#10b981" opacity="0.2"/>
-    <path d="M3 20h18L14 8l-4 6-3-4-4 10z" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="17" cy="6" r="2" fill="#f59e0b"/>
-  </svg>`,
-  
-  'Konaklama': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#6366f1" opacity="0.2"/>
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M9 22V12h6v10" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`,
-  
-  'Ulaşım': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5 17h14v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1H9v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-2z" fill="#3b82f6" opacity="0.2"/>
-    <rect x="5" y="7" width="14" height="10" rx="2" stroke="#3b82f6" stroke-width="2"/>
-    <path d="M7 3h10" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="8" cy="20" r="1" fill="#3b82f6"/>
-    <circle cx="16" cy="20" r="1" fill="#3b82f6"/>
-  </svg>`,
-  
-  'Tur ve Aktivite': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#f59e0b" opacity="0.2"/>
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`,
-  
-  'Finans ve Ödeme': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="3" y="6" width="18" height="12" rx="2" fill="#10b981" opacity="0.2"/>
-    <rect x="3" y="6" width="18" height="12" rx="2" stroke="#10b981" stroke-width="2"/>
-    <path d="M3 10h18" stroke="#10b981" stroke-width="2"/>
-    <path d="M7 15h4" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
-  </svg>`,
-  
-  'İletişim ve Bağlantı': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="10" fill="#8b5cf6" opacity="0.2"/>
-    <circle cx="12" cy="12" r="10" stroke="#8b5cf6" stroke-width="2"/>
-    <path d="M8 12h8M12 8v8" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="12" cy="12" r="3" fill="#8b5cf6"/>
-  </svg>`,
-  
-  'Vize ve Sigorta': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#ef4444" opacity="0.2"/>
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M14 2v6h6" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M8 13h8M8 17h5" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
-  </svg>`,
-  
-  'Sağlık ve Wellness': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C8 2 4.5 5.5 4.5 9.5c0 3.5 3.5 8 7.5 12.5 4-4.5 7.5-9 7.5-12.5C19.5 5.5 16 2 12 2z" fill="#ec4899" opacity="0.2"/>
-    <path d="M12 2C8 2 4.5 5.5 4.5 9.5c0 3.5 3.5 8 7.5 12.5 4-4.5 7.5-9 7.5-12.5C19.5 5.5 16 2 12 2z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M12 7v5M10 9.5h4" stroke="#ec4899" stroke-width="2" stroke-linecap="round"/>
-  </svg>`,
-  
-  'Kültür ve Etkinlik': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5 5h14v14H5z" fill="#a855f7" opacity="0.2"/>
-    <rect x="5" y="5" width="14" height="14" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M9 9h6v6H9z" stroke="#a855f7" stroke-width="2"/>
-    <path d="M3 12h18M12 3v18" stroke="#a855f7" stroke-width="2" stroke-linecap="round"/>
-  </svg>`,
-  
-  'Doğa ve Macera': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2l5 10h-10l5-10z" fill="#059669" opacity="0.2"/>
-    <path d="M12 2l5 10h-10l5-10z" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M7 12l5 10 5-10" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M8 18h8" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
-  </svg>`,
-  
-  'Yeme-İçme': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9 2v7a3 3 0 0 0 6 0V2M12 12v10M19 2v10a3 3 0 0 1-3 3v7" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="12" cy="9" r="4" fill="#f97316" opacity="0.2"/>
-  </svg>`,
-  
-  'İş ve Eğitim': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="4" width="16" height="16" rx="2" fill="#0891b2" opacity="0.2"/>
-    <rect x="4" y="4" width="16" height="16" rx="2" stroke="#0891b2" stroke-width="2"/>
-    <path d="M8 2v4M16 2v4M4 8h16" stroke="#0891b2" stroke-width="2" stroke-linecap="round"/>
-    <rect x="8" y="12" width="2" height="2" fill="#0891b2"/>
-    <rect x="14" y="12" width="2" height="2" fill="#0891b2"/>
-  </svg>`,
-  
-  'Özel Deneyimler': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="10" fill="#eab308" opacity="0.2"/>
-    <circle cx="12" cy="12" r="10" stroke="#eab308" stroke-width="2"/>
-    <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5L12 2z" fill="#eab308" opacity="0.4"/>
-  </svg>`,
-  
-  'Pratik Araçlar': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" fill="#64748b" opacity="0.2"/>
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`,
-  
-  'Dijital Kaynaklar': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="2" width="16" height="20" rx="2" fill="#4f46e5" opacity="0.2"/>
-    <rect x="4" y="2" width="16" height="20" rx="2" stroke="#4f46e5" stroke-width="2"/>
-    <circle cx="12" cy="18" r="1.5" fill="#4f46e5"/>
-    <rect x="7" y="5" width="10" height="10" rx="1" stroke="#4f46e5" stroke-width="2"/>
-  </svg>`
+// Background images and icons for categories
+const categoryStyles = {
+  'Manzaralı Yerler': {
+    bg: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    icon: '🏔️'
+  },
+  'Konaklama': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🏨'
+  },
+  'Ulaşım': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '✈️'
+  },
+  'Tur ve Aktivite': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🎯'
+  },
+  'Finans ve Ödeme': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '💳'
+  },
+  'İletişim ve Bağlantı': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📡'
+  },
+  'Vize ve Sigorta': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📋'
+  },
+  'Sağlık ve Wellness': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🏥'
+  },
+  'Kültür ve Etkinlik': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🎭'
+  },
+  'Doğa ve Macera': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '⛺'
+  },
+  'Yeme-İçme': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🍽️'
+  },
+  'İş ve Eğitim': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '💼'
+  },
+  'Özel Deneyimler': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '✨'
+  },
+  'Pratik Araçlar': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🔧'
+  },
+  'Dijital Kaynaklar': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📱'
+  }
 };
 
 // Translations
@@ -843,10 +833,13 @@ document.addEventListener('DOMContentLoaded', () => {
     card.dataset.originalTitle = cat.title;
     
     const translatedTitle = getCategoryName(cat.title, currentLang);
+    const style = categoryStyles[cat.title] || {};
     
     let cardContent = `<span class="card-index">${index + 1}</span>`;
-    cardContent += `<div class="card-icon">${categoryIcons[cat.title] || ''}</div>`;
+    cardContent += `<div class="card-bg" style="background: ${style.bg};"></div>`;
+    cardContent += `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">`;
     cardContent += `<div class="card-title">${translatedTitle}</div>`;
+    cardContent += `</div>`;
     
     card.innerHTML = cardContent;
     
