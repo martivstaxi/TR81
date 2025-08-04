@@ -37,6 +37,8 @@ body{
   -moz-background-size: cover;
   -o-background-size: cover;
   background-color: #e2e8f0;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 body::after{
   content: '';
@@ -48,6 +50,7 @@ body::after{
   background: linear-gradient(135deg, rgba(248, 250, 252, 0.3) 0%, rgba(241, 245, 249, 0.2) 100%);
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
 }
 
 .container{max-width:900px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
@@ -132,6 +135,8 @@ body::after{
   z-index:1;
   max-width:600px;
   margin:0 auto;
+  transform: translateZ(0);
+  will-change: transform;
 }
 .card{
   background:rgba(255,255,255,.3);
@@ -239,6 +244,7 @@ body::after{
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
   body{
     min-height: 100vh;
@@ -246,7 +252,7 @@ body::after{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll; /* Changed from fixed for better mobile performance */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -263,6 +269,8 @@ body::after{
     background-position: center;
     background-repeat: no-repeat;
     z-index: -2;
+    transform: translateZ(0);
+    will-change: transform;
   }
   body::after {
     content: '';
@@ -274,6 +282,8 @@ body::after{
     background: linear-gradient(135deg, rgba(248, 250, 252, 0.25) 0%, rgba(241, 245, 249, 0.15) 100%);
     pointer-events: none;
     z-index: -1;
+    transform: translateZ(0);
+    will-change: transform;
   }
   .container{
     max-width:100%;
@@ -505,91 +515,91 @@ const categories = [
   {title:'Dijital Kaynaklar',url:'15.html'}
 ];
 
-// Category translations
+// Category translations - Updated with more natural, friendly language
 const categoryTranslations = {
   'Manzaralı Yerler': {
-    en: 'Scenic Destinations',
-    es: 'Destinos Pintorescos',
-    fr: 'Destinations Pittoresques',
-    de: 'Malerische Reiseziele',
-    it: 'Destinazioni Panoramiche',
-    pt: 'Destinos Pitorescos',
-    ru: 'Живописные места',
+    en: 'Scenic Spots',
+    es: 'Lugares Bonitos',
+    fr: 'Beaux Endroits',
+    de: 'Schöne Orte',
+    it: 'Posti Belli',
+    pt: 'Lugares Lindos',
+    ru: 'Красивые места',
     ja: '絶景スポット',
-    zh: '风景名胜',
-    ko: '절경 명소',
-    ar: 'الوجهات الخلابة',
-    hi: 'सुंदर स्थान'
+    zh: '美景',
+    ko: '멋진 장소',
+    ar: 'أماكن جميلة',
+    hi: 'खूबसूरत जगहें'
   },
   'Konaklama': {
-    en: 'Accommodation',
-    es: 'Alojamiento',
-    fr: 'Hébergement',
-    de: 'Unterkunft',
-    it: 'Alloggio',
-    pt: 'Acomodação',
-    ru: 'Размещение',
-    ja: '宿泊',
+    en: 'Where to Stay',
+    es: 'Dónde Dormir',
+    fr: 'Où Dormir',
+    de: 'Übernachtung',
+    it: 'Dove Dormire',
+    pt: 'Onde Ficar',
+    ru: 'Где жить',
+    ja: 'ホテル',
     zh: '住宿',
-    ko: '숙박',
-    ar: 'الإقامة',
-    hi: 'आवास'
+    ko: '숙소',
+    ar: 'أماكن الإقامة',
+    hi: 'कहाँ रुकें'
   },
   'Ulaşım': {
-    en: 'Transportation',
-    es: 'Transporte',
-    fr: 'Transport',
-    de: 'Verkehr',
-    it: 'Trasporti',
-    pt: 'Transporte',
-    ru: 'Транспорт',
-    ja: '交通',
+    en: 'Getting Around',
+    es: 'Cómo Moverse',
+    fr: 'Se Déplacer',
+    de: 'Transport',
+    it: 'Come Muoversi',
+    pt: 'Como Ir',
+    ru: 'Как добраться',
+    ja: '移動手段',
     zh: '交通',
     ko: '교통',
-    ar: 'المواصلات',
-    hi: 'परिवहन'
+    ar: 'التنقل',
+    hi: 'यातायात'
   },
   'Tur ve Aktivite': {
-    en: 'Tours & Activities',
-    es: 'Tours y Actividades',
+    en: 'Tours & Fun',
+    es: 'Tours y Diversión',
     fr: 'Tours et Activités',
-    de: 'Touren & Aktivitäten',
+    de: 'Touren & Spaß',
     it: 'Tour e Attività',
-    pt: 'Tours e Atividades',
+    pt: 'Tours e Diversão',
     ru: 'Туры и развлечения',
-    ja: 'ツアー・アクティビティ',
+    ja: 'ツアーと遊び',
     zh: '旅游活动',
-    ko: '투어와 액티비티',
-    ar: 'الجولات والأنشطة',
-    hi: 'टूर और गतिविधियाँ'
+    ko: '투어와 활동',
+    ar: 'جولات وأنشطة',
+    hi: 'टूर और मज़ा'
   },
   'Finans ve Ödeme': {
-    en: 'Finance & Payment',
-    es: 'Finanzas y Pago',
-    fr: 'Finance et Paiement',
-    de: 'Finanzen & Zahlung',
-    it: 'Finanza e Pagamento',
-    pt: 'Finanças e Pagamento',
-    ru: 'Финансы и платежи',
-    ja: '金融・決済',
-    zh: '金融支付',
-    ko: '금융과 결제',
-    ar: 'المالية والدفع',
-    hi: 'वित्त और भुगतान'
+    en: 'Money & Payment',
+    es: 'Dinero y Pagos',
+    fr: 'Argent et Paiement',
+    de: 'Geld & Zahlung',
+    it: 'Soldi e Pagamenti',
+    pt: 'Dinheiro e Pagamento',
+    ru: 'Деньги и оплата',
+    ja: 'お金と支払い',
+    zh: '支付',
+    ko: '돈과 결제',
+    ar: 'المال والدفع',
+    hi: 'पैसा और भुगतान'
   },
   'İletişim ve Bağlantı': {
-    en: 'Communication & Connectivity',
-    es: 'Comunicación y Conectividad',
-    fr: 'Communication et Connectivité',
-    de: 'Kommunikation & Konnektivität',
-    it: 'Comunicazione e Connettività',
-    pt: 'Comunicação e Conectividade',
-    ru: 'Связь и подключение',
-    ja: '通信・接続',
-    zh: '通信连接',
-    ko: '통신과 연결',
-    ar: 'الاتصال والربط',
-    hi: 'संचार और कनेक्टिविटी'
+    en: 'Internet & Phone',
+    es: 'Internet y Teléfono',
+    fr: 'Internet et Téléphone',
+    de: 'Internet & Telefon',
+    it: 'Internet e Telefono',
+    pt: 'Internet e Telefone',
+    ru: 'Интернет и связь',
+    ja: 'ネットと電話',
+    zh: '网络通信',
+    ko: '인터넷과 전화',
+    ar: 'الإنترنت والهاتف',
+    hi: 'इंटरनेट और फ़ोन'
   },
   'Vize ve Sigorta': {
     en: 'Visa & Insurance',
@@ -598,8 +608,8 @@ const categoryTranslations = {
     de: 'Visum & Versicherung',
     it: 'Visto e Assicurazione',
     pt: 'Visto e Seguro',
-    ru: 'Виза и страхование',
-    ja: 'ビザ・保険',
+    ru: 'Виза и страховка',
+    ja: 'ビザと保険',
     zh: '签证保险',
     ko: '비자와 보험',
     ar: 'التأشيرة والتأمين',
@@ -609,25 +619,25 @@ const categoryTranslations = {
     en: 'Health & Wellness',
     es: 'Salud y Bienestar',
     fr: 'Santé et Bien-être',
-    de: 'Gesundheit & Wellness',
+    de: 'Gesundheit',
     it: 'Salute e Benessere',
     pt: 'Saúde e Bem-estar',
-    ru: 'Здоровье и велнесс',
-    ja: '健康・ウェルネス',
+    ru: 'Здоровье и отдых',
+    ja: '健康とリラックス',
     zh: '健康养生',
-    ko: '건강과 웰니스',
+    ko: '건강과 휴식',
     ar: 'الصحة والعافية',
-    hi: 'स्वास्थ्य और कल्याण'
+    hi: 'स्वास्थ्य'
   },
   'Kültür ve Etkinlik': {
     en: 'Culture & Events',
     es: 'Cultura y Eventos',
     fr: 'Culture et Événements',
-    de: 'Kultur & Veranstaltungen',
+    de: 'Kultur & Events',
     it: 'Cultura ed Eventi',
     pt: 'Cultura e Eventos',
-    ru: 'Культура и мероприятия',
-    ja: '文化・イベント',
+    ru: 'Культура и события',
+    ja: '文化とイベント',
     zh: '文化活动',
     ko: '문화와 행사',
     ar: 'الثقافة والفعاليات',
@@ -641,67 +651,67 @@ const categoryTranslations = {
     it: 'Natura e Avventura',
     pt: 'Natureza e Aventura',
     ru: 'Природа и приключения',
-    ja: '自然・冒険',
+    ja: '自然とアドベンチャー',
     zh: '自然探险',
     ko: '자연과 모험',
     ar: 'الطبيعة والمغامرة',
-    hi: 'प्रकृति और साहसिक'
+    hi: 'प्रकृति और रोमांच'
   },
   'Yeme-İçme': {
-    en: 'Food & Dining',
-    es: 'Comida y Bebida',
-    fr: 'Cuisine et Restauration',
+    en: 'Food & Drinks',
+    es: 'Comida y Bebidas',
+    fr: 'Manger et Boire',
     de: 'Essen & Trinken',
-    it: 'Cibo e Ristorazione',
+    it: 'Cibo e Bevande',
     pt: 'Comida e Bebida',
     ru: 'Еда и напитки',
-    ja: '飲食',
-    zh: '餐饮美食',
-    ko: '음식과 식사',
+    ja: '食事',
+    zh: '美食',
+    ko: '음식',
     ar: 'الطعام والشراب',
     hi: 'खाना-पीना'
   },
   'İş ve Eğitim': {
-    en: 'Business & Education',
-    es: 'Negocios y Educación',
-    fr: 'Affaires et Éducation',
-    de: 'Geschäft & Bildung',
-    it: 'Business ed Educazione',
-    pt: 'Negócios e Educação',
-    ru: 'Бизнес и образование',
-    ja: 'ビジネス・教育',
-    zh: '商务教育',
-    ko: '비즈니스와 교육',
-    ar: 'الأعمال والتعليم',
-    hi: 'व्यापार और शिक्षा'
+    en: 'Work & Study',
+    es: 'Trabajo y Estudio',
+    fr: 'Travail et Études',
+    de: 'Arbeit & Bildung',
+    it: 'Lavoro e Studio',
+    pt: 'Trabalho e Estudo',
+    ru: 'Работа и учеба',
+    ja: '仕事と学習',
+    zh: '工作学习',
+    ko: '일과 공부',
+    ar: 'العمل والدراسة',
+    hi: 'काम और पढ़ाई'
   },
   'Özel Deneyimler': {
-    en: 'Special Experiences',
-    es: 'Experiencias Especiales',
-    fr: 'Expériences Spéciales',
+    en: 'Unique Experiences',
+    es: 'Experiencias Únicas',
+    fr: 'Expériences Uniques',
     de: 'Besondere Erlebnisse',
-    it: 'Esperienze Speciali',
-    pt: 'Experiências Especiais',
+    it: 'Esperienze Uniche',
+    pt: 'Experiências Únicas',
     ru: 'Особые впечатления',
     ja: '特別な体験',
-    zh: '特色体验',
+    zh: '独特体验',
     ko: '특별한 경험',
-    ar: 'تجارب خاصة',
-    hi: 'विशेष अनुभव'
+    ar: 'تجارب مميزة',
+    hi: 'खास अनुभव'
   },
   'Pratik Araçlar': {
-    en: 'Practical Tools',
-    es: 'Herramientas Prácticas',
+    en: 'Useful Tools',
+    es: 'Herramientas Útiles',
     fr: 'Outils Pratiques',
-    de: 'Praktische Werkzeuge',
-    it: 'Strumenti Pratici',
-    pt: 'Ferramentas Práticas',
-    ru: 'Практичные инструменты',
-    ja: '実用ツール',
+    de: 'Nützliche Tools',
+    it: 'Strumenti Utili',
+    pt: 'Ferramentas Úteis',
+    ru: 'Полезные инструменты',
+    ja: '便利なツール',
     zh: '实用工具',
-    ko: '실용 도구',
-    ar: 'أدوات عملية',
-    hi: 'व्यावहारिक उपकरण'
+    ko: '유용한 도구',
+    ar: 'أدوات مفيدة',
+    hi: 'उपयोगी टूल्स'
   },
   'Dijital Kaynaklar': {
     en: 'Digital Resources',
@@ -713,8 +723,8 @@ const categoryTranslations = {
     ru: 'Цифровые ресурсы',
     ja: 'デジタルリソース',
     zh: '数字资源',
-    ko: '디지털 리소스',
-    ar: 'الموارد الرقمية',
+    ko: '디지털 자료',
+    ar: 'موارد رقمية',
     hi: 'डिजिटल संसाधन'
   }
 };
