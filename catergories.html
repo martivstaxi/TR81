@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Seyahat Kategorileri | 21 Kategori</title>
+
+<!-- Inter Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* === Variables === */
+:root{
+  --primary:#3b82f6;--primary-dark:#1d4ed8;--secondary:#8b5cf6;--accent:#f97316;
+  --bg-grad:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);--card-bg:rgba(255,255,255,.95);
+  --glass-bg:rgba(255,255,255,.60);--glass-border:rgba(0,0,0,.08);--text-primary:#334155;
+  --text-secondary:#64748b;--text-muted:#94a3b8;--shadow-lg:0 6px 24px rgba(0,0,0,.08);
+  --shadow-xl:0 12px 40px rgba(0,0,0,.12);
+}
+
+/* === Reset & Body === */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif;
+  background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color:var(--text-primary);
+  min-height:100vh;line-height:1.6;overflow-x:hidden;
+  position: relative;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-color: #e2e8f0;
+}
+body::after{
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(248, 250, 252, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container{max-width:1100px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+
+/* === Language Selector === */
+.lang-select{
+  position:fixed;top:20px;right:20px;z-index:100;
+}
+.lang-btn{
+  background:rgba(255,255,255,.2);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 16px;cursor:pointer;
+  font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;
+  box-shadow:var(--shadow-lg);transition:.3s;color:var(--text-primary);
+}
+.lang-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-xl);background:rgba(255,255,255,.3);}
+.lang-list{
+  position:absolute;top:calc(100% + 8px);right:0;background:rgba(255,255,255,.98);
+  backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:12px;
+  box-shadow:var(--shadow-xl);max-height:320px;overflow-y:auto;display:none;min-width:160px;
+}
+.lang-list.show{display:block;animation:fadeIn .3s ease;}
+.lang-item{
+  padding:10px 16px;cursor:pointer;transition:background .2s;display:flex;
+  align-items:center;gap:8px;font-size:14px;color:var(--text-primary);
+}
+.lang-item:hover{background:var(--glass-bg);color:var(--primary);}
+.lang-item.active{background:var(--primary);color:#fff;}
+
+/* === Header === */
+.header{padding:80px 16px 40px;text-align:center;position:relative;z-index:1;}
+.title{
+  font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;margin-bottom:12px;
+  letter-spacing:-.5px;
+  line-height:1.4;
+}
+.title-word{
+  display:inline-block;
+  margin:0 0.15em;
+  font-weight:700;
+  transition:all 0.3s ease;
+}
+.title-word:hover{
+  transform:translateY(-2px) scale(1.05);
+}
+.title-emoji{
+  display:inline-block;
+  font-size:1em;
+  vertical-align:middle;
+  margin-left:0.2em;
+}
+/* Colorful words */
+.word-0{color:#3b82f6;} /* Blue */
+.word-1{color:#8b5cf6;} /* Purple */
+.word-2{color:#f97316;} /* Orange */
+.word-3{color:#10b981;} /* Green */
+.word-4{color:#ef4444;} /* Red */
+.word-5{color:#f59e0b;} /* Amber */
+.word-6{color:#14b8a6;} /* Teal */
+
+/* === Info === */
+.info{
+  max-width:600px;margin:0 auto 40px;padding:20px 24px;text-align:center;
+  background:rgba(255,255,255,.3);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,.4);
+  border-radius:20px;font-size:14px;line-height:1.6;color:var(--text-primary);
+  box-shadow:var(--shadow-lg);position:relative;z-index:1;display:block;
+}
+.info.premium{background:linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%);
+  backdrop-filter:blur(20px);border-color:rgba(22,163,74,.4);color:#16a34a;}
+.info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
+.info a:hover{color:var(--primary-dark);text-decoration:underline;}
+
+/* === Grid === */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  padding-bottom:40px;
+  position:relative;
+  z-index:1;
+  max-width:900px;
+  margin:0 auto;
+}
+.card{
+  background:rgba(255,255,255,.3);
+  backdrop-filter:blur(20px);
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:20px;
+  padding:24px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:.3s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  box-shadow:var(--shadow-lg);
+  aspect-ratio:1/1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--primary);background:rgba(255,255,255,.5);}
+.card-icon{font-size:32px;margin-bottom:12px;display:block;}
+.card-title{font-weight:700;font-size:15px;color:var(--text-primary);line-height:1.3;word-break:break-word;}
+.card-badge{
+  position:absolute;top:12px;right:12px;
+  background:rgba(251,191,36,.2);color:#d97706;
+  padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;
+}
+.card.highlight{
+  background:linear-gradient(135deg,rgba(59,130,246,.1) 0%,rgba(139,92,246,.1) 100%);
+  border-color:rgba(59,130,246,.4);
+}
+
+/* === Mobile === */
+@media(max-width:768px){
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  body{
+    min-height: 100vh;
+    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(248, 250, 252, 0.2);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .container{
+    max-width:100%;
+    min-height:100vh;
+    position: relative;
+    z-index: 1;
+    padding: 0 12px 50px 12px;
+  }
+  .info {
+    margin: 0 auto 40px !important;
+    max-width: calc(100% - 8px);
+    background: rgba(255,255,255,.3) !important;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,.4) !important;
+  }
+  .grid {
+    gap:10px;
+    padding-bottom:40px;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .card {
+    padding: 20px 10px !important;
+    aspect-ratio: 1/1 !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .card-icon{font-size:26px !important;margin-bottom:8px;}
+  .card-title{font-size:12px !important;line-height:1.2;}
+  .card-badge{font-size:10px;padding:3px 6px;top:8px;right:8px;}
+  .info {
+    background: rgba(255,255,255,.3) !important;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,.4) !important;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  .info.premium {
+    background: linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%) !important;
+    backdrop-filter: blur(20px);
+    border-color: rgba(22,163,74,.4) !important;
+  }
+  .lang-select{top:16px;right:16px}
+  .lang-btn{padding:8px 12px;font-size:13px}
+  .header{padding:70px 16px 32px}.title{font-size:1.875rem}
+  .info{font-size:13px;padding:16px 20px}
+}
+@media(max-width:480px){
+  .grid{
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .card{
+    padding: 16px 8px !important;
+    aspect-ratio: 1/1 !important;
+  }
+  .card-icon{font-size:24px !important;}
+  .card-title{font-size:11px !important;}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card{animation:fadeIn .3s ease;}
+
+/* Desktop */
+@media(min-width:769px){
+  .info {
+    max-width: 600px !important;
+  }
+  .grid {
+    max-width: 900px;
+    margin: 0 auto;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+  <!-- Language Selector -->
+  <div class="lang-select">
+    <button class="lang-btn" onclick="toggleLang()">
+      <span id="langFlag">🇹🇷</span>
+      <span id="langName">TR</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+        <path d="M3 5L6 8L9 5"/>
+      </svg>
+    </button>
+    <div class="lang-list" id="langList"></div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1 class="title" id="title">Seyahat Kategorilerini Keşfet 🗺️</h1>
+    </div>
+
+    <!-- Info -->
+    <div id="info" class="info">
+      21 farklı seyahat kategorisi ile hayalinizdeki tatili planlayın! 🌍 Her kategori için binlerce seçenek.
+    </div>
+
+    <!-- Grid -->
+    <div id="grid" class="grid"></div>
+  </div>
+
+<script>
+// Translations
+const lang = {
+  tr:{flag:'🇹🇷',name:'TR',title:'Seyahat Kategorilerini Keşfet 🗺️',
+    banner:'21 farklı seyahat kategorisi ile hayalinizdeki tatili planlayın! 🌍 Her kategori için binlerce seçenek.'},
+  en:{flag:'🇺🇸',name:'EN',title:'Explore Travel Categories 🗺️',
+    banner:'Plan your dream vacation with 21 different travel categories! 🌍 Thousands of options for each category.'},
+  es:{flag:'🇪🇸',name:'ES',title:'Explora Categorías de Viaje 🗺️',
+    banner:'¡Planifica tus vacaciones soñadas con 21 categorías de viaje! 🌍 Miles de opciones para cada categoría.'},
+  fr:{flag:'🇫🇷',name:'FR',title:'Explorez les Catégories de Voyage 🗺️',
+    banner:'Planifiez vos vacances de rêve avec 21 catégories de voyage ! 🌍 Des milliers d\'options pour chaque catégorie.'},
+  de:{flag:'🇩🇪',name:'DE',title:'Reisekategorien Entdecken 🗺️',
+    banner:'Planen Sie Ihren Traumurlaub mit 21 Reisekategorien! 🌍 Tausende Optionen für jede Kategorie.'},
+  it:{flag:'🇮🇹',name:'IT',title:'Esplora le Categorie di Viaggio 🗺️',
+    banner:'Pianifica la tua vacanza da sogno con 21 categorie di viaggio! 🌍 Migliaia di opzioni per ogni categoria.'},
+  pt:{flag:'🇵🇹',name:'PT',title:'Explore Categorias de Viagem 🗺️',
+    banner:'Planeje suas férias dos sonhos com 21 categorias de viagem! 🌍 Milhares de opções para cada categoria.'},
+  ru:{flag:'🇷🇺',name:'RU',title:'Исследуйте Категории Путешествий 🗺️',
+    banner:'Спланируйте отпуск мечты с 21 категорией путешествий! 🌍 Тысячи вариантов для каждой категории.'},
+  ja:{flag:'🇯🇵',name:'JA',title:'旅行カテゴリーを探索 🗺️',
+    banner:'21の旅行カテゴリーで夢の休暇を計画しましょう！🌍 各カテゴリーに数千のオプション。'},
+  zh:{flag:'🇨🇳',name:'ZH',title:'探索旅行类别 🗺️',
+    banner:'用21个旅行类别规划您的梦想假期！🌍 每个类别都有数千种选择。'},
+  ko:{flag:'🇰🇷',name:'KO',title:'여행 카테고리 탐색 🗺️',
+    banner:'21개의 여행 카테고리로 꿈의 휴가를 계획하세요! 🌍 각 카테고리마다 수천 가지 옵션.'},
+  ar:{flag:'🇸🇦',name:'AR',title:'استكشف فئات السفر 🗺️',
+    banner:'خطط لعطلة أحلامك مع 21 فئة سفر مختلفة! 🌍 آلاف الخيارات لكل فئة.'},
+  hi:{flag:'🇮🇳',name:'HI',title:'यात्रा श्रेणियों का अन्वेषण करें 🗺️',
+    banner:'21 विभिन्न यात्रा श्रेणियों के साथ अपनी सपनों की छुट्टी की योजना बनाएं! 🌍 प्रत्येक श्रेणी के लिए हजारों विकल्प।'}
+};
+
+// Categories
+const categories = [
+  {icon:'🏞️',title:'Doğal Güzellikler',url:'world.html',highlight:true,badge:'ÜCRETLİ'},
+  {icon:'🏨',title:'Otel ve Uçak Bileti',url:'#'},
+  {icon:'🌏',title:'Yerel Uygulamalar',url:'#'},
+  {icon:'🛏️',title:'Nerede Kalınır',url:'#'},
+  {icon:'✈️',title:'Nasıl Gidilir',url:'#'},
+  {icon:'🎫',title:'Ne Yapılır',url:'#'},
+  {icon:'🚢',title:'Gemi Turları',url:'#'},
+  {icon:'🏔️',title:'Macera ve Doğa',url:'#'},
+  {icon:'🍽️',title:'Yemek ve Lezzetler',url:'#'},
+  {icon:'🎨',title:'Kültür ve Sanat',url:'#'},
+  {icon:'💆',title:'Spa ve Sağlık',url:'#'},
+  {icon:'🕌',title:'İnanç Turizmi',url:'#'},
+  {icon:'🎬',title:'Özel İlgiler',url:'#'},
+  {icon:'🌱',title:'Eko Turizm',url:'#'},
+  {icon:'🚀',title:'Geleceğin Seyahati',url:'#'},
+  {icon:'👥',title:'Grup Turları',url:'#'},
+  {icon:'💼',title:'İş ve Tatil',url:'#'},
+  {icon:'⚽',title:'Spor Turizmi',url:'#'},
+  {icon:'🏕️',title:'Farklı Deneyimler',url:'#'},
+  {icon:'🥽',title:'Sanal Geziler',url:'#'},
+  {icon:'🛸',title:'Yeni Trendler',url:'#'}
+];
+
+// Category translations
+const categoryTranslations = {
+  'Doğal Güzellikler': {
+    en: 'Scenic Destinations',
+    es: 'Destinos Pintorescos',
+    fr: 'Destinations Pittoresques',
+    de: 'Malerische Reiseziele',
+    it: 'Destinazioni Panoramiche',
+    pt: 'Destinos Pitorescos',
+    ru: 'Живописные места',
+    ja: '絶景スポット',
+    zh: '风景名胜',
+    ko: '절경 명소',
+    ar: 'الوجهات الخلابة',
+    hi: 'सुंदर स्थान'
+  },
+  'Otel ve Uçak Bileti': {
+    en: 'Hotels & Flights',
+    es: 'Hoteles y Vuelos',
+    fr: 'Hôtels et Vols',
+    de: 'Hotels & Flüge',
+    it: 'Hotel e Voli',
+    pt: 'Hotéis e Voos',
+    ru: 'Отели и авиабилеты',
+    ja: 'ホテル・航空券',
+    zh: '酒店机票',
+    ko: '호텔과 항공권',
+    ar: 'الفنادق والطيران',
+    hi: 'होटल और फ्लाइट'
+  },
+  'Yerel Uygulamalar': {
+    en: 'Local Travel Apps',
+    es: 'Apps de Viaje Locales',
+    fr: 'Applications Locales',
+    de: 'Lokale Reise-Apps',
+    it: 'App di Viaggio Locali',
+    pt: 'Apps de Viagem Locais',
+    ru: 'Местные сервисы',
+    ja: 'ローカル旅行アプリ',
+    zh: '本地旅游平台',
+    ko: '현지 여행 앱',
+    ar: 'تطبيقات السفر المحلية',
+    hi: 'स्थानीय यात्रा ऐप्स'
+  },
+  'Nerede Kalınır': {
+    en: 'Where to Stay',
+    es: 'Dónde Alojarse',
+    fr: 'Où Séjourner',
+    de: 'Unterkünfte',
+    it: 'Dove Alloggiare',
+    pt: 'Onde Ficar',
+    ru: 'Где остановиться',
+    ja: '宿泊施設',
+    zh: '住宿选择',
+    ko: '숙박 시설',
+    ar: 'أماكن الإقامة',
+    hi: 'कहाँ ठहरें'
+  },
+  'Nasıl Gidilir': {
+    en: 'Getting Around',
+    es: 'Cómo Moverse',
+    fr: 'Se Déplacer',
+    de: 'Fortbewegung',
+    it: 'Come Muoversi',
+    pt: 'Como se Locomover',
+    ru: 'Как добраться',
+    ja: '移動手段',
+    zh: '交通出行',
+    ko: '교통수단',
+    ar: 'وسائل النقل',
+    hi: 'यातायात सेवाएं'
+  },
+  'Ne Yapılır': {
+    en: 'Things to Do',
+    es: 'Qué Hacer',
+    fr: 'Que Faire',
+    de: 'Aktivitäten',
+    it: 'Cosa Fare',
+    pt: 'O que Fazer',
+    ru: 'Что посмотреть',
+    ja: 'アクティビティ',
+    zh: '旅游活动',
+    ko: '할 거리',
+    ar: 'الأنشطة السياحية',
+    hi: 'करने योग्य चीज़ें'
+  },
+  'Gemi Turları': {
+    en: 'Cruises & Sailing',
+    es: 'Cruceros y Navegación',
+    fr: 'Croisières et Navigation',
+    de: 'Kreuzfahrten & Segeln',
+    it: 'Crociere e Navigazione',
+    pt: 'Cruzeiros e Navegação',
+    ru: 'Круизы и яхтинг',
+    ja: 'クルーズ・船旅',
+    zh: '邮轮游艇',
+    ko: '크루즈와 요트',
+    ar: 'الرحلات البحرية',
+    hi: 'समुद्री यात्रा'
+  },
+  'Macera ve Doğa': {
+    en: 'Adventure & Outdoor',
+    es: 'Aventura y Naturaleza',
+    fr: 'Aventure et Nature',
+    de: 'Abenteuer & Outdoor',
+    it: 'Avventura e Natura',
+    pt: 'Aventura e Natureza',
+    ru: 'Приключения и спорт',
+    ja: 'アドベンチャー',
+    zh: '户外探险',
+    ko: '어드벤처 스포츠',
+    ar: 'المغامرات',
+    hi: 'रोमांच और खेल'
+  },
+  'Yemek ve Lezzetler': {
+    en: 'Food & Dining',
+    es: 'Gastronomía',
+    fr: 'Gastronomie',
+    de: 'Essen & Trinken',
+    it: 'Enogastronomia',
+    pt: 'Gastronomia',
+    ru: 'Еда и рестораны',
+    ja: 'グルメ・食事',
+    zh: '美食体验',
+    ko: '미식 여행',
+    ar: 'الطعام والمأكولات',
+    hi: 'खान-पान'
+  },
+  'Kültür ve Sanat': {
+    en: 'Culture & Arts',
+    es: 'Cultura y Arte',
+    fr: 'Culture et Arts',
+    de: 'Kultur & Kunst',
+    it: 'Cultura e Arte',
+    pt: 'Cultura e Arte',
+    ru: 'Культура и искусство',
+    ja: '文化・芸術',
+    zh: '文化艺术',
+    ko: '문화와 예술',
+    ar: 'الثقافة والفنون',
+    hi: 'संस्कृति और कला'
+  },
+  'Spa ve Sağlık': {
+    en: 'Wellness & Spa',
+    es: 'Bienestar y Spa',
+    fr: 'Bien-être et Spa',
+    de: 'Wellness & Spa',
+    it: 'Benessere e Spa',
+    pt: 'Bem-estar e Spa',
+    ru: 'Спа и здоровье',
+    ja: 'ウェルネス・スパ',
+    zh: '康养温泉',
+    ko: '웰니스와 스파',
+    ar: 'العافية والمنتجعات',
+    hi: 'स्वास्थ्य और स्पा'
+  },
+  'İnanç Turizmi': {
+    en: 'Spiritual Journeys',
+    es: 'Viajes Espirituales',
+    fr: 'Voyages Spirituels',
+    de: 'Spirituelle Reisen',
+    it: 'Viaggi Spirituali',
+    pt: 'Jornadas Espirituais',
+    ru: 'Паломничество',
+    ja: '巡礼・聖地',
+    zh: '朝圣之旅',
+    ko: '종교 순례',
+    ar: 'الرحلات الروحية',
+    hi: 'तीर्थ यात्रा'
+  },
+  'Özel İlgiler': {
+    en: 'Special Interests',
+    es: 'Intereses Especiales',
+    fr: 'Intérêts Spéciaux',
+    de: 'Spezialreisen',
+    it: 'Interessi Speciali',
+    pt: 'Interesses Especiais',
+    ru: 'Тематический туризм',
+    ja: '特別な趣味旅行',
+    zh: '主题旅游',
+    ko: '테마 여행',
+    ar: 'اهتمامات خاصة',
+    hi: 'विशेष रुचि'
+  },
+  'Eko Turizm': {
+    en: 'Eco Travel',
+    es: 'Viajes Ecológicos',
+    fr: 'Voyage Écologique',
+    de: 'Öko-Reisen',
+    it: 'Viaggi Ecologici',
+    pt: 'Viagens Ecológicas',
+    ru: 'Экотуризм',
+    ja: 'エコツーリズム',
+    zh: '生态旅游',
+    ko: '에코 여행',
+    ar: 'السياحة البيئية',
+    hi: 'पर्यावरण पर्यटन'
+  },
+  'Geleceğin Seyahati': {
+    en: 'Future of Travel',
+    es: 'Viajes del Futuro',
+    fr: 'Voyage du Futur',
+    de: 'Zukunftsreisen',
+    it: 'Viaggi del Futuro',
+    pt: 'Viagens do Futuro',
+    ru: 'Путешествия будущего',
+    ja: '未来の旅行',
+    zh: '未来旅游',
+    ko: '미래 여행',
+    ar: 'سياحة المستقبل',
+    hi: 'भविष्य की यात्रा'
+  },
+  'Grup Turları': {
+    en: 'Group Travel',
+    es: 'Viajes en Grupo',
+    fr: 'Voyages de Groupe',
+    de: 'Gruppenreisen',
+    it: 'Viaggi di Gruppo',
+    pt: 'Viagens em Grupo',
+    ru: 'Групповые туры',
+    ja: 'グループ旅行',
+    zh: '团体旅游',
+    ko: '단체 여행',
+    ar: 'السفر الجماعي',
+    hi: 'समूह यात्रा'
+  },
+  'İş ve Tatil': {
+    en: 'Work & Travel',
+    es: 'Trabajo y Viajes',
+    fr: 'Travail et Voyage',
+    de: 'Arbeiten & Reisen',
+    it: 'Lavoro e Viaggi',
+    pt: 'Trabalho e Viagem',
+    ru: 'Работа и путешествия',
+    ja: 'ワーケーション',
+    zh: '商务游牧',
+    ko: '워케이션',
+    ar: 'العمل والسفر',
+    hi: 'कार्य और यात्रा'
+  },
+  'Spor Turizmi': {
+    en: 'Sports Tourism',
+    es: 'Turismo Deportivo',
+    fr: 'Tourisme Sportif',
+    de: 'Sporttourismus',
+    it: 'Turismo Sportivo',
+    pt: 'Turismo Esportivo',
+    ru: 'Спортивный туризм',
+    ja: 'スポーツ観戦',
+    zh: '体育旅游',
+    ko: '스포츠 관광',
+    ar: 'السياحة الرياضية',
+    hi: 'खेल पर्यटन'
+  },
+  'Farklı Deneyimler': {
+    en: 'Unique Experiences',
+    es: 'Experiencias Únicas',
+    fr: 'Expériences Uniques',
+    de: 'Besondere Erlebnisse',
+    it: 'Esperienze Uniche',
+    pt: 'Experiências Únicas',
+    ru: 'Необычный отдых',
+    ja: 'ユニークな体験',
+    zh: '特色体验',
+    ko: '특별한 경험',
+    ar: 'تجارب فريدة',
+    hi: 'अनूठे अनुभव'
+  },
+  'Sanal Geziler': {
+    en: 'Virtual Tours',
+    es: 'Tours Virtuales',
+    fr: 'Visites Virtuelles',
+    de: 'Virtuelle Touren',
+    it: 'Tour Virtuali',
+    pt: 'Tours Virtuais',
+    ru: 'Виртуальные туры',
+    ja: 'バーチャルツアー',
+    zh: '虚拟旅游',
+    ko: '가상 투어',
+    ar: 'الجولات الافتراضية',
+    hi: 'वर्चुअल टूर'
+  },
+  'Yeni Trendler': {
+    en: 'Travel Trends',
+    es: 'Tendencias de Viaje',
+    fr: 'Tendances de Voyage',
+    de: 'Reisetrends',
+    it: 'Tendenze di Viaggio',
+    pt: 'Tendências de Viagem',
+    ru: 'Новинки туризма',
+    ja: '旅行トレンド',
+    zh: '旅游趋势',
+    ko: '여행 트렌드',
+    ar: 'اتجاهات السفر',
+    hi: 'यात्रा रुझान'
+  }
+};
+
+// Badge translations
+const badgeTranslations = {
+  'ÜCRETLİ': {
+    en: 'PAID',
+    es: 'PAGADO',
+    fr: 'PAYANT',
+    de: 'BEZAHLT',
+    it: 'A PAGAMENTO',
+    pt: 'PAGO',
+    ru: 'ПЛАТНО',
+    ja: '有料',
+    zh: '付费',
+    ko: '유료',
+    ar: 'مدفوع',
+    hi: 'भुगतान'
+  }
+};
+
+// Get category name by language
+function getCategoryName(title, langCode) {
+  if (langCode === 'tr') return title;
+  
+  if (categoryTranslations[title] && categoryTranslations[title][langCode]) {
+    return categoryTranslations[title][langCode];
+  }
+  
+  return title;
+}
+
+// Get badge text by language
+function getBadgeText(badge, langCode) {
+  if (langCode === 'tr') return badge;
+  
+  if (badgeTranslations[badge] && badgeTranslations[badge][langCode]) {
+    return badgeTranslations[badge][langCode];
+  }
+  
+  return badge;
+}
+
+// Current language
+let currentLang = 'tr';
+
+// Detect browser language
+function detectLang(){
+  const saved = localStorage.getItem('lang');
+  if(saved && lang[saved]) return saved;
+  const browser = navigator.language.toLowerCase();
+  for(const code in lang){
+    if(browser.startsWith(code)) return code;
+  }
+  return 'tr';
+}
+
+// Colorize title
+function colorizeTitle() {
+  const titleElement = document.getElementById('title');
+  if (!titleElement) return;
+  
+  const text = titleElement.textContent;
+  
+  // Separate emoji
+  const parts = text.split('🗺️');
+  const words = parts[0].trim().split(/\s+/);
+  
+  // Convert each word to colored span
+  let html = '';
+  words.forEach((word, index) => {
+    const colorIndex = index % 7;
+    html += `<span class="title-word word-${colorIndex}">${word}</span> `;
+  });
+  
+  // Add emoji
+  html += '<span class="title-emoji">🗺️</span>';
+  
+  titleElement.innerHTML = html;
+}
+
+// Set language
+function setLang(code){
+  currentLang = code;
+  const t = lang[code];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('langFlag').textContent = t.flag;
+  document.getElementById('langName').textContent = t.name;
+  
+  const info = document.getElementById('info');
+  info.innerHTML = t.banner;
+  
+  document.documentElement.lang = code;
+  localStorage.setItem('lang', code);
+  
+  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+  
+  // Colorize title
+  colorizeTitle();
+  
+  // Update cards
+  updateCards();
+}
+
+// Update cards with translations
+function updateCards() {
+  document.querySelectorAll('.card').forEach(card => {
+    const originalTitle = card.dataset.originalTitle;
+    const originalBadge = card.dataset.originalBadge;
+    
+    if (!originalTitle) return;
+    
+    const translatedTitle = getCategoryName(originalTitle, currentLang);
+    const titleElement = card.querySelector('.card-title');
+    if (titleElement) titleElement.textContent = translatedTitle;
+    
+    if (originalBadge) {
+      const translatedBadge = getBadgeText(originalBadge, currentLang);
+      const badgeElement = card.querySelector('.card-badge');
+      if (badgeElement) badgeElement.textContent = translatedBadge;
+    }
+  });
+}
+
+// Create language menu
+function createLangMenu(){
+  const list = document.getElementById('langList');
+  for(const [code,data] of Object.entries(lang)){
+    const item = document.createElement('div');
+    item.className='lang-item';
+    item.dataset.lang = code;
+    item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
+    item.onclick = ()=>{ setLang(code); toggleLang(false); };
+    list.appendChild(item);
+  }
+}
+
+// Toggle menu
+function toggleLang(force){
+  const list = document.getElementById('langList');
+  if(force===false){ list.classList.remove('show'); }
+  else{ list.classList.toggle('show'); }
+}
+
+// Page load
+document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('grid');
+  
+  createLangMenu();
+  setLang(detectLang());
+  
+  // Create cards
+  categories.forEach((cat, index) => {
+    const card = document.createElement('div');
+    card.className = cat.highlight ? 'card highlight' : 'card';
+    card.dataset.originalTitle = cat.title;
+    if (cat.badge) card.dataset.originalBadge = cat.badge;
+    
+    const translatedTitle = getCategoryName(cat.title, currentLang);
+    
+    let cardContent = `<span class="card-icon">${cat.icon}</span>`;
+    cardContent += `<div class="card-title">${translatedTitle}</div>`;
+    
+    if(cat.badge) {
+      const translatedBadge = getBadgeText(cat.badge, currentLang);
+      cardContent += `<div class="card-badge">${translatedBadge}</div>`;
+    }
+    
+    card.innerHTML = cardContent;
+    
+    card.onclick = () => {
+      location.href = cat.url;
+    };
+    
+    grid.appendChild(card);
+  });
+  
+  // Close dropdown on outside click
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.lang-select')) toggleLang(false);
+  });
+});
+</script>
+</body>
+</html>
