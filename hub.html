@@ -226,17 +226,20 @@ body{
 }
 
 .card{
-  background:rgba(255,255,255,.3);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:2px solid rgba(255,255,255,.4);
+  background:linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.8);
   border-radius:20px;
   padding:0;
   text-align:center;
   cursor:pointer;
   transition:transform .2s ease, box-shadow .2s ease;
   position:relative;
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
   aspect-ratio:1/1;
   display:flex;
   flex-direction:column;
@@ -252,9 +255,36 @@ body{
   transform:scale(0.95);
 }
 
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:linear-gradient(135deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.1) 45%, 
+    rgba(255,255,255,0.3) 50%, 
+    rgba(255,255,255,0.1) 55%, 
+    transparent 100%);
+  transform:translateX(-100%);
+  transition:transform 0.6s ease;
+  z-index:2;
+}
+
 .card.highlight{
-  background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);
-  border:2px solid rgba(245,158,11,.4);
+  background:linear-gradient(135deg, 
+    rgba(254,243,199,0.8) 0%, 
+    rgba(253,230,138,0.6) 50%, 
+    rgba(254,243,199,0.7) 100%);
+  backdrop-filter:blur(16px) saturate(200%);
+  -webkit-backdrop-filter:blur(16px) saturate(200%);
+  border:1px solid rgba(245,158,11,0.6);
+  box-shadow:
+    0 8px 32px rgba(245,158,11,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(245,158,11,0.1);
 }
 
 .card-bg{
@@ -266,8 +296,9 @@ body{
   background-size:cover;
   background-position:center;
   z-index:1;
-  opacity:0.15;
+  opacity:0.03;
   pointer-events:none;
+  mix-blend-mode:multiply;
 }
 
 .card-title{
@@ -403,11 +434,18 @@ body{
 @media(min-width:769px){
   .card:hover{
     transform:translateY(-4px);
-    box-shadow:0 8px 32px rgba(0,0,0,.08);
+    box-shadow:
+      0 16px 48px rgba(0,0,0,0.12),
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .card:hover::before{
+    transform:translateX(100%);
   }
   
   .card:hover .card-bg{
-    opacity:0.2;
+    opacity:0.05;
   }
   
   .lang-btn:hover{
