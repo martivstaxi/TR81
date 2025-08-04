@@ -22,35 +22,43 @@
 }
 
 /* === Reset & Body === */
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
 body{
   font-family:'Inter',sans-serif;
-  background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background:#e2e8f0;
   color:var(--text-primary);
-  min-height:100vh;line-height:1.6;overflow-x:hidden;
-  position: relative;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-color: #e2e8f0;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  min-height:100vh;
+  line-height:1.6;
+  overflow-x:hidden;
+  position:relative;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
 }
-body::after{
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.3) 0%, rgba(241, 245, 249, 0.2) 100%);
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
+
+/* Background image as separate element for better performance */
+.bg-image{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:-2;
+  transform:translateZ(0);
+}
+.bg-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,rgba(248,250,252,0.3) 0%,rgba(241,245,249,0.2) 100%);
+  z-index:-1;
+  pointer-events:none;
 }
 
 .container{max-width:900px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
@@ -135,8 +143,6 @@ body::after{
   z-index:1;
   max-width:600px;
   margin:0 auto;
-  transform: translateZ(0);
-  will-change: transform;
 }
 .card{
   background:rgba(255,255,255,.3);
@@ -239,51 +245,25 @@ body::after{
 
 /* === Mobile === */
 @media(max-width:768px){
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y;
   }
   body{
-    min-height: 100vh;
-    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: scroll; /* Changed from fixed for better mobile performance */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+    background:#e2e8f0;
   }
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -2;
-    transform: translateZ(0);
-    will-change: transform;
+  .bg-image{
+    background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+    position:absolute;
+    transform:none;
   }
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(248, 250, 252, 0.25) 0%, rgba(241, 245, 249, 0.15) 100%);
-    pointer-events: none;
-    z-index: -1;
-    transform: translateZ(0);
-    will-change: transform;
+  .bg-overlay{
+    background:linear-gradient(135deg,rgba(248,250,252,0.25) 0%,rgba(241,245,249,0.15) 100%);
+    position:absolute;
   }
   .container{
     max-width:100%;
@@ -356,16 +336,20 @@ body::after{
   }
 }
 
-/* Animations */
+/* Animations - Simplified for better performance */
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
+  from{opacity:0;}
+  to{opacity:1;}
 }
-.card{animation:fadeIn .3s ease;}
+.card{animation:fadeIn .2s ease;}
 </style>
 </head>
 
 <body>
+  <!-- Background elements -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
   <!-- Language Selector -->
   <div class="lang-select">
     <button class="lang-btn" onclick="toggleLang()">
