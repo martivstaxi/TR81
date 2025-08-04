@@ -2,7 +2,9 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>TravelPedia - Modern Seyahat Rehberi</title>
 
 <!-- Inter Font -->
@@ -20,75 +22,189 @@
   --shadow-xl:0 20px 50px rgba(99,102,241,.12);
 }
 
-/* === Reset & Body === */
-*{margin:0;padding:0;box-sizing:border-box;}
+/* === Reset & Performance Optimizations === */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Prevent overscroll and bounce effects */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
 body{
   font-family:'Inter',sans-serif;
-  background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background:#e2e8f0;
   color:var(--text-primary);
-  min-height:100vh;line-height:1.6;overflow-x:hidden;
-  position: relative;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-color: #e2e8f0;
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
 }
-body::after{
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+
+/* Main scrollable container */
+.main-wrapper {
   height: 100%;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.3) 0%, rgba(241, 245, 249, 0.2) 100%);
-  pointer-events: none;
-  z-index: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  position: relative;
+  z-index: 1;
 }
 
-.container{max-width:1100px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+/* Hardware acceleration for smooth scrolling */
+.main-wrapper > * {
+  transform: translateZ(0);
+  will-change: transform;
+}
 
-/* === Language Selector === */
+/* Background - Simplified for performance */
+.bg-image{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:#e2e8f0;
+  z-index:-2;
+  pointer-events:none;
+}
+
+/* Lazy load background images */
+.bg-image.loaded-desktop{
+  background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+.bg-image.loaded-mobile{
+  background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+.bg-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,rgba(248,250,252,0.3) 0%,rgba(241,245,249,0.2) 100%);
+  z-index:-1;
+  pointer-events:none;
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:0 16px;
+  position:relative;
+  z-index:1;
+}
+
+/* === Language Selector - Optimized === */
 .lang-select{
-  position:fixed;top:20px;right:20px;z-index:100;
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:100;
+  transform:translateZ(0);
 }
+
 .lang-btn{
-  background:linear-gradient(135deg, rgba(255,255,255,.85) 0%, rgba(249,250,251,.8) 100%);
-  backdrop-filter:blur(16px);
-  border:1.5px solid rgba(139,92,246,.15);border-radius:20px;padding:10px 16px;cursor:pointer;
-  font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;
-  box-shadow:0 4px 16px rgba(99,102,241,.06);transition:.3s;color:#475569;
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 16px rgba(99,102,241,.06);
+  transition:transform .2s ease;
+  color:#475569;
+  touch-action:manipulation;
 }
-.lang-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(99,102,241,.12);
-  background:linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(249,250,251,.9) 100%);
-  border-color:rgba(139,92,246,.25);
+
+.lang-btn:active{
+  transform:scale(0.95);
 }
+
 .lang-list{
-  position:absolute;top:calc(100% + 8px);right:0;
-  background:linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(249,250,251,.95) 100%);
-  backdrop-filter:blur(16px);border:1.5px solid rgba(139,92,246,.12);border-radius:20px;
-  box-shadow:0 10px 40px rgba(99,102,241,.12);max-height:320px;overflow-y:auto;display:none;min-width:160px;
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  background:rgba(255,255,255,.98);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(139,92,246,.12);
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(99,102,241,.12);
+  max-height:320px;
+  overflow-y:auto;
+  display:none;
+  min-width:160px;
+  transform:translateZ(0);
 }
-.lang-list.show{display:block;animation:fadeIn .3s ease;}
+
+.lang-list.show{
+  display:block;
+  animation:fadeIn .2s ease;
+}
+
 .lang-item{
-  padding:10px 16px;cursor:pointer;transition:all .2s;display:flex;
-  align-items:center;gap:8px;font-size:14px;color:#475569;
+  padding:10px 16px;
+  cursor:pointer;
+  transition:background-color .2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#475569;
+  touch-action:manipulation;
 }
-.lang-item:hover{background:rgba(139,92,246,.08);color:#6366f1;}
-.lang-item.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;}
+
+.lang-item:active{
+  background:rgba(139,92,246,.12);
+}
+
+.lang-item.active{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+}
 
 /* === Header === */
-.header{padding:80px 16px 60px;text-align:center;position:relative;z-index:1;}
+.header{
+  padding:80px 16px 60px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
 .title{
-  font-size:clamp(2.5rem,5vw,4rem);font-weight:800;margin-bottom:8px;
+  font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:800;
+  margin-bottom:8px;
   letter-spacing:-1px;
   line-height:1.1;
 }
+
 .subtitle{
   font-size:clamp(1.1rem,2.5vw,1.4rem);
   font-weight:500;
@@ -97,32 +213,18 @@ body::after{
   line-height:1.5;
   opacity:0.95;
 }
-/* Title colors - Elite look */
+
 .travel-part{
-  color:#1e293b; /* Dark navy */
+  color:#1e293b;
   font-weight:800;
-}
-.pedia-part{
-  color:#f59e0b; /* Golden amber */
-  font-weight:800;
-}
-.title-word{
-  display:inline-block;
-  margin:0 0.1em;
-  font-weight:800;
-  transition:all 0.3s ease;
-}
-.title-word:hover{
-  transform:translateY(-2px) scale(1.05);
-}
-.title-emoji{
-  display:inline-block;
-  font-size:1em;
-  vertical-align:middle;
-  margin-left:0.2em;
 }
 
-/* === Grid === */
+.pedia-part{
+  color:#f59e0b;
+  font-weight:800;
+}
+
+/* === Grid - Optimized for mobile === */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -130,202 +232,334 @@ body::after{
   padding-bottom:40px;
   position:relative;
   z-index:1;
-  max-width:900px;
+  max-width:600px;
   margin:0 auto;
 }
+
 .card{
-  background:linear-gradient(135deg, rgba(255,255,255,.25) 0%, rgba(248,250,252,.2) 100%);
-  backdrop-filter:blur(20px);
-  border:1.5px solid rgba(255,255,255,.3);
-  border-radius:28px;
-  padding:24px 16px;
+  background:rgba(255,255,255,.3);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:20px;
+  padding:0;
   text-align:center;
   cursor:pointer;
-  transition:.3s cubic-bezier(.4,0,.2,1);
+  transition:transform .2s ease, box-shadow .2s ease;
   position:relative;
-  box-shadow:0 8px 32px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
   aspect-ratio:1/1;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-}
-.card:hover{
-  transform:translateY(-10px) scale(1.02);
-  box-shadow:0 20px 45px rgba(99,102,241,.15), 0 4px 10px rgba(0,0,0,.08);
-  border-color:rgba(255,255,255,.5);
-  background:linear-gradient(135deg, rgba(255,255,255,.35) 0%, rgba(248,250,252,.3) 100%);
-}
-.card:hover .card-number{transform:scale(1.15) rotate(-2deg);}
-.card-number{
-  font-size:48px;
-  margin-bottom:12px;
-  display:block;
-  font-weight:200;
-  background:linear-gradient(135deg,#1e293b 0%,#475569 50%,#64748b 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  letter-spacing:-3px;
-  font-family:'Inter',sans-serif;
-  transition:all .3s ease;
-  position:relative;
-  filter:drop-shadow(0 2px 4px rgba(30,41,59,.15));
-}
-.card-title{font-weight:600;font-size:14px;color:#1e293b;line-height:1.4;word-break:break-word;}
-.card.highlight{
-  background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(254,240,138,.25) 100%);
-  border:1.5px solid rgba(251,191,36,.4);
-  box-shadow:0 8px 32px rgba(251,191,36,.12), 0 1px 3px rgba(0,0,0,.05);
-}
-.card.highlight .card-number{
-  background:linear-gradient(135deg,#f59e0b 0%,#fbbf24 50%,#fde047 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  font-weight:300;
-  filter:drop-shadow(0 2px 6px rgba(251,191,36,.25));
+  justify-content:flex-end;
+  overflow:hidden;
+  touch-action:manipulation;
+  transform:translateZ(0);
+  will-change:transform;
 }
 
-/* === Mobile === */
-@media(max-width:768px){
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-  body{
-    min-height: 100vh;
-    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -2;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(248, 250, 252, 0.25) 0%, rgba(241, 245, 249, 0.15) 100%);
-    pointer-events: none;
-    z-index: -1;
-  }
-  .container{
-    max-width:100%;
-    min-height:100vh;
-    position: relative;
-    z-index: 1;
-    padding-bottom: 50px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .grid {
-    gap:10px;
-    padding-bottom:40px;
-    grid-template-columns: repeat(3, 1fr);
-    max-width: calc(100% - 24px);
-    margin: 0 auto;
-    padding: 0 12px;
-  }
-  .card {
-    padding: 20px 10px !important;
-    aspect-ratio: 1/1 !important;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 0;
-    overflow: hidden;
-  }
-  .card-number{font-size:36px !important;margin-bottom:8px;}
-  .card-title{font-size:12px !important;line-height:1.2;}
-  .lang-select{top:16px;right:16px}
-  .lang-btn{padding:8px 12px;font-size:13px}
-  .header{padding:70px 16px 50px}
-  .title{font-size:2.2rem}
-  .subtitle{font-size:1rem;margin-top:8px}
+.card:active{
+  transform:scale(0.95);
 }
+
+.card.highlight{
+  background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);
+  border:2px solid rgba(245,158,11,.4);
+}
+
+.card-bg{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  z-index:1;
+  opacity:0.15;
+  pointer-events:none;
+}
+
+.card-title{
+  font-weight:600;
+  font-size:15px;
+  color:var(--text-primary);
+  line-height:1.3;
+  word-break:break-word;
+  padding:20px 12px;
+  position:relative;
+  z-index:3;
+  background:transparent;
+  width:100%;
+  text-align:center;
+  letter-spacing:-0.01em;
+  text-shadow:0 1px 2px rgba(0,0,0,0.04);
+}
+
+.card.highlight .card-title{
+  color:#d97706;
+  font-weight:700;
+  text-shadow:0 1px 3px rgba(217,119,6,0.1);
+}
+
+.card-index{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:11px;
+  font-weight:600;
+  color:#64748b;
+  opacity:0.5;
+  letter-spacing:0.5px;
+  z-index:2;
+}
+
+.card.highlight .card-index{
+  color:#d97706;
+  opacity:0.7;
+  font-weight:700;
+}
+
+/* === Mobile Optimizations === */
+@media(max-width:768px){
+  .main-wrapper{
+    overscroll-behavior-y: contain;
+  }
+  
+  .container{
+    padding:0 12px;
+    padding-bottom:40px;
+  }
+  
+  .grid{
+    gap:10px;
+    padding:0 4px 40px;
+  }
+  
+  .card{
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  
+  .card-bg{
+    opacity:0.1;
+  }
+  
+  .card-title{
+    font-size:13px;
+    padding:16px 8px;
+    font-weight:600;
+  }
+  
+  .card-index{
+    font-size:9px;
+    top:8px;
+    right:8px;
+  }
+  
+  .lang-select{
+    top:16px;
+    right:16px;
+  }
+  
+  .lang-btn{
+    padding:8px 12px;
+    font-size:13px;
+  }
+  
+  .header{
+    padding:70px 16px 50px;
+  }
+  
+  .title{
+    font-size:2.2rem;
+  }
+  
+  .subtitle{
+    font-size:1rem;
+    margin-top:8px;
+  }
+}
+
 @media(max-width:480px){
   .grid{
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:8px;
-    padding: 0 8px;
-    max-width: calc(100% - 16px);
+    padding:0 6px 40px;
   }
+  
   .card{
-    padding: 16px 8px !important;
-    aspect-ratio: 1/1 !important;
+    border-radius:12px;
   }
-  .card-number{font-size:32px !important;}
-  .card-title{font-size:11px !important;}
+  
+  .card-bg{
+    opacity:0.08;
+  }
+  
+  .card-title{
+    font-size:12px;
+    padding:12px 6px;
+    font-weight:600;
+  }
+  
+  .card-index{
+    font-size:8px;
+  }
 }
 
 /* Desktop specific */
 @media(min-width:769px){
-  .grid {
-    max-width: 900px;
-    margin: 0 auto;
-    grid-template-columns: repeat(3, 1fr);
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 32px rgba(0,0,0,.08);
   }
-  .card {
-    aspect-ratio: 1/1;
+  
+  .card:hover .card-bg{
+    opacity:0.2;
+  }
+  
+  .lang-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(99,102,241,.12);
+  }
+  
+  .lang-item:hover{
+    background:rgba(139,92,246,.08);
+    color:#6366f1;
   }
 }
 
-/* Animations */
+/* Simple fade animation */
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
+  from{opacity:0;}
+  to{opacity:1;}
 }
-.card{animation:fadeIn .3s ease;}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
 </head>
 
 <body>
-  <!-- Language Selector -->
-  <div class="lang-select">
-    <button class="lang-btn" onclick="toggleLang()">
-      <span id="langFlag">🇹🇷</span>
-      <span id="langName">TR</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div class="lang-list" id="langList"></div>
-  </div>
+  <!-- Background elements -->
+  <div class="bg-image" id="bgImage"></div>
+  <div class="bg-overlay"></div>
 
-  <div class="container">
-    <div class="header">
-      <h1 class="title" id="title">TravelPedia</h1>
-      <p class="subtitle" id="subtitle">Dünya genelinden binlerce seyahat sitesi tek platformda</p>
+  <!-- Main scrollable wrapper -->
+  <div class="main-wrapper">
+    <!-- Language Selector -->
+    <div class="lang-select">
+      <button class="lang-btn" id="langBtn">
+        <span id="langFlag">🇹🇷</span>
+        <span id="langName">TR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lang-list" id="langList"></div>
     </div>
 
-    <!-- Grid -->
-    <div id="grid" class="grid"></div>
+    <div class="container">
+      <div class="header">
+        <h1 class="title" id="title">TravelPedia</h1>
+        <p class="subtitle" id="subtitle">Dünya genelinden binlerce seyahat sitesi tek platformda</p>
+      </div>
+
+      <!-- Grid -->
+      <div id="grid" class="grid"></div>
+    </div>
   </div>
 
 <script>
+// Performance: Use passive event listeners
+const passiveSupported = (() => {
+  let passive = false;
+  try {
+    const options = {
+      get passive() {
+        passive = true;
+        return false;
+      }
+    };
+    window.addEventListener("test", null, options);
+    window.removeEventListener("test", null, options);
+  } catch(err) {}
+  return passive;
+})();
+
+const passive = passiveSupported ? { passive: true } : false;
+
+// Category styles
+const categoryStyles = {
+  'Manzaralı Yerler': {
+    bg: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    icon: '🏔️'
+  },
+  'Konaklama': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🏨'
+  },
+  'Ulaşım': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '✈️'
+  },
+  'Tur ve Aktivite': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🎯'
+  },
+  'Finans ve Ödeme': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '💳'
+  },
+  'İletişim ve Bağlantı': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📡'
+  },
+  'Vize ve Sigorta': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📋'
+  },
+  'Sağlık ve Wellness': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🏥'
+  },
+  'Kültür ve Etkinlik': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🎭'
+  },
+  'Doğa ve Macera': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '⛺'
+  },
+  'Yeme-İçme': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🍽️'
+  },
+  'İş ve Eğitim': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '💼'
+  },
+  'Özel Deneyimler': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '✨'
+  },
+  'Pratik Araçlar': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🔧'
+  },
+  'Dijital Kaynaklar': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📱'
+  }
+};
+
 // Translations
 const lang = {
   tr:{flag:'🇹🇷',name:'TR',
@@ -369,326 +603,236 @@ const lang = {
     subtitle:'दुनिया भर से हजारों यात्रा साइटें एक मंच पर'}
 };
 
-// Categories (removed badge from first category)
+// Categories
 const categories = [
-  {icon:'🏞️',title:'Doğal Güzellikler',url:'world.html',highlight:true},
-  {icon:'🏨',title:'Otel ve Uçak Bileti',url:'2.html'},
-  {icon:'🌏',title:'Yerel Uygulamalar',url:'3.html'},
-  {icon:'🛏️',title:'Nerede Kalınır',url:'4.html'},
-  {icon:'✈️',title:'Nasıl Gidilir',url:'5.html'},
-  {icon:'🎫',title:'Ne Yapılır',url:'6.html'},
-  {icon:'🚢',title:'Gemi Turları',url:'7.html'},
-  {icon:'🏔️',title:'Macera ve Doğa',url:'8.html'},
-  {icon:'🍽️',title:'Yemek ve Lezzetler',url:'9.html'},
-  {icon:'🎨',title:'Kültür ve Sanat',url:'10.html'},
-  {icon:'💆',title:'Spa ve Sağlık',url:'11.html'},
-  {icon:'🕌',title:'İnanç Turizmi',url:'12.html'},
-  {icon:'🎬',title:'Özel İlgiler',url:'13.html'},
-  {icon:'🌱',title:'Eko Turizm',url:'14.html'},
-  {icon:'🚀',title:'Geleceğin Seyahati',url:'15.html'},
-  {icon:'👥',title:'Grup Turları',url:'16.html'},
-  {icon:'💼',title:'İş ve Tatil',url:'17.html'},
-  {icon:'⚽',title:'Spor Turizmi',url:'18.html'},
-  {icon:'🏕️',title:'Farklı Deneyimler',url:'19.html'},
-  {icon:'🥽',title:'Sanal Geziler',url:'20.html'},
-  {icon:'🛸',title:'Yeni Trendler',url:'21.html'}
+  {title:'Manzaralı Yerler',url:'world.html',highlight:true},
+  {title:'Konaklama',url:'2.html'},
+  {title:'Ulaşım',url:'3.html'},
+  {title:'Tur ve Aktivite',url:'4.html'},
+  {title:'Finans ve Ödeme',url:'5.html'},
+  {title:'İletişim ve Bağlantı',url:'6.html'},
+  {title:'Vize ve Sigorta',url:'7.html'},
+  {title:'Sağlık ve Wellness',url:'8.html'},
+  {title:'Kültür ve Etkinlik',url:'9.html'},
+  {title:'Doğa ve Macera',url:'10.html'},
+  {title:'Yeme-İçme',url:'11.html'},
+  {title:'İş ve Eğitim',url:'12.html'},
+  {title:'Özel Deneyimler',url:'13.html'},
+  {title:'Pratik Araçlar',url:'14.html'},
+  {title:'Dijital Kaynaklar',url:'15.html'}
 ];
 
 // Category translations
 const categoryTranslations = {
-  'Doğal Güzellikler': {
-    en: 'Scenic Destinations',
-    es: 'Destinos Pintorescos',
-    fr: 'Destinations Pittoresques',
-    de: 'Malerische Reiseziele',
-    it: 'Destinazioni Panoramiche',
-    pt: 'Destinos Pitorescos',
-    ru: 'Живописные места',
+  'Manzaralı Yerler': {
+    en: 'Scenic Spots',
+    es: 'Lugares Bonitos',
+    fr: 'Beaux Endroits',
+    de: 'Schöne Orte',
+    it: 'Posti Belli',
+    pt: 'Lugares Lindos',
+    ru: 'Красивые места',
     ja: '絶景スポット',
-    zh: '风景名胜',
-    ko: '절경 명소',
-    ar: 'الوجهات الخلابة',
-    hi: 'सुंदर स्थान'
+    zh: '美景',
+    ko: '멋진 장소',
+    ar: 'أماكن جميلة',
+    hi: 'खूबसूरत जगहें'
   },
-  'Otel ve Uçak Bileti': {
-    en: 'Hotels & Flights',
-    es: 'Hoteles y Vuelos',
-    fr: 'Hôtels et Vols',
-    de: 'Hotels & Flüge',
-    it: 'Hotel e Voli',
-    pt: 'Hotéis e Voos',
-    ru: 'Отели и авиабилеты',
-    ja: 'ホテル・航空券',
-    zh: '酒店机票',
-    ko: '호텔과 항공권',
-    ar: 'الفنادق والطيران',
-    hi: 'होटल और फ्लाइट'
-  },
-  'Yerel Uygulamalar': {
-    en: 'Local Travel Apps',
-    es: 'Apps de Viaje Locales',
-    fr: 'Applications Locales',
-    de: 'Lokale Reise-Apps',
-    it: 'App di Viaggio Locali',
-    pt: 'Apps de Viagem Locais',
-    ru: 'Местные сервисы',
-    ja: 'ローカル旅行アプリ',
-    zh: '本地旅游平台',
-    ko: '현지 여행 앱',
-    ar: 'تطبيقات السفر المحلية',
-    hi: 'स्थानीय यात्रा ऐप्स'
-  },
-  'Nerede Kalınır': {
+  'Konaklama': {
     en: 'Where to Stay',
-    es: 'Dónde Alojarse',
-    fr: 'Où Séjourner',
-    de: 'Unterkünfte',
-    it: 'Dove Alloggiare',
+    es: 'Dónde Dormir',
+    fr: 'Où Dormir',
+    de: 'Übernachtung',
+    it: 'Dove Dormire',
     pt: 'Onde Ficar',
-    ru: 'Где остановиться',
-    ja: '宿泊施設',
-    zh: '住宿选择',
-    ko: '숙박 시설',
+    ru: 'Где жить',
+    ja: 'ホテル',
+    zh: '住宿',
+    ko: '숙소',
     ar: 'أماكن الإقامة',
-    hi: 'कहाँ ठहरें'
+    hi: 'कहाँ रुकें'
   },
-  'Nasıl Gidilir': {
+  'Ulaşım': {
     en: 'Getting Around',
     es: 'Cómo Moverse',
     fr: 'Se Déplacer',
-    de: 'Fortbewegung',
+    de: 'Transport',
     it: 'Come Muoversi',
-    pt: 'Como se Locomover',
+    pt: 'Como Ir',
     ru: 'Как добраться',
     ja: '移動手段',
-    zh: '交通出行',
-    ko: '교통수단',
-    ar: 'وسائل النقل',
-    hi: 'यातायात सेवाएं'
+    zh: '交通',
+    ko: '교통',
+    ar: 'التنقل',
+    hi: 'यातायात'
   },
-  'Ne Yapılır': {
-    en: 'Things to Do',
-    es: 'Qué Hacer',
-    fr: 'Que Faire',
-    de: 'Aktivitäten',
-    it: 'Cosa Fare',
-    pt: 'O que Fazer',
-    ru: 'Что посмотреть',
-    ja: 'アクティビティ',
+  'Tur ve Aktivite': {
+    en: 'Tours & Fun',
+    es: 'Tours y Diversión',
+    fr: 'Tours et Activités',
+    de: 'Touren & Spaß',
+    it: 'Tour e Attività',
+    pt: 'Tours e Diversão',
+    ru: 'Туры и развлечения',
+    ja: 'ツアーと遊び',
     zh: '旅游活动',
-    ko: '할 거리',
-    ar: 'الأنشطة السياحية',
-    hi: 'करने योग्य चीज़ें'
+    ko: '투어와 활동',
+    ar: 'جولات وأنشطة',
+    hi: 'टूर और मज़ा'
   },
-  'Gemi Turları': {
-    en: 'Cruises & Sailing',
-    es: 'Cruceros y Navegación',
-    fr: 'Croisières et Navigation',
-    de: 'Kreuzfahrten & Segeln',
-    it: 'Crociere e Navigazione',
-    pt: 'Cruzeiros e Navegação',
-    ru: 'Круизы и яхтинг',
-    ja: 'クルーズ・船旅',
-    zh: '邮轮游艇',
-    ko: '크루즈와 요트',
-    ar: 'الرحلات البحرية',
-    hi: 'समुद्री यात्रा'
+  'Finans ve Ödeme': {
+    en: 'Money & Payment',
+    es: 'Dinero y Pagos',
+    fr: 'Argent et Paiement',
+    de: 'Geld & Zahlung',
+    it: 'Soldi e Pagamenti',
+    pt: 'Dinheiro e Pagamento',
+    ru: 'Деньги и оплата',
+    ja: 'お金と支払い',
+    zh: '支付',
+    ko: '돈과 결제',
+    ar: 'المال والدفع',
+    hi: 'पैसा और भुगतान'
   },
-  'Macera ve Doğa': {
-    en: 'Adventure & Outdoor',
-    es: 'Aventura y Naturaleza',
-    fr: 'Aventure et Nature',
-    de: 'Abenteuer & Outdoor',
-    it: 'Avventura e Natura',
-    pt: 'Aventura e Natureza',
-    ru: 'Приключения и спорт',
-    ja: 'アドベンチャー',
-    zh: '户外探险',
-    ko: '어드벤처 스포츠',
-    ar: 'المغامرات',
-    hi: 'रोमांच और खेल'
+  'İletişim ve Bağlantı': {
+    en: 'Internet & Phone',
+    es: 'Internet y Teléfono',
+    fr: 'Internet et Téléphone',
+    de: 'Internet & Telefon',
+    it: 'Internet e Telefono',
+    pt: 'Internet e Telefone',
+    ru: 'Интернет и связь',
+    ja: 'ネットと電話',
+    zh: '网络通信',
+    ko: '인터넷과 전화',
+    ar: 'الإنترنت والهاتف',
+    hi: 'इंटरनेट और फ़ोन'
   },
-  'Yemek ve Lezzetler': {
-    en: 'Food & Dining',
-    es: 'Gastronomía',
-    fr: 'Gastronomie',
+  'Vize ve Sigorta': {
+    en: 'Visa & Insurance',
+    es: 'Visa y Seguro',
+    fr: 'Visa et Assurance',
+    de: 'Visum & Versicherung',
+    it: 'Visto e Assicurazione',
+    pt: 'Visto e Seguro',
+    ru: 'Виза и страховка',
+    ja: 'ビザと保険',
+    zh: '签证保险',
+    ko: '비자와 보험',
+    ar: 'التأشيرة والتأمين',
+    hi: 'वीज़ा और बीमा'
+  },
+  'Sağlık ve Wellness': {
+    en: 'Health & Wellness',
+    es: 'Salud y Bienestar',
+    fr: 'Santé et Bien-être',
+    de: 'Gesundheit',
+    it: 'Salute e Benessere',
+    pt: 'Saúde e Bem-estar',
+    ru: 'Здоровье и отдых',
+    ja: '健康とリラックス',
+    zh: '健康养生',
+    ko: '건강과 휴식',
+    ar: 'الصحة والعافية',
+    hi: 'स्वास्थ्य'
+  },
+  'Kültür ve Etkinlik': {
+    en: 'Culture & Events',
+    es: 'Cultura y Eventos',
+    fr: 'Culture et Événements',
+    de: 'Kultur & Events',
+    it: 'Cultura ed Eventi',
+    pt: 'Cultura e Eventos',
+    ru: 'Культура и события',
+    ja: '文化とイベント',
+    zh: '文化活动',
+    ko: '문화와 행사',
+    ar: 'الثقافة والفعاليات',
+    hi: 'संस्कृति और कार्यक्रम'
+  },
+  'Doğa ve Macera': {
+    en: 'Nature & Adventure',
+    es: 'Naturaleza y Aventura',
+    fr: 'Nature et Aventure',
+    de: 'Natur & Abenteuer',
+    it: 'Natura e Avventura',
+    pt: 'Natureza e Aventura',
+    ru: 'Природа и приключения',
+    ja: '自然とアドベンチャー',
+    zh: '自然探险',
+    ko: '자연과 모험',
+    ar: 'الطبيعة والمغامرة',
+    hi: 'प्रकृति और रोमांच'
+  },
+  'Yeme-İçme': {
+    en: 'Food & Drinks',
+    es: 'Comida y Bebidas',
+    fr: 'Manger et Boire',
     de: 'Essen & Trinken',
-    it: 'Enogastronomia',
-    pt: 'Gastronomia',
-    ru: 'Еда и рестораны',
-    ja: 'グルメ・食事',
-    zh: '美食体验',
-    ko: '미식 여행',
-    ar: 'الطعام والمأكولات',
-    hi: 'खान-पान'
+    it: 'Cibo e Bevande',
+    pt: 'Comida e Bebida',
+    ru: 'Еда и напитки',
+    ja: '食事',
+    zh: '美食',
+    ko: '음식',
+    ar: 'الطعام والشراب',
+    hi: 'खाना-पीना'
   },
-  'Kültür ve Sanat': {
-    en: 'Culture & Arts',
-    es: 'Cultura y Arte',
-    fr: 'Culture et Arts',
-    de: 'Kultur & Kunst',
-    it: 'Cultura e Arte',
-    pt: 'Cultura e Arte',
-    ru: 'Культура и искусство',
-    ja: '文化・芸術',
-    zh: '文化艺术',
-    ko: '문화와 예술',
-    ar: 'الثقافة والفنون',
-    hi: 'संस्कृति और कला'
+  'İş ve Eğitim': {
+    en: 'Work & Study',
+    es: 'Trabajo y Estudio',
+    fr: 'Travail et Études',
+    de: 'Arbeit & Bildung',
+    it: 'Lavoro e Studio',
+    pt: 'Trabalho e Estudo',
+    ru: 'Работа и учеба',
+    ja: '仕事と学習',
+    zh: '工作学习',
+    ko: '일과 공부',
+    ar: 'العمل والدراسة',
+    hi: 'काम और पढ़ाई'
   },
-  'Spa ve Sağlık': {
-    en: 'Wellness & Spa',
-    es: 'Bienestar y Spa',
-    fr: 'Bien-être et Spa',
-    de: 'Wellness & Spa',
-    it: 'Benessere e Spa',
-    pt: 'Bem-estar e Spa',
-    ru: 'Спа и здоровье',
-    ja: 'ウェルネス・スパ',
-    zh: '康养温泉',
-    ko: '웰니스와 스파',
-    ar: 'العافية والمنتجعات',
-    hi: 'स्वास्थ्य और स्पा'
-  },
-  'İnanç Turizmi': {
-    en: 'Spiritual Journeys',
-    es: 'Viajes Espirituales',
-    fr: 'Voyages Spirituels',
-    de: 'Spirituelle Reisen',
-    it: 'Viaggi Spirituali',
-    pt: 'Jornadas Espirituais',
-    ru: 'Паломничество',
-    ja: '巡礼・聖地',
-    zh: '朝圣之旅',
-    ko: '종교 순례',
-    ar: 'الرحلات الروحية',
-    hi: 'तीर्थ यात्रा'
-  },
-  'Özel İlgiler': {
-    en: 'Special Interests',
-    es: 'Intereses Especiales',
-    fr: 'Intérêts Spéciaux',
-    de: 'Spezialreisen',
-    it: 'Interessi Speciali',
-    pt: 'Interesses Especiais',
-    ru: 'Тематический туризм',
-    ja: '特別な趣味旅行',
-    zh: '主题旅游',
-    ko: '테마 여행',
-    ar: 'اهتمامات خاصة',
-    hi: 'विशेष रुचि'
-  },
-  'Eko Turizm': {
-    en: 'Eco Travel',
-    es: 'Viajes Ecológicos',
-    fr: 'Voyage Écologique',
-    de: 'Öko-Reisen',
-    it: 'Viaggi Ecologici',
-    pt: 'Viagens Ecológicas',
-    ru: 'Экотуризм',
-    ja: 'エコツーリズム',
-    zh: '生态旅游',
-    ko: '에코 여행',
-    ar: 'السياحة البيئية',
-    hi: 'पर्यावरण पर्यटन'
-  },
-  'Geleceğin Seyahati': {
-    en: 'Future of Travel',
-    es: 'Viajes del Futuro',
-    fr: 'Voyage du Futur',
-    de: 'Zukunftsreisen',
-    it: 'Viaggi del Futuro',
-    pt: 'Viagens do Futuro',
-    ru: 'Путешествия будущего',
-    ja: '未来の旅行',
-    zh: '未来旅游',
-    ko: '미래 여행',
-    ar: 'سياحة المستقبل',
-    hi: 'भविष्य की यात्रा'
-  },
-  'Grup Turları': {
-    en: 'Group Travel',
-    es: 'Viajes en Grupo',
-    fr: 'Voyages de Groupe',
-    de: 'Gruppenreisen',
-    it: 'Viaggi di Gruppo',
-    pt: 'Viagens em Grupo',
-    ru: 'Групповые туры',
-    ja: 'グループ旅行',
-    zh: '团体旅游',
-    ko: '단체 여행',
-    ar: 'السفر الجماعي',
-    hi: 'समूह यात्रा'
-  },
-  'İş ve Tatil': {
-    en: 'Work & Travel',
-    es: 'Trabajo y Viajes',
-    fr: 'Travail et Voyage',
-    de: 'Arbeiten & Reisen',
-    it: 'Lavoro e Viaggi',
-    pt: 'Trabalho e Viagem',
-    ru: 'Работа и путешествия',
-    ja: 'ワーケーション',
-    zh: '商务游牧',
-    ko: '워케이션',
-    ar: 'العمل والالسفر',
-    hi: 'कार्य और यात्रा'
-  },
-  'Spor Turizmi': {
-    en: 'Sports Tourism',
-    es: 'Turismo Deportivo',
-    fr: 'Tourisme Sportif',
-    de: 'Sporttourismus',
-    it: 'Turismo Sportivo',
-    pt: 'Turismo Esportivo',
-    ru: 'Спортивный туризм',
-    ja: 'スポーツ観戦',
-    zh: '体育旅游',
-    ko: '스포츠 관광',
-    ar: 'السياحة الرياضية',
-    hi: 'खेल पर्यटन'
-  },
-  'Farklı Deneyimler': {
+  'Özel Deneyimler': {
     en: 'Unique Experiences',
     es: 'Experiencias Únicas',
     fr: 'Expériences Uniques',
     de: 'Besondere Erlebnisse',
     it: 'Esperienze Uniche',
     pt: 'Experiências Únicas',
-    ru: 'Необычный отдых',
-    ja: 'ユニークな体験',
-    zh: '特色体验',
+    ru: 'Особые впечатления',
+    ja: '特別な体験',
+    zh: '独特体验',
     ko: '특별한 경험',
-    ar: 'تجارب فريدة',
-    hi: 'अनूठे अनुभव'
+    ar: 'تجارب مميزة',
+    hi: 'खास अनुभव'
   },
-  'Sanal Geziler': {
-    en: 'Virtual Tours',
-    es: 'Tours Virtuales',
-    fr: 'Visites Virtuelles',
-    de: 'Virtuelle Touren',
-    it: 'Tour Virtuali',
-    pt: 'Tours Virtuais',
-    ru: 'Виртуальные туры',
-    ja: 'バーチャルツアー',
-    zh: '虚拟旅游',
-    ko: '가상 투어',
-    ar: 'الجولات الافتراضية',
-    hi: 'वर्चुअल टूर'
+  'Pratik Araçlar': {
+    en: 'Useful Tools',
+    es: 'Herramientas Útiles',
+    fr: 'Outils Pratiques',
+    de: 'Nützliche Tools',
+    it: 'Strumenti Utili',
+    pt: 'Ferramentas Úteis',
+    ru: 'Полезные инструменты',
+    ja: '便利なツール',
+    zh: '实用工具',
+    ko: '유용한 도구',
+    ar: 'أدوات مفيدة',
+    hi: 'उपयोगी टूल्स'
   },
-  'Yeni Trendler': {
-    en: 'Travel Trends',
-    es: 'Tendencias de Viaje',
-    fr: 'Tendances de Voyage',
-    de: 'Reisetrends',
-    it: 'Tendenze di Viaggio',
-    pt: 'Tendências de Viagem',
-    ru: 'Новинки туризма',
-    ja: '旅行トレンド',
-    zh: '旅游趋势',
-    ko: '여행 트렌드',
-    ar: 'اتجاهات السفر',
-    hi: 'यात्रा रुझान'
+  'Dijital Kaynaklar': {
+    en: 'Digital Resources',
+    es: 'Recursos Digitales',
+    fr: 'Ressources Numériques',
+    de: 'Digitale Ressourcen',
+    it: 'Risorse Digitali',
+    pt: 'Recursos Digitais',
+    ru: 'Цифровые ресурсы',
+    ja: 'デジタルリソース',
+    zh: '数字资源',
+    ko: '디지털 자료',
+    ar: 'موارد رقمية',
+    hi: 'डिजिटल संसाधन'
   }
 };
 
@@ -722,7 +866,6 @@ function colorizeTitle() {
   const titleElement = document.getElementById('title');
   if (!titleElement) return;
   
-  // TravelPedia'yı Travel ve Pedia olarak ayır
   titleElement.innerHTML = '<span class="travel-part">Travel</span><span class="pedia-part">Pedia</span>';
 }
 
@@ -740,10 +883,7 @@ function setLang(code){
   
   document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
   
-  // Colorize title
   colorizeTitle();
-  
-  // Update cards
   updateCards();
 }
 
@@ -755,7 +895,9 @@ function updateCards() {
     if (!originalTitle) return;
     
     const translatedTitle = getCategoryName(originalTitle, currentLang);
+    
     const titleElement = card.querySelector('.card-title');
+    
     if (titleElement) titleElement.textContent = translatedTitle;
   });
 }
@@ -768,7 +910,7 @@ function createLangMenu(){
     item.className='lang-item';
     item.dataset.lang = code;
     item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
-    item.onclick = ()=>{ setLang(code); toggleLang(false); };
+    item.addEventListener('click', ()=>{ setLang(code); toggleLang(false); }, passive);
     list.appendChild(item);
   }
 }
@@ -780,6 +922,18 @@ function toggleLang(force){
   else{ list.classList.toggle('show'); }
 }
 
+// Load background image based on device
+function loadBackgroundImage() {
+  const bgImage = document.getElementById('bgImage');
+  const isMobile = window.innerWidth <= 768;
+  
+  if (isMobile) {
+    bgImage.classList.add('loaded-mobile');
+  } else {
+    bgImage.classList.add('loaded-desktop');
+  }
+}
+
 // Page load
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('grid');
@@ -787,15 +941,10 @@ document.addEventListener('DOMContentLoaded', () => {
   createLangMenu();
   setLang(detectLang());
   
-  /* Mobil viewport height fix - paste-1'den alınan özellik */
-  function setViewportHeight() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }
-  
-  setViewportHeight();
-  window.addEventListener('resize', setViewportHeight);
-  window.addEventListener('orientationchange', setViewportHeight);
+  // Load background image after DOM is ready
+  requestAnimationFrame(() => {
+    loadBackgroundImage();
+  });
   
   // Create cards
   categories.forEach((cat, index) => {
@@ -804,23 +953,47 @@ document.addEventListener('DOMContentLoaded', () => {
     card.dataset.originalTitle = cat.title;
     
     const translatedTitle = getCategoryName(cat.title, currentLang);
+    const style = categoryStyles[cat.title] || {};
     
-    let cardContent = `<span class="card-number" data-number="${index + 1}">${index + 1}</span>`;
+    let cardContent = `<span class="card-index">${index + 1}</span>`;
+    cardContent += `<div class="card-bg" style="background: ${style.bg};"></div>`;
+    cardContent += `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">`;
     cardContent += `<div class="card-title">${translatedTitle}</div>`;
+    cardContent += `</div>`;
     
     card.innerHTML = cardContent;
     
-    card.onclick = () => {
+    card.addEventListener('click', () => {
       location.href = cat.url;
-    };
+    }, passive);
     
     grid.appendChild(card);
   });
   
+  // Language button click handler
+  document.getElementById('langBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLang();
+  }, passive);
+  
   // Close dropdown on outside click
-  document.addEventListener('click',e=>{
+  document.addEventListener('click', e => {
     if(!e.target.closest('.lang-select')) toggleLang(false);
-  });
+  }, passive);
+  
+  // Prevent iOS bounce effect
+  document.body.addEventListener('touchmove', (e) => {
+    if (e.target.closest('.lang-list')) {
+      e.stopPropagation();
+    }
+  }, { passive: false });
+});
+
+// Handle orientation change
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 100);
 });
 </script>
 </body>
