@@ -1,360 +1,1180 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title id="page-title">Şehir</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Seyahat Araçları</title>
 
-<!-- Font -->
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ------------- TEMEL ------------- */
-:root{--primary:#3b82f6;--primary-dark:#1d4ed8;--accent:#f97316}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
-     color:#334155;line-height:1.6;min-height:100vh;padding:12px 12px 100px}
+/* === Variables === */
+:root{
+  --primary:#6366f1;
+  --primary-dark:#4f46e5;
+  --secondary:#8b5cf6;
+  --accent:#f59e0b;
+  --text-primary:#1e293b;
+  --text-secondary:#475569;
+  --text-muted:#64748b;
+  --card-width: 180px;
+  --card-height: 220px;
+  --card-gap: 16px;
+  --mobile-card-width: calc((100vw - 32px - 16px) / 3);
+}
 
-/* ------------- LOGO ------------- */
-.logo{position:fixed;top:16px;left:16px;width:50px;height:50px;font-size:26px;
-      display:flex;align-items:center;justify-content:center;border-radius:50%;
-      background:rgba(255,255,255,.9);backdrop-filter:blur(10px);color:#1e293b;
-      box-shadow:0 6px 24px rgba(0,0,0,.1);z-index:100;cursor:pointer;transition:.3s}
-.logo:hover{transform:scale(1.1) rotate(10deg);box-shadow:0 8px 32px rgba(0,0,0,.15)}
+/* === Reset === */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
-/* ------------- BAŞLIK ------------- */
-h1{margin:70px 0 40px;text-align:center;font-weight:700;font-size:clamp(24px,5vw,38px)}
-.gradient-text{background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-               -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.camera-emoji{margin-right:8px}
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
 
-/* ------------- ŞEHİR BÖLÜMÜ ------------- */
-.city-section{margin:0 auto 36px;max-width:1000px;border-radius:20px;overflow:hidden;
-              background:rgba(255,255,255,.95);backdrop-filter:blur(20px);
-              border:1px solid rgba(255,255,255,.2);box-shadow:0 6px 24px rgba(0,0,0,.08);
-              transition:.3s}
-.city-section:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.12)}
-.city-header{padding:18px 22px 12px}
-.city-title{font-size:clamp(16px,3.5vw,20px);font-weight:700;color:#1e293b}
-.city-photos{display:flex;gap:16px;overflow-x:auto;padding:12px 22px 22px;
-             scroll-snap-type:x mandatory}
-.city-photos::-webkit-scrollbar{display:none}
+body{
+  font-family:'Inter',sans-serif;
+  background:#d1d5db;
+  color:var(--text-primary);
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
 
-.photo-card{flex:0 0 auto;width:260px;height:260px;border-radius:14px;cursor:pointer;
-            box-shadow:0 6px 20px rgba(0,0,0,.12);scroll-snap-align:start;
-            transition:.4s cubic-bezier(.4,0,.2,1);overflow:hidden}
-.photo-card:hover{transform:scale(1.05) translateY(-6px);box-shadow:0 16px 32px rgba(0,0,0,.2)}
-.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.photo-card:hover img{transform:scale(1.1)}
+/* === Main Container === */
+.main-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  position: relative;
+  z-index: 1;
+}
 
-.location-link{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:25px;
-               font-size:clamp(13px,2.5vw,16px);font-weight:600;color:var(--primary);
-               background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(139,92,246,.1));
-               border:2px solid transparent;transition:.3s}
-.location-link:hover{transform:translateY(-2px);color:#1e293b;
-                     background:linear-gradient(135deg,rgba(59,130,246,.2),rgba(139,92,246,.2));
-                     border-color:rgba(59,130,246,.3);box-shadow:0 6px 20px rgba(59,130,246,.25)}
-.click-icon::before{content:"➤";font-size:10px;color:var(--accent)}
+/* === Background === */
+.bg-image{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  z-index:-2;
+  pointer-events:none;
+}
 
-/* ------------- MODAL ------------- */
-.photo-modal{position:fixed;inset:0;display:none;justify-content:center;align-items:center;
-             padding:20px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:3000;
-             opacity:0;transition:opacity .3s ease-out}
-.photo-modal.show{opacity:1}
-.modal-content{max-width:90vw;max-height:90vh;transform:scale(.8);transition:transform .3s ease-out;
-              position:relative}
-.photo-modal.show .modal-content{transform:scale(1)}
-.modal-image{max-width:100%;max-height:100%;border-radius:12px;
-             box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.modal-close{position:absolute;top:-50px;right:-10px;width:40px;height:40px;border:none;
-             border-radius:50%;display:flex;align-items:center;justify-content:center;
-             cursor:pointer;font-size:20px;background:rgba(255,255,255,.9);color:#1e293b;
-             backdrop-filter:blur(10px);transition:.3s}
-.modal-close:hover{transform:scale(1.1);box-shadow:0 4px 15px rgba(0,0,0,.2)}
-.modal-info{position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
-            background:rgba(255,255,255,.9);padding:8px 16px;border-radius:20px;font-size:14px;font-weight:600}
+.bg-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.2) 100%);
+  z-index:-1;
+  pointer-events:none;
+}
 
-/* ------------- PROMOSYON ------------- */
-.promotion-section{margin:36px auto;max-width:1000px;text-align:center;padding:24px;border-radius:20px;
-                   border:2px solid #fbbf24;background:linear-gradient(135deg,#fff7ed,#fde68a);
-                   box-shadow:0 8px 32px rgba(251,191,36,.2);color:#92400e}
-.promo-text{margin:16px 0;font-size:clamp(17px,3vw,22px)}
-.btn{display:inline-block;padding:12px 24px;border-radius:25px;font-weight:700;color:#fff!important;
-     transition:.3s;box-shadow:0 6px 24px rgba(0,0,0,.2)}
-.purchase-btn{background:linear-gradient(135deg,#ffd700,#ff8c00);max-width:320px;width:100%}
-.purchase-btn:hover{transform:translateY(-3px);background:linear-gradient(135deg,#ff8c00,#ffd700);
-                    box-shadow:0 15px 45px rgba(255,215,0,.6)}
-.instagram-btn{background:linear-gradient(135deg,#405de6 0%,#fd1d1d 100%);margin:12px 0}
-.instagram-btn:hover{transform:translateY(-3px);background:linear-gradient(135deg,#fd1d1d 0%,#405de6 100%);
-                     box-shadow:0 15px 45px rgba(225,48,108,.6)}
+/* === Container === */
+.container{
+  position:relative;
+  z-index:1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-/* ------------- EDIT BUTON & PANEL ------------- */
-.edit-btn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;z-index:1500;
-          background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:24px;
-          display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;
-          box-shadow:0 6px 20px rgba(59,130,246,.4)}
-.edit-btn:hover{transform:scale(1.1);background:linear-gradient(135deg,var(--primary-dark),#1e40af)}
-.edit-panel{position:fixed;top:20px;right:20px;width:400px;max-height:80vh;overflow:auto;z-index:2000;
-            background:rgba(255,255,255,.98);backdrop-filter:blur(15px);border:2px solid #e2e8f0;
-            border-radius:12px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.15);display:none}
-.edit-panel.open{display:block}
-.edit-panel h3{margin:0 0 15px;text-align:center;font-size:18px;font-weight:700;color:#1e293b;
-               border-bottom:2px solid var(--primary);padding-bottom:10px}
-.file-label,.panel-btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:600;color:#fff;
-                       cursor:pointer;transition:.3s}
-.file-label{background:linear-gradient(135deg,#6366f1,#4f46e5);margin-bottom:10px;text-align:center}
-.file-label:hover{background:linear-gradient(135deg,#4f46e5,#4338ca);transform:translateY(-2px)}
-.process-btn{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
-.export-btn{background:linear-gradient(135deg,#10b981,#047857)}
-.clear-btn{background:linear-gradient(135deg,#ef4444,#dc2626);margin-bottom:4px}
-.close-btn{background:#64748b}
-.file-info{margin-top:8px;font-size:12px;color:#64748b;text-align:center}
-.info-box{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid #0ea5e9;border-radius:8px;
-          padding:15px;font-size:12px;line-height:1.5;margin-bottom:15px}
+/* === Language Selector === */
+.lang-select{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:100;
+  transform:translateZ(0);
+}
 
+.lang-btn{
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 16px rgba(99,102,241,.06);
+  transition:transform .2s ease;
+  color:#475569;
+  touch-action:manipulation;
+}
+
+.lang-btn:active{
+  transform:scale(0.95);
+}
+
+.lang-list{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  background:rgba(255,255,255,.98);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(139,92,246,.12);
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(99,102,241,.12);
+  max-height:320px;
+  overflow-y:auto;
+  display:none;
+  min-width:160px;
+  transform:translateZ(0);
+}
+
+.lang-list.show{
+  display:block;
+  animation:fadeIn .2s ease;
+}
+
+.lang-item{
+  padding:10px 16px;
+  cursor:pointer;
+  transition:background-color .2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#475569;
+  touch-action:manipulation;
+}
+
+.lang-item:active{
+  background:rgba(139,92,246,.12);
+}
+
+.lang-item.active{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+}
+
+/* === Header === */
+.header{
+  padding:80px 16px 20px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+  flex-shrink: 0;
+}
+
+.title{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:clamp(3rem,4.5vw,4.5rem);
+  font-weight:400;
+  margin-bottom:8px;
+  letter-spacing:0.06em;
+  line-height:0.9;
+  text-transform:uppercase;
+}
+
+.subtitle{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:clamp(1.3rem,2vw,1.8rem);
+  font-weight:400;
+  color:#334155;
+  margin-top:4px;
+  line-height:1;
+  opacity:0.9;
+  letter-spacing:0.04em;
+}
+
+.travel-part{
+  color:#0f172a;
+  font-weight:400;
+}
+
+.pedia-part{
+  color:#92400e;
+  font-weight:400;
+}
+
+/* === Cards Section === */
+.cards-section{
+  padding: 20px 0;
+  position: relative;
+  width: 100%;
+}
+
+.cards-wrapper{
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 16px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.cards-container{
+  display: flex;
+  gap: var(--card-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Cards === */
+.card{
+  flex: 0 0 var(--card-width);
+  height: var(--card-height);
+  background:linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:20px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+  position:relative;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  overflow:hidden;
+  touch-action:manipulation;
+  transform:translateZ(0);
+  will-change:transform;
+}
+
+.card:active{
+  transform:scale(0.95);
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:linear-gradient(135deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.1) 45%, 
+    rgba(255,255,255,0.3) 50%, 
+    rgba(255,255,255,0.1) 55%, 
+    transparent 100%);
+  transform:translateX(-100%);
+  transition:transform 0.6s ease;
+  z-index:2;
+}
+
+.card.highlight{
+  background:linear-gradient(135deg, 
+    rgba(254,243,199,0.8) 0%, 
+    rgba(253,230,138,0.6) 50%, 
+    rgba(254,243,199,0.7) 100%);
+  backdrop-filter:blur(16px) saturate(200%);
+  -webkit-backdrop-filter:blur(16px) saturate(200%);
+  border:1px solid rgba(245,158,11,0.6);
+  box-shadow:
+    0 8px 32px rgba(245,158,11,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(245,158,11,0.1);
+}
+
+.card-bg{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  z-index:1;
+  opacity:0.03;
+  pointer-events:none;
+  mix-blend-mode:multiply;
+}
+
+.card-title{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight:300;
+  font-size:20px;
+  color:#0f172a;
+  line-height:1.2;
+  word-break:break-word;
+  padding:24px 6px;
+  position:relative;
+  z-index:3;
+  background:transparent;
+  width:100%;
+  text-align:center;
+  letter-spacing:0.02em;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.card.highlight .card-title{
+  color:#92400e;
+  font-weight:400;
+}
+
+.card-index{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:11px;
+  font-weight:600;
+  color:#64748b;
+  opacity:0.5;
+  letter-spacing:0.5px;
+  z-index:2;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.card.highlight .card-index{
+  color:#d97706;
+  opacity:0.7;
+  font-weight:700;
+}
+
+/* Card-specific colors */
+.card:nth-child(2) .card-title { color: #9a3412; }
+.card:nth-child(3) .card-title { color: #991b1b; }
+.card:nth-child(4) .card-title { color: #9f1239; }
+.card:nth-child(5) .card-title { color: #86198f; }
+.card:nth-child(6) .card-title { color: #6b21a8; }
+.card:nth-child(7) .card-title { color: #5b21b6; }
+.card:nth-child(8) .card-title { color: #4338ca; }
+.card:nth-child(9) .card-title { color: #1d4ed8; }
+
+.card:nth-child(2) .card-index { color: #9a3412; opacity: 0.7; }
+.card:nth-child(3) .card-index { color: #991b1b; opacity: 0.7; }
+.card:nth-child(4) .card-index { color: #9f1239; opacity: 0.7; }
+.card:nth-child(5) .card-index { color: #86198f; opacity: 0.7; }
+.card:nth-child(6) .card-index { color: #6b21a8; opacity: 0.7; }
+.card:nth-child(7) .card-index { color: #5b21b6; opacity: 0.7; }
+.card:nth-child(8) .card-index { color: #4338ca; opacity: 0.7; }
+.card:nth-child(9) .card-index { color: #1d4ed8; opacity: 0.7; }
+
+/* === Scroll Indicators === */
+.scroll-indicator{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.4);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  z-index:10;
+  opacity:0.8;
+}
+
+.scroll-indicator:hover{
+  background:rgba(255,255,255,0.5);
+  transform:translateY(-50%) scale(1.1);
+  opacity:1;
+}
+
+.scroll-indicator.left{
+  left:-20px;
+}
+
+.scroll-indicator.right{
+  right:-20px;
+}
+
+.scroll-indicator svg{
+  width:20px;
+  height:20px;
+  stroke:#475569;
+  stroke-width:2;
+  fill:none;
+}
+
+.scroll-indicator.disabled{
+  opacity:0.3;
+  cursor:not-allowed;
+}
+
+/* === Scroll Hint === */
+.scroll-hint{
+  text-align:center;
+  padding:20px;
+  font-size:13px;
+  color:#64748b;
+  opacity:0.7;
+  transition:opacity 0.5s ease;
+  margin-top: auto;
+}
+
+/* === Mobile Styles === */
 @media(max-width:768px){
-  body{padding:8px 8px 80px}
-  .logo{top:12px;left:12px;font-size:20px;width:40px;height:40px}
-  h1{margin:50px 0 24px}
-  .city-section{margin-bottom:24px}
-  .city-photos{padding:8px 16px 16px;gap:12px}
-  .photo-card{width:180px;height:180px}
-  .edit-panel{left:10px;right:10px;top:10px;width:auto;max-height:70vh}
-  .edit-btn{width:55px;height:55px;font-size:20px}
+  :root {
+    --card-gap: 8px;
+    --mobile-card-width: calc((100vw - 32px - 16px) / 3);
+  }
+
+  .container{
+    min-height:100vh;
+  }
+
+  .header{
+    padding:70px 16px 15px;
+  }
+
+  .title{
+    font-size:2.2rem;
+  }
+
+  .subtitle{
+    font-size:1rem;
+    margin-top:8px;
+  }
+
+  .cards-section{
+    padding:10px 0;
+  }
+
+  .cards-wrapper{
+    padding:0 16px;
+  }
+
+  .card{
+    flex: 0 0 var(--mobile-card-width);
+    height:160px;
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+
+  .card-title{
+    font-size:15px;
+    padding:20px 5px;
+    font-weight:300;
+  }
+
+  .card-index{
+    font-size:9px;
+    top:8px;
+    right:8px;
+  }
+
+  .scroll-indicator{
+    display:none;
+  }
+
+  .lang-select{
+    top:16px;
+    right:16px;
+  }
+
+  .lang-btn{
+    padding:8px 12px;
+    font-size:13px;
+  }
+
+  .scroll-hint{
+    font-size:12px;
+    padding:15px;
+  }
+}
+
+@media(max-width:480px){
+  :root {
+    --mobile-card-width: calc((100vw - 24px - 12px) / 3);
+    --card-gap: 6px;
+  }
+
+  .cards-wrapper{
+    padding:0 12px;
+  }
+
+  .card{
+    height:140px;
+    border-radius:12px;
+  }
+
+  .card-title{
+    font-size:13px;
+    padding:16px 4px;
+    font-weight:400;
+  }
+
+  .card-index{
+    font-size:8px;
+  }
+}
+
+/* Desktop specific */
+@media(min-width:769px){
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:
+      0 16px 48px rgba(0,0,0,0.12),
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(0,0,0,0.05);
+  }
+
+  .card:hover::before{
+    transform:translateX(100%);
+  }
+
+  .card:hover .card-bg{
+    opacity:0.05;
+  }
+
+  .lang-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(99,102,241,.12);
+  }
+
+  .lang-item:hover{
+    background:rgba(139,92,246,.08);
+    color:#6366f1;
+  }
+
+  /* Scroll fade effect */
+  .cards-container::after{
+    content:'';
+    position:absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    width:60px;
+    background:linear-gradient(90deg, transparent, #d1d5db);
+    pointer-events:none;
+    opacity:0.6;
+    transition:opacity 0.3s ease;
+  }
+
+  .cards-container.scrolled-end::after{
+    opacity:0;
+  }
+}
+
+/* === Animations === */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
 </head>
+
 <body>
+  <!-- Background elements -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
 
-<a href="https://tr81.tr/login.html" class="logo"
-   onclick="window.open(this.href,'_blank');return false;">🌐</a>
-
-<h1><span class="camera-emoji">📸</span><span class="gradient-text"
-    id="city-name">Demo Şehir</span></h1>
-
-<div id="locations-container">
-  <div class="city-section">
-    <div class="city-header">
-      <h2 class="city-title">
-        <a href="https://maps.google.com/?q=Demo+Konum" target="_blank"
-           rel="noopener noreferrer" class="location-link">
-          <span class="click-icon"></span>Demo Konum 📍
-        </a>
-      </h2>
+  <!-- Main scrollable wrapper -->
+  <div class="main-wrapper">
+    <!-- Language Selector -->
+    <div class="lang-select">
+      <button class="lang-btn" id="langBtn">
+        <span id="langFlag">🇹🇷</span>
+        <span id="langName">TR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lang-list" id="langList"></div>
     </div>
-    <div class="city-photos">
-      <div class="photo-card" data-photo="https://picsum.photos/380/380?random=1"
-           data-location="Demo Konum"><img src="https://picsum.photos/380/380?random=1" alt="Demo Konum"></div>
-      <div class="photo-card" data-photo="https://picsum.photos/380/380?random=2"
-           data-location="Demo Konum"><img src="https://picsum.photos/380/380?random=2" alt="Demo Konum"></div>
-      <div class="photo-card" data-photo="https://picsum.photos/380/380?random=3"
-           data-location="Demo Konum"><img src="https://picsum.photos/380/380?random=3" alt="Demo Konum"></div>
+
+    <div class="container">
+      <div class="header">
+        <h1 class="title" id="title">Seyahat Araçları</h1>
+        <p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar burada</p>
+      </div>
+
+      <!-- Cards Section -->
+      <div class="cards-section">
+        <div class="cards-wrapper">
+          <button class="scroll-indicator left disabled" id="scrollLeft">
+            <svg viewBox="0 0 24 24">
+              <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div class="cards-container" id="cardsContainer">
+            <!-- Cards will be inserted here by JavaScript -->
+          </div>
+
+          <button class="scroll-indicator right" id="scrollRight">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scroll Hint -->
+      <div class="scroll-hint" id="scrollHint">
+        ← Tüm kategorileri görmek için yana kaydırın →
+      </div>
     </div>
   </div>
-</div>
-
-<div class="promotion-section">
-  <a href="index.html" target="_blank" class="btn purchase-btn" id="loginBtn">🏠 Main Menu</a>
-  <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
-  <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="btn instagram-btn"
-     id="instagramBtn">📩Bir tıkla bize ulaşın: @tr81.tr</a>
-</div>
-
-<button class="edit-btn" id="toggleBtn" title="Editörü Aç">✎</button>
-
-<div class="edit-panel" id="editPanel">
-  <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
-
-  <div class="info-box">
-    <strong>📋 CSV Dosya Formatı</strong>
-    <ul>
-      <li>A1: <b>Şehir Adı</b></li>
-      <li>A2‑A…: Konum Adı</li>
-      <li>B2‑B…: Google Maps Linki</li>
-      <li>C2‑H…: 6 adet foto URL</li>
-    </ul>
-  </div>
-
-  <input type="file" id="csvFile" accept=".csv" hidden
-         onchange="handleFileSelect(event)">
-  <label for="csvFile" class="file-label">📂 CSV Dosyası Seç</label>
-  <div class="file-info" id="fileInfo"></div>
-
-  <button class="panel-btn process-btn" onclick="processCSVFile()">🔄 CSV Verilerini İşle</button>
-  <button class="panel-btn export-btn"  onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
-  <button class="panel-btn clear-btn"   onclick="clearCityData()">🗑️ Verileri Temizle</button>
-  <button class="panel-btn close-btn"   onclick="toggleEditPanel()">❌ Paneli Kapat</button>
-</div>
-
-<div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
-    <img class="modal-image" id="modalImage" src="" alt="">
-    <div class="modal-info" id="modalInfo">Konum Adı</div>
-  </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 <script>
-/* ---------- ÇEVİRİ TABLOSU ---------- */
-const translations={
-  tr:{loginBtn:'🏠 Ana Menü',questionsText:'Sorularınız için → Bize ulaşın!',
-      instagramBtn:'📩Bir tıkla bize ulaşın: @tr81.tr'},
-  en:{loginBtn:'🏠 Main Menu',questionsText:'Questions? → Contact us!',
-      instagramBtn:'📩Contact us with one click: @tr81.tr'}
+// Category styles - Removed as we don't need them
+const categoryStyles = {
+  'Manzaralı Yerler': {
+    bg: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    icon: '🏔️'
+  },
+  'Konaklama': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🏨'
+  },
+  'Ulaşım': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '✈️'
+  },
+  'Mutfak ve Lezzet': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🍽️'
+  },
+  'Eğlence ve Özel Deneyimler': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🎭'
+  },
+  'Dijital Hizmetler': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '📱'
+  },
+  'Güvenlik ve Sigorta': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🛡️'
+  },
+  'Finansal Hizmetler': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '💳'
+  },
+  'Eğitim ve Gelişim': {
+    bg: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+    icon: '🎓'
+  }
 };
 
-/* ---------- DURUM ---------- */
-let cityData={cityName:'Demo Şehir',locations:[{name:'Demo Konum',
-  link:'https://maps.google.com/?q=Demo+Konum',
-  photos:['https://picsum.photos/380/380?random=1',
-          'https://picsum.photos/380/380?random=2',
-          'https://picsum.photos/380/380?random=3']}]};
-let selectedFile=null;
+// Translations
+const lang = {
+  tr:{flag:'🇹🇷',name:'TR',
+    title:'Seyahat Araçları',
+    subtitle:'Seyahat için gerekli tüm uygulamalar burada',
+    scrollHint:'← Tüm kategorileri görmek için yana kaydırın →'},
+  en:{flag:'🇺🇸',name:'EN',
+    title:'Travel Tools',
+    subtitle:'All the apps you need for travel',
+    scrollHint:'← Swipe to see all categories →'},
+  es:{flag:'🇪🇸',name:'ES',
+    title:'Herramientas de Viaje',
+    subtitle:'Todas las aplicaciones necesarias para viajar',
+    scrollHint:'← Desliza para ver todas las categorías →'},
+  fr:{flag:'🇫🇷',name:'FR',
+    title:'Outils de Voyage',
+    subtitle:'Toutes les applications nécessaires pour voyager',
+    scrollHint:'← Glissez pour voir toutes les catégories →'},
+  de:{flag:'🇩🇪',name:'DE',
+    title:'Reise-Tools',
+    subtitle:'Alle notwendigen Apps für Reisen',
+    scrollHint:'← Wischen Sie, um alle Kategorien zu sehen →'},
+  it:{flag:'🇮🇹',name:'IT',
+    title:'Strumenti di Viaggio',
+    subtitle:'Tutte le app necessarie per viaggiare',
+    scrollHint:'← Scorri per vedere tutte le categorie →'},
+  pt:{flag:'🇵🇹',name:'PT',
+    title:'Ferramentas de Viagem',
+    subtitle:'Todos os aplicativos necessários para viajar',
+    scrollHint:'← Deslize para ver todas as categorias →'},
+  ru:{flag:'🇷🇺',name:'RU',
+    title:'Инструменты для путешествий',
+    subtitle:'Все необходимые приложения для путешествий',
+    scrollHint:'← Проведите, чтобы увидеть все категории →'},
+  ja:{flag:'🇯🇵',name:'JA',
+    title:'旅行ツール',
+    subtitle:'旅行に必要なすべてのアプリ',
+    scrollHint:'← スワイプしてすべてのカテゴリを見る →'},
+  zh:{flag:'🇨🇳',name:'ZH',
+    title:'旅行工具',
+    subtitle:'旅行所需的所有应用',
+    scrollHint:'← 滑动查看所有类别 →'},
+  ko:{flag:'🇰🇷',name:'KO',
+    title:'여행 도구',
+    subtitle:'여행에 필요한 모든 앱',
+    scrollHint:'← 모든 카테고리를 보려면 스와이프 →'},
+  ar:{flag:'🇸🇦',name:'AR',
+    title:'أدوات السفر',
+    subtitle:'جميع التطبيقات الضرورية للسفر',
+    scrollHint:'← اسحب لرؤية جميع الفئات →'},
+  hi:{flag:'🇮🇳',name:'HI',
+    title:'यात्रा उपकरण',
+    subtitle:'यात्रा के लिए आवश्यक सभी ऐप्स',
+    scrollHint:'← सभी श्रेणियों को देखने के लिए स्वाइप करें →'}
+};
 
-/* ---------- DİL ---------- */
-function detectLanguage(){
-  const save=sessionStorage.getItem('preferred-language');
-  if(save&&translations[save])return save;
-  const lang=(navigator.language||navigator.userLanguage).toLowerCase();
-  return lang.startsWith('tr')?'tr':'en';
-}
-function updateLanguageUI(lang){
-  const t=translations[lang]||translations.en;
-  [['loginBtn','innerHTML'],['questionsText','textContent'],['instagramBtn','innerHTML']]
-    .forEach(([id,prop])=>{const el=document.getElementById(id);if(el)el[prop]=t[id];});
-  document.documentElement.lang=lang;sessionStorage.setItem('preferred-language',lang);
+// Categories
+const categories = [
+  {title:'Manzaralı Yerler',url:'world.html'},
+  {title:'Konaklama',url:'2.html',highlight:true},
+  {title:'Ulaşım',url:'3.html'},
+  {title:'Mutfak ve Lezzet',url:'4.html'},
+  {title:'Eğlence ve Özel Deneyimler',url:'5.html'},
+  {title:'Dijital Hizmetler',url:'6.html'},
+  {title:'Güvenlik ve Sigorta',url:'7.html'},
+  {title:'Finansal Hizmetler',url:'8.html'},
+  {title:'Eğitim ve Gelişim',url:'9.html'}
+];
+
+// Category translations
+const categoryTranslations = {
+  'Manzaralı Yerler': {
+    en: 'Scenic Spots',
+    es: 'Lugares Bonitos',
+    fr: 'Beaux Endroits',
+    de: 'Schöne Orte',
+    it: 'Posti Belli',
+    pt: 'Lugares Lindos',
+    ru: 'Красивые места',
+    ja: '絶景スポット',
+    zh: '美景',
+    ko: '멋진 장소',
+    ar: 'أماكن جميلة',
+    hi: 'खूबसूरत जगहें'
+  },
+  'Konaklama': {
+    en: 'Accommodation',
+    es: 'Alojamiento',
+    fr: 'Hébergement',
+    de: 'Unterkunft',
+    it: 'Alloggio',
+    pt: 'Hospedagem',
+    ru: 'Жильё',
+    ja: '宿泊',
+    zh: '住宿',
+    ko: '숙박',
+    ar: 'الإقامة',
+    hi: 'आवास'
+  },
+  'Ulaşım': {
+    en: 'Transportation',
+    es: 'Transporte',
+    fr: 'Transport',
+    de: 'Verkehr',
+    it: 'Trasporti',
+    pt: 'Transporte',
+    ru: 'Транспорт',
+    ja: '交通',
+    zh: '交通',
+    ko: '교통',
+    ar: 'المواصلات',
+    hi: 'परिवहन'
+  },
+  'Mutfak ve Lezzet': {
+    en: 'Food & Dining',
+    es: 'Gastronomía',
+    fr: 'Gastronomie',
+    de: 'Kulinarik',
+    it: 'Gastronomia',
+    pt: 'Gastronomia',
+    ru: 'Гастрономия',
+    ja: 'グルメ',
+    zh: '美食',
+    ko: '미식',
+    ar: 'المأكولات',
+    hi: 'भोजन'
+  },
+  'Eğlence ve Özel Deneyimler': {
+    en: 'Entertainment & Experiences',
+    es: 'Ocio y Experiencias',
+    fr: 'Loisirs et Expériences',
+    de: 'Erlebnisse',
+    it: 'Esperienze',
+    pt: 'Lazer e Experiências',
+    ru: 'Развлечения',
+    ja: 'エンタメ・体験',
+    zh: '娱乐体验',
+    ko: '엔터테인먼트',
+    ar: 'الترفيه',
+    hi: 'मनोरंजन'
+  },
+  'Dijital Hizmetler': {
+    en: 'Digital Services',
+    es: 'Servicios Digitales',
+    fr: 'Services Numériques',
+    de: 'Digitale Dienste',
+    it: 'Servizi Digitali',
+    pt: 'Serviços Digitais',
+    ru: 'Цифровые услуги',
+    ja: 'デジタルサービス',
+    zh: '数字服务',
+    ko: '디지털 서비스',
+    ar: 'الخدمات الرقمية',
+    hi: 'डिजिटल सेवाएं'
+  },
+  'Güvenlik ve Sigorta': {
+    en: 'Safety & Insurance',
+    es: 'Seguridad y Seguros',
+    fr: 'Sécurité et Assurance',
+    de: 'Sicherheit',
+    it: 'Sicurezza',
+    pt: 'Segurança',
+    ru: 'Безопасность',
+    ja: '安全・保険',
+    zh: '安全保障',
+    ko: '안전과 보험',
+    ar: 'الأمان',
+    hi: 'सुरक्षा'
+  },
+  'Finansal Hizmetler': {
+    en: 'Money Matters',
+    es: 'Finanzas',
+    fr: 'Finances',
+    de: 'Finanzen',
+    it: 'Finanza',
+    pt: 'Finanças',
+    ru: 'Финансы',
+    ja: 'マネー',
+    zh: '金融',
+    ko: '금융',
+    ar: 'المال',
+    hi: 'वित्त'
+  },
+  'Eğitim ve Gelişim': {
+    en: 'Learning & Growth',
+    es: 'Aprendizaje',
+    fr: 'Apprentissage',
+    de: 'Lernen',
+    it: 'Apprendimento',
+    pt: 'Aprendizado',
+    ru: 'Обучение',
+    ja: '学び',
+    zh: '学习',
+    ko: '학습',
+    ar: 'التعلم',
+    hi: 'सीखना'
+  }
+};
+
+// Current language
+let currentLang = 'tr';
+
+// Detect browser language
+function detectLang(){
+  const saved = localStorage.getItem('lang');
+  if(saved && lang[saved]) return saved;
+  const browser = navigator.language.toLowerCase();
+  for(const code in lang){
+    if(browser.startsWith(code)) return code;
+  }
+  return 'tr';
 }
 
-/* ---------- PANEL ---------- */
-function toggleEditPanel(){
-  document.getElementById('editPanel').classList.toggle('open');
-}
-document.getElementById('toggleBtn').addEventListener('click',toggleEditPanel);
-
-/* ---------- CSV SEÇ & İŞLE ---------- */
-function handleFileSelect(e){
-  selectedFile=e.target.files[0];
-  document.getElementById('fileInfo').textContent=
-    selectedFile?'✅ '+selectedFile.name+' seçildi':'';
-}
-function processCSVFile(){
-  if(!selectedFile){alert('Lütfen bir CSV dosyası seçin!');return;}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=Papa.parse(e.target.result,{skipEmptyLines:true}).data;
-      if(data.length<2){alert('CSV en az 2 satır içermeli!');return;}
-      const cityName=(data[0][0]||'').trim();
-      if(!cityName){alert('A1 hücresinde şehir adı yok!');return;}
-      const locations=[];
-      for(let i=1;i<data.length;i++){
-        const row=data[i];
-        if(row.length<2)continue;
-        const name=row[0].trim(),link=row[1].trim();
-        if(!name||!link)continue;
-        const photos=row.slice(2,8).filter(p=>p&&/^https?:\/\//.test(p.trim()))
-                                   .map(p=>p.trim());
-        locations.push({name,link,photos});
-      }
-      if(!locations.length){alert('Geçerli konum verisi bulunamadı!');return;}
-      cityData={cityName,locations};
-      updatePageTitle();renderLocations();
-      console.log(`✔ ${locations.length} konum yüklendi.`);
-      document.getElementById('csvFile').value='';selectedFile=null;
-      document.getElementById('fileInfo').textContent='';
-    }catch(err){console.error(err);alert('CSV işlenirken hata!');}
-  };
-  reader.onerror=()=>alert('Dosya okunamadı!');
-  reader.readAsText(selectedFile,'UTF-8');
+// Get category name by language
+function getCategoryName(title, langCode) {
+  if (langCode === 'tr') return title;
+  
+  if (categoryTranslations[title] && categoryTranslations[title][langCode]) {
+    return categoryTranslations[title][langCode];
+  }
+  
+  return title;
 }
 
-/* ---------- RENDER ---------- */
-function renderLocations(){
-  const cont=document.getElementById('locations-container');
-  cont.innerHTML='';
-  cityData.locations.forEach(loc=>{
-    const ph=loc.photos.map(p=>
-      `<div class="photo-card" data-photo="${p}" data-location="${loc.name}">
-         <img src="${p}" alt="${loc.name}">
-       </div>`).join('');
-    cont.insertAdjacentHTML('beforeend',
-    `<div class="city-section">
-       <div class="city-header">
-         <h2 class="city-title">
-           <a href="${loc.link}" target="_blank" rel="noopener noreferrer" class="location-link">
-             <span class="click-icon"></span>${loc.name} 📍
-           </a>
-         </h2>
-       </div>
-       <div class="city-photos">${ph}</div>
-     </div>`);
+// Colorize title
+function colorizeTitle() {
+  const titleElement = document.getElementById('title');
+  if (!titleElement) return;
+  
+  const titleText = titleElement.textContent;
+  let firstPart, secondPart;
+  
+  if (currentLang === 'tr') {
+    firstPart = 'Seyahat';
+    secondPart = 'Araçları';
+  } else if (currentLang === 'en') {
+    firstPart = 'Travel';
+    secondPart = 'Tools';
+  } else if (currentLang === 'es') {
+    firstPart = 'Herramientas';
+    secondPart = 'de Viaje';
+  } else if (currentLang === 'fr') {
+    firstPart = 'Outils';
+    secondPart = 'de Voyage';
+  } else if (currentLang === 'de') {
+    firstPart = 'Reise';
+    secondPart = 'Tools';
+  } else if (currentLang === 'it') {
+    firstPart = 'Strumenti';
+    secondPart = 'di Viaggio';
+  } else if (currentLang === 'pt') {
+    firstPart = 'Ferramentas';
+    secondPart = 'de Viagem';
+  } else if (currentLang === 'ru') {
+    firstPart = 'Инструменты';
+    secondPart = 'для путешествий';
+  } else if (currentLang === 'ja') {
+    firstPart = '旅行';
+    secondPart = 'ツール';
+  } else if (currentLang === 'zh') {
+    firstPart = '旅行';
+    secondPart = '工具';
+  } else if (currentLang === 'ko') {
+    firstPart = '여행';
+    secondPart = '도구';
+  } else if (currentLang === 'ar') {
+    firstPart = 'أدوات';
+    secondPart = 'السفر';
+  } else if (currentLang === 'hi') {
+    firstPart = 'यात्रा';
+    secondPart = 'उपकरण';
+  } else {
+    const words = titleText.split(' ');
+    if (words.length >= 2) {
+      firstPart = words[0];
+      secondPart = words.slice(1).join(' ');
+    } else {
+      firstPart = titleText;
+      secondPart = '';
+    }
+  }
+  
+  if (secondPart) {
+    titleElement.innerHTML = `<span class="travel-part">${firstPart}</span> <span class="pedia-part">${secondPart}</span>`;
+  } else {
+    titleElement.innerHTML = `<span class="travel-part">${firstPart}</span>`;
+  }
+}
+
+// Set language
+function setLang(code){
+  currentLang = code;
+  const t = lang[code];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('scrollHint').textContent = t.scrollHint;
+  document.getElementById('langFlag').textContent = t.flag;
+  document.getElementById('langName').textContent = t.name;
+  
+  document.documentElement.lang = code;
+  localStorage.setItem('lang', code);
+  
+  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+  
+  colorizeTitle();
+  updateCards();
+}
+
+// Update cards with translations
+function updateCards() {
+  document.querySelectorAll('.card').forEach(card => {
+    const originalTitle = card.dataset.originalTitle;
+    
+    if (!originalTitle) return;
+    
+    const translatedTitle = getCategoryName(originalTitle, currentLang);
+    
+    const titleElement = card.querySelector('.card-title');
+    
+    if (titleElement) titleElement.textContent = translatedTitle;
   });
 }
-function updatePageTitle(){
-  document.getElementById('city-name').textContent=cityData.cityName;
-  document.getElementById('page-title').textContent=cityData.cityName;
+
+// Create language menu
+function createLangMenu(){
+  const list = document.getElementById('langList');
+  for(const [code,data] of Object.entries(lang)){
+    const item = document.createElement('div');
+    item.className='lang-item';
+    item.dataset.lang = code;
+    item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
+    item.addEventListener('click', ()=>{ setLang(code); toggleLang(false); });
+    list.appendChild(item);
+  }
 }
 
-/* ---------- MODAL ---------- */
-function openPhotoModal(src,loc){
-  const modal=document.getElementById('photoModal');
-  document.getElementById('modalImage').src=src;
-  document.getElementById('modalInfo').textContent=loc;
-  modal.style.display='flex';document.body.style.overflow='hidden';
-  setTimeout(()=>modal.classList.add('show'),10);
+// Toggle menu
+function toggleLang(force){
+  const list = document.getElementById('langList');
+  if(force===false){ list.classList.remove('show'); }
+  else{ list.classList.toggle('show'); }
 }
-function closePhotoModal(){
-  const modal=document.getElementById('photoModal');
-  modal.classList.remove('show');
-  setTimeout(()=>{modal.style.display='none';document.body.style.overflow='auto';},300);
+
+// Scroll handlers
+function handleScroll() {
+  const container = document.getElementById('cardsContainer');
+  const scrollLeft = document.getElementById('scrollLeft');
+  const scrollRight = document.getElementById('scrollRight');
+  
+  // Check if scrolled to start
+  if (container.scrollLeft <= 0) {
+    scrollLeft.classList.add('disabled');
+  } else {
+    scrollLeft.classList.remove('disabled');
+  }
+  
+  // Check if scrolled to end
+  if (container.scrollLeft >= container.scrollWidth - container.clientWidth - 1) {
+    scrollRight.classList.add('disabled');
+    container.classList.add('scrolled-end');
+  } else {
+    scrollRight.classList.remove('disabled');
+    container.classList.remove('scrolled-end');
+  }
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePhotoModal();});
-document.addEventListener('click',e=>{
-  const card=e.target.closest('.photo-card');
-  if(card){const img=card.querySelector('img');openPhotoModal(img.src,img.alt);}
+
+// Page load
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('cardsContainer');
+  
+  // Create language menu first
+  createLangMenu();
+  
+  // Set initial language
+  setLang(detectLang());
+  
+  // Create cards
+  categories.forEach((cat, index) => {
+    const card = document.createElement('div');
+    card.className = cat.highlight ? 'card highlight' : 'card';
+    card.dataset.originalTitle = cat.title;
+    
+    const translatedTitle = getCategoryName(cat.title, currentLang);
+    const style = categoryStyles[cat.title] || {};
+    
+    let cardContent = `<span class="card-index">${index + 1}</span>`;
+    cardContent += `<div class="card-bg" style="background: ${style.bg || 'transparent'};"></div>`;
+    cardContent += `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">`;
+    cardContent += `<div class="card-title">${translatedTitle}</div>`;
+    cardContent += `</div>`;
+    
+    card.innerHTML = cardContent;
+    
+    card.addEventListener('click', () => {
+      location.href = cat.url;
+    });
+    
+    container.appendChild(card);
+  });
+  
+  // Language button click handler
+  document.getElementById('langBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLang();
+  });
+  
+  // Close dropdown on outside click
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.lang-select')) toggleLang(false);
+  });
+  
+  // Scroll button handlers (desktop only)
+  const scrollLeftBtn = document.getElementById('scrollLeft');
+  const scrollRightBtn = document.getElementById('scrollRight');
+  
+  if(scrollLeftBtn && scrollRightBtn) {
+    scrollLeftBtn.addEventListener('click', () => {
+      container.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+    
+    scrollRightBtn.addEventListener('click', () => {
+      container.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+  }
+  
+  // Monitor scroll position
+  container.addEventListener('scroll', handleScroll);
+  handleScroll(); // Initial check
+  
+  // Hide scroll hint after first interaction
+  container.addEventListener('scroll', () => {
+    const hint = document.getElementById('scrollHint');
+    if (hint && hint.style.opacity !== '0') {
+      hint.style.opacity = '0';
+    }
+  }, { once: true });
+  
+  // Touch support for mobile
+  let isDown = false;
+  let startX;
+  let scrollLeftPos;
+  
+  container.addEventListener('mousedown', (e) => {
+    isDown = true;
+    container.style.cursor = 'grabbing';
+    startX = e.pageX - container.offsetLeft;
+    scrollLeftPos = container.scrollLeft;
+  });
+  
+  container.addEventListener('mouseleave', () => {
+    isDown = false;
+    container.style.cursor = 'grab';
+  });
+  
+  container.addEventListener('mouseup', () => {
+    isDown = false;
+    container.style.cursor = 'grab';
+  });
+  
+  container.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX) * 2;
+    container.scrollLeft = scrollLeftPos - walk;
+  });
+  
+  // Prevent iOS bounce effect
+  document.body.addEventListener('touchmove', (e) => {
+    if (e.target.closest('.lang-list')) {
+      e.stopPropagation();
+    }
+  }, { passive: false });
 });
 
-/* ---------- VERİ TEMİZLE ---------- */
-function clearCityData(){
-  if(!confirm('Tüm verileri temizlemek istediğinizden emin misiniz?'))return;
-  cityData={cityName:'Demo Şehir',locations:[{name:'Demo Konum',
-    link:'https://maps.google.com/?q=Demo+Konum',
-    photos:['https://picsum.photos/380/380?random=1',
-            'https://picsum.photos/380/380?random=2',
-            'https://picsum.photos/380/380?random=3']}]};
-  updatePageTitle();renderLocations();
-  document.getElementById('csvFile').value='';selectedFile=null;
-  document.getElementById('fileInfo').textContent='';
-}
-
-/* ---------- EXPORT ---------- */
-function exportHTML(){
-  if(!cityData.locations.length){alert('Önce konum ekleyin!');return;}
-  const style=document.querySelector('style').innerHTML,
-        promo=document.querySelector('.promotion-section').outerHTML,
-        modal=document.querySelector('.photo-modal').outerHTML,
-        locHTML=document.getElementById('locations-container').innerHTML;
-  const full=`<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>${cityData.cityName}</title><style>${style}</style></head><body>
-<a href="https://tr81.tr/login.html" class="logo"
-   onclick="window.open(this.href,'_blank');return false;">🌐</a>
-<h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
-<div id="locations-container">${locHTML}</div>${promo}${modal}
-<!-- Script bloğunuzu buraya ekleyin -->
-</body></html>`;
-  navigator.clipboard.writeText(full)
-    .then(()=>alert('✔ HTML panoya kopyalandı.'))
-    .catch(()=>prompt('Kopyalayamadı, elle alın:',full));
-}
-
-/* ---------- BAŞLAT ---------- */
-document.addEventListener('DOMContentLoaded',()=>{
-  updatePageTitle();renderLocations();updateLanguageUI(detectLanguage());
+// Handle orientation change
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 100);
 });
 </script>
 </body>
