@@ -1406,7 +1406,11 @@ function selectCategory(element) {
     title: element.dataset.category,
     url: element.dataset.url
   };
+  console.log('Kategori seçildi:', selectedCategory);
 }
+
+// Make functions global
+window.selectCategory = selectCategory;
 
 function addSiteInput() {
   siteInputCount++;
@@ -1435,6 +1439,9 @@ function removeSiteInput(id) {
     element.remove();
   }
 }
+
+// Make removeSiteInput global
+window.removeSiteInput = removeSiteInput;
 
 function generateSite() {
   if (!selectedCategory) {
@@ -1532,8 +1539,286 @@ function closePreview() {
 }
 
 function generateFullHTML() {
-  // Will be implemented to generate full HTML
-  alert('HTML oluşturma fonksiyonu hazırlanıyor...');
+  // Generate categories HTML with selected one highlighted
+  let categoriesHTML = '';
+  categories.forEach((cat, index) => {
+    const isHighlight = cat.title === selectedCategory.title;
+    categoriesHTML += `
+  {title:'${cat.title}',url:'${cat.url}'${isHighlight ? ',highlight:true' : ''}},`;
+  });
+  
+  // Generate sites HTML
+  let sitesDataHTML = '';
+  sitesList.forEach((site, index) => {
+    const description = site.description.replace(/'/g, "\\'");
+    sitesDataHTML += `
+  { name: '${site.name}', url: '${site.url}', description: '${description}' },`;
+  });
+  
+  // Get the style content without editor styles
+  let styleContent = '';
+  const styleElement = document.querySelector('style');
+  if (styleElement) {
+    styleContent = styleElement.innerHTML;
+    // Remove editor-specific styles
+    const editorStart = styleContent.indexOf('/* === Editor Panel === */');
+    if (editorStart !== -1) {
+      styleContent = styleContent.substring(0, editorStart);
+    }
+  }
+  
+  // Full HTML template with all the necessary code
+  generatedHTML = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Seyahat Araçları</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+${styleContent}
+</style>
+</head>
+
+<body>
+  <!-- Background elements -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Main scrollable wrapper -->
+  <div class="main-wrapper">
+    <!-- Language Selector -->
+    <div class="lang-select">
+      <button class="lang-btn" id="langBtn">
+        <span id="langFlag">🇹🇷</span>
+        <span id="langName">TR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lang-list" id="langList"></div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1 class="title" id="title">Seyahat Araçları</h1>
+        <p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar burada</p>
+      </div>
+
+      <!-- Cards Section -->
+      <div class="cards-section">
+        <div class="cards-wrapper">
+          <div class="cards-container" id="cardsContainer"></div>
+        </div>
+      </div>
+
+      <!-- Sites List -->
+      <div class="sites-section" id="sitesSection">
+        <div class="sites-container"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Translations
+const lang = ${JSON.stringify(lang, null, 2)};
+
+// Categories
+const categories = [${categoriesHTML}
+];
+
+// Category translations  
+const categoryTranslations = ${JSON.stringify(categoryTranslations, null, 2)};
+
+// Sites data
+const sites = [${sitesDataHTML}
+];
+
+// Current language
+let currentLang = 'tr';
+
+// Detect browser language
+function detectLang(){
+  const saved = localStorage.getItem('lang');
+  if(saved && lang[saved]) return saved;
+  const browser = navigator.language.toLowerCase();
+  for(const code in lang){
+    if(browser.startsWith(code)) return code;
+  }
+  return 'tr';
+}
+
+// Get category name by language
+function getCategoryName(title, langCode) {
+  if (langCode === 'tr') return title;
+  
+  if (categoryTranslations[title] && categoryTranslations[title][langCode]) {
+    return categoryTranslations[title][langCode];
+  }
+  
+  return title;
+}
+
+// Colorize title
+function colorizeTitle() {
+  const titleElement = document.getElementById('title');
+  if (!titleElement) return;
+  
+  const titleText = titleElement.textContent;
+  let firstPart, secondPart;
+  
+  if (currentLang === 'tr') {
+    firstPart = 'Seyahat';
+    secondPart = 'Araçları';
+  } else if (currentLang === 'en') {
+    firstPart = 'Travel';
+    secondPart = 'Tools';
+  } else {
+    const words = titleText.split(' ');
+    if (words.length >= 2) {
+      firstPart = words[0];
+      secondPart = words.slice(1).join(' ');
+    } else {
+      firstPart = titleText;
+      secondPart = '';
+    }
+  }
+  
+  if (secondPart) {
+    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span> <span class="pedia-part">' + secondPart + '</span>';
+  } else {
+    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span>';
+  }
+}
+
+// Set language
+function setLang(code){
+  currentLang = code;
+  const t = lang[code];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('langFlag').textContent = t.flag;
+  document.getElementById('langName').textContent = t.name;
+  
+  document.documentElement.lang = code;
+  localStorage.setItem('lang', code);
+  
+  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+  
+  colorizeTitle();
+  updateCards();
+}
+
+// Update cards with translations
+function updateCards() {
+  document.querySelectorAll('.card').forEach(card => {
+    const originalTitle = card.dataset.originalTitle;
+    
+    if (!originalTitle) return;
+    
+    const translatedTitle = getCategoryName(originalTitle, currentLang);
+    
+    const titleElement = card.querySelector('.card-title');
+    
+    if (titleElement) titleElement.textContent = translatedTitle;
+  });
+}
+
+// Create language menu
+function createLangMenu(){
+  const list = document.getElementById('langList');
+  for(const [code,data] of Object.entries(lang)){
+    const item = document.createElement('div');
+    item.className='lang-item';
+    item.dataset.lang = code;
+    item.innerHTML = '<span>' + data.flag + '</span><span>' + data.name + '</span>';
+    item.addEventListener('click', ()=>{ setLang(code); toggleLang(false); });
+    list.appendChild(item);
+  }
+}
+
+// Toggle menu
+function toggleLang(force){
+  const list = document.getElementById('langList');
+  if(force===false){ list.classList.remove('show'); }
+  else{ list.classList.toggle('show'); }
+}
+
+// Page load
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('cardsContainer');
+  const sitesContainer = document.querySelector('.sites-container');
+  
+  // Create language menu first
+  createLangMenu();
+  
+  // Set initial language
+  setLang(detectLang());
+  
+  // Create cards
+  categories.forEach((cat, index) => {
+    const card = document.createElement('div');
+    card.className = cat.highlight ? 'card highlight' : 'card';
+    card.dataset.originalTitle = cat.title;
+    
+    const translatedTitle = getCategoryName(cat.title, currentLang);
+    
+    let cardContent = '<span class="card-index">' + (index + 1) + '</span>';
+    cardContent += '<div class="card-bg"></div>';
+    cardContent += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">';
+    cardContent += '<div class="card-title">' + translatedTitle + '</div>';
+    cardContent += '</div>';
+    
+    card.innerHTML = cardContent;
+    
+    card.addEventListener('click', () => {
+      location.href = cat.url;
+    });
+    
+    container.appendChild(card);
+  });
+
+  // Create site cards
+  sites.forEach((site, index) => {
+    const siteCard = document.createElement('div');
+    siteCard.className = 'site-item';
+    siteCard.innerHTML = 
+      '<span class="site-number">' + (index + 1) + '</span>' +
+      '<div class="site-content">' +
+      '<h3 class="site-name">' + site.name + '</h3>' +
+      '<p class="site-description">' + site.description + '</p>' +
+      '</div>';
+    
+    siteCard.addEventListener('click', () => {
+      window.open(site.url, '_blank');
+    });
+    
+    sitesContainer.appendChild(siteCard);
+  });
+  
+  // Language button click handler
+  document.getElementById('langBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLang();
+  });
+  
+  // Close dropdown on outside click
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.lang-select')) toggleLang(false);
+  });
+});
+<\/script>
+</body>
+</html>`;
+  
+  console.log('HTML başarıyla oluşturuldu');
 }
 
 function exportHTML() {
@@ -1542,7 +1827,21 @@ function exportHTML() {
     return;
   }
   
-  alert('HTML indirme fonksiyonu hazırlanıyor...');
+  // Generate HTML first
+  generateFullHTML();
+  
+  // Create download
+  const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `seyahat-${selectedCategory.title.toLowerCase().replace(/\s+/g, '-')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  alert('✅ HTML dosyası başarıyla indirildi!');
 }
 </script>
 </body>
