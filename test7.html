@@ -13,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 /* === Variables === */
 :root{
   --primary:#6366f1;
@@ -185,7 +186,7 @@ body{
 
 .title{
   font-family: 'Bebas Neue', sans-serif;
-  font-size:clamp(3rem,4vw,4rem);
+  font-size:clamp(2.5rem,5vw,3.5rem);
   font-weight:400;
   margin-bottom:8px;
   letter-spacing:0.06em;
@@ -245,6 +246,53 @@ body{
   display: none;
 }
 
+/* Scroll Buttons for Desktop */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.scroll-btn:hover {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(99,102,241,0.3);
+}
+
+.scroll-btn.prev {
+  left: -60px;
+}
+
+.scroll-btn.next {
+  right: -60px;
+}
+
+@media (min-width: 769px) {
+  .scroll-btn {
+    display: flex;
+  }
+  
+  .cards-wrapper {
+    padding: 0 80px;
+  }
+}
+
 /* === Cards === */
 .card{
   flex: 0 0 var(--card-width);
@@ -269,6 +317,14 @@ body{
   touch-action:manipulation;
   transform:translateZ(0);
   will-change:transform;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.12),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
 }
 
 .card:active{
@@ -347,19 +403,49 @@ body{
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255,255,255,0.8);
   border-radius: 20px;
-  padding: 31px 25px;
+  padding: 35px 25px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
   box-shadow:
     0 8px 32px rgba(0,0,0,0.08),
     inset 0 2px 4px rgba(255,255,255,0.9),
     inset 0 -2px 4px rgba(0,0,0,0.05);
-  min-height: 180px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transform: translateZ(0);
   will-change: transform;
+}
+
+.site-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 16px 48px rgba(0,0,0,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
+  background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0.75) 100%);
+}
+
+.site-item:active {
+  transform: scale(0.98);
+}
+
+.site-item::after {
+  content: '→';
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: var(--primary);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.site-item:hover::after {
+  opacity: 0.7;
+  right: 20px;
 }
 
 .site-number {
@@ -397,85 +483,390 @@ body{
   margin: 0;
 }
 
+/* === Editor Panel === */
+.editor-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  z-index: 2000;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: none;
+}
+
+.editor-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 20px;
+}
+
+.editor-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.editor-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.category-selector {
+  margin-bottom: 30px;
+}
+
+.category-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.category-option {
+  padding: 12px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.category-option:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.category-option.selected {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border-color: var(--primary-dark);
+}
+
+.sites-input-section {
+  margin-bottom: 30px;
+}
+
+.input-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.site-input-group {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.site-input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.site-number-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.remove-site-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input-field.large {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-site-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.export-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.close-btn {
+  background: #64748b;
+  color: white;
+}
+
+.editor-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  font-size: 28px;
+  z-index: 1500;
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+}
+
+/* File input styles */
+.file-input-container {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.file-info {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.process-csv-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Info box */
+.info-box {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  font-size: 13px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.info-box strong {
+  color: #0c4a6e;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   :root {
-    --card-gap: 10px;
-    --mobile-card-width: calc((100vw - 32px - 30px) / 3.3);
+    --card-gap: 12px;
+    --mobile-card-width: calc((100vw - 32px - 36px) / 3.08);
   }
 
-  /* Language-specific adjustments for mobile */
-  html[lang="es"] .header,
-  html[lang="ru"] .header,
-  html[lang="fr"] .header,
-  html[lang="de"] .header,
-  html[lang="pt"] .header {
-    padding: 60px 10px 15px;
+  /* Language-specific adjustments for mobile - Extended for 40 languages */
+  html[lang="es"] .header, html[lang="ru"] .header, html[lang="fr"] .header,
+  html[lang="de"] .header, html[lang="pt"] .header, html[lang="nl"] .header,
+  html[lang="pl"] .header, html[lang="sv"] .header, html[lang="no"] .header,
+  html[lang="da"] .header, html[lang="fi"] .header, html[lang="cs"] .header,
+  html[lang="uk"] .header, html[lang="ro"] .header, html[lang="el"] .header,
+  html[lang="hu"] .header, html[lang="th"] .header, html[lang="vi"] .header,
+  html[lang="id"] .header, html[lang="ms"] .header, html[lang="bn"] .header,
+  html[lang="tl"] .header, html[lang="hr"] .header, html[lang="he"] .header,
+  html[lang="fa"] .header, html[lang="ca"] .header, html[lang="sk"] .header,
+  html[lang="ur"] .header {
+    padding: 65px 10px 15px;
   }
 
-  html[lang="es"] .title,
-  html[lang="ru"] .title,
-  html[lang="fr"] .title,
-  html[lang="de"] .title,
-  html[lang="pt"] .title {
-    font-size: clamp(1.6rem, 3.5vw, 2rem);
-    line-height: 1;
+  html[lang="es"] .title, html[lang="ru"] .title, html[lang="fr"] .title,
+  html[lang="de"] .title, html[lang="pt"] .title, html[lang="nl"] .title,
+  html[lang="pl"] .title, html[lang="sv"] .title, html[lang="no"] .title,
+  html[lang="da"] .title, html[lang="fi"] .title, html[lang="cs"] .title,
+  html[lang="uk"] .title, html[lang="ro"] .title, html[lang="el"] .title,
+  html[lang="hu"] .title, html[lang="th"] .title, html[lang="vi"] .title,
+  html[lang="id"] .title, html[lang="ms"] .title, html[lang="bn"] .title,
+  html[lang="tl"] .title, html[lang="hr"] .title, html[lang="he"] .title,
+  html[lang="fa"] .title, html[lang="ca"] .title, html[lang="sk"] .title,
+  html[lang="ur"] .title {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    line-height: 0.95;
   }
 
-  html[lang="es"] .subtitle,
-  html[lang="ru"] .subtitle,
-  html[lang="fr"] .subtitle,
-  html[lang="de"] .subtitle,
-  html[lang="pt"] .subtitle {
-    font-size: clamp(0.85rem, 1.4vw, 1rem);
-    line-height: 1.15;
+  html[lang="es"] .subtitle, html[lang="ru"] .subtitle, html[lang="fr"] .subtitle,
+  html[lang="de"] .subtitle, html[lang="pt"] .subtitle, html[lang="nl"] .subtitle,
+  html[lang="pl"] .subtitle, html[lang="sv"] .subtitle, html[lang="no"] .subtitle,
+  html[lang="da"] .subtitle, html[lang="fi"] .subtitle, html[lang="cs"] .subtitle,
+  html[lang="uk"] .subtitle, html[lang="ro"] .subtitle, html[lang="el"] .subtitle,
+  html[lang="hu"] .subtitle, html[lang="th"] .subtitle, html[lang="vi"] .subtitle,
+  html[lang="id"] .subtitle, html[lang="ms"] .subtitle, html[lang="bn"] .subtitle,
+  html[lang="tl"] .subtitle, html[lang="hr"] .subtitle, html[lang="he"] .subtitle,
+  html[lang="fa"] .subtitle, html[lang="ca"] .subtitle, html[lang="sk"] .subtitle,
+  html[lang="ur"] .subtitle {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    line-height: 1.1;
   }
 
-  .card {
+  .card{
     flex: 0 0 var(--mobile-card-width);
-    height: 150px;
+    height: 160px;
   }
 
-  .card-title {
-    font-size: 15px;
+  .card-title{
+    font-size: 16px;
+    padding: 20px 5px;
+  }
+
+  /* Language-specific card title adjustments - Extended for 40 languages */
+  html[lang="es"] .card-title, html[lang="ru"] .card-title,
+  html[lang="fr"] .card-title, html[lang="de"] .card-title,
+  html[lang="nl"] .card-title, html[lang="pl"] .card-title,
+  html[lang="sv"] .card-title, html[lang="no"] .card-title,
+  html[lang="da"] .card-title, html[lang="fi"] .card-title,
+  html[lang="cs"] .card-title, html[lang="uk"] .card-title,
+  html[lang="ro"] .card-title, html[lang="el"] .card-title,
+  html[lang="hu"] .card-title, html[lang="th"] .card-title,
+  html[lang="vi"] .card-title, html[lang="id"] .card-title,
+  html[lang="ms"] .card-title, html[lang="bn"] .card-title,
+  html[lang="tl"] .card-title, html[lang="hr"] .card-title,
+  html[lang="he"] .card-title, html[lang="fa"] .card-title,
+  html[lang="ca"] .card-title, html[lang="sk"] .card-title,
+  html[lang="ur"] .card-title {
+    font-size: 14px;
     padding: 18px 4px;
   }
 
-  /* Language-specific card title adjustments */
-  html[lang="es"] .card-title,
-  html[lang="ru"] .card-title,
-  html[lang="fr"] .card-title,
-  html[lang="de"] .card-title {
-    font-size: 13px;
-    padding: 16px 3px;
-  }
-
-  .card-index {
-    font-size: 10px;
-    top: 8px;
-    right: 8px;
+  .card-index{
+    font-size: 11px;
+    top: 10px;
+    right: 10px;
   }
 
   .site-item {
-    padding: 25px 18px;
-    min-height: calc(180px * 0.9);
-    margin-bottom: 8px;
+    padding: 33px 24px;
+    min-height: 190px;
   }
 
   .site-number {
     font-size: 14px;
-    top: 9px;
-    right: 9px;
+    top: 11px;
+    right: 11px;
   }
 
   .site-name {
     font-size: 28px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
   .site-description {
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.7;
+  }
+
+  .editor-panel {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .editor-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
   }
 }
 
@@ -484,6 +875,7 @@ body{
   from{opacity:0;}
   to{opacity:1;}
 }
+
 </style>
 </head>
 
@@ -515,7 +907,9 @@ body{
       <!-- Cards Section -->
       <div class="cards-section">
         <div class="cards-wrapper">
+          <button class="scroll-btn prev" onclick="scrollCards('prev')">‹</button>
           <div class="cards-container" id="cardsContainer"></div>
+          <button class="scroll-btn next" onclick="scrollCards('next')">›</button>
         </div>
       </div>
 
@@ -527,93 +921,11 @@ body{
   </div>
 
 <script>
-// Translations
-const lang = {
-  "tr": {
-    "flag": "🇹🇷",
-    "name": "TR",
-    "title": "Seyahat Araçları",
-    "subtitle": "Seyahat için gerekli tüm uygulamalar burada"
-  },
-  "en": {
-    "flag": "🇺🇸",
-    "name": "EN",
-    "title": "Travel Tools",
-    "subtitle": "All the apps you need for travel"
-  },
-  "es": {
-    "flag": "🇪🇸",
-    "name": "ES",
-    "title": "Herramientas de Viaje",
-    "subtitle": "Todas las aplicaciones necesarias para viajar"
-  },
-  "fr": {
-    "flag": "🇫🇷",
-    "name": "FR",
-    "title": "Outils de Voyage",
-    "subtitle": "Toutes les applications nécessaires pour voyager"
-  },
-  "de": {
-    "flag": "🇩🇪",
-    "name": "DE",
-    "title": "Reise-Tools",
-    "subtitle": "Alle notwendigen Apps für Reisen"
-  },
-  "it": {
-    "flag": "🇮🇹",
-    "name": "IT",
-    "title": "Strumenti di Viaggio",
-    "subtitle": "Tutte le app necessarie per viaggiare"
-  },
-  "pt": {
-    "flag": "🇵🇹",
-    "name": "PT",
-    "title": "Ferramentas de Viagem",
-    "subtitle": "Todos os aplicativos necessários para viajar"
-  },
-  "ru": {
-    "flag": "🇷🇺",
-    "name": "RU",
-    "title": "Инструменты для путешествий",
-    "subtitle": "Все необходимые приложения для путешествий"
-  },
-  "ja": {
-    "flag": "🇯🇵",
-    "name": "JA",
-    "title": "旅行ツール",
-    "subtitle": "旅行に必要なすべてのアプリ"
-  },
-  "zh": {
-    "flag": "🇨🇳",
-    "name": "ZH",
-    "title": "旅行工具",
-    "subtitle": "旅行所需的所有应用"
-  },
-  "ko": {
-    "flag": "🇰🇷",
-    "name": "KO",
-    "title": "여행 도구",
-    "subtitle": "여행에 필요한 모든 앱"
-  },
-  "ar": {
-    "flag": "🇸🇦",
-    "name": "AR",
-    "title": "أدوات السفر",
-    "subtitle": "جميع التطبيقات الضرورية للسفر"
-  },
-  "hi": {
-    "flag": "🇮🇳",
-    "name": "HI",
-    "title": "यात्रा उपकरण",
-    "subtitle": "यात्रा के लिए आवश्यक सभी ऐप्स"
-  }
-};
-
 // Categories
 const categories = [
   {title:'Manzaralı Yerler',url:'world.html'},
-  {title:'Konaklama',url:'2.html',highlight:true},
-  {title:'Ulaşım',url:'3.html'},
+  {title:'Konaklama',url:'2.html'},
+  {title:'Ulaşım',url:'3.html',highlight:true},
   {title:'Mutfak ve Lezzet',url:'4.html'},
   {title:'Eğlence ve Özel Deneyimler',url:'5.html'},
   {title:'Dijital Hizmetler',url:'6.html'},
@@ -621,136 +933,6 @@ const categories = [
   {title:'Finansal Hizmetler',url:'8.html'},
   {title:'Eğitim ve Gelişim',url:'9.html'},
 ];
-
-// Category translations  
-const categoryTranslations = {
-  "Manzaralı Yerler": {
-    "en": "Scenic Spots",
-    "es": "Lugares Bonitos",
-    "fr": "Beaux Endroits",
-    "de": "Schöne Orte",
-    "it": "Posti Belli",
-    "pt": "Lugares Lindos",
-    "ru": "Красивые места",
-    "ja": "絶景スポット",
-    "zh": "美景",
-    "ko": "멋진 장소",
-    "ar": "أماكن جميلة",
-    "hi": "खूबसूरत जगहें"
-  },
-  "Konaklama": {
-    "en": "Accommodation",
-    "es": "Alojamiento",
-    "fr": "Hébergement",
-    "de": "Unterkunft",
-    "it": "Alloggio",
-    "pt": "Hospedagem",
-    "ru": "Жильё",
-    "ja": "宿泊",
-    "zh": "住宿",
-    "ko": "숙박",
-    "ar": "الإقامة",
-    "hi": "आवास"
-  },
-  "Ulaşım": {
-    "en": "Transportation",
-    "es": "Transporte",
-    "fr": "Transport",
-    "de": "Verkehr",
-    "it": "Trasporti",
-    "pt": "Transporte",
-    "ru": "Транспорт",
-    "ja": "交通",
-    "zh": "交通",
-    "ko": "교통",
-    "ar": "المواصلات",
-    "hi": "परिवहन"
-  },
-  "Mutfak ve Lezzet": {
-    "en": "Food & Dining",
-    "es": "Gastronomía",
-    "fr": "Gastronomie",
-    "de": "Kulinarik",
-    "it": "Gastronomia",
-    "pt": "Gastronomia",
-    "ru": "Гастрономия",
-    "ja": "グルメ",
-    "zh": "美食",
-    "ko": "미식",
-    "ar": "المأكولات",
-    "hi": "भोजन"
-  },
-  "Eğlence ve Özel Deneyimler": {
-    "en": "Entertainment & Experiences",
-    "es": "Ocio y Experiencias",
-    "fr": "Loisirs et Expériences",
-    "de": "Erlebnisse",
-    "it": "Esperienze",
-    "pt": "Lazer e Experiências",
-    "ru": "Развлечения",
-    "ja": "エンタメ・体験",
-    "zh": "娱乐体验",
-    "ko": "엔터테인먼트",
-    "ar": "الترفيه",
-    "hi": "मनोरंजन"
-  },
-  "Dijital Hizmetler": {
-    "en": "Digital Services",
-    "es": "Servicios Digitales",
-    "fr": "Services Numériques",
-    "de": "Digitale Dienste",
-    "it": "Servizi Digitali",
-    "pt": "Serviços Digitais",
-    "ru": "Цифровые услуги",
-    "ja": "デジタルサービス",
-    "zh": "数字服务",
-    "ko": "디지털 서비스",
-    "ar": "الخدمات الرقمية",
-    "hi": "डिजिटल सेवाएं"
-  },
-  "Güvenlik ve Sigorta": {
-    "en": "Safety & Insurance",
-    "es": "Seguridad y Seguros",
-    "fr": "Sécurité et Assurance",
-    "de": "Sicherheit",
-    "it": "Sicurezza",
-    "pt": "Segurança",
-    "ru": "Безопасность",
-    "ja": "安全・保険",
-    "zh": "安全保障",
-    "ko": "안전과 보험",
-    "ar": "الأمان",
-    "hi": "सुरक्षा"
-  },
-  "Finansal Hizmetler": {
-    "en": "Money Matters",
-    "es": "Finanzas",
-    "fr": "Finances",
-    "de": "Finanzen",
-    "it": "Finanza",
-    "pt": "Finanças",
-    "ru": "Финансы",
-    "ja": "マネー",
-    "zh": "金融",
-    "ko": "금융",
-    "ar": "المال",
-    "hi": "वित्त"
-  },
-  "Eğitim ve Gelişim": {
-    "en": "Learning & Growth",
-    "es": "Aprendizaje",
-    "fr": "Apprentissage",
-    "de": "Lernen",
-    "it": "Apprendimento",
-    "pt": "Aprendizado",
-    "ru": "Обучение",
-    "ja": "学び",
-    "zh": "学习",
-    "ko": "학습",
-    "ar": "التعلم",
-    "hi": "सीखना"
-  }
-};
 
 // Sites data
 const sites = [
@@ -767,55 +949,101 @@ const sites = [
 ];
 
 // Current language
-let currentLang = 'tr';
+let currentLang = "tr";
 
-// Detect browser language
-function detectLang(){
-  const saved = localStorage.getItem('lang');
-  if(saved && lang[saved]) return saved;
-  const browser = navigator.language.toLowerCase();
-  for(const code in lang){
-    if(browser.startsWith(code)) return code;
+// Translations
+const lang = {
+  "tr": {
+    "flag": "🇹🇷",
+    "name": "TR",
+    "title": "Seyahat Araçları",
+    "subtitle": "Seyahat için gerekli tüm uygulamalar burada"
+  },
+  "en": {
+    "flag": "🇬🇧",
+    "name": "EN",
+    "title": "Travel Tools",
+    "subtitle": "All the apps you need for travel"
   }
-  return 'tr';
+};
+
+// Category translations
+const categoryTranslations = {
+  "Manzaralı Yerler": {
+    "en": "Scenic Spots"
+  },
+  "Konaklama": {
+    "en": "Accommodation"
+  },
+  "Ulaşım": {
+    "en": "Transportation"
+  },
+  "Mutfak ve Lezzet": {
+    "en": "Food & Dining"
+  },
+  "Eğlence ve Özel Deneyimler": {
+    "en": "Entertainment & Experiences"
+  },
+  "Dijital Hizmetler": {
+    "en": "Digital Services"
+  },
+  "Güvenlik ve Sigorta": {
+    "en": "Safety & Insurance"
+  },
+  "Finansal Hizmetler": {
+    "en": "Money Matters"
+  },
+  "Eğitim ve Gelişim": {
+    "en": "Learning & Growth"
+  }
+};
+
+// Functions
+function scrollCards(direction) {
+  const container = document.getElementById("cardsContainer");
+  const scrollAmount = 200;
+  if (direction === "prev") {
+    container.scrollLeft -= scrollAmount;
+  } else {
+    container.scrollLeft += scrollAmount;
+  }
 }
 
-// Get category name by language
+function detectLang() {
+  const saved = localStorage.getItem("lang");
+  if(saved && lang[saved]) return saved;
+  return "tr";
+}
+
 function getCategoryName(title, langCode) {
-  if (langCode === 'tr') return title;
-  
+  if (langCode === "tr") return title;
   if (categoryTranslations[title] && categoryTranslations[title][langCode]) {
     return categoryTranslations[title][langCode];
   }
-  
   return title;
 }
 
-// Colorize title
 function colorizeTitle() {
-  const titleElement = document.getElementById('title');
+  const titleElement = document.getElementById("title");
   if (!titleElement) return;
-  
   const titleText = titleElement.textContent;
   let firstPart, secondPart;
-  
-  if (currentLang === 'tr') {
-    firstPart = 'Seyahat';
-    secondPart = 'Araçları';
-  } else if (currentLang === 'en') {
-    firstPart = 'Travel';
-    secondPart = 'Tools';
+  if (currentLang === "tr") {
+    firstPart = "Seyahat";
+    secondPart = "Araçları";
+  } else if (currentLang === "en") {
+    firstPart = "Travel";
+    secondPart = "Tools";
   } else {
-    const words = titleText.split(' ');
+    const words = titleText.split(" ");
     if (words.length >= 2) {
       firstPart = words[0];
-      secondPart = words.slice(1).join(' ');
+      secondPart = words.slice(1).join(" ");
     } else {
       firstPart = titleText;
-      secondPart = '';
+      secondPart = "";
     }
   }
-  
   if (secondPart) {
     titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span> <span class="pedia-part">' + secondPart + '</span>';
   } else {
@@ -823,65 +1051,54 @@ function colorizeTitle() {
   }
 }
 
-// Set language
-function setLang(code){
+function setLang(code) {
   currentLang = code;
   const t = lang[code];
-  document.getElementById('title').textContent = t.title;
-  document.getElementById('subtitle').textContent = t.subtitle;
-  document.getElementById('langFlag').textContent = t.flag;
-  document.getElementById('langName').textContent = t.name;
-  
+  document.getElementById("title").textContent = t.title;
+  document.getElementById("subtitle").textContent = t.subtitle;
+  document.getElementById("langFlag").textContent = t.flag;
+  document.getElementById("langName").textContent = t.name;
   document.documentElement.lang = code;
-  localStorage.setItem('lang', code);
-  
-  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
-  
+  localStorage.setItem("lang", code);
+  document.querySelectorAll(".lang-item").forEach(i => i.classList.toggle("active", i.dataset.lang === code));
   colorizeTitle();
   updateCards();
 }
 
-// Update cards with translations
 function updateCards() {
-  document.querySelectorAll('.card').forEach(card => {
+  document.querySelectorAll(".card").forEach(card => {
     const originalTitle = card.dataset.originalTitle;
-    
     if (!originalTitle) return;
-    
     const translatedTitle = getCategoryName(originalTitle, currentLang);
-    
-    const titleElement = card.querySelector('.card-title');
-    
+    const titleElement = card.querySelector(".card-title");
     if (titleElement) titleElement.textContent = translatedTitle;
   });
 }
 
-// Create language menu
-function createLangMenu(){
-  const list = document.getElementById('langList');
-  for(const [code,data] of Object.entries(lang)){
-    const item = document.createElement('div');
-    item.className='lang-item';
+function createLangMenu() {
+  const list = document.getElementById("langList");
+  for(const [code, data] of Object.entries(lang)) {
+    const item = document.createElement("div");
+    item.className = "lang-item";
     item.dataset.lang = code;
     item.innerHTML = '<span>' + data.flag + '</span><span>' + data.name + '</span>';
-    item.addEventListener('click', ()=>{ setLang(code); toggleLang(false); });
+    item.addEventListener("click", () => { setLang(code); toggleLang(false); });
     list.appendChild(item);
   }
 }
 
-// Toggle menu
-function toggleLang(force){
-  const list = document.getElementById('langList');
-  if(force===false){ list.classList.remove('show'); }
-  else{ list.classList.toggle('show'); }
+function toggleLang(force) {
+  const list = document.getElementById("langList");
+  if(force === false) { list.classList.remove("show"); }
+  else { list.classList.toggle("show"); }
 }
 
 // Page load
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('cardsContainer');
-  const sitesContainer = document.querySelector('.sites-container');
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("cardsContainer");
+  const sitesContainer = document.querySelector(".sites-container");
   
-  // Create language menu first
+  // Create language menu
   createLangMenu();
   
   // Set initial language
@@ -889,53 +1106,38 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Create cards
   categories.forEach((cat, index) => {
-    const card = document.createElement('div');
-    card.className = cat.highlight ? 'card highlight' : 'card';
+    const card = document.createElement("div");
+    card.className = cat.highlight ? "card highlight" : "card";
     card.dataset.originalTitle = cat.title;
-    
     const translatedTitle = getCategoryName(cat.title, currentLang);
-    
-    let cardContent = '<span class="card-index">' + (index + 1) + '</span>';
-    cardContent += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">';
-    cardContent += '<div class="card-title">' + translatedTitle + '</div>';
-    cardContent += '</div>';
-    
-    card.innerHTML = cardContent;
-    
-    card.addEventListener('click', () => {
-      location.href = cat.url;
-    });
-    
+    card.innerHTML = '<span class="card-index">' + (index + 1) + '</span>' +
+      '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">' +
+      '<div class="card-title">' + translatedTitle + '</div></div>';
+    card.addEventListener("click", () => { location.href = cat.url; });
     container.appendChild(card);
   });
 
   // Create site cards
   sites.forEach((site, index) => {
-    const siteCard = document.createElement('div');
-    siteCard.className = 'site-item';
-    siteCard.innerHTML = 
-      '<span class="site-number">' + (index + 1) + '</span>' +
+    const siteCard = document.createElement("div");
+    siteCard.className = "site-item";
+    siteCard.innerHTML = '<span class="site-number">' + (index + 1) + '</span>' +
       '<div class="site-content">' +
       '<h3 class="site-name">' + site.name + '</h3>' +
-      '<p class="site-description">' + site.description + '</p>' +
-      '</div>';
-    
-    siteCard.addEventListener('click', () => {
-      window.open(site.url, '_blank');
-    });
-    
+      '<p class="site-description">' + site.description + '</p></div>';
+    siteCard.addEventListener("click", () => { window.open(site.url, "_blank"); });
     sitesContainer.appendChild(siteCard);
   });
   
-  // Language button click handler
-  document.getElementById('langBtn').addEventListener('click', (e) => {
+  // Language button
+  document.getElementById("langBtn").addEventListener("click", (e) => {
     e.stopPropagation();
     toggleLang();
   });
   
-  // Close dropdown on outside click
-  document.addEventListener('click', e => {
-    if(!e.target.closest('.lang-select')) toggleLang(false);
+  // Close dropdown
+  document.addEventListener("click", e => {
+    if(!e.target.closest(".lang-select")) toggleLang(false);
   });
 });
 </script>
