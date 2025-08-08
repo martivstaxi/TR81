@@ -665,35 +665,27 @@ body{
   font-size: 14px;
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - %15 küçültülmüş değerler */
 @media (max-width: 768px) {
   :root {
-    --card-gap: 12px;
-    --mobile-card-width: calc((100vw - 32px - 36px) / 3.3);
+    --card-gap: 10px; /* 12px * 0.85 = 10.2px */
+    --mobile-card-width: calc((100vw - 32px - 30px) / 3.88); /* 3.3 / 0.85 = 3.88 */
   }
 
-  .card {
-    flex: 0 0 calc(var(--mobile-card-width) * 0.8); /* %20 küçültme */
-    height: 120px; /* 150px yerine %20 küçültüldü */
+  .card{
+    flex: 0 0 var(--mobile-card-width);
+    height: 127px; /* 150px * 0.85 = 127.5px */
   }
 
-  .card-title {
-    font-size: 12.8px; /* 16px yerine %20 küçüldü */
-    padding: 16px 4px;
+  .card-title{
+    font-size: 14px; /* 16px * 0.85 = 13.6px, yuvarlandı 14px */
+    padding: 17px 4px; /* 20px * 0.85 = 17px, 5px * 0.85 = 4.25px */
   }
 
-  .site-item {
-    padding: 28px 20px; /* 35px → 28px (%20 azaltıldı) */
-    min-height: 160px; /* 200px → 160px */
-  }
-
-  .site-name {
-    font-size: 22.4px; /* 28px → %20 daha küçük */
-    margin-bottom: 10px;
-  }
-
-  .site-description {
-    font-size: 12.8px; /* 16px → %20 daha küçük */
+  .card-index{
+    font-size: 9px; /* 11px * 0.85 = 9.35px */
+    top: 8px; /* 10px * 0.85 = 8.5px */
+    right: 8px;
   }
 
   .editor-panel {
@@ -709,7 +701,6 @@ body{
     font-size: 24px;
   }
 }
-
 
 /* Animations */
 @keyframes fadeIn{
@@ -1494,7 +1485,7 @@ function generateFullHTML() {
   { name: '${site.name}', url: '${site.url}', description: '${description}' },`;
   });
   
-  // Get the style content without editor styles
+  // Get the style content without editor styles (and with updated mobile values)
   const styleElement = document.querySelector('style');
   let styleContent = styleElement.innerHTML;
   // Remove editor-specific styles
