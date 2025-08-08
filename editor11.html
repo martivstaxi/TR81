@@ -1248,16 +1248,22 @@ function exportHTML() {
   
   inputs.forEach((group) => {
     const id = group.id.split('-')[2];
-    const domain = document.getElementById('domain-' + id).value.trim();
-    const url = document.getElementById('url-' + id).value.trim();
-    const description = document.getElementById('desc-' + id).value.trim();
+    const domainEl = document.getElementById('domain-' + id);
+    const urlEl = document.getElementById('url-' + id);
+    const descEl = document.getElementById('desc-' + id);
     
-    if (domain && url && description) {
-      sitesList.push({
-        name: domain,
-        url: url,
-        description: description
-      });
+    if (domainEl && urlEl && descEl) {
+      const domain = domainEl.value.trim();
+      const url = urlEl.value.trim();
+      const description = descEl.value.trim();
+      
+      if (domain && url && description) {
+        sitesList.push({
+          name: domain,
+          url: url,
+          description: description
+        });
+      }
     }
   });
   
@@ -1266,18 +1272,79 @@ function exportHTML() {
     return;
   }
   
-  updateDisplay();
-  generateFullHTML();
+  // HTML oluştur
+  let htmlContent = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n';
+  htmlContent += '<meta charset="utf-8">\n';
+  htmlContent += '<meta name="viewport" content="width=device-width,initial-scale=1.0">\n';
+  htmlContent += '<title>' + selectedCategory.title + ' - Seyahat Araçları</title>\n';
+  htmlContent += '<style>\n';
+  htmlContent += 'body{margin:0;padding:20px;font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;}\n';
+  htmlContent += '.container{max-width:1200px;margin:0 auto;}\n';
+  htmlContent += 'h1{color:#1f2937;margin-bottom:30px;}\n';
+  htmlContent += '.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-bottom:40px;}\n';
+  htmlContent += '.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;transition:transform 0.2s;}\n';
+  htmlContent += '.card:hover{transform:translateY(-4px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}\n';
+  htmlContent += '.card.active{background:#fef3c7;border:2px solid #f59e0b;}\n';
+  htmlContent += '.sites{display:grid;gap:20px;}\n';
+  htmlContent += '.site{background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;transition:all 0.2s;}\n';
+  htmlContent += '.site:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}\n';
+  htmlContent += '.site h3{margin:0 0 10px 0;color:#1e40af;font-size:1.5rem;}\n';
+  htmlContent += '.site p{margin:0;color:#6b7280;line-height:1.6;}\n';
+  htmlContent += '</style>\n</head>\n<body>\n';
+  htmlContent += '<div class="container">\n';
+  htmlContent += '<h1>Seyahat Araçları - ' + selectedCategory.title + '</h1>\n';
+  
+  // Kategoriler
+  htmlContent += '<div class="cards">\n';
+  categories.forEach(function(cat) {
+    const isActive = cat.title === selectedCategory.title;
+    htmlContent += '<div class="card' + (isActive ? ' active' : '') + '" onclick="alert(\'Kategori: ' + cat.title + '\')">\n';
+    htmlContent += '<h3>' + cat.title + '</h3>\n';
+    htmlContent += '</div>\n';
+  });
+  htmlContent += '</div>\n';
+  
+  // Siteler
+  htmlContent += '<h2>' + selectedCategory.title + ' Siteleri</h2>\n';
+  htmlContent += '<div class="sites">\n';
+  sitesList.forEach(function(site) {
+    htmlContent += '<div class="site" onclick="window.open(\'' + site.url + '\', \'_blank\')">\n';
+    htmlContent += '<h3>' + site.name + '</h3>\n';
+    htmlContent += '<p>' + site.description + '</p>\n';
+    htmlContent += '</div>\n';
+  });
+  htmlContent += '</div>\n';
+  
+  htmlContent += '</div>\n</body>\n</html>';
   
   // Panoya kopyala
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(generatedHTML).then(function() {
-      alert('✅ ' + selectedCategory.title + ' kategorisi için ' + sitesList.length + ' site ile HTML oluşturuldu ve panoya kopyalandı!');
-    }).catch(function(err) {
-      copyToClipboardFallback();
-    });
+  const textArea = document.createElement('textarea');
+  textArea.value = htmlContent;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  
+  let success = false;
+  try {
+    success = document.execCommand('copy');
+  } catch (err) {
+    console.error('Kopyalama hatası:', err);
+  }
+  
+  document.body.removeChild(textArea);
+  
+  if (success) {
+    alert('✅ HTML başarıyla oluşturuldu ve panoya kopyalandı!\n\n' + 
+          'Kategori: ' + selectedCategory.title + '\n' +
+          'Site sayısı: ' + sitesList.length);
+    
+    // Görsel güncelleme
+    updateDisplay();
   } else {
-    copyToClipboardFallback();
+    alert('❌ Kopyalama başarısız oldu. Lütfen tekrar deneyin.');
   }
 }
 
