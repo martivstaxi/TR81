@@ -1138,26 +1138,35 @@ function processCSVFile() {
     return;
   }
   
-  if (!selectedCategory) {
-    alert('Lütfen önce bir kategori seçin!');
-    return;
-  }
+  // Kategori kontrolü kaldırıldı - otomatik seçim yapılacak
   
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
       const csvContent = e.target.result;
-      const lines = csvContent.split(/\r?\n/).filter(line => line.trim());
+      console.log('CSV içeriği okundu:', csvContent.substring(0, 200));
       
+      // Satırları ayır
+      const lines = csvContent.split(/\r?\n/).filter(line => line.trim());
+      console.log('Toplam satır sayısı:', lines.length);
+      
+      // Mevcut inputları temizle
       document.getElementById('sitesInputContainer').innerHTML = '';
       siteInputCount = 0;
       
-      lines.forEach((line) => {
+      // Her satırı işle
+      lines.forEach((line, index) => {
+        console.log(`Satır ${index + 1}:`, line);
+        
+        // CSV satırını parse et
         const parts = parseCSVLine(line);
+        console.log('Parse edilen parçalar:', parts);
         
         if (parts.length >= 2) {
           const domain = parts[0].trim().replace(/^["']|["']$/g, '');
           const description = parts[1].trim().replace(/^["']|["']$/g, '');
+          
+          console.log('Domain:', domain, 'Description:', description.substring(0, 50));
           
           if (domain && description) {
             siteInputCount++;
@@ -1167,6 +1176,7 @@ function processCSVFile() {
             inputGroup.className = 'site-input-group';
             inputGroup.id = `site-input-${siteInputCount}`;
             
+            // URL oluştur
             let url = domain;
             if (!domain.startsWith('http://') && !domain.startsWith('https://')) {
               url = 'https://' + domain;
@@ -1187,16 +1197,35 @@ function processCSVFile() {
         }
       });
       
+      // Dosya inputunu temizle
       document.getElementById('csvFile').value = '';
       document.getElementById('fileInfo').textContent = '';
       document.getElementById('processCSVBtn').style.display = 'none';
       selectedFile = null;
       
-      alert(`✅ CSV dosyasından ${siteInputCount} site yüklendi!`);
+      if (siteInputCount > 0) {
+        alert(`✅ CSV dosyasından ${siteInputCount} site yüklendi!`);
+        
+        // Eğer kategori seçili değilse ilk kategoriyi seç
+        if (!selectedCategory) {
+          const firstCategory = document.querySelector('.category-option');
+          if (firstCategory) {
+            firstCategory.click();
+            alert('📌 Konaklama kategorisi otomatik seçildi. İsterseniz değiştirebilirsiniz.');
+          }
+        }
+      } else {
+        alert('❌ CSV dosyasında geçerli veri bulunamadı! Lütfen formatı kontrol edin.\n\nBeklenen format:\nsite_adı,açıklama');
+      }
       
     } catch (error) {
-      alert('CSV dosyası işlenirken bir hata oluştu.');
+      console.error('CSV işleme hatası:', error);
+      alert('CSV dosyası işlenirken bir hata oluştu:\n' + error.message);
     }
+  };
+  
+  reader.onerror = function() {
+    alert('Dosya okunamadı!');
   };
   
   reader.readAsText(selectedFile, 'UTF-8');
@@ -1210,20 +1239,22 @@ function parseCSVLine(line) {
   for (let i = 0; i < line.length; i++) {
     const char = line[i];
     
-    if (char === '"' || char === "'") {
+    if (char === '"') {
       inQuotes = !inQuotes;
     } else if (char === ',' && !inQuotes) {
-      result.push(current);
+      result.push(current.trim());
       current = '';
     } else {
       current += char;
     }
   }
   
-  if (current) {
-    result.push(current);
+  // Son alanı ekle
+  if (current || result.length > 0) {
+    result.push(current.trim());
   }
   
+  console.log('ParseCSVLine result:', result);
   return result;
 }
 
