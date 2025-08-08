@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Seyahat Kategori Editörü</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* === Variables === */
+:root{
+  --primary:#6366f1;
+  --primary-dark:#4f46e5;
+  --secondary:#8b5cf6;
+  --accent:#f59e0b;
+  --text-primary:#1e293b;
+  --text-secondary:#475569;
+  --text-muted:#64748b;
+  --card-width: 176px;
+  --card-height: 209px;
+  --card-gap: 14px;
+  --mobile-card-width: calc((100vw - 32px - 24px) / 3.5);
+}
+
+/* === Reset === */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#d1d5db;
+  color:var(--text-primary);
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
+
+/* === Main Container === */
+.main-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  position: relative;
+  z-index: 1;
+}
+
+/* === Background === */
+.bg-image{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  z-index:-2;
+  pointer-events:none;
+}
+
+.bg-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.2) 100%);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* === Container === */
+.container{
+  position:relative;
+  z-index:1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* === Language Selector === */
+.lang-select{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:100;
+  transform:translateZ(0);
+}
+
+.lang-btn{
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 16px rgba(99,102,241,.06);
+  transition:transform .2s ease;
+  color:#475569;
+  touch-action:manipulation;
+}
+
+.lang-btn:active{
+  transform:scale(0.95);
+}
+
+.lang-list{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  background:rgba(255,255,255,.98);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(139,92,246,.12);
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(99,102,241,.12);
+  max-height:320px;
+  overflow-y:auto;
+  display:none;
+  min-width:160px;
+  transform:translateZ(0);
+}
+
+.lang-list.show{
+  display:block;
+  animation:fadeIn .2s ease;
+}
+
+.lang-item{
+  padding:10px 16px;
+  cursor:pointer;
+  transition:background-color .2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#475569;
+  touch-action:manipulation;
+}
+
+.lang-item:active{
+  background:rgba(139,92,246,.12);
+}
+
+.lang-item.active{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+}
+
+/* === Header === */
+.header{
+  padding:80px 16px 20px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+  flex-shrink: 0;
+}
+
+.title{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:clamp(3rem,4vw,4rem);
+  font-weight:400;
+  margin-bottom:8px;
+  letter-spacing:0.06em;
+  line-height:0.9;
+  text-transform:uppercase;
+}
+
+/* Rusça için özel boyut ayarı - %15 küçültme */
+html[lang="ru"] .title {
+  font-size:clamp(2.55rem,3.4vw,3.4rem); /* %85 oranında küçültülmüş */
+}
+
+.subtitle{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:clamp(1.3rem,2vw,1.8rem);
+  font-weight:400;
+  color:#334155;
+  margin-top:4px;
+  line-height:1;
+  opacity:0.9;
+  letter-spacing:0.04em;
+}
+
+/* Rusça subtitle için de küçültme */
+html[lang="ru"] .subtitle {
+  font-size:clamp(1.1rem,1.7vw,1.53rem); /* %85 oranında küçültülmüş */
+}
+
+.travel-part{
+  color:#0f172a;
+  font-weight:400;
+}
+
+.pedia-part{
+  color:#92400e;
+  font-weight:400;
+}
+
+/* === Cards Section === */
+.cards-section{
+  padding: 20px 0 0 0;
+  position: relative;
+  width: 100%;
+}
+
+.cards-wrapper{
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 16px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.cards-container{
+  display: flex;
+  gap: var(--card-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Cards === */
+.card{
+  flex: 0 0 var(--card-width);
+  height: var(--card-height);
+  background:linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:20px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+  position:relative;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  overflow:hidden;
+  touch-action:manipulation;
+  transform:translateZ(0);
+  will-change:transform;
+}
+
+.card:active{
+  transform:scale(0.95);
+}
+
+.card.highlight{
+  background:linear-gradient(135deg, 
+    rgba(254,243,199,0.8) 0%, 
+    rgba(253,230,138,0.6) 50%, 
+    rgba(254,243,199,0.7) 100%);
+  backdrop-filter:blur(16px) saturate(200%);
+  -webkit-backdrop-filter:blur(16px) saturate(200%);
+  border:1px solid rgba(245,158,11,0.6);
+  box-shadow:
+    0 8px 32px rgba(245,158,11,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(245,158,11,0.1);
+}
+
+.card-title{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight:300;
+  font-size:22px;
+  color:#0f172a;
+  line-height:1.2;
+  word-break:break-word;
+  padding:24px 8px;
+  position:relative;
+  z-index:3;
+  background:transparent;
+  width:100%;
+  text-align:center;
+  letter-spacing:0.02em;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.card.highlight .card-title{
+  color:#92400e;
+  font-weight:400;
+}
+
+.card-index{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:11px;
+  font-weight:600;
+  color:#64748b;
+  opacity:0.5;
+  letter-spacing:0.5px;
+  z-index:2;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* === Sites Section === */
+.sites-section {
+  width: 100%;
+  padding: 20px 0 40px 0;
+}
+
+.sites-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.site-item {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 20px;
+  padding: 31px 25px; /* 35px * 0.9 = 31.5px, yuvarladım 31px */
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
+  min-height: 180px; /* 200px * 0.9 = 180px - %10 azaltıldı */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.site-number {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+.site-content {
+  position: relative;
+  z-index: 2;
+}
+
+.site-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  color: #003b95;
+}
+
+.site-description {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+/* === Editor Panel === */
+.editor-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  z-index: 2000;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: none;
+}
+
+.editor-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 20px;
+}
+
+.editor-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.editor-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.category-selector {
+  margin-bottom: 30px;
+}
+
+.category-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.category-option {
+  padding: 12px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.category-option:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.category-option.selected {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border-color: var(--primary-dark);
+}
+
+.sites-input-section {
+  margin-bottom: 30px;
+}
+
+.input-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.site-input-group {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.site-input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.site-number-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.remove-site-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input-field.large {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-site-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.export-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.close-btn {
+  background: #64748b;
+  color: white;
+}
+
+.editor-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  font-size: 28px;
+  z-index: 1500;
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+}
+
+/* File input styles */
+.file-input-container {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.file-info {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.process-csv-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Info box */
+.info-box {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  font-size: 13px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.info-box strong {
+  color: #0c4a6e;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  :root {
+    --card-gap: 12px;
+    --mobile-card-width: calc((100vw - 32px - 36px) / 3.08);
+  }
+
+  .card{
+    flex: 0 0 var(--mobile-card-width);
+    height: 160px;
+  }
+
+  .card-title{
+    font-size: 16px;
+    padding: 20px 5px;
+  }
+
+  .card-index{
+    font-size: 11px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .site-item {
+    padding: 33px 24px;
+    min-height: 190px;
+  }
+
+  .site-number {
+    font-size: 14px;
+    top: 11px;
+    right: 11px;
+  }
+
+  .site-name {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .site-description {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .editor-panel {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .editor-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+  <!-- Background elements -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Main scrollable wrapper -->
+  <div class="main-wrapper">
+    <!-- Language Selector -->
+    <div class="lang-select">
+      <button class="lang-btn" id="langBtn">
+        <span id="langFlag">🇹🇷</span>
+        <span id="langName">TR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lang-list" id="langList"></div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1 class="title" id="title">Seyahat Araçları</h1>
+        <p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar burada</p>
+      </div>
+
+      <!-- Cards Section -->
+      <div class="cards-section">
+        <div class="cards-wrapper">
+          <div class="cards-container" id="cardsContainer">
+            <!-- Cards will be inserted here by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Sites List -->
+      <div class="sites-section" id="sitesSection">
+        <div class="sites-container" id="sitesContainer">
+          <!-- Site cards will be inserted here by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editor Button -->
+  <button class="editor-btn" onclick="openEditor()" title="Site Editörü">✎</button>
+
+  <!-- Editor Panel -->
+  <div class="editor-panel" id="editorPanel">
+    <div class="editor-header">
+      <h2 class="editor-title">🎯 Seyahat Kategori Site Editörü</h2>
+      <p class="editor-subtitle">Kategori seçin ve o kategoriye ait siteleri ekleyin</p>
+    </div>
+
+    <div class="category-selector">
+      <label class="category-label">📋 Kategori Seçin (Seçilen kategori altın rengi olacak):</label>
+      <div class="category-grid" id="categoryGrid">
+        <!-- Category options will be inserted here -->
+      </div>
+    </div>
+
+    <div class="sites-input-section">
+      <label class="input-label">🌐 Site Bilgileri:</label>
+      
+      <div class="info-box">
+        <strong>📝 Nasıl Kullanılır:</strong>
+        • Her site için domain, URL ve açıklama girin<br>
+        • Domain: Site adı (örn: booking.com)<br>
+        • URL: Tam site adresi (https:// ile başlamalı)<br>
+        • Açıklama: Site hakkında detaylı bilgi<br><br>
+        <strong>📊 CSV Dosyası ile Ekleme:</strong><br>
+        • 1. sütun: Domain (booking.com)<br>
+        • 2. sütun: Açıklama<br>
+        • CSV dosyasını seçin ve "CSV'den Yükle" butonuna tıklayın
+      </div>
+
+      <div class="file-input-container">
+        <input type="file" id="csvFile" accept=".csv" class="file-input" onchange="handleFileSelect(event)">
+        <label for="csvFile" class="file-label">
+          📂 CSV Dosyası Seç
+        </label>
+        <div class="file-info" id="fileInfo"></div>
+        <button class="process-csv-btn" id="processCSVBtn" style="display:none;" onclick="processCSVFile()">📊 CSV'den Yükle</button>
+      </div>
+
+      <div id="sitesInputContainer">
+        <!-- Dynamic site inputs will be added here -->
+      </div>
+
+      <button class="add-site-btn" onclick="addSiteInput()">➕ Yeni Site Ekle</button>
+    </div>
+
+    <div class="action-buttons">
+      <button class="action-btn export-btn" onclick="exportHTML()">📥 HTML Oluştur ve Kopyala</button>
+      <button class="action-btn close-btn" onclick="closeEditor()">❌ Kapat</button>
+    </div>
+  </div>
+
+<script>
+// Global variables
+let selectedCategory = null;
+let sitesList = [];
+let generatedHTML = '';
+let currentLang = 'tr';
+let siteInputCount = 0;
+let selectedFile = null;
+
+// Categories data
+const categories = [
+  {title:'Manzaralı Yerler',url:'world.html'},
+  {title:'Konaklama',url:'2.html'},
+  {title:'Ulaşım',url:'3.html'},
+  {title:'Mutfak ve Lezzet',url:'4.html'},
+  {title:'Eğlence ve Özel Deneyimler',url:'5.html'},
+  {title:'Dijital Hizmetler',url:'6.html'},
+  {title:'Güvenlik ve Sigorta',url:'7.html'},
+  {title:'Finansal Hizmetler',url:'8.html'},
+  {title:'Eğitim ve Gelişim',url:'9.html'}
+];
+
+// Translations
+const lang = {
+  tr:{flag:'🇹🇷',name:'TR',
+    title:'Seyahat Araçları',
+    subtitle:'Seyahat için gerekli tüm uygulamalar burada'},
+  en:{flag:'🇺🇸',name:'EN',
+    title:'Travel Tools',
+    subtitle:'All the apps you need for travel'},
+  es:{flag:'🇪🇸',name:'ES',
+    title:'Herramientas de Viaje',
+    subtitle:'Todas las aplicaciones necesarias para viajar'},
+  fr:{flag:'🇫🇷',name:'FR',
+    title:'Outils de Voyage',
+    subtitle:'Toutes les applications nécessaires pour voyager'},
+  de:{flag:'🇩🇪',name:'DE',
+    title:'Reise-Tools',
+    subtitle:'Alle notwendigen Apps für Reisen'},
+  it:{flag:'🇮🇹',name:'IT',
+    title:'Strumenti di Viaggio',
+    subtitle:'Tutte le app necessarie per viaggiare'},
+  pt:{flag:'🇵🇹',name:'PT',
+    title:'Ferramentas de Viagem',
+    subtitle:'Todos os aplicativos necessários para viajar'},
+  ru:{flag:'🇷🇺',name:'RU',
+    title:'Инструменты для путешествий',
+    subtitle:'Все необходимые приложения для путешествий'},
+  ja:{flag:'🇯🇵',name:'JA',
+    title:'旅行ツール',
+    subtitle:'旅行に必要なすべてのアプリ'},
+  zh:{flag:'🇨🇳',name:'ZH',
+    title:'旅行工具',
+    subtitle:'旅行所需的所有应用'},
+  ko:{flag:'🇰🇷',name:'KO',
+    title:'여행 도구',
+    subtitle:'여행에 필요한 모든 앱'},
+  ar:{flag:'🇸🇦',name:'AR',
+    title:'أدوات السفر',
+    subtitle:'جميع التطبيقات الضرورية للسفر'},
+  hi:{flag:'🇮🇳',name:'HI',
+    title:'यात्रा उपकरण',
+    subtitle:'यात्रा के लिए आवश्यक सभी ऐप्स'}
+};
+
+// Category translations
+const categoryTranslations = {
+  'Manzaralı Yerler': {
+    en: 'Scenic Spots',
+    es: 'Lugares Bonitos',
+    fr: 'Beaux Endroits',
+    de: 'Schöne Orte',
+    it: 'Posti Belli',
+    pt: 'Lugares Lindos',
+    ru: 'Красивые места',
+    ja: '絶景スポット',
+    zh: '美景',
+    ko: '멋진 장소',
+    ar: 'أماكن جميلة',
+    hi: 'खूबसूरत जगहें'
+  },
+  'Konaklama': {
+    en: 'Accommodation',
+    es: 'Alojamiento',
+    fr: 'Hébergement',
+    de: 'Unterkunft',
+    it: 'Alloggio',
+    pt: 'Hospedagem',
+    ru: 'Жильё',
+    ja: '宿泊',
+    zh: '住宿',
+    ko: '숙박',
+    ar: 'الإقامة',
+    hi: 'आवास'
+  },
+  'Ulaşım': {
+    en: 'Transportation',
+    es: 'Transporte',
+    fr: 'Transport',
+    de: 'Verkehr',
+    it: 'Trasporti',
+    pt: 'Transporte',
+    ru: 'Транспорт',
+    ja: '交通',
+    zh: '交通',
+    ko: '교통',
+    ar: 'المواصلات',
+    hi: 'परिवहन'
+  },
+  'Mutfak ve Lezzet': {
+    en: 'Food & Dining',
+    es: 'Gastronomía',
+    fr: 'Gastronomie',
+    de: 'Kulinarik',
+    it: 'Gastronomia',
+    pt: 'Gastronomia',
+    ru: 'Гастрономия',
+    ja: 'グルメ',
+    zh: '美食',
+    ko: '미식',
+    ar: 'المأكولات',
+    hi: 'भोजन'
+  },
+  'Eğlence ve Özel Deneyimler': {
+    en: 'Entertainment & Experiences',
+    es: 'Ocio y Experiencias',
+    fr: 'Loisirs et Expériences',
+    de: 'Erlebnisse',
+    it: 'Esperienze',
+    pt: 'Lazer e Experiências',
+    ru: 'Развлечения',
+    ja: 'エンタメ・体験',
+    zh: '娱乐体验',
+    ko: '엔터테인먼트',
+    ar: 'الترفيه',
+    hi: 'मनोरंजन'
+  },
+  'Dijital Hizmetler': {
+    en: 'Digital Services',
+    es: 'Servicios Digitales',
+    fr: 'Services Numériques',
+    de: 'Digitale Dienste',
+    it: 'Servizi Digitali',
+    pt: 'Serviços Digitais',
+    ru: 'Цифровые услуги',
+    ja: 'デジタルサービス',
+    zh: '数字服务',
+    ko: '디지털 서비스',
+    ar: 'الخدمات الرقمية',
+    hi: 'डिजिटल सेवाएं'
+  },
+  'Güvenlik ve Sigorta': {
+    en: 'Safety & Insurance',
+    es: 'Seguridad y Seguros',
+    fr: 'Sécurité et Assurance',
+    de: 'Sicherheit',
+    it: 'Sicurezza',
+    pt: 'Segurança',
+    ru: 'Безопасность',
+    ja: '安全・保険',
+    zh: '安全保障',
+    ko: '안전과 보험',
+    ar: 'الأمان',
+    hi: 'सुरक्षा'
+  },
+  'Finansal Hizmetler': {
+    en: 'Money Matters',
+    es: 'Finanzas',
+    fr: 'Finances',
+    de: 'Finanzen',
+    it: 'Finanza',
+    pt: 'Finanças',
+    ru: 'Финансы',
+    ja: 'マネー',
+    zh: '金融',
+    ko: '금융',
+    ar: 'المال',
+    hi: 'वित्त'
+  },
+  'Eğitim ve Gelişim': {
+    en: 'Learning & Growth',
+    es: 'Aprendizaje',
+    fr: 'Apprentissage',
+    de: 'Lernen',
+    it: 'Apprendimento',
+    pt: 'Aprendizado',
+    ru: 'Обучение',
+    ja: '学び',
+    zh: '学习',
+    ko: '학습',
+    ar: 'التعلم',
+    hi: 'सीखना'
+  }
+};
+
+// EDITOR FUNCTIONS
+function openEditor() {
+  document.getElementById('editorPanel').style.display = 'block';
+}
+
+function closeEditor() {
+  document.getElementById('editorPanel').style.display = 'none';
+}
+
+// Create cards
+function createCards() {
+  const container = document.getElementById('cardsContainer');
+  container.innerHTML = '';
+  
+  categories.forEach((cat, index) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.originalTitle = cat.title;
+    
+    const translatedTitle = getCategoryName(cat.title, currentLang);
+    
+    card.innerHTML = '<span class="card-index">' + (index + 1) + '</span>' +
+      '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">' +
+      '<div class="card-title">' + translatedTitle + '</div>' +
+      '</div>';
+    
+    container.appendChild(card);
+  });
+}
+
+function createCategoryOptions() {
+  const grid = document.getElementById('categoryGrid');
+  grid.innerHTML = '';
+  
+  const icons = ['🏔️', '🏨', '✈️', '🍽️', '🎭', '📱', '🛡️', '💳', '🎓'];
+  
+  categories.forEach((cat, index) => {
+    const option = document.createElement('div');
+    option.className = 'category-option';
+    option.dataset.category = cat.title;
+    option.dataset.url = cat.url;
+    option.textContent = icons[index] + ' ' + cat.title;
+    option.onclick = function() {
+      selectCategory(this);
+    };
+    grid.appendChild(option);
+  });
+}
+
+function selectCategory(element) {
+  document.querySelectorAll('.category-option').forEach(opt => {
+    opt.classList.remove('selected');
+  });
+  
+  element.classList.add('selected');
+  selectedCategory = {
+    title: element.dataset.category,
+    url: element.dataset.url
+  };
+}
+
+function addSiteInput() {
+  siteInputCount++;
+  const container = document.getElementById('sitesInputContainer');
+  
+  const inputGroup = document.createElement('div');
+  inputGroup.className = 'site-input-group';
+  inputGroup.id = 'site-input-' + siteInputCount;
+  
+  let html = '<div class="site-input-header">';
+  html += '<span class="site-number-label">Site #' + siteInputCount + '</span>';
+  if (siteInputCount > 1) {
+    html += '<button class="remove-site-btn" onclick="removeSiteInput(' + siteInputCount + ')">🗑️ Sil</button>';
+  }
+  html += '</div>';
+  html += '<input type="text" class="input-field" placeholder="Site domain (örn: booking.com)" id="domain-' + siteInputCount + '">';
+  html += '<input type="text" class="input-field" placeholder="Site URL (https://www.booking.com)" id="url-' + siteInputCount + '">';
+  html += '<textarea class="input-field large" placeholder="Site açıklaması" id="desc-' + siteInputCount + '"></textarea>';
+  
+  inputGroup.innerHTML = html;
+  container.appendChild(inputGroup);
+}
+
+function removeSiteInput(id) {
+  const element = document.getElementById('site-input-' + id);
+  if (element) {
+    element.remove();
+  }
+}
+
+function handleFileSelect(event) {
+  selectedFile = event.target.files[0];
+  const fileInfo = document.getElementById('fileInfo');
+  const processBtn = document.getElementById('processCSVBtn');
+  
+  if (selectedFile) {
+    fileInfo.textContent = '✅ Seçilen dosya: ' + selectedFile.name;
+    processBtn.style.display = 'inline-block';
+  } else {
+    fileInfo.textContent = '';
+    processBtn.style.display = 'none';
+  }
+}
+
+function processCSVFile() {
+  if (!selectedFile) {
+    alert('Lütfen bir CSV dosyası seçin!');
+    return;
+  }
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const csvContent = e.target.result;
+      const lines = csvContent.split(/\r?\n/).filter(line => line.trim());
+      
+      document.getElementById('sitesInputContainer').innerHTML = '';
+      siteInputCount = 0;
+      
+      lines.forEach((line) => {
+        const parts = parseCSVLine(line);
+        
+        if (parts.length >= 2) {
+          const domain = parts[0].trim().replace(/^["']|["']$/g, '');
+          const description = parts[1].trim().replace(/^["']|["']$/g, '');
+          
+          if (domain && description) {
+            siteInputCount++;
+            const container = document.getElementById('sitesInputContainer');
+            
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'site-input-group';
+            inputGroup.id = 'site-input-' + siteInputCount;
+            
+            let url = domain;
+            if (!domain.startsWith('http://') && !domain.startsWith('https://')) {
+              url = 'https://' + domain;
+            }
+            
+            let html = '<div class="site-input-header">';
+            html += '<span class="site-number-label">Site #' + siteInputCount + '</span>';
+            if (siteInputCount > 1) {
+              html += '<button class="remove-site-btn" onclick="removeSiteInput(' + siteInputCount + ')">🗑️ Sil</button>';
+            }
+            html += '</div>';
+            html += '<input type="text" class="input-field" value="' + domain + '" id="domain-' + siteInputCount + '">';
+            html += '<input type="text" class="input-field" value="' + url + '" id="url-' + siteInputCount + '">';
+            html += '<textarea class="input-field large" id="desc-' + siteInputCount + '">' + description + '</textarea>';
+            
+            inputGroup.innerHTML = html;
+            container.appendChild(inputGroup);
+          }
+        }
+      });
+      
+      document.getElementById('csvFile').value = '';
+      document.getElementById('fileInfo').textContent = '';
+      document.getElementById('processCSVBtn').style.display = 'none';
+      selectedFile = null;
+      
+      if (siteInputCount > 0) {
+        alert('✅ CSV dosyasından ' + siteInputCount + ' site yüklendi!');
+        
+        if (!selectedCategory) {
+          const firstCategory = document.querySelector('.category-option');
+          if (firstCategory) {
+            firstCategory.click();
+            alert('📌 İlk kategori otomatik seçildi. İsterseniz değiştirebilirsiniz.');
+          }
+        }
+      }
+    } catch (error) {
+      alert('CSV dosyası işlenirken bir hata oluştu!');
+    }
+  };
+  
+  reader.readAsText(selectedFile, 'UTF-8');
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  
+  if (current || result.length > 0) {
+    result.push(current.trim());
+  }
+  
+  return result;
+}
+
+function exportHTML() {
+  if (!selectedCategory) {
+    alert('Lütfen önce bir kategori seçin!');
+    return;
+  }
+  
+  sitesList = [];
+  const inputs = document.querySelectorAll('.site-input-group');
+  
+  inputs.forEach((group) => {
+    const id = group.id.split('-')[2];
+    const domain = document.getElementById('domain-' + id).value.trim();
+    const url = document.getElementById('url-' + id).value.trim();
+    const description = document.getElementById('desc-' + id).value.trim();
+    
+    if (domain && url && description) {
+      sitesList.push({
+        name: domain,
+        url: url,
+        description: description
+      });
+    }
+  });
+  
+  if (sitesList.length === 0) {
+    alert('Lütfen en az bir site bilgisi girin!');
+    return;
+  }
+  
+  updateDisplay();
+  alert('✅ ' + selectedCategory.title + ' kategorisi için ' + sitesList.length + ' site ile HTML oluşturuldu!');
+}
+
+function updateDisplay() {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    const title = card.dataset.originalTitle;
+    if (title === selectedCategory.title) {
+      card.classList.add('highlight');
+    } else {
+      card.classList.remove('highlight');
+    }
+  });
+  
+  const sitesContainer = document.getElementById('sitesContainer');
+  sitesContainer.innerHTML = '';
+  
+  sitesList.forEach((site, index) => {
+    const siteCard = document.createElement('div');
+    siteCard.className = 'site-item';
+    siteCard.innerHTML = '<span class="site-number">' + (index + 1) + '</span>' +
+      '<div class="site-content">' +
+      '<h3 class="site-name">' + site.name + '</h3>' +
+      '<p class="site-description">' + site.description + '</p>' +
+      '</div>';
+    
+    siteCard.onclick = function() {
+      window.open(site.url, '_blank');
+    };
+    
+    sitesContainer.appendChild(siteCard);
+  });
+}
+
+// Language functions
+function detectLang() {
+  const browser = navigator.language.toLowerCase();
+  for(const code in lang) {
+    if(browser.startsWith(code)) return code;
+  }
+  return 'tr';
+}
+
+function getCategoryName(title, langCode) {
+  if (langCode === 'tr') return title;
+  
+  if (categoryTranslations[title] && categoryTranslations[title][langCode]) {
+    return categoryTranslations[title][langCode];
+  }
+  
+  return title;
+}
+
+function setLang(code) {
+  currentLang = code;
+  const t = lang[code];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('langFlag').textContent = t.flag;
+  document.getElementById('langName').textContent = t.name;
+  
+  document.documentElement.lang = code;
+  
+  document.querySelectorAll('.lang-item').forEach(i => {
+    i.classList.toggle('active', i.dataset.lang === code);
+  });
+  
+  colorizeTitle();
+  updateCards();
+}
+
+function colorizeTitle() {
+  const titleElement = document.getElementById('title');
+  if (!titleElement) return;
+  
+  const titleText = titleElement.textContent;
+  let firstPart, secondPart;
+  
+  if (currentLang === 'tr') {
+    firstPart = 'Seyahat';
+    secondPart = 'Araçları';
+  } else if (currentLang === 'en') {
+    firstPart = 'Travel';
+    secondPart = 'Tools';
+  } else {
+    const words = titleText.split(' ');
+    if (words.length >= 2) {
+      firstPart = words[0];
+      secondPart = words.slice(1).join(' ');
+    } else {
+      firstPart = titleText;
+      secondPart = '';
+    }
+  }
+  
+  if (secondPart) {
+    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span> <span class="pedia-part">' + secondPart + '</span>';
+  } else {
+    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span>';
+  }
+}
+
+function updateCards() {
+  document.querySelectorAll('.card').forEach(card => {
+    const originalTitle = card.dataset.originalTitle;
+    if (!originalTitle) return;
+    
+    const translatedTitle = getCategoryName(originalTitle, currentLang);
+    const titleElement = card.querySelector('.card-title');
+    
+    if (titleElement) titleElement.textContent = translatedTitle;
+  });
+}
+
+function createLangMenu() {
+  const list = document.getElementById('langList');
+  for(const [code, data] of Object.entries(lang)) {
+    const item = document.createElement('div');
+    item.className = 'lang-item';
+    item.dataset.lang = code;
+    item.innerHTML = '<span>' + data.flag + '</span><span>' + data.name + '</span>';
+    item.onclick = function() {
+      setLang(code);
+      toggleLang(false);
+    };
+    list.appendChild(item);
+  }
+}
+
+function toggleLang(force) {
+  const list = document.getElementById('langList');
+  if(force === false) {
+    list.classList.remove('show');
+  } else {
+    list.classList.toggle('show');
+  }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  createLangMenu();
+  setLang(detectLang());
+  createCards();
+  createCategoryOptions();
+  addSiteInput();
+  
+  document.getElementById('langBtn').onclick = function(e) {
+    e.stopPropagation();
+    toggleLang();
+  };
+  
+  document.onclick = function(e) {
+    if(!e.target.closest('.lang-select')) {
+      toggleLang(false);
+    }
+  };
+});
+</script>
+</body>
+</html>
