@@ -1272,54 +1272,12 @@ function exportHTML() {
     return;
   }
   
-  // HTML oluştur
-  let htmlContent = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n';
-  htmlContent += '<meta charset="utf-8">\n';
-  htmlContent += '<meta name="viewport" content="width=device-width,initial-scale=1.0">\n';
-  htmlContent += '<title>' + selectedCategory.title + ' - Seyahat Araçları</title>\n';
-  htmlContent += '<style>\n';
-  htmlContent += 'body{margin:0;padding:20px;font-family:system-ui,-apple-system,sans-serif;background:#f3f4f6;}\n';
-  htmlContent += '.container{max-width:1200px;margin:0 auto;}\n';
-  htmlContent += 'h1{color:#1f2937;margin-bottom:30px;}\n';
-  htmlContent += '.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-bottom:40px;}\n';
-  htmlContent += '.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;transition:transform 0.2s;}\n';
-  htmlContent += '.card:hover{transform:translateY(-4px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}\n';
-  htmlContent += '.card.active{background:#fef3c7;border:2px solid #f59e0b;}\n';
-  htmlContent += '.sites{display:grid;gap:20px;}\n';
-  htmlContent += '.site{background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;transition:all 0.2s;}\n';
-  htmlContent += '.site:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}\n';
-  htmlContent += '.site h3{margin:0 0 10px 0;color:#1e40af;font-size:1.5rem;}\n';
-  htmlContent += '.site p{margin:0;color:#6b7280;line-height:1.6;}\n';
-  htmlContent += '</style>\n</head>\n<body>\n';
-  htmlContent += '<div class="container">\n';
-  htmlContent += '<h1>Seyahat Araçları - ' + selectedCategory.title + '</h1>\n';
-  
-  // Kategoriler
-  htmlContent += '<div class="cards">\n';
-  categories.forEach(function(cat) {
-    const isActive = cat.title === selectedCategory.title;
-    htmlContent += '<div class="card' + (isActive ? ' active' : '') + '" onclick="alert(\'Kategori: ' + cat.title + '\')">\n';
-    htmlContent += '<h3>' + cat.title + '</h3>\n';
-    htmlContent += '</div>\n';
-  });
-  htmlContent += '</div>\n';
-  
-  // Siteler
-  htmlContent += '<h2>' + selectedCategory.title + ' Siteleri</h2>\n';
-  htmlContent += '<div class="sites">\n';
-  sitesList.forEach(function(site) {
-    htmlContent += '<div class="site" onclick="window.open(\'' + site.url + '\', \'_blank\')">\n';
-    htmlContent += '<h3>' + site.name + '</h3>\n';
-    htmlContent += '<p>' + site.description + '</p>\n';
-    htmlContent += '</div>\n';
-  });
-  htmlContent += '</div>\n';
-  
-  htmlContent += '</div>\n</body>\n</html>';
+  // Full HTML oluştur
+  generateFullHTML();
   
   // Panoya kopyala
   const textArea = document.createElement('textarea');
-  textArea.value = htmlContent;
+  textArea.value = generatedHTML;
   textArea.style.position = 'fixed';
   textArea.style.left = '-999999px';
   textArea.style.top = '-999999px';
@@ -1346,6 +1304,734 @@ function exportHTML() {
   } else {
     alert('❌ Kopyalama başarısız oldu. Lütfen tekrar deneyin.');
   }
+}
+
+function generateFullHTML() {
+  // Kategorileri oluştur
+  let categoriesJS = '';
+  categories.forEach((cat) => {
+    const isHighlight = cat.title === selectedCategory.title;
+    categoriesJS += "  {title:'" + cat.title + "',url:'" + cat.url + "'";
+    if (isHighlight) categoriesJS += ",highlight:true";
+    categoriesJS += "},\n";
+  });
+  
+  // Siteleri oluştur
+  let sitesJS = '';
+  sitesList.forEach((site) => {
+    const desc = site.description.replace(/'/g, "\\'").replace(/\n/g, ' ');
+    sitesJS += "  {name:'" + site.name + "',url:'" + site.url + "',description:'" + desc + "'},\n";
+  });
+  
+  // Tam HTML içeriği - orijinal şablonla aynı
+  generatedHTML = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Seyahat Araçları</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* === Variables === */
+:root{
+  --primary:#6366f1;
+  --primary-dark:#4f46e5;
+  --secondary:#8b5cf6;
+  --accent:#f59e0b;
+  --text-primary:#1e293b;
+  --text-secondary:#475569;
+  --text-muted:#64748b;
+  --card-width: 176px;
+  --card-height: 209px;
+  --card-gap: 14px;
+  --mobile-card-width: calc((100vw - 32px - 24px) / 3.5);
+}
+
+/* === Reset === */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#d1d5db;
+  color:var(--text-primary);
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
+
+/* === Main Container === */
+.main-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  position: relative;
+  z-index: 1;
+}
+
+/* === Background === */
+.bg-image{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  z-index:-2;
+  pointer-events:none;
+}
+
+.bg-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.2) 100%);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* === Container === */
+.container{
+  position:relative;
+  z-index:1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* === Language Selector === */
+.lang-select{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:100;
+  transform:translateZ(0);
+}
+
+.lang-btn{
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 16px rgba(99,102,241,.06);
+  transition:transform .2s ease;
+  color:#475569;
+  touch-action:manipulation;
+}
+
+.lang-btn:active{
+  transform:scale(0.95);
+}
+
+.lang-list{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  background:rgba(255,255,255,.98);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(139,92,246,.12);
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(99,102,241,.12);
+  max-height:320px;
+  overflow-y:auto;
+  display:none;
+  min-width:160px;
+  transform:translateZ(0);
+}
+
+.lang-list.show{
+  display:block;
+  animation:fadeIn .2s ease;
+}
+
+.lang-item{
+  padding:10px 16px;
+  cursor:pointer;
+  transition:background-color .2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#475569;
+  touch-action:manipulation;
+}
+
+.lang-item:active{
+  background:rgba(139,92,246,.12);
+}
+
+.lang-item.active{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+}
+
+/* === Header === */
+.header{
+  padding:80px 16px 20px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+  flex-shrink: 0;
+}
+
+.title{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:clamp(3rem,4vw,4rem);
+  font-weight:400;
+  margin-bottom:8px;
+  letter-spacing:0.06em;
+  line-height:0.9;
+  text-transform:uppercase;
+}
+
+/* Rusça için özel boyut ayarı */
+html[lang="ru"] .title {
+  font-size:clamp(2.55rem,3.4vw,3.4rem);
+}
+
+.subtitle{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:clamp(1.3rem,2vw,1.8rem);
+  font-weight:400;
+  color:#334155;
+  margin-top:4px;
+  line-height:1;
+  opacity:0.9;
+  letter-spacing:0.04em;
+}
+
+html[lang="ru"] .subtitle {
+  font-size:clamp(1.1rem,1.7vw,1.53rem);
+}
+
+.travel-part{
+  color:#0f172a;
+  font-weight:400;
+}
+
+.pedia-part{
+  color:#92400e;
+  font-weight:400;
+}
+
+/* === Cards Section === */
+.cards-section{
+  padding: 20px 0 0 0;
+  position: relative;
+  width: 100%;
+}
+
+.cards-wrapper{
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 16px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.cards-container{
+  display: flex;
+  gap: var(--card-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Cards === */
+.card{
+  flex: 0 0 var(--card-width);
+  height: var(--card-height);
+  background:linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:20px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+  position:relative;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  overflow:hidden;
+  touch-action:manipulation;
+  transform:translateZ(0);
+  will-change:transform;
+}
+
+.card:active{
+  transform:scale(0.95);
+}
+
+.card.highlight{
+  background:linear-gradient(135deg, 
+    rgba(254,243,199,0.8) 0%, 
+    rgba(253,230,138,0.6) 50%, 
+    rgba(254,243,199,0.7) 100%);
+  backdrop-filter:blur(16px) saturate(200%);
+  -webkit-backdrop-filter:blur(16px) saturate(200%);
+  border:1px solid rgba(245,158,11,0.6);
+  box-shadow:
+    0 8px 32px rgba(245,158,11,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(245,158,11,0.1);
+}
+
+.card-title{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight:300;
+  font-size:22px;
+  color:#0f172a;
+  line-height:1.2;
+  word-break:break-word;
+  padding:24px 8px;
+  position:relative;
+  z-index:3;
+  background:transparent;
+  width:100%;
+  text-align:center;
+  letter-spacing:0.02em;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.card.highlight .card-title{
+  color:#92400e;
+  font-weight:400;
+}
+
+.card-index{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:11px;
+  font-weight:600;
+  color:#64748b;
+  opacity:0.5;
+  letter-spacing:0.5px;
+  z-index:2;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* === Sites Section === */
+.sites-section {
+  width: 100%;
+  padding: 20px 0 40px 0;
+}
+
+.sites-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.site-item {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 20px;
+  padding: 31px 25px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 2px 4px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.05);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.site-number {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+.site-content {
+  position: relative;
+  z-index: 2;
+}
+
+.site-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  color: #003b95;
+}
+
+.site-description {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  :root {
+    --card-gap: 12px;
+    --mobile-card-width: calc((100vw - 32px - 36px) / 2.73);
+  }
+
+  .card{
+    flex: 0 0 var(--mobile-card-width);
+    height: 182px;
+  }
+
+  .card-title{
+    font-size: 18px;
+    padding: 24px 6px;
+  }
+
+  .card-index{
+    font-size: 12px;
+    top: 11px;
+    right: 11px;
+  }
+
+  .site-item {
+    padding: 25px 18px;
+    min-height: 146px;
+  }
+
+  .site-number {
+    font-size: 14px;
+    top: 9px;
+    right: 9px;
+  }
+
+  .site-name {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .site-description {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+  <!-- Background elements -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Main scrollable wrapper -->
+  <div class="main-wrapper">
+    <!-- Language Selector -->
+    <div class="lang-select">
+      <button class="lang-btn" id="langBtn">
+        <span id="langFlag">🇹🇷</span>
+        <span id="langName">TR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lang-list" id="langList"></div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1 class="title" id="title">Seyahat Araçları</h1>
+        <p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar burada</p>
+      </div>
+
+      <!-- Cards Section -->
+      <div class="cards-section">
+        <div class="cards-wrapper">
+          <div class="cards-container" id="cardsContainer"></div>
+        </div>
+      </div>
+
+      <!-- Sites List -->
+      <div class="sites-section" id="sitesSection">
+        <div class="sites-container"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Translations
+const lang = {
+  tr:{flag:'🇹🇷',name:'TR',title:'Seyahat Araçları',subtitle:'Seyahat için gerekli tüm uygulamalar burada'},
+  en:{flag:'🇺🇸',name:'EN',title:'Travel Tools',subtitle:'All the apps you need for travel'},
+  es:{flag:'🇪🇸',name:'ES',title:'Herramientas de Viaje',subtitle:'Todas las aplicaciones necesarias para viajar'},
+  fr:{flag:'🇫🇷',name:'FR',title:'Outils de Voyage',subtitle:'Toutes les applications nécessaires pour voyager'},
+  de:{flag:'🇩🇪',name:'DE',title:'Reise-Tools',subtitle:'Alle notwendigen Apps für Reisen'},
+  it:{flag:'🇮🇹',name:'IT',title:'Strumenti di Viaggio',subtitle:'Tutte le app necessarie per viaggiare'},
+  pt:{flag:'🇵🇹',name:'PT',title:'Ferramentas de Viagem',subtitle:'Todos os aplicativos necessários para viajar'},
+  ru:{flag:'🇷🇺',name:'RU',title:'Инструменты для путешествий',subtitle:'Все необходимые приложения для путешествий'},
+  ja:{flag:'🇯🇵',name:'JA',title:'旅行ツール',subtitle:'旅行に必要なすべてのアプリ'},
+  zh:{flag:'🇨🇳',name:'ZH',title:'旅行工具',subtitle:'旅行所需的所有应用'},
+  ko:{flag:'🇰🇷',name:'KO',title:'여행 도구',subtitle:'여행에 필요한 모든 앱'},
+  ar:{flag:'🇸🇦',name:'AR',title:'أدوات السفر',subtitle:'جميع التطبيقات الضرورية للسفر'},
+  hi:{flag:'🇮🇳',name:'HI',title:'यात्रा उपकरण',subtitle:'यात्रा के लिए आवश्यक सभी ऐप्स'}
+};
+
+// Categories
+const categories = [
+${categoriesJS}];
+
+// Category translations  
+const categoryTranslations = {
+  'Manzaralı Yerler': {en: 'Scenic Spots',es: 'Lugares Bonitos',fr: 'Beaux Endroits',de: 'Schöne Orte',it: 'Posti Belli',pt: 'Lugares Lindos',ru: 'Красивые места',ja: '絶景スポット',zh: '美景',ko: '멋진 장소',ar: 'أماكن جميلة',hi: 'खूबसूरत जगहें'},
+  'Konaklama': {en: 'Accommodation',es: 'Alojamiento',fr: 'Hébergement',de: 'Unterkunft',it: 'Alloggio',pt: 'Hospedagem',ru: 'Жильё',ja: '宿泊',zh: '住宿',ko: '숙박',ar: 'الإقامة',hi: 'आवास'},
+  'Ulaşım': {en: 'Transportation',es: 'Transporte',fr: 'Transport',de: 'Verkehr',it: 'Trasporti',pt: 'Transporte',ru: 'Транспорт',ja: '交通',zh: '交通',ko: '교통',ar: 'المواصلات',hi: 'परिवहन'},
+  'Mutfak ve Lezzet': {en: 'Food & Dining',es: 'Gastronomía',fr: 'Gastronomie',de: 'Kulinarik',it: 'Gastronomia',pt: 'Gastronomia',ru: 'Гастрономия',ja: 'グルメ',zh: '美食',ko: '미식',ar: 'المأكولات',hi: 'भोजन'},
+  'Eğlence ve Özel Deneyimler': {en: 'Entertainment & Experiences',es: 'Ocio y Experiencias',fr: 'Loisirs et Expériences',de: 'Erlebnisse',it: 'Esperienze',pt: 'Lazer e Experiências',ru: 'Развлечения',ja: 'エンタメ・体験',zh: '娱乐体验',ko: '엔터테인먼트',ar: 'الترفيه',hi: 'मनोरंजन'},
+  'Dijital Hizmetler': {en: 'Digital Services',es: 'Servicios Digitales',fr: 'Services Numériques',de: 'Digitale Dienste',it: 'Servizi Digitali',pt: 'Serviços Digitais',ru: 'Цифровые услуги',ja: 'デジタルサービス',zh: '数字服务',ko: '디지털 서비스',ar: 'الخدمات الرقمية',hi: 'डिजिटल सेवाएं'},
+  'Güvenlik ve Sigorta': {en: 'Safety & Insurance',es: 'Seguridad y Seguros',fr: 'Sécurité et Assurance',de: 'Sicherheit',it: 'Sicurezza',pt: 'Segurança',ru: 'Безопасность',ja: '安全・保険',zh: '安全保障',ko: '안전과 보험',ar: 'الأمان',hi: 'सुरक्षा'},
+  'Finansal Hizmetler': {en: 'Money Matters',es: 'Finanzas',fr: 'Finances',de: 'Finanzen',it: 'Finanza',pt: 'Finanças',ru: 'Финансы',ja: 'マネー',zh: '金融',ko: '금융',ar: 'المال',hi: 'वित्त'},
+  'Eğitim ve Gelişim': {en: 'Learning & Growth',es: 'Aprendizaje',fr: 'Apprentissage',de: 'Lernen',it: 'Apprendimento',pt: 'Aprendizado',ru: 'Обучение',ja: '学び',zh: '学习',ko: '학습',ar: 'التعلم',hi: 'सीखना'}
+};
+
+// Sites data
+const sites = [
+${sitesJS}];
+
+// Current language
+let currentLang = 'tr';
+
+// Detect browser language
+function detectLang(){
+  const saved = localStorage.getItem('lang');
+  if(saved && lang[saved]) return saved;
+  const browser = navigator.language.toLowerCase();
+  for(const code in lang){
+    if(browser.startsWith(code)) return code;
+  }
+  return 'tr';
+}
+
+// Get category name by language
+function getCategoryName(title, langCode) {
+  if (langCode === 'tr') return title;
+  if (categoryTranslations[title] && categoryTranslations[title][langCode]) {
+    return categoryTranslations[title][langCode];
+  }
+  return title;
+}
+
+// Colorize title
+function colorizeTitle() {
+  const titleElement = document.getElementById('title');
+  if (!titleElement) return;
+  
+  const titleText = titleElement.textContent;
+  let firstPart, secondPart;
+  
+  if (currentLang === 'tr') {
+    firstPart = 'Seyahat';
+    secondPart = 'Araçları';
+  } else if (currentLang === 'en') {
+    firstPart = 'Travel';
+    secondPart = 'Tools';
+  } else {
+    const words = titleText.split(' ');
+    if (words.length >= 2) {
+      firstPart = words[0];
+      secondPart = words.slice(1).join(' ');
+    } else {
+      firstPart = titleText;
+      secondPart = '';
+    }
+  }
+  
+  if (secondPart) {
+    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span> <span class="pedia-part">' + secondPart + '</span>';
+  } else {
+    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span>';
+  }
+}
+
+// Set language
+function setLang(code){
+  currentLang = code;
+  const t = lang[code];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('langFlag').textContent = t.flag;
+  document.getElementById('langName').textContent = t.name;
+  
+  document.documentElement.lang = code;
+  localStorage.setItem('lang', code);
+  
+  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+  
+  colorizeTitle();
+  updateCards();
+}
+
+// Update cards with translations
+function updateCards() {
+  document.querySelectorAll('.card').forEach(card => {
+    const originalTitle = card.dataset.originalTitle;
+    if (!originalTitle) return;
+    const translatedTitle = getCategoryName(originalTitle, currentLang);
+    const titleElement = card.querySelector('.card-title');
+    if (titleElement) titleElement.textContent = translatedTitle;
+  });
+}
+
+// Create language menu
+function createLangMenu(){
+  const list = document.getElementById('langList');
+  for(const [code,data] of Object.entries(lang)){
+    const item = document.createElement('div');
+    item.className='lang-item';
+    item.dataset.lang = code;
+    item.innerHTML = '<span>' + data.flag + '</span><span>' + data.name + '</span>';
+    item.addEventListener('click', ()=>{ setLang(code); toggleLang(false); });
+    list.appendChild(item);
+  }
+}
+
+// Toggle menu
+function toggleLang(force){
+  const list = document.getElementById('langList');
+  if(force===false){ list.classList.remove('show'); }
+  else{ list.classList.toggle('show'); }
+}
+
+// Page load
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('cardsContainer');
+  const sitesContainer = document.querySelector('.sites-container');
+  
+  // Create language menu first
+  createLangMenu();
+  
+  // Set initial language
+  setLang(detectLang());
+  
+  // Create cards
+  categories.forEach((cat, index) => {
+    const card = document.createElement('div');
+    card.className = cat.highlight ? 'card highlight' : 'card';
+    card.dataset.originalTitle = cat.title;
+    
+    const translatedTitle = getCategoryName(cat.title, currentLang);
+    
+    let cardContent = '<span class="card-index">' + (index + 1) + '</span>';
+    cardContent += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">';
+    cardContent += '<div class="card-title">' + translatedTitle + '</div>';
+    cardContent += '</div>';
+    
+    card.innerHTML = cardContent;
+    
+    card.addEventListener('click', () => {
+      location.href = cat.url;
+    });
+    
+    container.appendChild(card);
+  });
+
+  // Create site cards
+  sites.forEach((site, index) => {
+    const siteCard = document.createElement('div');
+    siteCard.className = 'site-item';
+    siteCard.innerHTML = 
+      '<span class="site-number">' + (index + 1) + '</span>' +
+      '<div class="site-content">' +
+      '<h3 class="site-name">' + site.name + '</h3>' +
+      '<p class="site-description">' + site.description + '</p>' +
+      '</div>';
+    
+    siteCard.addEventListener('click', () => {
+      window.open(site.url, '_blank');
+    });
+    
+    sitesContainer.appendChild(siteCard);
+  });
+  
+  // Language button click handler
+  document.getElementById('langBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLang();
+  });
+  
+  // Close dropdown on outside click
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.lang-select')) toggleLang(false);
+  });
+});
+<\/script>
+</body>
+</html>`;
 }
 
 function copyToClipboardFallback() {
