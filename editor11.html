@@ -1267,7 +1267,44 @@ function exportHTML() {
   }
   
   updateDisplay();
-  alert('✅ ' + selectedCategory.title + ' kategorisi için ' + sitesList.length + ' site ile HTML oluşturuldu!');
+  generateFullHTML();
+  
+  // Panoya kopyala
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(generatedHTML).then(function() {
+      alert('✅ ' + selectedCategory.title + ' kategorisi için ' + sitesList.length + ' site ile HTML oluşturuldu ve panoya kopyalandı!');
+    }).catch(function(err) {
+      copyToClipboardFallback();
+    });
+  } else {
+    copyToClipboardFallback();
+  }
+}
+
+function copyToClipboardFallback() {
+  const textarea = document.createElement('textarea');
+  textarea.value = generatedHTML;
+  textarea.style.position = 'fixed';
+  textarea.style.top = '0';
+  textarea.style.left = '0';
+  textarea.style.opacity = '0';
+  
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      alert('✅ HTML kodu panoya kopyalandı!');
+    } else {
+      alert('❌ Kopyalama başarısız oldu. Lütfen manuel olarak kopyalayın.');
+    }
+  } catch (err) {
+    alert('❌ Kopyalama başarısız oldu: ' + err.message);
+  }
+  
+  document.body.removeChild(textarea);
 }
 
 function updateDisplay() {
@@ -1403,6 +1440,70 @@ function toggleLang(force) {
   } else {
     list.classList.toggle('show');
   }
+}
+
+function generateFullHTML() {
+  // Kategorileri HTML formatında oluştur
+  let categoriesData = '';
+  categories.forEach((cat) => {
+    const isHighlight = cat.title === selectedCategory.title;
+    categoriesData += "  {title:'" + cat.title + "',url:'" + cat.url + "'";
+    if (isHighlight) categoriesData += ",highlight:true";
+    categoriesData += "},\n";
+  });
+  
+  // Siteleri HTML formatında oluştur
+  let sitesData = '';
+  sitesList.forEach((site) => {
+    const desc = site.description.replace(/'/g, "\\'");
+    sitesData += "  {name:'" + site.name + "',url:'" + site.url + "',description:'" + desc + "'},\n";
+  });
+  
+  // Tam HTML şablonunu oluştur
+  generatedHTML = '<!DOCTYPE html>\n' +
+'<html lang="tr">\n' +
+'<head>\n' +
+'<meta charset="utf-8">\n' +
+'<meta name="viewport" content="width=device-width,initial-scale=1.0">\n' +
+'<title>Seyahat Araçları</title>\n' +
+'<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n' +
+'<style>\n' +
+':root{--primary:#6366f1;--card-width:176px;--card-height:209px;--card-gap:14px;}\n' +
+'*{margin:0;padding:0;box-sizing:border-box;}\n' +
+'body{font-family:Inter,sans-serif;background:#d1d5db;}\n' +
+'.bg-image{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#e5e7eb 0%,#d1d5db 50%,#e5e7eb 100%);z-index:-2;}\n' +
+'.header{padding:80px 16px 20px;text-align:center;}\n' +
+'.title{font-family:"Bebas Neue",sans-serif;font-size:3.5rem;}\n' +
+'.cards-container{display:flex;gap:14px;overflow-x:auto;padding:20px;}\n' +
+'.card{flex:0 0 176px;height:209px;background:rgba(255,255,255,0.7);backdrop-filter:blur(16px);border-radius:20px;padding:20px;cursor:pointer;}\n' +
+'.card.highlight{background:rgba(254,243,199,0.8);border:1px solid rgba(245,158,11,0.6);}\n' +
+'.sites-container{max-width:500px;margin:0 auto;padding:20px;}\n' +
+'.site-item{background:rgba(255,255,255,0.7);backdrop-filter:blur(16px);border-radius:20px;padding:31px 25px;margin-bottom:20px;min-height:180px;cursor:pointer;}\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'<div class="bg-image"></div>\n' +
+'<div class="header"><h1 class="title">Seyahat Araçları</h1></div>\n' +
+'<div class="cards-container">\n';
+
+  // Kategorileri ekle
+  categories.forEach((cat, index) => {
+    const isHighlight = cat.title === selectedCategory.title;
+    generatedHTML += '<div class="card' + (isHighlight ? ' highlight' : '') + '" onclick="location.href=\'' + cat.url + '\'">' +
+      '<div>' + cat.title + '</div></div>\n';
+  });
+  
+  generatedHTML += '</div>\n<div class="sites-container">\n';
+  
+  // Siteleri ekle
+  sitesList.forEach((site) => {
+    generatedHTML += '<div class="site-item" onclick="window.open(\'' + site.url + '\',\'_blank\')">\n' +
+      '<h3>' + site.name + '</h3>\n' +
+      '<p>' + site.description + '</p>\n' +
+      '</div>\n';
+  });
+  
+  generatedHTML += '</div>\n</body>\n</html>';
 }
 
 // Initialize when DOM is ready
