@@ -1612,30 +1612,217 @@ function generateFullHTML() {
   // Get the complete CSS from the current page
   const styleContent = document.querySelector('style').innerHTML;
   
-  // Full HTML template - Complete and functional
-  generatedHTML = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n' +
-    '<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">\n' +
-    '<title>Seyahat Araçları</title>\n<style>\n' + styleContent + '\n</style>\n</head>\n<body>\n' +
-    '<div class="bg-image"></div>\n<div class="bg-overlay"></div>\n' +
-    '<div class="main-wrapper">\n<div class="lang-select">\n' +
-    '<button class="lang-btn" id="langBtn"><span id="langFlag">🇹🇷</span><span id="langName">TR</span></button>\n' +
-    '<div class="lang-list" id="langList"></div>\n</div>\n' +
-    '<div class="container">\n<div class="header">\n' +
-    '<h1 class="title" id="title">Seyahat Araçları</h1>\n' +
-    '<p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar burada</p>\n</div>\n' +
-    '<div class="cards-section">\n<div class="cards-wrapper">\n' +
-    '<div class="cards-container" id="cardsContainer"></div>\n</div>\n</div>\n' +
-    '<div class="sites-section">\n<div class="sites-container" id="sitesContainer"></div>\n</div>\n' +
-    '</div>\n</div>\n' +
-    '<script>\nconst categories = [' + categoriesHTML + '\n];\n' +
-    'const sites = [' + sitesDataHTML + '\n];\n' +
-    'const lang = ' + JSON.stringify(lang) + ';\n' +
-    'const categoryTranslations = ' + JSON.stringify(categoryTranslations) + ';\n' +
-    'let currentLang = "tr";\n' +
-    '// All functions here...\n' +
-    '</scr' + 'ipt>\n</body>\n</html>';
+  // Full HTML template with all JavaScript functions
+  generatedHTML = '<!DOCTYPE html>\n' +
+'<html lang="tr">\n' +
+'<head>\n' +
+'<meta charset="utf-8">\n' +
+'<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">\n' +
+'<meta name="apple-mobile-web-app-capable" content="yes">\n' +
+'<meta name="apple-mobile-web-app-status-bar-style" content="default">\n' +
+'<title>Seyahat Araçları</title>\n\n' +
+'<!-- Fonts -->\n' +
+'<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+'<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n' +
+'<style>\n' + styleContent + '\n</style>\n' +
+'</head>\n\n' +
+'<body>\n' +
+'  <!-- Background elements -->\n' +
+'  <div class="bg-image"></div>\n' +
+'  <div class="bg-overlay"></div>\n\n' +
+'  <!-- Main scrollable wrapper -->\n' +
+'  <div class="main-wrapper">\n' +
+'    <!-- Language Selector -->\n' +
+'    <div class="lang-select">\n' +
+'      <button class="lang-btn" id="langBtn">\n' +
+'        <span id="langFlag">🇹🇷</span>\n' +
+'        <span id="langName">TR</span>\n' +
+'        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">\n' +
+'          <path d="M3 5L6 8L9 5" stroke-linecap="round" stroke-linejoin="round"/>\n' +
+'        </svg>\n' +
+'      </button>\n' +
+'      <div class="lang-list" id="langList"></div>\n' +
+'    </div>\n\n' +
+'    <div class="container">\n' +
+'      <div class="header">\n' +
+'        <h1 class="title" id="title">Seyahat Araçları</h1>\n' +
+'        <p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar burada</p>\n' +
+'      </div>\n\n' +
+'      <!-- Cards Section -->\n' +
+'      <div class="cards-section">\n' +
+'        <div class="cards-wrapper">\n' +
+'          <button class="scroll-btn prev" onclick="scrollCards(\'prev\')">‹</button>\n' +
+'          <div class="cards-container" id="cardsContainer"></div>\n' +
+'          <button class="scroll-btn next" onclick="scrollCards(\'next\')">›</button>\n' +
+'        </div>\n' +
+'      </div>\n\n' +
+'      <!-- Sites List -->\n' +
+'      <div class="sites-section" id="sitesSection">\n' +
+'        <div class="sites-container" id="sitesContainer"></div>\n' +
+'      </div>\n' +
+'    </div>\n' +
+'  </div>\n\n' +
+'<script>\n' +
+'// Categories\n' +
+'const categories = [' + categoriesHTML + '\n];\n\n' +
+'// Sites data\n' +
+'const sites = [' + sitesDataHTML + '\n];\n\n' +
+'// Current language\n' +
+'let currentLang = "tr";\n\n' +
+'// Translations\n' +
+'const lang = ' + JSON.stringify(lang, null, 2) + ';\n\n' +
+'// Category translations\n' +
+'const categoryTranslations = ' + JSON.stringify(categoryTranslations, null, 2) + ';\n\n' +
+'// Scroll cards function\n' +
+'function scrollCards(direction) {\n' +
+'  const container = document.getElementById("cardsContainer");\n' +
+'  const scrollAmount = 200;\n' +
+'  if (direction === "prev") {\n' +
+'    container.scrollLeft -= scrollAmount;\n' +
+'  } else {\n' +
+'    container.scrollLeft += scrollAmount;\n' +
+'  }\n' +
+'}\n\n' +
+'// Detect language\n' +
+'function detectLang() {\n' +
+'  const saved = localStorage.getItem("lang");\n' +
+'  if(saved && lang[saved]) return saved;\n' +
+'  return "tr";\n' +
+'}\n\n' +
+'// Get category name by language\n' +
+'function getCategoryName(title, langCode) {\n' +
+'  if (langCode === "tr") return title;\n' +
+'  if (categoryTranslations[title] && categoryTranslations[title][langCode]) {\n' +
+'    return categoryTranslations[title][langCode];\n' +
+'  }\n' +
+'  return title;\n' +
+'}\n\n' +
+'// Set language\n' +
+'function setLang(code) {\n' +
+'  currentLang = code;\n' +
+'  const t = lang[code];\n' +
+'  document.getElementById("title").textContent = t.title;\n' +
+'  document.getElementById("subtitle").textContent = t.subtitle;\n' +
+'  document.getElementById("langFlag").textContent = t.flag;\n' +
+'  document.getElementById("langName").textContent = t.name;\n' +
+'  document.documentElement.lang = code;\n' +
+'  localStorage.setItem("lang", code);\n' +
+'  document.querySelectorAll(".lang-item").forEach(i => {\n' +
+'    i.classList.toggle("active", i.dataset.lang === code);\n' +
+'  });\n' +
+'  colorizeTitle();\n' +
+'  updateCards();\n' +
+'}\n\n' +
+'// Colorize title\n' +
+'function colorizeTitle() {\n' +
+'  const titleElement = document.getElementById("title");\n' +
+'  if (!titleElement) return;\n' +
+'  const titleText = titleElement.textContent;\n' +
+'  let firstPart, secondPart;\n' +
+'  const words = titleText.split(" ");\n' +
+'  if (words.length >= 2) {\n' +
+'    firstPart = words[0];\n' +
+'    secondPart = words.slice(1).join(" ");\n' +
+'  } else {\n' +
+'    firstPart = titleText;\n' +
+'    secondPart = "";\n' +
+'  }\n' +
+'  if (secondPart) {\n' +
+'    titleElement.innerHTML = \'<span class="travel-part">\' + firstPart + \'</span> <span class="pedia-part">\' + secondPart + \'</span>\';\n' +
+'  } else {\n' +
+'    titleElement.innerHTML = \'<span class="travel-part">\' + firstPart + \'</span>\';\n' +
+'  }\n' +
+'}\n\n' +
+'// Update cards\n' +
+'function updateCards() {\n' +
+'  document.querySelectorAll(".card").forEach(card => {\n' +
+'    const originalTitle = card.dataset.originalTitle;\n' +
+'    if (!originalTitle) return;\n' +
+'    const translatedTitle = getCategoryName(originalTitle, currentLang);\n' +
+'    const titleElement = card.querySelector(".card-title");\n' +
+'    if (titleElement) titleElement.textContent = translatedTitle;\n' +
+'  });\n' +
+'}\n\n' +
+'// Create language menu\n' +
+'function createLangMenu() {\n' +
+'  const list = document.getElementById("langList");\n' +
+'  for(const code in lang) {\n' +
+'    const data = lang[code];\n' +
+'    const item = document.createElement("div");\n' +
+'    item.className = "lang-item";\n' +
+'    item.dataset.lang = code;\n' +
+'    item.innerHTML = \'<span>\' + data.flag + \'</span><span>\' + data.name + \'</span>\';\n' +
+'    item.onclick = function() {\n' +
+'      setLang(code);\n' +
+'      toggleLang(false);\n' +
+'    };\n' +
+'    list.appendChild(item);\n' +
+'  }\n' +
+'}\n\n' +
+'// Toggle language menu\n' +
+'function toggleLang(force) {\n' +
+'  const list = document.getElementById("langList");\n' +
+'  if(force === false) {\n' +
+'    list.classList.remove("show");\n' +
+'  } else {\n' +
+'    list.classList.toggle("show");\n' +
+'  }\n' +
+'}\n\n' +
+'// Initialize on page load\n' +
+'document.addEventListener("DOMContentLoaded", function() {\n' +
+'  const container = document.getElementById("cardsContainer");\n' +
+'  const sitesContainer = document.getElementById("sitesContainer");\n' +
+'  \n' +
+'  // Create language menu\n' +
+'  createLangMenu();\n' +
+'  \n' +
+'  // Set initial language\n' +
+'  setLang(detectLang());\n' +
+'  \n' +
+'  // Create cards\n' +
+'  categories.forEach((cat, index) => {\n' +
+'    const card = document.createElement("div");\n' +
+'    card.className = cat.highlight ? "card highlight" : "card";\n' +
+'    card.dataset.originalTitle = cat.title;\n' +
+'    const translatedTitle = getCategoryName(cat.title, currentLang);\n' +
+'    card.innerHTML = \'<span class="card-index">\' + (index + 1) + \'</span>\' +\n' +
+'      \'<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">\' +\n' +
+'      \'<div class="card-title">\' + translatedTitle + \'</div></div>\';\n' +
+'    card.onclick = function() { location.href = cat.url; };\n' +
+'    container.appendChild(card);\n' +
+'  });\n' +
+'  \n' +
+'  // Create site cards\n' +
+'  sites.forEach((site, index) => {\n' +
+'    const siteCard = document.createElement("div");\n' +
+'    siteCard.className = "site-item";\n' +
+'    siteCard.innerHTML = \'<span class="site-number">\' + (index + 1) + \'</span>\' +\n' +
+'      \'<div class="site-content">\' +\n' +
+'      \'<h3 class="site-name">\' + site.name + \'</h3>\' +\n' +
+'      \'<p class="site-description">\' + site.description + \'</p></div>\';\n' +
+'    siteCard.onclick = function() { window.open(site.url, "_blank"); };\n' +
+'    sitesContainer.appendChild(siteCard);\n' +
+'  });\n' +
+'  \n' +
+'  // Language button click handler\n' +
+'  document.getElementById("langBtn").onclick = function(e) {\n' +
+'    e.stopPropagation();\n' +
+'    toggleLang();\n' +
+'  };\n' +
+'  \n' +
+'  // Close dropdown on outside click\n' +
+'  document.onclick = function(e) {\n' +
+'    if(!e.target.closest(".lang-select")) {\n' +
+'      toggleLang(false);\n' +
+'    }\n' +
+'  };\n' +
+'});\n' +
+'</' + 'script>\n' +
+'</body>\n' +
+'</html>';
   
-  console.log('HTML oluşturuldu');
+  console.log('HTML oluşturuldu, boyut:', generatedHTML.length);
 }
 
 // Initialize on page load
