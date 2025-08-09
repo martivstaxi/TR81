@@ -12,6 +12,7 @@
 (function() {
   // Supported languages with file mappings
   const supportedLanguages = {
+    'tr': 'tr-tr.html',
     'en': 'en-en.html',
     'de': 'de-de.html',
     'fr': 'fr-fr.html',
@@ -50,7 +51,6 @@
     'hak': 'hak-hak.html',
     'arz': 'arz-arz.html',
     'wuu': 'wuu-wuu.html',
-    'tr': 'tr-tr.html',
     'yue': 'yue-yue.html'
   };
 
@@ -64,9 +64,14 @@
   else if (browserLang.toLowerCase().includes('yue')) detectedLang = 'yue';
   else if (browserLang.toLowerCase().includes('wuu')) detectedLang = 'wuu';
   
-  // Redirect if language is supported and not Turkish
+  // Redirect based on language
   if (supportedLanguages[detectedLang]) {
+    // If language is supported, redirect to that language page
     window.location.replace(supportedLanguages[detectedLang]);
+    return;
+  } else {
+    // If language is not supported, redirect to English as default
+    window.location.replace('en-en.html');
     return;
   }
 })();
