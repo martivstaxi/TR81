@@ -1005,34 +1005,6 @@ const categories = [
   {title:'Eğitim ve Gelişim',url:'9.html'}
 ];
 
-// Define global functions before DOMContentLoaded
-function selectCategory(element) {
-  console.log('selectCategory called', element);
-  // Remove previous selection
-  document.querySelectorAll('.category-option').forEach(opt => {
-    opt.classList.remove('selected');
-  });
-  
-  // Add selection
-  element.classList.add('selected');
-  selectedCategory = {
-    title: element.dataset.category,
-    url: element.dataset.url
-  };
-  console.log('Selected category:', selectedCategory);
-}
-
-function removeSiteInput(id) {
-  const element = document.getElementById(`site-input-${id}`);
-  if (element) {
-    element.remove();
-  }
-}
-
-// Make functions available globally
-window.selectCategory = selectCategory;
-window.removeSiteInput = removeSiteInput;
-
 // Translations
 const lang = {
   tr:{flag:'🇹🇷',name:'TR',
@@ -1296,9 +1268,9 @@ function createCategoryOptions() {
     option.dataset.category = cat.title;
     option.dataset.url = cat.url;
     option.textContent = `${icons[index]} ${cat.title}`;
-    option.onclick = function() {
+    option.addEventListener('click', function() {
       selectCategory(this);
-    };
+    });
     grid.appendChild(option);
   });
 }
@@ -1421,6 +1393,24 @@ function toggleEditor() {
   const panel = document.getElementById('editorPanel');
   panel.classList.toggle('show');
 }
+
+function selectCategory(element) {
+  // Remove previous selection
+  document.querySelectorAll('.category-option').forEach(opt => {
+    opt.classList.remove('selected');
+  });
+  
+  // Add selection
+  element.classList.add('selected');
+  selectedCategory = {
+    title: element.dataset.category,
+    url: element.dataset.url
+  };
+  console.log('Kategori seçildi:', selectedCategory);
+}
+
+// Make functions global
+window.selectCategory = selectCategory;
 
 function addSiteInput() {
   siteInputCount++;
