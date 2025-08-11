@@ -10,7 +10,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* === Variables === */
@@ -22,8 +22,8 @@
   --text-primary:#1e293b;
   --text-secondary:#475569;
   --text-muted:#64748b;
-  --card-width: 176px;
-  --card-height: 209px;
+  --card-width: 240px;
+  --card-height: 110px;
   --card-gap: 14px;
   --mobile-card-width: calc((100vw - 32px - 24px) / 3.5);
 }
@@ -46,8 +46,8 @@ html, body {
 }
 
 body{
-  font-family:'Inter',sans-serif;
-  background:#d1d5db;
+  font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background:#fefce8;
   color:var(--text-primary);
   line-height:1.6;
   -webkit-font-smoothing: antialiased;
@@ -74,9 +74,21 @@ body{
   left:0;
   width:100%;
   height:100%;
-  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  background: 
+    linear-gradient(135deg, #fef3c7 0%, #ddd6fe 25%, #e0e7ff 50%, #ccfbf1 75%, #fef3c7 100%);
+  background-size: 200% 200%;
+  animation: subtleShift 30s ease infinite;
   z-index:-2;
   pointer-events:none;
+}
+
+@keyframes subtleShift {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
 }
 
 .bg-overlay{
@@ -85,9 +97,49 @@ body{
   left:0;
   width:100%;
   height:100%;
-  background:linear-gradient(135deg,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0.2) 100%);
+  background: 
+    radial-gradient(ellipse at top left, rgba(167, 139, 250, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at center right, rgba(129, 140, 248, 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at center left, rgba(52, 211, 153, 0.06) 0%, transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 100%);
   z-index:-1;
   pointer-events:none;
+}
+
+.bg-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(196, 181, 253, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 80% 20%, rgba(254, 215, 170, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 60% 60%, rgba(167, 243, 208, 0.08) 0%, transparent 30%),
+    radial-gradient(circle at 40% 40%, rgba(165, 180, 252, 0.08) 0%, transparent 30%);
+  pointer-events: none;
+}
+
+.bg-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 100px,
+      rgba(255, 255, 255, 0.03) 100px,
+      rgba(255, 255, 255, 0.03) 101px,
+      transparent 101px,
+      transparent 200px
+    );
+  pointer-events: none;
 }
 
 /* === Container === */
@@ -116,6 +168,7 @@ body{
   border-radius:12px;
   padding:10px 16px;
   cursor:pointer;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size:14px;
   font-weight:500;
   display:flex;
@@ -160,6 +213,7 @@ body{
   display:flex;
   align-items:center;
   gap:8px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size:14px;
   color:#475569;
   touch-action:manipulation;
@@ -184,24 +238,24 @@ body{
 }
 
 .title{
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size:clamp(2.5rem,5vw,3.5rem);
-  font-weight:400;
+  font-weight:700;
   margin-bottom:8px;
-  letter-spacing:0.06em;
+  letter-spacing:-0.02em;
   line-height:0.9;
   text-transform:uppercase;
 }
 
 .subtitle{
-  font-family: 'Bebas Neue', sans-serif;
-  font-size:clamp(1.3rem,2vw,1.8rem);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size:clamp(1.1rem,1.8vw,1.4rem);
   font-weight:400;
   color:#334155;
   margin-top:4px;
-  line-height:1;
+  line-height:1.2;
   opacity:0.9;
-  letter-spacing:0.04em;
+  letter-spacing:-0.01em;
 }
 
 .travel-part{
@@ -302,7 +356,7 @@ body{
   border:1px solid rgba(255,255,255,0.8);
   border-radius:20px;
   cursor:pointer;
-  transition:transform .2s ease, box-shadow .2s ease;
+  transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .3s ease;
   position:relative;
   box-shadow:
     0 8px 32px rgba(0,0,0,0.08),
@@ -310,74 +364,132 @@ body{
     inset 0 -2px 4px rgba(0,0,0,0.05);
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:flex-end;
+  align-items:stretch;
+  justify-content:center;
   overflow:hidden;
   touch-action:manipulation;
-  transform:translateZ(0);
-  will-change:transform;
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  padding: 20px;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
-  transform: translateY(-5px) scale(1.02);
+  transform: translateY(-8px) scale(1.02);
   box-shadow:
-    0 12px 40px rgba(0,0,0,0.12),
+    0 16px 48px rgba(0,0,0,0.15),
     inset 0 2px 4px rgba(255,255,255,0.9),
     inset 0 -2px 4px rgba(0,0,0,0.05);
 }
 
 .card:active{
-  transform:scale(0.95);
+  transform:scale(0.98);
 }
 
 .card.highlight{
   background:linear-gradient(135deg, 
-    rgba(254,243,199,0.8) 0%, 
-    rgba(253,230,138,0.6) 50%, 
-    rgba(254,243,199,0.7) 100%);
+    rgba(254,243,199,0.9) 0%, 
+    rgba(253,230,138,0.7) 50%, 
+    rgba(254,243,199,0.8) 100%);
   backdrop-filter:blur(16px) saturate(200%);
   -webkit-backdrop-filter:blur(16px) saturate(200%);
   border:1px solid rgba(245,158,11,0.6);
   box-shadow:
-    0 8px 32px rgba(245,158,11,0.15),
+    0 8px 32px rgba(245,158,11,0.2),
     inset 0 2px 4px rgba(255,255,255,0.9),
     inset 0 -2px 4px rgba(245,158,11,0.1);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow:
+      0 8px 32px rgba(245,158,11,0.2),
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(245,158,11,0.1);
+  }
+  to {
+    box-shadow:
+      0 12px 40px rgba(245,158,11,0.35),
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(245,158,11,0.15);
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.card-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .card-title{
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight:300;
-  font-size:22px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight:500;
+  font-size:18px;
   color:#0f172a;
-  line-height:1.2;
+  line-height:1.3;
   word-break:break-word;
-  padding:24px 8px;
-  position:relative;
-  z-index:3;
-  background:transparent;
-  width:100%;
-  text-align:center;
-  letter-spacing:0.02em;
+  letter-spacing:-0.01em;
   transition: color 0.3s ease;
-  text-transform: uppercase;
+  text-transform: capitalize;
+  flex: 1;
 }
 
 .card.highlight .card-title{
   color:#92400e;
-  font-weight:400;
+  font-weight:500;
 }
 
 .card-index{
   position:absolute;
-  top:10px;
-  right:10px;
+  top:12px;
+  right:12px;
   font-size:11px;
   font-weight:600;
   color:#64748b;
-  opacity:0.5;
+  opacity:0.4;
   letter-spacing:0.5px;
   z-index:2;
-  transition: color 0.3s ease, opacity 0.3s ease;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.5);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.card:hover .card-index {
+  opacity: 0.6;
+  background: rgba(255,255,255,0.7);
 }
 
 /* === Sites Section === */
@@ -397,33 +509,61 @@ body{
 
 .site-item {
   position: relative;
-  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.8);
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.95) 100%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 2px solid rgba(255,255,255,1);
   border-radius: 20px;
   padding: 35px 25px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow:
-    0 8px 32px rgba(0,0,0,0.08),
-    inset 0 2px 4px rgba(255,255,255,0.9),
-    inset 0 -2px 4px rgba(0,0,0,0.05);
+    0 12px 40px rgba(0,0,0,0.12),
+    0 2px 8px rgba(0,0,0,0.06),
+    inset 0 2px 4px rgba(255,255,255,1),
+    inset 0 -2px 4px rgba(0,0,0,0.03);
   min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transform: translateZ(0);
   will-change: transform;
+  overflow: visible;
+  margin-right: 80px;
 }
+
+/* 21 Harmonious Color Gradients - Light & Vibrant Palette */
+
+.site-item:nth-child(21n+1) .site-name { color: #6366f1; }
+.site-item:nth-child(21n+2) .site-name { color: #3b82f6; }
+.site-item:nth-child(21n+3) .site-name { color: #0891b2; }
+.site-item:nth-child(21n+4) .site-name { color: #059669; }
+.site-item:nth-child(21n+5) .site-name { color: #16a34a; }
+.site-item:nth-child(21n+6) .site-name { color: #65a30d; }
+.site-item:nth-child(21n+7) .site-name { color: #ca8a04; }
+.site-item:nth-child(21n+8) .site-name { color: #ea580c; }
+.site-item:nth-child(21n+9) .site-name { color: #dc2626; }
+.site-item:nth-child(21n+10) .site-name { color: #e11d48; }
+.site-item:nth-child(21n+11) .site-name { color: #db2777; }
+.site-item:nth-child(21n+12) .site-name { color: #c026d3; }
+.site-item:nth-child(21n+13) .site-name { color: #a21caf; }
+.site-item:nth-child(21n+14) .site-name { color: #9333ea; }
+.site-item:nth-child(21n+15) .site-name { color: #7c3aed; }
+.site-item:nth-child(21n+16) .site-name { color: #6d28d9; }
+.site-item:nth-child(21n+17) .site-name { color: #4f46e5; }
+.site-item:nth-child(21n+18) .site-name { color: #0ea5e9; }
+.site-item:nth-child(21n+19) .site-name { color: #10b981; }
+.site-item:nth-child(21n+20) .site-name { color: #84cc16; }
+.site-item:nth-child(21n+21) .site-name { color: #6366f1; }
 
 .site-item:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow:
-    0 16px 48px rgba(0,0,0,0.15),
-    inset 0 2px 4px rgba(255,255,255,0.9),
-    inset 0 -2px 4px rgba(0,0,0,0.05);
-  background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0.75) 100%);
+    0 20px 60px rgba(0,0,0,0.2),
+    0 4px 12px rgba(0,0,0,0.1),
+    inset 0 2px 4px rgba(255,255,255,1),
+    inset 0 -2px 4px rgba(0,0,0,0.03);
+  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.98) 100%);
 }
 
 .site-item:active {
@@ -431,20 +571,122 @@ body{
 }
 
 .site-item::after {
-  content: '→';
+  content: '▶';
   position: absolute;
-  right: 25px;
+  left: calc(100% - 20px);
   top: 50%;
   transform: translateY(-50%);
-  font-size: 24px;
-  color: var(--primary);
-  opacity: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.4) 100%);
   transition: all 0.3s ease;
+  color: inherit;
+  opacity: 0.8;
+  border-radius: 50%;
+  box-shadow: 
+    0 8px 24px rgba(0,0,0,0.08),
+    inset 0 1px 2px rgba(255,255,255,0.8);
 }
 
 .site-item:hover::after {
-  opacity: 0.7;
-  right: 20px;
+  width: 65px;
+  height: 65px;
+  left: calc(100% - 15px);
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.5) 100%);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.1),
+    inset 0 1px 2px rgba(255,255,255,0.9);
+}
+
+/* Gradient arrow colors matching card colors - with more opacity */
+.site-item:nth-child(21n+1)::after { 
+  background: linear-gradient(135deg, rgba(165, 180, 252, 0.95) 0%, rgba(199, 210, 254, 0.5) 50%, rgba(199, 210, 254, 0.3) 100%);
+  color: #6366f1;
+}
+.site-item:nth-child(21n+2)::after { 
+  background: linear-gradient(135deg, rgba(147, 197, 253, 0.95) 0%, rgba(191, 219, 254, 0.5) 50%, rgba(191, 219, 254, 0.3) 100%);
+  color: #3b82f6;
+}
+.site-item:nth-child(21n+3)::after { 
+  background: linear-gradient(135deg, rgba(103, 232, 249, 0.95) 0%, rgba(165, 243, 252, 0.5) 50%, rgba(165, 243, 252, 0.3) 100%);
+  color: #0891b2;
+}
+.site-item:nth-child(21n+4)::after { 
+  background: linear-gradient(135deg, rgba(94, 234, 212, 0.95) 0%, rgba(153, 246, 228, 0.5) 50%, rgba(153, 246, 228, 0.3) 100%);
+  color: #059669;
+}
+.site-item:nth-child(21n+5)::after { 
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.95) 0%, rgba(134, 239, 172, 0.5) 50%, rgba(134, 239, 172, 0.3) 100%);
+  color: #16a34a;
+}
+.site-item:nth-child(21n+6)::after { 
+  background: linear-gradient(135deg, rgba(163, 230, 53, 0.95) 0%, rgba(190, 242, 100, 0.5) 50%, rgba(190, 242, 100, 0.3) 100%);
+  color: #65a30d;
+}
+.site-item:nth-child(21n+7)::after { 
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(253, 224, 71, 0.5) 50%, rgba(253, 224, 71, 0.3) 100%);
+  color: #ca8a04;
+}
+.site-item:nth-child(21n+8)::after { 
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.95) 0%, rgba(253, 230, 138, 0.5) 50%, rgba(253, 230, 138, 0.3) 100%);
+  color: #ea580c;
+}
+.site-item:nth-child(21n+9)::after { 
+  background: linear-gradient(135deg, rgba(253, 186, 116, 0.95) 0%, rgba(254, 215, 170, 0.5) 50%, rgba(254, 215, 170, 0.3) 100%);
+  color: #dc2626;
+}
+.site-item:nth-child(21n+10)::after { 
+  background: linear-gradient(135deg, rgba(252, 165, 165, 0.95) 0%, rgba(254, 202, 202, 0.5) 50%, rgba(254, 202, 202, 0.3) 100%);
+  color: #e11d48;
+}
+.site-item:nth-child(21n+11)::after { 
+  background: linear-gradient(135deg, rgba(251, 113, 133, 0.95) 0%, rgba(253, 164, 175, 0.5) 50%, rgba(253, 164, 175, 0.3) 100%);
+  color: #db2777;
+}
+.site-item:nth-child(21n+12)::after { 
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.95) 0%, rgba(249, 168, 212, 0.5) 50%, rgba(249, 168, 212, 0.3) 100%);
+  color: #c026d3;
+}
+.site-item:nth-child(21n+13)::after { 
+  background: linear-gradient(135deg, rgba(232, 121, 249, 0.95) 0%, rgba(240, 171, 252, 0.5) 50%, rgba(240, 171, 252, 0.3) 100%);
+  color: #a21caf;
+}
+.site-item:nth-child(21n+14)::after { 
+  background: linear-gradient(135deg, rgba(216, 180, 254, 0.95) 0%, rgba(233, 213, 255, 0.5) 50%, rgba(233, 213, 255, 0.3) 100%);
+  color: #9333ea;
+}
+.site-item:nth-child(21n+15)::after { 
+  background: linear-gradient(135deg, rgba(196, 181, 253, 0.95) 0%, rgba(221, 214, 254, 0.5) 50%, rgba(221, 214, 254, 0.3) 100%);
+  color: #7c3aed;
+}
+.site-item:nth-child(21n+16)::after { 
+  background: linear-gradient(135deg, rgba(199, 210, 254, 0.95) 0%, rgba(224, 231, 255, 0.5) 50%, rgba(224, 231, 255, 0.3) 100%);
+  color: #6d28d9;
+}
+.site-item:nth-child(21n+17)::after { 
+  background: linear-gradient(135deg, rgba(191, 219, 254, 0.95) 0%, rgba(219, 234, 254, 0.5) 50%, rgba(219, 234, 254, 0.3) 100%);
+  color: #4f46e5;
+}
+.site-item:nth-child(21n+18)::after { 
+  background: linear-gradient(135deg, rgba(165, 243, 252, 0.95) 0%, rgba(207, 250, 254, 0.5) 50%, rgba(207, 250, 254, 0.3) 100%);
+  color: #0ea5e9;
+}
+.site-item:nth-child(21n+19)::after { 
+  background: linear-gradient(135deg, rgba(153, 246, 228, 0.95) 0%, rgba(204, 251, 241, 0.5) 50%, rgba(204, 251, 241, 0.3) 100%);
+  color: #10b981;
+}
+.site-item:nth-child(21n+20)::after { 
+  background: linear-gradient(135deg, rgba(190, 242, 100, 0.95) 0%, rgba(217, 249, 157, 0.5) 50%, rgba(217, 249, 157, 0.3) 100%);
+  color: #84cc16;
+}
+.site-item:nth-child(21n+21)::after { 
+  background: linear-gradient(135deg, rgba(165, 180, 252, 0.95) 0%, rgba(199, 210, 254, 0.5) 50%, rgba(199, 210, 254, 0.3) 100%);
+  color: #6366f1;
 }
 
 .site-number {
@@ -457,6 +699,9 @@ body{
   opacity: 0.7;
   letter-spacing: 0.5px;
   z-index: 2;
+  background: rgba(255,255,255,0.5);
+  padding: 2px 10px;
+  border-radius: 20px;
 }
 
 .site-content {
@@ -465,21 +710,26 @@ body{
 }
 
 .site-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 28px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  transition: color 0.3s ease;
-  color: #003b95;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  transition: all 0.3s ease;
 }
 
 .site-description {
   font-size: 16px;
   line-height: 1.7;
-  color: #475569;
+  color: #1e293b;
   margin: 0;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.site-item:hover .site-description {
+  color: #0f172a;
 }
 
 /* === Editor Panel === */
@@ -754,7 +1004,27 @@ body{
 @media (max-width: 768px) {
   :root {
     --card-gap: 12px;
-    --mobile-card-width: calc((100vw - 32px - 36px) / 3.08 * 1.1);
+    --mobile-card-width: calc((100vw - 32px - 24px) / 2.2);
+  }
+
+  /* Mobilde kartların kaybolma sorununu çöz */
+  .cards-container {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  .card {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .card:hover {
+    transform: translateY(-4px) scale(1.01);
   }
 
   /* Language-specific adjustments for mobile - Extended for 40 languages */
@@ -810,12 +1080,20 @@ body{
 
   .card{
     flex: 0 0 var(--mobile-card-width);
-    height: 176px;
+    height: 100px;
+    padding: 15px;
+  }
+
+  .card-content {
+    gap: 12px;
+  }
+
+  .card-icon {
+    font-size: 24px;
   }
 
   .card-title{
-    font-size: 17px;
-    padding: 22px 5px;
+    font-size: 16px;
   }
 
   /* Language-specific card title adjustments - Extended for 40 languages */
@@ -838,19 +1116,20 @@ body{
   html[lang="ko"] .card-title, html[lang="hak"] .card-title,
   html[lang="arz"] .card-title, html[lang="wuu"] .card-title,
   html[lang="yue"] .card-title {
-    font-size: 15px;
-    padding: 20px 4px;
+    font-size: 14px;
   }
 
   .card-index{
-    font-size: 11px;
-    top: 10px;
-    right: 10px;
+    font-size: 10px;
+    top: 8px;
+    right: 8px;
+    padding: 1px 6px;
   }
 
   .site-item {
     padding: 30px 22px;
     min-height: 171px;
+    margin-right: 60px;
   }
 
   .site-number {
@@ -978,10 +1257,9 @@ body{
       <div class="file-input-container">
         <input type="file" id="csvFile" accept=".csv" class="file-input" onchange="handleFileSelect(event)">
         <label for="csvFile" class="file-label">
-          📂 CSV Dosyası Seç
+          📂 CSV Seç ve Otomatik İşle
         </label>
         <div class="file-info" id="fileInfo"></div>
-        <button class="process-csv-btn" id="processCSVBtn" style="display:none;" onclick="processCSVFile()">📊 CSV'den Yükle</button>
       </div>
 
       <div id="sitesInputContainer">
@@ -1214,6 +1492,8 @@ function createCards() {
   var container = document.getElementById('cardsContainer');
   container.innerHTML = '';
   
+  var icons = ['🌎', '🏨', '✈️', '🍽️', '🎸', '📱', '🛡️', '💳', '🎓'];
+  
   for(var i = 0; i < categories.length; i++) {
     var cat = categories[i];
     var card = document.createElement('div');
@@ -1223,7 +1503,8 @@ function createCards() {
     var translatedTitle = getCategoryName(cat.title, currentLang);
     
     card.innerHTML = '<span class="card-index">' + (i + 1) + '</span>' +
-      '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">' +
+      '<div class="card-content">' +
+      '<span class="card-icon">' + icons[i] + '</span>' +
       '<div class="card-title">' + translatedTitle + '</div>' +
       '</div>';
     
@@ -1236,7 +1517,7 @@ function createCategoryOptions() {
   var grid = document.getElementById('categoryGrid');
   grid.innerHTML = '';
   
-  var icons = ['🏔️', '🏨', '✈️', '🍽️', '🎭', '📱', '🛡️', '💳', '🎓'];
+  var icons = ['🌎', '🏨', '✈️', '🍽️', '🎸', '📱', '🛡️', '💳', '🎓'];
   
   for(var i = 0; i < categories.length; i++) {
     var cat = categories[i];
@@ -1259,13 +1540,57 @@ function createLanguageOptions() {
   
   grid.innerHTML = '';
   
+  // Dil isimleri Türkçe olarak
+  var languageNames = {
+    tr: 'Türkçe',
+    en: 'İngilizce',
+    de: 'Almanca',
+    fr: 'Fransızca',
+    es: 'İspanyolca',
+    it: 'İtalyanca',
+    pt: 'Portekizce',
+    ru: 'Rusça',
+    ja: 'Japonca',
+    zh: 'Çince',
+    ar: 'Arapça',
+    hi: 'Hintçe',
+    ko: 'Korece',
+    nl: 'Hollandaca',
+    pl: 'Lehçe',
+    sv: 'İsveççe',
+    no: 'Norveççe',
+    da: 'Danca',
+    fi: 'Fince',
+    cs: 'Çekçe',
+    uk: 'Ukraynaca',
+    ro: 'Romence',
+    el: 'Yunanca',
+    hu: 'Macarca',
+    th: 'Tayca',
+    vi: 'Vietnamca',
+    id: 'Endonezyaca',
+    ms: 'Malayca',
+    bn: 'Bengalce',
+    tl: 'Tagalogca',
+    hr: 'Hırvatça',
+    he: 'İbranice',
+    fa: 'Farsça',
+    ca: 'Katalanca',
+    sk: 'Slovakça',
+    ur: 'Urduca',
+    hak: 'Hakka Çincesi',
+    arz: 'Mısır Arapçası',
+    wuu: 'Wu Çincesi',
+    yue: 'Kantonca'
+  };
+  
   for(var code in lang) {
     if(lang.hasOwnProperty(code)) {
       var data = lang[code];
       var option = document.createElement('div');
       option.className = 'category-option';
       option.setAttribute('data-lang', code);
-      option.innerHTML = data.flag + ' ' + data.name + ' - ' + data.title;
+      option.innerHTML = data.flag + ' ' + data.name + ' - ' + languageNames[code];
       option.onclick = function() {
         selectLanguage(this);
       };
@@ -1339,25 +1664,19 @@ function removeSiteInput(id) {
   }
 }
 
-// Handle file select
+// Handle file select - AUTO PROCESS
 function handleFileSelect(event) {
   selectedFile = event.target.files[0];
-  var fileInfo = document.getElementById('fileInfo');
-  var processBtn = document.getElementById('processCSVBtn');
   
   if (selectedFile) {
-    fileInfo.textContent = '✅ Seçilen dosya: ' + selectedFile.name;
-    processBtn.style.display = 'inline-block';
-  } else {
-    fileInfo.textContent = '';
-    processBtn.style.display = 'none';
+    // Otomatik olarak CSV'yi işle
+    processCSVFile();
   }
 }
 
-// Process CSV file
+// Process CSV file - AUTOMATED
 function processCSVFile() {
   if (!selectedFile) {
-    alert('Lütfen bir CSV dosyası seçin!');
     return;
   }
   
@@ -1416,31 +1735,112 @@ function processCSVFile() {
         }
       }
       
+      // Reset file input
       document.getElementById('csvFile').value = '';
       document.getElementById('fileInfo').textContent = '';
-      document.getElementById('processCSVBtn').style.display = 'none';
       selectedFile = null;
       
       if (siteInputCount > 0) {
-        alert('✅ CSV dosyasından ' + siteInputCount + ' site yüklendi!');
-        
+        // Otomatik kategori seçimi
         if (!selectedCategory) {
           var firstCategory = document.querySelector('.category-option');
           if (firstCategory) {
             firstCategory.click();
-            alert('📌 İlk kategori otomatik seçildi. İsterseniz değiştirebilirsiniz.');
           }
         }
+        
+        // Otomatik HTML oluştur ve kopyala
+        setTimeout(function() {
+          autoExportHTML();
+        }, 100);
+        
       } else {
-        alert('❌ CSV dosyasında geçerli veri bulunamadı!');
+        // Sadece veri bulunamadığında bilgi ver
+        document.getElementById('fileInfo').textContent = '❌ CSV\'de geçerli veri bulunamadı';
       }
       
     } catch (error) {
-      alert('CSV dosyası işlenirken bir hata oluştu: ' + error.message);
+      document.getElementById('fileInfo').textContent = '❌ Hata: ' + error.message;
     }
   };
   
   reader.readAsText(selectedFile, 'UTF-8');
+}
+
+// Auto Export HTML - Sessiz çalışan versiyon
+function autoExportHTML() {
+  if (!selectedCategory) {
+    return;
+  }
+  
+  sitesList = [];
+  var inputs = document.querySelectorAll('.site-input-group');
+  
+  for(var i = 0; i < inputs.length; i++) {
+    var group = inputs[i];
+    var id = group.id.split('-')[2];
+    var domain = document.getElementById('domain-' + id).value.trim();
+    var url = document.getElementById('url-' + id).value.trim();
+    var description = document.getElementById('desc-' + id).value.trim();
+    
+    if (domain && url && description) {
+      sitesList.push({
+        name: domain,
+        url: url,
+        description: description
+      });
+    }
+  }
+  
+  if (sitesList.length === 0) {
+    return;
+  }
+  
+  updateDisplay();
+  generateFullHTML();
+  
+  try {
+    navigator.clipboard.writeText(generatedHTML).then(function() {
+      // Başarı mesajını info alanında göster
+      document.getElementById('fileInfo').textContent = '✅ ' + sitesList.length + ' site ile HTML oluşturuldu ve kopyalandı!';
+      
+      // 2 saniye sonra editörü kapat
+      setTimeout(function() {
+        closeEditor();
+      }, 2000);
+    }).catch(function() {
+      copyToClipboardFallbackAuto();
+    });
+  } catch(err) {
+    copyToClipboardFallbackAuto();
+  }
+}
+
+// Copy to clipboard fallback - Auto version
+function copyToClipboardFallbackAuto() {
+  var textarea = document.createElement('textarea');
+  textarea.value = generatedHTML;
+  textarea.style.position = 'fixed';
+  textarea.style.top = '0';
+  textarea.style.left = '0';
+  
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  
+  try {
+    document.execCommand('copy');
+    document.getElementById('fileInfo').textContent = '✅ HTML kodu kopyalandı!';
+    
+    // 2 saniye sonra editörü kapat
+    setTimeout(function() {
+      closeEditor();
+    }, 2000);
+  } catch (err) {
+    document.getElementById('fileInfo').textContent = '❌ Kopyalama başarısız oldu.';
+  }
+  
+  document.body.removeChild(textarea);
 }
 
 // Parse CSV line
@@ -1723,7 +2123,7 @@ function generateFullHTML() {
 '<!-- Fonts -->\n' +
 '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
 '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-'<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n' +
+'<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n\n' +
 '<style>\n' + styleContent + '\n</style>\n' +
 '</head>\n\n' +
 '<body>\n' +
@@ -1797,12 +2197,14 @@ function generateFullHTML() {
 '  colorizeTitle();\n' +
 '  \n' +
 '  // Create cards\n' +
+'  var icons = ["🌎", "🏨", "✈️", "🍽️", "🎸", "📱", "🛡️", "💳", "🎓"];\n' +
 '  for(var i = 0; i < categories.length; i++) {\n' +
 '    var cat = categories[i];\n' +
 '    var card = document.createElement("div");\n' +
 '    card.className = cat.highlight ? "card highlight" : "card";\n' +
 '    card.innerHTML = \'<span class="card-index">\' + (i + 1) + \'</span>\' +\n' +
-'      \'<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">\' +\n' +
+'      \'<div class="card-content">\' +\n' +
+'      \'<span class="card-icon">\' + icons[i] + \'</span>\' +\n' +
 '      \'<div class="card-title">\' + cat.title + \'</div></div>\';\n' +
 '    (function(url) {\n' +
 '      card.onclick = function() { location.href = url; };\n' +
