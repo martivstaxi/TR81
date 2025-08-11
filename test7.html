@@ -23,8 +23,8 @@
   --text-primary:#1e293b;
   --text-secondary:#475569;
   --text-muted:#64748b;
-  --card-width: 176px;
-  --card-height: 209px;
+  --card-width: 240px;
+  --card-height: 110px;
   --card-gap: 14px;
   --mobile-card-width: calc((100vw - 32px - 24px) / 3.5);
 }
@@ -303,7 +303,7 @@ body{
   border:1px solid rgba(255,255,255,0.8);
   border-radius:20px;
   cursor:pointer;
-  transition:transform .2s ease, box-shadow .2s ease;
+  transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .3s ease;
   position:relative;
   box-shadow:
     0 8px 32px rgba(0,0,0,0.08),
@@ -311,74 +311,130 @@ body{
     inset 0 -2px 4px rgba(0,0,0,0.05);
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:flex-end;
+  align-items:stretch;
+  justify-content:center;
   overflow:hidden;
   touch-action:manipulation;
   transform:translateZ(0);
   will-change:transform;
+  padding: 20px;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
-  transform: translateY(-5px) scale(1.02);
+  transform: translateY(-8px) scale(1.02);
   box-shadow:
-    0 12px 40px rgba(0,0,0,0.12),
+    0 16px 48px rgba(0,0,0,0.15),
     inset 0 2px 4px rgba(255,255,255,0.9),
     inset 0 -2px 4px rgba(0,0,0,0.05);
 }
 
 .card:active{
-  transform:scale(0.95);
+  transform:scale(0.98);
 }
 
 .card.highlight{
   background:linear-gradient(135deg, 
-    rgba(254,243,199,0.8) 0%, 
-    rgba(253,230,138,0.6) 50%, 
-    rgba(254,243,199,0.7) 100%);
+    rgba(254,243,199,0.9) 0%, 
+    rgba(253,230,138,0.7) 50%, 
+    rgba(254,243,199,0.8) 100%);
   backdrop-filter:blur(16px) saturate(200%);
   -webkit-backdrop-filter:blur(16px) saturate(200%);
   border:1px solid rgba(245,158,11,0.6);
   box-shadow:
-    0 8px 32px rgba(245,158,11,0.15),
+    0 8px 32px rgba(245,158,11,0.2),
     inset 0 2px 4px rgba(255,255,255,0.9),
     inset 0 -2px 4px rgba(245,158,11,0.1);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow:
+      0 8px 32px rgba(245,158,11,0.2),
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(245,158,11,0.1);
+  }
+  to {
+    box-shadow:
+      0 12px 40px rgba(245,158,11,0.35),
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(245,158,11,0.15);
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.card-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .card-title{
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight:300;
-  font-size:22px;
+  font-weight:400;
+  font-size:20px;
   color:#0f172a;
-  line-height:1.2;
+  line-height:1.3;
   word-break:break-word;
-  padding:24px 8px;
-  position:relative;
-  z-index:3;
-  background:transparent;
-  width:100%;
-  text-align:center;
   letter-spacing:0.02em;
   transition: color 0.3s ease;
   text-transform: uppercase;
+  flex: 1;
 }
 
 .card.highlight .card-title{
   color:#92400e;
-  font-weight:400;
+  font-weight:500;
 }
 
 .card-index{
   position:absolute;
-  top:10px;
-  right:10px;
+  top:12px;
+  right:12px;
   font-size:11px;
   font-weight:600;
   color:#64748b;
-  opacity:0.5;
+  opacity:0.4;
   letter-spacing:0.5px;
   z-index:2;
-  transition: color 0.3s ease, opacity 0.3s ease;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.5);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.card:hover .card-index {
+  opacity: 0.6;
+  background: rgba(255,255,255,0.7);
 }
 
 /* === Sites Section === */
@@ -755,7 +811,7 @@ body{
 @media (max-width: 768px) {
   :root {
     --card-gap: 12px;
-    --mobile-card-width: calc((100vw - 32px - 36px) / 3.08 * 1.1);
+    --mobile-card-width: calc((100vw - 32px - 24px) / 2.2);
   }
 
   /* Language-specific adjustments for mobile - Extended for 40 languages */
@@ -811,12 +867,20 @@ body{
 
   .card{
     flex: 0 0 var(--mobile-card-width);
-    height: 176px;
+    height: 100px;
+    padding: 15px;
+  }
+
+  .card-content {
+    gap: 12px;
+  }
+
+  .card-icon {
+    font-size: 24px;
   }
 
   .card-title{
-    font-size: 17px;
-    padding: 22px 5px;
+    font-size: 16px;
   }
 
   /* Language-specific card title adjustments - Extended for 40 languages */
@@ -839,14 +903,14 @@ body{
   html[lang="ko"] .card-title, html[lang="hak"] .card-title,
   html[lang="arz"] .card-title, html[lang="wuu"] .card-title,
   html[lang="yue"] .card-title {
-    font-size: 15px;
-    padding: 20px 4px;
+    font-size: 14px;
   }
 
   .card-index{
-    font-size: 11px;
-    top: 10px;
-    right: 10px;
+    font-size: 10px;
+    top: 8px;
+    right: 8px;
+    padding: 1px 6px;
   }
 
   .site-item {
@@ -994,12 +1058,14 @@ document.addEventListener("DOMContentLoaded", function() {
   colorizeTitle();
   
   // Create cards
+  var icons = ["🌎", "🏨", "✈️", "🍽️", "🎸", "📱", "🛡️", "💳", "🎓"];
   for(var i = 0; i < categories.length; i++) {
     var cat = categories[i];
     var card = document.createElement("div");
     card.className = cat.highlight ? "card highlight" : "card";
     card.innerHTML = '<span class="card-index">' + (i + 1) + '</span>' +
-      '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px 12px;">' +
+      '<div class="card-content">' +
+      '<span class="card-icon">' + icons[i] + '</span>' +
       '<div class="card-title">' + cat.title + '</div></div>';
     (function(url) {
       card.onclick = function() { location.href = url; };
