@@ -309,7 +309,7 @@
         
         <div class="loading-text">
             <h1>TR81</h1>
-            <div class="multi-lang-text" id="multiLangText">Yükleniyor...</div>
+            <div class="multi-lang-text" id="multiLangText">Loading...</div>
         </div>
         
         <div class="progress-dots">
@@ -325,7 +325,7 @@
             <div class="countdown-circle"></div>
         </div>
         
-        <a href="https://tr81.tr" class="skip-btn">Hemen Git →</a>
+        <a href="https://tr81.tr" class="skip-btn" id="skipBtn">Skip →</a>
     </div>
     
     <script>
@@ -373,24 +373,80 @@
             'ka': 'იტვირთება...'
         };
         
+        // Button texts in different languages
+        const buttonTexts = {
+            'tr': 'Hemen Git →',
+            'en': 'Skip →',
+            'de': 'Überspringen →',
+            'fr': 'Passer →',
+            'es': 'Saltar →',
+            'it': 'Salta →',
+            'pt': 'Pular →',
+            'ru': 'Пропустить →',
+            'ja': 'スキップ →',
+            'zh': '跳过 →',
+            'ko': '건너뛰기 →',
+            'ar': 'تخطي ←',
+            'hi': 'छोड़ें →',
+            'nl': 'Overslaan →',
+            'pl': 'Pomiń →',
+            'sv': 'Hoppa över →',
+            'no': 'Hopp over →',
+            'da': 'Spring over →',
+            'fi': 'Ohita →',
+            'cs': 'Přeskočit →',
+            'hu': 'Kihagyás →',
+            'ro': 'Sari →',
+            'bg': 'Пропусни →',
+            'el': 'Παράλειψη →',
+            'he': 'דלג ←',
+            'th': 'ข้าม →',
+            'vi': 'Bỏ qua →',
+            'id': 'Lewati →',
+            'ms': 'Langkau →',
+            'uk': 'Пропустити →',
+            'hr': 'Preskoči →',
+            'sr': 'Прескочи →',
+            'sk': 'Preskočiť →',
+            'sl': 'Preskoči →',
+            'lt': 'Praleisti →',
+            'lv': 'Izlaist →',
+            'et': 'Jäta vahele →',
+            'sq': 'Kalo →',
+            'mk': 'Прескокни →',
+            'ka': 'გამოტოვება →'
+        };
+        
         // Get user's browser language
         const userLang = navigator.language || navigator.userLanguage;
-        const langCode = userLang.split('-')[0];
+        const langCode = userLang.split('-')[0].toLowerCase();
         
         // Set document language
         document.documentElement.lang = langCode;
         
-        // Rotate through different language texts
+        // Set initial texts based on user's language
         const textElement = document.getElementById('multiLangText');
-        const languages = Object.keys(loadingTexts);
-        let currentIndex = 0;
+        const skipButton = document.getElementById('skipBtn');
         
-        // Start with user's language if available
+        // Set initial loading text
         if (loadingTexts[langCode]) {
             textElement.textContent = loadingTexts[langCode];
+        } else {
+            textElement.textContent = loadingTexts['en']; // Default to English
         }
         
-        // Rotate texts
+        // Set button text based on user's language
+        if (buttonTexts[langCode]) {
+            skipButton.textContent = buttonTexts[langCode];
+        } else {
+            skipButton.textContent = buttonTexts['en']; // Default to English
+        }
+        
+        // Rotate through different language texts
+        const languages = Object.keys(loadingTexts);
+        let currentIndex = languages.indexOf(langCode) >= 0 ? languages.indexOf(langCode) : 0;
+        
+        // Rotate texts every 2 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % languages.length;
             textElement.textContent = loadingTexts[languages[currentIndex]];
