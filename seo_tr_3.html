@@ -1,98 +1,352 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <!-- 3-5 saniye bekletme -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TR81 - Yükleniyor...</title>
     <meta http-equiv="refresh" content="5; url=https://tr81.tr">
     
-    <script>
-        // 5 saniye sonra yönlendir
-        setTimeout(function() {
-            window.location.href = "https://tr81.tr";
-        }, 5000);
-        
-        // Kullanıcı etkileşimini kaydet
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sayfa yüklendiğinde Google Analytics'e sinyal
-            if(typeof gtag !== 'undefined') {
-                gtag('event', 'page_view', {
-                    'page_title': 'SEO Landing Page',
-                    'page_location': window.location.href
-                });
-            }
-        });
-    </script>
-    
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 600px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: #e0e0e0;
-            border-radius: 2px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             overflow: hidden;
+        }
+        
+        /* Animated background shapes */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .bg-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .bg-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .bg-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 70%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.1;
+            }
+            33% {
+                transform: translateY(-100px) rotate(120deg);
+                opacity: 0.2;
+            }
+            66% {
+                transform: translateY(100px) rotate(240deg);
+                opacity: 0.1;
+            }
+        }
+        
+        .loader-container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+        
+        /* Spinning globe loader */
+        .globe-loader {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .globe {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: spin 3s linear infinite;
+        }
+        
+        .globe::before {
+            content: "🗺️";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        /* Progress dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: dotPulse 1.5s infinite ease-in-out;
+        }
+        
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        .dot:nth-child(4) { animation-delay: 0.6s; }
+        .dot:nth-child(5) { animation-delay: 0.8s; }
+        
+        @keyframes dotPulse {
+            0%, 80%, 100% {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1);
+            }
+            40% {
+                background: rgba(255, 255, 255, 1);
+                transform: scale(1.3);
+            }
+        }
+        
+        /* Text content */
+        .loading-text {
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .loading-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .multi-lang-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            animation: fadeInOut 2s infinite;
+            height: 20px;
             margin: 20px 0;
         }
-        .progress-fill {
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        
+        /* Countdown */
+        .countdown {
+            width: 60px;
+            height: 60px;
+            margin: 20px auto;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .countdown-number {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .countdown-circle {
+            position: absolute;
+            width: 100%;
             height: 100%;
-            background: #667eea;
-            animation: load 5s linear;
+            border-radius: 50%;
+            border: 3px solid white;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            animation: countdown 5s linear;
         }
-        @keyframes load {
-            from { width: 0%; }
-            to { width: 100%; }
+        
+        @keyframes countdown {
+            from { transform: rotate(-90deg); }
+            to { transform: rotate(270deg); }
         }
-        .button {
+        
+        /* Skip button */
+        .skip-btn {
             display: inline-block;
+            margin-top: 20px;
             padding: 12px 30px;
-            background: #667eea;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             text-decoration: none;
-            border-radius: 25px;
-            margin-top: 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .button:hover {
-            background: #5568d3;
+        
+        .skip-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🗺️ TR81 - Türkiye Gezi Rehberi</h1>
-        <p>Türkiye'nin en kapsamlı gezi rehberine yönlendiriliyorsunuz...</p>
-        
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+    
+    <div class="loader-container">
+        <div class="globe-loader">
+            <div class="globe"></div>
         </div>
         
-        <p>✨ 81 ilde gezilecek yerler<br>
-        📸 İnstagramlık mekanlar<br>
-        🏔️ Doğal güzellikler</p>
+        <div class="loading-text">
+            <h1>TR81</h1>
+            <div class="multi-lang-text" id="multiLangText">Yükleniyor...</div>
+        </div>
         
-        <a href="https://tr81.tr" class="button">Hemen Git →</a>
+        <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
         
-        <p style="font-size: 12px; color: #666; margin-top: 20px;">
-        5 saniye içinde otomatik yönlendirileceksiniz
-        </p>
+        <div class="countdown">
+            <span class="countdown-number" id="countdown">5</span>
+            <div class="countdown-circle"></div>
+        </div>
+        
+        <a href="https://tr81.tr" class="skip-btn">Hemen Git →</a>
     </div>
     
-    <!-- SEO İçeriği (Görünmez) -->
-    <div style="position: absolute; left: -9999px;">
-        <!-- Tüm SEO içeriğiniz burada -->
-    </div>
+    <script>
+        // Multi-language loading texts
+        const loadingTexts = {
+            'tr': 'Yükleniyor...',
+            'en': 'Loading...',
+            'de': 'Wird geladen...',
+            'fr': 'Chargement...',
+            'es': 'Cargando...',
+            'it': 'Caricamento...',
+            'pt': 'Carregando...',
+            'ru': 'Загрузка...',
+            'ja': '読み込み中...',
+            'zh': '加载中...',
+            'ko': '로딩 중...',
+            'ar': 'جار التحميل...',
+            'hi': 'लोड हो रहा है...',
+            'nl': 'Laden...',
+            'pl': 'Ładowanie...',
+            'sv': 'Laddar...',
+            'no': 'Laster...',
+            'da': 'Indlæser...',
+            'fi': 'Ladataan...',
+            'cs': 'Načítání...',
+            'hu': 'Betöltés...',
+            'ro': 'Se încarcă...',
+            'bg': 'Зареждане...',
+            'el': 'Φόρτωση...',
+            'he': 'טוען...',
+            'th': 'กำลังโหลด...',
+            'vi': 'Đang tải...',
+            'id': 'Memuat...',
+            'ms': 'Memuatkan...',
+            'uk': 'Завантаження...',
+            'hr': 'Učitavanje...',
+            'sr': 'Учитавање...',
+            'sk': 'Načítava sa...',
+            'sl': 'Nalaganje...',
+            'lt': 'Kraunama...',
+            'lv': 'Ielādē...',
+            'et': 'Laadimine...',
+            'sq': 'Duke u ngarkuar...',
+            'mk': 'Се вчитува...',
+            'ka': 'იტვირთება...'
+        };
+        
+        // Get user's browser language
+        const userLang = navigator.language || navigator.userLanguage;
+        const langCode = userLang.split('-')[0];
+        
+        // Set document language
+        document.documentElement.lang = langCode;
+        
+        // Rotate through different language texts
+        const textElement = document.getElementById('multiLangText');
+        const languages = Object.keys(loadingTexts);
+        let currentIndex = 0;
+        
+        // Start with user's language if available
+        if (loadingTexts[langCode]) {
+            textElement.textContent = loadingTexts[langCode];
+        }
+        
+        // Rotate texts
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % languages.length;
+            textElement.textContent = loadingTexts[languages[currentIndex]];
+        }, 2000);
+        
+        // Countdown
+        let seconds = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            seconds--;
+            if (seconds > 0) {
+                countdownElement.textContent = seconds;
+            } else {
+                clearInterval(countdownInterval);
+                // Redirect with user's language
+                const redirectUrl = `https://tr81.tr${langCode !== 'tr' ? '?lang=' + langCode : ''}`;
+                window.location.href = redirectUrl;
+            }
+        }, 1000);
+        
+        // Auto redirect after 5 seconds
+        setTimeout(() => {
+            const redirectUrl = `https://tr81.tr${langCode !== 'tr' ? '?lang=' + langCode : ''}`;
+            window.location.href = redirectUrl;
+        }, 5000);
+    </script>
 </body>
 </html>
