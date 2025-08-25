@@ -611,7 +611,7 @@
     </div>
 
     <!-- Info -->
-    <div id="info" class="info"></div>
+    <div id="info" class="info premium">🔓 Tüm ülkeler açık!</div>
 
     <!-- Grid -->
     <div id="grid" class="grid"></div>
@@ -994,10 +994,9 @@
     document.getElementById('langFlag').textContent = t.flag;
     document.getElementById('langName').textContent = t.name;
 
-    const access = localStorage.getItem('duflat-access')==='granted';
     const info = document.getElementById('info');
-    info.innerHTML = access ? t.premium : t.banner;
-    info.className = access ? 'info premium' : 'info';
+    info.innerHTML = t.premium;
+    info.className = 'info premium';
 
     document.documentElement.lang = code;
     localStorage.setItem('lang', code);
@@ -1029,13 +1028,8 @@
 
   /* Ülke sayfasına git */
   function go(slug){
-    // Türkiye ve ABD artık herkes için ücretsiz
-    if(slug==='turkiye'){ location.href='türkiye.html'; return; }
-    if(slug==='unitedstates'){ location.href='unitedstates.html'; return; }
-    
-    // Diğer ülkeler için access kontrolü
-    const access = localStorage.getItem('duflat-access')==='granted';
-    location.href = access ? `${slug}.html` : 'login.html';
+    // Tüm ülkeler ücretsiz - direkt git
+    location.href = `${slug}.html`;
   }
 
   /* === BAŞLAT === */
