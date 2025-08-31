@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kişisel Sermaye Değerlendirmesi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .progress-container {
+            background: #f1f3f4;
+            border-radius: 25px;
+            height: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            border-radius: 25px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .question-card {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        .rating-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid #e1e5e9;
+            background: white;
+            min-width: 80px;
+        }
+
+        .rating-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .rating-option.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .rating-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .rating-label {
+            font-size: 0.9em;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e1e5e9;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5d9;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .chart-container {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            height: 400px;
+        }
+
+        .results-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin: 30px 0;
+        }
+
+        .results-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .results-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .results-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .score-5 { background: #d4edda; color: #155724; }
+        .score-4 { background: #cce5ff; color: #004085; }
+        .score-3 { background: #fff3cd; color: #856404; }
+        .score-2 { background: #f8d7da; color: #721c24; }
+        .score-1 { background: #f5c6cb; color: #721c24; }
+
+        .analysis {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .analysis h3 {
+            color: #d63031;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .strength-weakness {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .strength, .weakness {
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .strength {
+            background: rgba(39, 174, 96, 0.1);
+            border-left: 4px solid #27ae60;
+        }
+
+        .weakness {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rating-container {
+                gap: 8px;
+            }
+            
+            .rating-option {
+                min-width: 60px;
+                padding: 10px;
+            }
+            
+            .strength-weakness {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>Kişisel Sermaye Değerlendirmesi</h1>
+                <p>30 farklı alanda kişisel kaynaklarını değerlendir ve detaylı raporunu al</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quizSection">
+                <div class="question-card" id="questionCard">
+                    <div class="question-title" id="questionTitle"></div>
+                    <div class="question-text" id="questionText"></div>
+                    
+                    <div class="rating-container">
+                        <div class="rating-option" onclick="selectRating(1)">
+                            <div class="rating-number">1</div>
+                            <div class="rating-label">Çok Az</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2)">
+                            <div class="rating-number">2</div>
+                            <div class="rating-label">Az</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3)">
+                            <div class="rating-number">3</div>
+                            <div class="rating-label">Orta</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(4)">
+                            <div class="rating-number">4</div>
+                            <div class="rating-label">Ortalama Üstü</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(5)">
+                            <div class="rating-number">5</div>
+                            <div class="rating-label">Çok İyi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn">Önceki</button>
+                    <span id="questionCounter">1 / 30</span>
+                    <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" disabled>Sonraki</button>
+                </div>
+            </div>
+
+            <!-- Loading Section -->
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <h3>Sonuçların hesaplanıyor...</h3>
+                <p>Kişisel sermaye profilin analiz ediliyor</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <div class="header">
+                    <h2>Kişisel Sermaye Profil Raporu</h2>
+                    <p>30 kategorideki sonuçların ve detaylı analiz</p>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="results-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th>Puan</th>
+                                <th>Seviye</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="analysis">
+                    <h3>Detaylı Analiz Raporu</h3>
+                    
+                    <div class="strength-weakness">
+                        <div class="strength">
+                            <h4>En Güçlü Yönlerin</h4>
+                            <div id="strengthsList"></div>
+                        </div>
+                        
+                        <div class="weakness">
+                            <h4>Gelişim Alanların</h4>
+                            <div id="weaknessList"></div>
+                        </div>
+                    </div>
+
+                    <div id="strategicAnalysis">
+                        <h4>Stratejik Öneriler</h4>
+                        <div id="strategyText"></div>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-primary" onclick="restartQuiz()">Yeniden Başla</button>
+                    <button class="btn btn-secondary" onclick="downloadReport()">Raporu İndir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { title: "Bilgi ve Beceri", text: "Özel bir bilgi/becerin var mı ki insanlar sana bu konuda danışsın? Bu konuda kendini ne kadar yetkin görüyorsun?" },
+            { title: "Sosyal Bağlantılar", text: "İhtiyacın olduğunda sana yardım edebilecek kaç farklı alandaki insanla bağlantın var? Sosyal çevrenin genişliği nasıl?" },
+            { title: "Zaman Yönetimi", text: "Günlük/haftalık programında ne kadar özgür zaman var? Zamanını ne kadar etkin kullanabiliyorsun?" },
+            { title: "Duygusal Emek", text: "İnsanları dinleme, empati kurma, duygusal destek verme konusunda kendini nasıl görüyorsun?" },
+            { title: "Fiziksel Varlıklar", text: "Sahip olduğun eşyalar, araçlar, donanım açısından kendini nasıl değerlendiriyorsun?" },
+            { title: "İtibar ve Güven", text: "İnsanlar sana ne kadar güvenir? Sözünün arkasında durman konusunda itibarın nasıl?" },
+            { title: "Yaratıcılık", text: "Problematik durumlara yaratıcı çözümler bulma, yeni fikirler üretme yeteneğin nasıl?" },
+            { title: "Özgürlük ve Bağımsızlık", text: "Kararlarını ne kadar özgürce verebiliyorsun? Mali ve duygusal bağımsızlığın nasıl?" },
+            { title: "Risk Alma", text: "Belirsiz sonuçları olan durumlar karşısında risk almaya ne kadar isteklisin?" },
+            { title: "Dikkat ve Odaklanma", text: "Dikkatini uzun süre bir konuda toplayabilir misin? Konsantrasyon yeteneğin nasıl?" },
+            { title: "Mahremiyet Yönetimi", text: "Kişisel bilgilerini ne kadar kontrollü paylaşırsın? Sır saklama konusunda güvenilir misin?" },
+            { title: "Fiziksel Sağlık", text: "Genel sağlık durumun nasıl? Fiziksel zorluklarla başa çıkabilme kapasiten nasıl?" },
+            { title: "Mizah ve Eğlence", text: "İnsanları güldürebiliyor musun? Gergin ortamları mizahla yumuşatma becerenin var mı?" },
+            { title: "Sabır ve Tahammül", text: "Zor durumlar karşısında ne kadar sakin kalabilirsin? Stres yönetimi konusunda nasılsın?" },
+            { title: "Kültürel Sermaye", text: "Sanat, müzik, edebiyat gibi kültürel konulardaki bilgin ve ilgin nasıl?" },
+            { title: "Bağlılık ve Sadakat", text: "İnsanlara, işlere, projelere ne kadar bağlı kalabilirsin? Uzun vadeli taahhütlere sadık kalır mısın?" },
+            { title: "Anlam ve Amaç", text: "Yaptığın işlerde anlam arayan biri misin? Büyük amaçlar peşinde koşmak seni motive eder mi?" },
+            { title: "Sezgi ve İçgüdü", text: "İçgüdülerin ne kadar güçlü? İnsanları ve durumları hissederek doğru tahminler yapabilir misin?" },
+            { title: "Cesaret ve Müdahale", text: "Zor durumda olan insanlara yardım etmeye cesaret eder misin? Haksızlığa karşı durur musun?" },
+            { title: "Deneyim ve Hafıza", text: "Geçmiş deneyimlerini ne kadar iyi hatırlıyor ve bunlardan ders çıkarabiliyorsun?" },
+            { title: "Liderlik", text: "İnsanları yönlendirme, organize etme ve motive etme konusunda ne kadar başarılısın?" },
+            { title: "Adaptasyon", text: "Değişen koşullara ne kadar hızlı uyum sağlayabilirsin? Esneklik derecen nasıl?" },
+            { title: "Teknik Beceriler", text: "Teknoloji kullanımı, dijital araçlar konusundaki yetkinliğin nasıl?" },
+            { title: "İletişim", text: "Fikirlerini ne kadar net ifade edebiliyorsun? Farklı insanlarla iletişim kurma becereniz nasıl?" },
+            { title: "Öğrenme Kapasitesi", text: "Yeni şeyler öğrenme hızın ve isteğin nasıl? Sürekli gelişime açık mısın?" },
+            { title: "Organizasyon", text: "Hayatını, işlerini ne kadar düzenli tutabiliyorsun? Planlama ve organize etme yeteneğin nasıl?" },
+            { title: "Çalışma Etiği", text: "İşlerine ne kadar disiplinli yaklaşıyorsun? Uzun vadeli projelerde kararlılığın nasıl?" },
+            { title: "Estetik Duyarlılık", text: "Güzellik, tasarım, görsel uyum konusundaki duyarlılığın ve yeteneğin nasıl?" },
+            { title: "Finansal Okuryazarlık", text: "Para yönetimi, bütçe planlama, yatırım konularındaki bilgi ve becerenin nasıl?" },
+            { title: "Manevi/Duygusal Zeka", text: "Kendi duygularını anlama ve yönetme, başkalarının duygularını okuma yeteneğin nasıl?" }
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(30).fill(0);
+        
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionTitle').textContent = question.title;
+            document.getElementById('questionText').textContent = question.text;
+            document.getElementById('questionCounter').textContent = `${currentQuestion + 1} / 30`;
+            
+            // Clear previous selection
+            document.querySelectorAll('.rating-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Show previous answer if exists
+            if (answers[currentQuestion] > 0) {
+                const selectedOption = document.querySelectorAll('.rating-option')[answers[currentQuestion] - 1];
+                selectedOption.classList.add('selected');
+                document.getElementById('nextBtn').disabled = false;
+            } else {
+                document.getElementById('nextBtn').disabled = true;
+            }
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / 30) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = currentQuestion === 29 ? 'Sonuçları Gör' : 'Sonraki';
+        }
+
+        function selectRating(rating) {
+            answers[currentQuestion] = rating;
+            
+            // Update UI
+            document.querySelectorAll('.rating-option').forEach((option, index) => {
+                option.classList.remove('selected');
+                if (index === rating - 1) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < 29) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            // Show loading
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('loadingSection').style.display = 'block';
+            
+            // Simulate loading time
+            setTimeout(() => {
+                document.getElementById('loadingSection').style.display = 'none';
+                document.getElementById('resultsSection').style.display = 'block';
+                generateResults();
+            }, 2000);
+        }
+
+        function generateResults() {
+            const categories = questions.map((q, index) => ({
+                name: q.title,
+                score: answers[index]
+            }));
+            
+            // Sort for analysis
+            const sortedCategories = [...categories].sort((a, b) => b.score - a.score);
+            const strengths = sortedCategories.filter(c => c.score >= 4).slice(0, 5);
+            const weaknesses = sortedCategories.filter(c => c.score <= 2).slice(-5);
+            
+            // Create results table
+            const tableBody = document.getElementById('resultsTableBody');
+            tableBody.innerHTML = '';
+            
+            categories.forEach(category => {
+                const row = document.createElement('tr');
+                const levelText = ['', 'Çok Az', 'Az', 'Orta', 'Ortalama Üstü', 'Çok İyi'][category.score];
+                
+                row.innerHTML = `
+                    <td><strong>${category.name}</strong></td>
+                    <td><span class="score-badge score-${category.score}">${category.score}/5</span></td>
+                    <td>${levelText}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Create charts
+            createRadarChart(categories);
+            createBarChart(categories);
+            
+            // Generate analysis
+            generateAnalysis(strengths, weaknesses, categories);
+        }
+
+        function createRadarChart(categories) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: categories.map(c => c.name),
+                    datasets: [{
+                        label: 'Kişisel Sermaye Profili',
+                        data: categories.map(c => c.score),
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(102, 126, 234, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Radar Analizi'
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: false
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 5
+                        }
+                    }
+                }
+            });
+        }
+
+        function createBarChart(categories) {
+            const ctx = document.getElementById('barChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: categories.map(c => c.name),
+                    datasets: [{
+                        label: 'Puan',
+                        data: categories.map(c => c.score),
+                        backgroundColor: categories.map(c => {
+                            if (c.score === 5) return '#27ae60';
+                            if (c.score === 4) return '#3498db';
+                            if (c.score === 3) return '#f39c12';
+                            if (c.score === 2) return '#e74c3c';
+                            return '#c0392b';
+                        })
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Skor Dağılımı'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5
+                        },
+                        x: {
+                            ticks: {
+                                maxRotation: 45
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateAnalysis(strengths, weaknesses, categories) {
+            // Strengths
+            const strengthsList = document.getElementById('strengthsList');
+            strengthsList.innerHTML = strengths.map(s => 
+                `<p><strong>${s.name}:</strong> ${s.score}/5 - Bu alanda güçlü bir kapasiten var</p>`
+            ).join('');
+            
+            // Weaknesses
+            const weaknessList = document.getElementById('weaknessList');
+            weaknessList.innerHTML = weaknesses.map(w => 
+                `<p><strong>${w.name}:</strong> ${w.score}/5 - Bu alanda gelişim potansiyelin yüksek</p>`
+            ).join('');
+            
+            // Strategy
+            const totalScore = categories.reduce((sum, c) => sum + c.score, 0);
+            const average = (totalScore / 30).toFixed(1);
+            
+            let strategyText = `
+                <p><strong>Genel Profil:</strong> 30 kategoride toplam ${totalScore}/150 puan aldın (ortalama: ${average}/5).</p>
+                <p><strong>Öne Çıkan Özellikler:</strong> ${strengths.length} alanda güçlü performans gösteriyorsun.</p>
+                <p><strong>Gelişim Fırsatları:</strong> ${weaknesses.length} alanda odaklanarak büyük ilerleme kaydedebilirsin.</p>
+                <p><strong>Strateji Önerisi:</strong> En güçlü olduğun alanları kullanarak zayıf alanlarını destekleyebilirsin.</p>
+            `;
+            
+            document.getElementById('strategyText').innerHTML = strategyText;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = new Array(30).fill(0);
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+            loadQuestion();
+        }
+
+        function downloadReport() {
+            alert('Rapor indirme özelliği yakında eklenecek!');
+        }
+
+        // Initialize
+        loadQuestion();
+    </script>
+</body>
+</html>
