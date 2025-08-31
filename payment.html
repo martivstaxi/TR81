@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kişisel Sermaye Değerlendirmesi</title>
+    <title>Kişisel Sermaye Değerlendirmesi - 100 Kategori</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -53,12 +53,39 @@
             font-size: 1.1em;
         }
 
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e1e5e9;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
         .progress-container {
             background: #f1f3f4;
             border-radius: 25px;
-            height: 8px;
+            height: 12px;
             margin-bottom: 30px;
             overflow: hidden;
+            position: relative;
         }
 
         .progress-bar {
@@ -69,30 +96,55 @@
             width: 0%;
         }
 
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #333;
+        }
+
         .question-card {
             margin-bottom: 30px;
-            padding: 25px;
-            background: #f8f9ff;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
             border-radius: 15px;
             border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .question-title {
-            font-size: 1.3em;
-            font-weight: 600;
+            font-size: 1.4em;
+            font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .question-text {
             color: #555;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-size: 1.05em;
+            line-height: 1.6;
         }
 
         .rating-container {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -102,17 +154,34 @@
             flex-direction: column;
             align-items: center;
             cursor: pointer;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 18px 15px;
+            border-radius: 15px;
             transition: all 0.3s ease;
             border: 2px solid #e1e5e9;
             background: white;
-            min-width: 80px;
+            min-width: 90px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rating-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .rating-option:hover::before {
+            left: 100%;
         }
 
         .rating-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.25);
             border-color: #667eea;
         }
 
@@ -120,20 +189,21 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-color: #667eea;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
         }
 
         .rating-number {
-            font-size: 1.5em;
+            font-size: 1.6em;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .rating-label {
-            font-size: 0.9em;
-            font-weight: 500;
+            font-size: 0.85em;
+            font-weight: 600;
             text-align: center;
+            line-height: 1.2;
         }
 
         .navigation {
@@ -141,6 +211,7 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 40px;
+            gap: 20px;
         }
 
         .btn {
@@ -153,6 +224,26 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
@@ -161,22 +252,29 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
         .btn-secondary {
-            background: #e1e5e9;
+            background: linear-gradient(135deg, #e1e5e9, #f8f9fa);
             color: #555;
         }
 
         .btn-secondary:hover {
-            background: #d1d5d9;
+            background: linear-gradient(135deg, #d1d5d9, #e8e9ea);
+            transform: translateY(-2px);
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .question-counter {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #667eea;
         }
 
         .results-section {
@@ -191,11 +289,39 @@
         }
 
         .chart-container {
-            background: #f8f9ff;
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
             padding: 25px;
             border-radius: 15px;
-            height: 400px;
+            height: 450px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
+
+        .results-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .overview-card {
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .overview-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .excellent { color: #27ae60; }
+        .good { color: #3498db; }
+        .average { color: #f39c12; }
+        .below { color: #e67e22; }
+        .poor { color: #e74c3c; }
 
         .results-table {
             background: white;
@@ -203,6 +329,8 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             margin: 30px 0;
+            max-height: 600px;
+            overflow-y: auto;
         }
 
         .results-table table {
@@ -216,6 +344,9 @@
             padding: 20px;
             font-weight: 600;
             text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .results-table td {
@@ -227,9 +358,15 @@
             background: #f8f9ff;
         }
 
+        .results-table tr:hover {
+            background: #e8ecff;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
         .score-badge {
             display: inline-block;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.9em;
@@ -243,37 +380,63 @@
 
         .analysis {
             background: linear-gradient(135deg, #ffecd2, #fcb69f);
-            padding: 30px;
+            padding: 35px;
             border-radius: 15px;
             margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
         .analysis h3 {
             color: #d63031;
-            margin-bottom: 20px;
-            font-size: 1.5em;
+            margin-bottom: 25px;
+            font-size: 1.6em;
         }
 
         .strength-weakness {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .strength, .weakness {
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
         .strength {
-            background: rgba(39, 174, 96, 0.1);
-            border-left: 4px solid #27ae60;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05));
+            border-left: 5px solid #27ae60;
         }
 
         .weakness {
-            background: rgba(231, 76, 60, 0.1);
-            border-left: 4px solid #e74c3c;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+            border-left: 5px solid #e74c3c;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e1e5e9;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
         }
 
         @media (max-width: 768px) {
@@ -294,29 +457,38 @@
             }
             
             .rating-option {
-                min-width: 60px;
-                padding: 10px;
+                min-width: 70px;
+                padding: 12px 8px;
             }
             
             .strength-weakness {
                 grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
             }
         }
 
         .loading {
             display: none;
             text-align: center;
-            padding: 40px;
+            padding: 60px;
         }
 
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #667eea;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 30px;
         }
 
         @keyframes spin {
@@ -329,17 +501,38 @@
     <div class="container">
         <div class="card">
             <div class="header">
-                <h1>Kişisel Sermaye Değerlendirmesi</h1>
-                <p>30 farklı alanda kişisel kaynaklarını değerlendir ve detaylı raporunu al</p>
+                <h1>Kapsamlı Kişisel Sermaye Değerlendirmesi</h1>
+                <p>100 farklı alanda kişisel kaynaklarını değerlendir ve detaylı profilini keşfet</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">Farklı Kategori</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">Tamamlanan</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="averageScore">-</div>
+                    <div class="stat-label">Ortalama Puan</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="estimatedTime">~15 dk</div>
+                    <div class="stat-label">Tahmini Süre</div>
+                </div>
             </div>
 
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-text" id="progressText">0 / 100</div>
             </div>
 
             <!-- Quiz Section -->
             <div id="quizSection">
                 <div class="question-card" id="questionCard">
+                    <div class="category-badge" id="categoryBadge"></div>
                     <div class="question-title" id="questionTitle"></div>
                     <div class="question-text" id="questionText"></div>
                     
@@ -369,7 +562,7 @@
 
                 <div class="navigation">
                     <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn">Önceki</button>
-                    <span id="questionCounter">1 / 30</span>
+                    <div class="question-counter" id="questionCounter">1 / 100</div>
                     <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" disabled>Sonraki</button>
                 </div>
             </div>
@@ -377,24 +570,54 @@
             <!-- Loading Section -->
             <div class="loading" id="loadingSection">
                 <div class="spinner"></div>
-                <h3>Sonuçların hesaplanıyor...</h3>
-                <p>Kişisel sermaye profilin analiz ediliyor</p>
+                <h3>Kapsamlı analiz yapılıyor...</h3>
+                <p>100 kategorideki performansın değerlendiriliyor</p>
             </div>
 
             <!-- Results Section -->
             <div class="results-section" id="resultsSection">
                 <div class="header">
-                    <h2>Kişisel Sermaye Profil Raporu</h2>
-                    <p>30 kategorideki sonuçların ve detaylı analiz</p>
+                    <h2>Kapsamlı Kişisel Sermaye Profil Raporu</h2>
+                    <p>100 kategorideki detaylı sonuçların ve stratejik analiz</p>
+                </div>
+
+                <div class="results-overview">
+                    <div class="overview-card">
+                        <div class="overview-number excellent" id="excellentCount">0</div>
+                        <div>Mükemmel (5/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number good" id="goodCount">0</div>
+                        <div>İyi (4/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number average" id="averageCount">0</div>
+                        <div>Orta (3/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number below" id="belowCount">0</div>
+                        <div>Az (2/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number poor" id="poorCount">0</div>
+                        <div>Çok Az (1/5)</div>
+                    </div>
                 </div>
 
                 <div class="charts-grid">
                     <div class="chart-container">
-                        <canvas id="radarChart"></canvas>
+                        <canvas id="categoryChart"></canvas>
                     </div>
                     <div class="chart-container">
-                        <canvas id="barChart"></canvas>
+                        <canvas id="distributionChart"></canvas>
                     </div>
+                </div>
+
+                <div class="category-filters">
+                    <div class="filter-btn active" onclick="filterResults('all')">Tümü</div>
+                    <div class="filter-btn" onclick="filterResults('high')">Yüksek (4-5)</div>
+                    <div class="filter-btn" onclick="filterResults('medium')">Orta (3)</div>
+                    <div class="filter-btn" onclick="filterResults('low')">Düşük (1-2)</div>
                 </div>
 
                 <div class="results-table">
@@ -402,6 +625,7 @@
                         <thead>
                             <tr>
                                 <th>Kategori</th>
+                                <th>Alan</th>
                                 <th>Puan</th>
                                 <th>Seviye</th>
                             </tr>
@@ -412,22 +636,22 @@
                 </div>
 
                 <div class="analysis">
-                    <h3>Detaylı Analiz Raporu</h3>
+                    <h3>Kapsamlı Stratejik Analiz</h3>
                     
                     <div class="strength-weakness">
                         <div class="strength">
-                            <h4>En Güçlü Yönlerin</h4>
+                            <h4>En Güçlü 10 Alanın</h4>
                             <div id="strengthsList"></div>
                         </div>
                         
                         <div class="weakness">
-                            <h4>Gelişim Alanların</h4>
+                            <h4>En Büyük 10 Gelişim Fırsatın</h4>
                             <div id="weaknessList"></div>
                         </div>
                     </div>
 
                     <div id="strategicAnalysis">
-                        <h4>Stratejik Öneriler</h4>
+                        <h4>Kişiselleştirilmiş Strateji Önerileri</h4>
                         <div id="strategyText"></div>
                     </div>
                 </div>
@@ -435,6 +659,7 @@
                 <div class="navigation">
                     <button class="btn btn-primary" onclick="restartQuiz()">Yeniden Başla</button>
                     <button class="btn btn-secondary" onclick="downloadReport()">Raporu İndir</button>
+                    <button class="btn btn-secondary" onclick="shareResults()">Sonuçları Paylaş</button>
                 </div>
             </div>
         </div>
@@ -442,46 +667,132 @@
 
     <script>
         const questions = [
-            { title: "Bilgi ve Beceri", text: "Özel bir bilgi/becerin var mı ki insanlar sana bu konuda danışsın? Bu konuda kendini ne kadar yetkin görüyorsun?" },
-            { title: "Sosyal Bağlantılar", text: "İhtiyacın olduğunda sana yardım edebilecek kaç farklı alandaki insanla bağlantın var? Sosyal çevrenin genişliği nasıl?" },
-            { title: "Zaman Yönetimi", text: "Günlük/haftalık programında ne kadar özgür zaman var? Zamanını ne kadar etkin kullanabiliyorsun?" },
-            { title: "Duygusal Emek", text: "İnsanları dinleme, empati kurma, duygusal destek verme konusunda kendini nasıl görüyorsun?" },
-            { title: "Fiziksel Varlıklar", text: "Sahip olduğun eşyalar, araçlar, donanım açısından kendini nasıl değerlendiriyorsun?" },
-            { title: "İtibar ve Güven", text: "İnsanlar sana ne kadar güvenir? Sözünün arkasında durman konusunda itibarın nasıl?" },
-            { title: "Yaratıcılık", text: "Problematik durumlara yaratıcı çözümler bulma, yeni fikirler üretme yeteneğin nasıl?" },
-            { title: "Özgürlük ve Bağımsızlık", text: "Kararlarını ne kadar özgürce verebiliyorsun? Mali ve duygusal bağımsızlığın nasıl?" },
-            { title: "Risk Alma", text: "Belirsiz sonuçları olan durumlar karşısında risk almaya ne kadar isteklisin?" },
-            { title: "Dikkat ve Odaklanma", text: "Dikkatini uzun süre bir konuda toplayabilir misin? Konsantrasyon yeteneğin nasıl?" },
-            { title: "Mahremiyet Yönetimi", text: "Kişisel bilgilerini ne kadar kontrollü paylaşırsın? Sır saklama konusunda güvenilir misin?" },
-            { title: "Fiziksel Sağlık", text: "Genel sağlık durumun nasıl? Fiziksel zorluklarla başa çıkabilme kapasiten nasıl?" },
-            { title: "Mizah ve Eğlence", text: "İnsanları güldürebiliyor musun? Gergin ortamları mizahla yumuşatma becerenin var mı?" },
-            { title: "Sabır ve Tahammül", text: "Zor durumlar karşısında ne kadar sakin kalabilirsin? Stres yönetimi konusunda nasılsın?" },
-            { title: "Kültürel Sermaye", text: "Sanat, müzik, edebiyat gibi kültürel konulardaki bilgin ve ilgin nasıl?" },
-            { title: "Bağlılık ve Sadakat", text: "İnsanlara, işlere, projelere ne kadar bağlı kalabilirsin? Uzun vadeli taahhütlere sadık kalır mısın?" },
-            { title: "Anlam ve Amaç", text: "Yaptığın işlerde anlam arayan biri misin? Büyük amaçlar peşinde koşmak seni motive eder mi?" },
-            { title: "Sezgi ve İçgüdü", text: "İçgüdülerin ne kadar güçlü? İnsanları ve durumları hissederek doğru tahminler yapabilir misin?" },
-            { title: "Cesaret ve Müdahale", text: "Zor durumda olan insanlara yardım etmeye cesaret eder misin? Haksızlığa karşı durur musun?" },
-            { title: "Deneyim ve Hafıza", text: "Geçmiş deneyimlerini ne kadar iyi hatırlıyor ve bunlardan ders çıkarabiliyorsun?" },
-            { title: "Liderlik", text: "İnsanları yönlendirme, organize etme ve motive etme konusunda ne kadar başarılısın?" },
-            { title: "Adaptasyon", text: "Değişen koşullara ne kadar hızlı uyum sağlayabilirsin? Esneklik derecen nasıl?" },
-            { title: "Teknik Beceriler", text: "Teknoloji kullanımı, dijital araçlar konusundaki yetkinliğin nasıl?" },
-            { title: "İletişim", text: "Fikirlerini ne kadar net ifade edebiliyorsun? Farklı insanlarla iletişim kurma becereniz nasıl?" },
-            { title: "Öğrenme Kapasitesi", text: "Yeni şeyler öğrenme hızın ve isteğin nasıl? Sürekli gelişime açık mısın?" },
-            { title: "Organizasyon", text: "Hayatını, işlerini ne kadar düzenli tutabiliyorsun? Planlama ve organize etme yeteneğin nasıl?" },
-            { title: "Çalışma Etiği", text: "İşlerine ne kadar disiplinli yaklaşıyorsun? Uzun vadeli projelerde kararlılığın nasıl?" },
-            { title: "Estetik Duyarlılık", text: "Güzellik, tasarım, görsel uyum konusundaki duyarlılığın ve yeteneğin nasıl?" },
-            { title: "Finansal Okuryazarlık", text: "Para yönetimi, bütçe planlama, yatırım konularındaki bilgi ve becerenin nasıl?" },
-            { title: "Manevi/Duygusal Zeka", text: "Kendi duygularını anlama ve yönetme, başkalarının duygularını okuma yeteneğin nasıl?" }
+            // Fiziksel Kaynaklar (10 soru)
+            { category: "Fiziksel", title: "Bilgi ve Beceri", text: "Özel bir bilgi/becerin var mı ki insanlar sana bu konuda danışsın? Bu konuda kendini ne kadar yetkin görüyorsun?" },
+            { category: "Fiziksel", title: "Fiziksel Varlıklar", text: "Sahip olduğun eşyalar, araçlar, donanım açısından kendini nasıl değerlendiriyorsun?" },
+            { category: "Fiziksel", title: "Yer ve Mekan", text: "Kullanabileceğin fiziksel alanlar (ev, ofis, arazi) açısından durumun nasıl?" },
+            { category: "Fiziksel", title: "Teknolojik Araçlar", text: "Teknoloji kullanımı, dijital araçlar konusundaki donanımın ve yetkinliğin nasıl?" },
+            { category: "Fiziksel", title: "Finansal Kaynaklar", text: "Mali durumun ve para yönetimi konusundaki yetkinliğin nasıl?" },
+            { category: "Fiziksel", title: "Ulaşım İmkanları", text: "Hareket kabiliyetin ve ulaşım seçeneklerin ne durumda?" },
+            { category: "Fiziksel", title: "Beslenme Kaynakları", text: "Sağlıklı beslenme imkanların ve yemek hazırlama becerilerin nasıl?" },
+            { category: "Fiziksel", title: "Barınma Koşulları", text: "Yaşam alanının kalitesi ve konforundan memnun musun?" },
+            { category: "Fiziksel", title: "Giyinme ve Görünüm", text: "Kişisel stil ve görünümün konusunda kendini nasıl hissediyorsun?" },
+            { category: "Fiziksel", title: "Doğal Kaynaklara Erişim", text: "Temiz hava, su, doğa gibi temel kaynaklara erişimin nasıl?" },
+
+            // Zaman ve Enerji (10 soru)
+            { category: "Zaman", title: "Zaman Yönetimi", text: "Günlük/haftalık programında ne kadar özgür zaman var? Zamanını ne kadar etkin kullanabiliyorsun?" },
+            { category: "Zaman", title: "Enerji Seviyesi", text: "Günlük enerji seviyeni nasıl? Yorgunlukla ne kadar iyi başa çıkabiliyorsun?" },
+            { category: "Zaman", title: "Uyku Kalitesi", text: "Uyku düzenin ve kaliten nasıl? Dinlenmiş hissediyor musun?" },
+            { category: "Zaman", title: "Dikkat ve Odaklanma", text: "Dikkatini uzun süre bir konuda toplayabilir misin? Konsantrasyon yeteneğin nasıl?" },
+            { category: "Zaman", title: "Çoklu Görev Yönetimi", text: "Aynı anda birden fazla işle ilgilenebilme kapasiten nasıl?" },
+            { category: "Zaman", title: "Öncelik Belirleme", text: "Önemli ve acil işleri ayırt etme, öncelik sıralama konusunda nasılsın?" },
+            { category: "Zaman", title: "Erteleme Eğilimi", text: "İşleri erteleme konusundaki durumun nasıl? Prokrastinasyonla mücadelemen nasıl?" },
+            { category: "Zaman", title: "Ritim ve Tempo", text: "Günlük yaşamında istediğin ritmi yakalayabiliyor musun?" },
+            { category: "Zaman", title: "Dinlenme ve Boş Zaman", text: "Kendine ayırdığın dinlenme zamanının kalitesi nasıl?" },
+            { category: "Zaman", title: "Zaman Algısı", text: "Zamanı doğru tahmin etme ve planlama konusunda ne kadar başarılısın?" },
+
+            // Sosyal Sermaye (15 soru)
+            { category: "Sosyal", title: "Sosyal Bağlantılar", text: "İhtiyacın olduğunda sana yardım edebilecek kaç farklı alandaki insanla bağlantın var?" },
+            { category: "Sosyal", title: "İtibar ve Güven", text: "İnsanlar sana ne kadar güvenir? Sözünün arkasında durman konusunda itibarın nasıl?" },
+            { category: "Sosyal", title: "İletişim Becerileri", text: "Fikirlerini ne kadar net ifade edebiliyorsun? Farklı insanlarla iletişim kurma becereniz nasıl?" },
+            { category: "Sosyal", title: "Liderlik", text: "İnsanları yönlendirme, organize etme ve motive etme konusunda ne kadar başarılısın?" },
+            { category: "Sosyal", title: "Takım Çalışması", text: "Grup içinde çalışma, işbirliği yapma konusunda kendini nasıl görüyorsun?" },
+            { category: "Sosyal", title: "Network Kurma", text: "Yeni insanlarla tanışma ve uzun vadeli ilişkiler kurma yeteneğin nasıl?" },
+            { category: "Sosyal", title: "Sosyal Etki", text: "İnsanları etkileyebilme, ikna etme konusundaki gücün nasıl?" },
+            { category: "Sosyal", title: "Topluluk Önünde Konuşma", text: "Kalabalık önünde sunum yapma, konuşma yapma konusunda kendini nasıl hissediyorsun?" },
+            { category: "Sosyal", title: "Çatışma Yönetimi", text: "Anlaşmazlıkları çözme, arabuluculuk yapma konusunda ne kadar başarılısın?" },
+            { category: "Sosyal", title: "Sosyal Medya Varlığı", text: "Dijital platformlardaki varlığın ve etkileşimin nasıl?" },
+            { category: "Sosyal", title: "Mentor Bulma/Olma", text: "Kendine mentor bulma veya başkalarına mentorluk yapma konusunda durumun nasıl?" },
+            { category: "Sosyal", title: "Kültürler Arası İletişim", text: "Farklı kültürlerden insanlarla iletişim kurma yeteneğin nasıl?" },
+            { category: "Sosyal", title: "Profesyonel Ağ", text: "İş dünyasındaki bağlantıların ve profesyonel ağın ne durumda?" },
+            { category: "Sosyal", title: "Sosyal Sorumluluk", text: "Topluma katkı sağlama, gönüllü çalışmalara katılım konusunda aktif misin?" },
+            { category: "Sosyal", title: "Güvenilirlik", text: "İnsanlar sana sır emanet eder mi? Güvenilir biri olarak görülür müsün?" },
+
+            // Duygusal Kaynaklar (15 soru)
+            { category: "Duygusal", title: "Duygusal Emek", text: "İnsanları dinleme, empati kurma, duygusal destek verme konusunda kendini nasıl görüyorsun?" },
+            { category: "Duygusal", title: "Duygusal Zeka", text: "Kendi duygularını anlama ve yönetme, başkalarının duygularını okuma yeteneğin nasıl?" },
+            { category: "Duygusal", title: "Stres Yönetimi", text: "Stresli durumlarla başa çıkma, sakin kalma konusunda kendini nasıl görüyorsun?" },
+            { category: "Duygusal", title: "Motivasyon", text: "Kendini ve başkalarını motive etme konusunda ne kadar başarılısın?" },
+            { category: "Duygusal", title: "Empati", text: "Başkalarının duygularını anlama ve hissetme kapasiten nasıl?" },
+            { category: "Duygusal", title: "Sabır ve Tahammül", text: "Zor durumlar karşısında ne kadar sakin kalabilirsin?" },
+            { category: "Duygusal", title: "Öz-Farkındalık", text: "Kendi güçlü ve zayıf yönlerini ne kadar iyi tanıyorsun?" },
+            { category: "Duygusal", title: "Duygusal İstikrar", text: "Ruh halindeki değişkenlik durumun nasıl? Duygusal dengen nasıl?" },
+            { category: "Duygusal", title: "Pozitif Düşünce", text: "İyimser bakış açısına sahip misin? Pozitif yaklaşım sergileyebiliyor musun?" },
+            { category: "Duygusal", title: "Öz-Güven", text: "Kendine olan güvenin ve öz-saygın ne seviyede?" },
+            { category: "Duygusal", title: "Sosyal Farkındalık", text: "Sosyal dinamikleri okuma, grup içi atmosferi anlama yeteneğin nasıl?" },
+            { category: "Duygusal", title: "Çatışma Çözme", text: "Kişisel çatışmaları çözme, barışma konusunda ne kadar yetkinsin?" },
+            { category: "Duygusal", title: "Duygusal Dayanıklılık", text: "Hayal kırıklıklarından toparlanma hızın nasıl?" },
+            { category: "Duygusal", title: "İlham Verme", text: "Başkalarına ilham verme, umut aşılama konusunda etkili misin?" },
+            { category: "Duygusal", title: "Duygusal Sınırlar", text: "Kendi duygusal sınırlarını koruma konusunda ne kadar başarılısın?" },
+
+            // Yaratıcılık ve Zeka (15 soru)
+            { category: "Yaratıcılık", title: "Yaratıcılık ve Orijinallik", text: "Problematik durumlara yaratıcı çözümler bulma, yeni fikirler üretme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Analitik Düşünme", text: "Karmaşık problemleri parçalara ayırıp analiz etme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Sezgi ve İçgüdü", text: "İçgüdülerin ne kadar güçlü? Hissederek doğru tahminler yapabilir misin?" },
+            { category: "Yaratıcılık", title: "Öğrenme Kapasitesi", text: "Yeni şeyler öğrenme hızın ve isteğin nasıl? Sürekli gelişime açık mısın?" },
+            { category: "Yaratıcılık", title: "Eleştirel Düşünme", text: "Bilgileri sorgulama, eleştirel yaklaşım sergileme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "İnovasyon", text: "Mevcut sistemleri geliştirme, yenilik yapma konusunda ne kadar aktifsin?" },
+            { category: "Yaratıcılık", title: "Problem Çözme", text: "Karşılaştığın sorunlara pratik çözümler bulma yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Hayal Gücü", text: "Görselleştirme, hayalde canlandırma kapasiten ne durumda?" },
+            { category: "Yaratıcılık", title: "Sentez Yapma", text: "Farklı bilgileri birleştirip yeni çıkarımlar yapabilir misin?" },
+            { category: "Yaratıcılık", title: "Tasarım Düşüncesi", text: "Estetik ve fonksiyonel tasarım yapma konusunda yeteneğin var mı?" },
+            { category: "Yaratıcılık", title: "Merak ve Sorgulama", text: "Yeni şeyler öğrenme konusundaki merakın ve soru sorma alışkanlığın nasıl?" },
+            { category: "Yaratıcılık", title: "Bağlantı Kurma", text: "Farklı konular arasında bağlantı kurma, örüntüleri görme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Değişken Düşünce", text: "Farklı bakış açılarından konulara yaklaşabiliyor musun?" },
+            { category: "Yaratıcılık", title: "Beyin Fırtınası", text: "Fikir üretme seanslarında ne kadar üretken oluyorsun?" },
+            { category: "Yaratıcılık", title: "Uygulama Yeteneği", text: "Teorik bilgileri pratiğe dökme konusunda ne kadar başarılısın?" },
+
+            // Kişisel Değerler (10 soru)
+            { category: "Değerler", title: "Etik ve Ahlak", text: "Ahlaki değerlerine sadık kalma konusunda ne kadar kararlısın?" },
+            { category: "Değerler", title: "Bütünlük", text: "Söz ve eylemlerinde tutarlılık gösterme konusunda kendini nasıl görüyorsun?" },
+            { category: "Değerler", title: "Anlam ve Amaç", text: "Yaptığın işlerde anlam arayan biri misin? Büyük amaçlar peşinde koşmak seni motive eder mi?" },
+            { category: "Değerler", title: "Adalet Duygusu", text: "Haksızlıklara karşı durma, adaleti savunma konusunda ne kadar aktifsin?" },
+            { category: "Değerler", title: "Dürüstlük", text: "Her durumda dürüst olma, gerçeği söyleme konusunda kendini nasıl görüyorsun?" },
+            { category: "Değerler", title: "Sorumluluk", text: "Kendi eylemlerinin sorumluluğunu alma konusunda ne kadar olgunsun?" },
+            { category: "Değerler", title: "Bağlılık", text: "Verdiğin sözlere, taahhütlere bağlı kalma konusunda durumun nasıl?" },
+            { category: "Değerler", title: "Alçakgönüllülük", text: "Mütevazı olma, başarılarda kibirlenmeme konusunda kendini nasıl değerlendiriyorsun?" },
+            { category: "Değerler", title: "Şükran", text: "Sahip olduklarına şükretme, minnettarlık gösterme konusunda nasılsın?" },
+            { category: "Değerler", title: "Maneviyat", text: "Spiritüel/manevi boyutla bağlantın nasıl? İç huzur bulabiliyor musun?" },
+
+            // Risk ve Belirsizlik (10 soru)
+            { category: "Risk", title: "Risk Alma", text: "Belirsiz sonuçları olan durumlar karşısında risk almaya ne kadar isteklisin?" },
+            { category: "Risk", title: "Belirsizlikle Başa Çıkma", text: "Net olmayan durumlarda rahat olabiliyor musun?" },
+            { category: "Risk", title: "Cesaret", text: "Zor kararlar alma, cesaret gerektiren adımlar atma konusunda nasılsın?" },
+            { category: "Risk", title: "Adaptasyon", text: "Değişen koşullara ne kadar hızlı uyum sağlayabilirsin?" },
+            { category: "Risk", title: "Esneklik", text: "Planların değişmesi gerektiğinde ne kadar esnek davranabiliyorsun?" },
+            { category: "Risk", title: "Öngörü", text: "Gelecekteki olasılıkları tahmin etme yeteneğin nasıl?" },
+            { category: "Risk", title: "Karar Verme", text: "Hızlı ve etkili karar verme konusunda kendini nasıl görüyorsun?" },
+            { category: "Risk", title: "Değişim Yönetimi", text: "Hayatındaki büyük değişimleri yönetme konusunda ne kadar başarılısın?" },
+            { category: "Risk", title: "Fırsat Tanıma", text: "Karşına çıkan fırsatları ne kadar iyi değerlendirebiliyorsun?" },
+            { category: "Risk", title: "Öncülük", text: "Yeni alanlarda öncü olma, ilk denemeyi yapma konusunda istekli misin?" },
+
+            // Sağlık ve Fiziksel Güç (15 soru)
+            { category: "Sağlık", title: "Fiziksel Sağlık", text: "Genel sağlık durumun nasıl? Fiziksel zorluklarla başa çıkabilme kapasiten nasıl?" },
+            { category: "Sağlık", title: "Kondisyon", text: "Fiziksel dayanıklılığın ve kondisyonun ne durumda?" },
+            { category: "Sağlık", title: "Güç ve Kuvvet", text: "Fiziksel gücün ve kuvvetin ne seviyede?" },
+            { category: "Sağlık", title: "Koordinasyon", text: "Vücut koordinasyonun ve denge yeteneğin nasıl?" },
+            { category: "Sağlık", title: "Hızlılık ve Çeviklik", text: "Reflekslerin ve hareket kabiliyetin ne durumda?" },
+            { category: "Sağlık", title: "Esneklik", text: "Vücudunun esnekliği ve hareket genişliğin nasıl?" },
+            { category: "Sağlık", title: "Hastalıklara Direnç", text: "Bağışıklık sistemin ve hastalıklara karşı direncin nasıl?" },
+            { category: "Sağlık", title: "Enerji Düzeyi", text: "Günlük enerji seviyeni sürdürme kapasiten nasıl?" },
+            { category: "Sağlık", title: "Beslenme Bilgisi", text: "Sağlıklı beslenme konusundaki bilgin ve uygulamanın nasıl?" },
+            { category: "Sağlık", title: "Spor Yapma", text: "Düzenli egzersiz yapma alışkanlığın ve spor becerilerin nasıl?" },
+            { category: "Sağlık", title: "Ağrı Toleransı", text: "Fiziksel acı ve rahatsızlıklara dayanma kapasiten nasıl?" },
+            { category: "Sağlık", title: "Postür ve Duruş", text: "Vücut duruşun ve postür bilincin nasıl?" },
+            { category: "Sağlık", title: "Nefes Kontrolü", text: "Nefes alıp verme tekniğin ve kontrolün nasıl?" },
+            { category: "Sağlık", title: "Dinlenme ve Toparlanma", text: "Yorgunluktan sonra toparlanma hızın nasıl?" },
+            { category: "Sağlık", title: "Yaşlanmaya Direnç", text: "Yaşlılık sürecine hazırlık ve direnç açısından durumun nasıl?" }
         ];
 
         let currentQuestion = 0;
-        let answers = new Array(30).fill(0);
+        let answers = new Array(100).fill(0);
         
         function loadQuestion() {
             const question = questions[currentQuestion];
+            document.getElementById('categoryBadge').textContent = question.category;
             document.getElementById('questionTitle').textContent = question.title;
             document.getElementById('questionText').textContent = question.text;
-            document.getElementById('questionCounter').textContent = `${currentQuestion + 1} / 30`;
+            document.getElementById('questionCounter').textContent = `${currentQuestion + 1} / 100`;
             
             // Clear previous selection
             document.querySelectorAll('.rating-option').forEach(option => {
@@ -498,12 +809,27 @@
             }
             
             // Update progress bar
-            const progress = ((currentQuestion + 1) / 30) * 100;
+            const progress = ((currentQuestion + 1) / 100) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentQuestion + 1} / 100`;
+            
+            // Update stats
+            updateStats();
             
             // Update navigation buttons
             document.getElementById('prevBtn').disabled = currentQuestion === 0;
-            document.getElementById('nextBtn').textContent = currentQuestion === 29 ? 'Sonuçları Gör' : 'Sonraki';
+            document.getElementById('nextBtn').textContent = currentQuestion === 99 ? 'Sonuçları Gör' : 'Sonraki';
+        }
+
+        function updateStats() {
+            const completed = answers.filter(answer => answer > 0).length;
+            const total = completed > 0 ? answers.reduce((sum, answer) => sum + answer, 0) : 0;
+            const average = completed > 0 ? (total / completed).toFixed(1) : '-';
+            const remainingTime = Math.max(1, Math.ceil((100 - completed) * 0.15));
+            
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('averageScore').textContent = average !== '-' ? average : '-';
+            document.getElementById('estimatedTime').textContent = `~${remainingTime} dk`;
         }
 
         function selectRating(rating) {
@@ -518,10 +844,11 @@
             });
             
             document.getElementById('nextBtn').disabled = false;
+            updateStats();
         }
 
         function nextQuestion() {
-            if (currentQuestion < 29) {
+            if (currentQuestion < 99) {
                 currentQuestion++;
                 loadQuestion();
             } else {
@@ -537,28 +864,38 @@
         }
 
         function showResults() {
-            // Show loading
             document.getElementById('quizSection').style.display = 'none';
             document.getElementById('loadingSection').style.display = 'block';
             
-            // Simulate loading time
             setTimeout(() => {
                 document.getElementById('loadingSection').style.display = 'none';
                 document.getElementById('resultsSection').style.display = 'block';
                 generateResults();
-            }, 2000);
+            }, 3000);
         }
 
         function generateResults() {
             const categories = questions.map((q, index) => ({
+                category: q.category,
                 name: q.title,
                 score: answers[index]
             }));
             
-            // Sort for analysis
-            const sortedCategories = [...categories].sort((a, b) => b.score - a.score);
-            const strengths = sortedCategories.filter(c => c.score >= 4).slice(0, 5);
-            const weaknesses = sortedCategories.filter(c => c.score <= 2).slice(-5);
+            // Count by score levels
+            const counts = {
+                excellent: categories.filter(c => c.score === 5).length,
+                good: categories.filter(c => c.score === 4).length,
+                average: categories.filter(c => c.score === 3).length,
+                below: categories.filter(c => c.score === 2).length,
+                poor: categories.filter(c => c.score === 1).length
+            };
+            
+            // Update overview
+            document.getElementById('excellentCount').textContent = counts.excellent;
+            document.getElementById('goodCount').textContent = counts.good;
+            document.getElementById('averageCount').textContent = counts.average;
+            document.getElementById('belowCount').textContent = counts.below;
+            document.getElementById('poorCount').textContent = counts.poor;
             
             // Create results table
             const tableBody = document.getElementById('resultsTableBody');
@@ -569,7 +906,8 @@
                 const levelText = ['', 'Çok Az', 'Az', 'Orta', 'Ortalama Üstü', 'Çok İyi'][category.score];
                 
                 row.innerHTML = `
-                    <td><strong>${category.name}</strong></td>
+                    <td><strong>${category.category}</strong></td>
+                    <td>${category.name}</td>
                     <td><span class="score-badge score-${category.score}">${category.score}/5</span></td>
                     <td>${levelText}</td>
                 `;
@@ -577,22 +915,41 @@
             });
             
             // Create charts
-            createRadarChart(categories);
-            createBarChart(categories);
+            createCategoryChart(categories);
+            createDistributionChart(counts);
             
             // Generate analysis
-            generateAnalysis(strengths, weaknesses, categories);
+            const sortedCategories = [...categories].sort((a, b) => b.score - a.score);
+            const strengths = sortedCategories.filter(c => c.score >= 4).slice(0, 10);
+            const weaknesses = sortedCategories.filter(c => c.score <= 2).slice(-10);
+            
+            generateAnalysis(strengths, weaknesses, categories, counts);
         }
 
-        function createRadarChart(categories) {
-            const ctx = document.getElementById('radarChart').getContext('2d');
+        function createCategoryChart(categories) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            
+            // Group by category and calculate averages
+            const categoryGroups = {};
+            categories.forEach(item => {
+                if (!categoryGroups[item.category]) {
+                    categoryGroups[item.category] = [];
+                }
+                categoryGroups[item.category].push(item.score);
+            });
+            
+            const categoryAverages = Object.keys(categoryGroups).map(category => ({
+                category,
+                average: categoryGroups[category].reduce((a, b) => a + b, 0) / categoryGroups[category].length
+            }));
+            
             new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: categories.map(c => c.name),
+                    labels: categoryAverages.map(c => c.category),
                     datasets: [{
-                        label: 'Kişisel Sermaye Profili',
-                        data: categories.map(c => c.score),
+                        label: 'Kategori Ortalamaları',
+                        data: categoryAverages.map(c => c.average.toFixed(1)),
                         backgroundColor: 'rgba(102, 126, 234, 0.2)',
                         borderColor: 'rgba(102, 126, 234, 1)',
                         pointBackgroundColor: 'rgba(102, 126, 234, 1)',
@@ -607,7 +964,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Radar Analizi'
+                            text: 'Kategori Bazlı Performans'
                         }
                     },
                     scales: {
@@ -623,22 +980,21 @@
             });
         }
 
-        function createBarChart(categories) {
-            const ctx = document.getElementById('barChart').getContext('2d');
+        function createDistributionChart(counts) {
+            const ctx = document.getElementById('distributionChart').getContext('2d');
             new Chart(ctx, {
-                type: 'bar',
+                type: 'doughnut',
                 data: {
-                    labels: categories.map(c => c.name),
+                    labels: ['Mükemmel (5)', 'İyi (4)', 'Orta (3)', 'Az (2)', 'Çok Az (1)'],
                     datasets: [{
-                        label: 'Puan',
-                        data: categories.map(c => c.score),
-                        backgroundColor: categories.map(c => {
-                            if (c.score === 5) return '#27ae60';
-                            if (c.score === 4) return '#3498db';
-                            if (c.score === 3) return '#f39c12';
-                            if (c.score === 2) return '#e74c3c';
-                            return '#c0392b';
-                        })
+                        data: [counts.excellent, counts.good, counts.average, counts.below, counts.poor],
+                        backgroundColor: [
+                            '#27ae60',
+                            '#3498db',
+                            '#f39c12',
+                            '#e67e22',
+                            '#e74c3c'
+                        ]
                     }]
                 },
                 options: {
@@ -647,54 +1003,82 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Skor Dağılımı'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 5
-                        },
-                        x: {
-                            ticks: {
-                                maxRotation: 45
-                            }
+                            text: 'Puan Dağılımı'
                         }
                     }
                 }
             });
         }
 
-        function generateAnalysis(strengths, weaknesses, categories) {
+        function generateAnalysis(strengths, weaknesses, categories, counts) {
             // Strengths
             const strengthsList = document.getElementById('strengthsList');
             strengthsList.innerHTML = strengths.map(s => 
-                `<p><strong>${s.name}:</strong> ${s.score}/5 - Bu alanda güçlü bir kapasiten var</p>`
+                `<p><strong>${s.name}</strong> (${s.category}): ${s.score}/5</p>`
             ).join('');
             
             // Weaknesses
             const weaknessList = document.getElementById('weaknessList');
             weaknessList.innerHTML = weaknesses.map(w => 
-                `<p><strong>${w.name}:</strong> ${w.score}/5 - Bu alanda gelişim potansiyelin yüksek</p>`
+                `<p><strong>${w.name}</strong> (${w.category}): ${w.score}/5</p>`
             ).join('');
             
             // Strategy
             const totalScore = categories.reduce((sum, c) => sum + c.score, 0);
-            const average = (totalScore / 30).toFixed(1);
+            const average = (totalScore / 100).toFixed(1);
+            const excellentPercentage = ((counts.excellent / 100) * 100).toFixed(0);
+            const developmentPercentage = (((counts.below + counts.poor) / 100) * 100).toFixed(0);
             
             let strategyText = `
-                <p><strong>Genel Profil:</strong> 30 kategoride toplam ${totalScore}/150 puan aldın (ortalama: ${average}/5).</p>
-                <p><strong>Öne Çıkan Özellikler:</strong> ${strengths.length} alanda güçlü performans gösteriyorsun.</p>
-                <p><strong>Gelişim Fırsatları:</strong> ${weaknesses.length} alanda odaklanarak büyük ilerleme kaydedebilirsin.</p>
-                <p><strong>Strateji Önerisi:</strong> En güçlü olduğun alanları kullanarak zayıf alanlarını destekleyebilirsin.</p>
+                <div style="background: rgba(255,255,255,0.3); padding: 20px; border-radius: 10px; margin: 15px 0;">
+                    <p><strong>🎯 Genel Profil Özeti:</strong></p>
+                    <ul>
+                        <li>100 kategoride toplam ${totalScore}/500 puan (ortalama: ${average}/5)</li>
+                        <li>Mükemmel performans: %${excellentPercentage} (${counts.excellent} kategori)</li>
+                        <li>Gelişim gereken alanlar: %${developmentPercentage} (${counts.below + counts.poor} kategori)</li>
+                        <li>En güçlü kategori: ${categories.sort((a,b) => b.score - a.score)[0].category}</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255,255,255,0.3); padding: 20px; border-radius: 10px; margin: 15px 0;">
+                    <p><strong>📊 Stratejik Öneriler:</strong></p>
+                    <ul>
+                        <li><strong>Öncelik 1:</strong> En düşük puanlı ${weaknesses.length} alanda kısa vadeli gelişim planı yap</li>
+                        <li><strong>Öncelik 2:</strong> En yüksek puanlı alanlarını başkalarına öğreterek pekiştir</li>
+                        <li><strong>Öncelik 3:</strong> Orta seviye alanlarını güçlü alanlardaki deneyimlerle destekle</li>
+                        <li><strong>Uzun vadeli:</strong> Kategoriler arası sinerjiler kurarak bütünsel gelişim sağla</li>
+                    </ul>
+                </div>
             `;
             
             document.getElementById('strategyText').innerHTML = strategyText;
         }
 
+        function filterResults(filter) {
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter table rows
+            const rows = document.querySelectorAll('#resultsTableBody tr');
+            rows.forEach(row => {
+                const scoreElement = row.querySelector('.score-badge');
+                const score = parseInt(scoreElement.textContent.charAt(0));
+                
+                let show = false;
+                switch(filter) {
+                    case 'all': show = true; break;
+                    case 'high': show = score >= 4; break;
+                    case 'medium': show = score === 3; break;
+                    case 'low': show = score <= 2; break;
+                }
+                
+                row.style.display = show ? '' : 'none';
+            });
+        }
+
         function restartQuiz() {
             currentQuestion = 0;
-            answers = new Array(30).fill(0);
+            answers = new Array(100).fill(0);
             document.getElementById('resultsSection').style.display = 'none';
             document.getElementById('quizSection').style.display = 'block';
             loadQuestion();
@@ -702,6 +1086,23 @@
 
         function downloadReport() {
             alert('Rapor indirme özelliği yakında eklenecek!');
+        }
+
+        function shareResults() {
+            const totalScore = answers.reduce((sum, answer) => sum + answer, 0);
+            const average = (totalScore / 100).toFixed(1);
+            const shareText = `Kişisel Sermaye Değerlendirmemi tamamladım! 100 kategoride ortalama ${average}/5 puan aldım. Siz de kendinizi test edin!`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Kişisel Sermaye Değerlendirmesi',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Sonuç panoya kopyalandı!');
+                });
+            }
         }
 
         // Initialize
