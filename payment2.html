@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Kişisel Sermaye Değerlendirmesi - 100 Kategori</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        /* Variables */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #fefce8;
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: manipulation;
+        }
+
+        /* Background - Enhanced from paste 2 */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, #fef3c7 0%, #ddd6fe 25%, #e0e7ff 50%, #ccfbf1 75%, #fef3c7 100%);
+            background-size: 200% 200%;
+            animation: subtleShift 30s ease infinite;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        @keyframes subtleShift {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top left, rgba(167, 139, 250, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Modern Card Design */
+        .card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.08),
+                0 4px 12px rgba(0,0,0,0.04),
+                inset 0 2px 4px rgba(255,255,255,1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 24px 24px 0 0;
+        }
+
+        /* Header - Enhanced Typography */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* Stats Grid - Modern Design */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary);
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(99, 102, 241, 0.1) 50%,
+                transparent 70%
+            );
+            transform: translateX(-100%) rotate(45deg);
+            transition: transform 0.6s;
+        }
+
+        .stat-box:hover::before {
+            transform: translateX(100%) rotate(45deg);
+        }
+
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 5px;
+            font-size: 0.95em;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Progress Bar - Enhanced Animation */
+        .progress-container {
+            background: rgba(241, 243, 244, 0.5);
+            border-radius: 25px;
+            height: 14px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            border-radius: 25px;
+            transition: width 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            width: 0%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-primary);
+            z-index: 2;
+        }
+
+        /* Question Card - Modern Design */
+        .question-card {
+            margin-bottom: 30px;
+            padding: 35px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            position: relative;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px 0 0 20px;
+        }
+
+        /* Category Badge - Enhanced */
+        .category-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 6px 18px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .question-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .question-text {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        /* Rating Options - Enhanced Interactivity */
+        .rating-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 20px 16px;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 2px solid rgba(99, 102, 241, 0.15);
+            background: white;
+            min-width: 95px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rating-option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+            border-radius: 50%;
+        }
+
+        .rating-option:hover::before {
+            width: 150px;
+            height: 150px;
+        }
+
+        .rating-option:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+
+        .rating-option.selected {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .rating-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: checkmark 0.3s ease;
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .rating-number {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rating-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation Buttons - Modern Style */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f1f3f4, #e8ecef);
+            color: var(--text-secondary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #e8ecef, #dde1e4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .question-counter {
+            font-weight: 700;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Results Section - Enhanced */
+        .results-section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading Animation - Enhanced */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 80px;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .spinner::before,
+        .spinner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+        }
+
+        .spinner::before {
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        .spinner::after {
+            border-bottom-color: var(--secondary);
+            animation: spin 1.5s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .loading p {
+            color: var(--text-secondary);
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, #ffffff, #f8f9ff);
+            padding: 25px;
+            border-radius: 20px;
+            height: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        /* Results Overview Cards */
+        .results-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .overview-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9ff);
+            padding: 28px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+        }
+
+        .overview-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .excellent { color: var(--success); }
+        .good { color: var(--info); }
+        .average { color: var(--warning); }
+        .below { color: #e67e22; }
+        .poor { color: var(--danger); }
+
+        /* Results Table - Enhanced */
+        .results-table {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin: 30px 0;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .results-table::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .results-table::-webkit-scrollbar-track {
+            background: #f1f3f4;
+        }
+
+        .results-table::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        .results-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8ecef;
+            transition: all 0.2s ease;
+        }
+
+        .results-table tr:nth-child(even) {
+            background: rgba(99, 102, 241, 0.02);
+        }
+
+        .results-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+            transform: scale(1.01);
+        }
+
+        /* Score Badges */
+        .score-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .score-5 { 
+            background: linear-gradient(135deg, #d4edda, #c3e6cb); 
+            color: #155724; 
+        }
+        .score-4 { 
+            background: linear-gradient(135deg, #cce5ff, #b8daff); 
+            color: #004085; 
+        }
+        .score-3 { 
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7); 
+            color: #856404; 
+        }
+        .score-2 { 
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb); 
+            color: #721c24; 
+        }
+        .score-1 { 
+            background: linear-gradient(135deg, #f5c6cb, #f1b0b7); 
+            color: #721c24; 
+        }
+
+        /* Analysis Section */
+        .analysis {
+            background: linear-gradient(135deg, rgba(254, 243, 199, 0.3), rgba(253, 186, 116, 0.3));
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .analysis h3 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .strength-weakness {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .strength, .weakness {
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            background: white;
+        }
+
+        .strength {
+            border-left: 5px solid var(--success);
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), white);
+        }
+
+        .weakness {
+            border-left: 5px solid var(--danger);
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.05), white);
+        }
+
+        .strength h4, .weakness h4 {
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-size: 1.3em;
+        }
+
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            background: white;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.15);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Mobile Responsive - Enhanced */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 25px;
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: clamp(2rem, 6vw, 2.8rem);
+            }
+
+            .header p {
+                font-size: clamp(1rem, 2vw, 1.2rem);
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rating-container {
+                gap: 10px;
+            }
+            
+            .rating-option {
+                min-width: 80px;
+                padding: 16px 10px;
+            }
+
+            .rating-number {
+                font-size: 1.5em;
+            }
+
+            .rating-label {
+                font-size: 0.8em;
+            }
+            
+            .strength-weakness {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .stat-box {
+                padding: 18px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px 24px;
+            }
+
+            .question-card {
+                padding: 25px;
+            }
+
+            .results-overview {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .overview-card {
+                padding: 20px;
+            }
+
+            .overview-number {
+                font-size: 2.2em;
+            }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) {
+            .rating-option:active {
+                transform: scale(0.95);
+            }
+
+            .btn:active:not(:disabled) {
+                transform: scale(0.95);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .bg-image, .bg-overlay {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .btn, .navigation, .category-filters {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>Kapsamlı Kişisel Sermaye Değerlendirmesi</h1>
+                <p>100 farklı alanda kişisel kaynaklarını değerlendir ve detaylı profilini keşfet</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">Farklı Kategori</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">Tamamlanan</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="averageScore">-</div>
+                    <div class="stat-label">Ortalama Puan</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="totalPossible">500</div>
+                    <div class="stat-label">Maksimum Puan</div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-text" id="progressText">0 / 100</div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quizSection">
+                <div class="question-card" id="questionCard">
+                    <div class="category-badge" id="categoryBadge"></div>
+                    <div class="question-title" id="questionTitle"></div>
+                    <div class="question-text" id="questionText"></div>
+                    
+                    <div class="rating-container">
+                        <div class="rating-option" onclick="selectRating(1)">
+                            <div class="rating-number">1</div>
+                            <div class="rating-label">Çok Az</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2)">
+                            <div class="rating-number">2</div>
+                            <div class="rating-label">Az</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3)">
+                            <div class="rating-number">3</div>
+                            <div class="rating-label">Orta</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(4)">
+                            <div class="rating-number">4</div>
+                            <div class="rating-label">İyi</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(5)">
+                            <div class="rating-number">5</div>
+                            <div class="rating-label">Mükemmel</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn">← Önceki</button>
+                    <div class="question-counter" id="questionCounter">1 / 100</div>
+                    <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" disabled>Sonraki →</button>
+                </div>
+            </div>
+
+            <!-- Loading Section -->
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <h3>Kapsamlı analiz yapılıyor...</h3>
+                <p>100 kategorideki performansın değerlendiriliyor</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <div class="header">
+                    <h2>Kapsamlı Kişisel Sermaye Profil Raporu</h2>
+                    <p>100 kategorideki detaylı sonuçların ve stratejik analiz</p>
+                </div>
+
+                <div class="results-overview">
+                    <div class="overview-card">
+                        <div class="overview-number excellent" id="excellentCount">0</div>
+                        <div>Mükemmel (5/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number good" id="goodCount">0</div>
+                        <div>İyi (4/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number average" id="averageCount">0</div>
+                        <div>Orta (3/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number below" id="belowCount">0</div>
+                        <div>Az (2/5)</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-number poor" id="poorCount">0</div>
+                        <div>Çok Az (1/5)</div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="category-filters">
+                    <div class="filter-btn active" onclick="filterResults('all')">Tümü</div>
+                    <div class="filter-btn" onclick="filterResults('high')">Yüksek (4-5)</div>
+                    <div class="filter-btn" onclick="filterResults('medium')">Orta (3)</div>
+                    <div class="filter-btn" onclick="filterResults('low')">Düşük (1-2)</div>
+                </div>
+
+                <div class="results-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th>Alan</th>
+                                <th>Puan</th>
+                                <th>Seviye</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="analysis">
+                    <h3>📊 Kapsamlı Stratejik Analiz</h3>
+                    
+                    <div class="strength-weakness">
+                        <div class="strength">
+                            <h4>🌟 En Güçlü 10 Alanın</h4>
+                            <div id="strengthsList"></div>
+                        </div>
+                        
+                        <div class="weakness">
+                            <h4>🎯 En Büyük 10 Gelişim Fırsatın</h4>
+                            <div id="weaknessList"></div>
+                        </div>
+                    </div>
+
+                    <div id="strategicAnalysis">
+                        <h4>💡 Kişiselleştirilmiş Strateji Önerileri</h4>
+                        <div id="strategyText"></div>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-primary" onclick="restartQuiz()">🔄 Yeniden Başla</button>
+                    <button class="btn btn-secondary" onclick="downloadPDF()">📥 Raporu İndir (PDF)</button>
+                    <button class="btn btn-secondary" onclick="shareResults()">📤 Sonuçları Paylaş</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // Fiziksel Kaynaklar (10 soru)
+            { category: "Fiziksel", title: "Bilgi ve Beceri", text: "Özel bir bilgi/becerin var mı ki insanlar sana bu konuda danışsın? Bu konuda kendini ne kadar yetkin görüyorsun?" },
+            { category: "Fiziksel", title: "Fiziksel Varlıklar", text: "Sahip olduğun eşyalar, araçlar, donanım açısından kendini nasıl değerlendiriyorsun?" },
+            { category: "Fiziksel", title: "Yer ve Mekan", text: "Kullanabileceğin fiziksel alanlar (ev, ofis, arazi) açısından durumun nasıl?" },
+            { category: "Fiziksel", title: "Teknolojik Araçlar", text: "Teknoloji kullanımı, dijital araçlar konusundaki donanımın ve yetkinliğin nasıl?" },
+            { category: "Fiziksel", title: "Finansal Kaynaklar", text: "Mali durumun ve para yönetimi konusundaki yetkinliğin nasıl?" },
+            { category: "Fiziksel", title: "Ulaşım İmkanları", text: "Hareket kabiliyetin ve ulaşım seçeneklerin ne durumda?" },
+            { category: "Fiziksel", title: "Beslenme Kaynakları", text: "Sağlıklı beslenme imkanların ve yemek hazırlama becerilerin nasıl?" },
+            { category: "Fiziksel", title: "Barınma Koşulları", text: "Yaşam alanının kalitesi ve konforundan memnun musun?" },
+            { category: "Fiziksel", title: "Giyinme ve Görünüm", text: "Kişisel stil ve görünümün konusunda kendini nasıl hissediyorsun?" },
+            { category: "Fiziksel", title: "Doğal Kaynaklara Erişim", text: "Temiz hava, su, doğa gibi temel kaynaklara erişimin nasıl?" },
+
+            // Zaman ve Enerji (10 soru)
+            { category: "Zaman", title: "Zaman Yönetimi", text: "Günlük/haftalık programında ne kadar özgür zaman var? Zamanını ne kadar etkin kullanabiliyorsun?" },
+            { category: "Zaman", title: "Enerji Seviyesi", text: "Günlük enerji seviyeni nasıl? Yorgunlukla ne kadar iyi başa çıkabiliyorsun?" },
+            { category: "Zaman", title: "Uyku Kalitesi", text: "Uyku düzenin ve kaliten nasıl? Dinlenmiş hissediyor musun?" },
+            { category: "Zaman", title: "Dikkat ve Odaklanma", text: "Dikkatini uzun süre bir konuda toplayabilir misin? Konsantrasyon yeteneğin nasıl?" },
+            { category: "Zaman", title: "Çoklu Görev Yönetimi", text: "Aynı anda birden fazla işle ilgilenebilme kapasiten nasıl?" },
+            { category: "Zaman", title: "Öncelik Belirleme", text: "Önemli ve acil işleri ayırt etme, öncelik sıralama konusunda nasılsın?" },
+            { category: "Zaman", title: "Erteleme Eğilimi", text: "İşleri erteleme konusundaki durumun nasıl? Prokrastinasyonla mücadelemen nasıl?" },
+            { category: "Zaman", title: "Ritim ve Tempo", text: "Günlük yaşamında istediğin ritmi yakalayabiliyor musun?" },
+            { category: "Zaman", title: "Dinlenme ve Boş Zaman", text: "Kendine ayırdığın dinlenme zamanının kalitesi nasıl?" },
+            { category: "Zaman", title: "Zaman Algısı", text: "Zamanı doğru tahmin etme ve planlama konusunda ne kadar başarılısın?" },
+
+            // Sosyal Sermaye (15 soru)
+            { category: "Sosyal", title: "Sosyal Bağlantılar", text: "İhtiyacın olduğunda sana yardım edebilecek kaç farklı alandaki insanla bağlantın var?" },
+            { category: "Sosyal", title: "İtibar ve Güven", text: "İnsanlar sana ne kadar güvenir? Sözünün arkasında durman konusunda itibarın nasıl?" },
+            { category: "Sosyal", title: "İletişim Becerileri", text: "Fikirlerini ne kadar net ifade edebiliyorsun? Farklı insanlarla iletişim kurma becereniz nasıl?" },
+            { category: "Sosyal", title: "Liderlik", text: "İnsanları yönlendirme, organize etme ve motive etme konusunda ne kadar başarılısın?" },
+            { category: "Sosyal", title: "Takım Çalışması", text: "Grup içinde çalışma, işbirliği yapma konusunda kendini nasıl görüyorsun?" },
+            { category: "Sosyal", title: "Network Kurma", text: "Yeni insanlarla tanışma ve uzun vadeli ilişkiler kurma yeteneğin nasıl?" },
+            { category: "Sosyal", title: "Sosyal Etki", text: "İnsanları etkileyebilme, ikna etme konusundaki gücün nasıl?" },
+            { category: "Sosyal", title: "Topluluk Önünde Konuşma", text: "Kalabalık önünde sunum yapma, konuşma yapma konusunda kendini nasıl hissediyorsun?" },
+            { category: "Sosyal", title: "Çatışma Yönetimi", text: "Anlaşmazlıkları çözme, arabuluculuk yapma konusunda ne kadar başarılısın?" },
+            { category: "Sosyal", title: "Sosyal Medya Varlığı", text: "Dijital platformlardaki varlığın ve etkileşimin nasıl?" },
+            { category: "Sosyal", title: "Mentor Bulma/Olma", text: "Kendine mentor bulma veya başkalarına mentorluk yapma konusunda durumun nasıl?" },
+            { category: "Sosyal", title: "Kültürler Arası İletişim", text: "Farklı kültürlerden insanlarla iletişim kurma yeteneğin nasıl?" },
+            { category: "Sosyal", title: "Profesyonel Ağ", text: "İş dünyasındaki bağlantıların ve profesyonel ağın ne durumda?" },
+            { category: "Sosyal", title: "Sosyal Sorumluluk", text: "Topluma katkı sağlama, gönüllü çalışmalara katılım konusunda aktif misin?" },
+            { category: "Sosyal", title: "Güvenilirlik", text: "İnsanlar sana sır emanet eder mi? Güvenilir biri olarak görülür müsün?" },
+
+            // Duygusal Kaynaklar (15 soru)
+            { category: "Duygusal", title: "Duygusal Emek", text: "İnsanları dinleme, empati kurma, duygusal destek verme konusunda kendini nasıl görüyorsun?" },
+            { category: "Duygusal", title: "Duygusal Zeka", text: "Kendi duygularını anlama ve yönetme, başkalarının duygularını okuma yeteneğin nasıl?" },
+            { category: "Duygusal", title: "Stres Yönetimi", text: "Stresli durumlarla başa çıkma, sakin kalma konusunda kendini nasıl görüyorsun?" },
+            { category: "Duygusal", title: "Motivasyon", text: "Kendini ve başkalarını motive etme konusunda ne kadar başarılısın?" },
+            { category: "Duygusal", title: "Empati", text: "Başkalarının duygularını anlama ve hissetme kapasiten nasıl?" },
+            { category: "Duygusal", title: "Sabır ve Tahammül", text: "Zor durumlar karşısında ne kadar sakin kalabilirsin?" },
+            { category: "Duygusal", title: "Öz-Farkındalık", text: "Kendi güçlü ve zayıf yönlerini ne kadar iyi tanıyorsun?" },
+            { category: "Duygusal", title: "Duygusal İstikrar", text: "Ruh halindeki değişkenlik durumun nasıl? Duygusal dengen nasıl?" },
+            { category: "Duygusal", title: "Pozitif Düşünce", text: "İyimser bakış açısına sahip misin? Pozitif yaklaşım sergileyebiliyor musun?" },
+            { category: "Duygusal", title: "Öz-Güven", text: "Kendine olan güvenin ve öz-saygın ne seviyede?" },
+            { category: "Duygusal", title: "Sosyal Farkındalık", text: "Sosyal dinamikleri okuma, grup içi atmosferi anlama yeteneğin nasıl?" },
+            { category: "Duygusal", title: "Çatışma Çözme", text: "Kişisel çatışmaları çözme, barışma konusunda ne kadar yetkinsin?" },
+            { category: "Duygusal", title: "Duygusal Dayanıklılık", text: "Hayal kırıklıklarından toparlanma hızın nasıl?" },
+            { category: "Duygusal", title: "İlham Verme", text: "Başkalarına ilham verme, umut aşılama konusunda etkili misin?" },
+            { category: "Duygusal", title: "Duygusal Sınırlar", text: "Kendi duygusal sınırlarını koruma konusunda ne kadar başarılısın?" },
+
+            // Yaratıcılık ve Zeka (15 soru)
+            { category: "Yaratıcılık", title: "Yaratıcılık ve Orijinallik", text: "Problematik durumlara yaratıcı çözümler bulma, yeni fikirler üretme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Analitik Düşünme", text: "Karmaşık problemleri parçalara ayırıp analiz etme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Sezgi ve İçgüdü", text: "İçgüdülerin ne kadar güçlü? Hissederek doğru tahminler yapabilir misin?" },
+            { category: "Yaratıcılık", title: "Öğrenme Kapasitesi", text: "Yeni şeyler öğrenme hızın ve isteğin nasıl? Sürekli gelişime açık mısın?" },
+            { category: "Yaratıcılık", title: "Eleştirel Düşünme", text: "Bilgileri sorgulama, eleştirel yaklaşım sergileme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "İnovasyon", text: "Mevcut sistemleri geliştirme, yenilik yapma konusunda ne kadar aktifsin?" },
+            { category: "Yaratıcılık", title: "Problem Çözme", text: "Karşılaştığın sorunlara pratik çözümler bulma yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Hayal Gücü", text: "Görselleştirme, hayalde canlandırma kapasiten ne durumda?" },
+            { category: "Yaratıcılık", title: "Sentez Yapma", text: "Farklı bilgileri birleştirip yeni çıkarımlar yapabilir misin?" },
+            { category: "Yaratıcılık", title: "Tasarım Düşüncesi", text: "Estetik ve fonksiyonel tasarım yapma konusunda yeteneğin var mı?" },
+            { category: "Yaratıcılık", title: "Merak ve Sorgulama", text: "Yeni şeyler öğrenme konusundaki merakın ve soru sorma alışkanlığın nasıl?" },
+            { category: "Yaratıcılık", title: "Bağlantı Kurma", text: "Farklı konular arasında bağlantı kurma, örüntüleri görme yeteneğin nasıl?" },
+            { category: "Yaratıcılık", title: "Değişken Düşünce", text: "Farklı bakış açılarından konulara yaklaşabiliyor musun?" },
+            { category: "Yaratıcılık", title: "Beyin Fırtınası", text: "Fikir üretme seanslarında ne kadar üretken oluyorsun?" },
+            { category: "Yaratıcılık", title: "Uygulama Yeteneği", text: "Teorik bilgileri pratiğe dökme konusunda ne kadar başarılısın?" },
+
+            // Kişisel Değerler (10 soru)
+            { category: "Değerler", title: "Etik ve Ahlak", text: "Ahlaki değerlerine sadık kalma konusunda ne kadar kararlısın?" },
+            { category: "Değerler", title: "Bütünlük", text: "Söz ve eylemlerinde tutarlılık gösterme konusunda kendini nasıl görüyorsun?" },
+            { category: "Değerler", title: "Anlam ve Amaç", text: "Yaptığın işlerde anlam arayan biri misin? Büyük amaçlar peşinde koşmak seni motive eder mi?" },
+            { category: "Değerler", title: "Adalet Duygusu", text: "Haksızlıklara karşı durma, adaleti savunma konusunda ne kadar aktifsin?" },
+            { category: "Değerler", title: "Dürüstlük", text: "Her durumda dürüst olma, gerçeği söyleme konusunda kendini nasıl görüyorsun?" },
+            { category: "Değerler", title: "Sorumluluk", text: "Kendi eylemlerinin sorumluluğunu alma konusunda ne kadar olgunsun?" },
+            { category: "Değerler", title: "Bağlılık", text: "Verdiğin sözlere, taahhütlere bağlı kalma konusunda durumun nasıl?" },
+            { category: "Değerler", title: "Alçakgönüllülük", text: "Mütevazı olma, başarılarda kibirlenmeme konusunda kendini nasıl değerlendiriyorsun?" },
+            { category: "Değerler", title: "Şükran", text: "Sahip olduklarına şükretme, minnettarlık gösterme konusunda nasılsın?" },
+            { category: "Değerler", title: "Maneviyat", text: "Spiritüel/manevi boyutla bağlantın nasıl? İç huzur bulabiliyor musun?" },
+
+            // Risk ve Belirsizlik (10 soru)
+            { category: "Risk", title: "Risk Alma", text: "Belirsiz sonuçları olan durumlar karşısında risk almaya ne kadar isteklisin?" },
+            { category: "Risk", title: "Belirsizlikle Başa Çıkma", text: "Net olmayan durumlarda rahat olabiliyor musun?" },
+            { category: "Risk", title: "Cesaret", text: "Zor kararlar alma, cesaret gerektiren adımlar atma konusunda nasılsın?" },
+            { category: "Risk", title: "Adaptasyon", text: "Değişen koşullara ne kadar hızlı uyum sağlayabilirsin?" },
+            { category: "Risk", title: "Esneklik", text: "Planların değişmesi gerektiğinde ne kadar esnek davranabiliyorsun?" },
+            { category: "Risk", title: "Öngörü", text: "Gelecekteki olasılıkları tahmin etme yeteneğin nasıl?" },
+            { category: "Risk", title: "Karar Verme", text: "Hızlı ve etkili karar verme konusunda kendini nasıl görüyorsun?" },
+            { category: "Risk", title: "Değişim Yönetimi", text: "Hayatındaki büyük değişimleri yönetme konusunda ne kadar başarılısın?" },
+            { category: "Risk", title: "Fırsat Tanıma", text: "Karşına çıkan fırsatları ne kadar iyi değerlendirebiliyorsun?" },
+            { category: "Risk", title: "Öncülük", text: "Yeni alanlarda öncü olma, ilk denemeyi yapma konusunda istekli misin?" },
+
+            // Sağlık ve Fiziksel Güç (15 soru)
+            { category: "Sağlık", title: "Fiziksel Sağlık", text: "Genel sağlık durumun nasıl? Fiziksel zorluklarla başa çıkabilme kapasiten nasıl?" },
+            { category: "Sağlık", title: "Kondisyon", text: "Fiziksel dayanıklılığın ve kondisyonun ne durumda?" },
+            { category: "Sağlık", title: "Güç ve Kuvvet", text: "Fiziksel gücün ve kuvvetin ne seviyede?" },
+            { category: "Sağlık", title: "Mizah ve Eğlence", text: "İnsanları güldürebiliyor musun? Gergin ortamları mizahla yumuşatma, eğlenceli atmosfer yaratma becereniz nasıl?" },
+            { category: "Sağlık", title: "Hızlılık ve Çeviklik", text: "Reflekslerin ve hareket kabiliyetin ne durumda?" },
+            { category: "Sağlık", title: "Esneklik", text: "Vücudunun esnekliği ve hareket genişliğin nasıl?" },
+            { category: "Sağlık", title: "Hastalıklara Direnç", text: "Bağışıklık sistemin ve hastalıklara karşı direncin nasıl?" },
+            { category: "Sağlık", title: "Enerji Düzeyi", text: "Günlük enerji seviyeni sürdürme kapasiten nasıl?" },
+            { category: "Sağlık", title: "Beslenme Bilgisi", text: "Sağlıklı beslenme konusundaki bilgin ve uygulamanın nasıl?" },
+            { category: "Sağlık", title: "Spor Yapma", text: "Düzenli egzersiz yapma alışkanlığın ve spor becerilerin nasıl?" },
+            { category: "Sağlık", title: "Ağrı Toleransı", text: "Fiziksel acı ve rahatsızlıklara dayanma kapasiten nasıl?" },
+            { category: "Sağlık", title: "Postür ve Duruş", text: "Vücut duruşun ve postür bilincin nasıl?" },
+            { category: "Sağlık", title: "Nefes Kontrolü", text: "Nefes alıp verme tekniğin ve kontrolün nasıl?" },
+            { category: "Sağlık", title: "Dinlenme ve Toparlanma", text: "Yorgunluktan sonra toparlanma hızın nasıl?" },
+            { category: "Sağlık", title: "İntikam ve Rekabet", text: "Haksızlık yapıldığında intikam alma dürtün nasıl? Rekabetçi ortamlarda performansın ve karşı hamle yapma yeteneğin nasıl?" }
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(100).fill(0);
+        let startTime = Date.now();
+        
+        // Auto-save to localStorage
+        function saveProgress() {
+            localStorage.setItem('capitalAssessment', JSON.stringify({
+                currentQuestion,
+                answers,
+                startTime
+            }));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('capitalAssessment');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (confirm('Daha önce başladığınız bir test var. Kaldığınız yerden devam etmek ister misiniz?')) {
+                    currentQuestion = data.currentQuestion;
+                    answers = data.answers;
+                    startTime = data.startTime;
+                    loadQuestion();
+                } else {
+                    localStorage.removeItem('capitalAssessment');
+                }
+            }
+        }
+        
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('categoryBadge').textContent = question.category;
+            document.getElementById('questionTitle').textContent = question.title;
+            document.getElementById('questionText').textContent = question.text;
+            document.getElementById('questionCounter').textContent = `${currentQuestion + 1} / 100`;
+            
+            // Clear previous selection
+            document.querySelectorAll('.rating-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Show previous answer if exists
+            if (answers[currentQuestion] > 0) {
+                const selectedOption = document.querySelectorAll('.rating-option')[answers[currentQuestion] - 1];
+                selectedOption.classList.add('selected');
+                document.getElementById('nextBtn').disabled = false;
+            } else {
+                document.getElementById('nextBtn').disabled = true;
+            }
+            
+            // Update progress bar with smooth animation
