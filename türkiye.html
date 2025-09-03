@@ -141,6 +141,43 @@ body::after{
   backdrop-filter:blur(20px);border-color:rgba(22,163,74,.4);color:#16a34a;}
 .info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
 .info a:hover{color:var(--primary-dark);text-decoration:underline;}
+  /* Dikkat çekici animasyonlar */
+.info.attention {
+  animation: shake 0.5s ease-in-out, glow 2s ease-in-out infinite;
+  background: linear-gradient(135deg,rgba(255,193,7,.4) 0%,rgba(255,152,0,.4) 100%);
+  border-color: rgba(255,152,0,.6);
+  transform-origin: center;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-5px) rotate(-1deg); }
+  20% { transform: translateX(5px) rotate(1deg); }
+  30% { transform: translateX(-5px) rotate(-1deg); }
+  40% { transform: translateX(5px) rotate(1deg); }
+  50% { transform: translateX(-3px) rotate(-0.5deg); }
+  60% { transform: translateX(3px) rotate(0.5deg); }
+  70% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  90% { transform: translateX(-1px); }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 
+      0 0 20px rgba(255,152,0,.4),
+      0 0 30px rgba(255,193,7,.3),
+      0 0 40px rgba(255,152,0,.2),
+      var(--shadow-lg);
+  }
+  50% { 
+    box-shadow: 
+      0 0 30px rgba(255,152,0,.6),
+      0 0 45px rgba(255,193,7,.5),
+      0 0 60px rgba(255,152,0,.4),
+      var(--shadow-xl);
+  }
+}
 
 /* === Grid === */
 .grid{
@@ -1045,19 +1082,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     card.innerHTML = cardContent;
     
-    card.onclick = () => {
-      if(access || slug === 'antalya') {
-        // Eğer granted ise tüm iller için normal .html sayfasına git
-        // Eğer granted değilse sadece antalya için demo sayfasına git
-        if(access) {
-          location.href = `${slug}.html`;
-        } else if(slug === 'antalya') {
-          location.href = 'antalya_demo.html';
-        }
-      } else {
-        location.href = 'login.html';
+  card.onclick = () => {
+    if(access || slug === 'antalya') {
+      // Eğer granted ise tüm iller için normal .html sayfasına git
+      // Eğer granted değilse sadece antalya için demo sayfasına git
+      if(access) {
+        location.href = `${slug}.html`;
+      } else if(slug === 'antalya') {
+        location.href = 'antalya_demo.html';
       }
-    };
+    } else {
+      // Bilgilendirme kartına dikkat çek
+      const info = document.getElementById('info');
+      info.classList.add('attention');
+      info.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // 3 saniye sonra animasyonu kaldır
+      setTimeout(() => {
+        info.classList.remove('attention');
+      }, 3000);
+      
+      return; // login.html'e gitme
+    }
+  };
     
     grid.appendChild(card);
   });
