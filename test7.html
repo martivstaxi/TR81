@@ -1,1387 +1,1186 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Seyahat Araçları</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Dünya Manzaraları - 150 Ülke</title>
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
-<style>
-
-/* === Variables === */
-:root{
-  --primary:#6366f1;
-  --primary-dark:#4f46e5;
-  --secondary:#8b5cf6;
-  --accent:#f59e0b;
-  --text-primary:#1e293b;
-  --text-secondary:#475569;
-  --text-muted:#64748b;
-  --card-width: 240px;
-  --card-height: 110px;
-  --card-gap: 14px;
-  --mobile-card-width: calc((100vw - 32px - 24px) / 3.5);
-}
-
-/* === Reset === */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  position: fixed;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: none;
-}
-
-body{
-  font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  background:#fefce8;
-  color:var(--text-primary);
-  line-height:1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  touch-action: manipulation;
-}
-
-/* === Main Container === */
-.main-wrapper {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
-  position: relative;
-  z-index: 1;
-}
-
-/* === Background === */
-.bg-image{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: 
-    linear-gradient(135deg, #fef3c7 0%, #ddd6fe 25%, #e0e7ff 50%, #ccfbf1 75%, #fef3c7 100%);
-  background-size: 200% 200%;
-  animation: subtleShift 30s ease infinite;
-  z-index:-2;
-  pointer-events:none;
-}
-
-@keyframes subtleShift {
-  0%, 100% {
-    background-position: 0% 0%;
-  }
-  50% {
-    background-position: 100% 100%;
-  }
-}
-
-.bg-overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: 
-    radial-gradient(ellipse at top left, rgba(167, 139, 250, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at center right, rgba(129, 140, 248, 0.06) 0%, transparent 40%),
-    radial-gradient(ellipse at center left, rgba(52, 211, 153, 0.06) 0%, transparent 40%),
-    linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 100%);
-  z-index:-1;
-  pointer-events:none;
-}
-
-.bg-overlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 20% 80%, rgba(196, 181, 253, 0.1) 0%, transparent 25%),
-    radial-gradient(circle at 80% 20%, rgba(254, 215, 170, 0.1) 0%, transparent 25%),
-    radial-gradient(circle at 60% 60%, rgba(167, 243, 208, 0.08) 0%, transparent 30%),
-    radial-gradient(circle at 40% 40%, rgba(165, 180, 252, 0.08) 0%, transparent 30%);
-  pointer-events: none;
-}
-
-.bg-overlay::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      60deg,
-      transparent,
-      transparent 100px,
-      rgba(255, 255, 255, 0.03) 100px,
-      rgba(255, 255, 255, 0.03) 101px,
-      transparent 101px,
-      transparent 200px
-    );
-  pointer-events: none;
-}
-
-/* === Container === */
-.container{
-  position:relative;
-  z-index:1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* === Language Selector === */
-.lang-select{
-  position:fixed;
-  top:20px;
-  right:20px;
-  z-index:100;
-  transform:translateZ(0);
-}
-
-.lang-btn{
-  background:rgba(255,255,255,.2);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:12px;
-  padding:10px 16px;
-  cursor:pointer;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size:14px;
-  font-weight:500;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  box-shadow:0 4px 16px rgba(99,102,241,.06);
-  transition:transform .2s ease;
-  color:#475569;
-  touch-action:manipulation;
-}
-
-.lang-btn:active{
-  transform:scale(0.95);
-}
-
-.lang-list{
-  position:absolute;
-  top:calc(100% + 8px);
-  right:0;
-  background:rgba(255,255,255,.98);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(139,92,246,.12);
-  border-radius:12px;
-  box-shadow:0 10px 40px rgba(99,102,241,.12);
-  max-height:320px;
-  overflow-y:auto;
-  display:none;
-  min-width:160px;
-  transform:translateZ(0);
-}
-
-.lang-list.show{
-  display:block;
-  animation:fadeIn .2s ease;
-}
-
-.lang-item{
-  padding:10px 16px;
-  cursor:pointer;
-  transition:background-color .2s;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size:14px;
-  color:#475569;
-  touch-action:manipulation;
-}
-
-.lang-item:active{
-  background:rgba(139,92,246,.12);
-}
-
-.lang-item.active{
-  background:linear-gradient(135deg,#6366f1,#8b5cf6);
-  color:#fff;
-}
-
-/* === Header === */
-.header{
-  padding:80px 16px 20px;
-  text-align:center;
-  position:relative;
-  z-index:1;
-  flex-shrink: 0;
-}
-
-.title{
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size:clamp(2.5rem,5vw,3.5rem);
-  font-weight:700;
-  margin-bottom:8px;
-  letter-spacing:-0.02em;
-  line-height:0.9;
-  text-transform:uppercase;
-}
-
-.subtitle{
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size:clamp(1.1rem,1.8vw,1.4rem);
-  font-weight:400;
-  color:#334155;
-  margin-top:4px;
-  line-height:1.2;
-  opacity:0.9;
-  letter-spacing:-0.01em;
-}
-
-.travel-part{
-  color:#0f172a;
-  font-weight:400;
-}
-
-.pedia-part{
-  color:#92400e;
-  font-weight:400;
-}
-
-/* === Cards Section === */
-.cards-section{
-  padding: 20px 0 0 0;
-  position: relative;
-  width: 100%;
-}
-
-.cards-wrapper{
-  width: 100%;
-  max-width: 1200px;
-  padding: 0 16px;
-  position: relative;
-  margin: 0 auto;
-}
-
-.cards-container{
-  display: flex;
-  gap: var(--card-gap);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  padding: 20px 0;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.cards-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* Scroll Buttons for Desktop */
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 45px;
-  height: 45px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(99,102,241,0.2);
-  border-radius: 50%;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: var(--primary);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.scroll-btn:hover {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(99,102,241,0.3);
-}
-
-.scroll-btn.prev {
-  left: -60px;
-}
-
-.scroll-btn.next {
-  right: -60px;
-}
-
-@media (min-width: 769px) {
-  .scroll-btn {
-    display: flex;
+  <style>
+  /* ROOT VARIABLES */
+  :root{ 
+    --primary:#3b82f6;
+    --primary-dark:#1d4ed8;
+    --secondary:#8b5cf6;
+    --accent:#f97316;
+    --bg-grad:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);
+    --card-bg:rgba(255,255,255,.95);
+    --glass-bg:rgba(255,255,255,.60);
+    --glass-border:rgba(0,0,0,.08);
+    --text-primary:#334155;
+    --text-secondary:#64748b;
+    --text-muted:#94a3b8;
+    --shadow-lg:0 6px 24px rgba(0,0,0,.08);
+    --shadow-xl:0 12px 40px rgba(0,0,0,.12);
   }
   
-  .cards-wrapper {
-    padding: 0 80px;
-  }
-}
-
-/* === Cards === */
-.card{
-  flex: 0 0 var(--card-width);
-  height: var(--card-height);
-  background:linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.6) 100%);
-  backdrop-filter:blur(16px) saturate(180%);
-  -webkit-backdrop-filter:blur(16px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.8);
-  border-radius:20px;
-  cursor:pointer;
-  transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .3s ease;
-  position:relative;
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.08),
-    inset 0 2px 4px rgba(255,255,255,0.9),
-    inset 0 -2px 4px rgba(0,0,0,0.05);
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  justify-content:center;
-  overflow:hidden;
-  touch-action:manipulation;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  padding: 20px;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.card:hover::before {
-  opacity: 1;
-}
-
-.card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow:
-    0 16px 48px rgba(0,0,0,0.15),
-    inset 0 2px 4px rgba(255,255,255,0.9),
-    inset 0 -2px 4px rgba(0,0,0,0.05);
-}
-
-.card:active{
-  transform:scale(0.98);
-}
-
-.card.highlight{
-  background:linear-gradient(135deg, 
-    rgba(254,243,199,0.9) 0%, 
-    rgba(253,230,138,0.7) 50%, 
-    rgba(254,243,199,0.8) 100%);
-  backdrop-filter:blur(16px) saturate(200%);
-  -webkit-backdrop-filter:blur(16px) saturate(200%);
-  border:1px solid rgba(245,158,11,0.6);
-  box-shadow:
-    0 8px 32px rgba(245,158,11,0.2),
-    inset 0 2px 4px rgba(255,255,255,0.9),
-    inset 0 -2px 4px rgba(245,158,11,0.1);
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    box-shadow:
-      0 8px 32px rgba(245,158,11,0.2),
-      inset 0 2px 4px rgba(255,255,255,0.9),
-      inset 0 -2px 4px rgba(245,158,11,0.1);
-  }
-  to {
-    box-shadow:
-      0 12px 40px rgba(245,158,11,0.35),
-      inset 0 2px 4px rgba(255,255,255,0.9),
-      inset 0 -2px 4px rgba(245,158,11,0.15);
-  }
-}
-
-.card-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  position: relative;
-  z-index: 2;
-}
-
-.card-icon {
-  font-size: 32px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-  transition: transform 0.3s ease;
-}
-
-.card:hover .card-icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.card-title{
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-weight:500;
-  font-size:18px;
-  color:#0f172a;
-  line-height:1.3;
-  word-break:break-word;
-  letter-spacing:-0.01em;
-  transition: color 0.3s ease;
-  text-transform: capitalize;
-  flex: 1;
-}
-
-.card.highlight .card-title{
-  color:#92400e;
-  font-weight:500;
-}
-
-.card-index{
-  position:absolute;
-  top:12px;
-  right:12px;
-  font-size:11px;
-  font-weight:600;
-  color:#64748b;
-  opacity:0.4;
-  letter-spacing:0.5px;
-  z-index:2;
-  transition: all 0.3s ease;
-  background: rgba(255,255,255,0.5);
-  padding: 2px 8px;
-  border-radius: 12px;
-}
-
-.card:hover .card-index {
-  opacity: 0.6;
-  background: rgba(255,255,255,0.7);
-}
-
-/* === Sites Section === */
-.sites-section {
-  width: 100%;
-  padding: 20px 0 40px 0;
-}
-
-.sites-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.site-item {
-  position: relative;
-  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.95) 100%);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 2px solid rgba(255,255,255,1);
-  border-radius: 20px;
-  padding: 35px 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow:
-    0 12px 40px rgba(0,0,0,0.12),
-    0 2px 8px rgba(0,0,0,0.06),
-    inset 0 2px 4px rgba(255,255,255,1),
-    inset 0 -2px 4px rgba(0,0,0,0.03);
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transform: translateZ(0);
-  will-change: transform;
-  overflow: visible;
-}
-
-/* Left side line for each site item */
-.site-item::before {
-  content: '';
-  position: absolute;
-  left: 25px;
-  top: 35px;
-  bottom: 35px;
-  width: 3px;
-  border-radius: 2px;
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-
-/* Line colors matching site name colors */
-.site-item:nth-child(21n+1)::before { background: #6366f1; }
-.site-item:nth-child(21n+2)::before { background: #3b82f6; }
-.site-item:nth-child(21n+3)::before { background: #0891b2; }
-.site-item:nth-child(21n+4)::before { background: #059669; }
-.site-item:nth-child(21n+5)::before { background: #16a34a; }
-.site-item:nth-child(21n+6)::before { background: #65a30d; }
-.site-item:nth-child(21n+7)::before { background: #ca8a04; }
-.site-item:nth-child(21n+8)::before { background: #ea580c; }
-.site-item:nth-child(21n+9)::before { background: #dc2626; }
-.site-item:nth-child(21n+10)::before { background: #e11d48; }
-.site-item:nth-child(21n+11)::before { background: #db2777; }
-.site-item:nth-child(21n+12)::before { background: #c026d3; }
-.site-item:nth-child(21n+13)::before { background: #a21caf; }
-.site-item:nth-child(21n+14)::before { background: #9333ea; }
-.site-item:nth-child(21n+15)::before { background: #7c3aed; }
-.site-item:nth-child(21n+16)::before { background: #6d28d9; }
-.site-item:nth-child(21n+17)::before { background: #4f46e5; }
-.site-item:nth-child(21n+18)::before { background: #0ea5e9; }
-.site-item:nth-child(21n+19)::before { background: #10b981; }
-.site-item:nth-child(21n+20)::before { background: #84cc16; }
-.site-item:nth-child(21n+21)::before { background: #6366f1; }
-
-.site-item:hover::before {
-  opacity: 1;
-  width: 4px;
-  left: 24px;
-}
-
-/* 21 Harmonious Color Gradients - Light & Vibrant Palette */
-
-.site-item:nth-child(21n+1) .site-name { color: #6366f1; }
-.site-item:nth-child(21n+2) .site-name { color: #3b82f6; }
-.site-item:nth-child(21n+3) .site-name { color: #0891b2; }
-.site-item:nth-child(21n+4) .site-name { color: #059669; }
-.site-item:nth-child(21n+5) .site-name { color: #16a34a; }
-.site-item:nth-child(21n+6) .site-name { color: #65a30d; }
-.site-item:nth-child(21n+7) .site-name { color: #ca8a04; }
-.site-item:nth-child(21n+8) .site-name { color: #ea580c; }
-.site-item:nth-child(21n+9) .site-name { color: #dc2626; }
-.site-item:nth-child(21n+10) .site-name { color: #e11d48; }
-.site-item:nth-child(21n+11) .site-name { color: #db2777; }
-.site-item:nth-child(21n+12) .site-name { color: #c026d3; }
-.site-item:nth-child(21n+13) .site-name { color: #a21caf; }
-.site-item:nth-child(21n+14) .site-name { color: #9333ea; }
-.site-item:nth-child(21n+15) .site-name { color: #7c3aed; }
-.site-item:nth-child(21n+16) .site-name { color: #6d28d9; }
-.site-item:nth-child(21n+17) .site-name { color: #4f46e5; }
-.site-item:nth-child(21n+18) .site-name { color: #0ea5e9; }
-.site-item:nth-child(21n+19) .site-name { color: #10b981; }
-.site-item:nth-child(21n+20) .site-name { color: #84cc16; }
-.site-item:nth-child(21n+21) .site-name { color: #6366f1; }
-
-.site-item:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.2),
-    0 4px 12px rgba(0,0,0,0.1),
-    inset 0 2px 4px rgba(255,255,255,1),
-    inset 0 -2px 4px rgba(0,0,0,0.03);
-  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.98) 100%);
-}
-
-.site-item:active {
-  transform: scale(0.98);
-}
-
-.site-item::after {
-  content: '▶';
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.4) 100%);
-  transition: all 0.3s ease;
-  opacity: 0.9;
-  border-radius: 50%;
-  box-shadow: 
-    0 4px 12px rgba(0,0,0,0.08),
-    inset 0 1px 2px rgba(255,255,255,0.8);
-  z-index: 3;
-}
-
-.site-item:hover::after {
-  width: 45px;
-  height: 45px;
-  opacity: 1;
-  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.5) 100%);
-  box-shadow: 
-    0 6px 20px rgba(0,0,0,0.12),
-    inset 0 1px 2px rgba(255,255,255,0.9);
-}
-
-/* Arrow colors matching site name colors */
-.site-item:nth-child(21n+1)::after { color: #6366f1; }
-.site-item:nth-child(21n+2)::after { color: #3b82f6; }
-.site-item:nth-child(21n+3)::after { color: #0891b2; }
-.site-item:nth-child(21n+4)::after { color: #059669; }
-.site-item:nth-child(21n+5)::after { color: #16a34a; }
-.site-item:nth-child(21n+6)::after { color: #65a30d; }
-.site-item:nth-child(21n+7)::after { color: #ca8a04; }
-.site-item:nth-child(21n+8)::after { color: #ea580c; }
-.site-item:nth-child(21n+9)::after { color: #dc2626; }
-.site-item:nth-child(21n+10)::after { color: #e11d48; }
-.site-item:nth-child(21n+11)::after { color: #db2777; }
-.site-item:nth-child(21n+12)::after { color: #c026d3; }
-.site-item:nth-child(21n+13)::after { color: #a21caf; }
-.site-item:nth-child(21n+14)::after { color: #9333ea; }
-.site-item:nth-child(21n+15)::after { color: #7c3aed; }
-.site-item:nth-child(21n+16)::after { color: #6d28d9; }
-.site-item:nth-child(21n+17)::after { color: #4f46e5; }
-.site-item:nth-child(21n+18)::after { color: #0ea5e9; }
-.site-item:nth-child(21n+19)::after { color: #10b981; }
-.site-item:nth-child(21n+20)::after { color: #84cc16; }
-.site-item:nth-child(21n+21)::after { color: #6366f1; }
-
-/* Gradient arrow colors matching card colors - with more opacity */
-.site-item:nth-child(21n+1)::after { 
-  background: linear-gradient(135deg, rgba(165, 180, 252, 0.95) 0%, rgba(199, 210, 254, 0.5) 50%, rgba(199, 210, 254, 0.3) 100%);
-  color: #6366f1;
-}
-
-.site-number {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  font-size: 20px;
-  font-weight: 300;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-stretch: condensed;
-  opacity: 0.7;
-  letter-spacing: -0.5px;
-  z-index: 2;
-  background: none;
-  padding: 0;
-  line-height: 1;
-  min-width: 15px;
-  text-align: center;
-}
-
-/* Number colors matching line colors */
-.site-item:nth-child(21n+1) .site-number { color: #6366f1; }
-.site-item:nth-child(21n+2) .site-number { color: #3b82f6; }
-.site-item:nth-child(21n+3) .site-number { color: #0891b2; }
-.site-item:nth-child(21n+4) .site-number { color: #059669; }
-.site-item:nth-child(21n+5) .site-number { color: #16a34a; }
-.site-item:nth-child(21n+6) .site-number { color: #65a30d; }
-.site-item:nth-child(21n+7) .site-number { color: #ca8a04; }
-.site-item:nth-child(21n+8) .site-number { color: #ea580c; }
-.site-item:nth-child(21n+9) .site-number { color: #dc2626; }
-.site-item:nth-child(21n+10) .site-number { color: #e11d48; }
-.site-item:nth-child(21n+11) .site-number { color: #db2777; }
-.site-item:nth-child(21n+12) .site-number { color: #c026d3; }
-.site-item:nth-child(21n+13) .site-number { color: #a21caf; }
-.site-item:nth-child(21n+14) .site-number { color: #9333ea; }
-.site-item:nth-child(21n+15) .site-number { color: #7c3aed; }
-.site-item:nth-child(21n+16) .site-number { color: #6d28d9; }
-.site-item:nth-child(21n+17) .site-number { color: #4f46e5; }
-.site-item:nth-child(21n+18) .site-number { color: #0ea5e9; }
-.site-item:nth-child(21n+19) .site-number { color: #10b981; }
-.site-item:nth-child(21n+20) .site-number { color: #84cc16; }
-.site-item:nth-child(21n+21) .site-number { color: #6366f1; }
-
-.site-content {
-  position: relative;
-  z-index: 2;
-  padding-left: 15px;
-}
-
-.site-name {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 14px;
-  text-transform: none;
-  letter-spacing: -0.02em;
-  transition: all 0.3s ease;
-}
-
-.site-description {
-  font-size: 16px;
-  line-height: 1.7;
-  color: #1e293b;
-  margin: 0;
-  transition: color 0.3s ease;
-  font-weight: 500;
-}
-
-.site-item:hover .site-description {
-  color: #0f172a;
-}
-
-/* === Editor Panel === */
-.editor-panel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(20px);
-  border: 2px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  z-index: 2000;
-  width: 90%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow-y: auto;
-  display: none;
-}
-
-.editor-header {
-  text-align: center;
-  margin-bottom: 30px;
-  border-bottom: 2px solid var(--primary);
-  padding-bottom: 20px;
-}
-
-.editor-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.editor-subtitle {
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-.category-selector {
-  margin-bottom: 30px;
-}
-
-.category-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.category-option {
-  padding: 12px;
-  background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.category-option:hover {
-  background: rgba(99, 102, 241, 0.1);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-
-.category-option.selected {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  border-color: var(--primary-dark);
-}
-
-.sites-input-section {
-  margin-bottom: 30px;
-}
-
-.input-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.site-input-group {
-  margin-bottom: 20px;
-  padding: 20px;
-  background: #f8fafc;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-}
-
-.site-input-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.site-number-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--primary);
-}
-
-.remove-site-btn {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.3s ease;
-}
-
-.input-field {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.input-field.large {
-  min-height: 80px;
-  resize: vertical;
-}
-
-.add-site-btn {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 30px;
-}
-
-.action-btn {
-  flex: 1;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.export-btn {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-}
-
-.close-btn {
-  background: #64748b;
-  color: white;
-}
-
-.editor-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  cursor: pointer;
-  font-size: 28px;
-  z-index: 1500;
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.editor-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
-}
-
-/* File input styles */
-.file-input-container {
-  margin: 15px 0;
-  text-align: center;
-}
-
-.file-input {
-  display: none;
-}
-
-.file-label {
-  display: inline-block;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  font-size: 14px;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  :root {
-    --card-gap: 12px;
-    --mobile-card-width: calc((100vw - 32px - 24px) / 2.2);
-  }
-
-  /* Mobilde kartların kaybolma sorununu çöz */
-  .cards-container {
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  .card {
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-
-  .card:hover {
-    transform: translateY(-4px) scale(1.01);
-  }
-
-  /* Language-specific adjustments for mobile - Extended for 40 languages */
-  html[lang="es"] .header, html[lang="ru"] .header, html[lang="fr"] .header,
-  html[lang="de"] .header, html[lang="pt"] .header, html[lang="nl"] .header,
-  html[lang="pl"] .header, html[lang="sv"] .header, html[lang="no"] .header,
-  html[lang="da"] .header, html[lang="fi"] .header, html[lang="cs"] .header,
-  html[lang="uk"] .header, html[lang="ro"] .header, html[lang="el"] .header,
-  html[lang="hu"] .header, html[lang="th"] .header, html[lang="vi"] .header,
-  html[lang="id"] .header, html[lang="ms"] .header, html[lang="bn"] .header,
-  html[lang="tl"] .header, html[lang="hr"] .header, html[lang="he"] .header,
-  html[lang="fa"] .header, html[lang="ca"] .header, html[lang="sk"] .header,
-  html[lang="ur"] .header, html[lang="it"] .header, html[lang="ja"] .header,
-  html[lang="zh"] .header, html[lang="ar"] .header, html[lang="hi"] .header,
-  html[lang="ko"] .header, html[lang="hak"] .header, html[lang="arz"] .header,
-  html[lang="wuu"] .header, html[lang="yue"] .header {
-    padding: 65px 10px 15px;
-  }
-
-  html[lang="es"] .title, html[lang="ru"] .title, html[lang="fr"] .title,
-  html[lang="de"] .title, html[lang="pt"] .title, html[lang="nl"] .title,
-  html[lang="pl"] .title, html[lang="sv"] .title, html[lang="no"] .title,
-  html[lang="da"] .title, html[lang="fi"] .title, html[lang="cs"] .title,
-  html[lang="uk"] .title, html[lang="ro"] .title, html[lang="el"] .title,
-  html[lang="hu"] .title, html[lang="th"] .title, html[lang="vi"] .title,
-  html[lang="id"] .title, html[lang="ms"] .title, html[lang="bn"] .title,
-  html[lang="tl"] .title, html[lang="hr"] .title, html[lang="he"] .title,
-  html[lang="fa"] .title, html[lang="ca"] .title, html[lang="sk"] .title,
-  html[lang="ur"] .title, html[lang="it"] .title, html[lang="ja"] .title,
-  html[lang="zh"] .title, html[lang="ar"] .title, html[lang="hi"] .title,
-  html[lang="ko"] .title, html[lang="hak"] .title, html[lang="arz"] .title,
-  html[lang="wuu"] .title, html[lang="yue"] .title {
-    font-size: clamp(1.8rem, 4vw, 2.2rem);
-    line-height: 0.95;
-  }
-
-  html[lang="es"] .subtitle, html[lang="ru"] .subtitle, html[lang="fr"] .subtitle,
-  html[lang="de"] .subtitle, html[lang="pt"] .subtitle, html[lang="nl"] .subtitle,
-  html[lang="pl"] .subtitle, html[lang="sv"] .subtitle, html[lang="no"] .subtitle,
-  html[lang="da"] .subtitle, html[lang="fi"] .subtitle, html[lang="cs"] .subtitle,
-  html[lang="uk"] .subtitle, html[lang="ro"] .subtitle, html[lang="el"] .subtitle,
-  html[lang="hu"] .subtitle, html[lang="th"] .subtitle, html[lang="vi"] .subtitle,
-  html[lang="id"] .subtitle, html[lang="ms"] .subtitle, html[lang="bn"] .subtitle,
-  html[lang="tl"] .subtitle, html[lang="hr"] .subtitle, html[lang="he"] .subtitle,
-  html[lang="fa"] .subtitle, html[lang="ca"] .subtitle, html[lang="sk"] .subtitle,
-  html[lang="ur"] .subtitle, html[lang="it"] .subtitle, html[lang="ja"] .subtitle,
-  html[lang="zh"] .subtitle, html[lang="ar"] .subtitle, html[lang="hi"] .subtitle,
-  html[lang="ko"] .subtitle, html[lang="hak"] .subtitle, html[lang="arz"] .subtitle,
-  html[lang="wuu"] .subtitle, html[lang="yue"] .subtitle {
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-    line-height: 1.1;
-  }
-
-  .card{
-    flex: 0 0 var(--mobile-card-width);
-    height: 100px;
-    padding: 15px;
-  }
-
-  .card-content {
-    gap: 12px;
-  }
-
-  .card-icon {
-    font-size: 24px;
-  }
-
-  .card-title{
-    font-size: 16px;
-  }
-
-  /* Language-specific card title adjustments - Extended for 40 languages */
-  html[lang="es"] .card-title, html[lang="ru"] .card-title,
-  html[lang="fr"] .card-title, html[lang="de"] .card-title,
-  html[lang="nl"] .card-title, html[lang="pl"] .card-title,
-  html[lang="sv"] .card-title, html[lang="no"] .card-title,
-  html[lang="da"] .card-title, html[lang="fi"] .card-title,
-  html[lang="cs"] .card-title, html[lang="uk"] .card-title,
-  html[lang="ro"] .card-title, html[lang="el"] .card-title,
-  html[lang="hu"] .card-title, html[lang="th"] .card-title,
-  html[lang="vi"] .card-title, html[lang="id"] .card-title,
-  html[lang="ms"] .card-title, html[lang="bn"] .card-title,
-  html[lang="tl"] .card-title, html[lang="hr"] .card-title,
-  html[lang="he"] .card-title, html[lang="fa"] .card-title,
-  html[lang="ca"] .card-title, html[lang="sk"] .card-title,
-  html[lang="ur"] .card-title, html[lang="it"] .card-title,
-  html[lang="ja"] .card-title, html[lang="zh"] .card-title,
-  html[lang="ar"] .card-title, html[lang="hi"] .card-title,
-  html[lang="ko"] .card-title, html[lang="hak"] .card-title,
-  html[lang="arz"] .card-title, html[lang="wuu"] .card-title,
-  html[lang="yue"] .card-title {
-    font-size: 14px;
-  }
-
-  .card-index{
-    font-size: 10px;
-    top: 8px;
-    right: 8px;
-    padding: 1px 6px;
-  }
-
-  .site-item {
-    padding: 30px 22px;
-    min-height: 171px;
-    margin-right: 0;
+  /* RESET */
+  *{margin:0;padding:0;box-sizing:border-box;}
+  
+  /* BODY */
+  body{
+    font-family:'Inter',sans-serif;
+    background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color:var(--text-primary);
+    min-height:100vh;
+    line-height:1.6;
+    overflow-x:hidden;
     position: relative;
-  }
-
-  /* Adjust line position for mobile */
-  .site-item::before {
-    left: 22px;
-    top: 30px;
-    bottom: 30px;
-    width: 2px;
-  }
-
-  .site-item:hover::before {
-    width: 3px;
-    left: 21px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-color: #e2e8f0;
   }
   
-  .site-content {
-    padding-left: 12px;
+  body::after{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(248, 250, 252, 0.4);
+    pointer-events: none;
+    z-index: 0;
   }
-
-  .site-item::after {
-    content: '▶';
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    right: 10px;
-    top: 10px;
-    font-size: 14px;
+  
+  /* CONTAINER */
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 16px;
+    position:relative;
+    z-index:1;
+  }
+  
+  /* LOGO */
+  .logo{
+    position:fixed;
+    top:20px;
+    left:20px;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:rgba(255,255,255,.2);
+    backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    text-decoration:none;
+    box-shadow:var(--shadow-lg);
+    transition:.3s;
+    z-index:100;
+    border:1px solid rgba(255,255,255,.3);
+  }
+  
+  .logo:hover{
+    transform:scale(1.1) rotate(10deg);
+    box-shadow:var(--shadow-xl);
+    background:rgba(255,255,255,.3);
+  }
+  
+  /* LANGUAGE SELECTOR */
+  .lang-select{position:fixed;top:20px;right:20px;z-index:100;}
+  
+  .lang-btn{
+    background:rgba(255,255,255,.2);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:12px;
+    padding:10px 16px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    box-shadow:var(--shadow-lg);
+    transition:.3s;
+    color:var(--text-primary);
+  }
+  
+  .lang-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--shadow-xl);
+    background:rgba(255,255,255,.3);
+  }
+  
+  .lang-list{
+    position:absolute;
+    top:calc(100% + 8px);
+    right:0;
+    background:rgba(255,255,255,.98);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--glass-border);
+    border-radius:12px;
+    box-shadow:var(--shadow-xl);
+    max-height:320px;
+    overflow-y:auto;
+    display:none;
+    min-width:160px;
+  }
+  
+  .lang-list.show{display:block;animation:fadeIn .3s ease;}
+  
+  .lang-item{
+    padding:10px 16px;
+    cursor:pointer;
+    transition:background .2s;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    color:var(--text-primary);
+  }
+  
+  .lang-item:hover{background:var(--glass-bg);color:var(--primary);}
+  .lang-item.active{background:var(--primary);color:#fff;}
+  
+  /* HEADER */
+  .header{
+    padding:80px 16px 40px;
+    text-align:center;
+    position:relative;
+    z-index:1;
+  }
+  
+  .title{
+    font-size:clamp(1.75rem,4vw,2.5rem);
+    font-weight:700;
+    margin-bottom:12px;
+    background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    letter-spacing:-.5px;
+  }
+  
+  .subtitle{
+    font-size:1rem;
+    color:var(--text-secondary);
+    font-weight:400;
+  }
+  
+  /* SEARCH */
+  .search-box{
+    max-width:320px;
+    margin:0 auto 40px;
+    position:relative;
+    z-index:1;
+  }
+  
+  .search{
+    width:100%;
+    padding:14px 48px 14px 20px;
+    font-size:15px;
+    background:rgba(255,255,255,.3);
+    backdrop-filter:blur(20px);
+    border:2px solid rgba(255,255,255,.4);
+    border-radius:20px;
+    transition:.3s;
+    color:var(--text-primary);
+  }
+  
+  .search:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(59,130,246,.1);
+    background:rgba(255,255,255,.5);
+  }
+  
+  .search-icon{
+    position:absolute;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--text-secondary);
+    pointer-events:none;
+  }
+  
+  /* INFO BOX */
+  .info{
+    max-width:320px;
+    margin:0 auto 40px;
+    padding:20px 24px;
+    text-align:center;
+    background:rgba(255,255,255,.3);
+    backdrop-filter:blur(20px);
+    border:2px solid rgba(255,255,255,.4);
+    border-radius:20px;
+    font-size:19px;
+    line-height:1.6;
+    color:var(--text-primary);
+    box-shadow:var(--shadow-lg);
+    position:relative;
+    z-index:1;
+    display:block;
+  }
+  
+  .info.premium{
+    background:linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%);
+    backdrop-filter:blur(20px);
+    border-color:rgba(22,163,74,.4);
+    color:#16a34a;
+  }
+  
+  /* Dikkat çekici animasyonlar */
+  .info.attention {
+    animation: shake 0.5s ease-in-out, glow 2s ease-in-out infinite;
+    background: linear-gradient(135deg,rgba(255,193,7,.4) 0%,rgba(255,152,0,.4) 100%);
+    border-color: rgba(255,152,0,.6);
+    transform-origin: center;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-5px) rotate(-1deg); }
+    20% { transform: translateX(5px) rotate(1deg); }
+    30% { transform: translateX(-5px) rotate(-1deg); }
+    40% { transform: translateX(5px) rotate(1deg); }
+    50% { transform: translateX(-3px) rotate(-0.5deg); }
+    60% { transform: translateX(3px) rotate(0.5deg); }
+    70% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+    90% { transform: translateX(-1px); }
+  }
+  
+  @keyframes glow {
+    0%, 100% { 
+      box-shadow: 
+        0 0 20px rgba(255,152,0,.4),
+        0 0 30px rgba(255,193,7,.3),
+        0 0 40px rgba(255,152,0,.2),
+        var(--shadow-lg);
+    }
+    50% { 
+      box-shadow: 
+        0 0 30px rgba(255,152,0,.6),
+        0 0 45px rgba(255,193,7,.5),
+        0 0 60px rgba(255,152,0,.4),
+        var(--shadow-xl);
+    }
+  }
+  
+  .info a{
+    color:var(--primary);
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+  }
+  
+  .info a:hover{
+    color:var(--primary-dark);
+    text-decoration:underline;
+  }
+  
+  /* GRID */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    padding-bottom:40px;
+    position:relative;
+    z-index:1;
+    max-width:600px;
+    margin:0 auto;
+  }
+  
+  /* CARD */
+  .card{
+    background:rgba(255,255,255,.3);
+    backdrop-filter:blur(20px);
+    border:2px solid rgba(255,255,255,.4);
+    border-radius:20px;
+    padding:20px 12px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s cubic-bezier(.4,0,.2,1);
+    position:relative;
+    box-shadow:var(--shadow-lg);
+    aspect-ratio:1/0.85;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  
+  .card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow-xl);
+    border-color:var(--primary);
+    background:rgba(255,255,255,.5);
+  }
+  
+  .card.free{
+    background:linear-gradient(135deg,rgba(254,243,199,.3) 0%,rgba(253,230,138,.3) 100%);
+    backdrop-filter:blur(20px);
+    border:2px solid rgba(245,158,11,.4);
+  }
+  
+  /* FLAG STYLES - HYBRID APPROACH */
+  .flag-wrapper {
+    width: 60px;
+    height: 45px;
+    margin-bottom: 10px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.4) 100%);
-    transition: all 0.3s ease;
-    opacity: 0.9;
-    border-radius: 50%;
-    box-shadow: 
-      0 4px 12px rgba(0,0,0,0.08),
-      inset 0 1px 2px rgba(255,255,255,0.8);
-    z-index: 3;
-  }
-
-  .site-item:hover::after {
-    width: 38px;
-    height: 38px;
-    opacity: 1;
-    background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.5) 100%);
-    box-shadow: 
-      0 6px 16px rgba(0,0,0,0.1),
-      inset 0 1px 2px rgba(255,255,255,0.9);
   }
   
-  /* Mobile arrow colors matching site name colors */
-  .site-item:nth-child(21n+1)::after { color: #6366f1; }
-  .site-item:nth-child(21n+2)::after { color: #3b82f6; }
-  .site-item:nth-child(21n+3)::after { color: #0891b2; }
-  .site-item:nth-child(21n+4)::after { color: #059669; }
-  .site-item:nth-child(21n+5)::after { color: #16a34a; }
-  .site-item:nth-child(21n+6)::after { color: #65a30d; }
-  .site-item:nth-child(21n+7)::after { color: #ca8a04; }
-  .site-item:nth-child(21n+8)::after { color: #ea580c; }
-  .site-item:nth-child(21n+9)::after { color: #dc2626; }
-  .site-item:nth-child(21n+10)::after { color: #e11d48; }
-  .site-item:nth-child(21n+11)::after { color: #db2777; }
-  .site-item:nth-child(21n+12)::after { color: #c026d3; }
-  .site-item:nth-child(21n+13)::after { color: #a21caf; }
-  .site-item:nth-child(21n+14)::after { color: #9333ea; }
-  .site-item:nth-child(21n+15)::after { color: #7c3aed; }
-  .site-item:nth-child(21n+16)::after { color: #6d28d9; }
-  .site-item:nth-child(21n+17)::after { color: #4f46e5; }
-  .site-item:nth-child(21n+18)::after { color: #0ea5e9; }
-  .site-item:nth-child(21n+19)::after { color: #10b981; }
-  .site-item:nth-child(21n+20)::after { color: #84cc16; }
-  .site-item:nth-child(21n+21)::after { color: #6366f1; }
-
-  .sites-container {
-    padding: 0 20px 0 20px;
+  /* Flag image - primary method */
+  .flag-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: block;
   }
-
-  .site-number {
-    font-size: 18px;
-    font-weight: 300;
+  
+  /* Emoji fallback - hidden by default */
+  .flag-emoji {
+    position: absolute;
     top: 50%;
-    left: 3px;
-    transform: translateY(-50%);
-    background: none;
-    padding: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.875rem;
     line-height: 1;
-    opacity: 0.7;
-    min-width: 14px;
-    text-align: center;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.1));
+    display: none;
+    font-family: Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, Android Emoji, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Mobile number colors matching line colors */
-  .site-item:nth-child(21n+1) .site-number { color: #6366f1; }
-  .site-item:nth-child(21n+2) .site-number { color: #3b82f6; }
-  .site-item:nth-child(21n+3) .site-number { color: #0891b2; }
-  .site-item:nth-child(21n+4) .site-number { color: #059669; }
-  .site-item:nth-child(21n+5) .site-number { color: #16a34a; }
-  .site-item:nth-child(21n+6) .site-number { color: #65a30d; }
-  .site-item:nth-child(21n+7) .site-number { color: #ca8a04; }
-  .site-item:nth-child(21n+8) .site-number { color: #ea580c; }
-  .site-item:nth-child(21n+9) .site-number { color: #dc2626; }
-  .site-item:nth-child(21n+10) .site-number { color: #e11d48; }
-  .site-item:nth-child(21n+11) .site-number { color: #db2777; }
-  .site-item:nth-child(21n+12) .site-number { color: #c026d3; }
-  .site-item:nth-child(21n+13) .site-number { color: #a21caf; }
-  .site-item:nth-child(21n+14) .site-number { color: #9333ea; }
-  .site-item:nth-child(21n+15) .site-number { color: #7c3aed; }
-  .site-item:nth-child(21n+16) .site-number { color: #6d28d9; }
-  .site-item:nth-child(21n+17) .site-number { color: #4f46e5; }
-  .site-item:nth-child(21n+18) .site-number { color: #0ea5e9; }
-  .site-item:nth-child(21n+19) .site-number { color: #10b981; }
-  .site-item:nth-child(21n+20) .site-number { color: #84cc16; }
-  .site-item:nth-child(21n+21) .site-number { color: #6366f1; }
-
-  .site-name {
-    font-size: 25px;
-    margin-bottom: 12px;
+  /* Show emoji when image fails */
+  .flag-wrapper.show-emoji .flag-img {
+    display: none;
   }
-
-  .site-description {
-    font-size: 14px;
-    line-height: 1.6;
+  
+  .flag-wrapper.show-emoji .flag-emoji {
+    display: block;
   }
-
-  .editor-panel {
-    width: 95%;
-    padding: 20px;
+  
+  /* Placeholder for loading state */
+  .flag-placeholder {
+    width: 56px;
+    height: 42px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    border-radius: 8px;
+    margin: 0 auto 12px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
   }
-
-  .editor-btn {
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
+  
+  .flag-placeholder::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    transform: rotate(45deg);
+    transition: 0.5s;
   }
-}
-
-/* Animations */
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-</style>
+  
+  .card:hover .flag-placeholder::before {
+    animation: shine 0.5s ease-in-out;
+  }
+  
+  @keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+  
+  /* Country name */
+  .name{
+    font-weight:500;
+    font-size:15px;
+    color:var(--text-primary);
+    text-align:center;
+  }
+  
+  /* MOBILE STYLES */
+  @media(max-width:768px){
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    body{
+      min-height: 100vh;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -2;
+    }
+    
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(248, 250, 252, 0.2);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .container{
+      max-width:100%;
+      min-height:100vh;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 50px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    
+    .search-box {
+      margin: 0 auto 40px !important;
+      padding: 0;
+      max-width: 100%;
+    }
+    
+    .info {
+      margin: 0 auto 40px !important;
+      max-width: 100%;
+      background: rgba(255,255,255,.3) !important;
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,255,255,.4) !important;
+      margin-left: 12px;
+      margin-right: 12px;
+    }
+    
+    .info.premium {
+      background: linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%) !important;
+      backdrop-filter: blur(20px);
+      border-color: rgba(22,163,74,.4) !important;
+    }
+    
+    .grid {
+      gap:10px;
+      padding-bottom:40px;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: calc(100% - 24px);
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+    
+    .card {
+      padding: 16px 8px !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      aspect-ratio: 1/1 !important;
+      min-width: 0;
+      overflow: hidden;
+    }
+    
+    /* Mobile flag optimization - force emoji on mobile */
+    .flag-wrapper {
+      width: auto;
+      height: auto;
+      margin-bottom: 8px;
+    }
+    
+    /* Hide images on mobile */
+    .flag-img {
+      display: none !important;
+    }
+    
+    /* Always show emoji on mobile */
+    .flag-emoji {
+      display: block !important;
+      font-size: 2.25rem !important;
+      position: static !important;
+      transform: none !important;
+      margin-bottom: 6px;
+    }
+    
+    .name{
+      font-size:13px !important;
+      line-height:1.2;
+    }
+    
+    /* Other mobile adjustments */
+    .logo{width:40px;height:40px;font-size:20px;top:16px;left:16px}
+    .lang-select{top:16px;right:16px}
+    .lang-btn{padding:8px 12px;font-size:13px}
+    .header{padding:70px 16px 32px}
+    .title{font-size:1.875rem}
+    .subtitle{font-size:.875rem}
+    .search{padding:12px 44px 12px 16px;font-size:14px}
+    .info{font-size:14px;padding:16px 20px}
+  }
+  
+  @media(max-width:480px){
+    .grid{
+      grid-template-columns:repeat(3, 1fr);
+      gap:8px;
+      padding: 0 8px;
+      max-width: calc(100% - 16px);
+    }
+    
+    .card{
+      padding: 14px 6px !important;
+      aspect-ratio: 1/1 !important;
+    }
+    
+    .flag-emoji {
+      font-size: 2rem !important;
+      margin-bottom: 4px;
+    }
+    
+    .name{
+      font-size:11px !important;
+      line-height: 1.1;
+    }
+  }
+  
+  /* Desktop specific */
+  @media(min-width:769px){
+    .search-box, .info {
+      max-width: 600px !important;
+    }
+    
+    .grid {
+      max-width: 600px;
+      margin: 0 auto;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .card {
+      aspect-ratio: 1/0.85;
+    }
+  }
+  
+  /* Animations */
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  
+  .card{animation:fadeIn .3s ease;}
+  </style>
 </head>
 
 <body>
-  <!-- Background elements -->
-  <div class="bg-image"></div>
-  <div class="bg-overlay"></div>
+  <!-- Logo -->
+  <a href="https://duflat.com/" class="logo" aria-label="Giriş">🎁</a>
 
-  <!-- Main scrollable wrapper -->
-  <div class="main-wrapper">
-    <div class="container">
-      <div class="header">
-        <h1 class="title" id="title">Seyahat Araçları</h1>
-        <p class="subtitle" id="subtitle">Seyahat için gerekli tüm uygulamalar</p>
-      </div>
-
-      <!-- Cards Section -->
-      <div class="cards-section">
-        <div class="cards-wrapper">
-          <button class="scroll-btn prev" onclick="scrollCards('prev')">‹</button>
-          <div class="cards-container" id="cardsContainer"></div>
-          <button class="scroll-btn next" onclick="scrollCards('next')">›</button>
-        </div>
-      </div>
-
-      <!-- Sites List -->
-      <div class="sites-section" id="sitesSection">
-        <div class="sites-container" id="sitesContainer"></div>
-      </div>
-    </div>
+  <!-- Language -->
+  <div class="lang-select">
+    <button class="lang-btn" onclick="toggleLang()">
+      <span id="langFlag">🇹🇷</span>
+      <span id="langName">TR</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+        <path d="M3 5L6 8L9 5"/>
+      </svg>
+    </button>
+    <div class="lang-list" id="langList"></div>
   </div>
 
-<script>
-// Categories with language-specific URLs
-var categories = [
-  {title:'Manzaralı Yerler',url:'https://tr81.tr/world.html'},
-  {title:'Konaklama',url:'tr-tr-1.html',highlight:true},
-  {title:'Ulaşım',url:'tr-tr-2.html'},
-  {title:'Mutfak ve Lezzet',url:'tr-tr-3.html'},
-  {title:'Eğlence ve Özel Deneyimler',url:'tr-tr-4.html'},
-  {title:'Dijital Hizmetler',url:'tr-tr-5.html'},
-  {title:'Güvenlik ve Sigorta',url:'tr-tr-6.html'},
-  {title:'Finansal Hizmetler',url:'tr-tr-7.html'},
-  {title:'Eğitim ve Gelişim',url:'tr-tr-8.html'},
-];
+  <div class="container">
+    <div class="header">
+      <h1 class="title" id="title">Dünya Manzaraları 📍 Konum Bilgileri</h1>
+      <p class="subtitle" id="subtitle">150 ülkedeki güzel yerler</p>
+    </div>
 
-// Sites data
-var sites = [
-  { name: 'booking.com', url: 'https://booking.com', description: 'Dünyanın en büyük otel rezervasyon sitesi. 28 milyon konaklama seçeneği var. Akıllı filtreler sayesinde isteklerinize uygun otel bulabilirsiniz. Müşteri yorumları ve puanları mevcut. Ücretsiz iptal seçeneği çoğu otelde var. Haritada otellerin fiyat karşılaştırmasını yapabilirsiniz.' },
-  { name: 'airbnb.com', url: 'https://airbnb.com', description: 'Otel yerine ev arayanlar için uygun. Dünyanın her yerinde kendi evinizde hissedersiniz. Yerli halkın evini veya odasını kiralayabilirsiniz. Ağaç evler, dağ evleri gibi farklı mekanları bulabilirsiniz. Otellere göre genelde daha ucuz olur. Ev sahiplerinin yorumlarını okuyup güvenle seçim yapabilirsiniz.' },
-  { name: 'hotels.com', url: 'https://hotels.com', description: 'Her 10 gece kaldığınızda 1 geceyi bedava kazandıran otel sitesi. Başka yerde daha ucuz bulursanız fiyat farkını ödüyor. Mobil uygulamadan özel indirimler yakalayabilirsiniz. Dünyada 500 bin otelden fazla seçenek var.' },
-  { name: 'agoda.com', url: 'https://agoda.com', description: 'Özellikle Asya\'da çok ucuz otel bulan site. Gizli fırsatlar bölümünde büyük indirimler oluyor. Rezervasyon yaptığınız anda onaylanıyor, yeriniz hemen garantiye alınıyor.' },
-  { name: 'hostelworld.com', url: 'https://hostelworld.com', description: 'Bütçesi kısıtlı gezginler için yatak kiralama sitesi. Otel odası yerine sadece yatak kiralayarak çok ucuza kalırsınız. Ortak alanlarda dünyanın her yerinden gelen gezginlerle tanışıp arkadaş olursunuz. 180 ülkede 17 binden fazla seçenek var.' },
-  { name: 'vrbo.com', url: 'https://vrbo.com', description: 'Sadece ev kiralama sitesi, aileler ve grup halinde gezenler için ideal. Mutfağı olan evlerde kendi yemeğinizi yaparak paranızı tasarruf edersiniz. 2 milyondan fazla tatil evleri var.' },
-  { name: 'couchsurfing.com', url: 'https://couchsurfing.com', description: 'İnsanların evinde bedava kalma sitesi. Para vermezsiniz ama ev sahibiyle sohbet edip kültür paylaşımı yaparsınız. Güvenlik için kullanıcı yorumları var. Şehri yerli gözüyle keşfedersiniz.' },
-  { name: 'glampinghub.com', url: 'https://glampinghub.com', description: 'Doğada lüks kamp yapmak isteyenler için. Ağaç evler, safari çadırları, kubbe evler gibi ilginç yerlerde konforlu kalırsınız. 100\'den fazla ülkede seçenek var.' },
-  { name: 'pitchup.com', url: 'https://pitchup.com', description: 'Avrupa\'daki çadır ve karavan alanları için rezervasyon sitesi. 5000\'den fazla kamp alanının fiyatlarını karşılaştırıp hemen yer ayırtabilirsiniz.' },
-  { name: 'hipcamp.com', url: 'https://hipcamp.com', description: 'Amerika\'da özel çiftliklerde, ormanlarda kamp yapma sitesi. Milli parkların kalabalığından kaçıp sakin yerlerde doğayla baş başa kalırsınız. Arazi sahipleriyle direkt iletişim kurarsınız.' },
-];
+    <!-- Search -->
+    <div class="search-box">
+      <input id="search" class="search" type="text" placeholder="Ülke ara..." autocomplete="off">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </div>
 
-// Current language
-var currentLang = "tr";
+    <!-- Info -->
+    <div id="info" class="info"></div>
 
-// Scroll cards function
-function scrollCards(direction) {
-  var container = document.getElementById("cardsContainer");
-  var scrollAmount = 200;
-  if (direction === "prev") {
-    container.scrollLeft -= scrollAmount;
-  } else {
-    container.scrollLeft += scrollAmount;
-  }
-}
+    <!-- Grid -->
+    <div id="grid" class="grid"></div>
+  </div>
 
-// Colorize title
-function colorizeTitle() {
-  var titleElement = document.getElementById("title");
-  if (!titleElement) return;
-  var titleText = titleElement.textContent;
-  var firstPart, secondPart;
-  var words = titleText.split(" ");
-  if (words.length >= 2) {
-    firstPart = words[0];
-    secondPart = words.slice(1).join(" ");
-  } else {
-    firstPart = titleText;
-    secondPart = "";
-  }
-  if (secondPart) {
-    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span> <span class="pedia-part">' + secondPart + '</span>';
-  } else {
-    titleElement.innerHTML = '<span class="travel-part">' + firstPart + '</span>';
-  }
-}
+  <script>
+  /* === ÇEVİRİ TABLOLARI (40 dil) === */
+  const lang = {
+    tr:{flag:'🇹🇷',name:'TR',title:'Dünya Manzaraları 📍 Konum Bilgileri',subtitle:'150 ülkedeki güzel yerler',
+      search:'Ülke ara...',banner:'Türkiye\'yi ücretsiz keşfet! ⚡ Tüm ülkeler için <a href="https://www.tr81.tr/login.html">giriş yap</a>',
+      premium:'🔓 Tüm ülkeler açık!'},
+    en:{flag:'🇬🇧',name:'EN',title:'World Landscapes 📍 Locations',subtitle:'Beautiful spots in 150 countries',
+      search:'Search country...',banner:'Explore Türkiye free! ⚡ <a href="https://www.tr81.tr/login.html">Login</a> for all countries',
+      premium:'🔓 All countries unlocked!'},
+    de:{flag:'🇩🇪',name:'DE',title:'Schöne Orte der Welt 📍 Standorte',subtitle:'Faszinierende Plätze in 150 Ländern',
+      search:'Land suchen...',banner:'Entdecken Sie die Türkei kostenlos! ⚡ <a href="https://www.tr81.tr/login.html">Anmelden</a> für alle Länder',
+      premium:'🔓 Alle Länder freigeschaltet!'},
+    fr:{flag:'🇫🇷',name:'FR',title:'Beaux endroits du monde 📍 Lieux',subtitle:'Sites magnifiques dans 150 pays',
+      search:'Chercher un pays...',banner:'Explorez la Turquie gratuitement ! ⚡ <a href="https://www.tr81.tr/login.html">Connectez-vous</a> pour tous les pays',
+      premium:'🔓 Tous les pays débloqués !'},
+    es:{flag:'🇪🇸',name:'ES',title:'Lugares hermosos del mundo 📍 Ubicaciones',subtitle:'Rincones increíbles en 150 países',
+      search:'Buscar país...',banner:'¡Explora Turquía gratis! ⚡ <a href="https://www.tr81.tr/login.html">Iniciar sesión</a> para todos los países',
+      premium:'🔓 ¡Todos los países desbloqueados!'},
+    it:{flag:'🇮🇹',name:'IT',title:'Luoghi meravigliosi del mondo 📍 Posizioni',subtitle:'Posti incredibili in 150 paesi',
+      search:'Cerca paese...',banner:'Esplora la Turchia gratis! ⚡ <a href="https://www.tr81.tr/login.html">Accedi</a> per tutti i paesi',
+      premium:'🔓 Tutti i paesi sbloccati!'},
+    pt:{flag:'🇵🇹',name:'PT',title:'Lugares lindos do mundo 📍 Locais',subtitle:'Cantos maravilhosos em 150 países',
+      search:'Procurar país...',banner:'Explore a Turquia grátis! ⚡ <a href="https://www.tr81.tr/login.html">Entre</a> para todos os países',
+      premium:'🔓 Todos os países desbloqueados!'},
+    ru:{flag:'🇷🇺',name:'RU',title:'Красивые места мира 📍 Локации',subtitle:'Удивительные уголки в 150 странах',
+      search:'Найти страну...',banner:'Исследуйте Турцию бесплатно! ⚡ <a href="https://www.tr81.tr/login.html">Войдите</a> для всех стран',
+      premium:'🔓 Все страны разблокированы!'},
+    ja:{flag:'🇯🇵',name:'JA',title:'世界の美しい場所 📍 ロケーション',subtitle:'150カ国の素晴らしいスポット',
+      search:'国を検索...',banner:'トルコを無料で探索！⚡ すべての国は<a href="https://www.tr81.tr/login.html">ログイン</a>してください',
+      premium:'🔓 すべての国が利用可能！'},
+    zh:{flag:'🇨🇳',name:'ZH',title:'世界美景 📍 地点',subtitle:'150个国家的绝美之地',
+      search:'搜索国家...',banner:'免费探索土耳其！⚡ <a href="https://www.tr81.tr/login.html">登录</a>查看所有国家',
+      premium:'🔓 所有国家已解锁！'},
+    ar:{flag:'🇸🇦',name:'AR',title:'أجمل الأماكن في العالم 📍 المواقع',subtitle:'أماكن رائعة في 150 دولة',
+      search:'ابحث عن دولة...',banner:'استكشف تركيا مجاناً! ⚡ <a href="https://www.tr81.tr/login.html">سجّل الدخول</a> لجميع البلدان',
+      premium:'🔓 جميع البلدان متاحة!'},
+    hi:{flag:'🇮🇳',name:'HI',title:'विश्व के दृश्य 📍 स्थान',subtitle:'150 देशों में सुंदर स्थान',
+      search:'देश खोजें...',banner:'तुर्की को मुफ्त में एक्सप्लोर करें! ⚡ सभी देशों के लिए <a href="https://www.tr81.tr/login.html">लॉगिन करें</a>',
+      premium:'🔓 सभी देश अनलॉक!'},
+    ko:{flag:'🇰🇷',name:'KO',title:'세계의 아름다운 장소 📍 위치',subtitle:'150개국의 멋진 명소들',
+      search:'국가 검색...',banner:'터키를 무료로 탐험하세요! ⚡ 모든 국가는 <a href="https://www.tr81.tr/login.html">로그인</a>하세요',
+      premium:'🔓 모든 국가 이용 가능!'},
+    nl:{flag:'🇳🇱',name:'NL',title:'Wereldlandschappen 📍 Locaties',subtitle:'Mooie plekken in 150 landen',
+      search:'Zoek land...',banner:'Ontdek Turkije gratis! ⚡ <a href="https://www.tr81.tr/login.html">Inloggen</a> voor alle landen',
+      premium:'🔓 Alle landen ontgrendeld!'},
+    pl:{flag:'🇵🇱',name:'PL',title:'Krajobrazy świata 📍 Lokalizacje',subtitle:'Piękne miejsca w 150 krajach',
+      search:'Szukaj kraju...',banner:'Odkryj Turcję za darmo! ⚡ <a href="https://www.tr81.tr/login.html">Zaloguj się</a> dla wszystkich krajów',
+      premium:'🔓 Wszystkie kraje odblokowane!'},
+    sv:{flag:'🇸🇪',name:'SV',title:'Världslandskap 📍 Platser',subtitle:'Vackra platser i 150 länder',
+      search:'Sök land...',banner:'Utforska Turkiet gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logga in</a> för alla länder',
+      premium:'🔓 Alla länder upplåsta!'},
+    no:{flag:'🇳🇴',name:'NO',title:'Verdens landskap 📍 Steder',subtitle:'Vakre steder i 150 land',
+      search:'Søk land...',banner:'Utforsk Tyrkia gratis! ⚡ <a href="https://www.tr81.tr/login.html">Logg inn</a> for alle land',
+      premium:'🔓 Alle land låst opp!'},
+    da:{flag:'🇩🇰',name:'DA',title:'Verdens landskaber 📍 Steder',subtitle:'Smukke steder i 150 lande',
+      search:'Søg land...',banner:'Udforsk Tyrkiet gratis! ⚡ <a href="https://www.tr81.tr/login.html">Log ind</a> for alle lande',
+      premium:'🔓 Alle lande låst op!'},
+    fi:{flag:'🇫🇮',name:'FI',title:'Maailman maisemat 📍 Sijainnit',subtitle:'Kauniita paikkoja 150 maassa',
+      search:'Hae maata...',banner:'Tutustu Turkkiin ilmaiseksi! ⚡ <a href="https://www.tr81.tr/login.html">Kirjaudu</a> kaikkiin maihin',
+      premium:'🔓 Kaikki maat avattu!'},
+    cs:{flag:'🇨🇿',name:'CS',title:'Světové krajiny 📍 Místa',subtitle:'Krásná místa ve 150 zemích',
+      search:'Hledat zemi...',banner:'Prozkoumejte Turecko zdarma! ⚡ <a href="https://www.tr81.tr/login.html">Přihlásit se</a> pro všechny země',
+      premium:'🔓 Všechny země odemčeny!'},
+    uk:{flag:'🇺🇦',name:'UK',title:'Чудові місця світу 📍 Локації',subtitle:'Неймовірні куточки в 150 країнах',
+      search:'Знайти країну...',banner:'Досліджуйте Туреччину безкоштовно! ⚡ <a href="https://www.tr81.tr/login.html">Увійдіть</a> для всіх країн',
+      premium:'🔓 Усі країни розблоковані!'},
+    ro:{flag:'🇷🇴',name:'RO',title:'Peisaje ale lumii 📍 Locații',subtitle:'Locuri frumoase în 150 de țări',
+      search:'Căutați țara...',banner:'Explorați Turcia gratuit! ⚡ <a href="https://www.tr81.tr/login.html">Conectați-vă</a> pentru toate țările',
+      premium:'🔓 Toate țările deblocate!'},
+    el:{flag:'🇬🇷',name:'EL',title:'Τοπία του κόσμου 📍 Τοποθεσίες',subtitle:'Όμορφα μέρη σε 150 χώρες',
+      search:'Αναζήτηση χώρας...',banner:'Εξερευνήστε την Τουρκία δωρεάν! ⚡ <a href="https://www.tr81.tr/login.html">Συνδεθείτε</a> για όλες τις χώρες',
+      premium:'🔓 Όλες οι χώρες ξεκλειδωμένες!'},
+    hu:{flag:'🇭🇺',name:'HU',title:'A világ tájai 📍 Helyszínek',subtitle:'Gyönyörű helyek 150 országban',
+      search:'Ország keresése...',banner:'Fedezze fel Törökországot ingyen! ⚡ <a href="https://www.tr81.tr/login.html">Jelentkezzen be</a> az összes országhoz',
+      premium:'🔓 Minden ország feloldva!'},
+    th:{flag:'🇹🇭',name:'TH',title:'ภูมิทัศน์โลก 📍 สถานที่',subtitle:'สถานที่สวยงามใน 150 ประเทศ',
+      search:'ค้นหาประเทศ...',banner:'สำรวจตุรกีฟรี! ⚡ <a href="https://www.tr81.tr/login.html">เข้าสู่ระบบ</a> สำหรับทุกประเทศ',
+      premium:'🔓 ปลดล็อคทุกประเทศแล้ว!'},
+    vi:{flag:'🇻🇳',name:'VI',title:'Phong cảnh thế giới 📍 Địa điểm',subtitle:'Những nơi đẹp ở 150 quốc gia',
+      search:'Tìm kiếm quốc gia...',banner:'Khám phá Thổ Nhĩ Kỳ miễn phí! ⚡ <a href="https://www.tr81.tr/login.html">Đăng nhập</a> để xem tất cả các quốc gia',
+      premium:'🔓 Đã mở khóa tất cả các quốc gia!'},
+    id:{flag:'🇮🇩',name:'ID',title:'Pemandangan Dunia 📍 Lokasi',subtitle:'Tempat indah di 150 negara',
+      search:'Cari negara...',banner:'Jelajahi Turki gratis! ⚡ <a href="https://www.tr81.tr/login.html">Masuk</a> untuk semua negara',
+      premium:'🔓 Semua negara terbuka!'},
+    ms:{flag:'🇲🇾',name:'MS',title:'Landskap Dunia 📍 Lokasi',subtitle:'Tempat cantik di 150 negara',
+      search:'Cari negara...',banner:'Terokai Turki percuma! ⚡ <a href="https://www.tr81.tr/login.html">Log masuk</a> untuk semua negara',
+      premium:'🔓 Semua negara dibuka!'},
+    bn:{flag:'🇧🇩',name:'BN',title:'বিশ্বের দৃশ্য 📍 অবস্থান',subtitle:'১৫০টি দেশের সুন্দর স্থান',
+      search:'দেশ অনুসন্ধান করুন...',banner:'তুরস্ক বিনামূল্যে অন্বেষণ করুন! ⚡ সব দেশের জন্য <a href="https://www.tr81.tr/login.html">লগইন করুন</a>',
+      premium:'🔓 সব দেশ খোলা!'},
+    tl:{flag:'🇵🇭',name:'TL',title:'Mga Tanawin ng Mundo 📍 Mga Lokasyon',subtitle:'Magagandang lugar sa 150 bansa',
+      search:'Maghanap ng bansa...',banner:'Tuklasin ang Türkiye nang libre! ⚡ <a href="https://www.tr81.tr/login.html">Mag-login</a> para sa lahat ng bansa',
+      premium:'🔓 Lahat ng bansa ay bukas!'},
+    hr:{flag:'🇭🇷',name:'HR',title:'Svjetski krajolici 📍 Lokacije',subtitle:'Lijepa mjesta u 150 zemalja',
+      search:'Pretraži zemlju...',banner:'Istražite Tursku besplatno! ⚡ <a href="https://www.tr81.tr/login.html">Prijavite se</a> za sve zemlje',
+      premium:'🔓 Sve zemlje otključane!'},
+    he:{flag:'🇮🇱',name:'HE',title:'נופי העולם 📍 מיקומים',subtitle:'מקומות יפים ב-150 מדינות',
+      search:'חפש מדינה...',banner:'חקרו את טורקיה בחינם! ⚡ <a href="https://www.tr81.tr/login.html">התחברו</a> לכל המדינות',
+      premium:'🔓 כל המדינות פתוחות!'},
+    fa:{flag:'🇮🇷',name:'FA',title:'مناظر جهان 📍 مکان‌ها',subtitle:'مکان‌های زیبا در ۱۵۰ کشور',
+      search:'جستجوی کشور...',banner:'ترکیه را رایگان کشف کنید! ⚡ برای همه کشورها <a href="https://www.tr81.tr/login.html">وارد شوید</a>',
+      premium:'🔓 همه کشورها باز هستند!'},
+    ca:{flag:'🇪🇸',name:'CA',title:'Paisatges del món 📍 Ubicacions',subtitle:'Llocs bonics a 150 països',
+      search:'Cercar país...',banner:'Exploreu Turquia gratuïtament! ⚡ <a href="https://www.tr81.tr/login.html">Inicieu sessió</a> per a tots els països',
+      premium:'🔓 Tots els països desbloquejats!'},
+    sk:{flag:'🇸🇰',name:'SK',title:'Svetové krajiny 📍 Miesta',subtitle:'Krásne miesta v 150 krajinách',
+      search:'Hľadať krajinu...',banner:'Preskúmajte Turecko zadarmo! ⚡ <a href="https://www.tr81.tr/login.html">Prihláste sa</a> pre všetky krajiny',
+      premium:'🔓 Všetky krajiny odomknuté!'},
+    ur:{flag:'🇵🇰',name:'UR',title:'دنیا کے مناظر 📍 مقامات',subtitle:'150 ممالک میں خوبصورت مقامات',
+      search:'ملک تلاش کریں...',banner:'ترکی مفت میں دریافت کریں! ⚡ تمام ممالک کے لیے <a href="https://www.tr81.tr/login.html">لاگ ان کریں</a>',
+      premium:'🔓 تمام ممالک کھلے ہیں!'},
+    hak:{flag:'🇨🇳',name:'HAK',title:'世界風景 📍 位置',subtitle:'150個國家个靚地方',
+      search:'搜尋國家...',banner:'免費探索土耳其！⚡ <a href="https://www.tr81.tr/login.html">登入</a>查看所有國家',
+      premium:'🔓 所有國家已解鎖！'},
+    arz:{flag:'🇪🇬',name:'ARZ',title:'مناظر العالم 📍 الأماكن',subtitle:'أماكن جميلة في 150 دولة',
+      search:'دوّر على دولة...',banner:'اكتشف تركيا ببلاش! ⚡ <a href="https://www.tr81.tr/login.html">سجل دخول</a> عشان كل الدول',
+      premium:'🔓 كل الدول مفتوحة!'},
+    wuu:{flag:'🇨🇳',name:'WUU',title:'世界风景 📍 位置',subtitle:'150个国家个美丽地方',
+      search:'搜索国家...',banner:'免费探索土耳其！⚡ <a href="https://www.tr81.tr/login.html">登录</a>访问所有国家',
+      premium:'🔓 所有国家已解锁！'},
+    yue:{flag:'🇭🇰',name:'YUE',title:'世界風景 📍 位置',subtitle:'150個國家嘅靚景點',
+      search:'搵國家...',banner:'免費探索土耳其！⚡ <a href="https://www.tr81.tr/login.html">登入</a>睇晒所有國家',
+      premium:'🔓 所有國家已解鎖！'}
+  };
 
-// Initialize on page load
-document.addEventListener("DOMContentLoaded", function() {
-  var container = document.getElementById("cardsContainer");
-  var sitesContainer = document.getElementById("sitesContainer");
-  
-  // Colorize title
-  colorizeTitle();
-  
-  // Create cards
-  var icons = ["🌎", "🏨", "✈️", "🍽️", "🎸", "📱", "🛡️", "💳", "🎓"];
-  for(var i = 0; i < categories.length; i++) {
-    var cat = categories[i];
-    var card = document.createElement("div");
-    card.className = cat.highlight ? "card highlight" : "card";
-    card.innerHTML = '<span class="card-index">' + (i + 1) + '</span>' +
-      '<div class="card-content">' +
-      '<span class="card-icon">' + icons[i] + '</span>' +
-      '<div class="card-title">' + cat.title + '</div></div>';
-    (function(url) {
-      card.onclick = function() { location.href = url; };
-    })(cat.url);
-    container.appendChild(card);
+  /* === ÜLKE LİSTESİ (ISO, slug) - YENİ SIRALAMA === */
+  const countries = [
+    ['tr','turkiye'],['us','unitedstates'],['fr','france'],['es','spain'],['it','italy'],
+    ['mx','mexico'],['gb','unitedkingdom'],['de','germany'],['gr','greece'],['at','austria'],
+    ['jp','japan'],['my','malaysia'],['th','thailand'],['sa','saudiarabia'],['ae','unitedarabemirates'],
+    ['pt','portugal'],['cn','china'],['hr','croatia'],['pl','poland'],['nl','netherlands'],
+    ['hu','hungary'],['bh','bahrain'],['ca','canada'],['kr','southkorea'],['ma','morocco'],
+    ['vn','vietnam'],['cz','czechrepublic'],['sg','singapore'],['ro','romania'],['id','indonesia'],
+    ['eg','egypt'],['dk','denmark'],['ch','switzerland'],['be','belgium'],['al','albania'],
+    ['kz','kazakhstan'],['do','dominicanrepublic'],['se','sweden'],['ie','ireland'],['ph','philippines'],
+    ['in','india'],['bs','bahamas'],['au','australia'],['bg','bulgaria'],['tw','taiwan'],
+    ['br','brazil'],['tn','tunisia'],['ru','russia'],['uz','uzbekistan'],['ar','argentina'],
+    ['qa','qatar'],['co','colombia'],['za','southafrica'],['no','norway'],['nz','newzealand'],
+    ['pe','peru'],['md','moldova'],['sk','slovakia'],['kh','cambodia'],['ad','andorra'],
+    ['ge','georgia'],['jo','jordan'],['si','slovenia'],['rs','serbia'],['jm','jamaica'],
+    ['om','oman'],['cy','cyprus'],['uy','uruguay'],['cl','chile'],['hk','hongkong'],
+    ['mo','macau'],['la','laos'],['sv','elsalvador'],['dz','algeria'],['il','israel'],
+    ['kw','kuwait'],['mt','malta'],['kg','kyrgyzstan'],['lb','lebanon'],['pk','pakistan'],
+    ['fi','finland'],['pa','panama'],['me','montenegro'],['pr','puertorico'],['cr','costarica'],
+    ['cu','cuba'],['az','azerbaijan'],['ke','kenya'],['am','armenia'],['is','iceland'],
+    ['zm','zambia'],['lk','srilanka'],['mv','maldives'],['mz','mozambique'],['tz','tanzania'],
+    ['sm','sanmarino'],['gt','guatemala'],['ee','estonia'],['zw','zimbabwe'],['bo','bolivia'],
+    ['lu','luxembourg'],['ec','ecuador'],['aw','aruba'],['rw','rwanda'],['lv','latvia'],
+    ['sn','senegal'],['ug','uganda'],['tj','tajikistan'],['mu','mauritius'],['mm','myanmar'],
+    ['ve','venezuela'],['ni','nicaragua'],['ng','nigeria'],['ba','bosniaandherzegovina'],['et','ethiopia'],
+    ['np','nepal'],['ls','lesotho'],['gh','ghana'],['lt','lithuania'],['xk','kosovo'],
+    ['cd','drcongo'],['mn','mongolia'],['ir','iran'],['bd','bangladesh'],['sd','sudan'],
+    ['iq','iraq'],['af','afghanistan'],['ao','angola'],['ua','ukraine'],['ye','yemen'],
+    ['mg','madagascar'],['ci','ivorycoast'],['cm','cameroon'],['ne','niger'],['ml','mali'],
+    ['bf','burkinafaso'],['mw','malawi'],['td','chad'],['so','somalia'],['bj','benin'],
+    ['gn','guinea'],['bi','burundi'],['ss','southsudan'],['ht','haiti'],['hn','honduras'],
+    ['pg','papuanewguinea'],['tg','togo'],['sl','sierraleone'],['by','belarus'],['py','paraguay']
+  ];
+
+  /* === ARAÇ FONKSİYONLARI === */
+  const flag = iso => String.fromCodePoint(...[...iso.toUpperCase()].map(c=>0x1F1E6+c.charCodeAt(0)-65));
+  const norm = t => t.toLowerCase().replace(/[çğıöşüáàäâéèëêíìïîóòöôúùüûñ]/g,ch=>({
+    ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u',
+    á:'a',à:'a',ä:'a',â:'a',
+    é:'e',è:'e',ë:'e',ê:'e',
+    í:'i',ì:'i',ï:'i',î:'i',
+    ó:'o',ò:'o',ö:'o',ô:'o',
+    ú:'u',ù:'u',ü:'u',û:'u',
+    ñ:'n'
+  }[ch])||ch);
+
+  /* Yedek isimler (Intl desteklemezse) */
+  const customNames = {
+    xk:{ tr:'Kosova', en:'Kosovo', ru:'Косово', de:'Kosovo', fr:'Kosovo', es:'Kosovo' }
+  };
+
+  /* Çoklu dil arama için ülke isimleri ve kısaltmaları */
+  const countrySearchTerms = {
+    tr: ['türkiye', 'turkiye', 'turkey', 'turquie', 'turquia', 'турция', 'tc'],
+    us: ['abd', 'usa', 'amerika', 'america', 'united states', 'états-unis', 'estados unidos', 'сша', 'америка'],
+    fr: ['fransa', 'france', 'francia', 'frankreich', 'франция'],
+    es: ['ispanya', 'spain', 'españa', 'espagne', 'spanien', 'испания'],
+    it: ['italya', 'italy', 'italia', 'italie', 'italien', 'италия'],
+    mx: ['meksika', 'mexico', 'méxico', 'mexique', 'mexiko', 'мексика'],
+    gb: ['ingiltere', 'birleşik krallık', 'uk', 'united kingdom', 'royaume-uni', 'reino unido', 'великобритания', 'англия'],
+    de: ['almanya', 'germany', 'deutschland', 'allemagne', 'alemania', 'германия'],
+    gr: ['yunanistan', 'greece', 'grèce', 'grecia', 'griechenland', 'греция', 'ελλάδα'],
+    at: ['avusturya', 'austria', 'autriche', 'österreich', 'австрия'],
+    jp: ['japonya', 'japan', 'japon', 'japón', 'япония', '日本', 'nippon'],
+    my: ['malezya', 'malaysia', 'malaisie', 'malasia', 'малайзия'],
+    th: ['tayland', 'thailand', 'thaïlande', 'tailandia', 'таиланд', 'ประเทศไทย'],
+    sa: ['suudi arabistan', 'saudi arabia', 'arabie saoudite', 'arabia saudita', 'саудовская аравия', 'ksa'],
+    ae: ['birleşik arap emirlikleri', 'bae', 'uae', 'united arab emirates', 'émirats arabes unis', 'оаэ', 'dubai'],
+    pt: ['portekiz', 'portugal', 'португалия'],
+    cn: ['çin', 'china', 'chine', 'cina', 'китай', '中国', 'zhongguo'],
+    hr: ['hırvatistan', 'croatia', 'croatie', 'croacia', 'kroatien', 'хорватия', 'hrvatska'],
+    pl: ['polonya', 'poland', 'pologne', 'polonia', 'polen', 'польша', 'polska'],
+    nl: ['hollanda', 'netherlands', 'pays-bas', 'países bajos', 'niederlande', 'нидерланды', 'nederland'],
+    hu: ['macaristan', 'hungary', 'hongrie', 'hungría', 'ungarn', 'венгрия', 'magyarország'],
+    bh: ['bahreyn', 'bahrain', 'bahreïn', 'bahrein', 'бахрейн'],
+    ca: ['kanada', 'canada', 'canadá', 'канада'],
+    kr: ['güney kore', 'south korea', 'corée du sud', 'corea del sur', 'südkorea', 'южная корея', '한국'],
+    ma: ['fas', 'morocco', 'maroc', 'marruecos', 'marokko', 'марокко'],
+    vn: ['vietnam', 'viet nam', 'viêt nam', 'вьетнам'],
+    cz: ['çekya', 'czech republic', 'tchéquie', 'república checa', 'tschechien', 'чехия', 'česko'],
+    sg: ['singapur', 'singapore', 'singapour', 'сингапур'],
+    ro: ['romanya', 'romania', 'roumanie', 'rumania', 'rumänien', 'румыния', 'românia'],
+    id: ['endonezya', 'indonesia', 'indonésie', 'indonesien', 'индонезия'],
+    eg: ['mısır', 'egypt', 'égypte', 'egipto', 'ägypten', 'египет', 'misr'],
+    dk: ['danimarka', 'denmark', 'danemark', 'dinamarca', 'dänemark', 'дания', 'danmark'],
+    ch: ['isviçre', 'switzerland', 'suisse', 'suiza', 'schweiz', 'швейцария'],
+    be: ['belçika', 'belgium', 'belgique', 'bélgica', 'belgien', 'бельгия', 'belgië'],
+    al: ['arnavutluk', 'albania', 'albanie', 'albanien', 'албания', 'shqipëri'],
+    kz: ['kazakistan', 'kazakhstan', 'казахстан', 'қазақстан'],
+    do: ['dominik', 'dominican republic', 'république dominicaine', 'república dominicana', 'доминикана'],
+    se: ['isveç', 'sweden', 'suède', 'suecia', 'schweden', 'швеция', 'sverige'],
+    ie: ['irlanda', 'ireland', 'irlande', 'irlanda', 'irland', 'ирландия', 'éire'],
+    ph: ['filipinler', 'philippines', 'filipinas', 'philippinen', 'филиппины', 'pilipinas'],
+    in: ['hindistan', 'india', 'inde', 'indien', 'индия', 'भारत', 'bharat'],
+    bs: ['bahamalar', 'bahamas', 'багамы'],
+    au: ['avustralya', 'australia', 'australie', 'австралия'],
+    bg: ['bulgaristan', 'bulgaria', 'bulgarie', 'bulgarien', 'болгария', 'българия'],
+    tw: ['tayvan', 'taiwan', 'taïwan', 'тайвань', '台湾', '臺灣'],
+    br: ['brezilya', 'brazil', 'brésil', 'brasil', 'brasilien', 'бразилия'],
+    tn: ['tunus', 'tunisia', 'tunisie', 'túnez', 'tunesien', 'тунис'],
+    ru: ['rusya', 'russia', 'russie', 'rusia', 'russland', 'россия', 'rossiya'],
+    uz: ['özbekistan', 'uzbekistan', 'ouzbékistan', 'usbekistan', 'узбекистан', 'oʻzbekiston'],
+    ar: ['arjantin', 'argentina', 'argentine', 'argentinien', 'аргентина'],
+    qa: ['katar', 'qatar', 'catar', 'катар', 'قطر'],
+    co: ['kolombiya', 'colombia', 'colombie', 'kolumbien', 'колумбия'],
+    za: ['güney afrika', 'south africa', 'afrique du sud', 'sudáfrica', 'südafrika', 'юар', 'южная африка'],
+    no: ['norveç', 'norway', 'norvège', 'noruega', 'norwegen', 'норвегия', 'norge'],
+    nz: ['yeni zelanda', 'new zealand', 'nouvelle-zélande', 'nueva zelanda', 'neuseeland', 'новая зеландия'],
+    pe: ['peru', 'pérou', 'perú', 'перу'],
+    md: ['moldova', 'moldavie', 'moldavia', 'moldau', 'молдова'],
+    sk: ['slovakya', 'slovakia', 'slovaquie', 'eslovaquia', 'slowakei', 'словакия', 'slovensko'],
+    kh: ['kamboçya', 'cambodia', 'cambodge', 'camboya', 'kambodscha', 'камбоджа'],
+    ad: ['andorra', 'andorre', 'андорра'],
+    ge: ['gürcistan', 'georgia', 'géorgie', 'georgien', 'грузия', 'საქართველო', 'sakartvelo'],
+    jo: ['ürdün', 'jordan', 'jordanie', 'jordania', 'jordanien', 'иордания', 'الأردن'],
+    si: ['slovenya', 'slovenia', 'slovénie', 'eslovenia', 'slowenien', 'словения', 'slovenija'],
+    rs: ['sırbistan', 'serbia', 'serbie', 'serbien', 'сербия', 'србија', 'srbija'],
+    jm: ['jamaika', 'jamaica', 'jamaïque', 'jamaika', 'ямайка'],
+    om: ['umman', 'oman', 'оман', 'عمان'],
+    cy: ['kıbrıs', 'cyprus', 'chypre', 'chipre', 'zypern', 'кипр', 'κύπρος'],
+    uy: ['uruguay', 'уругвай'],
+    cl: ['şili', 'chile', 'chili', 'чили'],
+    hk: ['hong kong', 'hongkong', 'гонконг', '香港'],
+    mo: ['makao', 'macau', 'macao', 'макао', '澳門'],
+    la: ['laos', 'лаос', 'ລາວ'],
+    sv: ['el salvador', 'salvador', 'сальвадор'],
+    dz: ['cezayir', 'algeria', 'algérie', 'argelia', 'algerien', 'алжир', 'الجزائر'],
+    il: ['israil', 'israel', 'israël', 'израиль', 'ישראל'],
+    kw: ['kuveyt', 'kuwait', 'koweït', 'кувейт', 'الكويت'],
+    mt: ['malta', 'malte', 'мальта'],
+    kg: ['kırgızistan', 'kyrgyzstan', 'kirghizistan', 'kirgisistan', 'киргизия', 'кыргызстан'],
+    lb: ['lübnan', 'lebanon', 'liban', 'líbano', 'libanon', 'ливан', 'لبنان'],
+    pk: ['pakistan', 'пакистан', 'پاکستان'],
+    fi: ['finlandiya', 'finland', 'finlande', 'finlandia', 'finnland', 'финляндия', 'suomi'],
+    pa: ['panama', 'panamá', 'панама'],
+    me: ['karadağ', 'montenegro', 'monténégro', 'черногория', 'crna gora'],
+    pr: ['porto riko', 'puerto rico', 'porto rico', 'пуэрто-рико'],
+    cr: ['kosta rika', 'costa rica', 'коста-рика'],
+    cu: ['küba', 'cuba', 'kuba', 'куба'],
+    az: ['azerbaycan', 'azerbaijan', 'azerbaïdjan', 'azerbaiyán', 'aserbaidschan', 'азербайджан', 'azərbaycan'],
+    ke: ['kenya', 'kenia', 'кения'],
+    am: ['ermenistan', 'armenia', 'arménie', 'armenien', 'армения', 'հայաստան', 'hayastan'],
+    is: ['izlanda', 'iceland', 'islande', 'islandia', 'island', 'исландия', 'ísland'],
+    zm: ['zambiya', 'zambia', 'zambie', 'sambia', 'замбия'],
+    lk: ['sri lanka', 'шри-ланка', 'ශ්‍රී ලංකා'],
+    mv: ['maldivler', 'maldives', 'maldivas', 'malediven', 'мальдивы'],
+    mz: ['mozambik', 'mozambique', 'mosambik', 'мозамбик', 'moçambique'],
+    tz: ['tanzanya', 'tanzania', 'tanzanie', 'tansania', 'танзания'],
+    sm: ['san marino', 'saint-marin', 'сан-марино'],
+    gt: ['guatemala', 'гватемала'],
+    ee: ['estonya', 'estonia', 'estonie', 'estland', 'эстония', 'eesti'],
+    zw: ['zimbabve', 'zimbabwe', 'simbabwe', 'зимбабве'],
+    bo: ['bolivya', 'bolivia', 'bolivie', 'bolivien', 'боливия'],
+    lu: ['lüksemburg', 'luxembourg', 'luxemburg', 'люксембург', 'lëtzebuerg'],
+    ec: ['ekvador', 'ecuador', 'équateur', 'эквадор'],
+    aw: ['aruba', 'аруба'],
+    rw: ['ruanda', 'rwanda', 'руанда'],
+    lv: ['letonya', 'latvia', 'lettonie', 'letonia', 'lettland', 'латвия', 'latvija'],
+    sn: ['senegal', 'sénégal', 'сенегал'],
+    ug: ['uganda', 'ouganda', 'уганда'],
+    tj: ['tacikistan', 'tajikistan', 'tadjikistan', 'tadschikistan', 'таджикистан', 'тоҷикистон'],
+    mu: ['mauritius', 'maurice', 'mauricio', 'маврикий'],
+    mm: ['myanmar', 'birmanie', 'birmania', 'мьянма', 'burma'],
+    ve: ['venezuela', 'vénézuéla', 'венесуэла'],
+    ni: ['nikaragua', 'nicaragua', 'никарагуа'],
+    ng: ['nijerya', 'nigeria', 'nigéria', 'нигерия'],
+    ba: ['bosna hersek', 'bosnia', 'bosnie', 'bosnien', 'босния', 'bih'],
+    et: ['etiyopya', 'ethiopia', 'éthiopie', 'etiopía', 'äthiopien', 'эфиопия'],
+    np: ['nepal', 'népal', 'непал', 'नेपाल'],
+    ls: ['lesotho', 'лесото'],
+    gh: ['gana', 'ghana', 'гана'],
+    lt: ['litvanya', 'lithuania', 'lituanie', 'lituania', 'litauen', 'литва', 'lietuva'],
+    xk: ['kosova', 'kosovo', 'косово'],
+    cd: ['kongo', 'dr congo', 'drc', 'rd congo', 'конго', 'drc congo'],
+    mn: ['moğolistan', 'mongolia', 'mongolie', 'mongolei', 'монголия', 'монгол'],
+    ir: ['iran', 'иран', 'ایران'],
+    bd: ['bangladeş', 'bangladesh', 'бангладеш', 'বাংলাদেশ'],
+    sd: ['sudan', 'soudan', 'судан', 'السودان'],
+    iq: ['irak', 'iraq', 'ирак', 'العراق'],
+    af: ['afganistan', 'afghanistan', 'афганистан'],
+    ao: ['angola', 'ангола'],
+    ua: ['ukrayna', 'ukraine', 'украина', 'україна', 'ukrayina'],
+    ye: ['yemen', 'yémen', 'йемен', 'اليمن'],
+    mg: ['madagaskar', 'madagascar', 'мадагаскар'],
+    ci: ['fildişi sahili', 'ivory coast', 'côte d\'ivoire', 'elfenbeinküste', 'кот-д\'ивуар'],
+    cm: ['kamerun', 'cameroon', 'cameroun', 'camerún', 'камерун'],
+    ne: ['nijer', 'niger', 'нигер'],
+    ml: ['mali', 'мали'],
+    bf: ['burkina faso', 'буркина-фасо'],
+    mw: ['malavi', 'malawi', 'малави'],
+    td: ['çad', 'chad', 'tchad', 'tschad', 'чад'],
+    so: ['somali', 'somalia', 'somalie', 'сомали'],
+    bj: ['benin', 'bénin', 'бенин'],
+    gn: ['gine', 'guinea', 'guinée', 'гвинея'],
+    bi: ['burundi', 'бурунди'],
+    ss: ['güney sudan', 'south sudan', 'soudan du sud', 'südsudan', 'южный судан'],
+    ht: ['haiti', 'haïti', 'гаити'],
+    hn: ['honduras', 'гондурас'],
+    pg: ['papua yeni gine', 'papua new guinea', 'papouasie', 'papua-neuguinea', 'папуа'],
+    tg: ['togo', 'того'],
+    sl: ['sierra leone', 'сьерра-леоне'],
+    by: ['belarus', 'bélarus', 'weißrussland', 'беларусь', 'білорусь'],
+    py: ['paraguay', 'парагвай']
+  };
+
+  /* Geçerli dil kodu */
+  let currentLang = 'tr';
+
+  /* Tarayıcı‑dil & localStorage tespiti */
+  function detectLang(){
+    const saved = localStorage.getItem('lang');
+    if(saved && lang[saved]) return saved;
+    const browser = navigator.language.toLowerCase();
+    for(const code in lang){
+      if(browser.startsWith(code)) return code;
+    }
+    return 'tr';
   }
-  
-  // Create site cards
-  for(var j = 0; j < sites.length; j++) {
-    var site = sites[j];
-    var siteCard = document.createElement("div");
-    siteCard.className = "site-item";
-    siteCard.innerHTML = '<span class="site-number">' + (j + 1) + '</span>' +
-      '<div class="site-content">' +
-      '<h3 class="site-name">' + site.name + '</h3>' +
-      '<p class="site-description">' + site.description + '</p></div>';
-    (function(url) {
-      siteCard.onclick = function() { window.open(url, "_blank"); };
-    })(site.url);
-    sitesContainer.appendChild(siteCard);
+
+  /* Ülke adı getirme (Intl + fallback) */
+  function getCountryName(iso, code){
+    if(customNames[iso]?.[code]) return customNames[iso][code];
+    try{
+      const dn = new Intl.DisplayNames([code],{type:'region'});
+      return dn.of(iso.toUpperCase()) || customNames[iso]?.en || iso.toUpperCase();
+    }catch(e){
+      return customNames[iso]?.en || iso.toUpperCase();
+    }
   }
-});
-</script>
+
+  /* Kart isimlerini güncelle */
+  function updateCountryCards(){
+    document.querySelectorAll('.card').forEach(card=>{
+      const iso = card.dataset.iso;
+      const name = getCountryName(iso,currentLang);
+      card.querySelector('.name').textContent = name;
+      card.dataset.search = name;
+      // Çoklu dil arama için tüm isimleri ekle
+      card.dataset.searchTerms = (countrySearchTerms[iso] || []).join(' ');
+    });
+  }
+
+  /* Dil ayarla */
+  function setLang(code){
+    currentLang = code;
+    const t = lang[code];
+    document.getElementById('title').textContent = t.title;
+    document.getElementById('subtitle').textContent = t.subtitle;
+    document.getElementById('search').placeholder = t.search;
+    document.getElementById('langFlag').textContent = t.flag;
+    document.getElementById('langName').textContent = t.name;
+
+    const access = localStorage.getItem('duflat-access')==='granted';
+    const info = document.getElementById('info');
+    info.innerHTML = access ? t.premium : t.banner;
+    info.className = access ? 'info premium' : 'info';
+
+    document.documentElement.lang = code;
+    localStorage.setItem('lang', code);
+
+    document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+
+    updateCountryCards();
+  }
+
+  /* Dil açılır listesini oluştur */
+  function createLangMenu(){
+    const list = document.getElementById('langList');
+    for(const [code,data] of Object.entries(lang)){
+      const item = document.createElement('div');
+      item.className='lang-item';
+      item.dataset.lang = code;
+      item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
+      item.onclick = ()=>{ setLang(code); toggleLang(false); };
+      list.appendChild(item);
+    }
+  }
+
+  /* Menü göster/gizle */
+  function toggleLang(force){
+    const list = document.getElementById('langList');
+    if(force===false){ list.classList.remove('show'); }
+    else{ list.classList.toggle('show'); }
+  }
+
+  /* Ülke sayfasına git */
+  function go(slug){
+    // Türkiye ve ABD artık herkes için ücretsiz
+    if(slug==='turkiye'){ location.href='türkiye.html'; return; }
+    if(slug==='unitedstates'){ location.href='unitedstates.html'; return; }
+    
+    // Diğer ülkeler için access kontrolü
+    const access = localStorage.getItem('duflat-access')==='granted';
+    if(!access){
+      // Bilgilendirme kartına dikkat çek
+      const info = document.getElementById('info');
+      info.classList.add('attention');
+      info.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // 3 saniye sonra animasyonu kaldır
+      setTimeout(() => {
+        info.classList.remove('attention');
+      }, 3000);
+      
+      return; // login.html'e gitme
+    }
+    location.href = `${slug}.html`;
+  }
+
+  /* === BAŞLAT === */
+  document.addEventListener('DOMContentLoaded',()=>{
+    const grid = document.getElementById('grid');
+    const search = document.getElementById('search');
+
+    createLangMenu();
+    setLang(detectLang());
+    
+    /* Mobil viewport height fix */
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+
+    /* Kartları oluştur - HYBRID APPROACH */
+    countries.forEach(([iso,slug])=>{
+      const card = document.createElement('div');
+      // Türkiye ve ABD ücretsiz
+      card.className='card'+((slug==='turkiye' || slug==='unitedstates')?' free':'');
+      card.dataset.iso = iso;
+      card.onclick = ()=>go(slug);
+      
+      // Flag wrapper
+      const flagWrapper = document.createElement('div');
+      flagWrapper.className = 'flag-wrapper';
+      
+      // Flag image
+      const flagImg = document.createElement('img');
+      flagImg.className = 'flag-img';
+      flagImg.src = `https://flagcdn.com/w160/${iso.toLowerCase()}.png`;
+      flagImg.alt = `${iso.toUpperCase()} flag`;
+      flagImg.loading = 'lazy';
+      
+      // Emoji fallback
+      const flagEmoji = document.createElement('span');
+      flagEmoji.className = 'flag-emoji';
+      flagEmoji.textContent = flag(iso);
+      
+      // Image error handler
+      flagImg.onerror = function() {
+        flagWrapper.classList.add('show-emoji');
+      };
+      
+      // Country name
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'name';
+      
+      // Assemble
+      flagWrapper.appendChild(flagImg);
+      flagWrapper.appendChild(flagEmoji);
+      card.appendChild(flagWrapper);
+      card.appendChild(nameDiv);
+      
+      grid.appendChild(card);
+    });
+
+    updateCountryCards(); // ilk isim doldur
+
+    /* Arama */
+    search.addEventListener('input',e=>{
+      const v = norm(e.target.value);
+      document.getElementById('info').style.display = v ? 'none' : '';
+      document.querySelectorAll('.card').forEach(c=>{
+        // Hem gösterilen isimde hem de tüm alternatif isimlerde ara
+        const displayName = norm(c.dataset.search);
+        const allTerms = norm(c.dataset.searchTerms || '');
+        const matches = displayName.includes(v) || allTerms.includes(v);
+        c.style.display = matches ? '' : 'none';
+      });
+    });
+
+    /* Dropdown kapat */
+    document.addEventListener('click',e=>{
+      if(!e.target.closest('.lang-select')) toggleLang(false);
+    });
+
+    /* Force emoji for browsers with poor flag image support */
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isSafari || isIOS || isMobile) {
+      // On Safari/iOS/Mobile, prefer emoji flags
+      document.querySelectorAll('.flag-wrapper').forEach(wrapper => {
+        wrapper.classList.add('show-emoji');
+      });
+    }
+  });
+  </script>
 </body>
 </html>
