@@ -226,7 +226,7 @@
     backdrop-filter:blur(20px);
     border:2px solid rgba(255,255,255,.4);
     border-radius:20px;
-    font-size:14px;
+    font-size:19px;
     line-height:1.6;
     color:var(--text-primary);
     box-shadow:var(--shadow-lg);
@@ -240,6 +240,44 @@
     backdrop-filter:blur(20px);
     border-color:rgba(22,163,74,.4);
     color:#16a34a;
+  }
+  
+  /* Dikkat çekici animasyonlar */
+  .info.attention {
+    animation: shake 0.5s ease-in-out, glow 2s ease-in-out infinite;
+    background: linear-gradient(135deg,rgba(255,193,7,.4) 0%,rgba(255,152,0,.4) 100%);
+    border-color: rgba(255,152,0,.6);
+    transform-origin: center;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-5px) rotate(-1deg); }
+    20% { transform: translateX(5px) rotate(1deg); }
+    30% { transform: translateX(-5px) rotate(-1deg); }
+    40% { transform: translateX(5px) rotate(1deg); }
+    50% { transform: translateX(-3px) rotate(-0.5deg); }
+    60% { transform: translateX(3px) rotate(0.5deg); }
+    70% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+    90% { transform: translateX(-1px); }
+  }
+  
+  @keyframes glow {
+    0%, 100% { 
+      box-shadow: 
+        0 0 20px rgba(255,152,0,.4),
+        0 0 30px rgba(255,193,7,.3),
+        0 0 40px rgba(255,152,0,.2),
+        var(--shadow-lg);
+    }
+    50% { 
+      box-shadow: 
+        0 0 30px rgba(255,152,0,.6),
+        0 0 45px rgba(255,193,7,.5),
+        0 0 60px rgba(255,152,0,.4),
+        var(--shadow-xl);
+    }
   }
   
   .info a{
@@ -526,7 +564,7 @@
     .title{font-size:1.875rem}
     .subtitle{font-size:.875rem}
     .search{padding:12px 44px 12px 16px;font-size:14px}
-    .info{font-size:13px;padding:16px 20px}
+    .info{font-size:14px;padding:16px 20px}
   }
   
   @media(max-width:480px){
@@ -1035,7 +1073,20 @@
     
     // Diğer ülkeler için access kontrolü
     const access = localStorage.getItem('duflat-access')==='granted';
-    location.href = access ? `${slug}.html` : 'login.html';
+    if(!access){
+      // Bilgilendirme kartına dikkat çek
+      const info = document.getElementById('info');
+      info.classList.add('attention');
+      info.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // 3 saniye sonra animasyonu kaldır
+      setTimeout(() => {
+        info.classList.remove('attention');
+      }, 3000);
+      
+      return; // login.html'e gitme
+    }
+    location.href = `${slug}.html`;
   }
 
   /* === BAŞLAT === */
