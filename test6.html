@@ -1055,7 +1055,7 @@ function toggleLang(force){
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('grid');
   const search = document.getElementById('search');
-  const access = access = true;
+  const access = true; // DÜZELTME: Çift eşittir kaldırıldı
   
   createLangMenu();
   setLang(detectLang());
@@ -1063,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Kartları oluştur
   cities.forEach(([slug, name]) => {
     const card = document.createElement('div');
-    card.className = 'card' + (slug === 'antalya' ? ' free' : '');
+    card.className = 'card free'; // Tüm kartlar free olacak
     card.dataset.slug = slug;
     card.dataset.originalName = name;
     
@@ -1080,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     card.onclick = () => {
       location.href = `${slug}.html`;
-      };
+    };
     
     grid.appendChild(card);
   });
@@ -1095,6 +1095,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   // Dropdown kapat
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.lang-select')) toggleLang(false);
+  });
+});
   document.addEventListener('click',e=>{
     if(!e.target.closest('.lang-select')) toggleLang(false);
   });
