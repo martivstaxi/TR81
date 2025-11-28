@@ -44,7 +44,7 @@ body::after{
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(248, 250, 252, 0.2);
+  background: rgba(248, 250, 252, 0.4);
   pointer-events: none;
   z-index: 0;
 }
@@ -141,43 +141,6 @@ body::after{
   backdrop-filter:blur(20px);border-color:rgba(22,163,74,.4);color:#16a34a;}
 .info a{color:var(--primary);font-weight:600;text-decoration:none;transition:.3s;}
 .info a:hover{color:var(--primary-dark);text-decoration:underline;}
-  /* Dikkat çekici animasyonlar */
-.info.attention {
-  animation: shake 0.5s ease-in-out, glow 2s ease-in-out infinite;
-  background: linear-gradient(135deg,rgba(255,193,7,.4) 0%,rgba(255,152,0,.4) 100%);
-  border-color: rgba(255,152,0,.6);
-  transform-origin: center;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10% { transform: translateX(-5px) rotate(-1deg); }
-  20% { transform: translateX(5px) rotate(1deg); }
-  30% { transform: translateX(-5px) rotate(-1deg); }
-  40% { transform: translateX(5px) rotate(1deg); }
-  50% { transform: translateX(-3px) rotate(-0.5deg); }
-  60% { transform: translateX(3px) rotate(0.5deg); }
-  70% { transform: translateX(-2px); }
-  80% { transform: translateX(2px); }
-  90% { transform: translateX(-1px); }
-}
-
-@keyframes glow {
-  0%, 100% { 
-    box-shadow: 
-      0 0 20px rgba(255,152,0,.4),
-      0 0 30px rgba(255,193,7,.3),
-      0 0 40px rgba(255,152,0,.2),
-      var(--shadow-lg);
-  }
-  50% { 
-    box-shadow: 
-      0 0 30px rgba(255,152,0,.6),
-      0 0 45px rgba(255,193,7,.5),
-      0 0 60px rgba(255,152,0,.4),
-      var(--shadow-xl);
-  }
-}
 
 /* === Grid === */
 .grid{
@@ -256,7 +219,6 @@ body::after{
     pointer-events: none;
     z-index: -1;
   }
-  /* Container düzenlemesi */
   .container{
     max-width:100%;
     min-height:100vh;
@@ -264,7 +226,6 @@ body::after{
     z-index: 1;
     padding: 0 12px 50px 12px;
   }
-  /* Search box ve info özel ayarlar */
   .search-box {
     margin: 0 auto 40px !important;
     padding: 0 4px;
@@ -277,7 +238,11 @@ body::after{
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255,255,255,.4) !important;
   }
-  /* Grid - mobilde sabit 3 sütun ve ortalama */
+  .info.premium {
+    background: linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%) !important;
+    backdrop-filter: blur(20px);
+    border-color: rgba(22,163,74,.4) !important;
+  }
   .grid {
     gap:10px;
     padding-bottom:40px;
@@ -287,7 +252,6 @@ body::after{
     padding-left: 0;
     padding-right: 0;
   }
-  /* Kart boyutları mobilde */
   .card {
     padding: 18px 10px !important;
     aspect-ratio: 1/1 !important;
@@ -300,19 +264,6 @@ body::after{
   .city-code{font-size:20px !important;line-height:1;}
   .city-name{font-size:11px !important;line-height:1.2;word-break:break-word;margin-top:3px;}
   .lock-icon{font-size:15px !important;margin-top:4px;display:block !important;}
-  .info {
-    background: rgba(255,255,255,.3) !important;
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255,255,255,.4) !important;
-    margin-left: 12px;
-    margin-right: 12px;
-  }
-  .info.premium {
-    background: linear-gradient(135deg,rgba(220,252,231,.3) 0%,rgba(209,250,229,.3) 100%) !important;
-    backdrop-filter: blur(20px);
-    border-color: rgba(22,163,74,.4) !important;
-  }
-  /* Diğer mobil stiller */
   .lang-select{top:16px;right:16px}
   .lang-btn{padding:8px 12px;font-size:13px}
   .world-button{top:16px;left:16px}
@@ -377,7 +328,7 @@ body::after{
 
   <div class="container">
     <div class="header">
-      <h1 class="title" id="title">Türkiye'nin manzaralı yerlerini keşfet 📍</h1>
+      <h1 class="title" id="title">Türkiye'nin manzaralı yerleri📍</h1>
     </div>
 
     <!-- Search -->
@@ -389,8 +340,8 @@ body::after{
     </div>
 
     <!-- Info -->
-    <div id="info" class="info">
-      Antalya'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>
+    <div id="info" class="info premium">
+      🔓 Tüm iller açık!
     </div>
 
     <!-- Grid -->
@@ -400,7 +351,7 @@ body::after{
 <script>
 // Çeviriler
 const lang = {
-  tr:{flag:'🇹🇷',name:'TR',title:'Türkiye\'nin manzaralı yerlerini keşfet 📍',
+  tr:{flag:'🇹🇷',name:'TR',title:'Türkiye\'nin manzaralı yerleri📍',
     search:'Bir il ara...',banner:'Antalya\'yı ücretsiz keşfet! ⚡ Tüm iller için <a href="https://www.tr81.tr/login.html">giriş yap</a>',
     premium:'🔓 Tüm iller açık!',worldButton:'Dünya Konumları'},
   en:{flag:'🇬🇧',name:'EN',title:'Explore Türkiye\'s scenic spots 📍',
@@ -728,400 +679,362 @@ const cityTranslations = {
   isparta: {
     en: 'Isparta', de: 'Isparta', fr: 'Isparta', es: 'Isparta', it: 'Isparta',
     pt: 'Isparta', ru: 'Ыспарта', ja: 'ウスパルタ', zh: '伊斯帕尔塔', ar: 'إسبرطة', ko: '으스파르타'
-  },
-  istanbul: {
-    en: 'Istanbul', de: 'Istanbul', fr: 'Istanbul', es: 'Estambul', it: 'Istanbul',
-    pt: 'Istambul', ru: 'Стамбул', ja: 'イスタンブール', zh: '伊斯坦布尔', ar: 'إسطنبول', ko: '이스탄불',
-    hi: 'इस्तांबुल', uk: 'Стамбул', pl: 'Stambuł', ro: 'Istanbul', el: 'Κωνσταντινούπολη',
-    hu: 'Isztambul', cs: 'Istanbul', nl: 'Istanbul', th: 'อิสตันบูล', vi: 'Istanbul',
-    id: 'Istanbul', ms: 'Istanbul', sv: 'Istanbul', no: 'Istanbul', da: 'Istanbul',
-    fi: 'Istanbul', bn: 'ইস্তানবুল', tl: 'Istanbul', hak: '伊斯坦堡', hr: 'Istanbul',
-    he: 'איסטנבול', fa: 'استانبول', ca: 'Istanbul', arz: 'إسطنبول', sk: 'Istanbul',
-    ur: 'استنبول', wuu: '伊斯坦布尔', yue: '伊斯坦堡'
-  },
-  izmir: {
-    en: 'Izmir', de: 'Izmir', fr: 'Izmir', es: 'Esmirna', it: 'Smirne',
-    pt: 'Esmirna', ru: 'Измир', ja: 'イズミル', zh: '伊兹密尔', ar: 'إزمير', ko: '이즈미르',
-    hi: 'इज़मिर', uk: 'Ізмір', pl: 'Izmir', ro: 'Izmir', el: 'Σμύρνη',
-    hu: 'Izmir', cs: 'Izmir', nl: 'Izmir', th: 'อิซเมียร์', vi: 'Izmir',
-    id: 'Izmir', ms: 'Izmir', sv: 'Izmir', no: 'Izmir', da: 'Izmir',
-    fi: 'Izmir', bn: 'ইজমির', tl: 'Izmir', hak: '伊茲密爾', hr: 'Izmir',
-    he: 'איזמיר', fa: 'ازمیر', ca: 'Esmirna', arz: 'إزمير', sk: 'Izmir',
-    ur: 'ازمیر', wuu: '伊兹密尔', yue: '伊茲密爾'
-  },
-  kahramanmaras: {
-    en: 'Kahramanmaras', de: 'Kahramanmaraş', fr: 'Kahramanmaraş', es: 'Kahramanmaraş', it: 'Kahramanmaraş',
-    pt: 'Kahramanmaraş', ru: 'Кахраманмараш', ja: 'カフラマンマラシュ', zh: '卡赫拉曼马拉什', ar: 'قهرمان مرعش', ko: '카라만마라시'
-  },
-  karabuk: {
-    en: 'Karabuk', de: 'Karabük', fr: 'Karabük', es: 'Karabük', it: 'Karabük',
-    pt: 'Karabük', ru: 'Карабюк', ja: 'カラビュク', zh: '卡拉比克', ar: 'قره بوك', ko: '카라뷔크'
-  },
-  karaman: {
-    en: 'Karaman', de: 'Karaman', fr: 'Karaman', es: 'Karaman', it: 'Karaman',
-    pt: 'Karaman', ru: 'Караман', ja: 'カラマン', zh: '卡拉曼', ar: 'قرامان', ko: '카라만'
-  },
-  kars: {
-    en: 'Kars', de: 'Kars', fr: 'Kars', es: 'Kars', it: 'Kars',
-    pt: 'Kars', ru: 'Карс', ja: 'カルス', zh: '卡尔斯', ar: 'قارص', ko: '카르스'
-  },
-  kastamonu: {
-    en: 'Kastamonu', de: 'Kastamonu', fr: 'Kastamonu', es: 'Kastamonu', it: 'Kastamonu',
-    pt: 'Kastamonu', ru: 'Кастамону', ja: 'カスタモヌ', zh: '卡斯塔莫努', ar: 'قسطموني', ko: '카스타모누'
-  },
-  kayseri: {
-    en: 'Kayseri', de: 'Kayseri', fr: 'Kayseri', es: 'Kayseri', it: 'Kayseri',
-    pt: 'Kayseri', ru: 'Кайсери', ja: 'カイセリ', zh: '开塞利', ar: 'قيصري', ko: '카이세리'
-  },
-  kilis: {
-    en: 'Kilis', de: 'Kilis', fr: 'Kilis', es: 'Kilis', it: 'Kilis',
-    pt: 'Kilis', ru: 'Килис', ja: 'キリス', zh: '基利斯', ar: 'كيليس', ko: '킬리스'
-  },
-  kirikkale: {
-    en: 'Kirikkale', de: 'Kırıkkale', fr: 'Kırıkkale', es: 'Kırıkkale', it: 'Kırıkkale',
-    pt: 'Kırıkkale', ru: 'Кырыккале', ja: 'クルッカレ', zh: '克勒克卡莱', ar: 'قريق قلعة', ko: '크르크칼레'
-  },
-  kirklareli: {
-    en: 'Kirklareli', de: 'Kırklareli', fr: 'Kırklareli', es: 'Kırklareli', it: 'Kırklareli',
-    pt: 'Kırklareli', ru: 'Кыркларели', ja: 'クルクラーレリ', zh: '克尔克拉雷利', ar: 'قرق لر إيلي', ko: '크르클라렐리'
-  },
-  kirsehir: {
-    en: 'Kirsehir', de: 'Kırşehir', fr: 'Kırşehir', es: 'Kırşehir', it: 'Kırşehir',
-    pt: 'Kırşehir', ru: 'Кыршехир', ja: 'クルシェヒル', zh: '克尔谢希尔', ar: 'قرشهر', ko: '크르셰히르'
-  },
-  kocaeli: {
-    en: 'Kocaeli', de: 'Kocaeli', fr: 'Kocaeli', es: 'Kocaeli', it: 'Kocaeli',
-    pt: 'Kocaeli', ru: 'Коджаэли', ja: 'コジャエリ', zh: '科贾埃利', ar: 'قوجه ايلي', ko: '코자엘리'
-  },
-  konya: {
-    en: 'Konya', de: 'Konya', fr: 'Konya', es: 'Konya', it: 'Konya',
-    pt: 'Konya', ru: 'Конья', ja: 'コンヤ', zh: '科尼亚', ar: 'قونية', ko: '코니아',
-    hi: 'कोन्या', uk: 'Конья', pl: 'Konya', ro: 'Konya', el: 'Ικόνιον',
-    hu: 'Konya', cs: 'Konya', nl: 'Konya'
-  },
-  kutahya: {
-    en: 'Kutahya', de: 'Kütahya', fr: 'Kütahya', es: 'Kütahya', it: 'Kütahya',
-    pt: 'Kütahya', ru: 'Кютахья', ja: 'キュタヒヤ', zh: '屈塔希亚', ar: 'كوتاهيا', ko: '퀴타히아'
-  },
-  malatya: {
-    en: 'Malatya', de: 'Malatya', fr: 'Malatya', es: 'Malatya', it: 'Malatya',
-    pt: 'Malatya', ru: 'Малатья', ja: 'マラティヤ', zh: '马拉蒂亚', ar: 'ملاطية', ko: '말라티아'
-  },
-  manisa: {
-    en: 'Manisa', de: 'Manisa', fr: 'Manisa', es: 'Manisa', it: 'Manisa',
-    pt: 'Manisa', ru: 'Маниса', ja: 'マニサ', zh: '马尼萨', ar: 'مانيسا', ko: '마니사'
-  },
-  mardin: {
-    en: 'Mardin', de: 'Mardin', fr: 'Mardin', es: 'Mardin', it: 'Mardin',
-    pt: 'Mardin', ru: 'Мардин', ja: 'マルディン', zh: '马尔丁', ar: 'ماردين', ko: '마르딘'
-  },
-  mersin: {
-    en: 'Mersin', de: 'Mersin', fr: 'Mersin', es: 'Mersin', it: 'Mersin',
-    pt: 'Mersin', ru: 'Мерсин', ja: 'メルスィン', zh: '梅尔辛', ar: 'مرسين', ko: '메르신'
-  },
-  mugla: {
-    en: 'Mugla', de: 'Muğla', fr: 'Muğla', es: 'Muğla', it: 'Muğla',
-    pt: 'Muğla', ru: 'Мугла', ja: 'ムーラ', zh: '穆拉', ar: 'موغلا', ko: '무을라'
-  },
-  mus: {
-    en: 'Mus', de: 'Muş', fr: 'Muş', es: 'Muş', it: 'Muş',
-    pt: 'Muş', ru: 'Муш', ja: 'ムシュ', zh: '穆什', ar: 'موش', ko: '무시'
-  },
-  nevsehir: {
-    en: 'Nevsehir', de: 'Nevşehir', fr: 'Nevşehir', es: 'Nevşehir', it: 'Nevşehir',
-    pt: 'Nevşehir', ru: 'Невшехир', ja: 'ネヴシェヒル', zh: '内夫谢希尔', ar: 'نوشهر', ko: '네브셰히르'
-  },
-  nigde: {
-    en: 'Nigde', de: 'Niğde', fr: 'Niğde', es: 'Niğde', it: 'Niğde',
-    pt: 'Niğde', ru: 'Нигде', ja: 'ニーデ', zh: '尼代', ar: 'نيغده', ko: '니데'
-  },
-  ordu: {
-    en: 'Ordu', de: 'Ordu', fr: 'Ordu', es: 'Ordu', it: 'Ordu',
-    pt: 'Ordu', ru: 'Орду', ja: 'オルドゥ', zh: '奥尔杜', ar: 'أوردو', ko: '오르두'
-  },
-  osmaniye: {
-    en: 'Osmaniye', de: 'Osmaniye', fr: 'Osmaniye', es: 'Osmaniye', it: 'Osmaniye',
-    pt: 'Osmaniye', ru: 'Османие', ja: 'オスマニエ', zh: '奥斯曼尼耶', ar: 'عثمانية', ko: '오스마니예'
-  },
-  rize: {
-    en: 'Rize', de: 'Rize', fr: 'Rize', es: 'Rize', it: 'Rize',
-    pt: 'Rize', ru: 'Ризе', ja: 'リゼ', zh: '里泽', ar: 'ريزه', ko: '리제'
-  },
-  sakarya: {
-    en: 'Sakarya', de: 'Sakarya', fr: 'Sakarya', es: 'Sakarya', it: 'Sakarya',
-    pt: 'Sakarya', ru: 'Сакарья', ja: 'サカルヤ', zh: '萨卡里亚', ar: 'صقاريا', ko: '사카리아'
-  },
-  samsun: {
-    en: 'Samsun', de: 'Samsun', fr: 'Samsun', es: 'Samsun', it: 'Samsun',
-    pt: 'Samsun', ru: 'Самсун', ja: 'サムスン', zh: '萨姆松', ar: 'سامسون', ko: '삼순'
-  },
-  sanliurfa: {
-    en: 'Sanliurfa', de: 'Şanlıurfa', fr: 'Şanlıurfa', es: 'Şanlıurfa', it: 'Şanlıurfa',
-    pt: 'Şanlıurfa', ru: 'Шанлыурфа', ja: 'シャンルウルファ', zh: '尚勒乌尔法', ar: 'شانلي أورفا', ko: '샨르우르파'
-  },
-  siirt: {
-    en: 'Siirt', de: 'Siirt', fr: 'Siirt', es: 'Siirt', it: 'Siirt',
-    pt: 'Siirt', ru: 'Сиирт', ja: 'スィイルト', zh: '锡尔特', ar: 'سيرت', ko: '시이르트'
-  },
-  sinop: {
-    en: 'Sinop', de: 'Sinop', fr: 'Sinop', es: 'Sinop', it: 'Sinop',
-    pt: 'Sinop', ru: 'Синоп', ja: 'スィノプ', zh: '锡诺普', ar: 'سينوب', ko: '시노프'
-  },
-  sirnak: {
-    en: 'Sirnak', de: 'Şırnak', fr: 'Şırnak', es: 'Şırnak', it: 'Şırnak',
-    pt: 'Şırnak', ru: 'Ширнак', ja: 'シュルナク', zh: '舍尔纳克', ar: 'شرناق', ko: '시르나크'
-  },
-  sivas: {
-    en: 'Sivas', de: 'Sivas', fr: 'Sivas', es: 'Sivas', it: 'Sivas',
-    pt: 'Sivas', ru: 'Сивас', ja: 'スィヴァス', zh: '锡瓦斯', ar: 'سيواس', ko: '시바스'
-  },
-  tekirdag: {
-    en: 'Tekirdag', de: 'Tekirdağ', fr: 'Tekirdağ', es: 'Tekirdağ', it: 'Tekirdağ',
-    pt: 'Tekirdağ', ru: 'Текирдаг', ja: 'テキルダー', zh: '泰基尔达', ar: 'تكيرداغ', ko: '테키르다'
-  },
-  tokat: {
-    en: 'Tokat', de: 'Tokat', fr: 'Tokat', es: 'Tokat', it: 'Tokat',
-    pt: 'Tokat', ru: 'Токат', ja: 'トカット', zh: '托卡特', ar: 'توقات', ko: '토카트'
-  },
-  trabzon: {
-    en: 'Trabzon', de: 'Trabzon', fr: 'Trébizonde', es: 'Trebisonda', it: 'Trebisonda',
-    pt: 'Trebizonda', ru: 'Трабзон', ja: 'トラブゾン', zh: '特拉布宗', ar: 'طرابزون', ko: '트라브존',
-    hi: 'त्राब्ज़ोन', uk: 'Трабзон', pl: 'Trabzon', ro: 'Trabzon', el: 'Τραπεζούντα',
-    hu: 'Trabzon', cs: 'Trabzon', nl: 'Trabzon'
-  },
-  tunceli: {
-    en: 'Tunceli', de: 'Tunceli', fr: 'Tunceli', es: 'Tunceli', it: 'Tunceli',
-    pt: 'Tunceli', ru: 'Тунджели', ja: 'トゥンジェリ', zh: '通杰利', ar: 'تونجلي', ko: '툰젤리'
-  },
-  usak: {
-    en: 'Usak', de: 'Uşak', fr: 'Uşak', es: 'Uşak', it: 'Uşak',
-    pt: 'Uşak', ru: 'Ушак', ja: 'ウシャク', zh: '乌沙克', ar: 'أوشاق', ko: '우샤크'
-  },
-  van: {
-    en: 'Van', de: 'Van', fr: 'Van', es: 'Van', it: 'Van',
-    pt: 'Van', ru: 'Ван', ja: 'ヴァン', zh: '凡城', ar: 'وان', ko: '반'
-  },
-  yalova: {
-    en: 'Yalova', de: 'Yalova', fr: 'Yalova', es: 'Yalova', it: 'Yalova',
-    pt: 'Yalova', ru: 'Ялова', ja: 'ヤロヴァ', zh: '亚洛瓦', ar: 'يالوفا', ko: '얄로바'
-  },
-  yozgat: {
-    en: 'Yozgat', de: 'Yozgat', fr: 'Yozgat', es: 'Yozgat', it: 'Yozgat',
-    pt: 'Yozgat', ru: 'Йозгат', ja: 'ヨズガト', zh: '约兹加特', ar: 'يوزغات', ko: '요즈가트'
-  },
-  zonguldak: {
-    en: 'Zonguldak', de: 'Zonguldak', fr: 'Zonguldak', es: 'Zonguldak', it: 'Zonguldak',
-    pt: 'Zonguldak', ru: 'Зонгулдак', ja: 'ゾングルダク', zh: '宗古尔达克', ar: 'زونغولداق', ko: '종굴다크'
-  }
+ },
+ istanbul: {
+   en: 'Istanbul', de: 'Istanbul', fr: 'Istanbul', es: 'Estambul', it: 'Istanbul',
+   pt: 'Istambul', ru: 'Стамбул', ja: 'イスタンブール', zh: '伊斯坦布尔', ar: 'إسطنبول', ko: '이스탄불',
+   hi: 'इस्तांबुल', uk: 'Стамбул', pl: 'Stambuł', ro: 'Istanbul', el: 'Κωνσταντινούπολη',
+   hu: 'Isztambul', cs: 'Istanbul', nl: 'Istanbul', th: 'อิสตันบูล', vi: 'Istanbul',
+   id: 'Istanbul', ms: 'Istanbul', sv: 'Istanbul', no: 'Istanbul', da: 'Istanbul',
+   fi: 'Istanbul', bn: 'ইস্তানবুল', tl: 'Istanbul', hak: '伊斯坦堡', hr: 'Istanbul',
+   he: 'איסטנבול', fa: 'استانبول', ca: 'Istanbul', arz: 'إسطنبول', sk: 'Istanbul',
+   ur: 'استنبول', wuu: '伊斯坦布尔', yue: '伊斯坦堡'
+ },
+ izmir: {
+   en: 'Izmir', de: 'Izmir', fr: 'Izmir', es: 'Esmirna', it: 'Smirne',
+   pt: 'Esmirna', ru: 'Измир', ja: 'イズミル', zh: '伊兹密尔', ar: 'إزمير', ko: '이즈미르',
+   hi: 'इज़मिर', uk: 'Ізмір', pl: 'Izmir', ro: 'Izmir', el: 'Σμύρνη',
+   hu: 'Izmir', cs: 'Izmir', nl: 'Izmir', th: 'อิซเมียร์', vi: 'Izmir',
+   id: 'Izmir', ms: 'Izmir', sv: 'Izmir', no: 'Izmir', da: 'Izmir',
+   fi: 'Izmir', bn: 'ইজমির', tl: 'Izmir', hak: '伊茲密爾', hr: 'Izmir',
+   he: 'איזמיר', fa: 'ازمیر', ca: 'Esmirna', arz: 'إزمير', sk: 'Izmir',
+   ur: 'ازمیر', wuu: '伊兹密尔', yue: '伊茲密爾'
+ },
+ kahramanmaras: {
+   en: 'Kahramanmaras', de: 'Kahramanmaraş', fr: 'Kahramanmaraş', es: 'Kahramanmaraş', it: 'Kahramanmaraş',
+   pt: 'Kahramanmaraş', ru: 'Кахраманмараш', ja: 'カフラマンマラシュ', zh: '卡赫拉曼马拉什', ar: 'قهرمان مرعش', ko: '카라만마라시'
+ },
+ karabuk: {
+   en: 'Karabuk', de: 'Karabük', fr: 'Karabük', es: 'Karabük', it: 'Karabük',
+   pt: 'Karabük', ru: 'Карабюк', ja: 'カラビュク', zh: '卡拉比克', ar: 'قره بوك', ko: '카라뷔크'
+ },
+ karaman: {
+   en: 'Karaman', de: 'Karaman', fr: 'Karaman', es: 'Karaman', it: 'Karaman',
+   pt: 'Karaman', ru: 'Караман', ja: 'カラマン', zh: '卡拉曼', ar: 'قرامان', ko: '카라만'
+ },
+ kars: {
+   en: 'Kars', de: 'Kars', fr: 'Kars', es: 'Kars', it: 'Kars',
+   pt: 'Kars', ru: 'Карс', ja: 'カルス', zh: '卡尔斯', ar: 'قارص', ko: '카르스'
+ },
+ kastamonu: {
+   en: 'Kastamonu', de: 'Kastamonu', fr: 'Kastamonu', es: 'Kastamonu', it: 'Kastamonu',
+   pt: 'Kastamonu', ru: 'Кастамону', ja: 'カスタモヌ', zh: '卡斯塔莫努', ar: 'قسطموني', ko: '카스타모누'
+ },
+ kayseri: {
+   en: 'Kayseri', de: 'Kayseri', fr: 'Kayseri', es: 'Kayseri', it: 'Kayseri',
+   pt: 'Kayseri', ru: 'Кайсери', ja: 'カイセリ', zh: '开塞利', ar: 'قيصري', ko: '카이세리'
+ },
+ kilis: {
+   en: 'Kilis', de: 'Kilis', fr: 'Kilis', es: 'Kilis', it: 'Kilis',
+   pt: 'Kilis', ru: 'Килис', ja: 'キリス', zh: '基利斯', ar: 'كيليس', ko: '킬리스'
+ },
+ kirikkale: {
+   en: 'Kirikkale', de: 'Kırıkkale', fr: 'Kırıkkale', es: 'Kırıkkale', it: 'Kırıkkale',
+   pt: 'Kırıkkale', ru: 'Кырыккале', ja: 'クルッカレ', zh: '克勒克卡莱', ar: 'قريق قلعة', ko: '크르크칼레'
+ },
+ kirklareli: {
+   en: 'Kirklareli', de: 'Kırklareli', fr: 'Kırklareli', es: 'Kırklareli', it: 'Kırklareli',
+   pt: 'Kırklareli', ru: 'Кыркларели', ja: 'クルクラーレリ', zh: '克尔克拉雷利', ar: 'قرق لر إيلي', ko: '크르클라렐리'
+ },
+ kirsehir: {
+   en: 'Kirsehir', de: 'Kırşehir', fr: 'Kırşehir', es: 'Kırşehir', it: 'Kırşehir',
+   pt: 'Kırşehir', ru: 'Кыршехир', ja: 'クルシェヒル', zh: '克尔谢希尔', ar: 'قرشهر', ko: '크르셰히르'
+ },
+ kocaeli: {
+   en: 'Kocaeli', de: 'Kocaeli', fr: 'Kocaeli', es: 'Kocaeli', it: 'Kocaeli',
+   pt: 'Kocaeli', ru: 'Коджаэли', ja: 'コジャエリ', zh: '科贾埃利', ar: 'قوجه ايلي', ko: '코자엘리'
+ },
+ konya: {
+   en: 'Konya', de: 'Konya', fr: 'Konya', es: 'Konya', it: 'Konya',
+   pt: 'Konya', ru: 'Конья', ja: 'コンヤ', zh: '科尼亚', ar: 'قونية', ko: '코니아',
+   hi: 'कोन्या', uk: 'Конья', pl: 'Konya', ro: 'Konya', el: 'Ικόνιον',
+   hu: 'Konya', cs: 'Konya', nl: 'Konya'
+ },
+ kutahya: {
+   en: 'Kutahya', de: 'Kütahya', fr: 'Kütahya', es: 'Kütahya', it: 'Kütahya',
+   pt: 'Kütahya', ru: 'Кютахья', ja: 'キュタヒヤ', zh: '屈塔希亚', ar: 'كوتاهيا', ko: '퀴타히아'
+ },
+ malatya: {
+   en: 'Malatya', de: 'Malatya', fr: 'Malatya', es: 'Malatya', it: 'Malatya',
+   pt: 'Malatya', ru: 'Малатья', ja: 'マラティヤ', zh: '马拉蒂亚', ar: 'ملاطية', ko: '말라티아'
+ },
+ manisa: {
+   en: 'Manisa', de: 'Manisa', fr: 'Manisa', es: 'Manisa', it: 'Manisa',
+   pt: 'Manisa', ru: 'Маниса', ja: 'マニサ', zh: '马尼萨', ar: 'مانيسا', ko: '마니사'
+ },
+ mardin: {
+   en: 'Mardin', de: 'Mardin', fr: 'Mardin', es: 'Mardin', it: 'Mardin',
+   pt: 'Mardin', ru: 'Мардин', ja: 'マルディン', zh: '马尔丁', ar: 'ماردين', ko: '마르딘'
+ },
+ mersin: {
+   en: 'Mersin', de: 'Mersin', fr: 'Mersin', es: 'Mersin', it: 'Mersin',
+   pt: 'Mersin', ru: 'Мерсин', ja: 'メルスィン', zh: '梅尔辛', ar: 'مرسين', ko: '메르신'
+ },
+ mugla: {
+   en: 'Mugla', de: 'Muğla', fr: 'Muğla', es: 'Muğla', it: 'Muğla',
+   pt: 'Muğla', ru: 'Мугла', ja: 'ムーラ', zh: '穆拉', ar: 'موغلا', ko: '무을라'
+ },
+ mus: {
+   en: 'Mus', de: 'Muş', fr: 'Muş', es: 'Muş', it: 'Muş',
+   pt: 'Muş', ru: 'Муш', ja: 'ムシュ', zh: '穆什', ar: 'موش', ko: '무시'
+ },
+ nevsehir: {
+   en: 'Nevsehir', de: 'Nevşehir', fr: 'Nevşehir', es: 'Nevşehir', it: 'Nevşehir',
+   pt: 'Nevşehir', ru: 'Невшехир', ja: 'ネヴシェヒル', zh: '内夫谢希尔', ar: 'نوشهر', ko: '네브셰히르'
+ },
+ nigde: {
+   en: 'Nigde', de: 'Niğde', fr: 'Niğde', es: 'Niğde', it: 'Niğde',
+   pt: 'Niğde', ru: 'Нигде', ja: 'ニーデ', zh: '尼代', ar: 'نيغده', ko: '니데'
+ },
+ ordu: {
+   en: 'Ordu', de: 'Ordu', fr: 'Ordu', es: 'Ordu', it: 'Ordu',
+   pt: 'Ordu', ru: 'Орду', ja: 'オルドゥ', zh: '奥尔杜', ar: 'أوردو', ko: '오르두'
+ },
+ osmaniye: {
+   en: 'Osmaniye', de: 'Osmaniye', fr: 'Osmaniye', es: 'Osmaniye', it: 'Osmaniye',
+   pt: 'Osmaniye', ru: 'Османие', ja: 'オスマニエ', zh: '奥斯曼尼耶', ar: 'عثمانية', ko: '오스마니예'
+ },
+ rize: {
+   en: 'Rize', de: 'Rize', fr: 'Rize', es: 'Rize', it: 'Rize',
+   pt: 'Rize', ru: 'Ризе', ja: 'リゼ', zh: '里泽', ar: 'ريزه', ko: '리제'
+ },
+ sakarya: {
+   en: 'Sakarya', de: 'Sakarya', fr: 'Sakarya', es: 'Sakarya', it: 'Sakarya',
+   pt: 'Sakarya', ru: 'Сакарья', ja: 'サカルヤ', zh: '萨卡里亚', ar: 'صقاريا', ko: '사카리아'
+ },
+ samsun: {
+   en: 'Samsun', de: 'Samsun', fr: 'Samsun', es: 'Samsun', it: 'Samsun',
+   pt: 'Samsun', ru: 'Самсун', ja: 'サムスン', zh: '萨姆松', ar: 'سامسون', ko: '삼순'
+ },
+ sanliurfa: {
+   en: 'Sanliurfa', de: 'Şanlıurfa', fr: 'Şanlıurfa', es: 'Şanlıurfa', it: 'Şanlıurfa',
+   pt: 'Şanlıurfa', ru: 'Шанлыурфа', ja: 'シャンルウルファ', zh: '尚勒乌尔法', ar: 'شانلي أورفا', ko: '샨르우르파'
+ },
+ siirt: {
+   en: 'Siirt', de: 'Siirt', fr: 'Siirt', es: 'Siirt', it: 'Siirt',
+   pt: 'Siirt', ru: 'Сиирт', ja: 'スィイルト', zh: '锡尔特', ar: 'سيرت', ko: '시이르트'
+ },
+ sinop: {
+   en: 'Sinop', de: 'Sinop', fr: 'Sinop', es: 'Sinop', it: 'Sinop',
+   pt: 'Sinop', ru: 'Синоп', ja: 'スィノプ', zh: '锡诺普', ar: 'سينوب', ko: '시노프'
+ },
+ sirnak: {
+   en: 'Sirnak', de: 'Şırnak', fr: 'Şırnak', es: 'Şırnak', it: 'Şırnak',
+   pt: 'Şırnak', ru: 'Ширнак', ja: 'シュルナク', zh: '舍尔纳克', ar: 'شرناق', ko: '시르나크'
+ },
+ sivas: {
+   en: 'Sivas', de: 'Sivas', fr: 'Sivas', es: 'Sivas', it: 'Sivas',
+   pt: 'Sivas', ru: 'Сивас', ja: 'スィヴァス', zh: '锡瓦斯', ar: 'سيواس', ko: '시바스'
+ },
+ tekirdag: {
+   en: 'Tekirdag', de: 'Tekirdağ', fr: 'Tekirdağ', es: 'Tekirdağ', it: 'Tekirdağ',
+   pt: 'Tekirdağ', ru: 'Текирдаг', ja: 'テキルダー', zh: '泰基尔达', ar: 'تكيرداغ', ko: '테키르다'
+ },
+ tokat: {
+   en: 'Tokat', de: 'Tokat', fr: 'Tokat', es: 'Tokat', it: 'Tokat',
+   pt: 'Tokat', ru: 'Токат', ja: 'トカット', zh: '托卡特', ar: 'توقات', ko: '토카트'
+ },
+ trabzon: {
+   en: 'Trabzon', de: 'Trabzon', fr: 'Trébizonde', es: 'Trebisonda', it: 'Trebisonda',
+   pt: 'Trebizonda', ru: 'Трабзон', ja: 'トラブゾン', zh: '特拉布宗', ar: 'طرابزون', ko: '트라브존',
+   hi: 'त्राब्ज़ोन', uk: 'Трабзон', pl: 'Trabzon', ro: 'Trabzon', el: 'Τραπεζούντα',
+   hu: 'Trabzon', cs: 'Trabzon', nl: 'Trabzon'
+ },
+ tunceli: {
+   en: 'Tunceli', de: 'Tunceli', fr: 'Tunceli', es: 'Tunceli', it: 'Tunceli',
+   pt: 'Tunceli', ru: 'Тунджели', ja: 'トゥンジェリ', zh: '通杰利', ar: 'تونجلي', ko: '툰젤리'
+ },
+ usak: {
+   en: 'Usak', de: 'Uşak', fr: 'Uşak', es: 'Uşak', it: 'Uşak',
+   pt: 'Uşak', ru: 'Ушак', ja: 'ウシャク', zh: '乌沙克', ar: 'أوشاق', ko: '우샤크'
+ },
+ van: {
+   en: 'Van', de: 'Van', fr: 'Van', es: 'Van', it: 'Van',
+   pt: 'Van', ru: 'Ван', ja: 'ヴァン', zh: '凡城', ar: 'وان', ko: '반'
+ },
+ yalova: {
+   en: 'Yalova', de: 'Yalova', fr: 'Yalova', es: 'Yalova', it: 'Yalova',
+   pt: 'Yalova', ru: 'Ялова', ja: 'ヤロヴァ', zh: '亚洛瓦', ar: 'يالوفا', ko: '얄로바'
+ },
+ yozgat: {
+   en: 'Yozgat', de: 'Yozgat', fr: 'Yozgat', es: 'Yozgat', it: 'Yozgat',
+   pt: 'Yozgat', ru: 'Йозгат', ja: 'ヨズガト', zh: '约兹加特', ar: 'يوزغات', ko: '요즈가트'
+ },
+ zonguldak: {
+   en: 'Zonguldak', de: 'Zonguldak', fr: 'Zonguldak', es: 'Zonguldak', it: 'Zonguldak',
+   pt: 'Zonguldak', ru: 'Зонгулдак', ja: 'ゾングルダク', zh: '宗古尔达克', ar: 'زونغولداق', ko: '종굴다크'
+ }
 };
 
 // İl ismini dile göre getir
 function getCityName(slug, originalName, langCode) {
-  if (langCode === 'tr') return originalName;
-  
-  // Eğer çeviri varsa onu döndür
-  if (cityTranslations[slug] && cityTranslations[slug][langCode]) {
-    return cityTranslations[slug][langCode];
-  }
-  
-  // Çeviri yoksa, bazı diller için özel karakterleri düzelt
-  if (['en', 'de', 'fr', 'es', 'it', 'pt', 'nl', 'ro', 'pl', 'cs', 'hu', 'sv', 'no', 'da', 'fi', 'id', 'ms', 'tl', 'hr', 'ca', 'sk'].includes(langCode)) {
-    // Latin alfabesi kullanan diller için Türkçe karakterleri koru
-    return originalName;
-  }
-  
-  // Diğer diller için varsayılan ismi döndür
-  return originalName;
+ if (langCode === 'tr') return originalName;
+ 
+ if (cityTranslations[slug] && cityTranslations[slug][langCode]) {
+   return cityTranslations[slug][langCode];
+ }
+ 
+ if (['en', 'de', 'fr', 'es', 'it', 'pt', 'nl', 'ro', 'pl', 'cs', 'hu', 'sv', 'no', 'da', 'fi', 'id', 'ms', 'tl', 'hr', 'ca', 'sk'].includes(langCode)) {
+   return originalName;
+ }
+ 
+ return originalName;
 }
 
 // Kartları güncelle
 function updateCards() {
-  if (typeof currentLang === 'undefined') return;
-  
-  document.querySelectorAll('.card').forEach(card => {
-    const slug = card.dataset.slug;
-    const originalName = card.dataset.originalName;
-    if (!slug || !originalName) return;
-    
-    const translatedName = getCityName(slug, originalName, currentLang);
-    
-    // İlk 2 harfi güncelle
-    const code = translatedName.substring(0, 2).toUpperCase();
-    const codeElement = card.querySelector('.city-code');
-    const nameElement = card.querySelector('.city-name');
-    
-    if (codeElement) codeElement.textContent = code;
-    if (nameElement) nameElement.textContent = translatedName;
-    
-    // Arama için veriyi güncelle
-    card.dataset.search = translatedName;
-  });
+ if (typeof currentLang === 'undefined') return;
+ 
+ document.querySelectorAll('.card').forEach(card => {
+   const slug = card.dataset.slug;
+   const originalName = card.dataset.originalName;
+   if (!slug || !originalName) return;
+   
+   const translatedName = getCityName(slug, originalName, currentLang);
+   
+   const code = translatedName.substring(0, 2).toUpperCase();
+   const codeElement = card.querySelector('.city-code');
+   const nameElement = card.querySelector('.city-name');
+   
+   if (codeElement) codeElement.textContent = code;
+   if (nameElement) nameElement.textContent = translatedName;
+   
+   card.dataset.search = translatedName;
+ });
 }
 
 // Normalize fonksiyonu
 const norm = t =>
-  t
-    .toLowerCase()
-    .normalize('NFD')              // decompose characters (e.g., İ → i + ◌̇)
-    .replace(/[\u0300-\u036f]/g, '') // strip combining marks
-    .replace(/[çğıöşü]/g, ch => ({ 'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u' }[ch]));
+ t
+   .toLowerCase()
+   .normalize('NFD')
+   .replace(/[\u0300-\u036f]/g, '')
+   .replace(/[çğıöşü]/g, ch => ({ 'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u' }[ch]));
 
 // Mevcut dil
 let currentLang = 'tr';
 
 // Tarayıcı dili tespit et
 function detectLang(){
-  const saved = localStorage.getItem('lang');
-  if(saved && lang[saved]) return saved;
-  const browser = navigator.language.toLowerCase();
-  for(const code in lang){
-    if(browser.startsWith(code)) return code;
-  }
-  return 'tr';
+ const saved = localStorage.getItem('lang');
+ if(saved && lang[saved]) return saved;
+ const browser = navigator.language.toLowerCase();
+ for(const code in lang){
+   if(browser.startsWith(code)) return code;
+ }
+ return 'tr';
 }
 
 // Başlığı renklendir
 function colorizeTitle() {
-  const titleElement = document.getElementById('title');
-  if (!titleElement) return;
-  
-  const text = titleElement.textContent;
-  
-  // 📍 emojisini ayır
-  const parts = text.split('📍');
-  const words = parts[0].trim().split(/\s+/);
-  
-  // Her kelimeyi renkli span'a dönüştür
-  let html = '';
-  words.forEach((word, index) => {
-    const colorIndex = index % 7;
-    html += `<span class="title-word word-${colorIndex}">${word}</span> `;
-  });
-  
-  // 📍 emojisini ekle
-  html += '<span class="title-emoji">📍</span>';
-  
-  titleElement.innerHTML = html;
+ const titleElement = document.getElementById('title');
+ if (!titleElement) return;
+ 
+ const text = titleElement.textContent;
+ 
+ const parts = text.split('📍');
+ const words = parts[0].trim().split(/\s+/);
+ 
+ let html = '';
+ words.forEach((word, index) => {
+   const colorIndex = index % 7;
+   html += `<span class="title-word word-${colorIndex}">${word}</span> `;
+ });
+ 
+ html += '<span class="title-emoji">📍</span>';
+ 
+ titleElement.innerHTML = html;
 }
 
 // Dil ayarla
 function setLang(code){
-  currentLang = code;
-  const t = lang[code];
-  document.getElementById('title').textContent = t.title;
-  document.getElementById('search').placeholder = t.search;
-  document.getElementById('langFlag').textContent = t.flag;
-  document.getElementById('langName').textContent = t.name;
-  document.getElementById('worldButtonText').textContent = t.worldButton;
-  
-  const access = localStorage.getItem('duflat-access')==='granted';
-  const info = document.getElementById('info');
-  info.innerHTML = access ? t.premium : t.banner;
-  info.className = access ? 'info premium' : 'info';
-  
-  document.documentElement.lang = code;
-  localStorage.setItem('lang', code);
-  
-  document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
-  
-  // Başlığı renklendir
-  colorizeTitle();
-  
-  // Kartları güncelle
-  updateCards();
+ currentLang = code;
+ const t = lang[code];
+ document.getElementById('title').textContent = t.title;
+ document.getElementById('search').placeholder = t.search;
+ document.getElementById('langFlag').textContent = t.flag;
+ document.getElementById('langName').textContent = t.name;
+ document.getElementById('worldButtonText').textContent = t.worldButton;
+ 
+ const access = true;
+ const info = document.getElementById('info');
+ info.innerHTML = t.premium;
+ info.className = 'info premium';
+ 
+ document.documentElement.lang = code;
+ localStorage.setItem('lang', code);
+ 
+ document.querySelectorAll('.lang-item').forEach(i=>i.classList.toggle('active',i.dataset.lang===code));
+ 
+ colorizeTitle();
+ updateCards();
 }
 
 // Dil menüsünü oluştur
 function createLangMenu(){
-  const list = document.getElementById('langList');
-  for(const [code,data] of Object.entries(lang)){
-    const item = document.createElement('div');
-    item.className='lang-item';
-    item.dataset.lang = code;
-    item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
-    item.onclick = ()=>{ setLang(code); toggleLang(false); };
-    list.appendChild(item);
-  }
+ const list = document.getElementById('langList');
+ for(const [code,data] of Object.entries(lang)){
+   const item = document.createElement('div');
+   item.className='lang-item';
+   item.dataset.lang = code;
+   item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
+   item.onclick = ()=>{ setLang(code); toggleLang(false); };
+   list.appendChild(item);
+ }
 }
 
 // Menü göster/gizle
 function toggleLang(force){
-  const list = document.getElementById('langList');
-  if(force===false){ list.classList.remove('show'); }
-  else{ list.classList.toggle('show'); }
+ const list = document.getElementById('langList');
+ if(force===false){ list.classList.remove('show'); }
+ else{ list.classList.toggle('show'); }
 }
 
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.getElementById('grid');
-  const search = document.getElementById('search');
-  const access = localStorage.getItem('duflat-access') === 'granted';
-  
-  createLangMenu();
-  setLang(detectLang());
-  
-  // Kartları oluştur
-  cities.forEach(([slug, name]) => {
-    const card = document.createElement('div');
-    card.className = 'card' + (slug === 'antalya' ? ' free' : '');
-    card.dataset.slug = slug;
-    card.dataset.originalName = name;
-    
-    // Dile göre ismi al
-    const translatedName = getCityName(slug, name, currentLang);
-    card.dataset.search = translatedName;
-    
-    // İlk 2 harfi büyük yap
-    const code = translatedName.substring(0, 2).toUpperCase();
-    
-    const locked = (!access && slug !== 'antalya');
-    let cardContent = `<div class="city-code">${code}</div>`;
-    cardContent += `<div class="city-name">${translatedName}</div>`;
-    if(locked) {
-      cardContent += `<span class="lock-icon">🔒</span>`;
-    }
-    card.innerHTML = cardContent;
-    
-  card.onclick = () => {
-    if(access || slug === 'antalya') {
-      // Eğer granted ise tüm iller için normal .html sayfasına git
-      // Eğer granted değilse sadece antalya için demo sayfasına git
-      if(access) {
-        location.href = `${slug}.html`;
-      } else if(slug === 'antalya') {
-        location.href = 'antalya_demo.html';
-      }
-    } else {
-      // Bilgilendirme kartına dikkat çek
-      const info = document.getElementById('info');
-      info.classList.add('attention');
-      info.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      
-      // 3 saniye sonra animasyonu kaldır
-      setTimeout(() => {
-        info.classList.remove('attention');
-      }, 3000);
-      
-      return; // login.html'e gitme
-    }
-  };
-    
-    grid.appendChild(card);
-  });
-  
-  // Arama
-  search.addEventListener('input', e => {
-    const v = norm(e.target.value);
-    document.getElementById('info').style.display = v ? 'none' : '';
-    document.querySelectorAll('.card').forEach(c => {
-      c.style.display = norm(c.dataset.search).includes(v) ? '' : 'none';
-    });
-  });
-  
-  // Dropdown kapat
-  document.addEventListener('click',e=>{
-    if(!e.target.closest('.lang-select')) toggleLang(false);
-  });
+ const grid = document.getElementById('grid');
+ const search = document.getElementById('search');
+ const access = true; // Tüm iller açık
+ 
+ createLangMenu();
+ setLang(detectLang());
+ 
+ // Kartları oluştur
+ cities.forEach(([slug, name]) => {
+   const card = document.createElement('div');
+   card.className = 'card';
+   card.dataset.slug = slug;
+   card.dataset.originalName = name;
+   
+   const translatedName = getCityName(slug, name, currentLang);
+   card.dataset.search = translatedName;
+   
+   const code = translatedName.substring(0, 2).toUpperCase();
+   
+   let cardContent = `<div class="city-code">${code}</div>`;
+   cardContent += `<div class="city-name">${translatedName}</div>`;
+   card.innerHTML = cardContent;
+   
+   card.onclick = () => {
+     location.href = `${slug}.html`;
+   };
+   
+   grid.appendChild(card);
+ });
+ 
+ // Arama
+ search.addEventListener('input', e => {
+   const v = norm(e.target.value);
+   document.getElementById('info').style.display = v ? 'none' : '';
+   document.querySelectorAll('.card').forEach(c => {
+     c.style.display = norm(c.dataset.search).includes(v) ? '' : 'none';
+   });
+ });
+ 
+ // Dropdown kapat
+ document.addEventListener('click',e=>{
+   if(!e.target.closest('.lang-select')) toggleLang(false);
+ });
 });
 </script>
 </body>
