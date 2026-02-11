@@ -9,309 +9,241 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* Sıcak doğa yeşili paleti */
   --primary:#4a8c5c;
   --primary-hover:#3d7a4e;
-  --primary-soft:#5a9e6b;
   --accent:#d4a24e;
-  --accent-light:#f0d48a;
-
-  /* Sıcak açık arka planlar */
   --bg:#faf8f4;
-  --bg-warm:#f5f0e8;
-  --bg-card:rgba(255,255,255,0.82);
-  --bg-card-hover:rgba(255,255,255,0.95);
-
-  /* Sıcak kenarlıklar */
+  --bg-card:rgba(255,255,255,0.72);
+  --bg-card-hover:rgba(255,255,255,0.88);
   --border:rgba(120,100,70,0.10);
-  --border-hover:rgba(74,140,92,0.30);
-
-  /* Sıcak yazı renkleri */
+  --border-hover:rgba(74,140,92,0.28);
   --text:#2c3527;
   --text-secondary:#5a6b52;
   --text-muted:#8a9880;
-
-  --shadow-sm:0 2px 8px rgba(60,50,30,0.06);
-  --shadow-md:0 4px 20px rgba(60,50,30,0.08);
-  --shadow-lg:0 8px 36px rgba(60,50,30,0.10);
-  --shadow-card-hover:0 12px 40px rgba(74,140,92,0.12);
+  --shadow-sm:0 2px 8px rgba(60,50,30,0.05);
+  --shadow-md:0 4px 20px rgba(60,50,30,0.07);
+  --shadow-card-hover:0 10px 32px rgba(74,140,92,0.10);
   --radius:18px;
 }
-
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-
+html,body{height:100%;overflow-x:hidden}
+html{background:var(--bg);scroll-behavior:smooth}
 body{
   font-family:'Plus Jakarta Sans',system-ui,sans-serif;
-  background-color:var(--bg);
-  color:var(--text);
-  background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
-  background-size:cover;background-position:center;
-  background-repeat:no-repeat;background-attachment:fixed;
-  min-height:100vh;line-height:1.5;overflow-x:hidden;
+  color:var(--text);min-height:100%;line-height:1.5;
   -webkit-font-smoothing:antialiased;
+  background-color:var(--bg);
+}
+
+/* Sabit arka fon — her cihazda beyaz boşluk yok */
+.bg-photo{
+  position:fixed;inset:0;z-index:-3;
+  background:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public') center/cover no-repeat;
 }
 @media(max-width:768px){
-  body{
+  .bg-photo{
     background-image:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
   }
 }
 
-/* Sıcak overlay */
+/* Hafif overlay — resim net görünsün */
 .bg-overlay{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:linear-gradient(
-    170deg,
-    rgba(250,248,244,0.72) 0%,
-    rgba(245,240,232,0.65) 40%,
-    rgba(240,235,222,0.70) 100%
-  );
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:rgba(250,248,244,0.30);
 }
 
-/* Sıcak ışık efektleri */
+/* Sıcak ışıklar */
 .bg-lights{
-  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
 }
 .bg-lights::before{
-  content:'';position:absolute;width:700px;height:700px;
-  top:-250px;left:-150px;border-radius:50%;
-  background:radial-gradient(circle,rgba(212,162,78,0.12),transparent 65%);
-  filter:blur(60px);animation:drift 25s ease-in-out infinite;
+  content:'';position:absolute;width:500px;height:500px;
+  top:-180px;left:-80px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,162,78,0.07),transparent 65%);
+  filter:blur(50px);animation:drift 25s ease-in-out infinite;
 }
 .bg-lights::after{
-  content:'';position:absolute;width:550px;height:550px;
-  bottom:-200px;right:-100px;border-radius:50%;
-  background:radial-gradient(circle,rgba(90,158,107,0.10),transparent 65%);
-  filter:blur(60px);animation:drift 25s ease-in-out infinite reverse;
+  content:'';position:absolute;width:400px;height:400px;
+  bottom:-120px;right:-60px;border-radius:50%;
+  background:radial-gradient(circle,rgba(90,158,107,0.05),transparent 65%);
+  filter:blur(50px);animation:drift 25s ease-in-out infinite reverse;
   animation-delay:-12s;
 }
-@keyframes drift{
-  0%,100%{transform:translate(0,0)}
-  50%{transform:translate(50px,30px)}
-}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(35px,20px)}}
 
-.container{max-width:660px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+/* Ana kapsayıcı - max 620px, ortalanmış */
+.page-wrap{max-width:620px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
 
 /* === Top Bar === */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:50;
-  padding:12px 20px;display:flex;justify-content:space-between;align-items:center;
-  background:rgba(250,248,244,0.75);backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(120,100,70,0.08);
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50}
+.topbar-inner{
+  max-width:620px;margin:0 auto;
+  padding:10px 16px;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(250,248,244,0.55);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(120,100,70,0.06);
 }
-.topbar-left{display:flex;align-items:center;gap:10px}
-.topbar-logo{
-  font-weight:800;font-size:19px;letter-spacing:-.5px;
-  color:var(--primary);
-}
+.topbar-left{display:flex;align-items:center;gap:8px}
+.topbar-logo{font-weight:800;font-size:17px;letter-spacing:-.4px;color:var(--primary)}
 .topbar-logo span{color:var(--accent)}
 .world-link{
-  display:inline-flex;align-items:center;gap:6px;padding:7px 14px;
-  background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:10px;
-  color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;padding:5px 11px;
+  background:rgba(255,255,255,0.45);border:1px solid var(--border);border-radius:9px;
+  color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;
   text-decoration:none;transition:.3s;
 }
-.world-link:hover{
-  background:rgba(255,255,255,0.9);border-color:var(--border-hover);
-  color:var(--primary);box-shadow:var(--shadow-sm);
-}
-
+.world-link:hover{background:rgba(255,255,255,0.75);border-color:var(--border-hover);color:var(--primary)}
 .lang-toggle{
-  display:flex;align-items:center;gap:2px;padding:3px;
-  background:rgba(255,255,255,0.5);border:1px solid var(--border);border-radius:12px;
+  display:flex;gap:2px;padding:2px;
+  background:rgba(255,255,255,0.35);border:1px solid var(--border);border-radius:10px;
 }
 .lang-toggle button{
-  padding:7px 16px;border:none;border-radius:9px;cursor:pointer;
-  font-size:13px;font-weight:700;font-family:inherit;
+  padding:5px 13px;border:none;border-radius:8px;cursor:pointer;
+  font-size:12px;font-weight:700;font-family:inherit;
   background:transparent;color:var(--text-muted);transition:.3s;
 }
 .lang-toggle button.active{
-  background:var(--primary);color:#fff;
-  box-shadow:0 2px 10px rgba(74,140,92,0.35);
+  background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(74,140,92,0.3);
 }
 .lang-toggle button:not(.active):hover{color:var(--text)}
 
 /* === Header === */
-.header{padding:108px 0 28px;text-align:center}
+.header{padding:82px 0 22px;text-align:center}
 .title{
-  font-weight:800;font-size:clamp(1.8rem,5vw,2.8rem);
-  letter-spacing:-.5px;line-height:1.25;margin-bottom:10px;
-  color:var(--text);
+  font-weight:800;font-size:clamp(1.5rem,4.5vw,2.2rem);
+  letter-spacing:-.3px;line-height:1.3;margin-bottom:6px;color:var(--text);
 }
-.title em{
-  font-style:normal;color:var(--primary);
-}
-.subtitle{
-  color:var(--text-secondary);font-size:15px;font-weight:500;
-  letter-spacing:.2px;
-}
+.title em{font-style:normal;color:var(--primary)}
+.subtitle{color:var(--text-secondary);font-size:13px;font-weight:500}
 .subtitle span{color:var(--accent)}
 
 /* === Search === */
-.search-wrap{max-width:440px;margin:0 auto 28px;position:relative}
+.search-wrap{max-width:380px;margin:0 auto 22px;position:relative}
 .search-input{
-  width:100%;padding:15px 20px 15px 50px;font-size:15px;font-family:inherit;font-weight:500;
-  background:var(--bg-card);border:1.5px solid var(--border);border-radius:16px;
-  color:var(--text);transition:.3s;outline:none;
-  box-shadow:var(--shadow-sm);
+  width:100%;padding:12px 16px 12px 42px;font-size:14px;font-family:inherit;font-weight:500;
+  background:var(--bg-card);border:1.5px solid var(--border);border-radius:13px;
+  color:var(--text);transition:.3s;outline:none;box-shadow:var(--shadow-sm);
 }
 .search-input::placeholder{color:var(--text-muted);font-weight:400}
-.search-input:focus{
-  border-color:var(--primary);background:var(--bg-card-hover);
-  box-shadow:0 0 0 4px rgba(74,140,92,.10),var(--shadow-md);
-}
-.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none}
+.search-input:focus{border-color:var(--primary);background:var(--bg-card-hover);box-shadow:0 0 0 3px rgba(74,140,92,.08),var(--shadow-md)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none}
 
 /* === Stats === */
 .stats{
-  display:flex;justify-content:center;gap:32px;margin-bottom:32px;
-  padding:18px 24px;
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:16px;max-width:300px;margin-left:auto;margin-right:auto;
+  display:flex;justify-content:center;gap:24px;margin-bottom:24px;
+  padding:12px 18px;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:12px;max-width:220px;margin-left:auto;margin-right:auto;
   box-shadow:var(--shadow-sm);
 }
 .stat{text-align:center}
-.stat-num{font-weight:800;font-size:24px;color:var(--primary);line-height:1.2}
-.stat-label{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.stat-num{font-weight:800;font-size:20px;color:var(--primary);line-height:1.2}
+.stat-label{font-size:10px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-top:1px}
 
 /* === Grid === */
-.grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-bottom:60px;
-}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-bottom:32px}
 .card{
-  background:var(--bg-card);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  padding:20px 10px;text-align:center;cursor:pointer;
-  transition:all .35s cubic-bezier(.4,0,.2,1);
-  position:relative;overflow:hidden;
-  aspect-ratio:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  background:var(--bg-card);border:1.5px solid var(--border);border-radius:16px;
+  padding:16px 8px;text-align:center;cursor:pointer;
+  transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+  aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   box-shadow:var(--shadow-sm);
 }
 .card::after{
   content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(160deg,rgba(74,140,92,0.04),rgba(212,162,78,0.03));
-  opacity:0;transition:.35s;
+  background:linear-gradient(160deg,rgba(74,140,92,0.04),rgba(212,162,78,0.02));
+  opacity:0;transition:.3s;
 }
-.card:hover{
-  transform:translateY(-5px);
-  border-color:var(--border-hover);
-  box-shadow:var(--shadow-card-hover);
-  background:var(--bg-card-hover);
-}
+.card:hover{transform:translateY(-4px);border-color:var(--border-hover);box-shadow:var(--shadow-card-hover);background:var(--bg-card-hover)}
 .card:hover::after{opacity:1}
 .card:active{transform:translateY(-1px);transition:.1s}
+.city-code{font-weight:800;font-size:24px;color:var(--text);line-height:1;position:relative;z-index:1;letter-spacing:-.8px}
+.city-name{font-weight:600;font-size:11px;color:var(--text-secondary);margin-top:4px;word-break:break-word;line-height:1.2;position:relative;z-index:1}
 
-.city-code{
-  font-weight:800;font-size:28px;
-  color:var(--text);line-height:1;position:relative;z-index:1;
-  letter-spacing:-1px;
-}
-.city-name{
-  font-weight:600;font-size:12px;color:var(--text-secondary);margin-top:6px;
-  word-break:break-word;line-height:1.25;position:relative;z-index:1;
-  letter-spacing:.2px;
-}
+/* No results */
+.no-results{text-align:center;padding:50px 20px;color:var(--text-muted);display:none;grid-column:1/-1}
+.no-results-icon{font-size:32px;margin-bottom:8px;opacity:.6}
+.no-results-text{font-size:13px;font-weight:500}
 
-/* === No results === */
-.no-results{
-  text-align:center;padding:60px 20px;color:var(--text-muted);
-  display:none;grid-column:1/-1;
-}
-.no-results-icon{font-size:40px;margin-bottom:12px;opacity:.6}
-.no-results-text{font-size:15px;font-weight:500}
-
-/* === Scroll to top === */
+/* Scroll top */
 .scroll-top{
-  position:fixed;bottom:24px;right:24px;z-index:50;
-  width:46px;height:46px;border-radius:14px;border:none;cursor:pointer;
+  position:fixed;bottom:18px;right:18px;z-index:50;
+  width:40px;height:40px;border-radius:11px;border:none;cursor:pointer;
   background:var(--primary);color:#fff;
-  box-shadow:0 4px 16px rgba(74,140,92,0.35);
-  transition:.3s;opacity:0;visibility:hidden;transform:translateY(10px);
+  box-shadow:0 3px 12px rgba(74,140,92,0.3);
+  transition:.3s;opacity:0;visibility:hidden;transform:translateY(8px);
   display:flex;align-items:center;justify-content:center;
 }
 .scroll-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
-.scroll-top:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 6px 24px rgba(74,140,92,0.4)}
-
-/* === Footer hint === */
-.footer-hint{
-  text-align:center;padding:0 16px 32px;position:relative;z-index:1;
-}
-.footer-hint p{
-  font-size:12px;color:var(--text-muted);font-weight:500;
-  letter-spacing:.3px;
-}
-.footer-hint p span{color:var(--accent)}
+.scroll-top:hover{background:var(--primary-hover);transform:translateY(-2px)}
 
 /* === Mobile === */
 @media(max-width:640px){
-  .topbar{padding:10px 14px}
-  .topbar-logo{font-size:17px}
-  .world-link{padding:6px 10px;font-size:12px}
+  .page-wrap{padding:0 12px}
+  .topbar-inner{padding:8px 12px}
+  .topbar-logo{font-size:15px}
+  .world-link{padding:4px 8px;font-size:11px}
   .world-link .world-text{display:none}
-  .lang-toggle button{padding:6px 13px;font-size:12px}
-  .header{padding:84px 0 22px}
-  .title{font-size:1.7rem}
-  .subtitle{font-size:14px}
-  .search-wrap{margin-bottom:22px}
-  .search-input{padding:13px 16px 13px 44px;font-size:14px;border-radius:14px}
-  .stats{gap:24px;padding:14px 20px;margin-bottom:24px;max-width:260px}
-  .stat-num{font-size:21px}
-  .grid{gap:8px;padding-bottom:32px}
-  .card{padding:16px 8px;border-radius:16px}
-  .city-code{font-size:23px}
-  .city-name{font-size:11px;margin-top:4px}
-  .scroll-top{bottom:16px;right:16px;width:42px;height:42px;border-radius:12px}
-}
-@media(max-width:380px){
-  .grid{gap:6px}
+  .lang-toggle button{padding:4px 11px;font-size:11px}
+  .header{padding:72px 0 18px}
+  .title{font-size:1.35rem}
+  .subtitle{font-size:12px}
+  .search-wrap{margin-bottom:18px}
+  .search-input{padding:11px 14px 11px 38px;font-size:13px;border-radius:11px}
+  .stats{gap:18px;padding:10px 14px;margin-bottom:18px;max-width:180px;border-radius:10px}
+  .stat-num{font-size:17px}
+  .stat-label{font-size:9px}
+  .grid{gap:7px;padding-bottom:24px}
   .card{padding:14px 6px;border-radius:14px}
   .city-code{font-size:20px}
-  .city-name{font-size:10px}
+  .city-name{font-size:10px;margin-top:3px}
+  .scroll-top{bottom:12px;right:12px;width:36px;height:36px;border-radius:9px}
+}
+@media(max-width:380px){
+  .grid{gap:5px}
+  .card{padding:12px 5px;border-radius:12px}
+  .city-code{font-size:18px}
+  .city-name{font-size:9px}
 }
 
-/* Fade-in */
-@keyframes cardIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.card{animation:cardIn .4s ease both}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card{animation:cardIn .3s ease both}
 </style>
 </head>
 <body>
 
+<div class="bg-photo"></div>
 <div class="bg-overlay"></div>
 <div class="bg-lights"></div>
 
-<!-- Top Bar -->
 <nav class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">TR<span>81</span></div>
-    <a class="world-link" href="world.html">
-      <span>🌍</span>
-      <span class="world-text" id="worldText">Dünya</span>
-    </a>
-  </div>
-  <div class="lang-toggle" id="langToggle">
-    <button data-lang="tr" class="active">TR</button>
-    <button data-lang="en">EN</button>
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <div class="topbar-logo">TR<span>81</span></div>
+      <a class="world-link" href="world.html">
+        <span>🌍</span>
+        <span class="world-text" id="worldText">Dünya</span>
+      </a>
+    </div>
+    <div class="lang-toggle" id="langToggle">
+      <button data-lang="tr" class="active">TR</button>
+      <button data-lang="en">EN</button>
+    </div>
   </div>
 </nav>
 
-<div class="container">
+<div class="page-wrap">
   <header class="header">
     <h1 class="title" id="title">Türkiye'nin <em>Manzaralı</em> Yerleri</h1>
     <p class="subtitle" id="subtitle">81 ilin en güzel noktalarını keşfet <span>✦</span></p>
   </header>
 
-  <!-- Search -->
   <div class="search-wrap">
-    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round">
       <circle cx="11" cy="11" r="7.5"/><path d="m20 20-4-4"/>
     </svg>
     <input id="search" class="search-input" type="text" placeholder="İl ara..." autocomplete="off" spellcheck="false">
   </div>
 
-  <!-- Stats -->
   <div class="stats">
     <div class="stat">
       <div class="stat-num">81</div>
@@ -323,7 +255,6 @@ body{
     </div>
   </div>
 
-  <!-- Grid -->
   <div id="grid" class="grid">
     <div class="no-results" id="noResults">
       <div class="no-results-icon">🔍</div>
@@ -332,172 +263,64 @@ body{
   </div>
 </div>
 
-<div class="footer-hint">
-  <p>Keşfetmeye başlamak için bir il seçin <span>✦</span></p>
-</div>
-
-<!-- Scroll to top -->
 <button class="scroll-top" id="scrollTop" aria-label="Yukarı çık">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 
 <script>
-const i18n = {
-  tr: {
-    title: "Türkiye'nin <em>Manzaralı</em> Yerleri",
-    subtitle: '81 ilin en güzel noktalarını keşfet <span>✦</span>',
-    search: 'İl ara...',
-    world: 'Dünya',
-    provinces: 'İl',
-    regions: 'Bölge',
-    noResults: 'Sonuç bulunamadı',
-    footer: 'Keşfetmeye başlamak için bir il seçin <span>✦</span>'
-  },
-  en: {
-    title: "Scenic Places of <em>Türkiye</em>",
-    subtitle: 'Discover the most beautiful spots of 81 provinces <span>✦</span>',
-    search: 'Search province...',
-    world: 'World',
-    provinces: 'Provinces',
-    regions: 'Regions',
-    noResults: 'No results found',
-    footer: 'Select a province to start exploring <span>✦</span>'
-  }
+const i18n={
+  tr:{title:"Türkiye'nin <em>Manzaralı</em> Yerleri",subtitle:'81 ilin en güzel noktalarını keşfet <span>✦</span>',search:'İl ara...',world:'Dünya',provinces:'İl',regions:'Bölge',noResults:'Sonuç bulunamadı'},
+  en:{title:"Scenic Places of <em>Türkiye</em>",subtitle:'Discover the most beautiful spots of 81 provinces <span>✦</span>',search:'Search province...',world:'World',provinces:'Provinces',regions:'Regions',noResults:'No results found'}
 };
-
-const cities = [
-  ['antalya','Antalya'],['adana','Adana'],['adiyaman','Adıyaman'],
-  ['afyon','Afyonkarahisar'],['agri','Ağrı'],['aksaray','Aksaray'],
-  ['amasya','Amasya'],['ankara','Ankara'],['ardahan','Ardahan'],
-  ['artvin','Artvin'],['aydin','Aydın'],['balikesir','Balıkesir'],
-  ['bartin','Bartın'],['batman','Batman'],['bayburt','Bayburt'],
-  ['bilecik','Bilecik'],['bingol','Bingöl'],['bitlis','Bitlis'],
-  ['bolu','Bolu'],['burdur','Burdur'],['bursa','Bursa'],
-  ['canakkale','Çanakkale'],['cankiri','Çankırı'],['corum','Çorum'],
-  ['denizli','Denizli'],['diyarbakir','Diyarbakır'],['duzce','Düzce'],
-  ['edirne','Edirne'],['elazig','Elazığ'],['erzincan','Erzincan'],
-  ['erzurum','Erzurum'],['eskisehir','Eskişehir'],['gaziantep','Gaziantep'],
-  ['giresun','Giresun'],['gumushane','Gümüşhane'],['hakkari','Hakkari'],
-  ['hatay','Hatay'],['igdir','Iğdır'],['isparta','Isparta'],
-  ['istanbul','İstanbul'],['izmir','İzmir'],['kahramanmaras','Kahramanmaraş'],
-  ['karabuk','Karabük'],['karaman','Karaman'],['kars','Kars'],
-  ['kastamonu','Kastamonu'],['kayseri','Kayseri'],['kilis','Kilis'],
-  ['kirikkale','Kırıkkale'],['kirklareli','Kırklareli'],['kirsehir','Kırşehir'],
-  ['kocaeli','Kocaeli'],['konya','Konya'],['kutahya','Kütahya'],
-  ['malatya','Malatya'],['manisa','Manisa'],['mardin','Mardin'],
-  ['mersin','Mersin'],['mugla','Muğla'],['mus','Muş'],
-  ['nevsehir','Nevşehir'],['nigde','Niğde'],['ordu','Ordu'],
-  ['osmaniye','Osmaniye'],['rize','Rize'],['sakarya','Sakarya'],
-  ['samsun','Samsun'],['sanliurfa','Şanlıurfa'],['siirt','Siirt'],
-  ['sinop','Sinop'],['sirnak','Şırnak'],['sivas','Sivas'],
-  ['tekirdag','Tekirdağ'],['tokat','Tokat'],['trabzon','Trabzon'],
-  ['tunceli','Tunceli'],['usak','Uşak'],['van','Van'],
-  ['yalova','Yalova'],['yozgat','Yozgat'],['zonguldak','Zonguldak']
+const cities=[
+  ['antalya','Antalya'],['adana','Adana'],['adiyaman','Adıyaman'],['afyon','Afyonkarahisar'],['agri','Ağrı'],['aksaray','Aksaray'],['amasya','Amasya'],['ankara','Ankara'],['ardahan','Ardahan'],['artvin','Artvin'],['aydin','Aydın'],['balikesir','Balıkesir'],['bartin','Bartın'],['batman','Batman'],['bayburt','Bayburt'],['bilecik','Bilecik'],['bingol','Bingöl'],['bitlis','Bitlis'],['bolu','Bolu'],['burdur','Burdur'],['bursa','Bursa'],['canakkale','Çanakkale'],['cankiri','Çankırı'],['corum','Çorum'],['denizli','Denizli'],['diyarbakir','Diyarbakır'],['duzce','Düzce'],['edirne','Edirne'],['elazig','Elazığ'],['erzincan','Erzincan'],['erzurum','Erzurum'],['eskisehir','Eskişehir'],['gaziantep','Gaziantep'],['giresun','Giresun'],['gumushane','Gümüşhane'],['hakkari','Hakkari'],['hatay','Hatay'],['igdir','Iğdır'],['isparta','Isparta'],['istanbul','İstanbul'],['izmir','İzmir'],['kahramanmaras','Kahramanmaraş'],['karabuk','Karabük'],['karaman','Karaman'],['kars','Kars'],['kastamonu','Kastamonu'],['kayseri','Kayseri'],['kilis','Kilis'],['kirikkale','Kırıkkale'],['kirklareli','Kırklareli'],['kirsehir','Kırşehir'],['kocaeli','Kocaeli'],['konya','Konya'],['kutahya','Kütahya'],['malatya','Malatya'],['manisa','Manisa'],['mardin','Mardin'],['mersin','Mersin'],['mugla','Muğla'],['mus','Muş'],['nevsehir','Nevşehir'],['nigde','Niğde'],['ordu','Ordu'],['osmaniye','Osmaniye'],['rize','Rize'],['sakarya','Sakarya'],['samsun','Samsun'],['sanliurfa','Şanlıurfa'],['siirt','Siirt'],['sinop','Sinop'],['sirnak','Şırnak'],['sivas','Sivas'],['tekirdag','Tekirdağ'],['tokat','Tokat'],['trabzon','Trabzon'],['tunceli','Tunceli'],['usak','Uşak'],['van','Van'],['yalova','Yalova'],['yozgat','Yozgat'],['zonguldak','Zonguldak']
 ];
-
-const enNames = {
-  istanbul:'Istanbul', izmir:'Izmir', canakkale:'Canakkale', eskisehir:'Eskisehir',
-  diyarbakir:'Diyarbakir', sanliurfa:'Sanliurfa', kahramanmaras:'Kahramanmaras',
-  afyon:'Afyonkarahisar', mugla:'Mugla', nevsehir:'Nevsehir', gumushane:'Gumushane',
-  kirikkale:'Kirikkale', kirklareli:'Kirklareli', kirsehir:'Kirsehir',
-  kutahya:'Kutahya', sirnak:'Sirnak', tekirdag:'Tekirdag'
-};
-
-const norm = t => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .replace(/[çğıöşü]/g, c=>({'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u'}[c]||c));
-
-let currentLang = 'tr';
-
-function detectLang(){
-  const saved = localStorage.getItem('lang81');
-  if(saved && (saved==='tr'||saved==='en')) return saved;
-  return navigator.language.toLowerCase().startsWith('tr') ? 'tr' : 'en';
-}
-
-function getCityName(slug, originalName){
-  if(currentLang==='tr') return originalName;
-  return enNames[slug] || originalName;
-}
-
+const enNames={istanbul:'Istanbul',izmir:'Izmir',canakkale:'Canakkale',eskisehir:'Eskisehir',diyarbakir:'Diyarbakir',sanliurfa:'Sanliurfa',kahramanmaras:'Kahramanmaras',afyon:'Afyonkarahisar',mugla:'Mugla',nevsehir:'Nevsehir',gumushane:'Gumushane',kirikkale:'Kirikkale',kirklareli:'Kirklareli',kirsehir:'Kirsehir',kutahya:'Kutahya',sirnak:'Sirnak',tekirdag:'Tekirdag'};
+const norm=t=>t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[çğıöşü]/g,c=>({'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u'}[c]||c));
+let currentLang='tr';
+function detectLang(){const s=localStorage.getItem('lang81');if(s&&(s==='tr'||s==='en'))return s;return navigator.language.toLowerCase().startsWith('tr')?'tr':'en'}
+function getCityName(slug,orig){return currentLang==='tr'?orig:(enNames[slug]||orig)}
 function setLang(code){
-  currentLang = code;
-  const t = i18n[code];
-  document.getElementById('title').innerHTML = t.title;
-  document.getElementById('subtitle').innerHTML = t.subtitle;
-  document.getElementById('search').placeholder = t.search;
-  document.getElementById('worldText').textContent = t.world;
-  document.getElementById('statProvinces').textContent = t.provinces;
-  document.getElementById('statRegions').textContent = t.regions;
-  document.getElementById('noResultsText').textContent = t.noResults;
-  document.querySelector('.footer-hint p').innerHTML = t.footer;
-  document.documentElement.lang = code;
-  localStorage.setItem('lang81', code);
-
-  document.querySelectorAll('#langToggle button').forEach(b=>{
-    b.classList.toggle('active', b.dataset.lang===code);
-  });
-
-  document.querySelectorAll('.card:not(.no-results)').forEach(card=>{
-    const slug = card.dataset.slug;
-    const orig = card.dataset.orig;
-    if(!slug) return;
-    const name = getCityName(slug, orig);
-    card.querySelector('.city-code').textContent = name.substring(0,2).toUpperCase();
-    card.querySelector('.city-name').textContent = name;
-    card.dataset.search = name;
-  });
-  filterCards();
+  currentLang=code;const t=i18n[code];
+  document.getElementById('title').innerHTML=t.title;
+  document.getElementById('subtitle').innerHTML=t.subtitle;
+  document.getElementById('search').placeholder=t.search;
+  document.getElementById('worldText').textContent=t.world;
+  document.getElementById('statProvinces').textContent=t.provinces;
+  document.getElementById('statRegions').textContent=t.regions;
+  document.getElementById('noResultsText').textContent=t.noResults;
+  document.documentElement.lang=code;localStorage.setItem('lang81',code);
+  document.querySelectorAll('#langToggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===code));
+  document.querySelectorAll('.card:not(.no-results)').forEach(c=>{
+    const s=c.dataset.slug,o=c.dataset.orig;if(!s)return;
+    const n=getCityName(s,o);
+    c.querySelector('.city-code').textContent=n.substring(0,2).toUpperCase();
+    c.querySelector('.city-name').textContent=n;c.dataset.search=n;
+  });filterCards();
 }
-
 function filterCards(){
-  const v = norm(document.getElementById('search').value);
-  let visible = 0;
+  const v=norm(document.getElementById('search').value);let vis=0;
   document.querySelectorAll('.card:not(#noResults)').forEach(c=>{
-    const show = !v || norm(c.dataset.search||'').includes(v);
-    c.style.display = show ? '' : 'none';
-    if(show) visible++;
+    const show=!v||norm(c.dataset.search||'').includes(v);
+    c.style.display=show?'':'none';if(show)vis++;
   });
-  document.getElementById('noResults').style.display = visible===0 ? 'flex' : 'none';
+  document.getElementById('noResults').style.display=vis===0?'flex':'none';
 }
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  const grid = document.getElementById('grid');
-
-  cities.forEach(([slug, name], i)=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.slug = slug;
-    card.dataset.orig = name;
-    card.dataset.search = name;
-    card.style.animationDelay = `${Math.min(i*12, 500)}ms`;
-    const displayName = getCityName(slug, name);
-    card.innerHTML = `
-      <div class="city-code">${displayName.substring(0,2).toUpperCase()}</div>
-      <div class="city-name">${displayName}</div>
-    `;
-    card.onclick = ()=> location.href = `${slug}.html`;
-    grid.appendChild(card);
+document.addEventListener('DOMContentLoaded',()=>{
+  const grid=document.getElementById('grid');
+  cities.forEach(([slug,name],i)=>{
+    const card=document.createElement('div');
+    card.className='card';card.dataset.slug=slug;card.dataset.orig=name;card.dataset.search=name;
+    card.style.animationDelay=`${Math.min(i*10,400)}ms`;
+    const dn=getCityName(slug,name);
+    card.innerHTML=`<div class="city-code">${dn.substring(0,2).toUpperCase()}</div><div class="city-name">${dn}</div>`;
+    card.onclick=()=>location.href=`${slug}.html`;grid.appendChild(card);
   });
-
-  document.querySelectorAll('#langToggle button').forEach(btn=>{
-    btn.addEventListener('click', ()=> setLang(btn.dataset.lang));
-  });
-
-  document.getElementById('search').addEventListener('input', filterCards);
-
-  const scrollBtn = document.getElementById('scrollTop');
-  let scrollTick = false;
-  window.addEventListener('scroll', ()=>{
-    if(!scrollTick){
-      requestAnimationFrame(()=>{
-        scrollBtn.classList.toggle('visible', window.scrollY > 400);
-        scrollTick = false;
-      });
-      scrollTick = true;
-    }
-  });
-  scrollBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
-
+  document.querySelectorAll('#langToggle button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+  document.getElementById('search').addEventListener('input',filterCards);
+  const sb=document.getElementById('scrollTop');let st=false;
+  window.addEventListener('scroll',()=>{if(!st){requestAnimationFrame(()=>{sb.classList.toggle('visible',window.scrollY>300);st=false});st=true}});
+  sb.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
   setLang(detectLang());
 });
 </script>
