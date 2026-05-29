@@ -585,6 +585,7 @@ function setCodeBox(open){
   if(open)setTimeout(()=>{try{pwCodeInput.focus({preventScroll:true});}catch(e){}},60);
 }
 function openPaywall(slug,name){
+  if(pwOpen&&pwSlug===slug)return;   /* zaten açık — giriş animasyonunu yeniden tetikleme */
   haptic(14);pwSlug=slug;
   const nm=name||(LANG==='tr'?'Bu il':'This province');
   pwTitleEl.textContent=nm;
@@ -703,7 +704,13 @@ flow.addEventListener('wheel',e=>{
 /* coverflow side arrows */
 const fprev=document.getElementById('fprev'),fnext=document.getElementById('fnext');
 fprev.onclick=()=>{dismissHint();step(-1);};fnext.onclick=()=>{dismissHint();step(1);};
-window.addEventListener('resize',()=>{if(fv.classList.contains('open'))jumpTo(idx);tJump(tIdx);});
+let lastW=window.innerWidth;
+window.addEventListener('resize',()=>{
+  const w=window.innerWidth;
+  if(w===lastW)return;   /* yalnızca yükseklik değişen resize'ları (mobil adres çubuğu) yok say — coverflow'u re-jump edip arkada flicker yapıyordu */
+  lastW=w;
+  if(fv.classList.contains('open'))jumpTo(idx);tJump(tIdx);
+});
 
 /* ----- province search ----- */
 const norm=s=>(s||'').toLowerCase().replace(/ı/g,'i').replace(/İ/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
