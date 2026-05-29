@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept E · Social Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f0f1f3;color:#11161d;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:10px;left:10px;z-index:80;background:#11161d;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 0 60px rgba(0,0,0,.12);padding-bottom:80px;}
+.bar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #eef0f3;display:flex;align-items:center;justify-content:space-between;padding:15px 18px;}
+.bar .logo{font-size:21px;font-weight:800;letter-spacing:-.02em;}
+.bar .logo span{color:#e0245e;}
+.bar .ic{display:flex;gap:16px;font-size:20px;}
+/* stories */
+.stories{display:flex;gap:14px;overflow-x:auto;padding:14px 16px;scrollbar-width:none;border-bottom:1px solid #eef0f3;}
+.stories::-webkit-scrollbar{display:none;}
+.st{flex:none;width:66px;text-align:center;cursor:pointer;}
+.st .ring{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#f59e0b,#e0245e,#7c3aed);}
+.st .ph{width:100%;height:100%;border-radius:50%;border:2px solid #fff;background-size:cover;background-position:center;}
+.st .lb{font-size:11px;font-weight:600;margin-top:5px;color:#3b4350;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* feed */
+.post{border-bottom:1px solid #eef0f3;}
+.post .ph-hd{display:flex;align-items:center;gap:11px;padding:12px 14px;}
+.post .pl{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#dbeafe,#ede9fe);display:flex;align-items:center;justify-content:center;font-weight:800;color:#2563eb;font-size:15px;}
+.post .ph-hd .nm{font-weight:700;font-size:15px;line-height:1.1;}
+.post .ph-hd .rg{font-size:12px;color:#8a93a0;font-weight:500;}
+.post .img{height:330px;background-size:cover;background-position:center;cursor:pointer;}
+.post .act{display:flex;align-items:center;gap:18px;padding:12px 14px 4px;font-size:23px;}
+.post .act .sp{flex:1;}
+.post .cap{padding:0 14px 14px;font-size:14px;}
+.post .cap b{font-weight:700;}
+.post .cap .go{color:#2563eb;font-weight:600;}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:#fff;border-top:1px solid #eef0f3;display:flex;justify-content:space-around;padding:13px 0 calc(13px + env(safe-area-inset-bottom));font-size:22px;}
+.nav span{opacity:.5;}.nav span.on{opacity:1;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar">
+    <div class="logo">TR<span>81</span></div>
+    <div class="ic"><span>🔍</span><span>♡</span></div>
+  </div>
+  <div class="stories" id="stories"></div>
+  <div id="feed"></div>
+</div>
+<div class="nav"><span class="on">🏠</span><span>🔍</span><span>➕</span><span>♡</span><span>👤</span></div>
+<script>
+const R={marmara:'Marmara',aegean:'Aegean',medit:'Mediterranean',central:'Central Anatolia',black:'Black Sea',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'};
+const IMG='https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public';
+const P=[[7,'antalya','Antalya','medit'],[34,'istanbul','İstanbul','marmara'],[61,'trabzon','Trabzon','black'],[50,'nevsehir','Nevşehir','central'],[35,'izmir','İzmir','aegean'],[48,'mugla','Muğla','aegean'],[53,'rize','Rize','black'],[21,'diyarbakir','Diyarbakır','southeast'],[6,'ankara','Ankara','central'],[65,'van','Van','east'],[16,'bursa','Bursa','marmara'],[31,'hatay','Hatay','medit']];
+const stories=document.getElementById('stories'),feed=document.getElementById('feed');
+P.forEach(([n,slug,name,rk],i)=>{
+  const s=document.createElement('a');s.href=slug+'.html';s.className='st';
+  s.innerHTML=`<div class="ring"><div class="ph" style="background-image:url('${IMG}');filter:hue-rotate(${(i*31)%70-35}deg)"></div></div><div class="lb">${name}</div>`;
+  stories.appendChild(s);
+  const p=document.createElement('div');p.className='post';
+  p.innerHTML=`<div class="ph-hd"><span class="pl">${String(n).padStart(2,'0')}</span><div><div class="nm">${name}</div><div class="rg">${R[rk]} · Türkiye</div></div></div>
+  <a class="img" href="${slug}.html" style="background-image:url('${IMG}');filter:hue-rotate(${(i*31)%70-35}deg)"></a>
+  <div class="act"><span>♡</span><span>💬</span><span>↗</span><span class="sp"></span><span>🔖</span></div>
+  <div class="cap"><b>${name}</b> — discover the most scenic spots. <a class="go" href="${slug}.html">Explore →</a></div>`;
+  feed.appendChild(p);});
+</script>
+</body>
+</html>
