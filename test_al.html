@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AL · Tilt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#070708;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#070708;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);perspective:900px;}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 4px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.intro{padding:6px 20px 14px;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(2rem,8vw,2.6rem);font-weight:800;letter-spacing:-.02em;line-height:1;margin-top:8px;}
+.intro p{color:#8a93a3;font-size:13px;margin-top:8px;}
+.enable{display:inline-flex;margin-top:12px;background:#fff;color:#111;font-weight:700;font-size:13px;padding:9px 16px;border-radius:10px;border:0;font-family:inherit;cursor:pointer;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px 18px 56px;}
+.card{position:relative;aspect-ratio:3/4;border-radius:18px;overflow:hidden;cursor:pointer;transform-style:preserve-3d;
+  transition:transform .15s ease-out;box-shadow:0 16px 34px rgba(0,0,0,.5);}
+.card .bg{position:absolute;inset:-14px;background-size:cover;background-position:center;transition:transform .15s ease-out;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.7;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,0) 42%,rgba(0,0,0,.85));}
+.card .glare{position:absolute;inset:0;background:radial-gradient(120px 120px at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.32),transparent 60%);mix-blend-mode:screen;opacity:.5;pointer-events:none;}
+.card .meta{position:absolute;left:14px;right:14px;bottom:13px;z-index:3;transform:translateZ(36px);}
+.card .rg{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.85;margin-bottom:3px;}
+.card h3{font-size:1.18rem;font-weight:800;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.card .pl{position:absolute;top:11px;left:12px;z-index:3;transform:translateZ(36px);background:rgba(0,0,0,.4);backdrop-filter:blur(4px);border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro"><div class="kx">Tilt &amp; explore</div><h1>Photos with depth.</h1><p>Tilt your phone (or move the pointer) — the covers move in 3D.</p>
+    <button class="enable" id="enable" style="display:none">Enable motion</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central'],[31,'hatay','Hatay','medit'],[8,'artvin','Artvin','black']];
+const grid=document.getElementById('grid');
+P.forEach(p=>{const[n,slug,name,rk]=p;const a=document.createElement('a');a.href=slug+'.html';a.className='card';
+  a.innerHTML=`<div class="bg" style="background-image:url('${IMG[n%2]}')"></div><div class="tint" style="background:${REG[rk][1]}"></div><div class="glare"></div>
+  <span class="pl">${String(n).padStart(2,'0')}</span><div class="meta"><div class="rg">${REG[rk][0]}</div><h3>${name}</h3></div>`;
+  grid.appendChild(a);});
+const cards=Array.from(grid.children);
+function apply(rx,ry){cards.forEach(c=>{c.style.transform=`rotateY(${ry}deg) rotateX(${rx}deg)`;
+  const bg=c.querySelector('.bg');bg.style.transform=`translate(${-ry*1.4}px,${rx*1.4}px)`;
+  c.querySelector('.glare').style.setProperty('--gx',(50+ry*3)+'%');c.querySelector('.glare').style.setProperty('--gy',(20-rx*3)+'%');});}
+// pointer (desktop)
+let raf=null;
+window.addEventListener('pointermove',e=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=null;
+  const ry=(e.clientX/window.innerWidth-0.5)*16;const rx=-(e.clientY/window.innerHeight-0.5)*16;apply(rx,ry);});});
+// device tilt (mobile)
+function onTilt(e){const ry=Math.max(-16,Math.min(16,(e.gamma||0)*0.5));const rx=Math.max(-16,Math.min(16,((e.beta||0)-40)*0.4));apply(rx,ry);}
+const enable=document.getElementById('enable');
+if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+  enable.style.display='inline-flex';
+  enable.onclick=()=>DeviceOrientationEvent.requestPermission().then(s=>{if(s==='granted'){window.addEventListener('deviceorientation',onTilt);enable.style.display='none';}});
+}else{window.addEventListener('deviceorientation',onTilt);}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AJ · Torch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#030304;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#030304;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.intro{position:absolute;top:56px;left:0;right:0;z-index:40;text-align:center;padding:0 30px;pointer-events:none;transition:opacity .4s;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:7px;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+.intro p{color:rgba(255,255,255,.6);font-size:13px;margin-top:8px;}
+.grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;align-content:center;padding:90px 2px 30px;}
+.cell{position:relative;aspect-ratio:3/4;overflow:hidden;background-size:cover;background-position:center;
+  filter:brightness(.16) saturate(.5);transition:filter .25s ease, transform .25s ease;}
+.cell .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.7;}
+.cell::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.8));}
+.cell .nm{position:absolute;left:5px;right:5px;bottom:5px;z-index:3;font-size:.66rem;font-weight:800;line-height:1;text-shadow:0 1px 4px #000;opacity:0;transition:opacity .25s;}
+.cell.lit{filter:brightness(1.05) saturate(1.05);transform:scale(1.04);z-index:2;}
+.cell.lit .nm{opacity:1;}
+.hint{position:absolute;bottom:24px;left:0;right:0;z-index:40;text-align:center;color:rgba(255,255,255,.45);font-size:12px;letter-spacing:.05em;pointer-events:none;transition:opacity .4s;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro" id="intro"><div class="kx">In the dark</div><h1>Find Türkiye by light.</h1><p>Move your finger across the wall — light up the provinces.</p></div>
+  <div class="grid" id="grid"></div>
+  <div class="hint" id="hint">✦ move the torch · tap a lit province</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyon','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','K.maraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const grid=document.getElementById('grid'),app=document.getElementById('app'),intro=document.getElementById('intro'),hint=document.getElementById('hint');
+const cells=[];
+P.forEach(p=>{const[n,slug,name,rk]=p;const a=document.createElement('a');a.href=slug+'.html';a.className='cell';
+  a.style.backgroundImage=`url('${IMG[n%2]}')`;a.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span class="nm">${name}</span>`;
+  grid.appendChild(a);cells.push(a);});
+const R=95;let raf=null,started=false;
+function torch(x,y){if(!started){started=true;intro.style.opacity='0';hint.style.opacity='0';}
+  if(raf)return;raf=requestAnimationFrame(()=>{raf=null;
+  cells.forEach(c=>{const r=c.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;
+    const d=Math.hypot(cx-x,cy-y);c.classList.toggle('lit',d<R);});});}
+app.addEventListener('pointermove',e=>torch(e.clientX,e.clientY));
+app.addEventListener('touchmove',e=>{const t=e.touches[0];torch(t.clientX,t.clientY);},{passive:true});
+</script>
+</body>
+</html>

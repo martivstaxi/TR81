@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AI · Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#060606;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#060606;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+/* featured photo panel */
+.panel{flex:none;height:38%;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:18px 22px;}
+.panel .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .35s;}
+.panel .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;transition:background .35s;}
+.panel::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,6,.35) 0%,rgba(6,6,6,0) 35%,rgba(6,6,6,.92) 100%);}
+.panel>*{position:relative;z-index:2;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.panel .kx{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:7px;}
+.panel h1{font-size:clamp(2rem,10vw,3rem);font-weight:800;line-height:.92;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(0,0,0,.5);}
+.panel a{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:#fff;color:#111;font-weight:700;font-size:14px;padding:10px 18px;border-radius:10px;align-self:flex-start;}
+/* board */
+.boardhead{flex:none;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#ffcf6b;padding:11px 20px 7px;border-bottom:1px solid #1c1c1c;text-transform:uppercase;}
+.boardhead .dot{width:7px;height:7px;border-radius:50%;background:#ffcf6b;box-shadow:0 0 8px #ffcf6b;animation:bl 1.4s steps(1) infinite;}
+@keyframes bl{50%{opacity:.2}}
+.board{flex:1;overflow-y:auto;scrollbar-width:none;}
+.board::-webkit-scrollbar{display:none;}
+.flap{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #141414;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:background .12s;
+  animation:drop .3s ease both;}
+@keyframes drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.flap:hover,.flap.on{background:#111;}
+.flap .code{font-size:13px;font-weight:800;color:#ffcf6b;width:30px;}
+.flap .nm{font-size:1.05rem;font-weight:700;letter-spacing:-.01em;font-family:'Inter',sans-serif;flex:1;}
+.flap .rg{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7a7a7a;}
+.flap .st{font-size:11px;font-weight:700;color:#22c55e;width:54px;text-align:right;}
+.flap.on .st{color:#ffcf6b;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="panel" id="panel">
+    <div class="bg" id="bg"></div><div class="tint" id="tint"></div>
+    <div class="bar"><div class="logo">TR<b>81</b></div></div>
+    <div class="kx" id="kx"></div><h1 id="hname"></h1><a id="go" href="#">▶ Explore</a>
+  </div>
+  <div class="boardhead"><span class="dot"></span>Departures · all 81 provinces · select a destination</div>
+  <div class="board" id="board"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const board=document.getElementById('board'),bg=document.getElementById('bg'),tint=document.getElementById('tint'),kx=document.getElementById('kx'),hname=document.getElementById('hname'),go=document.getElementById('go');
+function feature(p){const[n,slug,name,rk]=p;bg.style.backgroundImage=`url('${IMG[n%2]}')`;tint.style.background=REG[rk][1];
+  kx.textContent='Now boarding · '+REG[rk][0];hname.textContent=name;go.href=slug+'.html';go.innerHTML=`▶ Explore ${name}`;}
+const codes={};
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;const f=document.createElement('div');f.className='flap';f.style.animationDelay=(i*9)+'ms';
+  const code=name.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]/g,'').slice(0,3).toUpperCase();
+  f.innerHTML=`<span class="code">${code}</span><span class="nm">${name}</span><span class="rg">${REG[rk][0]}</span><span class="st">ON TIME</span>`;
+  f.addEventListener('click',()=>{document.querySelectorAll('.flap').forEach(x=>x.classList.remove('on'));f.classList.add('on');f.querySelector('.st').textContent='SELECT';feature(p);
+    document.querySelector('.panel').scrollIntoView({behavior:'smooth'});});
+  board.appendChild(f);});
+feature(P.find(p=>p[1]==='antalya'));
+</script>
+</body>
+</html>

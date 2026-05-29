@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AK · Orbit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#05060a;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 80% at 50% 38%,#11151f 0%,#05060a 70%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 0;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+/* orbit */
+.orbit{flex:1;position:relative;}
+.ring{position:absolute;left:50%;top:54%;width:0;height:0;}
+.sat{position:absolute;width:96px;height:120px;margin:-60px 0 0 -48px;border-radius:16px;overflow:hidden;background-size:cover;background-position:center;
+  box-shadow:0 12px 30px rgba(0,0,0,.5);cursor:pointer;will-change:transform,opacity;}
+.sat .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.sat::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.8));}
+.sat .nm{position:absolute;left:6px;right:6px;bottom:6px;z-index:2;font-size:.74rem;font-weight:800;line-height:1;text-shadow:0 1px 5px #000;}
+/* center selected */
+.core{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:150px;height:188px;border-radius:22px;overflow:hidden;z-index:20;
+  box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 3px rgba(255,255,255,.9);background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;transition:background-image .2s;}
+.core .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.55;}
+.core::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.85));}
+.core>*{position:relative;z-index:2;}
+.core .rg{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.9;}
+.core h2{font-size:1.3rem;font-weight:800;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.cta{flex:none;text-align:center;padding:8px 24px 24px;z-index:30;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;}
+.cta .hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Drag to orbit</div><h1>Provinces in orbit</h1></div>
+  <div class="orbit" id="orbit">
+    <div class="ring" id="ring"></div>
+    <div class="core" id="core"></div>
+  </div>
+  <div class="cta"><a id="cta" href="#">▶ Explore</a><div class="hint">drag the ring ↺</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central']];
+const ring=document.getElementById('ring'),core=document.getElementById('core'),cta=document.getElementById('cta'),orbit=document.getElementById('orbit');
+const RX=130,RY=150;const N=P.length;let rot=0,cur=-1;
+const sats=P.map((p,i)=>{const[n,slug,name,rk]=p;const s=document.createElement('div');s.className='sat';
+  s.style.backgroundImage=`url('${IMG[n%2]}')`;s.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span class="nm">${name}</span>`;
+  s.addEventListener('click',()=>{rot=-(i*(2*Math.PI/N))+ -Math.PI/2;render();});ring.appendChild(s);return s;});
+function setCore(i){if(i===cur)return;cur=i;const[n,slug,name,rk]=P[i];core.style.backgroundImage=`url('${IMG[n%2]}')`;
+  core.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><div class="rg">${REG[rk][0]}</div><h2>${name}</h2>`;
+  cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;}
+function render(){let topI=0,topY=1e9;
+  sats.forEach((s,i)=>{const a=rot+i*(2*Math.PI/N);const x=Math.cos(a)*RX;const y=Math.sin(a)*RY;
+    const depth=(Math.sin(a)+1)/2;const sc=.6+depth*.55;const op=.35+depth*.65;
+    s.style.transform=`translate(${x}px,${y}px) scale(${sc})`;s.style.opacity=op;s.style.zIndex=Math.round(depth*10);
+    // the satellite nearest the bottom-front (a≈90°) is "selected"
+    const front=Math.abs(((a%(2*Math.PI))+2*Math.PI)%(2*Math.PI)-Math.PI/2);if(front<topY){topY=front;topI=i;}});
+  setCore(topI);}
+render();
+let sx=0,drag=false,base=0;
+const down=e=>{const t=e.touches?e.touches[0]:e;sx=t.clientX;drag=true;base=rot;};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;rot=base+(t.clientX-sx)*0.012;render();};
+const up=()=>drag=false;
+orbit.addEventListener('touchstart',down,{passive:true});orbit.addEventListener('touchmove',move,{passive:true});orbit.addEventListener('touchend',up);
+orbit.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+</script>
+</body>
+</html>
