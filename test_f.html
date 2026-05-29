@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept F · By Region</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#08080b;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;position:relative;}
+.hd{padding:60px 22px 18px;}
+.hd .mark{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#8a8f9c;}
+.hd h1{font-size:2.3rem;font-weight:800;letter-spacing:-.02em;margin-top:8px;line-height:1.05;}
+.hd p{color:#9aa4b2;font-size:14px;margin-top:6px;}
+.regions{padding:8px 16px 40px;display:flex;flex-direction:column;gap:13px;}
+.reg{position:relative;height:128px;border-radius:18px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background-size:cover;background-position:center;}
+.reg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.55));}
+.reg .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.9;}
+.reg>.z{position:relative;z-index:2;}
+.reg h2{font-size:1.5rem;font-weight:800;text-shadow:0 2px 14px rgba(0,0,0,.5);}
+.reg .ct{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;margin-top:2px;}
+.reg .ar{position:absolute;right:18px;bottom:18px;z-index:2;font-size:22px;opacity:.9;}
+/* overlay */
+.ov{position:fixed;inset:0;z-index:80;background:rgba(8,8,11,.98);backdrop-filter:blur(8px);transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.7,.3,1);display:flex;flex-direction:column;max-width:440px;margin:0 auto;}
+.ov.open{transform:translateY(0);}
+.ov .ovh{display:flex;align-items:center;gap:14px;padding:24px 22px 14px;}
+.ov .ovh h3{font-size:1.6rem;font-weight:800;flex:1;}
+.ov .ovh .x{font-size:26px;color:rgba(255,255,255,.7);cursor:pointer;}
+.ov .ovl{flex:1;overflow-y:auto;padding:4px 22px 40px;scrollbar-width:none;}
+.ov .ovl::-webkit-scrollbar{display:none;}
+.r{display:flex;align-items:baseline;gap:16px;padding:15px 2px;border-bottom:1px solid rgba(255,255,255,.08);color:#fff;}
+.r .no{font-weight:700;color:rgba(255,255,255,.4);min-width:32px;}
+.r .nm{font-size:1.12rem;font-weight:500;flex:1;}
+.r:active{opacity:.55;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="hd"><div class="mark">TR 81 · Türkiye</div><h1>Explore by region</h1><p>Seven regions, eighty-one provinces.</p></div>
+  <div class="regions" id="regions"></div>
+</div>
+<div class="ov" id="ov">
+  <div class="ovh"><h3 id="ovt">Region</h3><span class="x" id="ovx">✕</span></div>
+  <div class="ovl" id="ovl"></div>
+</div>
+<script>
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const REG=[['medit','Mediterranean','#0f9d8f'],['marmara','Marmara','#2563eb'],['aegean','Aegean','#0891b2'],['black','Black Sea','#16a34a'],['central','Central Anatolia','#d97706'],['east','Eastern Anatolia','#7c3aed'],['southeast','Southeastern Anatolia','#db2777']];
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const regions=document.getElementById('regions'),ov=document.getElementById('ov'),ovl=document.getElementById('ovl'),ovt=document.getElementById('ovt');
+REG.forEach(([key,label,color],i)=>{const list=P.filter(p=>p[3]===key);const d=document.createElement('div');d.className='reg';d.style.backgroundImage=`url('${IMG[i%2]}')`;
+  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h2>${label}</h2><div class="ct">${list.length} provinces</div></div><div class="ar">→</div>`;
+  d.onclick=()=>{ovt.textContent=label;ovl.innerHTML='';list.forEach(([n,slug,name])=>{const a=document.createElement('a');a.href=slug+'.html';a.className='r';a.innerHTML=`<span class="no">${String(n).padStart(2,'0')}</span><span class="nm">${name}</span><span>→</span>`;ovl.appendChild(a);});ov.classList.add('open');};
+  regions.appendChild(d);});
+document.getElementById('ovx').onclick=()=>ov.classList.remove('open');
+</script>
+</body>
+</html>

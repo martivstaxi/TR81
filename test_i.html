@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept I · Coverflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{font-family:'Inter',sans-serif;background:radial-gradient(110% 80% at 50% 0%,#15161d 0%,#000 70%);color:#fff;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.phone{max-width:440px;height:100vh;height:100dvh;margin:0 auto;position:relative;display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.6);}
+.hd{text-align:center;padding:30px 20px 6px;}
+.hd .mark{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#8a8f9c;}
+.hd h1{font-size:1.5rem;font-weight:800;margin-top:4px;}
+/* coverflow */
+.flow{flex:1;display:flex;align-items:center;overflow-x:scroll;scroll-snap-type:x mandatory;scrollbar-width:none;perspective:1100px;padding:0 calc(50% - 115px);}
+.flow::-webkit-scrollbar{display:none;}
+.cover{flex:none;width:230px;height:330px;scroll-snap-align:center;border-radius:20px;overflow:hidden;position:relative;margin:0 -22px;
+  background-size:cover;background-position:center;box-shadow:0 30px 60px rgba(0,0,0,.6);
+  transform:rotateY(38deg) scale(.82);transition:transform .35s ease, opacity .35s ease;opacity:.55;transform-origin:center;}
+.cover.active{transform:rotateY(0deg) scale(1);opacity:1;z-index:5;margin:0 6px;}
+.cover.prev{transform:rotateY(38deg) scale(.82);}
+.cover.next{transform:rotateY(-38deg) scale(.82);}
+.cover .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.8;}
+.cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55));}
+.cover .pl{position:absolute;top:12px;left:12px;z-index:3;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;font-weight:800;font-size:14px;}
+/* caption */
+.cap{text-align:center;padding:8px 20px 18px;}
+.cap .rg{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9aa4b2;}
+.cap h2{font-size:2.6rem;font-weight:800;line-height:1;margin:4px 0 14px;}
+.cap .go{display:inline-flex;align-items:center;gap:9px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:999px;}
+.dots{display:flex;justify-content:center;gap:6px;padding:4px 0 24px;flex-wrap:wrap;max-width:280px;margin:0 auto;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);}
+.dot.on{background:#fff;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="phone">
+  <div class="hd"><div class="mark">TR 81 · Türkiye</div><h1>Browse the collection</h1></div>
+  <div class="flow" id="flow"></div>
+  <div class="cap"><div class="rg" id="rg">Mediterranean</div><h2 id="nm">Antalya</h2><a class="go" id="go" href="antalya.html">Explore →</a></div>
+  <div class="dots" id="dots"></div>
+</div>
+<script>
+const R={marmara:'Marmara',aegean:'Aegean',medit:'Mediterranean',central:'Central Anatolia',black:'Black Sea',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'};
+const COL={marmara:'#2563eb',aegean:'#0891b2',medit:'#0f9d8f',central:'#d97706',black:'#16a34a',east:'#7c3aed',southeast:'#db2777'};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[7,'antalya','Antalya','medit'],[34,'istanbul','İstanbul','marmara'],[61,'trabzon','Trabzon','black'],[50,'nevsehir','Nevşehir','central'],[35,'izmir','İzmir','aegean'],[48,'mugla','Muğla','aegean'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[21,'diyarbakir','Diyarbakır','southeast'],[6,'ankara','Ankara','central'],[16,'bursa','Bursa','marmara'],[65,'van','Van','east'],[31,'hatay','Hatay','medit'],[42,'konya','Konya','central'],[1,'adana','Adana','medit'],[63,'sanliurfa','Şanlıurfa','southeast']];
+const flow=document.getElementById('flow'),dots=document.getElementById('dots');
+P.forEach(([n,slug,name,rk],i)=>{const d=document.createElement('div');d.className='cover';d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
+  d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>`;
+  d.onclick=()=>{if(d.classList.contains('active')){location.href=slug+'.html';}else{d.scrollIntoView({behavior:'smooth',inline:'center'});}};
+  flow.appendChild(d);
+  const dt=document.createElement('span');dt.className='dot';dots.appendChild(dt);});
+const covers=[...document.querySelectorAll('.cover')],dotEls=[...document.querySelectorAll('.dot')];
+function update(){const mid=flow.scrollLeft+flow.clientWidth/2;let best=0,bd=1e9;
+  covers.forEach((c,i)=>{const cx=c.offsetLeft+c.clientWidth/2;const dist=Math.abs(cx-mid);if(dist<bd){bd=dist;best=i;}});
+  covers.forEach((c,i)=>{c.classList.toggle('active',i===best);c.classList.toggle('prev',i<best);c.classList.toggle('next',i>best);});
+  dotEls.forEach((d,i)=>d.classList.toggle('on',i===best));
+  const [n,slug,name,rk]=P[best];document.getElementById('rg').textContent=R[rk];document.getElementById('nm').textContent=name;document.getElementById('go').href=slug+'.html';
+}
+flow.addEventListener('scroll',()=>{requestAnimationFrame(update);},{passive:true});
+window.addEventListener('load',()=>{covers[0].scrollIntoView({inline:'center'});update();});
+update();
+</script>
+</body>
+</html>
