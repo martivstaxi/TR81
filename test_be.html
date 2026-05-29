@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept BE · Jelly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#08080b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 8px;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.field{flex:1;position:relative;}
+.tile{position:absolute;border-radius:13px;overflow:hidden;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:9px;
+  box-shadow:0 8px 20px rgba(0,0,0,.45);cursor:pointer;will-change:transform;}
+.tile .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.74;}
+.tile::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.78));}
+.tile span{position:relative;z-index:2;font-size:.72rem;font-weight:800;text-shadow:0 1px 5px #000;line-height:1;}
+.hint{flex:none;text-align:center;color:rgba(255,255,255,.4);font-size:11px;padding:6px 0 22px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Squishy</div><h1>Poke the jelly</h1></div>
+  <div class="field" id="field"></div>
+  <div class="hint">sweep your finger across · tap a tile to open</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central'],[31,'hatay','Hatay','medit'],[8,'artvin','Artvin','black'],[20,'denizli','Denizli','aegean'],[55,'samsun','Samsun','black']];
+const field=document.getElementById('field'),app=document.querySelector('.app');
+let W=field.clientWidth,Hh=field.clientHeight;
+const COLS=3,GAP=10;let TW=(W-GAP*(COLS+1))/COLS,TH=TW*1.18;const ROWS=Math.ceil(P.length/COLS);
+function layout(){W=field.clientWidth;Hh=field.clientHeight;TW=(W-GAP*(COLS+1))/COLS;TH=TW*1.18;}
+layout();
+const tiles=P.map((p,i)=>{const[n,slug,name,rk]=p;const col=i%COLS,row=Math.floor(i/COLS);
+  const el=document.createElement('a');el.href=slug+'.html';el.className='tile';el.style.width=TW+'px';el.style.height=TH+'px';
+  el.style.backgroundImage=`url('${IMG[n%2]}')`;el.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span>${name}</span>`;
+  field.appendChild(el);
+  const hx=GAP+col*(TW+GAP),hy=GAP+row*(TH+GAP);return{el,hx,hy,x:hx,y:hy,vx:0,vy:0,moved:false};});
+let px=-999,py=-999,active=false,startX=0,startY=0,moved=false;
+function step(){tiles.forEach(t=>{
+  // spring to home
+  t.vx+=(t.hx-t.x)*0.18;t.vy+=(t.hy-t.y)*0.18;t.vx*=0.78;t.vy*=0.78;
+  // repel from pointer
+  if(active){const cx=t.x+TW/2,cy=t.y+TH/2,dx=cx-px,dy=cy-py,d=Math.hypot(dx,dy);
+    if(d<150&&d>0.1){const f=(1-d/150)*22;t.vx+=dx/d*f;t.vy+=dy/d*f;}}
+  t.x+=t.vx;t.y+=t.vy;
+  const sc=1+Math.min(.12,(Math.abs(t.vx)+Math.abs(t.vy))/120);
+  t.el.style.transform=`translate(${t.x}px,${t.y}px) scale(${sc.toFixed(3)})`;});
+  requestAnimationFrame(step);}
+step();
+function pos(e){const t=e.touches?e.touches[0]:e;const r=field.getBoundingClientRect();return[t.clientX-r.left,t.clientY-r.top,t.clientX,t.clientY];}
+const down=e=>{active=true;const[x,y,cx,cy]=pos(e);px=x;py=y;startX=cx;startY=cy;moved=false;};
+const move=e=>{if(!active)return;const[x,y,cx,cy]=pos(e);px=x;py=y;if(Math.abs(cx-startX)+Math.abs(cy-startY)>8)moved=true;};
+const up=()=>{active=false;px=py=-999;};
+field.addEventListener('touchstart',down,{passive:true});field.addEventListener('touchmove',move,{passive:true});field.addEventListener('touchend',up);
+field.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+tiles.forEach(t=>t.el.addEventListener('click',e=>{if(moved)e.preventDefault();}));
+window.addEventListener('resize',()=>{layout();tiles.forEach((t,i)=>{const col=i%COLS,row=Math.floor(i/COLS);t.hx=GAP+col*(TW+GAP);t.hy=GAP+row*(TH+GAP);t.el.style.width=TW+'px';t.el.style.height=TH+'px';});});
+</script>
+</body>
+</html>

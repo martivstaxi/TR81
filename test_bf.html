@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept BF · Fan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 70% at 50% 28%,#141a2a 0%,#06070b 72%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 0;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.fan{flex:1;position:relative;}
+.card{position:absolute;left:50%;bottom:-40px;width:130px;height:182px;margin-left:-65px;border-radius:16px;overflow:hidden;background-size:cover;background-position:center;
+  transform-origin:50% 360px;box-shadow:0 12px 30px rgba(0,0,0,.5);cursor:pointer;transition:transform .18s ease,box-shadow .18s;display:flex;align-items:flex-end;padding:12px;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 48%,rgba(0,0,0,.8));}
+.card span{position:relative;z-index:2;font-size:.82rem;font-weight:800;text-shadow:0 1px 6px rgba(0,0,0,.7);opacity:0;transition:.18s;}
+.card.up span{opacity:1;}
+.card.up{box-shadow:0 22px 50px rgba(0,0,0,.6);}
+.cta{flex:none;text-align:center;padding:8px 24px 24px;z-index:30;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;}
+.cta .hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Pick a card</div><h1>Fan of provinces</h1></div>
+  <div class="fan" id="fan"></div>
+  <div class="cta"><a id="cta" href="#">▶ Explore</a><div class="hint">sweep across the fan · tap the raised card</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[35,'izmir','İzmir','aegean'],[48,'mugla','Muğla','aegean'],[7,'antalya','Antalya','medit'],[31,'hatay','Hatay','medit'],[6,'ankara','Ankara','central'],[50,'nevsehir','Nevşehir','central'],[34,'istanbul','İstanbul','marmara'],[16,'bursa','Bursa','marmara'],[61,'trabzon','Trabzon','black'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[65,'van','Van','east'],[47,'mardin','Mardin','southeast'],[63,'sanliurfa','Şanlıurfa','southeast']];
+const fan=document.getElementById('fan'),cta=document.getElementById('cta');
+const N=P.length,SPREAD=8,mid=(N-1)/2;
+const cards=P.map((p,i)=>{const[n,slug,name,rk]=p;const c=document.createElement('div');c.className='card';
+  c.style.backgroundImage=`url('${IMG[n%2]}')`;c.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span>${name}</span>`;
+  c.dataset.i=i;fan.appendChild(c);return c;});
+let sel=Math.round(mid);
+function render(){cards.forEach((c,i)=>{const ang=(i-mid)*SPREAD;const lift=i===sel?-46:0;
+  c.style.transform=`rotate(${ang}deg) translateY(${lift}px)`;c.style.zIndex=i===sel?100:50-Math.abs(i-sel);c.classList.toggle('up',i===sel);});
+  const[n,slug,name]=P[sel];cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;}
+render();
+function pick(clientX){const r=fan.getBoundingClientRect();const frac=(clientX-r.left)/r.width;sel=Math.max(0,Math.min(N-1,Math.round(frac*(N-1))));render();}
+let drag=false;
+const down=e=>{drag=true;pick((e.touches?e.touches[0]:e).clientX);};
+const move=e=>{if(!drag)return;pick((e.touches?e.touches[0]:e).clientX);};
+const up=()=>drag=false;
+fan.addEventListener('touchstart',down,{passive:true});fan.addEventListener('touchmove',move,{passive:true});fan.addEventListener('touchend',up);
+fan.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+cards.forEach((c,i)=>c.addEventListener('click',()=>{if(i===sel)location.href=P[i][1]+'.html';else{sel=i;render();}}));
+</script>
+</body>
+</html>
