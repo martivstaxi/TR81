@@ -82,15 +82,15 @@ img{display:block;}
 
   <!-- HERO (B) -->
   <section class="hero">
-    <div class="kicker">TR · 81 Provinces</div>
-    <h1>Discover<br>Türkiye</h1>
-    <p>The most beautiful views in every province.</p>
-    <div class="scroll">Scroll ↓</div>
+    <div class="kicker" id="hkicker"></div>
+    <h1 id="hh1"></h1>
+    <p id="htag"></p>
+    <div class="scroll" id="hscroll"></div>
   </section>
 
   <!-- REGIONS (F) -->
   <section class="regions-sec">
-    <h2>Regions</h2>
+    <h2 id="hregions"></h2>
     <div class="regions" id="regions"></div>
   </section>
 
@@ -108,18 +108,34 @@ img{display:block;}
 </div>
 
 <script>
+/* ---------- i18n: cihaz dili TR ise Türkçe, değilse İngilizce ---------- */
+const LANG=(navigator.language||navigator.userLanguage||'en').toLowerCase().startsWith('tr')?'tr':'en';
+document.documentElement.lang=LANG;
+const T={
+  en:{kicker:'TR · 81 Provinces',h1:'Discover<br>Türkiye',tag:'The most beautiful views in every province.',scroll:'Scroll ↓',regions:'Regions',explore:'Explore →',
+    count:n=>`${n} provinces`,
+    names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
+  tr:{kicker:'TR · 81 İl',h1:'Türkiye’yi<br>Keşfet',tag:'Her ilin en güzel manzaraları.',scroll:'Kaydır ↓',regions:'Bölgeler',explore:'Keşfet →',
+    count:n=>`${n} il`,
+    names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
+}[LANG];
+document.getElementById('hkicker').textContent=T.kicker;
+document.getElementById('hh1').innerHTML=T.h1;
+document.getElementById('htag').textContent=T.tag;
+document.getElementById('hscroll').textContent=T.scroll;
+document.getElementById('hregions').textContent=T.regions;
+
 const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
-const REG=[['medit','Mediterranean','#0f9d8f'],['marmara','Marmara','#2563eb'],['aegean','Aegean','#0891b2'],['black','Black Sea','#16a34a'],['central','Central Anatolia','#d97706'],['east','Eastern Anatolia','#7c3aed'],['southeast','Southeastern Anatolia','#db2777']];
-const COL=Object.fromEntries(REG.map(r=>[r[0],r[2]]));
-const RLABEL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
+const REG=[['medit','#0f9d8f'],['marmara','#2563eb'],['aegean','#0891b2'],['black','#16a34a'],['central','#d97706'],['east','#7c3aed'],['southeast','#db2777']];
+const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
 const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
 
 /* ----- build region cards (F) ----- */
 const regionsEl=document.getElementById('regions');
-REG.forEach(([key,label,color],i)=>{
-  const list=P.filter(p=>p[3]===key);
+REG.forEach(([key,color],i)=>{
+  const list=P.filter(p=>p[3]===key);const label=T.names[key];
   const d=document.createElement('div');d.className='reg';d.style.backgroundImage=`url('${IMG[i%2]}')`;
-  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3><div class="ct">${list.length} provinces</div></div><div class="ar">→</div>`;
+  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3><div class="ct">${T.count(list.length)}</div></div><div class="ar">→</div>`;
   d.onclick=()=>openRegion(key,label);
   regionsEl.appendChild(d);
 });
@@ -131,11 +147,12 @@ const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){cons
 const fv=document.getElementById('flowview'),flow=document.getElementById('flow'),dots=document.getElementById('dots');
 const fvtitle=document.getElementById('fvtitle'),fvmark=document.getElementById('fvmark');
 const capnm=document.getElementById('capnm'),capgo=document.getElementById('capgo');
+capgo.textContent=T.explore;
 let covers=[],dotEls=[],cur=[];
 
 function openRegion(key,label){
   cur=P.filter(p=>p[3]===key);
-  fvtitle.textContent=label;fvmark.textContent=`${cur.length} provinces`;
+  fvtitle.textContent=label;fvmark.textContent=T.count(cur.length);
   flow.innerHTML='';dots.innerHTML='';
   cur.forEach(([n,slug,name,rk],i)=>{
     const d=document.createElement('div');d.className='cover';d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
