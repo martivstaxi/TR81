@@ -417,6 +417,13 @@ function badgeFor(slug){
   if(slug===FREE_SLUG)return `<span class="freepill">${FREE_TXT}</span>`;
   return `<span class="lockpill">${ICON.lock}</span>`;
 }
+/* when a tap opens an overlay, the browser still fires a trailing `click` at the release point;
+   swallow that one click so it can't "click through" onto a button (e.g. Buy) now under the pointer */
+function swallowNextClick(){
+  const h=ev=>{ev.stopPropagation();ev.preventDefault();clearTimeout(tm);window.removeEventListener('click',h,true);};
+  const tm=setTimeout(()=>window.removeEventListener('click',h,true),400);
+  window.addEventListener('click',h,true);
+}
 function goProvince(slug,name){
   if(owns(slug)){haptic();location.href=slug+'.html';return;}
   openPaywall(slug,name);
@@ -499,6 +506,7 @@ function tEnd(){
 trendEl.addEventListener('pointerup',e=>{
   if(tDrag&&!tMoved){          /* a tap, not a drag → navigate (click is unreliable under pointer capture) */
     const t=downTcard;downTcard=null;tDrag=false;trendEl.classList.remove('grabbing');
+    swallowNextClick();        /* block the trailing ghost-click from hitting the paywall */
     if(t)goProvince(t.dataset.slug,t.dataset.name);
     return;
   }
@@ -668,6 +676,7 @@ function endDrag(){
 flow.addEventListener('pointerup',e=>{
   if(dragging&&!dragMoved){    /* a tap, not a drag */
     const t=downCover;downCover=null;dragging=false;flow.classList.remove('grabbing');
+    swallowNextClick();        /* block the trailing ghost-click from hitting the paywall */
     if(t){const i=+t.dataset.i;if(i===idx){goProvince(cur[i][1],cur[i][2]);}else{haptic(6);animateTo(i);}}
     return;
   }
