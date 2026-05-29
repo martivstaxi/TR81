@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AG · Wheel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 80% at 50% 40%,#13161f 0%,#06070b 70%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;padding:2px 20px 6px;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;line-height:1;}
+/* wheel */
+.stage{flex:1;position:relative;perspective:1100px;overflow:hidden;}
+.scroll{position:absolute;inset:0;overflow-y:scroll;scrollbar-width:none;scroll-snap-type:y mandatory;}
+.scroll::-webkit-scrollbar{display:none;}
+.spacer{height:38vh;}
+.item{height:96px;scroll-snap-align:center;display:flex;justify-content:center;transform-style:preserve-3d;}
+.card{width:84%;height:84px;border-radius:16px;overflow:hidden;position:relative;background-size:cover;background-position:center;
+  display:flex;align-items:center;padding:0 18px;box-shadow:0 12px 30px rgba(0,0,0,.5);will-change:transform;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.05) 60%,rgba(0,0,0,.4));}
+.card>*{position:relative;z-index:2;}
+.card .pl{font-size:1.3rem;font-weight:800;opacity:.7;margin-right:14px;font-variant-numeric:tabular-nums;}
+.card .nm{font-size:1.45rem;font-weight:800;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.card .rg{margin-left:auto;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.85;}
+/* selection frame */
+.frame{position:absolute;left:8%;right:8%;top:50%;height:84px;transform:translateY(-50%);border-radius:16px;border:2px solid rgba(255,255,255,.9);box-shadow:0 0 30px rgba(255,255,255,.15);pointer-events:none;z-index:5;}
+.cta{flex:none;padding:14px 24px 26px;text-align:center;z-index:30;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;}
+.cta .hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:11px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Spin the wheel</div><h1>Dial in a province</h1></div>
+  <div class="stage">
+    <div class="frame"></div>
+    <div class="scroll" id="scroll"><div class="spacer"></div><div id="items"></div><div class="spacer"></div></div>
+  </div>
+  <div class="cta"><a id="cta" href="#">▶ Explore</a><div class="hint">scroll the wheel ↕</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central'],[31,'hatay','Hatay','medit'],[8,'artvin','Artvin','black']];
+const scroll=document.getElementById('scroll'),items=document.getElementById('items'),cta=document.getElementById('cta');
+P.forEach(p=>{const[n,slug,name,rk]=p;const it=document.createElement('div');it.className='item';
+  it.innerHTML=`<div class="card" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div><span class="pl">${String(n).padStart(2,'0')}</span><span class="nm">${name}</span><span class="rg">${REG[rk][0]}</span></div>`;
+  items.appendChild(it);});
+const cards=Array.from(items.querySelectorAll('.item'));const ITEMH=96;
+function upd(){const mid=scroll.scrollTop+scroll.clientHeight/2;let best=0,bd=1e9;
+  cards.forEach((it,i)=>{const c=it.offsetTop+scroll.querySelector('.spacer').offsetHeight*0+items.offsetTop+ITEMH/2;
+    const center=it.offsetTop+items.offsetTop+ITEMH/2;const d=center-mid;const card=it.querySelector('.card');
+    const ang=Math.max(-70,Math.min(70,-d/3));const sc=Math.max(.7,1-Math.abs(d)/700);const op=Math.max(.25,1-Math.abs(d)/430);
+    card.style.transform=`rotateX(${ang}deg) scale(${sc})`;card.style.opacity=op;
+    if(Math.abs(d)<bd){bd=Math.abs(d);best=i;}});
+  const[n,slug,name]=P[best];cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;}
+let t=null;scroll.addEventListener('scroll',()=>{if(t)cancelAnimationFrame(t);t=requestAnimationFrame(upd);},{passive:true});
+upd();
+</script>
+</body>
+</html>
