@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept O · Peek carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#06070b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 4px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.bar .cnt{font-size:12px;font-weight:700;color:#8a93a3;}
+.head{flex:none;padding:2px 20px 6px;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:6px;line-height:1;}
+/* carousel */
+.carwrap{flex:1;position:relative;min-height:0;}
+.car{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:0;padding:8px 0 0;-webkit-overflow-scrolling:touch;}
+.car::-webkit-scrollbar{display:none;}
+.slide{flex:none;width:78%;scroll-snap-align:center;padding:0 9px;display:flex;}
+.slide:first-child{padding-left:11%;}
+.slide:last-child{padding-right:11%;}
+.card{position:relative;flex:1;border-radius:22px;overflow:hidden;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 22px;
+  transform:scale(.9);opacity:.55;transition:transform .35s ease,opacity .35s ease;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.slide.active .card{transform:scale(1);opacity:1;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.55;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,11,.25) 0%,rgba(6,7,11,0) 30%,rgba(6,7,11,.2) 52%,rgba(6,7,11,.96) 100%);}
+.card>*{position:relative;z-index:2;}
+.card .pl{position:absolute;top:18px;left:18px;background:rgba(0,0,0,.4);backdrop-filter:blur(5px);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;}
+.card .kx{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:9px;}
+.card h2{font-size:clamp(2.4rem,11vw,3.4rem);font-weight:800;line-height:.92;letter-spacing:-.02em;text-shadow:0 2px 22px rgba(0,0,0,.5);}
+.card p{margin-top:10px;color:rgba(255,255,255,.85);font-size:13px;line-height:1.45;max-width:280px;
+  opacity:0;transition:.3s .05s;}
+.slide.active .card p{opacity:1;}
+.card a{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#fff;color:#111;font-weight:700;font-size:14px;padding:11px 22px;border-radius:11px;align-self:flex-start;
+  opacity:0;transform:translateY(6px);transition:.3s .08s;}
+.slide.active .card a{opacity:1;transform:none;}
+/* dots */
+.dots{flex:none;display:flex;gap:6px;justify-content:center;padding:16px 0 22px;flex-wrap:wrap;max-width:340px;margin:0 auto;}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:.2s;}
+.dots i.on{background:#fff;width:18px;border-radius:3px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div><div class="cnt" id="cnt">01 / 14</div></div>
+  <div class="head"><div class="kx">Featured provinces</div><h1>Swipe through Türkiye</h1></div>
+  <div class="carwrap"><div class="car" id="car"></div></div>
+  <div class="dots" id="dots"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara','Two continents meeting on one shimmering strait.'],[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls.'],[50,'nevsehir','Cappadocia','central','Fairy chimneys and a sky full of balloons.'],[47,'mardin','Mardin','southeast','Honey-stone city above the Mesopotamian plain.'],[61,'trabzon','Trabzon','black','Misty green peaks above the Black Sea.'],[48,'mugla','Muğla','aegean','The bluest bays of the Aegean — Bodrum to Marmaris.'],[65,'van','Van','east','A turquoise sea-lake high in the eastern mountains.'],[35,'izmir','İzmir','aegean','Aegean light, ancient ruins and a long promenade.'],[63,'sanliurfa','Şanlıurfa','southeast','Cradle of civilisation — the land of Göbeklitepe.'],[53,'rize','Rize','black','Tea terraces wrapped in mountain cloud.'],[25,'erzurum','Erzurum','east','High plateau winters and proud old stone.'],[16,'bursa','Bursa','marmara','Green slopes of Uludağ above the first Ottoman capital.'],[38,'kayseri','Kayseri','central','Beneath the snows of Mount Erciyes.'],[31,'hatay','Hatay','medit','Where cuisines and civilisations blend.']];
+const car=document.getElementById('car'),dots=document.getElementById('dots'),cnt=document.getElementById('cnt');
+P.forEach((p,i)=>{const[n,slug,name,rk,desc]=p;const s=document.createElement('div');s.className='slide';
+  s.innerHTML=`<div class="card" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div>
+  <span class="pl">${String(n).padStart(2,'0')}</span><div class="kx">${REG[rk][0]}</div><h2>${name}</h2><p>${desc}</p><a href="${slug}.html">▶ Explore</a></div>`;
+  car.appendChild(s);const d=document.createElement('i');dots.appendChild(d);});
+const slides=Array.from(car.children),ds=Array.from(dots.children);
+function update(){const mid=car.scrollLeft+car.clientWidth/2;let best=0,bd=1e9;
+  slides.forEach((s,i)=>{const c=s.offsetLeft+s.offsetWidth/2;const d=Math.abs(c-mid);if(d<bd){bd=d;best=i;}});
+  slides.forEach((s,i)=>s.classList.toggle('active',i===best));
+  ds.forEach((d,i)=>d.classList.toggle('on',i===best));
+  cnt.textContent=`${String(best+1).padStart(2,'0')} / ${String(P.length).padStart(2,'0')}`;}
+let t=null;car.addEventListener('scroll',()=>{if(t)cancelAnimationFrame(t);t=requestAnimationFrame(update);});
+update();
+</script>
+</body>
+</html>

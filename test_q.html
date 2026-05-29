@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept Q · Flick deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#06070b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:16px 20px 2px;z-index:50;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.bar .cnt{font-size:12px;font-weight:700;color:#8a93a3;}
+.deck{flex:1;position:relative;margin:8px 16px 0;}
+.card{position:absolute;inset:0;border-radius:24px;overflow:hidden;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:26px 24px 30px;will-change:transform;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);transform-origin:bottom center;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,11,.3) 0%,rgba(6,7,11,0) 32%,rgba(6,7,11,.2) 54%,rgba(6,7,11,.97) 100%);}
+.card>*{position:relative;z-index:2;}
+.card .pl{position:absolute;top:20px;left:20px;background:rgba(0,0,0,.4);backdrop-filter:blur(5px);border-radius:8px;padding:4px 11px;font-size:12px;font-weight:800;}
+.card .kx{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:9px;}
+.card h2{font-size:clamp(2.8rem,14vw,4.2rem);font-weight:800;line-height:.9;letter-spacing:-.02em;text-shadow:0 2px 24px rgba(0,0,0,.5);}
+.card p{margin-top:11px;color:rgba(255,255,255,.86);font-size:14px;line-height:1.5;max-width:300px;}
+.card a{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 24px;border-radius:12px;align-self:flex-start;}
+.like{position:absolute;top:24px;right:20px;z-index:5;font-size:13px;font-weight:800;letter-spacing:.1em;padding:7px 13px;border-radius:10px;border:2px solid;opacity:0;transform:rotate(8deg);}
+.like.next{color:#ff5a7a;border-color:#ff5a7a;}
+.like.prev{color:#5ad1c4;border-color:#5ad1c4;}
+.hint{flex:none;text-align:center;color:rgba(255,255,255,.42);font-size:12px;letter-spacing:.05em;padding:14px 0 20px;}
+.hint b{color:rgba(255,255,255,.7);}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div><div class="cnt" id="cnt">01 / 14</div></div>
+  <div class="deck" id="deck"></div>
+  <div class="hint">← <b>flick</b> sideways for the next province →</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara','Two continents meeting on one shimmering strait.'],[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls.'],[50,'nevsehir','Cappadocia','central','Fairy chimneys and a sky full of balloons.'],[47,'mardin','Mardin','southeast','Honey-stone city above the Mesopotamian plain.'],[61,'trabzon','Trabzon','black','Misty green peaks above the Black Sea.'],[48,'mugla','Muğla','aegean','The bluest bays of the Aegean — Bodrum to Marmaris.'],[65,'van','Van','east','A turquoise sea-lake high in the eastern mountains.'],[35,'izmir','İzmir','aegean','Aegean light, ancient ruins and a long promenade.'],[63,'sanliurfa','Şanlıurfa','southeast','Cradle of civilisation — the land of Göbeklitepe.'],[53,'rize','Rize','black','Tea terraces wrapped in mountain cloud.'],[25,'erzurum','Erzurum','east','High plateau winters and proud old stone.'],[16,'bursa','Bursa','marmara','Green slopes of Uludağ above the first Ottoman capital.'],[38,'kayseri','Kayseri','central','Beneath the snows of Mount Erciyes.'],[31,'hatay','Hatay','medit','Where cuisines and civilisations blend.']];
+const deck=document.getElementById('deck'),cnt=document.getElementById('cnt');
+let idx=0;
+function cardHTML(p){const[n,slug,name,rk,desc]=p;
+  return `<div class="tint" style="background:${REG[rk][1]}"></div><span class="like next">NEXT →</span><span class="like prev">← BACK</span>
+  <span class="pl">${String(n).padStart(2,'0')}</span><div class="kx">${REG[rk][0]}</div><h2>${name}</h2><p>${desc}</p><a href="${slug}.html">▶ Explore ${name}</a>`;}
+function build(){deck.innerHTML='';
+  // render up to 3 stacked: idx (top), idx+1, idx+2
+  for(let k=Math.min(2,P.length-1);k>=0;k--){const i=(idx+k)%P.length;const p=P[i];const c=document.createElement('div');c.className='card';
+    c.style.backgroundImage=`url('${IMG[p[0]%2]}')`;c.innerHTML=cardHTML(p);
+    const depth=k;c.style.transform=`scale(${1-depth*0.05}) translateY(${depth*-14}px)`;c.style.zIndex=10-depth;c.style.opacity=depth>1?0.0:1;
+    if(k===0)c.id='top';deck.appendChild(c);}
+  attach();cnt.textContent=`${String(idx+1).padStart(2,'0')} / ${String(P.length).padStart(2,'0')}`;}
+function advance(dir){idx=(idx+(dir>0?1:-1)+P.length)%P.length;build();}
+function attach(){const top=document.getElementById('top');if(!top)return;let sx=0,sy=0,dx=0,dragging=false;
+  const next=top.querySelector('.like.next'),prev=top.querySelector('.like.prev');
+  const down=e=>{const t=e.touches?e.touches[0]:e;sx=t.clientX;sy=t.clientY;dragging=true;top.style.transition='none';};
+  const move=e=>{if(!dragging)return;const t=e.touches?e.touches[0]:e;dx=t.clientX-sx;const dy=t.clientY-sy;
+    if(Math.abs(dx)<Math.abs(dy)&&Math.abs(dy)>14&&Math.abs(dx)<10){return;}
+    e.preventDefault?e.preventDefault():0;top.style.transform=`translateX(${dx}px) rotate(${dx*0.04}deg)`;
+    next.style.opacity=dx<0?Math.min(-dx/80,1):0;prev.style.opacity=dx>0?Math.min(dx/80,1):0;};
+  const up=()=>{if(!dragging)return;dragging=false;top.style.transition='.3s ease';
+    if(Math.abs(dx)>90){top.style.transform=`translateX(${dx>0?500:-500}px) rotate(${dx>0?20:-20}deg)`;top.style.opacity=0;
+      setTimeout(()=>advance(dx<0?1:-1),200);}
+    else{top.style.transform='';next.style.opacity=0;prev.style.opacity=0;}dx=0;};
+  top.addEventListener('touchstart',down,{passive:true});top.addEventListener('touchmove',move,{passive:false});top.addEventListener('touchend',up);
+  top.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);}
+build();
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')advance(1);if(e.key==='ArrowLeft')advance(-1);});
+</script>
+</body>
+</html>
