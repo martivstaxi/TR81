@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept K · Spotlight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#000;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+/* stage */
+.stage{position:absolute;inset:0;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;}
+.slide.on{opacity:1;}
+.slide .bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.12);}
+.slide.on .bg{animation:kb 7s linear forwards;}
+@keyframes kb{from{transform:scale(1.12) translate(0,0);}to{transform:scale(1.28) translate(-3%,-2%);}}
+.slide .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,.2) 52%,rgba(0,0,0,.96) 100%);}
+.bar{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;}
+.logo{font-weight:800;font-size:19px;}.logo b{color:#ffcf6b;}
+.prog{position:absolute;top:54px;left:20px;right:20px;z-index:30;display:flex;gap:5px;}
+.prog i{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.22);overflow:hidden;}
+.prog i b{display:block;height:100%;width:0;background:#fff;}
+.prog i.act b{animation:fill 7s linear forwards;}
+.prog i.done b{width:100%;}
+@keyframes fill{from{width:0}to{width:100%}}
+/* caption */
+.cap{position:absolute;left:24px;right:24px;bottom:140px;z-index:20;}
+.cap .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:10px;}
+.cap h1{font-size:clamp(3rem,16vw,5rem);font-weight:800;line-height:.92;letter-spacing:-.02em;text-shadow:0 3px 30px rgba(0,0,0,.6);}
+.cap .rg{margin-top:12px;color:rgba(255,255,255,.82);font-size:13px;}
+.cap a{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 24px;border-radius:12px;}
+/* dock */
+.dock{position:absolute;left:0;right:0;bottom:0;z-index:30;padding:0 0 20px;}
+.dscroll{display:flex;gap:9px;overflow-x:auto;padding:0 20px;scrollbar-width:none;}
+.dscroll::-webkit-scrollbar{display:none;}
+.th{flex:none;width:60px;height:80px;border-radius:11px;overflow:hidden;position:relative;cursor:pointer;opacity:.55;transition:.22s;background-size:cover;background-position:center;border:2px solid transparent;}
+.th.on{opacity:1;border-color:#fff;transform:translateY(-4px);}
+.th .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.8;}
+.th .nm{position:absolute;left:4px;right:4px;bottom:4px;font-size:9px;font-weight:700;text-shadow:0 1px 4px #000;line-height:1;z-index:2;}
+.hint{text-align:center;color:rgba(255,255,255,.4);font-size:11px;margin:0 0 10px;letter-spacing:.04em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="stage" id="stage"></div>
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="prog" id="prog"></div>
+  <div class="cap" id="cap"></div>
+  <div class="dock">
+    <div class="hint">Auto-touring · tap a cover to jump</div>
+    <div class="dscroll" id="dock"></div>
+  </div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[16,'bursa','Bursa','marmara'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[25,'erzurum','Erzurum','east'],[31,'hatay','Hatay','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[38,'kayseri','Kayseri','central'],[42,'konya','Konya','central'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[50,'nevsehir','Nevşehir','central'],[53,'rize','Rize','black'],[55,'samsun','Samsun','black'],[61,'trabzon','Trabzon','black'],[63,'sanliurfa','Şanlıurfa','southeast'],[65,'van','Van','east']];
+const blurb={antalya:'Turquoise coast — beaches, canyons & waterfalls.',istanbul:'Two continents, one skyline. Where it all meets.',nevsehir:'Cappadocia — fairy chimneys and hot-air balloons.',mardin:'Honey-stone city above the Mesopotamian plain.',trabzon:'Misty green peaks and the Black Sea shore.',mugla:'Bodrum, Marmaris and the bluest bays of the Aegean.',rize:'Tea terraces wrapped in cloud.',van:'A turquoise sea-lake high in the east.',izmir:'Aegean light, ancient ruins and the long promenade.',sanliurfa:'Cradle of civilisation — Göbeklitepe country.',erzurum:'High plateau winters and proud old stone.',bursa:'Green slopes of Uludağ above the first Ottoman capital.'};
+const stage=document.getElementById('stage'),dock=document.getElementById('dock'),cap=document.getElementById('cap'),prog=document.getElementById('prog');
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;
+  const s=document.createElement('div');s.className='slide';s.innerHTML=`<div class="bg" style="background-image:url('${IMG[n%2]}')"></div><div class="tint" style="background:${REG[rk][1]}"></div>`;stage.appendChild(s);
+  const t=document.createElement('div');t.className='th';t.style.backgroundImage=`url('${IMG[n%2]}')`;t.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><div class="nm">${name}</div>`;t.onclick=()=>go(i,true);dock.appendChild(t);
+  const pi=document.createElement('i');pi.innerHTML='<b></b>';prog.appendChild(pi);});
+let cur=-1,timer=null;
+function go(i,manual){if(i===cur)return;const slides=stage.children,ths=dock.children,bars=prog.children;
+  if(cur>=0){slides[cur].classList.remove('on');ths[cur].classList.remove('on');bars[cur].className='done';}
+  cur=i;const[n,slug,name,rk]=P[i];
+  slides[i].classList.add('on');ths[i].classList.add('on');
+  Array.from(bars).forEach((b,k)=>{if(k<i)b.className='done';else if(k===i)b.className='act';else b.className='';});
+  ths[i].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  cap.innerHTML=`<div class="kx">★ ${REG[rk][0]}</div><h1>${name}</h1><div class="rg">${blurb[slug]||'One of Türkiye\'s 81 provinces.'}</div><a href="${slug}.html">▶ Explore ${name}</a>`;
+  clearTimeout(timer);timer=setTimeout(()=>go((i+1)%P.length),7000);}
+go(0);
+</script>
+</body>
+</html>
