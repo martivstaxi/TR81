@@ -378,13 +378,13 @@ const LANG=(navigator.language||navigator.userLanguage||'en').toLowerCase().star
 document.documentElement.lang=LANG;
 const FREE_TXT=LANG==='tr'?'Ücretsiz':'Free';
 const T={
-  en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
+  en:{h1:'Discover<br>Türkiye',tag:'Scenic locations across 81 provinces.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
     tap:'Open',freeTap:'Free',lockedTap:'Buy',unlockBtn:'Buy',ownTxt:'Owned',
     pwBuy:'81 Provinces Access',pwHaveCode:'I have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
     pwCodeOk:'Unlocked! Opening…',pwCodeErr:'That code is not valid for this province.',pwCodeEmpty:'Enter your code.',
     pwTry:'See Muğla free',
     names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
-  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
+  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'81 ilin manzaralı konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
     tap:'Aç',freeTap:'Ücretsiz',lockedTap:'Satın al',unlockBtn:'Satın Al',ownTxt:'Açık',
     pwBuy:'81 İle Erişim',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
     pwCodeOk:'Açıldı! Yönlendiriliyorsunuz…',pwCodeErr:'Bu kod bu il için geçerli değil.',pwCodeEmpty:'Lütfen kodunu gir.',
@@ -555,7 +555,7 @@ function closeRegion(fromPop){
   dismissHint();
   fv.classList.remove('open');document.body.classList.remove('flowopen');
   if(!pwOpen)document.body.style.overflow='';
-  if(!fromPop&&history.state&&history.state.fv){history.back();}
+  if(!fromPop&&history.state&&history.state.fv){suppressPop=true;history.back();}
   if(lastFocused&&lastFocused.focus){try{lastFocused.focus({preventScroll:true});}catch(e){}}
 }
 const fvcloseEl=document.getElementById('fvclose');
@@ -576,7 +576,7 @@ const pwTry=document.getElementById('pwTry');
 pwCodeBtn.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
 pwCodeGo.textContent=T.pwCodeGo;
 pwTry.innerHTML=ICON.pin+'<span>'+T.pwTry+'</span>';
-let pwOpen=false,pwSlug=null;
+let pwOpen=false,pwSlug=null,suppressPop=false;
 function setCodeBox(open){
   pwCodeBox.classList.toggle('open',open);
   pwCodeBtn.classList.toggle('active',open);
@@ -598,7 +598,7 @@ function openPaywall(slug,name){
 function closePaywall(fromPop){
   if(!pwOpen)return;pwOpen=false;paywall.classList.remove('open');
   if(!fv.classList.contains('open'))document.body.style.overflow='';
-  if(!fromPop&&history.state&&history.state.pw){history.back();}
+  if(!fromPop&&history.state&&history.state.pw){suppressPop=true;history.back();}
 }
 function submitCode(){
   const raw=normCode(pwCodeInput.value);
@@ -627,6 +627,7 @@ pwTry.addEventListener('click',()=>haptic());
 
 /* single popstate handler for both overlays (modal sits above coverflow) */
 window.addEventListener('popstate',()=>{
+  if(suppressPop){suppressPop=false;return;}  /* this popstate came from our own history.back() — already handled */
   if(pwOpen){closePaywall(true);return;}
   if(fv.classList.contains('open'))closeRegion(true);
 });
