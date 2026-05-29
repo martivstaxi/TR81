@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept X · Filmstrip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#050507;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#050507;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 4px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.bar .cnt{font-size:12px;font-weight:700;color:#8a93a3;font-variant-numeric:tabular-nums;}
+.head{flex:none;padding:2px 20px 10px;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:6px;line-height:1;}
+/* film reel */
+.reelwrap{flex:1;position:relative;min-height:0;display:flex;align-items:center;}
+.reel{display:flex;align-items:center;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;width:100%;padding:0 calc(50% - 130px);
+  background:#0c0c10;border-top:2px solid #1a1a1f;border-bottom:2px solid #1a1a1f;-webkit-overflow-scrolling:touch;}
+.reel::-webkit-scrollbar{display:none;}
+.frame{flex:none;width:260px;scroll-snap-align:center;padding:30px 10px;position:relative;}
+/* sprocket holes top & bottom */
+.frame::before,.frame::after{content:'';position:absolute;left:10px;right:10px;height:14px;background-image:repeating-linear-gradient(90deg,#15151a 0 9px,transparent 9px 22px);background-size:22px 14px;border-radius:2px;}
+.frame::before{top:8px;}.frame::after{bottom:8px;}
+.cell{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;
+  transform:scale(.84);opacity:.4;transition:.3s ease;}
+.frame.active .cell{transform:scale(1);opacity:1;box-shadow:0 16px 40px rgba(0,0,0,.6);}
+.cell .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.55;}
+.cell::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,7,.2) 0%,rgba(5,5,7,0) 35%,rgba(5,5,7,.95) 100%);}
+.cell>*{position:relative;z-index:2;}
+.cell .fno{position:absolute;top:14px;left:16px;font-size:11px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.7);}
+.cell .kx{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:6px;}
+.cell h2{font-size:2rem;font-weight:800;line-height:.92;letter-spacing:-.02em;text-shadow:0 2px 16px rgba(0,0,0,.6);}
+/* caption + cta below */
+.foot{flex:none;padding:16px 24px 26px;text-align:center;}
+.foot p{color:rgba(255,255,255,.8);font-size:13px;line-height:1.45;min-height:38px;}
+.foot a{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 26px;border-radius:11px;}
+.hint{color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.05em;margin-top:12px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div><div class="cnt" id="cnt">01 / 14</div></div>
+  <div class="head"><div class="kx">Roll the reel</div><h1>Türkiye, frame by frame</h1></div>
+  <div class="reelwrap"><div class="reel" id="reel"></div></div>
+  <div class="foot"><p id="cap"></p><a id="cta" href="#">▶ Explore</a><div class="hint">← scroll the film →</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara','Two continents meeting on one shimmering strait.'],[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls.'],[50,'nevsehir','Cappadocia','central','Fairy chimneys and a sky full of balloons.'],[47,'mardin','Mardin','southeast','Honey-stone city above the Mesopotamian plain.'],[61,'trabzon','Trabzon','black','Misty green peaks above the Black Sea.'],[48,'mugla','Muğla','aegean','The bluest bays of the Aegean.'],[65,'van','Van','east','A turquoise sea-lake high in the eastern mountains.'],[35,'izmir','İzmir','aegean','Aegean light, ancient ruins and a long promenade.'],[63,'sanliurfa','Şanlıurfa','southeast','Cradle of civilisation — Göbeklitepe country.'],[53,'rize','Rize','black','Tea terraces wrapped in mountain cloud.'],[25,'erzurum','Erzurum','east','High plateau winters and proud old stone.'],[16,'bursa','Bursa','marmara','Green slopes of Uludağ above the first Ottoman capital.'],[38,'kayseri','Kayseri','central','Beneath the snows of Mount Erciyes.'],[31,'hatay','Hatay','medit','Where cuisines and civilisations blend.']];
+const reel=document.getElementById('reel'),cnt=document.getElementById('cnt'),cap=document.getElementById('cap'),cta=document.getElementById('cta');
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;const f=document.createElement('div');f.className='frame';
+  f.innerHTML=`<div class="cell" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div><span class="fno">FRAME ${String(i+1).padStart(2,'0')}</span><div class="kx">${REG[rk][0]}</div><h2>${name}</h2></div>`;
+  reel.appendChild(f);});
+const frames=Array.from(reel.children);
+function update(){const mid=reel.scrollLeft+reel.clientWidth/2;let best=0,bd=1e9;
+  frames.forEach((f,i)=>{const c=f.offsetLeft+f.offsetWidth/2;const d=Math.abs(c-mid);if(d<bd){bd=d;best=i;}});
+  frames.forEach((f,i)=>f.classList.toggle('active',i===best));
+  const[n,slug,name,rk,desc]=P[best];cnt.textContent=`${String(best+1).padStart(2,'0')} / ${String(P.length).padStart(2,'0')}`;
+  cap.textContent=desc;cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;}
+let t=null;reel.addEventListener('scroll',()=>{if(t)cancelAnimationFrame(t);t=requestAnimationFrame(update);});
+update();
+</script>
+</body>
+</html>

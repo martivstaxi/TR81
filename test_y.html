@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept Y · Surprise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#000;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.hero{position:absolute;inset:0;}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .4s ease,transform 6s ease;transform:scale(1.08);}
+.hero .bg.swap{opacity:0;transform:scale(1.18);}
+.hero .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;transition:background .4s;}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,.3) 54%,rgba(0,0,0,.94) 100%);}
+.bar{position:relative;z-index:30;flex:none;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.spacer{flex:1;}
+.cap{position:relative;z-index:20;padding:0 24px;}
+.cap .kx{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:10px;transition:.3s;}
+.cap h1{font-size:clamp(3rem,16vw,5rem);font-weight:800;line-height:.9;letter-spacing:-.02em;text-shadow:0 2px 28px rgba(0,0,0,.55);transition:.3s;}
+.cap p{margin-top:11px;color:rgba(255,255,255,.86);font-size:14px;max-width:300px;line-height:1.5;transition:.3s;}
+.cap.flip .kx,.cap.flip h1,.cap.flip p{opacity:0;transform:translateY(10px);}
+.actions{position:relative;z-index:20;display:flex;gap:12px;padding:20px 24px 14px;flex-wrap:wrap;}
+.actions a.go{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:14px 24px;border-radius:12px;}
+.actions button{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);color:#fff;font-weight:700;font-size:15px;padding:14px 22px;border-radius:12px;border:0;cursor:pointer;font-family:inherit;}
+.actions button:active{transform:scale(.96);}
+.dice{display:inline-block;transition:transform .5s;}
+.rolling .dice{transform:rotate(360deg);}
+/* recents */
+.recents{position:relative;z-index:20;flex:none;padding:6px 0 22px;}
+.recents h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700;padding:0 24px 9px;}
+.rstrip{display:flex;gap:9px;overflow-x:auto;padding:0 24px;scrollbar-width:none;min-height:62px;}
+.rstrip::-webkit-scrollbar{display:none;}
+.rth{flex:none;width:46px;height:58px;border-radius:9px;overflow:hidden;position:relative;background-size:cover;background-position:center;cursor:pointer;border:1px solid rgba(255,255,255,.12);}
+.rth .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.8;}
+.rempty{color:rgba(255,255,255,.4);font-size:12px;padding:6px 0;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="hero"><div class="bg" id="bg"></div><div class="tint" id="tint"></div></div>
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="spacer"></div>
+  <div class="cap" id="cap"></div>
+  <div class="actions" id="actions">
+    <a class="go" id="go" href="#">▶ Explore</a>
+    <button id="shuffle"><span class="dice">🎲</span> Surprise me</button>
+  </div>
+  <div class="recents">
+    <h3>Recently rolled</h3>
+    <div class="rstrip" id="recents"><span class="rempty">Tap “Surprise me” to start exploring…</span></div>
+  </div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const blurb={antalya:'Turquoise coast — beaches, canyons and waterfalls.',istanbul:'Two continents meeting on one shimmering strait.',nevsehir:'Cappadocia — fairy chimneys and balloons at dawn.',mardin:'Honey-stone city above the Mesopotamian plain.',trabzon:'Misty green peaks above the Black Sea.',van:'A turquoise sea-lake high in the east.',mugla:'The bluest bays of the Aegean.',izmir:'Aegean light and ancient ruins.',sanliurfa:'Cradle of civilisation — Göbeklitepe country.',rize:'Tea terraces wrapped in cloud.',erzurum:'High plateau winters and proud old stone.',bursa:'Green slopes of Uludağ.'};
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const bg=document.getElementById('bg'),tint=document.getElementById('tint'),cap=document.getElementById('cap'),go=document.getElementById('go'),actions=document.getElementById('actions'),recents=document.getElementById('recents');
+let seed=7,cur=null,rolled=[];
+function rng(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+function show(p){const[n,slug,name,rk]=p;cur=p;
+  cap.classList.add('flip');bg.classList.add('swap');
+  setTimeout(()=>{bg.style.backgroundImage=`url('${IMG[n%2]}')`;tint.style.background=REG[rk][1];
+    cap.innerHTML=`<div class="kx">★ ${REG[rk][0]}</div><h1>${name}</h1><p>${blurb[slug]||'One of Türkiye\'s 81 provinces — landscapes worth the journey.'}</p>`;
+    go.href=slug+'.html';go.innerHTML=`▶ Explore ${name}`;
+    bg.classList.remove('swap');cap.classList.remove('flip');},260);}
+function roll(){const p=P[Math.floor(rng()*P.length)];show(p);
+  if(!rolled.some(x=>x[1]===p[1])){rolled.unshift(p);if(rolled.length>10)rolled.pop();drawRecents();}}
+function drawRecents(){recents.innerHTML='';rolled.forEach(p=>{const[n,slug,name,rk]=p;const d=document.createElement('div');d.className='rth';d.title=name;
+  d.style.backgroundImage=`url('${IMG[n%2]}')`;d.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div>`;d.onclick=()=>show(p);recents.appendChild(d);});}
+const shuffle=document.getElementById('shuffle');
+shuffle.addEventListener('click',()=>{actions.classList.add('rolling');setTimeout(()=>actions.classList.remove('rolling'),500);roll();});
+// initial featured
+show(P.find(p=>p[1]==='antalya'));
+</script>
+</body>
+</html>

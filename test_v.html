@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept V · Marquee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#08080b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 8px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.bar .now{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+/* premiere poster */
+.premiere{margin:6px 16px 4px;border-radius:20px;overflow:hidden;position:relative;}
+.poster{position:relative;aspect-ratio:3/4;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 22px 22px;}
+.poster .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;}
+.poster::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,11,.3) 0%,rgba(8,8,11,0) 30%,rgba(8,8,11,.25) 55%,rgba(8,8,11,.97) 100%);}
+.poster>*{position:relative;z-index:2;}
+.poster .lights{position:absolute;top:0;left:0;right:0;height:18px;z-index:3;display:flex;justify-content:space-around;align-items:center;
+  background:linear-gradient(180deg,rgba(0,0,0,.5),transparent);}
+.poster .lights i{width:6px;height:6px;border-radius:50%;background:#ffcf6b;box-shadow:0 0 8px #ffcf6b;animation:tw 1.6s ease-in-out infinite;}
+@keyframes tw{0%,100%{opacity:.4}50%{opacity:1}}
+.poster .tagx{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:8px;}
+.poster h1{font-size:clamp(2.6rem,13vw,4rem);font-weight:800;line-height:.9;letter-spacing:-.02em;text-shadow:0 2px 24px rgba(0,0,0,.55);}
+.poster p{margin-top:10px;color:rgba(255,255,255,.85);font-size:13px;max-width:300px;line-height:1.45;}
+.poster a{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 24px;border-radius:11px;align-self:flex-start;}
+/* now showing strip */
+.sect{padding:18px 0 50px;}
+.sect h2{font-size:1.02rem;font-weight:700;padding:0 20px 11px;display:flex;align-items:center;gap:8px;}
+.sect h2 small{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6b7585;font-weight:700;}
+.strip{display:flex;gap:11px;overflow-x:auto;padding:0 20px;scrollbar-width:none;}
+.strip::-webkit-scrollbar{display:none;}
+.tk{flex:none;width:130px;cursor:pointer;}
+.tk .im{position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 8px 20px rgba(0,0,0,.4);display:flex;align-items:flex-end;padding:11px;}
+.tk .im .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.8;}
+.tk .im::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 48%,rgba(0,0,0,.82));}
+.tk .nm{position:relative;z-index:2;font-size:.95rem;font-weight:800;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.tk .rg{position:relative;z-index:2;display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.8;margin-top:3px;}
+.tk:active{transform:scale(.96);}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div><div class="now">● now showing</div></div>
+  <div class="premiere" id="premiere"></div>
+  <div class="sect">
+    <h2>This week's billing <small>· tap a title</small></h2>
+    <div class="strip" id="strip"></div>
+  </div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const FEAT=[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls. Now premiering in glorious sun.'];
+const P=[[34,'istanbul','İstanbul','marmara'],[50,'nevsehir','Cappadocia','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central']];
+const prem=document.getElementById('premiere'),strip=document.getElementById('strip');
+(function(){const[n,slug,name,rk,desc]=FEAT;
+  prem.innerHTML=`<div class="poster" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div>
+  <div class="lights"><i></i><i style="animation-delay:.2s"></i><i style="animation-delay:.4s"></i><i style="animation-delay:.6s"></i><i style="animation-delay:.8s"></i><i style="animation-delay:1s"></i></div>
+  <div class="tagx">★ Premiere · ${REG[rk][0]}</div><h1>${name}</h1><p>${desc}</p><a href="${slug}.html">▶ Explore ${name}</a></div>`;})();
+P.forEach(p=>{const[n,slug,name,rk]=p;const a=document.createElement('a');a.href=slug+'.html';a.className='tk';
+  a.innerHTML=`<div class="im" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div><div><div class="nm">${name}</div><span class="rg">${REG[rk][0]}</span></div></div>`;
+  strip.appendChild(a);});
+</script>
+</body>
+</html>
