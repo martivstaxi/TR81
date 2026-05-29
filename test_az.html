@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AZ · Gravity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 90% at 50% 20%,#121826 0%,#06070b 70%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.intro{position:absolute;top:54px;left:0;right:0;z-index:30;text-align:center;padding:0 30px;pointer-events:none;transition:opacity .4s;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:7px;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+.field{position:absolute;inset:0;}
+.blk{position:absolute;border-radius:14px;overflow:hidden;background-size:cover;background-position:center;cursor:grab;
+  box-shadow:0 8px 20px rgba(0,0,0,.5);display:flex;align-items:flex-end;padding:9px;will-change:transform;}
+.blk .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.74;}
+.blk::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.78));}
+.blk span{position:relative;z-index:2;font-size:.74rem;font-weight:800;text-shadow:0 1px 5px #000;line-height:1;}
+.drop{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:40;background:#ffcf6b;color:#111;font-weight:800;font-size:14px;padding:12px 24px;border-radius:12px;border:0;font-family:inherit;cursor:pointer;}
+.drop:active{transform:translateX(-50%) scale(.96);}
+.hint{position:absolute;bottom:74px;left:0;right:0;z-index:40;text-align:center;color:rgba(255,255,255,.42);font-size:12px;letter-spacing:.05em;pointer-events:none;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro" id="intro"><div class="kx">Let them fall</div><h1>Stack up Türkiye.</h1></div>
+  <div class="field" id="field"></div>
+  <button class="drop" id="dropBtn">↑ Toss again</button>
+  <div class="hint">drag a tile · tap to open</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central']];
+const field=document.getElementById('field'),app=document.getElementById('app'),intro=document.getElementById('intro');
+let W=app.clientWidth,H=app.clientHeight;const SZ=78,r=SZ/2,G=0.5;
+const items=P.map((p,i)=>{const[n,slug,name,rk]=p;const el=document.createElement('a');el.href=slug+'.html';el.className='blk';
+  el.style.width=el.style.height=SZ+'px';el.style.backgroundImage=`url('${IMG[n%2]}')`;el.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span>${name}</span>`;
+  field.appendChild(el);return{el,x:0,y:0,vx:0,vy:0,slug};});
+function toss(){items.forEach((b,i)=>{b.x=30+(i%4)*((W-60-SZ)/3);b.y=-120-(Math.floor(i/4)*90)-Math.random()*60;b.vx=(Math.random()-.5)*3;b.vy=0;});}
+toss();
+let drag=null,lx=0,ly=0,moved=false;
+function step(){items.forEach(b=>{if(b===drag)return;b.vy+=G;b.x+=b.vx;b.y+=b.vy;
+  if(b.x<0){b.x=0;b.vx*=-0.5;}if(b.x>W-SZ){b.x=W-SZ;b.vx*=-0.5;}
+  if(b.y>H-SZ-6){b.y=H-SZ-6;b.vy*=-0.32;b.vx*=0.9;if(Math.abs(b.vy)<1.4)b.vy=0;}});
+  for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){const a=items[i],c=items[j];
+    let ddx=(c.x-a.x),ddy=(c.y-a.y);const dx=Math.abs(ddx)<SZ&&Math.abs(ddy)<SZ;
+    if(dx){const ox=SZ-Math.abs(ddx),oy=SZ-Math.abs(ddy);
+      if(ox<oy){const s=(ddx<0?-1:1)*ox/2;if(a!==drag)a.x-=s;if(c!==drag)c.x+=s;if(a!==drag)a.vx*=.6;if(c!==drag)c.vx*=.6;}
+      else{const s=(ddy<0?-1:1)*oy/2;if(a!==drag)a.y-=s;if(c!==drag)c.y+=s;if(a!==drag)a.vy*=.4;if(c!==drag)c.vy*=.4;}}}
+  items.forEach(b=>b.el.style.transform=`translate(${b.x}px,${b.y}px)`);requestAnimationFrame(step);}
+step();
+function pt(e){return e.touches?e.touches[0]:e;}
+items.forEach(b=>{b.el.addEventListener('click',e=>{if(moved)e.preventDefault();});
+  const down=e=>{const t=pt(e);drag=b;moved=false;lx=t.clientX;ly=t.clientY;intro.style.opacity='0';};
+  b.el.addEventListener('touchstart',down,{passive:true});b.el.addEventListener('mousedown',down);});
+function move(e){if(!drag)return;const t=pt(e),rc=app.getBoundingClientRect();if(Math.abs(t.clientX-lx)+Math.abs(t.clientY-ly)>4)moved=true;
+  drag.vx=t.clientX-lx;drag.vy=t.clientY-ly;drag.x=t.clientX-rc.left-r;drag.y=t.clientY-rc.top-r;lx=t.clientX;ly=t.clientY;}
+function up(){drag=null;}
+window.addEventListener('touchmove',move,{passive:true});window.addEventListener('mousemove',move);window.addEventListener('touchend',up);window.addEventListener('mouseup',up);
+document.getElementById('dropBtn').onclick=()=>{moved=true;items.forEach(b=>{b.vy=-14-Math.random()*8;b.vx=(Math.random()-.5)*6;});setTimeout(()=>moved=false,300);};
+window.addEventListener('resize',()=>{W=app.clientWidth;H=app.clientHeight;});
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept BB · Slingshot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 80% at 50% 40%,#121826 0%,#06070b 72%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.head{position:absolute;top:56px;left:0;right:0;z-index:30;text-align:center;padding:0 30px;pointer-events:none;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:7px;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+svg.band{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;}
+.card{position:absolute;width:188px;height:248px;left:50%;top:54%;margin:-124px 0 0 -94px;border-radius:20px;overflow:hidden;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:18px;box-shadow:0 18px 44px rgba(0,0,0,.55);cursor:grab;z-index:10;will-change:transform;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.7;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.85));}
+.card>*{position:relative;z-index:2;}
+.card .rg{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.85;}
+.card h2{font-size:1.7rem;font-weight:800;line-height:.95;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.anchor{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.25);z-index:6;}
+.cta{position:absolute;bottom:26px;left:0;right:0;z-index:40;text-align:center;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 26px;border-radius:12px;}
+.cta .hint{color:rgba(255,255,255,.42);font-size:12px;margin-top:11px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <svg class="band" id="band"><line id="bline" stroke="#ffcf6b" stroke-width="3" stroke-linecap="round" stroke-opacity="0"/></svg>
+  <div class="anchor"></div>
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Pull &amp; release</div><h1>Sling to the next.</h1></div>
+  <div class="card" id="card"></div>
+  <div class="cta"><a id="cta" href="#">▶ Explore</a><div class="hint">drag the card back and let go ✦</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central']];
+const app=document.getElementById('app'),card=document.getElementById('card'),cta=document.getElementById('cta'),bline=document.getElementById('bline');
+let idx=0;
+function load(i){idx=(i+P.length)%P.length;const[n,slug,name,rk]=P[idx];card.style.backgroundImage=`url('${IMG[n%2]}')`;
+  card.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><div class="rg">${REG[rk][0]}</div><h2>${name}</h2>`;
+  cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;card.style.transition='transform .35s cubic-bezier(.2,1.1,.4,1)';
+  ox=0;oy=0;card.style.transform='translate(0,0) rotate(0deg)';}
+let drag=false,sx=0,sy=0,ox=0,oy=0,flying=false;
+function anchorPt(){const r=app.getBoundingClientRect();return[r.width/2,r.height*0.54];}
+const down=e=>{if(flying)return;const t=e.touches?e.touches[0]:e;drag=true;sx=t.clientX;sy=t.clientY;card.style.transition='none';};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;ox=t.clientX-sx;oy=t.clientY-sy;
+  card.style.transform=`translate(${ox}px,${oy}px) rotate(${ox*0.05}deg)`;
+  const[ax,ay]=anchorPt();bline.setAttribute('x1',ax);bline.setAttribute('y1',ay);bline.setAttribute('x2',ax+ox);bline.setAttribute('y2',ay+oy);bline.setAttribute('stroke-opacity',Math.min(.9,(Math.hypot(ox,oy))/120));};
+const up=()=>{if(!drag)return;drag=false;bline.setAttribute('stroke-opacity',0);const pull=Math.hypot(ox,oy);
+  if(pull>60){flying=true;const fx=-ox*5,fy=-oy*5;card.style.transition='transform .5s ease-in';
+    card.style.transform=`translate(${fx}px,${fy}px) rotate(${-ox*0.6}deg) scale(.4)`;
+    setTimeout(()=>{flying=false;load(idx+1);},420);}
+  else{card.style.transition='transform .3s cubic-bezier(.3,1.3,.5,1)';card.style.transform='translate(0,0) rotate(0deg)';ox=oy=0;}};
+card.addEventListener('touchstart',down,{passive:true});card.addEventListener('touchmove',move,{passive:true});card.addEventListener('touchend',up);
+card.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+card.addEventListener('click',()=>{if(Math.hypot(ox,oy)<6&&!flying)location.href=P[idx][1]+'.html';});
+load(0);
+</script>
+</body>
+</html>

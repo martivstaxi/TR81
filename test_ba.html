@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept BA · Scratch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#08080b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 8px;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.cardwrap{flex:1;position:relative;margin:6px 22px;}
+.card{position:absolute;inset:0;border-radius:22px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.55);}
+.photo{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
+.photo .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.45;}
+.photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,.9));}
+.photo>*{position:relative;z-index:2;}
+.cap{opacity:0;transition:opacity .4s;}
+.cap.show{opacity:1;}
+.cap .kx{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:8px;}
+.cap h2{font-size:clamp(2.4rem,11vw,3.4rem);font-weight:800;line-height:.92;letter-spacing:-.02em;text-shadow:0 2px 20px rgba(0,0,0,.5);}
+.cap a{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 22px;border-radius:11px;}
+canvas{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;border-radius:22px;}
+.cta{flex:none;text-align:center;padding:10px 24px 24px;z-index:30;}
+.next{display:inline-block;background:rgba(255,255,255,.14);color:#fff;font-weight:700;font-size:14px;padding:12px 24px;border-radius:12px;border:0;font-family:inherit;cursor:pointer;}
+.next:active{transform:scale(.96);}
+.hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Scratch to reveal</div><h1>What's under there?</h1></div>
+  <div class="cardwrap">
+    <div class="card">
+      <div class="photo" id="photo"><div class="tint" id="tint"></div><div class="cap" id="cap"></div></div>
+      <canvas id="cv"></canvas>
+    </div>
+  </div>
+  <div class="cta"><button class="next" id="next">↻ New card</button><div class="hint">drag your finger to scratch off the cover</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const blurb={};
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central']];
+const photo=document.getElementById('photo'),tint=document.getElementById('tint'),cap=document.getElementById('cap'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let idx=-1,revealed=false;
+function fitCanvas(){const r=cv.getBoundingClientRect();cv.width=r.width;cv.height=r.height;}
+function coverFill(rk){ctx.globalCompositeOperation='source-over';
+  const g=ctx.createLinearGradient(0,0,cv.width,cv.height);g.addColorStop(0,'#1c2230');g.addColorStop(1,'#0d1018');ctx.fillStyle=g;ctx.fillRect(0,0,cv.width,cv.height);
+  // texture dots
+  ctx.fillStyle='rgba(255,255,255,.04)';for(let i=0;i<140;i++){ctx.beginPath();ctx.arc(Math.random()*cv.width,Math.random()*cv.height,1.4,0,7);ctx.fill();}
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='700 15px Inter,sans-serif';ctx.textAlign='center';
+  ctx.fillText('✦ scratch here ✦',cv.width/2,cv.height/2);ctx.font='600 12px Inter';ctx.fillStyle='rgba(255,255,255,.3)';ctx.fillText('a surprise province awaits',cv.width/2,cv.height/2+22);}
+function load(){idx=(idx+1)%P.length;const[n,slug,name,rk]=P[idx];revealed=false;
+  photo.style.backgroundImage=`url('${IMG[n%2]}')`;tint.style.background=REG[rk][1];
+  cap.className='cap';cap.innerHTML=`<div class="kx">${REG[rk][0]}</div><h2>${name}</h2><a href="${slug}.html">▶ Explore ${name}</a>`;
+  fitCanvas();coverFill(rk);}
+function erase(x,y){ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(x,y,26,0,7);ctx.fill();}
+function pct(){const d=ctx.getImageData(0,0,cv.width,cv.height).data;let clear=0;for(let i=3;i<d.length;i+=4*40)if(d[i]<40)clear++;return clear/(d.length/(4*40));}
+let drawing=false;
+function pos(e){const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect();return[t.clientX-r.left,t.clientY-r.top];}
+const down=e=>{drawing=true;const[x,y]=pos(e);erase(x,y);};
+const move=e=>{if(!drawing)return;const[x,y]=pos(e);erase(x,y);};
+const up=()=>{if(!drawing)return;drawing=false;if(!revealed&&pct()>0.5){revealed=true;ctx.clearRect(0,0,cv.width,cv.height);cap.className='cap show';}};
+cv.addEventListener('touchstart',down,{passive:true});cv.addEventListener('touchmove',e=>{e.preventDefault();move(e);},{passive:false});cv.addEventListener('touchend',up);
+cv.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+document.getElementById('next').onclick=load;
+window.addEventListener('resize',()=>{if(!revealed){fitCanvas();coverFill(P[idx][3]);}});
+requestAnimationFrame(load);
+</script>
+</body>
+</html>

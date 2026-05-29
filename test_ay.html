@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AY · Turntable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#0a0a0c;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 70% at 50% 30%,#1a1a20 0%,#0a0a0c 72%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 0;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.deck{flex:1;position:relative;display:flex;align-items:center;justify-content:center;}
+.platter{width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#15151a 0 30%,#0d0d10 31% 100%);position:relative;
+  box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 0 0 2px rgba(255,255,255,.04);}
+.platter::before{content:'';position:absolute;inset:18px;border-radius:50%;background:repeating-radial-gradient(circle,#1b1b20 0 2px,#141418 2px 4px);opacity:.8;}
+.record{position:absolute;inset:46px;border-radius:50%;overflow:hidden;background-size:cover;background-position:center;cursor:grab;
+  box-shadow:0 0 0 6px #0b0b0e,0 8px 24px rgba(0,0,0,.5);will-change:transform;}
+.record .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.6;}
+.record::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,transparent 16%,rgba(0,0,0,.18) 17%,transparent 18%,transparent 28%,rgba(0,0,0,.15) 29%,transparent 30%);}
+.record .hole{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:#0a0a0c;box-shadow:0 0 0 4px rgba(255,255,255,.1);z-index:3;}
+.arm{position:absolute;top:36px;right:34px;width:8px;height:120px;background:linear-gradient(180deg,#c9ccd4,#7f828c);border-radius:6px;transform-origin:top center;transform:rotate(26deg);z-index:5;box-shadow:0 4px 10px rgba(0,0,0,.5);}
+.arm::after{content:'';position:absolute;bottom:-8px;left:-6px;width:20px;height:16px;background:#e6e8ee;border-radius:4px;}
+.label{position:absolute;left:0;right:0;bottom:-2px;text-align:center;z-index:4;font-size:1.05rem;font-weight:800;text-shadow:0 1px 6px #000;}
+/* crate */
+.crate{flex:none;padding:8px 0 8px;}
+.cscroll{display:flex;gap:9px;overflow-x:auto;padding:6px 18px;scrollbar-width:none;}
+.cscroll::-webkit-scrollbar{display:none;}
+.disc{flex:none;width:54px;height:54px;border-radius:50%;overflow:hidden;background-size:cover;background-position:center;cursor:pointer;border:2px solid transparent;position:relative;}
+.disc.on{border-color:#fff;}
+.disc .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.7;}
+.cta{flex:none;text-align:center;padding:6px 24px 22px;z-index:30;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;}
+.cta .hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Now playing</div><h1>Spin a province</h1></div>
+  <div class="deck">
+    <div class="platter"><div class="record" id="record"><div class="tint" id="rtint"></div><div class="hole"></div></div><div class="label" id="label"></div></div>
+    <div class="arm"></div>
+  </div>
+  <div class="crate"><div class="cscroll" id="crate"></div></div>
+  <div class="cta"><a id="cta" href="#">▶ Explore</a><div class="hint">flick the record to spin · pick from the crate</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central'],[31,'hatay','Hatay','medit'],[8,'artvin','Artvin','black']];
+const record=document.getElementById('record'),rtint=document.getElementById('rtint'),label=document.getElementById('label'),crate=document.getElementById('crate'),cta=document.getElementById('cta');
+let cur=0,ang=0,vel=2,drag=false,lastA=0;
+function load(i){cur=i;const[n,slug,name,rk]=P[i];record.style.backgroundImage=`url('${IMG[n%2]}')`;rtint.style.background=REG[rk][1];
+  label.textContent=name;cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;vel=Math.max(vel,3);
+  document.querySelectorAll('.disc').forEach((d,k)=>d.classList.toggle('on',k===i));}
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;const d=document.createElement('div');d.className='disc';d.style.backgroundImage=`url('${IMG[n%2]}')`;
+  d.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div>`;d.onclick=()=>load(i);crate.appendChild(d);});
+function frame(){if(!drag){ang+=vel;if(vel>0.6)vel*=0.992;else vel=0.6;}record.style.transform=`rotate(${ang}deg)`;requestAnimationFrame(frame);}
+frame();
+function angAt(x,y){const r=record.getBoundingClientRect();return Math.atan2(y-(r.top+r.height/2),x-(r.left+r.width/2))*180/Math.PI;}
+const down=e=>{const t=e.touches?e.touches[0]:e;drag=true;lastA=angAt(t.clientX,t.clientY);vel=0;};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;const a=angAt(t.clientX,t.clientY);let d=a-lastA;if(d>180)d-=360;if(d<-180)d+=360;ang+=d;vel=d;lastA=a;record.style.transform=`rotate(${ang}deg)`;};
+const up=()=>{drag=false;if(Math.abs(vel)<0.6)vel=0.6;};
+record.addEventListener('touchstart',down,{passive:true});record.addEventListener('touchmove',move,{passive:true});record.addEventListener('touchend',up);
+record.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+record.addEventListener('click',()=>{if(Math.abs(vel)<1.2)location.href=P[cur][1]+'.html';});
+load(0);
+</script>
+</body>
+</html>
