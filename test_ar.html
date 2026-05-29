@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AR · Accordion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#08080b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 4px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.intro{padding:6px 20px 14px;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(2rem,8vw,2.6rem);font-weight:800;letter-spacing:-.02em;line-height:1;margin-top:8px;}
+.intro p{color:#8a93a3;font-size:13px;margin-top:8px;}
+.acc{padding:6px 12px 50px;display:flex;flex-direction:column;gap:7px;}
+.item{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;height:62px;transition:height .42s cubic-bezier(.4,0,.2,1);background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:16px 18px;}
+.item.open{height:330px;}
+.item .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.88));transition:.3s;}
+.item.open::after{background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,.92));}
+.item>*{position:relative;z-index:2;}
+.row{display:flex;align-items:center;gap:12px;}
+.row .pl{font-size:12px;font-weight:800;opacity:.8;}
+.row h3{font-size:1.18rem;font-weight:800;letter-spacing:-.01em;flex:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.row .rg{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.8;}
+.det{max-height:0;overflow:hidden;opacity:0;transition:.35s;}
+.item.open .det{max-height:120px;opacity:1;margin-top:12px;}
+.det p{color:rgba(255,255,255,.88);font-size:13.5px;line-height:1.5;max-width:320px;}
+.det a{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#fff;color:#111;font-weight:700;font-size:14px;padding:11px 20px;border-radius:11px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro"><div class="kx">Tap to unfold</div><h1>Open up Türkiye.</h1><p>Each strip unfolds into a full photo — one at a time.</p></div>
+  <div class="acc" id="acc"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const blurb={antalya:'Turquoise coast — beaches, canyons and waterfalls along the Mediterranean.',istanbul:'Two continents meeting on one shimmering strait.',nevsehir:'Cappadocia — fairy chimneys and a sky full of balloons.',mardin:'Honey-stone city above the Mesopotamian plain.',trabzon:'Misty green peaks tumbling to the Black Sea.',mugla:'The bluest bays of the Aegean — Bodrum to Marmaris.',van:'A turquoise sea-lake high in the eastern mountains.',izmir:'Aegean light, ancient ruins and a long sea promenade.',sanliurfa:'Cradle of civilisation — the land of Göbeklitepe.',rize:'Tea terraces wrapped in mountain cloud.',erzurum:'High plateau winters and proud old stone.',bursa:'Green slopes of Uludağ above the first Ottoman capital.',kayseri:'Beneath the snows of Mount Erciyes.',ankara:'The modern capital on the Anatolian steppe.'};
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central']];
+const acc=document.getElementById('acc');
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;const it=document.createElement('div');it.className='item'+(i===0?' open':'');it.style.backgroundImage=`url('${IMG[n%2]}')`;
+  it.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div>
+  <div class="row"><span class="pl">${String(n).padStart(2,'0')}</span><h3>${name}</h3><span class="rg">${REG[rk][0]}</span></div>
+  <div class="det"><p>${blurb[slug]||'One of Türkiye\'s 81 provinces — landscapes worth the journey.'}</p><a href="${slug}.html">▶ Explore ${name}</a></div>`;
+  it.addEventListener('click',e=>{if(e.target.closest('a'))return;const wasOpen=it.classList.contains('open');
+    document.querySelectorAll('.item').forEach(x=>x.classList.remove('open'));if(!wasOpen)it.classList.add('open');});
+  acc.appendChild(it);});
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AS · Scrubber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#000;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.stage{flex:1;position:relative;overflow:hidden;}
+.layer{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .2s;}
+.layer.on{opacity:1;}
+.tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.45;transition:background .2s;z-index:2;}
+.stage::after{content:'';position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,.3) 60%,rgba(0,0,0,.96) 100%);}
+.bar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 10px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.cap{position:absolute;left:24px;right:24px;bottom:24px;z-index:10;}
+.cap .kx{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:9px;}
+.cap h1{font-size:clamp(2.8rem,15vw,4.6rem);font-weight:800;line-height:.9;letter-spacing:-.02em;text-shadow:0 2px 28px rgba(0,0,0,.55);}
+.cap a{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 22px;border-radius:11px;}
+/* scrubber */
+.scrub{flex:none;padding:18px 20px 26px;background:#000;}
+.track{position:relative;height:54px;}
+.ticks{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;}
+.ticks i{width:2px;background:rgba(255,255,255,.22);height:14px;border-radius:2px;}
+.ticks i.maj{height:26px;background:rgba(255,255,255,.4);}
+.fill{position:absolute;left:0;top:50%;transform:translateY(-50%);height:3px;background:#ffcf6b;border-radius:3px;}
+.handle{position:absolute;top:50%;transform:translate(-50%,-50%);width:30px;height:42px;border-radius:11px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;cursor:grab;}
+.handle::after{content:'';width:4px;height:18px;border-radius:2px;background:#0a0a0d;}
+.labels{display:flex;justify-content:space-between;margin-top:12px;font-size:11px;color:#6b7585;font-weight:600;}
+.hint{text-align:center;color:rgba(255,255,255,.4);font-size:11px;margin-top:8px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="stage" id="stage"><div class="tint" id="tint"></div>
+    <div class="bar"><div class="logo">TR<b>81</b></div></div>
+    <div class="cap" id="cap"></div>
+  </div>
+  <div class="scrub">
+    <div class="track" id="track">
+      <div class="ticks" id="ticks"></div>
+      <div class="fill" id="fill"></div>
+      <div class="handle" id="handle"></div>
+    </div>
+    <div class="labels"><span>Marmara</span><span id="curlab">—</span><span>SE Anatolia</span></div>
+    <div class="hint">drag the slider to scrub across Türkiye</div>
+  </div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[16,'bursa','Bursa','marmara'],[59,'tekirdag','Tekirdağ','marmara'],[35,'izmir','İzmir','aegean'],[48,'mugla','Muğla','aegean'],[20,'denizli','Denizli','aegean'],[7,'antalya','Antalya','medit'],[31,'hatay','Hatay','medit'],[6,'ankara','Ankara','central'],[50,'nevsehir','Nevşehir','central'],[38,'kayseri','Kayseri','central'],[61,'trabzon','Trabzon','black'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[65,'van','Van','east'],[47,'mardin','Mardin','southeast'],[63,'sanliurfa','Şanlıurfa','southeast']];
+const stage=document.getElementById('stage'),tint=document.getElementById('tint'),cap=document.getElementById('cap'),track=document.getElementById('track'),handle=document.getElementById('handle'),fill=document.getElementById('fill'),ticks=document.getElementById('ticks'),curlab=document.getElementById('curlab');
+// build layers + ticks
+const layers=P.map((p,i)=>{const[n]=p;const l=document.createElement('div');l.className='layer';l.style.backgroundImage=`url('${IMG[n%2]}')`;stage.insertBefore(l,tint);return l;});
+P.forEach((p,i)=>{const t=document.createElement('i');if(i%3===0)t.className='maj';ticks.appendChild(t);});
+let cur=-1;
+function setIdx(i){i=Math.max(0,Math.min(P.length-1,i));if(i===cur)return;cur=i;const[n,slug,name,rk]=P[i];
+  layers.forEach((l,k)=>l.classList.toggle('on',k===i));tint.style.background=REG[rk][1];
+  cap.innerHTML=`<div class="kx">${REG[rk][0]}</div><h1>${name}</h1><a href="${slug}.html">▶ Explore ${name}</a>`;curlab.textContent=name;}
+function place(frac){frac=Math.max(0,Math.min(1,frac));const w=track.clientWidth;handle.style.left=(frac*w)+'px';fill.style.width=(frac*w)+'px';
+  setIdx(Math.round(frac*(P.length-1)));}
+function fromX(clientX){const r=track.getBoundingClientRect();place((clientX-r.left)/r.width);}
+let drag=false;
+const down=e=>{drag=true;fromX((e.touches?e.touches[0]:e).clientX);};
+const move=e=>{if(!drag)return;fromX((e.touches?e.touches[0]:e).clientX);};
+const up=()=>{if(!drag)return;drag=false;place(cur/(P.length-1));};
+track.addEventListener('touchstart',down,{passive:true});track.addEventListener('touchmove',move,{passive:true});track.addEventListener('touchend',up);
+track.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+requestAnimationFrame(()=>place(0));
+</script>
+</body>
+</html>

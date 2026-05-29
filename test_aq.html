@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AQ · Dock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#06070b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+/* big preview */
+.preview{flex:1;position:relative;overflow:hidden;}
+.preview .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .25s;transform:scale(1.05);}
+.preview .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.45;transition:background .25s;}
+.preview::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,11,.4) 0%,rgba(6,7,11,0) 30%,rgba(6,7,11,.55) 75%,rgba(6,7,11,.98) 100%);}
+.pcap{position:absolute;left:24px;right:24px;bottom:22px;z-index:3;}
+.pcap .kx{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:9px;}
+.pcap h1{font-size:clamp(2.6rem,13vw,4rem);font-weight:800;line-height:.92;letter-spacing:-.02em;text-shadow:0 2px 24px rgba(0,0,0,.5);}
+.pcap a{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 22px;border-radius:11px;}
+/* dock */
+.dockwrap{flex:none;padding:10px 0 18px;}
+.dock{display:flex;align-items:flex-end;gap:4px;overflow-x:auto;padding:14px 50% 6px;scrollbar-width:none;height:118px;}
+.dock::-webkit-scrollbar{display:none;}
+.d{flex:none;width:40px;height:50px;border-radius:8px;overflow:hidden;position:relative;background-size:cover;background-position:center;cursor:pointer;
+  transition:width .12s ease,height .12s ease,margin .12s ease;transform-origin:bottom center;}
+.d .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.78;}
+.hint{text-align:center;color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="preview"><div class="bg" id="bg"></div><div class="tint" id="tint"></div>
+    <div class="bar"><div class="logo">TR<b>81</b></div></div>
+    <div class="pcap" id="pcap"></div>
+  </div>
+  <div class="dockwrap">
+    <div class="dock" id="dock"></div>
+    <div class="hint">slide along the dock · tap to open</div>
+  </div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const dock=document.getElementById('dock'),bg=document.getElementById('bg'),tint=document.getElementById('tint'),pcap=document.getElementById('pcap');
+const items=P.map(p=>{const[n,slug,name,rk]=p;const d=document.createElement('a');d.href=slug+'.html';d.className='d';
+  d.style.backgroundImage=`url('${IMG[n%2]}')`;d.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div>`;d.dataset.p=JSON.stringify(p);dock.appendChild(d);return d;});
+let curSlug=null;
+function preview(p){const[n,slug,name,rk]=p;if(slug===curSlug)return;curSlug=slug;bg.style.backgroundImage=`url('${IMG[n%2]}')`;tint.style.background=REG[rk][1];
+  pcap.innerHTML=`<div class="kx">${REG[rk][0]}</div><h1>${name}</h1><a href="${slug}.html">▶ Explore ${name}</a>`;}
+function magnify(px){let best=null,bd=1e9;
+  items.forEach(d=>{const r=d.getBoundingClientRect();const c=r.left+r.width/2;const dist=Math.abs(c-px);
+    const f=Math.max(0,1-dist/150);const w=40+f*f*52;const h=50+f*f*66;
+    d.style.width=w+'px';d.style.height=h+'px';if(dist<bd){bd=dist;best=d;}});
+  if(best)preview(JSON.parse(best.dataset.p));}
+let raf=null;
+function onMove(px){if(raf)return;raf=requestAnimationFrame(()=>{raf=null;magnify(px);});}
+dock.addEventListener('pointermove',e=>onMove(e.clientX));
+dock.addEventListener('touchmove',e=>onMove(e.touches[0].clientX),{passive:true});
+dock.addEventListener('scroll',()=>onMove(window.innerWidth/2),{passive:true});
+// init center
+requestAnimationFrame(()=>{const mid=items[6];mid.scrollIntoView({inline:'center',block:'nearest'});magnify(window.innerWidth/2);});
+</script>
+</body>
+</html>
