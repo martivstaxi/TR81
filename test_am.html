@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AM · Globe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#04050a;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 80% at 50% 42%,#101626 0%,#04050a 72%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 0;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.stage{flex:1;position:relative;perspective:1000px;}
+.globe{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;}
+.tile{position:absolute;width:56px;height:70px;margin:-35px 0 0 -28px;border-radius:9px;overflow:hidden;background-size:cover;background-position:center;
+  backface-visibility:hidden;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);}
+.tile .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.78;}
+.tile::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.7));}
+.tile .nm{position:absolute;left:4px;right:4px;bottom:3px;z-index:2;font-size:.56rem;font-weight:800;line-height:1;text-shadow:0 1px 3px #000;}
+.cta{flex:none;text-align:center;padding:8px 24px 24px;z-index:30;min-height:84px;}
+.sel{font-size:13px;color:#9aa4b2;margin-bottom:10px;height:18px;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;opacity:0;transition:.2s;pointer-events:none;}
+.cta a.on{opacity:1;pointer-events:auto;}
+.cta .hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Spin the world</div><h1>A globe of Türkiye</h1></div>
+  <div class="stage" id="stage"><div class="globe" id="globe"></div></div>
+  <div class="cta"><div class="sel" id="sel">Tap a tile to choose</div><a id="cta" href="#">▶ Explore</a><div class="hint">drag to spin ↺</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyon','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','K.maraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const globe=document.getElementById('globe'),cta=document.getElementById('cta'),sel=document.getElementById('sel');
+const R=150,N=P.length,GA=Math.PI*(3-Math.sqrt(5));
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;
+  const y=1-(i/(N-1))*2;const rad=Math.sqrt(1-y*y);const th=i*GA;
+  const x=Math.cos(th)*rad,z=Math.sin(th)*rad;
+  const lon=Math.atan2(x,z)*180/Math.PI;const lat=Math.asin(y)*180/Math.PI;
+  const t=document.createElement('div');t.className='tile';t.style.transform=`rotateY(${lon}deg) rotateX(${-lat}deg) translateZ(${R}px)`;
+  t.style.backgroundImage=`url('${IMG[n%2]}')`;t.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span class="nm">${name}</span>`;
+  t.addEventListener('click',ev=>{ev.stopPropagation();sel.textContent=`${name} · ${REG[rk][0]}`;cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;cta.classList.add('on');});
+  globe.appendChild(t);});
+let rx=-8,ry=0,vy=0.12,drag=false,sx=0,sy=0,brx=0,bry=0,last=0;
+function frame(){if(!drag){ry+=vy;}globe.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;requestAnimationFrame(frame);}
+frame();
+const stage=document.getElementById('stage');
+const down=e=>{const t=e.touches?e.touches[0]:e;drag=true;sx=t.clientX;sy=t.clientY;brx=rx;bry=ry;};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;ry=bry+(t.clientX-sx)*0.4;rx=Math.max(-80,Math.min(80,brx-(t.clientY-sy)*0.4));};
+const up=()=>drag=false;
+stage.addEventListener('touchstart',down,{passive:true});stage.addEventListener('touchmove',move,{passive:true});stage.addEventListener('touchend',up);
+stage.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+</script>
+</body>
+</html>

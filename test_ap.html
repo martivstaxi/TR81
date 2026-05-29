@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AP · Flip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#0a0a0d;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#0a0a0d;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 4px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.intro{padding:6px 20px 12px;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(2rem,8vw,2.6rem);font-weight:800;letter-spacing:-.02em;line-height:1;margin-top:8px;}
+.intro p{color:#8a93a3;font-size:13px;margin-top:8px;}
+.search{margin:0 18px 4px;position:relative;}
+.search input{width:100%;border:0;background:#16161c;border-radius:11px;padding:12px 12px 12px 40px;font-size:14px;font-family:inherit;color:#fff;}
+.search input::placeholder{color:#6b6f7a;}.search input:focus{outline:1px solid #3a3a44;}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#6b6f7a;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 18px 56px;}
+.card{aspect-ratio:4/5;perspective:800px;cursor:pointer;}
+.inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.card.flip .inner{transform:rotateY(180deg);}
+.face{position:absolute;inset:0;border-radius:16px;overflow:hidden;backface-visibility:hidden;}
+.front{background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;}
+.front .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.74;}
+.front::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,0) 42%,rgba(0,0,0,.82));}
+.front>*{position:relative;z-index:2;}
+.front .pl{position:absolute;top:11px;left:12px;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800;}
+.front h3{font-size:1.18rem;font-weight:800;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.front .flipic{position:absolute;top:10px;right:11px;font-size:14px;opacity:.7;}
+.back-f{transform:rotateY(180deg);background:linear-gradient(160deg,#15161d,#0d0e13);border:1px solid #232a34;display:flex;flex-direction:column;justify-content:center;padding:18px;}
+.back-f .rg{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--c);}
+.back-f h3{font-size:1.4rem;font-weight:800;margin:4px 0 6px;}
+.back-f p{color:#9aa4b2;font-size:11.5px;line-height:1.45;flex:1;}
+.back-f a{display:block;text-align:center;background:#fff;color:#111;font-weight:700;font-size:13px;padding:10px;border-radius:10px;margin-top:8px;}
+.empty{display:none;text-align:center;color:#6b6f7a;padding:30px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro"><div class="kx">Tap to flip</div><h1>Every cover has a back.</h1><p>Tap a province to flip it and read more.</p></div>
+  <div class="search">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="q" type="text" placeholder="Search a province…">
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">No province found.</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const blurb={antalya:'Turquoise coast — beaches, canyons & waterfalls.',istanbul:'Two continents, one shimmering strait.',nevsehir:'Cappadocia — fairy chimneys & balloons.',mardin:'Honey-stone city above the plain.',trabzon:'Misty peaks above the Black Sea.',van:'A turquoise sea-lake in the east.',mugla:'The bluest bays of the Aegean.',izmir:'Aegean light and ancient ruins.',sanliurfa:'Cradle of civilisation.',rize:'Tea terraces wrapped in cloud.'};
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyon','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','K.maraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const norm=s=>s.toLowerCase().replace(/ı/g,'i').replace(/İ/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
+const grid=document.getElementById('grid'),empty=document.getElementById('empty');
+P.forEach(p=>{const[n,slug,name,rk]=p;const c=document.createElement('div');c.className='card';c.dataset.s=norm(name);
+  c.innerHTML=`<div class="inner">
+    <div class="face front" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div><span class="pl">${String(n).padStart(2,'0')}</span><span class="flipic">↻</span><h3>${name}</h3></div>
+    <div class="face back-f" style="--c:${REG[rk][1]}"><div class="rg">${REG[rk][0]}</div><h3>${name}</h3><p>${blurb[slug]||'One of Türkiye\'s 81 provinces — landscapes worth the journey.'}</p><a href="${slug}.html">▶ Explore</a></div>
+  </div>`;
+  c.addEventListener('click',e=>{if(e.target.closest('a'))return;c.classList.toggle('flip');});
+  grid.appendChild(c);});
+document.getElementById('q').addEventListener('input',e=>{const v=norm(e.target.value);let any=false;
+  document.querySelectorAll('.card').forEach(c=>{const vis=!v||c.dataset.s.includes(v);c.style.display=vis?'':'none';if(vis)any=true;if(!vis)c.classList.remove('flip');});
+  empty.style.display=any?'none':'block';});
+</script>
+</body>
+</html>

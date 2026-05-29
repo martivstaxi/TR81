@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AO · Constellation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#04040a;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(130% 90% at 50% 30%,#0c1020 0%,#04040a 70%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.intro{position:absolute;top:54px;left:0;right:0;z-index:30;text-align:center;padding:0 30px;pointer-events:none;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:7px;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+svg{position:absolute;inset:0;width:100%;height:100%;}
+.star{position:absolute;transform:translate(-50%,-50%);cursor:pointer;}
+.star .dot{width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px var(--c),0 0 2px #fff;transition:.2s;animation:tw var(--t) ease-in-out infinite alternate;}
+@keyframes tw{from{opacity:.55}to{opacity:1}}
+.star:hover .dot,.star.on .dot{transform:scale(1.8);box-shadow:0 0 16px 5px var(--c),0 0 4px #fff;}
+.star .lab{position:absolute;left:50%;top:9px;transform:translateX(-50%);white-space:nowrap;font-size:9px;font-weight:600;color:rgba(255,255,255,.55);pointer-events:none;}
+.rlabel{position:absolute;transform:translate(-50%,-50%);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.3);pointer-events:none;}
+/* popup */
+.pop{position:absolute;z-index:50;width:150px;border-radius:16px;overflow:hidden;background:#0c0d14;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.6);display:none;transform:translate(-50%,-110%);}
+.pop.show{display:block;}
+.pop .im{height:96px;background-size:cover;background-position:center;position:relative;}
+.pop .im .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.8;}
+.pop .tx{padding:11px 13px 13px;}
+.pop .rg{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#9aa4b2;font-weight:700;}
+.pop h3{font-size:1.05rem;font-weight:800;margin:2px 0 8px;}
+.pop a{display:block;text-align:center;background:#fff;color:#111;font-weight:700;font-size:12px;padding:8px;border-radius:9px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <svg id="lines"></svg>
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro"><div class="kx">Map of the skies</div><h1>81 stars, 7 constellations.</h1></div>
+  <div id="stars"></div>
+  <div class="pop" id="pop"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+// cluster centers (% of viewport) per region
+const C={marmara:[24,28],black:[60,22],aegean:[20,55],central:[48,48],medit:[38,78],east:[80,52],southeast:[66,75]};
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyon','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','K.maraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+const starsEl=document.getElementById('stars'),lines=document.getElementById('lines'),pop=document.getElementById('pop'),app=document.getElementById('app');
+const byReg={};P.forEach(p=>{(byReg[p[3]]=byReg[p[3]]||[]).push(p);});
+const pos={};
+Object.keys(C).forEach(rk=>{const[cx,cy]=C[rk];const list=byReg[rk];const cnt=list.length;
+  list.forEach((p,j)=>{const ang=(j/cnt)*Math.PI*2+ (p[0]%5);const rad=8+ (p[0]%4)*2.4 + (j%3)*1.6;
+    const x=cx+Math.cos(ang)*rad;const y=cy+Math.sin(ang)*rad*0.8;pos[p[1]]={x,y,rk};});
+  // region label
+  const rl=document.createElement('div');rl.className='rlabel';rl.style.left=cx+'%';rl.style.top=(cy-13)+'%';rl.textContent=REG[rk][0];starsEl.appendChild(rl);
+  // connecting lines
+  let d='';list.forEach((p,j)=>{const pt=pos[p[1]];d+=(j?'L':'M')+pt.x+' '+pt.y+' ';});
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',d);path.setAttribute('fill','none');
+  path.setAttribute('stroke',REG[rk][1]);path.setAttribute('stroke-width','.25');path.setAttribute('stroke-opacity','.4');path.setAttribute('vector-effect','non-scaling-stroke');lines.appendChild(path);});
+lines.setAttribute('viewBox','0 0 100 100');lines.setAttribute('preserveAspectRatio','none');
+P.forEach(p=>{const[n,slug,name,rk]=p;const pt=pos[slug];const s=document.createElement('div');s.className='star';s.style.left=pt.x+'%';s.style.top=pt.y+'%';s.style.setProperty('--c',REG[rk][1]);s.style.setProperty('--t',(1.6+(n%6)*0.3)+'s');
+  s.innerHTML=`<div class="dot"></div>`;
+  s.addEventListener('click',e=>{e.stopPropagation();document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));s.classList.add('on');
+    const r=s.getBoundingClientRect(),a=app.getBoundingClientRect();pop.style.left=(r.left-a.left+r.width/2)+'px';pop.style.top=(r.top-a.top)+'px';
+    pop.className='pop show';pop.innerHTML=`<div class="im" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div></div><div class="tx"><div class="rg">${REG[rk][0]}</div><h3>${name}</h3><a href="${slug}.html">Explore →</a></div>`;});
+  starsEl.appendChild(s);});
+app.addEventListener('click',()=>{pop.className='pop';document.querySelectorAll('.star').forEach(x=>x.classList.remove('on'));});
+</script>
+</body>
+</html>
