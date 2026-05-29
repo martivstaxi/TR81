@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept T · Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;background:#06070b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);min-height:100vh;}
+.bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;
+  background:linear-gradient(180deg,rgba(6,7,11,.9),rgba(6,7,11,0));pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.intro{padding:30px 22px 14px;text-align:center;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(2rem,8vw,2.7rem);font-weight:800;letter-spacing:-.02em;line-height:1;margin-top:8px;}
+.intro p{color:#8a93a3;font-size:13px;margin-top:8px;}
+.stack{padding:0 14px;}
+.slot{height:78vh;}
+.card{position:sticky;top:8vh;height:74vh;border-radius:22px;overflow:hidden;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:26px 24px;box-shadow:0 24px 60px rgba(0,0,0,.55);
+  transform-origin:top center;will-change:transform;}
+.card .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,11,.25) 0%,rgba(6,7,11,0) 32%,rgba(6,7,11,.2) 54%,rgba(6,7,11,.96) 100%);}
+.card>*{position:relative;z-index:2;}
+.card .pl{position:absolute;top:20px;left:20px;background:rgba(0,0,0,.4);backdrop-filter:blur(5px);border-radius:8px;padding:4px 11px;font-size:12px;font-weight:800;}
+.card .kx{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:9px;}
+.card h2{font-size:clamp(2.6rem,12vw,3.8rem);font-weight:800;line-height:.9;letter-spacing:-.02em;text-shadow:0 2px 22px rgba(0,0,0,.5);}
+.card p{margin-top:10px;color:rgba(255,255,255,.86);font-size:14px;line-height:1.5;max-width:300px;}
+.card a{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 22px;border-radius:11px;align-self:flex-start;}
+.end{text-align:center;padding:30px 0 60px;color:#6b7585;font-size:13px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro"><div class="kx">Keep scrolling</div><h1>A stack of Türkiye.</h1><p>Each cover settles, the next slides over it.</p></div>
+  <div class="stack" id="stack"></div>
+  <div class="end">…and 71 more provinces</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara','Two continents meeting on one shimmering strait.'],[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls.'],[50,'nevsehir','Cappadocia','central','Fairy chimneys and a sky full of balloons.'],[47,'mardin','Mardin','southeast','Honey-stone city above the Mesopotamian plain.'],[61,'trabzon','Trabzon','black','Misty green peaks above the Black Sea.'],[48,'mugla','Muğla','aegean','The bluest bays of the Aegean.'],[65,'van','Van','east','A turquoise sea-lake high in the eastern mountains.'],[35,'izmir','İzmir','aegean','Aegean light, ancient ruins and a long promenade.'],[63,'sanliurfa','Şanlıurfa','southeast','Cradle of civilisation — Göbeklitepe country.'],[53,'rize','Rize','black','Tea terraces wrapped in mountain cloud.']];
+const stack=document.getElementById('stack');
+P.forEach((p,i)=>{const[n,slug,name,rk,desc]=p;const slot=document.createElement('div');slot.className='slot';
+  slot.innerHTML=`<div class="card" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div>
+  <span class="pl">${String(n).padStart(2,'0')}</span><div class="kx">${REG[rk][0]}</div><h2>${name}</h2><p>${desc}</p><a href="${slug}.html">▶ Explore ${name}</a></div>`;
+  stack.appendChild(slot);});
+const cards=Array.from(document.querySelectorAll('.card'));
+let t=null;
+function upd(){const vh=window.innerHeight;
+  cards.forEach((c,i)=>{const r=c.getBoundingClientRect();const top=vh*0.08;
+    // how far the card has been "stuck" (next card pushing up)
+    const stuck=Math.max(0,Math.min(1,(top-r.top)/(vh*0.6)+0)); // 0 while moving, grows once pinned & covered
+    const passed=Math.max(0,(top-r.top)/(vh*0.7));
+    const s=Math.max(.86,1-passed*0.14);const dim=Math.min(.5,passed*0.5);
+    c.style.transform=`scale(${s})`;c.style.filter=`brightness(${1-dim})`;});}
+window.addEventListener('scroll',()=>{if(t)cancelAnimationFrame(t);t=requestAnimationFrame(upd);},{passive:true});
+upd();
+</script>
+</body>
+</html>

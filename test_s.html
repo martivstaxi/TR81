@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept S · Ranked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:#08080b;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 4px;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.intro{padding:6px 20px 14px;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(2rem,8vw,2.6rem);font-weight:800;letter-spacing:-.02em;line-height:1;margin-top:8px;}
+.intro p{color:#8a93a3;font-size:13px;margin-top:8px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 6px;padding:14px 14px 54px;}
+.item{position:relative;display:flex;align-items:flex-end;padding-left:34px;cursor:pointer;}
+.rank{position:absolute;left:-6px;bottom:-14px;z-index:1;font-size:5.4rem;font-weight:800;line-height:.7;letter-spacing:-.04em;
+  color:#08080b;-webkit-text-stroke:2px #3a3f4b;font-style:italic;}
+.cover{position:relative;flex:1;aspect-ratio:3/4;border-radius:13px;overflow:hidden;z-index:2;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;box-shadow:0 10px 26px rgba(0,0,0,.5);}
+.cover .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.78;}
+.cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.85));}
+.cover>*{position:relative;z-index:2;}
+.cover .rg{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.85;margin-bottom:3px;}
+.cover h3{font-size:1.04rem;font-weight:800;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.item:active .cover{transform:scale(.97);}
+.more{text-align:center;margin:6px 0 50px;}
+.more a{color:#8a93a3;font-size:13px;font-weight:600;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro"><div class="kx">Most visited this week</div><h1>Türkiye, ranked.</h1><p>The provinces travellers are looking at right now.</p></div>
+  <div class="grid" id="grid"></div>
+  <div class="more"><a href="#">See all 81 →</a></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+// ranked top list
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Cappadocia','central'],[35,'izmir','İzmir','aegean'],[48,'mugla','Muğla','aegean'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[6,'ankara','Ankara','central'],[65,'van','Van','east'],[63,'sanliurfa','Şanlıurfa','southeast']];
+const grid=document.getElementById('grid');
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;const a=document.createElement('a');a.href=slug+'.html';a.className='item';
+  a.innerHTML=`<span class="rank">${i+1}</span><div class="cover" style="background-image:url('${IMG[n%2]}')"><div class="tint" style="background:${REG[rk][1]}"></div><div class="rg">${REG[rk][0]}</div><h3>${name}</h3></div>`;
+  grid.appendChild(a);});
+</script>
+</body>
+</html>
