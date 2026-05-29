@@ -454,9 +454,9 @@ const trendEl=document.getElementById('trend');
 let tMoved=false;   /* set during a horizontal drag so a dragged card doesn't navigate */
 TREND.forEach((slug,i)=>{const p=bySlug[slug];if(!p)return;const[n,sl,name,rk]=p;
   const c=document.createElement('a');c.href=sl+'.html';c.className='tcard';c.style.backgroundImage=`url('${IMG[i%2]}')`;
-  c.setAttribute('aria-label',name);
+  c.setAttribute('aria-label',name);c.dataset.slug=sl;c.dataset.name=name;
   c.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div>${badgeFor(sl)}<h3>${name}</h3>`;
-  c.addEventListener('click',e=>{e.preventDefault();if(tMoved)return;goProvince(sl,name);});
+  c.addEventListener('click',e=>e.preventDefault());  /* nav handled in pointerup — pointer-capture retargets the click to the container on desktop mouse */
   trendEl.appendChild(c);
 });
 const tcards=[...trendEl.children];
@@ -483,9 +483,10 @@ function tAnimate(i,dur=SETTLE){
   if(Math.abs(delta)<1){trendEl.scrollLeft=to;focusTrend();return;}
   (function f(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3);trendEl.scrollLeft=from+delta*e;focusTrend();if(p<1)tAnim=requestAnimationFrame(f);})(t0);
 }
-let tDrag=false,tStart=0,tRest=0,tLast=0,tLT=0,tVel=0;
+let tDrag=false,tStart=0,tRest=0,tLast=0,tLT=0,tVel=0,downTcard=null;
 trendEl.addEventListener('pointerdown',e=>{
   if(e.pointerType==='mouse'&&e.button!==0)return;
+  downTcard=e.target.closest?e.target.closest('.tcard'):null;
   tDrag=true;tMoved=false;tStart=tLast=e.clientX;tLT=performance.now();tVel=0;
   tRest=trendEl.scrollLeft;cancelAnimationFrame(tAnim);trendEl.classList.add('grabbing');
   try{trendEl.setPointerCapture(e.pointerId);}catch(_){}
@@ -505,8 +506,15 @@ function tEnd(){
   const ni=tNearest(proj);if(ni!==tIdx)haptic(6);
   tAnimate(ni);
 }
-trendEl.addEventListener('pointerup',tEnd);
-trendEl.addEventListener('pointercancel',tEnd);
+trendEl.addEventListener('pointerup',e=>{
+  if(tDrag&&!tMoved){          /* a tap, not a drag → navigate (click is unreliable under pointer capture) */
+    const t=downTcard;downTcard=null;tDrag=false;trendEl.classList.remove('grabbing');
+    if(t)goProvince(t.dataset.slug,t.dataset.name);
+    return;
+  }
+  downTcard=null;tEnd();
+});
+trendEl.addEventListener('pointercancel',()=>{downTcard=null;tEnd();});
 
 /* ----- coverflow overlay (I) ----- */
 const fv=document.getElementById('flowview'),flow=document.getElementById('flow'),dots=document.getElementById('dots');
@@ -532,7 +540,7 @@ function openRegion(key,label,focusSlug){
     const d=document.createElement('div');d.className='cover'+(free?'':' locked');d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
     const tapTxt=ALL_UNLOCKED?T.tap:(slug===FREE_SLUG?T.freeTap:ICON.lock+'<span>'+T.lockedTap+'</span>');
     d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>${badgeFor(slug)}<span class="tap">${tapTxt}</span>`;
-    d.onclick=()=>{if(dragMoved)return;if(i===idx){goProvince(slug,name);}else{haptic(6);animateTo(i);}};
+    /* tap/navigation handled on the flow pointerup (pointer capture retargets click to the container on desktop mouse) */
     flow.appendChild(d);
     const dt=document.createElement('span');dt.className='dot';dots.appendChild(dt);
   });
@@ -650,9 +658,10 @@ function animateTo(i,dur=SETTLE){
 function step(dir){const ni=clampIdx(idx+dir);if(ni!==idx){haptic(6);animateTo(ni);}}
 
 /* pointer drag: finger 1:1, then capped momentum that snaps to a card (same feel as the strip) */
-let dragging=false,startX=0,restScroll=0,lastX=0,lastT=0,vel=0;
+let dragging=false,startX=0,restScroll=0,lastX=0,lastT=0,vel=0,downCover=null;
 flow.addEventListener('pointerdown',e=>{
   dragging=true;dragMoved=false;startX=lastX=e.clientX;lastT=performance.now();vel=0;
+  downCover=e.target.closest?e.target.closest('.cover'):null;
   restScroll=flow.scrollLeft;cancelAnimationFrame(animRaf);
   flow.classList.add('grabbing');try{flow.setPointerCapture(e.pointerId);}catch(_){}
 });
@@ -671,9 +680,16 @@ function endDrag(){
   const ni=nearestFlow(proj);if(ni!==idx)haptic(6);
   animateTo(ni);
 }
-flow.addEventListener('pointerup',endDrag);
-flow.addEventListener('pointercancel',endDrag);
-flow.addEventListener('pointerleave',endDrag);
+flow.addEventListener('pointerup',e=>{
+  if(dragging&&!dragMoved){    /* a tap, not a drag */
+    const t=downCover;downCover=null;dragging=false;flow.classList.remove('grabbing');
+    if(t){const i=+t.dataset.i;if(i===idx){goProvince(cur[i][1],cur[i][2]);}else{haptic(6);animateTo(i);}}
+    return;
+  }
+  downCover=null;endDrag();
+});
+flow.addEventListener('pointercancel',()=>{downCover=null;endDrag();});
+flow.addEventListener('pointerleave',()=>{downCover=null;endDrag();});
 
 /* desktop: mouse-wheel / trackpad scrolls the coverflow (throttled, one card per tick) */
 let wheelLock=false;
