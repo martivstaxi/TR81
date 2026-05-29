@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AW · Bubbles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#05060a;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 90% at 50% 30%,#101626 0%,#05060a 70%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 8px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.intro{position:absolute;top:54px;left:0;right:0;z-index:30;text-align:center;padding:0 30px;pointer-events:none;transition:opacity .4s;}
+.intro .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.intro h1{font-size:clamp(1.7rem,7vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-top:7px;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+.field{position:absolute;inset:0;}
+.bub{position:absolute;border-radius:50%;overflow:hidden;background-size:cover;background-position:center;cursor:grab;
+  box-shadow:0 8px 22px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;will-change:transform;}
+.bub .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.bub::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.35),transparent 42%),linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.55));}
+.bub span{position:relative;z-index:2;font-size:.72rem;font-weight:800;text-shadow:0 1px 5px #000;text-align:center;line-height:1;padding:0 6px;}
+.hint{position:absolute;bottom:22px;left:0;right:0;z-index:40;text-align:center;color:rgba(255,255,255,.42);font-size:12px;letter-spacing:.05em;pointer-events:none;transition:opacity .4s;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="intro" id="intro"><div class="kx">Give them a nudge</div><h1>Provinces afloat.</h1></div>
+  <div class="field" id="field"></div>
+  <div class="hint" id="hint">✦ fling a bubble · tap to open</div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central'],[31,'hatay','Hatay','medit'],[8,'artvin','Artvin','black']];
+const field=document.getElementById('field'),app=document.getElementById('app'),intro=document.getElementById('intro'),hint=document.getElementById('hint');
+let W=app.clientWidth,H=app.clientHeight;
+const balls=P.map((p,i)=>{const[n,slug,name,rk]=p;const r=30+ (n%3)*8;const el=document.createElement('a');el.href=slug+'.html';el.className='bub';
+  el.style.width=el.style.height=(r*2)+'px';el.style.backgroundImage=`url('${IMG[n%2]}')`;el.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span>${name}</span>`;
+  field.appendChild(el);
+  return {el,r,x:60+(i%4)*((W-120)/3),y:120+Math.floor(i/4)*((H-240)/3),vx:(i%2?1:-1)*(0.4+i*0.05),vy:(i%3?1:-1)*0.5,slug};});
+let drag=null,dx=0,dy=0,lastx=0,lasty=0,moved=false;
+function step(){balls.forEach(b=>{if(b===drag)return;b.x+=b.vx;b.y+=b.vy;
+  if(b.x<b.r){b.x=b.r;b.vx*=-0.86;}if(b.x>W-b.r){b.x=W-b.r;b.vx*=-0.86;}
+  if(b.y<b.r){b.y=b.r;b.vy*=-0.86;}if(b.y>H-b.r){b.y=H-b.r;b.vy*=-0.86;}
+  b.vx*=0.995;b.vy*=0.995;});
+  // collisions
+  for(let i=0;i<balls.length;i++)for(let j=i+1;j<balls.length;j++){const a=balls[i],c=balls[j];
+    let ddx=c.x-a.x,ddy=c.y-a.y,dist=Math.hypot(ddx,ddy),min=a.r+c.r;
+    if(dist<min&&dist>0){const ov=(min-dist)/2,nx=ddx/dist,ny=ddy/dist;
+      if(a!==drag){a.x-=nx*ov;a.y-=ny*ov;}if(c!==drag){c.x+=nx*ov;c.y+=ny*ov;}
+      const dvx=c.vx-a.vx,dvy=c.vy-a.vy,p=(dvx*nx+dvy*ny);if(p<0){if(a!==drag){a.vx+=p*nx;a.vy+=p*ny;}if(c!==drag){c.vx-=p*nx;c.vy-=p*ny;}}}}
+  balls.forEach(b=>{b.el.style.transform=`translate(${b.x-b.r}px,${b.y-b.r}px)`;});
+  requestAnimationFrame(step);}
+step();
+function pt(e){return e.touches?e.touches[0]:e;}
+balls.forEach(b=>{b.el.addEventListener('click',e=>{if(moved)e.preventDefault();});
+  const down=e=>{const t=pt(e);drag=b;moved=false;lastx=t.clientX;lasty=t.clientY;b.vx=b.vy=0;intro.style.opacity='0';hint.style.opacity='0';};
+  b.el.addEventListener('touchstart',down,{passive:true});b.el.addEventListener('mousedown',down);});
+function move(e){if(!drag)return;const t=pt(e),r=app.getBoundingClientRect();const x=t.clientX-r.left,y=t.clientY-r.top;
+  if(Math.abs(t.clientX-lastx)+Math.abs(t.clientY-lasty)>4)moved=true;
+  drag.vx=(t.clientX-lastx);drag.vy=(t.clientY-lasty);drag.x=x;drag.y=y;lastx=t.clientX;lasty=t.clientY;}
+function up(){drag=null;}
+window.addEventListener('touchmove',move,{passive:true});window.addEventListener('mousemove',move);
+window.addEventListener('touchend',up);window.addEventListener('mouseup',up);
+window.addEventListener('resize',()=>{W=app.clientWidth;H=app.clientHeight;});
+</script>
+</body>
+</html>

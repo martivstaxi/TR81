@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AX · Peel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#000;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+.layer{position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 26px 16vh;}
+.layer .bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.layer .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.45;}
+.layer::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,.18) 54%,rgba(0,0,0,.95) 100%);}
+.layer>*{position:relative;z-index:3;}
+.layer .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:11px;}
+.layer h2{font-size:clamp(3rem,16vw,5rem);font-weight:800;line-height:.9;letter-spacing:-.025em;text-shadow:0 3px 30px rgba(0,0,0,.55);}
+.layer p{margin-top:13px;color:rgba(255,255,255,.85);font-size:14px;max-width:300px;line-height:1.5;}
+.layer a{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 24px;border-radius:12px;align-self:flex-start;}
+#cur{z-index:5;will-change:clip-path;filter:drop-shadow(-6px -6px 16px rgba(0,0,0,.5));}
+.bar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 10px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.curl{position:absolute;right:0;bottom:0;z-index:6;width:64px;height:64px;pointer-events:none;
+  background:linear-gradient(135deg,transparent 46%,rgba(255,255,255,.5) 50%,rgba(255,255,255,.08) 56%,transparent 60%);}
+.tab{position:absolute;right:14px;bottom:calc(16vh + 6px);z-index:8;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:18px;animation:nudge 1.8s ease-in-out infinite;}
+@keyframes nudge{0%,100%{transform:translate(0,0)}50%{transform:translate(-5px,-5px)}}
+.dots{position:absolute;left:0;right:0;bottom:50px;z-index:20;display:flex;gap:6px;justify-content:center;}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);}
+.dots i.on{background:#fff;width:18px;border-radius:3px;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="layer" id="next"></div>
+  <div class="layer" id="cur"></div>
+  <div class="curl" id="curl" style="display:none"></div>
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="tab" id="tab">↰</div>
+  <div class="dots" id="dots"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara','Two continents meeting on one shimmering strait.'],[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls.'],[50,'nevsehir','Cappadocia','central','Fairy chimneys and a sky full of balloons.'],[47,'mardin','Mardin','southeast','Honey-stone city above the Mesopotamian plain.'],[61,'trabzon','Trabzon','black','Misty green peaks above the Black Sea.'],[48,'mugla','Muğla','aegean','The bluest bays of the Aegean.'],[65,'van','Van','east','A turquoise sea-lake high in the eastern mountains.'],[35,'izmir','İzmir','aegean','Aegean light, ancient ruins and a long promenade.'],[63,'sanliurfa','Şanlıurfa','southeast','Cradle of civilisation — Göbeklitepe country.'],[53,'rize','Rize','black','Tea terraces wrapped in mountain cloud.'],[25,'erzurum','Erzurum','east','High plateau winters and proud old stone.'],[16,'bursa','Bursa','marmara','Green slopes of Uludağ above the first Ottoman capital.']];
+const cur=document.getElementById('cur'),next=document.getElementById('next'),curl=document.getElementById('curl'),app=document.getElementById('app'),tab=document.getElementById('tab'),dots=document.getElementById('dots');
+let idx=0;
+P.forEach((p,i)=>{const d=document.createElement('i');if(i===0)d.className='on';dots.appendChild(d);});
+const ds=Array.from(dots.children);
+function html(p){const[n,slug,name,rk,desc]=p;return `<div class="bg" style="background-image:url('${IMG[n%2]}')"></div><div class="tint" style="background:${REG[rk][1]}"></div>
+  <div class="kx">${REG[rk][0]} · ${String((P.indexOf(p))+1).padStart(2,'0')}/${P.length}</div><h2>${name}</h2><p>${desc}</p><a href="${slug}.html">▶ Explore ${name}</a>`;}
+function render(){cur.innerHTML=html(P[idx]);next.innerHTML=html(P[(idx+1)%P.length]);ds.forEach((d,i)=>d.classList.toggle('on',i===idx));setPeel(0);}
+function setPeel(s){const W=app.clientWidth,H=app.clientHeight;const sx=Math.max(0,Math.min(W+H,s));
+  cur.style.clipPath=`polygon(0 0, 100% 0, 100% ${Math.max(0,H-sx)}px, ${Math.max(0,W-sx)}px 100%, 0 100%)`;
+  if(sx>4){curl.style.display='';curl.style.right=Math.max(0,W-sx)+'px';curl.style.bottom=Math.max(0,H-sx)+'px';tab.style.opacity='0';}else{curl.style.display='none';tab.style.opacity='';}}
+render();
+let drag=false,s0=0,peel=0;
+function dist(t){const W=app.clientWidth,H=app.clientHeight;return (W-t.clientX)+(H-t.clientY);}
+const down=e=>{const t=e.touches?e.touches[0]:e;drag=true;peel=dist(t);};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;peel=dist(t);setPeel(peel);};
+const up=()=>{if(!drag)return;drag=false;const W=app.clientWidth,H=app.clientHeight;
+  if(peel>(W+H)*0.32){animate(peel,W+H,()=>{idx=(idx+1)%P.length;render();});}else{animate(peel,0,()=>setPeel(0));}};
+function animate(from,to,done){const start=from;let v=from;const dir=to>from?1:-1;
+  function tick(){v+=(to-v)*0.22;setPeel(v);if(Math.abs(v-to)<6){setPeel(to);done&&done();return;}requestAnimationFrame(tick);}tick();}
+app.addEventListener('touchstart',down,{passive:true});app.addEventListener('touchmove',move,{passive:true});app.addEventListener('touchend',up);
+app.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+tab.addEventListener('click',()=>{const W=app.clientWidth,H=app.clientHeight;animate(0,W+H,()=>{idx=(idx+1)%P.length;render();});});
+</script>
+</body>
+</html>

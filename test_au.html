@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AU · Carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 80% at 50% 40%,#131826 0%,#06070b 72%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 0;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.stage{flex:1;position:relative;perspective:900px;}
+.carousel{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d;}
+.cell{position:absolute;width:150px;height:200px;margin:-100px 0 0 -75px;border-radius:18px;overflow:hidden;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;box-shadow:0 14px 36px rgba(0,0,0,.55);cursor:pointer;}
+.cell .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.cell::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.82));}
+.cell .rg{position:relative;z-index:2;font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.85;}
+.cell h3{position:relative;z-index:2;font-size:1.2rem;font-weight:800;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.cta{flex:none;text-align:center;padding:8px 24px 24px;z-index:30;}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 28px;border-radius:12px;}
+.cta .hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app" id="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Spin the carousel</div><h1>Round and round</h1></div>
+  <div class="stage" id="stage"><div class="carousel" id="carousel"></div></div>
+  <div class="cta"><a id="cta" href="#">▶ Explore</a><div class="hint">drag to spin · tap the front cover</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara'],[38,'kayseri','Kayseri','central'],[6,'ankara','Ankara','central'],[31,'hatay','Hatay','medit'],[8,'artvin','Artvin','black']];
+const carousel=document.getElementById('carousel'),cta=document.getElementById('cta'),stage=document.getElementById('stage');
+const N=P.length,STEP=360/N,R=Math.round((150/2)/Math.tan(Math.PI/N))+30;
+const cells=P.map((p,i)=>{const[n,slug,name,rk]=p;const c=document.createElement('div');c.className='cell';
+  c.style.transform=`rotateY(${i*STEP}deg) translateZ(${R}px)`;c.style.backgroundImage=`url('${IMG[n%2]}')`;
+  c.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><div class="rg">${REG[rk][0]}</div><h3>${name}</h3>`;
+  c.addEventListener('click',()=>{const front=Math.round(-rot/STEP);const fi=((front%N)+N)%N;if(fi===i)location.href=slug+'.html';else{rot=-i*STEP;vel=0;}});
+  carousel.appendChild(c);return c;});
+let rot=0,vel=0,drag=false,sx=0,brot=0,lastX=0,lastT=0;
+function curFront(){const front=Math.round(-rot/STEP);return ((front%N)+N)%N;}
+function setCta(){const[n,slug,name]=P[curFront()];cta.href=slug+'.html';cta.innerHTML=`▶ Explore ${name}`;}
+function frame(){if(!drag){rot+=vel;vel*=0.95;if(Math.abs(vel)<0.05){vel=0;const target=Math.round(rot/STEP)*STEP;rot+=(target-rot)*0.12;}}
+  carousel.style.transform=`translateZ(-${R}px) rotateY(${rot}deg)`;
+  // depth dim
+  cells.forEach((c,i)=>{const a=((i*STEP+rot)%360+360)%360;const d=Math.min(a,360-a);c.style.opacity=Math.max(.3,1-d/180);c.style.zIndex=Math.round(180-d);});
+  setCta();requestAnimationFrame(frame);}
+frame();
+const down=e=>{const t=e.touches?e.touches[0]:e;drag=true;sx=t.clientX;brot=rot;lastX=t.clientX;lastT=performance?0:0;vel=0;};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;rot=brot+(t.clientX-sx)*0.5;vel=(t.clientX-lastX)*0.5;lastX=t.clientX;};
+const up=()=>{drag=false;};
+stage.addEventListener('touchstart',down,{passive:true});stage.addEventListener('touchmove',move,{passive:true});stage.addEventListener('touchend',up);
+stage.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+</script>
+</body>
+</html>

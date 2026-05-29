@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AV · Wheel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#06070b;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:none;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(120% 80% at 50% 36%,#141a2a 0%,#06070b 72%);position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;}
+.bar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 2px;z-index:30;}
+.logo{font-weight:800;font-size:20px;}.logo b{color:#ffcf6b;}
+.head{flex:none;text-align:center;padding:6px 20px 4px;z-index:30;}
+.head .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;}
+.head h1{font-size:clamp(1.6rem,6.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-top:5px;}
+.wheelwrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;}
+.pointer{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:22px solid #fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));}
+.wheel{width:330px;height:330px;border-radius:50%;position:relative;cursor:grab;box-shadow:0 18px 50px rgba(0,0,0,.55),inset 0 0 0 6px rgba(255,255,255,.08);}
+.wheel .seg{position:absolute;left:50%;top:50%;transform-origin:0 0;font-size:11px;font-weight:800;color:#fff;white-space:nowrap;}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:118px;height:118px;border-radius:50%;overflow:hidden;z-index:8;
+  box-shadow:0 0 0 5px #06070b,0 0 0 7px rgba(255,255,255,.25),0 10px 26px rgba(0,0,0,.5);background-size:cover;background-position:center;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;}
+.hub .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;}
+.hub span{position:relative;z-index:2;font-size:.86rem;font-weight:800;text-shadow:0 1px 6px #000;text-align:center;line-height:1;}
+.cta{flex:none;text-align:center;padding:10px 24px 26px;z-index:30;}
+.spin{display:inline-block;background:#ffcf6b;color:#111;font-weight:800;font-size:15px;padding:13px 30px;border-radius:12px;border:0;font-family:inherit;cursor:pointer;}
+.spin:active{transform:scale(.96);}
+.go{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 24px;border-radius:12px;margin-left:8px;}
+.hint{color:rgba(255,255,255,.4);font-size:11px;margin-top:11px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="head"><div class="kx">Give it a spin</div><h1>Where to?</h1></div>
+  <div class="wheelwrap">
+    <div class="pointer"></div>
+    <div class="wheel" id="wheel"></div>
+    <div class="hub" id="hub"></div>
+  </div>
+  <div class="cta"><button class="spin" id="spin">🎡 Spin</button><a class="go" id="go" href="#">Explore →</a><div class="hint">flick the wheel or tap Spin</div></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara'],[7,'antalya','Antalya','medit'],[50,'nevsehir','Nevşehir','central'],[47,'mardin','Mardin','southeast'],[61,'trabzon','Trabzon','black'],[48,'mugla','Muğla','aegean'],[65,'van','Van','east'],[35,'izmir','İzmir','aegean'],[63,'sanliurfa','Şanlıurfa','southeast'],[53,'rize','Rize','black'],[25,'erzurum','Erzurum','east'],[16,'bursa','Bursa','marmara']];
+const wheel=document.getElementById('wheel'),hub=document.getElementById('hub'),go=document.getElementById('go');
+const N=P.length,STEP=360/N;
+// conic gradient background
+let cg=[];P.forEach((p,i)=>{cg.push(`${REG[p[3]][1]} ${i*STEP}deg ${(i+1)*STEP}deg`);});
+wheel.style.background=`conic-gradient(${cg.join(',')})`;
+// segment labels
+P.forEach((p,i)=>{const[n,slug,name,rk]=p;const s=document.createElement('div');s.className='seg';
+  const a=(i+0.5)*STEP-90;s.style.transform=`rotate(${a}deg) translate(72px,0) rotate(90deg)`;s.textContent=name;wheel.appendChild(s);});
+let rot=0,vel=0,drag=false,lastA=0,cur=-1;
+function angleAt(x,y){const r=wheel.getBoundingClientRect();return Math.atan2(y-(r.top+r.height/2),x-(r.left+r.width/2))*180/Math.PI;}
+function selected(){// pointer at top = -90deg in wheel space
+  const norm=((( -90 - rot)%360)+360)%360;return Math.floor(norm/STEP)%N;}
+function setHub(){const i=selected();if(i===cur)return;cur=i;const[n,slug,name,rk]=P[i];
+  hub.style.backgroundImage=`url('${IMG[n%2]}')`;hub.innerHTML=`<div class="tint" style="background:${REG[rk][1]}"></div><span>${name}</span>`;
+  go.href=slug+'.html';go.innerHTML=`Explore ${name} →`;}
+function frame(){if(!drag&&Math.abs(vel)>0.02){rot+=vel;vel*=0.985;}else if(!drag)vel=0;
+  wheel.style.transform=`rotate(${rot}deg)`;setHub();requestAnimationFrame(frame);}
+frame();
+document.getElementById('spin').onclick=()=>{vel=12+Math.abs((rot%7))+6;};
+const down=e=>{const t=e.touches?e.touches[0]:e;drag=true;lastA=angleAt(t.clientX,t.clientY);vel=0;};
+const move=e=>{if(!drag)return;const t=e.touches?e.touches[0]:e;const a=angleAt(t.clientX,t.clientY);let d=a-lastA;if(d>180)d-=360;if(d<-180)d+=360;rot+=d;vel=d;lastA=a;wheel.style.transform=`rotate(${rot}deg)`;};
+const up=()=>drag=false;
+wheel.addEventListener('touchstart',down,{passive:true});wheel.addEventListener('touchmove',move,{passive:true});wheel.addEventListener('touchend',up);
+wheel.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+</script>
+</body>
+</html>
