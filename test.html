@@ -62,7 +62,7 @@ img{display:block;}
 .reg:active .ar{transform:translateX(4px);}
 
 /* ---------- province search (between trending & regions) ---------- */
-.search{position:relative;margin:0 0 18px;}
+.search{position:relative;margin:18px 22px 0;}
 .search .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.5;pointer-events:none;}
 .search input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 16px 14px 40px;color:#fff;font-size:16px;font-family:inherit;}
 .search input::placeholder{color:rgba(255,255,255,.45);}
@@ -121,11 +121,11 @@ img{display:block;}
     <h2 id="htrend"></h2>
     <div class="sub" id="htrendsub"></div>
     <div class="trendwrap"><div class="trend" id="trend"></div></div>
+    <div class="search"><span class="ic">🔍</span><input id="q" type="text" autocomplete="off"><div class="results" id="results"></div></div>
   </section>
 
   <!-- REGIONS (F) -->
   <section class="regions-sec" id="regionsSec">
-    <div class="search"><span class="ic">🔍</span><input id="q" type="text" autocomplete="off"><div class="results" id="results"></div></div>
     <h2 id="hregions"></h2>
     <div class="regions" id="regions"></div>
   </section>
@@ -135,7 +135,7 @@ img{display:block;}
 <!-- COVERFLOW (I) -->
 <div class="flowview" id="flowview">
   <div class="fvh">
-    <div class="rg"><div class="mark" id="fvmark">Region</div><h2 id="fvtitle">Region</h2></div>
+    <div class="rg"><h2 id="fvtitle">Region</h2></div>
     <div class="x" id="fvclose">✕</div>
   </div>
   <div class="flow" id="flow"></div>
@@ -171,9 +171,9 @@ const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'
 /* ----- build region cards (F) ----- */
 const regionsEl=document.getElementById('regions');
 REG.forEach(([key,color],i)=>{
-  const list=P.filter(p=>p[3]===key);const label=T.names[key];
+  const label=T.names[key];
   const d=document.createElement('div');d.className='reg';d.style.backgroundImage=`url('${IMG[i%2]}')`;
-  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3><div class="ct">${T.count(list.length)}</div></div><div class="ar">→</div>`;
+  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3></div><div class="ar">→</div>`;
   d.onclick=()=>openRegion(key,label);
   regionsEl.appendChild(d);
 });
@@ -193,14 +193,14 @@ TREND.forEach((slug,i)=>{const p=bySlug[slug];if(!p)return;const[n,sl,name,rk]=p
 
 /* ----- coverflow overlay (I) ----- */
 const fv=document.getElementById('flowview'),flow=document.getElementById('flow'),dots=document.getElementById('dots');
-const fvtitle=document.getElementById('fvtitle'),fvmark=document.getElementById('fvmark');
+const fvtitle=document.getElementById('fvtitle');
 const capnm=document.getElementById('capnm'),capgo=document.getElementById('capgo');
 capgo.textContent=T.explore;
 let covers=[],dotEls=[],cur=[];
 
 function openRegion(key,label,focusSlug){
   cur=P.filter(p=>p[3]===key);
-  fvtitle.textContent=label;fvmark.textContent=T.count(cur.length);
+  fvtitle.textContent=label;
   flow.innerHTML='';dots.innerHTML='';
   cur.forEach(([n,slug,name,rk],i)=>{
     const d=document.createElement('div');d.className='cover';d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
