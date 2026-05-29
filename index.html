@@ -419,13 +419,6 @@ function badgeFor(slug){
   if(slug===FREE_SLUG)return `<span class="giftpill" aria-label="${FREE_TXT}" title="${FREE_TXT}">${ICON.gift}</span>`;
   return `<span class="lockpill">${ICON.lock}</span>`;
 }
-/* when a tap opens an overlay, the browser still fires a trailing `click` at the release point;
-   swallow that one click so it can't "click through" onto a button (e.g. Buy) now under the pointer */
-function swallowNextClick(){
-  const h=ev=>{ev.stopPropagation();ev.preventDefault();clearTimeout(tm);window.removeEventListener('click',h,true);};
-  const tm=setTimeout(()=>window.removeEventListener('click',h,true),400);
-  window.addEventListener('click',h,true);
-}
 function goProvince(slug,name){
   if(owns(slug)){haptic();location.href=slug+'.html';return;}
   openPaywall(slug,name);
@@ -508,7 +501,6 @@ function tEnd(){
 trendEl.addEventListener('pointerup',e=>{
   if(tDrag&&!tMoved){          /* a tap, not a drag → navigate (click is unreliable under pointer capture) */
     const t=downTcard;downTcard=null;tDrag=false;trendEl.classList.remove('grabbing');
-    swallowNextClick();        /* block the trailing ghost-click from hitting the paywall */
     if(t)goProvince(t.dataset.slug,t.dataset.name);
     return;
   }
@@ -578,7 +570,7 @@ const pwTry=document.getElementById('pwTry');
 pwCodeBtn.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
 pwCodeGo.textContent=T.pwCodeGo;
 pwTry.innerHTML=ICON.pin+'<span>'+T.pwTry+'</span>';
-let pwOpen=false,pwSlug=null,suppressPop=false;
+let pwOpen=false,pwSlug=null,suppressPop=false,pwOpenedAt=0;
 function setCodeBox(open){
   pwCodeBox.classList.toggle('open',open);
   pwCodeBtn.classList.toggle('active',open);
@@ -594,7 +586,7 @@ function openPaywall(slug,name){
   pwCodeInput.value='';pwCodeMsg.textContent='';pwCodeMsg.className='pw-codemsg';
   setCodeBox(false);
   pwTry.style.display=(slug===FREE_SLUG)?'none':'';
-  paywall.classList.add('open');pwOpen=true;document.body.style.overflow='hidden';
+  paywall.classList.add('open');pwOpen=true;pwOpenedAt=performance.now();document.body.style.overflow='hidden';
   if(!(history.state&&history.state.pw)){try{history.pushState({pw:1},'');}catch(e){}}
   setTimeout(()=>{try{pwBuy.focus({preventScroll:true});}catch(e){}},60);
 }
@@ -620,6 +612,9 @@ function submitCode(){
     pwCodeInput.focus();pwCodeInput.select();
   }
 }
+/* swallow the trailing ghost-click that the opening tap produces (~within 350ms) so it can't
+   close the modal, open Shopier, or hit Muğla — deterministic, no reliance on a removal timer */
+paywall.addEventListener('click',e=>{if(performance.now()-pwOpenedAt<350){e.stopPropagation();e.preventDefault();}},true);
 pwCloseEl.onclick=()=>closePaywall();
 paywall.addEventListener('click',e=>{if(e.target===paywall)closePaywall();});
 pwBuy.addEventListener('click',()=>haptic());
@@ -680,7 +675,6 @@ function endDrag(){
 flow.addEventListener('pointerup',e=>{
   if(dragging&&!dragMoved){    /* a tap, not a drag */
     const t=downCover;downCover=null;dragging=false;flow.classList.remove('grabbing');
-    swallowNextClick();        /* block the trailing ghost-click from hitting the paywall */
     if(t){const i=+t.dataset.i;if(i===idx){goProvince(cur[i][1],cur[i][2]);}else{haptic(6);animateTo(i);}}
     return;
   }
