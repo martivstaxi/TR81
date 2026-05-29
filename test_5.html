@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Türkiye in 81 Provinces</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden;overscroll-behavior-y:none;}
+img{display:block;}
+button{font-family:inherit;}
+.reg,.tcard,.cover,.farrow,.snav button,.ritem,.fvh .x,.scroll{-webkit-user-select:none;user-select:none;}
+:focus-visible{outline:2px solid rgba(255,255,255,.85);outline-offset:2px;border-radius:6px;}
+
+/* ambient blurred backdrop behind the centered column (desktop/tablet only) */
+body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:opacity .6s;
+  background:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public') center/cover;
+  filter:blur(70px) brightness(.22) saturate(1.2);transform:scale(1.1);}
+
+/* ---------- app shell (mobile-first, centered on desktop) ---------- */
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:#08080b;box-shadow:0 0 80px rgba(0,0,0,.7);position:relative;overflow-x:hidden;}
+
+/* ---------- HERO (concept B) ---------- */
+.hero{position:relative;height:100vh;height:100dvh;min-height:560px;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+  padding:max(44px,env(safe-area-inset-top)) max(26px,env(safe-area-inset-right)) max(30px,env(safe-area-inset-bottom)) max(26px,env(safe-area-inset-left));
+  background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.10) 42%,rgba(8,8,11,.55) 78%,#08080b 100%),
+  url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+  background-size:cover;background-position:center;}
+.hero .kicker{font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:600;margin-bottom:14px;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(4rem,19vw,7rem);line-height:.88;letter-spacing:.01em;}
+.hero h1 .sfx{font-family:'Inter',sans-serif;font-weight:500;font-size:.26em;letter-spacing:0;text-transform:none;vertical-align:.55em;margin-left:.02em;color:rgba(255,255,255,.92);}
+.hero p{max-width:430px;margin-top:18px;font-size:1.06rem;line-height:1.5;color:rgba(255,255,255,.88);}
+.scroll{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);animation:bob 1.9s infinite;cursor:pointer;align-self:flex-start;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+/* hero intro: text rises in on load */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.hero h1,.hero p,.hero .scroll{animation:rise .8s cubic-bezier(.2,.7,.3,1) both;}
+.hero p{animation-delay:.12s;}
+.hero .scroll{animation-delay:.24s;}
+
+/* ---------- TRENDING strip (concept AU card look, horizontal) — full screen ---------- */
+.trend-sec{scroll-snap-align:start;display:flex;flex-direction:column;padding:58px 0 22px;}
+.trend-sec h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.02em;margin:0 22px 4px;line-height:1;}
+.trend-sec .sub{color:#9aa4b2;font-size:14px;margin:0 22px 16px;}
+.trendwrap{display:flex;align-items:flex-start;}
+.trend{display:flex;gap:15px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:22px;padding:4px 22px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent);}
+.trend::-webkit-scrollbar{display:none;}
+.tcard{flex:none;width:158px;height:224px;border-radius:18px;overflow:hidden;position:relative;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;scroll-snap-align:start;scroll-snap-stop:always;box-shadow:0 16px 38px rgba(0,0,0,.55);cursor:pointer;text-decoration:none;color:#fff;opacity:.72;transition:transform .25s ease,opacity .35s ease;}
+.tcard.foc{opacity:1;}
+.tcard:active{transform:scale(.97);}
+.tcard .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.tcard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.82));}
+.tcard .rank{position:absolute;top:10px;left:12px;z-index:3;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);border-radius:50%;font-weight:800;font-size:14px;}
+.tcard .rk{position:relative;z-index:2;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;opacity:.85;}
+.tcard h3{position:relative;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:1.65rem;font-weight:400;letter-spacing:.02em;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+
+/* ---------- REGIONS (concept F) ---------- */
+.regions-sec{min-height:100vh;min-height:100dvh;scroll-snap-align:start;padding:44px 22px 70px;}
+.regions-sec .mark{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#8a8f9c;font-weight:600;}
+.regions-sec h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.02em;margin:0 0 22px;line-height:1;}
+.regions{display:flex;flex-direction:column;gap:14px;}
+.reg{position:relative;height:150px;border-radius:20px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background-size:cover;background-position:center;
+  transform:translateY(14px);opacity:0;transition:transform .42s cubic-bezier(.2,.7,.3,1),opacity .42s;}
+.reg.in{transform:translateY(0);opacity:1;}
+.reg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.62));}
+.reg .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.9;}
+.reg>.z{position:relative;z-index:2;}
+.reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.02em;text-shadow:0 2px 16px rgba(0,0,0,.5);line-height:1;}
+.reg .ct{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;margin-top:4px;letter-spacing:.02em;}
+.reg .ar{position:absolute;right:20px;bottom:20px;z-index:2;font-size:22px;opacity:.9;transition:transform .25s;}
+.reg:active{transform:scale(.985);}
+.reg:active .ar{transform:translateX(4px);}
+
+/* ---------- province search (between trending & regions) ---------- */
+.search{margin:18px 22px 0;}
+.field{position:relative;}
+.field .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.5;pointer-events:none;}
+.field input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 44px 14px 40px;color:#fff;font-size:16px;font-family:inherit;}
+.field input::placeholder{color:rgba(255,255,255,.45);}
+.field input:focus{outline:none;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.09);}
+.field .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border:none;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.field .clr:active{transform:translateY(-50%) scale(.88);}
+.search.has .clr{display:flex;}
+.results{display:flex;flex-direction:column;gap:2px;margin-top:8px;overscroll-behavior:contain;}
+.nores{padding:13px 14px;color:#9aa4b2;font-size:14px;}
+.ritem{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;cursor:pointer;background:rgba(255,255,255,.04);transition:background .15s;}
+.ritem:active,.ritem:hover{background:rgba(255,255,255,.12);}
+.ritem .rn{font-size:1.05rem;font-weight:600;flex:1;}
+.ritem .rr{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa4b2;font-weight:600;}
+
+/* ---------- COVERFLOW overlay (concept I) ---------- */
+.flowview{position:fixed;inset:0;z-index:80;background:radial-gradient(120% 80% at 50% 0%,#15161d 0%,#000 72%);
+  display:flex;flex-direction:column;max-width:480px;margin:0 auto;
+  transform:translateY(100%);transition:transform .42s cubic-bezier(.2,.7,.3,1);visibility:hidden;}
+.flowview.open{transform:translateY(0);visibility:visible;}
+.fvh{display:flex;align-items:center;gap:14px;padding:max(26px,calc(env(safe-area-inset-top) + 10px)) 22px 6px;}
+.fvh .rg{flex:1;}
+.fvh .rg .mark{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#9aa4b2;font-weight:600;}
+.fvh .rg h2{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;letter-spacing:.02em;line-height:1;margin-top:3px;}
+.fvh .x{font-size:20px;line-height:1;color:#fff;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);border-radius:999px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;}
+
+.flowwrap{position:relative;flex:1;min-height:0;display:flex;}
+/* controlled drag carousel (no native momentum) — feels weightier */
+.flow{flex:1;display:flex;align-items:center;overflow:hidden;touch-action:none;scrollbar-width:none;perspective:1100px;padding:0 calc(50% - 115px);cursor:grab;}
+.flow.grabbing{cursor:grabbing;}
+.flow::-webkit-scrollbar{display:none;}
+.cover{flex:none;width:230px;height:330px;border-radius:22px;overflow:hidden;position:relative;margin:0 -22px;
+  background-size:cover;background-position:center;box-shadow:0 30px 60px rgba(0,0,0,.6);
+  transform:rotateY(40deg) scale(.8);transition:transform .42s cubic-bezier(.22,.61,.36,1),opacity .42s ease;opacity:.45;transform-origin:center;cursor:pointer;will-change:transform;}
+.cover.active{transform:rotateY(0deg) scale(1);opacity:1;z-index:5;}
+.cover.prev{transform:rotateY(40deg) scale(.8);}
+.cover.next{transform:rotateY(-40deg) scale(.8);}
+.cover .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.78;}
+.cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.55));}
+.cover .pl{position:absolute;top:12px;left:12px;z-index:3;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);border-radius:9px;padding:5px 11px;font-weight:800;font-size:14px;}
+
+.cap{text-align:center;padding:10px 20px 14px;}
+.cap h3{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;font-weight:400;letter-spacing:.02em;line-height:1;margin-bottom:14px;}
+.cap .go{display:inline-flex;align-items:center;gap:9px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;text-decoration:none;}
+.dots{display:flex;justify-content:center;gap:6px;padding:6px 0 max(26px,calc(env(safe-area-inset-bottom) + 12px));flex-wrap:wrap;max-width:300px;margin:0 auto;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .2s;}
+.dot.on{background:#fff;}
+
+/* ---------- coverflow side arrows ---------- */
+.farrow{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.35);backdrop-filter:blur(8px);color:#fff;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.55;transition:opacity .2s,transform .15s;}
+.farrow:hover{opacity:1;}
+.farrow:active{transform:translateY(-50%) scale(.9);}
+.farrow.l{left:10px;}
+.farrow.r{right:10px;}
+.farrow[disabled]{opacity:.12;pointer-events:none;}
+
+/* ---------- right-edge section indicator ---------- */
+.snav{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:11px;}
+.snav button{width:9px;height:9px;padding:0;border:none;border-radius:50%;background:rgba(255,255,255,.28);cursor:pointer;transition:background .25s,transform .25s;}
+.snav button.on{background:#fff;transform:scale(1.35);}
+body.flowopen .snav{opacity:0;pointer-events:none;}
+.snav{transition:opacity .3s;}
+@media(max-width:380px){.snav{right:9px;}}
+
+/* ---------- responsive ---------- */
+/* small phones */
+@media(max-width:380px){
+  .cover{width:200px;height:300px;}
+  .flow{padding:0 calc(50% - 100px);}
+  .hero h1{font-size:clamp(3.4rem,18vw,6rem);}
+  .hero p{font-size:1rem;}
+  .tcard{width:142px;height:204px;}
+}
+/* large phones / small tablets */
+@media(min-width:560px){
+  .app{max-width:560px;}
+  .tcard{width:172px;height:244px;}
+}
+/* tablets & desktop: wider column, ambient backdrop, 2-col regions */
+@media(min-width:760px){
+  body::before{opacity:1;}
+  .app{max-width:680px;border-radius:0;}
+  .hero{padding-left:max(40px,env(safe-area-inset-left));padding-right:max(40px,env(safe-area-inset-right));}
+  .trend-sec h2,.regions-sec h2{font-size:3rem;}
+  .trend-sec h2,.trend-sec .sub{margin-left:40px;margin-right:40px;}
+  .trend{padding-left:40px;padding-right:40px;}
+  .search{margin-left:40px;margin-right:40px;}
+  .regions-sec{padding:54px 40px 80px;}
+  .regions{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .reg{height:168px;}
+  .flowview{max-width:680px;}
+  .cover{width:250px;height:360px;}
+  .flow{padding:0 calc(50% - 125px);}
+}
+/* landscape phones: don't force a tall hero, let content breathe */
+@media(max-height:520px) and (orientation:landscape){
+  .hero{min-height:0;height:auto;padding-top:max(34px,env(safe-area-inset-top));padding-bottom:34px;}
+  .hero h1{font-size:clamp(2.8rem,12vh,4.2rem);}
+  .hero p{margin-top:10px;font-size:.95rem;}
+  .scroll{margin-top:14px;}
+  .trend-sec{padding-top:34px;}
+}
+/* respect reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .scroll{animation:none;}
+  .reg{transform:none!important;opacity:1!important;transition:none;}
+  .cover{transition:opacity .2s ease;}
+  .hero h1,.hero p,.hero .scroll{animation:none;}
+  .snav{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HERO (B) -->
+  <section class="hero">
+    <h1 id="hh1"></h1>
+    <p id="htag"></p>
+    <div class="scroll" id="hscroll"></div>
+  </section>
+
+  <!-- TRENDING (AU card look, horizontal scroll) -->
+  <section class="trend-sec">
+    <h2 id="htrend"></h2>
+    <div class="sub" id="htrendsub"></div>
+    <div class="trendwrap"><div class="trend" id="trend"></div></div>
+    <div class="search" id="searchBox"><div class="field"><span class="ic">🔍</span><input id="q" type="text" autocomplete="off" enterkeyhint="search"><button class="clr" id="qclear" aria-label="Clear">✕</button></div><div class="results" id="results" aria-live="polite"></div></div>
+  </section>
+
+  <!-- REGIONS (F) -->
+  <section class="regions-sec" id="regionsSec">
+    <h2 id="hregions"></h2>
+    <div class="regions" id="regions"></div>
+  </section>
+
+</div>
+
+<!-- COVERFLOW (I) -->
+<div class="flowview" id="flowview">
+  <div class="fvh">
+    <div class="rg"><h2 id="fvtitle">Region</h2></div>
+    <div class="x" id="fvclose" role="button" tabindex="0" aria-label="Close">✕</div>
+  </div>
+  <div class="flowwrap">
+    <button class="farrow l" id="fprev" aria-label="Previous">‹</button>
+    <button class="farrow r" id="fnext" aria-label="Next">›</button>
+    <div class="flow" id="flow"></div>
+  </div>
+  <div class="cap"><h3 id="capnm">—</h3><a class="go" id="capgo" href="#">Explore →</a></div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<!-- right-edge section indicator -->
+<nav class="snav" id="snav" aria-label="Sections"></nav>
+
+<script>
+/* ---------- i18n: cihaz dili TR ise Türkçe, değilse İngilizce ---------- */
+const LANG=(navigator.language||navigator.userLanguage||'en').toLowerCase().startsWith('tr')?'tr':'en';
+document.documentElement.lang=LANG;
+const T={
+  en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore →',
+    count:n=>`${n} provinces`,
+    names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
+  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet →',
+    count:n=>`${n} il`,
+    names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
+}[LANG];
+document.getElementById('hh1').innerHTML=T.h1;
+document.getElementById('htag').textContent=T.tag;
+document.getElementById('hscroll').textContent=T.scroll;
+document.getElementById('hregions').textContent=T.regions;
+document.getElementById('htrend').textContent=T.trend;
+document.getElementById('htrendsub').textContent=T.trendsub;
+document.getElementById('q').placeholder=T.search;
+document.getElementById('hscroll').onclick=()=>document.querySelector('.trend-sec').scrollIntoView({behavior:'smooth',block:'start'});
+
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const REG=[['medit','#0f9d8f'],['marmara','#2563eb'],['aegean','#0891b2'],['black','#16a34a'],['central','#d97706'],['east','#7c3aed'],['southeast','#db2777']];
+const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+
+/* ----- build region cards (F) ----- */
+const regionsEl=document.getElementById('regions');
+REG.forEach(([key,color],i)=>{
+  const label=T.names[key];
+  const d=document.createElement('div');d.className='reg';d.style.backgroundImage=`url('${IMG[i%2]}')`;
+  d.tabIndex=0;d.setAttribute('role','button');d.setAttribute('aria-label',label);
+  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3></div><div class="ar">→</div>`;
+  d.onclick=()=>openRegion(key,label);
+  d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openRegion(key,label);}};
+  regionsEl.appendChild(d);
+});
+/* staggered reveal on scroll */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;const k=[...regionsEl.children].indexOf(el);setTimeout(()=>el.classList.add('in'),k*38);io.unobserve(el);}}),{threshold:.2});
+[...regionsEl.children].forEach(c=>io.observe(c));
+
+/* ----- trending strip (most-visited touristic provinces) ----- */
+const TREND=['mugla','antalya','istanbul','izmir','nevsehir','bursa','denizli','trabzon','canakkale','aydin'];
+const bySlug=Object.fromEntries(P.map(p=>[p[1],p]));
+const trendEl=document.getElementById('trend');
+TREND.forEach((slug,i)=>{const p=bySlug[slug];if(!p)return;const[n,sl,name,rk]=p;
+  const c=document.createElement('a');c.href=sl+'.html';c.className='tcard';c.style.backgroundImage=`url('${IMG[i%2]}')`;
+  c.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="rank">${i+1}</span><div class="rk">${T.names[rk]}</div><h3>${name}</h3>`;
+  c.addEventListener('click',()=>haptic());
+  trendEl.appendChild(c);
+});
+/* highlight the card snapped at the left edge (matches coverflow's focused-card feel) */
+const tcards=[...trendEl.children];
+function focusTrend(){
+  const base=trendEl.getBoundingClientRect().left+22;let best=0,bd=1e9;
+  tcards.forEach((c,i)=>{const d=Math.abs(c.getBoundingClientRect().left-base);if(d<bd){bd=d;best=i;}});
+  tcards.forEach((c,i)=>c.classList.toggle('foc',i===best));
+}
+trendEl.addEventListener('scroll',()=>requestAnimationFrame(focusTrend),{passive:true});
+focusTrend();
+
+/* ----- coverflow overlay (I) ----- */
+const fv=document.getElementById('flowview'),flow=document.getElementById('flow'),dots=document.getElementById('dots');
+const fvtitle=document.getElementById('fvtitle');
+const capnm=document.getElementById('capnm'),capgo=document.getElementById('capgo');
+capgo.textContent=T.explore;
+let covers=[],dotEls=[],cur=[],idx=0,dragMoved=false;
+/* subtle haptic feedback (mobile, app-like) */
+const haptic=(ms=8)=>{try{navigator.vibrate&&navigator.vibrate(ms);}catch(e){}};
+
+function openRegion(key,label,focusSlug){
+  haptic(10);
+  cur=P.filter(p=>p[3]===key);
+  fvtitle.textContent=label;
+  flow.innerHTML='';dots.innerHTML='';
+  cur.forEach(([n,slug,name,rk],i)=>{
+    const d=document.createElement('div');d.className='cover';d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
+    d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>`;
+    d.onclick=()=>{if(dragMoved)return;if(i===idx){haptic();location.href=slug+'.html';}else{haptic(6);animateTo(i);}};
+    flow.appendChild(d);
+    const dt=document.createElement('span');dt.className='dot';dots.appendChild(dt);
+  });
+  covers=[...flow.querySelectorAll('.cover')];dotEls=[...dots.querySelectorAll('.dot')];
+  const fi=focusSlug?Math.max(0,cur.findIndex(p=>p[1]===focusSlug)):0;
+  const wasOpen=fv.classList.contains('open');
+  fv.classList.add('open');document.body.style.overflow='hidden';document.body.classList.add('flowopen');
+  /* back-button closes the overlay instead of leaving the page */
+  if(!wasOpen){try{history.pushState({fv:1},'');}catch(e){}}
+  requestAnimationFrame(()=>{jumpTo(fi);});
+}
+function openProvince(slug){const p=bySlug[slug];if(!p)return;const key=p[3];openRegion(key,T.names[key],slug);}
+function closeRegion(fromPop){
+  if(!fv.classList.contains('open'))return;
+  fv.classList.remove('open');document.body.style.overflow='';document.body.classList.remove('flowopen');
+  if(!fromPop&&history.state&&history.state.fv){history.back();}
+}
+window.addEventListener('popstate',()=>{if(fv.classList.contains('open'))closeRegion(true);});
+const fvcloseEl=document.getElementById('fvclose');
+fvcloseEl.onclick=()=>closeRegion();
+fvcloseEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closeRegion();}};
+
+/* ---------- controlled drag carousel engine (weighty, one card per gesture) ---------- */
+const clampIdx=i=>Math.max(0,Math.min(covers.length-1,i));
+function centerOf(i){return covers[i].offsetLeft+covers[i].clientWidth/2-flow.clientWidth/2;}
+let animRaf=0;
+function jumpTo(i){cancelAnimationFrame(animRaf);idx=clampIdx(i);flow.scrollLeft=centerOf(idx);update();}
+function animateTo(i,dur=420){
+  i=clampIdx(i);idx=i;cancelAnimationFrame(animRaf);
+  const from=flow.scrollLeft,to=centerOf(i),delta=to-from,t0=performance.now();
+  if(Math.abs(delta)<1){flow.scrollLeft=to;update();return;}
+  (function frame(now){
+    const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3); /* easeOutCubic — heavy settle */
+    flow.scrollLeft=from+delta*e;update();
+    if(p<1)animRaf=requestAnimationFrame(frame);
+  })(t0);
+}
+function step(dir){const ni=clampIdx(idx+dir);if(ni!==idx){haptic(6);animateTo(ni);}}
+
+/* pointer drag: resisted preview (max ~half card nudge), commit at most ±1 with threshold */
+let dragging=false,startX=0,restScroll=0,lastX=0,lastT=0,vel=0;
+flow.addEventListener('pointerdown',e=>{
+  dragging=true;dragMoved=false;startX=lastX=e.clientX;lastT=performance.now();vel=0;
+  restScroll=centerOf(idx);cancelAnimationFrame(animRaf);
+  flow.classList.add('grabbing');try{flow.setPointerCapture(e.pointerId);}catch(_){}
+});
+flow.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  const dx=e.clientX-startX;if(Math.abs(dx)>6)dragMoved=true;
+  const now=performance.now();if(now>lastT){vel=(e.clientX-lastX)/(now-lastT);lastX=e.clientX;lastT=now;}
+  const cw=covers[idx]?covers[idx].clientWidth:220;
+  const limited=Math.max(-cw,Math.min(cw,dx));      /* never preview more than one card */
+  flow.scrollLeft=restScroll-limited*0.5;           /* resistance: medium (content follows ~half) */
+});
+function endDrag(){
+  if(!dragging)return;dragging=false;flow.classList.remove('grabbing');
+  const dx=lastX-startX,cw=(covers[idx]?covers[idx].clientWidth:220);
+  const TH=Math.min(60,cw*0.26);                    /* medium: drag ~1/4 of a card... */
+  const FLICK=0.45;                                 /* ...or a moderate flick */
+  if(dx<=-TH||vel<=-FLICK)animateTo(idx+1);
+  else if(dx>=TH||vel>=FLICK)animateTo(idx-1);
+  else animateTo(idx);
+  if(Math.abs(dx)>=TH||Math.abs(vel)>=FLICK)haptic(6);
+}
+flow.addEventListener('pointerup',endDrag);
+flow.addEventListener('pointercancel',endDrag);
+flow.addEventListener('pointerleave',endDrag);
+
+/* coverflow side arrows */
+const fprev=document.getElementById('fprev'),fnext=document.getElementById('fnext');
+fprev.onclick=()=>step(-1);fnext.onclick=()=>step(1);
+window.addEventListener('resize',()=>{if(fv.classList.contains('open'))jumpTo(idx);focusTrend();});
+
+/* ----- province search ----- */
+const norm=s=>(s||'').toLowerCase().replace(/ı/g,'i').replace(/İ/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
+const qEl=document.getElementById('q'),resultsEl=document.getElementById('results');
+const searchBox=document.getElementById('searchBox'),qclear=document.getElementById('qclear');
+const NORES=LANG==='tr'?'Sonuç yok':'No results';
+function clearSearch(){qEl.value='';resultsEl.innerHTML='';searchBox.classList.remove('has');qEl.focus();}
+qclear.onclick=clearSearch;
+qEl.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){clearSearch();qEl.blur();return;}
+  if(e.key==='Enter'){const v=norm(qEl.value.trim());if(!v)return;const hit=P.find(p=>norm(p[2]).includes(v));if(hit){openProvince(hit[1]);clearSearch();qEl.blur();}}
+});
+qEl.addEventListener('input',()=>{
+  const raw=qEl.value.trim();searchBox.classList.toggle('has',!!raw);
+  const v=norm(raw);resultsEl.innerHTML='';if(!v)return;
+  const hits=P.filter(p=>norm(p[2]).includes(v)).slice(0,6);
+  if(!hits.length){resultsEl.innerHTML=`<div class="nores">${NORES}</div>`;return;}
+  hits.forEach(([n,slug,name,rk])=>{
+    const d=document.createElement('div');d.className='ritem';d.tabIndex=0;d.setAttribute('role','button');
+    d.innerHTML=`<span class="rn">${name}</span><span class="rr">${T.names[rk]}</span>`;
+    const pick=()=>{openProvince(slug);clearSearch();qEl.blur();};
+    d.onclick=pick;
+    d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};
+    resultsEl.appendChild(d);
+  });
+});
+
+function update(){
+  if(!covers.length)return;
+  const mid=flow.scrollLeft+flow.clientWidth/2;let best=0,bd=1e9;
+  covers.forEach((c,i)=>{const cx=c.offsetLeft+c.clientWidth/2;const dist=Math.abs(cx-mid);if(dist<bd){bd=dist;best=i;}});
+  covers.forEach((c,i)=>{c.classList.toggle('active',i===best);c.classList.toggle('prev',i<best);c.classList.toggle('next',i>best);});
+  dotEls.forEach((d,i)=>d.classList.toggle('on',i===best));
+  fprev.disabled=best===0;fnext.disabled=best===covers.length-1;
+  const [n,slug,name]=cur[best];capnm.textContent=name;capgo.href=slug+'.html';
+}
+flow.addEventListener('scroll',()=>requestAnimationFrame(update),{passive:true});
+capgo.addEventListener('click',()=>haptic());
+
+/* ----- keyboard nav (coverflow) ----- */
+document.addEventListener('keydown',e=>{
+  if(!fv.classList.contains('open'))return;
+  if(e.key==='Escape'){closeRegion();return;}
+  if(e.key==='ArrowRight'){e.preventDefault();step(1);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();step(-1);}
+  else if((e.key==='Enter'||e.key===' ')&&cur[idx]){e.preventDefault();haptic();location.href=cur[idx][1]+'.html';}
+});
+
+/* ----- swipe-down on the header to dismiss coverflow ----- */
+const fvh=document.querySelector('.fvh');let sy=null;
+fvh.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;},{passive:true});
+fvh.addEventListener('touchmove',e=>{if(sy!==null&&e.touches[0].clientY-sy>70){closeRegion();sy=null;}},{passive:true});
+fvh.addEventListener('touchend',()=>{sy=null;});
+
+/* ----- right-edge section indicator: shows position + jumps on tap ----- */
+const SECTS=[...document.querySelectorAll('.hero,.trend-sec,.regions-sec')];
+const snav=document.getElementById('snav');
+const navBtns=SECTS.map((sec,i)=>{
+  const labels=LANG==='tr'?['Giriş',T.trend,T.regions]:['Home',T.trend,T.regions];
+  const b=document.createElement('button');b.setAttribute('aria-label',labels[i]||'');
+  b.onclick=()=>{sec.scrollIntoView({behavior:'smooth',block:'start'});haptic(6);};
+  snav.appendChild(b);return b;
+});
+const snavIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=SECTS.indexOf(e.target);navBtns.forEach((b,k)=>b.classList.toggle('on',k===i));}});},{threshold:.55});
+SECTS.forEach(s=>snavIO.observe(s));
+</script>
+</body>
+</html>
