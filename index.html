@@ -110,7 +110,8 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
 /* ---------- lock / free badges on cards ---------- */
 .lockpill{position:absolute;top:11px;right:11px;z-index:4;width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(5px);color:rgba(255,255,255,.92);}
 .lockpill svg{width:14px;height:14px;}
-.freepill{position:absolute;top:11px;right:11px;z-index:4;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;padding:5px 9px;border-radius:999px;color:var(--gold);background:rgba(227,197,144,.13);border:1px solid rgba(227,197,144,.5);backdrop-filter:blur(5px);}
+.giftpill{position:absolute;top:11px;right:11px;z-index:4;width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(227,197,144,.16);border:1px solid rgba(227,197,144,.55);backdrop-filter:blur(5px);color:var(--gold);}
+.giftpill svg{width:15px;height:15px;}
 
 /* ---------- COVERFLOW overlay (concept I) ---------- */
 .flowview{position:fixed;inset:0;z-index:80;background:radial-gradient(120% 80% at 50% 0%,#15161d 0%,#000 72%);
@@ -331,7 +332,8 @@ const ICON={
   search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m20 20-4.6-4.6"/></svg>',
   pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
-  cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></svg>'
+  cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></svg>',
+  gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M12 8.5V21"/><path d="M18.5 12.5v6.4a1.6 1.6 0 0 1-1.6 1.6H7.1a1.6 1.6 0 0 1-1.6-1.6v-6.4"/><path d="M7.6 8.5a2.5 2.5 0 0 1 0-5C10.3 3.5 12 8.5 12 8.5s1.7-5 4.4-5a2.5 2.5 0 0 1 0 5"/></svg>'
 };
 document.getElementById('qic').innerHTML=ICON.search;
 document.getElementById('pwIc').innerHTML=ICON.lock;
@@ -414,7 +416,7 @@ const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'
 /* ---------- gating: owned provinces open; locked ones open the buy/unlock modal ---------- */
 function badgeFor(slug){
   if(ALL_UNLOCKED)return '';
-  if(slug===FREE_SLUG)return `<span class="freepill">${FREE_TXT}</span>`;
+  if(slug===FREE_SLUG)return `<span class="giftpill" aria-label="${FREE_TXT}" title="${FREE_TXT}">${ICON.gift}</span>`;
   return `<span class="lockpill">${ICON.lock}</span>`;
 }
 /* when a tap opens an overlay, the browser still fires a trailing `click` at the release point;
