@@ -193,8 +193,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
 .pw-free:active{transform:scale(.97);}
 .pw-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border:none;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .pw-close:active{transform:scale(.9);}
-/* price + buy/code flow */
-.pw-price{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;letter-spacing:.02em;color:var(--gold);margin:-2px 0 16px;line-height:1;}
+/* buy/code flow */
 .pw-codebtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.86);font-weight:600;font-size:14px;padding:13px;border-radius:14px;cursor:pointer;transition:background .2s,border-color .2s;}
 .pw-codebtn svg{width:16px;height:16px;}
 .pw-codebtn:active{transform:scale(.98);}
@@ -211,10 +210,6 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
 .pw-codemsg{min-height:18px;font-size:13px;margin-top:9px;text-align:left;padding:0 2px;}
 .pw-codemsg.err{color:#ff8585;}
 .pw-codemsg.ok{color:#7ee0a8;}
-.pw-secure{font-size:11.5px;letter-spacing:.03em;color:#8a93a3;margin-top:16px;}
-.pw-try{display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:12px;color:var(--gold);font-size:13px;font-weight:600;text-decoration:none;opacity:.9;}
-.pw-try svg{width:14px;height:14px;}
-.pw-try:active{transform:scale(.97);}
 /* owned (purchased) badges */
 .ownpill{position:absolute;top:11px;right:11px;z-index:4;display:inline-flex;align-items:center;gap:3px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;padding:5px 9px 5px 7px;border-radius:999px;color:#7ee0a8;background:rgba(126,224,168,.13);border:1px solid rgba(126,224,168,.45);backdrop-filter:blur(5px);}
 .ownpill svg{width:12px;height:12px;}
@@ -310,10 +305,9 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
     <button class="pw-close" id="pwClose" aria-label="Close">✕</button>
     <div class="pw-ic" id="pwIc"></div>
     <h3 id="pwTitle"></h3>
-    <p id="pwMsg"></p>
-    <div class="pw-price" id="pwPrice"></div>
     <div class="pw-actions">
-      <a class="pw-primary" id="pwBuy" href="#" target="_blank" rel="noopener"></a>
+      <a class="pw-free" id="pwBuy" href="#" target="_blank" rel="noopener"></a>
+      <a class="pw-primary" id="pwTry" href="mugla.html"></a>
       <button class="pw-codebtn" id="pwCodeBtn" type="button"></button>
     </div>
     <div class="pw-codebox" id="pwCodeBox">
@@ -323,8 +317,6 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
       </div>
       <div class="pw-codemsg" id="pwCodeMsg" aria-live="polite"></div>
     </div>
-    <div class="pw-secure" id="pwSecure"></div>
-    <a class="pw-try" id="pwTry" href="mugla.html"></a>
   </div>
 </div>
 
@@ -388,17 +380,15 @@ const FREE_TXT=LANG==='tr'?'Ücretsiz':'Free';
 const T={
   en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
     tap:'Open',freeTap:'Free',lockedTap:'Buy',unlockBtn:'Buy',ownTxt:'Owned',
-    pwMsg:n=>`Unlock <b>all 81 provinces</b> with one code — including ${n}.`,
-    pwBuy:'Buy on Shopier',pwHaveCode:'I already have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
+    pwBuy:'1-Year Access · Shopier',pwHaveCode:'I have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
     pwCodeOk:'Unlocked! Opening…',pwCodeErr:'That code is not valid for this province.',pwCodeEmpty:'Enter your code.',
-    pwSecure:'One-time payment · lifetime access · instant code',pwTry:'Try Muğla free',
+    pwTry:'See Muğla free',
     names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
   tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
     tap:'Aç',freeTap:'Ücretsiz',lockedTap:'Satın al',unlockBtn:'Satın Al',ownTxt:'Açık',
-    pwMsg:n=>`Tek kodla <b>81 ilin tamamı</b> açılır — ${n} dahil.`,
-    pwBuy:'Shopier’den Satın Al',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
+    pwBuy:'Shopier’de 1 Yıllık Erişim',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
     pwCodeOk:'Açıldı! Yönlendiriliyorsunuz…',pwCodeErr:'Bu kod bu il için geçerli değil.',pwCodeEmpty:'Lütfen kodunu gir.',
-    pwSecure:'Tek seferlik ödeme · ömür boyu erişim · anında kod',pwTry:'Muğla’yı ücretsiz dene',
+    pwTry:'Muğla’yı Ücretsiz Gör',
     names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
 }[LANG];
 document.getElementById('hh1').innerHTML=T.h1;
@@ -567,19 +557,16 @@ fvcloseEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();clos
 /* ---------- buy / unlock modal (per-province) ---------- */
 const paywall=document.getElementById('paywall');
 const pwTitleEl=document.getElementById('pwTitle');
-const pwMsgEl=document.getElementById('pwMsg'),pwCloseEl=document.getElementById('pwClose');
-const pwPriceEl=document.getElementById('pwPrice');
+const pwCloseEl=document.getElementById('pwClose');
 const pwBuy=document.getElementById('pwBuy');
 const pwCodeBtn=document.getElementById('pwCodeBtn');
 const pwCodeBox=document.getElementById('pwCodeBox');
 const pwCodeInput=document.getElementById('pwCodeInput');
 const pwCodeGo=document.getElementById('pwCodeGo');
 const pwCodeMsg=document.getElementById('pwCodeMsg');
-const pwSecure=document.getElementById('pwSecure');
 const pwTry=document.getElementById('pwTry');
 pwCodeBtn.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
 pwCodeGo.textContent=T.pwCodeGo;
-pwSecure.textContent=T.pwSecure;
 pwTry.innerHTML=ICON.pin+'<span>'+T.pwTry+'</span>';
 let pwOpen=false,pwSlug=null;
 function setCodeBox(open){
@@ -591,8 +578,6 @@ function openPaywall(slug,name){
   haptic(14);pwSlug=slug;
   const nm=name||(LANG==='tr'?'Bu il':'This province');
   pwTitleEl.textContent=nm;
-  pwMsgEl.innerHTML=T.pwMsg(nm);
-  pwPriceEl.textContent=priceFor(slug,LANG);
   pwBuy.href=shopierFor(slug);
   pwBuy.innerHTML=ICON.cart+'<span>'+T.pwBuy+'</span>';
   pwCodeInput.value='';pwCodeMsg.textContent='';pwCodeMsg.className='pw-codemsg';
