@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>TR81 — Concept AC · Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;overflow:hidden;}
+.back{position:fixed;top:12px;left:12px;z-index:90;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff;}
+.app{max-width:440px;margin:0 auto;height:100vh;height:100dvh;background:#000;position:relative;box-shadow:0 0 60px rgba(0,0,0,.6);overflow:hidden;}
+.pager{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.pager::-webkit-scrollbar{display:none;}
+.page{flex:none;width:100%;height:100%;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:0 28px 16vh;}
+.page .bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.page .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.42;}
+.page::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,.18) 54%,rgba(0,0,0,.95) 100%);}
+.page>*{position:relative;z-index:3;}
+.page .kx{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#ffcf6b;font-weight:700;margin-bottom:11px;}
+.page h2{font-size:clamp(3rem,16vw,5rem);font-weight:800;line-height:.9;letter-spacing:-.025em;text-shadow:0 3px 30px rgba(0,0,0,.55);}
+.page p{margin-top:13px;color:rgba(255,255,255,.85);font-size:14px;max-width:300px;line-height:1.5;}
+.page a{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 24px;border-radius:12px;align-self:flex-start;}
+.bar{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.45),transparent);}
+.logo{font-weight:800;font-size:19px;text-shadow:0 1px 10px rgba(0,0,0,.6);}.logo b{color:#ffcf6b;}
+.dots{position:absolute;left:0;right:0;bottom:46px;z-index:40;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:320px;margin:0 auto;}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);transition:.2s;}
+.dots i.on{background:#fff;width:20px;border-radius:3px;}
+.hint{position:absolute;right:24px;bottom:16vh;z-index:40;color:rgba(255,255,255,.5);font-size:12px;letter-spacing:.06em;animation:slide 1.8s ease-in-out infinite;}
+@keyframes slide{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="app">
+  <div class="bar"><div class="logo">TR<b>81</b></div></div>
+  <div class="pager" id="pager"></div>
+  <div class="hint" id="hint">swipe →</div>
+  <div class="dots" id="dots"></div>
+</div>
+<script>
+const REG={medit:['Mediterranean','#0fb39d'],marmara:['Marmara','#3b82f6'],aegean:['Aegean','#06b6d4'],black:['Black Sea','#22c55e'],central:['Central Anatolia','#f59e0b'],east:['Eastern Anatolia','#a855f7'],southeast:['SE Anatolia','#ec4899']};
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+const P=[[34,'istanbul','İstanbul','marmara','Two continents meeting on one shimmering strait.'],[7,'antalya','Antalya','medit','Turquoise coast — beaches, canyons and waterfalls.'],[50,'nevsehir','Cappadocia','central','Fairy chimneys and a sky full of balloons.'],[47,'mardin','Mardin','southeast','Honey-stone city above the Mesopotamian plain.'],[61,'trabzon','Trabzon','black','Misty green peaks above the Black Sea.'],[48,'mugla','Muğla','aegean','The bluest bays of the Aegean.'],[65,'van','Van','east','A turquoise sea-lake high in the eastern mountains.'],[35,'izmir','İzmir','aegean','Aegean light, ancient ruins and a long promenade.'],[63,'sanliurfa','Şanlıurfa','southeast','Cradle of civilisation — Göbeklitepe country.'],[53,'rize','Rize','black','Tea terraces wrapped in mountain cloud.'],[25,'erzurum','Erzurum','east','High plateau winters and proud old stone.'],[16,'bursa','Bursa','marmara','Green slopes of Uludağ above the first Ottoman capital.']];
+const pager=document.getElementById('pager'),dots=document.getElementById('dots'),hint=document.getElementById('hint');
+P.forEach((p,i)=>{const[n,slug,name,rk,desc]=p;const s=document.createElement('div');s.className='page';
+  s.innerHTML=`<div class="bg" style="background-image:url('${IMG[n%2]}')"></div><div class="tint" style="background:${REG[rk][1]}"></div>
+  <div class="kx">${REG[rk][0]} · ${String(i+1).padStart(2,'0')}/${P.length}</div><h2>${name}</h2><p>${desc}</p><a href="${slug}.html">▶ Explore ${name}</a>`;
+  pager.appendChild(s);const d=document.createElement('i');if(i===0)d.className='on';dots.appendChild(d);});
+const ds=Array.from(dots.children);let t=null;
+pager.addEventListener('scroll',()=>{if(t)cancelAnimationFrame(t);t=requestAnimationFrame(()=>{
+  const idx=Math.round(pager.scrollLeft/pager.clientWidth);ds.forEach((d,i)=>d.classList.toggle('on',i===idx));
+  hint.style.opacity=idx===0?'1':'0';});},{passive:true});
+</script>
+</body>
+</html>
