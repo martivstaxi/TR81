@@ -188,7 +188,8 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
 .pw-primary{display:flex;align-items:center;justify-content:center;gap:9px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:15px;border-radius:14px;text-decoration:none;}
 .pw-primary svg{width:17px;height:17px;}
 .pw-primary:active{transform:scale(.97);}
-.pw-free{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:600;font-size:14px;padding:14px;border-radius:14px;text-decoration:none;}
+.pw-free{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#ecd6a4,#d8b878);border:1px solid rgba(255,255,255,.35);color:#1c1407;font-weight:800;font-size:15px;padding:16px;border-radius:14px;text-decoration:none;box-shadow:0 10px 26px rgba(216,184,120,.32);letter-spacing:.01em;}
+.pw-free svg{width:17px;height:17px;}
 .pw-free:active{transform:scale(.97);}
 .pw-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border:none;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .pw-close:active{transform:scale(.9);}
@@ -299,7 +300,8 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
 const ICON={
   lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 16 7.2v3.3"/></svg>',
   unlock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 15.6 5.6"/></svg>',
-  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m20 20-4.6-4.6"/></svg>'
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m20 20-4.6-4.6"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>'
 };
 document.getElementById('qic').innerHTML=ICON.search;
 document.getElementById('pwIc').innerHTML=ICON.lock;
@@ -316,12 +318,12 @@ const T={
   en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
     tap:'Open',freeTap:'Free',lockedTap:'Sign in',unlockBtn:'Unlock',
     pwTitle:'Locked',pwMsg:n=>`<b>${n}</b> is locked. One sign-in opens all 81.`,
-    pwGift:'Muğla is free for everyone.',pwLogin:'Sign in',pwFree:'Open Muğla',
+    pwGift:'The Muğla card is free.',pwLogin:'Sign in',pwFree:'See Muğla locations',
     names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
   tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
     tap:'Aç',freeTap:'Ücretsiz',lockedTap:'Giriş',unlockBtn:'Kilidi Aç',
     pwTitle:'Kilitli',pwMsg:n=>`<b>${n}</b> kilitli. 81 il tek girişle açılır.`,
-    pwGift:'Muğla herkese ücretsiz.',pwLogin:'Giriş yap',pwFree:'Muğla\'yı aç',
+    pwGift:'Muğla kartı ücretsiz.',pwLogin:'Giriş yap',pwFree:'Muğla Konumlarını Gör',
     names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
 }[LANG];
 document.getElementById('hh1').innerHTML=T.h1;
@@ -337,6 +339,9 @@ document.getElementById('hscroll').onclick=()=>document.querySelector('.trend-se
 const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
 /* preload hero/cover imagery so cards don't pop in (perceived performance) */
 IMG.forEach(u=>{const im=new Image();im.src=u;});
+/* shared horizontal-swipe physics — medium feel: finger 1:1 + capped momentum, snaps to a card.
+   used identically by the trending strip and the coverflow so the whole site swipes the same. */
+const SETTLE=300,MOMENTUM=180,GLIDE=3.5;
 const REG=[['medit','#0f9d8f'],['marmara','#2563eb'],['aegean','#0891b2'],['black','#16a34a'],['central','#d97706'],['east','#7c3aed'],['southeast','#db2777']];
 const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
 const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
@@ -387,12 +392,14 @@ function focusTrend(){
 trendEl.addEventListener('scroll',()=>requestAnimationFrame(focusTrend),{passive:true});
 focusTrend();
 
-/* ----- trending strip: SAME controlled-drag carousel as the coverflow (one card per gesture, easeOutCubic settle) ----- */
+/* ----- trending strip: SAME swipe physics as the coverflow (finger 1:1 + capped momentum, snaps to card) ----- */
 let tIdx=0,tAnim=0;
 const tClamp=i=>Math.max(0,Math.min(tcards.length-1,i));
-function tTarget(i){const max=Math.max(0,trendEl.scrollWidth-trendEl.clientWidth);return Math.max(0,Math.min(max,tcards[i].offsetLeft-trendPad()));}
+const tMax=()=>Math.max(0,trendEl.scrollWidth-trendEl.clientWidth);
+function tTarget(i){return Math.max(0,Math.min(tMax(),tcards[i].offsetLeft-trendPad()));}
+function tNearest(val){let best=0,bd=1e9;for(let i=0;i<tcards.length;i++){const d=Math.abs(tTarget(i)-val);if(d<bd){bd=d;best=i;}}return best;}
 function tJump(i){cancelAnimationFrame(tAnim);tIdx=tClamp(i);trendEl.scrollLeft=tTarget(tIdx);focusTrend();}
-function tAnimate(i,dur=420){
+function tAnimate(i,dur=SETTLE){
   i=tClamp(i);tIdx=i;cancelAnimationFrame(tAnim);
   const from=trendEl.scrollLeft,to=tTarget(i),delta=to-from,t0=performance.now();
   if(Math.abs(delta)<1){trendEl.scrollLeft=to;focusTrend();return;}
@@ -409,18 +416,16 @@ trendEl.addEventListener('pointermove',e=>{
   if(!tDrag)return;
   const dx=e.clientX-tStart;if(Math.abs(dx)>6)tMoved=true;
   const now=performance.now();if(now>tLT){tVel=(e.clientX-tLast)/(now-tLT);tLast=e.clientX;tLT=now;}
-  const cw=tcards[tIdx]?tcards[tIdx].clientWidth:160;
-  const limited=Math.max(-cw,Math.min(cw,dx));      /* never preview more than one card */
-  trendEl.scrollLeft=tRest-limited*0.5;focusTrend();  /* same resistance as coverflow */
+  trendEl.scrollLeft=Math.max(0,Math.min(tMax(),tRest-dx));  /* finger 1:1 */
+  focusTrend();
 });
 function tEnd(){
   if(!tDrag)return;tDrag=false;trendEl.classList.remove('grabbing');
-  const dx=tLast-tStart,cw=(tcards[tIdx]?tcards[tIdx].clientWidth:160);
-  const TH=Math.min(60,cw*0.26),FLICK=0.45;          /* identical thresholds to the coverflow */
-  if(dx<=-TH||tVel<=-FLICK)tAnimate(tIdx+1);
-  else if(dx>=TH||tVel>=FLICK)tAnimate(tIdx-1);
-  else tAnimate(tIdx);
-  if(Math.abs(dx)>=TH||Math.abs(tVel)>=FLICK)haptic(6);
+  const cw=tcards[tIdx]?tcards[tIdx].clientWidth:160;
+  let proj=trendEl.scrollLeft-tVel*MOMENTUM;                 /* glide on with momentum... */
+  const cap=cw*GLIDE;proj=Math.max(trendEl.scrollLeft-cap,Math.min(trendEl.scrollLeft+cap,proj)); /* ...but capped */
+  const ni=tNearest(proj);if(ni!==tIdx)haptic(6);
+  tAnimate(ni);
 }
 trendEl.addEventListener('pointerup',tEnd);
 trendEl.addEventListener('pointercancel',tEnd);
@@ -478,7 +483,7 @@ const paywall=document.getElementById('paywall');
 document.getElementById('pwTitle').textContent=T.pwTitle;
 document.getElementById('pwGift').textContent=T.pwGift;
 const pwLogin=document.getElementById('pwLogin');pwLogin.innerHTML=ICON.unlock+'<span>'+T.pwLogin+'</span>';
-const pwMugla=document.getElementById('pwMugla');pwMugla.textContent=T.pwFree;
+const pwMugla=document.getElementById('pwMugla');pwMugla.innerHTML=ICON.pin+'<span>'+T.pwFree+'</span>';
 const pwMsgEl=document.getElementById('pwMsg'),pwCloseEl=document.getElementById('pwClose');
 let pwOpen=false;
 function openPaywall(name){
@@ -507,9 +512,11 @@ window.addEventListener('popstate',()=>{
 /* ---------- controlled drag carousel engine (weighty, one card per gesture) ---------- */
 const clampIdx=i=>Math.max(0,Math.min(covers.length-1,i));
 function centerOf(i){return covers[i].offsetLeft+covers[i].clientWidth/2-flow.clientWidth/2;}
+function flowMax(){return Math.max(0,flow.scrollWidth-flow.clientWidth);}
+function nearestFlow(val){let best=0,bd=1e9;for(let i=0;i<covers.length;i++){const d=Math.abs(centerOf(i)-val);if(d<bd){bd=d;best=i;}}return best;}
 let animRaf=0;
 function jumpTo(i){cancelAnimationFrame(animRaf);idx=clampIdx(i);flow.scrollLeft=centerOf(idx);update();}
-function animateTo(i,dur=420){
+function animateTo(i,dur=SETTLE){
   i=clampIdx(i);idx=i;cancelAnimationFrame(animRaf);
   const from=flow.scrollLeft,to=centerOf(i),delta=to-from,t0=performance.now();
   if(Math.abs(delta)<1){flow.scrollLeft=to;update();return;}
@@ -521,30 +528,27 @@ function animateTo(i,dur=420){
 }
 function step(dir){const ni=clampIdx(idx+dir);if(ni!==idx){haptic(6);animateTo(ni);}}
 
-/* pointer drag: resisted preview (max ~half card nudge), commit at most ±1 with threshold */
+/* pointer drag: finger 1:1, then capped momentum that snaps to a card (same feel as the strip) */
 let dragging=false,startX=0,restScroll=0,lastX=0,lastT=0,vel=0;
 flow.addEventListener('pointerdown',e=>{
   dragging=true;dragMoved=false;startX=lastX=e.clientX;lastT=performance.now();vel=0;
-  restScroll=centerOf(idx);cancelAnimationFrame(animRaf);
+  restScroll=flow.scrollLeft;cancelAnimationFrame(animRaf);
   flow.classList.add('grabbing');try{flow.setPointerCapture(e.pointerId);}catch(_){}
 });
 flow.addEventListener('pointermove',e=>{
   if(!dragging)return;
   const dx=e.clientX-startX;if(Math.abs(dx)>6){dragMoved=true;dismissHint();}
   const now=performance.now();if(now>lastT){vel=(e.clientX-lastX)/(now-lastT);lastX=e.clientX;lastT=now;}
-  const cw=covers[idx]?covers[idx].clientWidth:220;
-  const limited=Math.max(-cw,Math.min(cw,dx));      /* never preview more than one card */
-  flow.scrollLeft=restScroll-limited*0.5;           /* resistance: medium (content follows ~half) */
+  flow.scrollLeft=Math.max(0,Math.min(flowMax(),restScroll-dx));  /* finger 1:1 */
+  update();
 });
 function endDrag(){
   if(!dragging)return;dragging=false;flow.classList.remove('grabbing');
-  const dx=lastX-startX,cw=(covers[idx]?covers[idx].clientWidth:220);
-  const TH=Math.min(60,cw*0.26);                    /* medium: drag ~1/4 of a card... */
-  const FLICK=0.45;                                 /* ...or a moderate flick */
-  if(dx<=-TH||vel<=-FLICK)animateTo(idx+1);
-  else if(dx>=TH||vel>=FLICK)animateTo(idx-1);
-  else animateTo(idx);
-  if(Math.abs(dx)>=TH||Math.abs(vel)>=FLICK)haptic(6);
+  const cw=covers[idx]?covers[idx].clientWidth:220;
+  let proj=flow.scrollLeft-vel*MOMENTUM;            /* glide on with momentum... */
+  const cap=cw*GLIDE;proj=Math.max(flow.scrollLeft-cap,Math.min(flow.scrollLeft+cap,proj)); /* ...but capped */
+  const ni=nearestFlow(proj);if(ni!==idx)haptic(6);
+  animateTo(ni);
 }
 flow.addEventListener('pointerup',endDrag);
 flow.addEventListener('pointercancel',endDrag);
