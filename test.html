@@ -61,6 +61,18 @@ img{display:block;}
 .reg:active{transform:scale(.985);}
 .reg:active .ar{transform:translateX(4px);}
 
+/* ---------- province search (between trending & regions) ---------- */
+.search{position:relative;margin:0 0 18px;}
+.search .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.5;pointer-events:none;}
+.search input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 16px 14px 40px;color:#fff;font-size:16px;font-family:inherit;}
+.search input::placeholder{color:rgba(255,255,255,.45);}
+.search input:focus{outline:none;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.09);}
+.results{display:flex;flex-direction:column;gap:2px;margin-top:8px;}
+.ritem{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;cursor:pointer;background:rgba(255,255,255,.04);transition:background .15s;}
+.ritem:active,.ritem:hover{background:rgba(255,255,255,.12);}
+.ritem .rn{font-size:1.05rem;font-weight:600;flex:1;}
+.ritem .rr{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa4b2;font-weight:600;}
+
 /* ---------- COVERFLOW overlay (concept I) ---------- */
 .flowview{position:fixed;inset:0;z-index:80;background:radial-gradient(120% 80% at 50% 0%,#15161d 0%,#000 72%);
   display:flex;flex-direction:column;max-width:480px;margin:0 auto;
@@ -114,6 +126,7 @@ img{display:block;}
   <!-- REGIONS (F) -->
   <section class="regions-sec" id="regionsSec">
     <h2 id="hregions"></h2>
+    <div class="search"><span class="ic">🔍</span><input id="q" type="text" autocomplete="off"><div class="results" id="results"></div></div>
     <div class="regions" id="regions"></div>
   </section>
 
@@ -135,10 +148,10 @@ img{display:block;}
 const LANG=(navigator.language||navigator.userLanguage||'en').toLowerCase().startsWith('tr')?'tr':'en';
 document.documentElement.lang=LANG;
 const T={
-  en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',explore:'Explore →',
+  en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore →',
     count:n=>`${n} provinces`,
     names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
-  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',explore:'Keşfet →',
+  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet →',
     count:n=>`${n} il`,
     names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
 }[LANG];
@@ -148,6 +161,7 @@ document.getElementById('hscroll').textContent=T.scroll;
 document.getElementById('hregions').textContent=T.regions;
 document.getElementById('htrend').textContent=T.trend;
 document.getElementById('htrendsub').textContent=T.trendsub;
+document.getElementById('q').placeholder=T.search;
 
 const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
 const REG=[['medit','#0f9d8f'],['marmara','#2563eb'],['aegean','#0891b2'],['black','#16a34a'],['central','#d97706'],['east','#7c3aed'],['southeast','#db2777']];
@@ -184,7 +198,7 @@ const capnm=document.getElementById('capnm'),capgo=document.getElementById('capg
 capgo.textContent=T.explore;
 let covers=[],dotEls=[],cur=[];
 
-function openRegion(key,label){
+function openRegion(key,label,focusSlug){
   cur=P.filter(p=>p[3]===key);
   fvtitle.textContent=label;fvmark.textContent=T.count(cur.length);
   flow.innerHTML='';dots.innerHTML='';
@@ -196,11 +210,26 @@ function openRegion(key,label){
     const dt=document.createElement('span');dt.className='dot';dots.appendChild(dt);
   });
   covers=[...flow.querySelectorAll('.cover')];dotEls=[...dots.querySelectorAll('.dot')];
+  const fi=focusSlug?Math.max(0,cur.findIndex(p=>p[1]===focusSlug)):0;
   fv.classList.add('open');document.body.style.overflow='hidden';
-  requestAnimationFrame(()=>{flow.scrollLeft=0;covers[0]&&covers[0].scrollIntoView({inline:'center'});update();});
+  requestAnimationFrame(()=>{flow.scrollLeft=0;covers[fi]&&covers[fi].scrollIntoView({inline:'center',block:'nearest'});update();});
 }
+function openProvince(slug){const p=bySlug[slug];if(!p)return;const key=p[3];openRegion(key,T.names[key],slug);}
 function closeRegion(){fv.classList.remove('open');document.body.style.overflow='';}
 document.getElementById('fvclose').onclick=closeRegion;
+
+/* ----- province search ----- */
+const norm=s=>(s||'').toLowerCase().replace(/ı/g,'i').replace(/İ/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
+const qEl=document.getElementById('q'),resultsEl=document.getElementById('results');
+qEl.addEventListener('input',()=>{
+  const v=norm(qEl.value.trim());resultsEl.innerHTML='';if(!v)return;
+  P.filter(p=>norm(p[2]).includes(v)).slice(0,6).forEach(([n,slug,name,rk])=>{
+    const d=document.createElement('div');d.className='ritem';
+    d.innerHTML=`<span class="rn">${name}</span><span class="rr">${T.names[rk]}</span>`;
+    d.onclick=()=>{openProvince(slug);qEl.value='';qEl.blur();resultsEl.innerHTML='';};
+    resultsEl.appendChild(d);
+  });
+});
 
 function update(){
   if(!covers.length)return;
