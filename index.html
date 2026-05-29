@@ -344,25 +344,23 @@ const ICON={
 document.getElementById('qic').innerHTML=ICON.search;
 document.getElementById('pwIc').innerHTML=ICON.lock;
 
-/* ---------- access model: per-province codes (no backend) ----------
-   Each locked province is bought on Shopier; the buyer gets a unique code.
-   We store ONLY the SHA-256 hash of each valid code here, so plaintext codes
-   never appear in source. Entering the right code unlocks that province and
-   it is remembered in localStorage["tr81-unlocked"]. Muğla is free. */
+/* ---------- access model: single master code (no backend) ----------
+   One code (sold on Shopier) unlocks ALL 81 provinces. We store ONLY the
+   SHA-256 hash of that code here, so the plaintext never appears in source.
+   Entering the right code grants access, remembered in localStorage["tr81-access"].
+   Muğla stays free for everyone. */
 const FREE_SLUG='mugla';
-const LS_KEY='tr81-unlocked';
-const CODES=/*__CODES__*/{adana:"1a0b1290188f8941caaed208c6b014b112ccb379186074a4227caf9f493a1068",adiyaman:"205cab70bfa8c58ef88a33c5c46560e90f894af9dfad05da781dc9fab3995adf",afyon:"aff77830a9f7a6cee96d5da1c2d44b3252fe5cbb0e92f6b229307bf1061d18bf",agri:"d67ac670b379ffe1c78cebadb93e6b2b7017eb30084a2ecf6e6e175919de228c",amasya:"f39f67fddb733b1405e655532bbc08c6f367951975b60a00b4b204adaba83dab",ankara:"9e9a15e5c7ec1f0e8b46ddfbe99c37c5c3779c98ae55e5f1b60ba3a019920e6e",antalya:"a9e2f1486cb69332f88a9dee7b11b59e631eb77392f3928304897adf262d21d5",artvin:"373f354a53d4207ac2909e725999e81c106b98885369992efcc45f7c153ed209",aydin:"35fcace442f3e4b43feb1933849b3670ee738dcdf34daa7ddd3e837b9aed1c2f",balikesir:"f6d85ae93cb2d40cd1fa972714cb0934130a1e7a35a1bdea8ef380735bd7cdbc",bilecik:"610821cf97833aff9c2cc2c6a906c3c496d16dfdbd3953ec4d5f579331ac5a60",bingol:"b7cf7e77c091eb04a34dd3edeaecd0ef6e6c99a1ea50c85de35eae91c06008c1",bitlis:"7282a9afe586f011af9f99da16087f6b7d60be1dbdee4e9c9312e7784069d384",bolu:"74729ced104513ad5441b3bc6277d35a88021702224e4c18304fc0c13c0ef83f",burdur:"d7f5eb0e203665ef9ddcd2b4d0200bffa572a9d5dd444193a4d92162c6e33581",bursa:"459cb3185da6b04b16cc21e32852c2679e08918383df8214a1338d311ff49cb7",canakkale:"c63320e3b2508005ae87b60ccc8be06730871470081da78b7114ac51b86e235a",cankiri:"a093e78875a10b8c58dfc64a87fd1c38989dee694438dd12efcf677d241dbc3c",corum:"d7ce6e70c6cfe775c62f260c58b112db19976e4b5af6935b0ac0dce63ec4f5f7",denizli:"bf1b39ce6a9349fddc81473f6c938ccc76f8ee2ab881773f945c4cdc069664b2",diyarbakir:"8103cc699c42d5f5044968c7c1d3b8532df1f491e1c17e754dd1a10bebb1570c",edirne:"de78516dd92319caf462e3e5206793d00a66db6b30f745acd5686bdfdf69c09c",elazig:"275c55aed38ebd2e8104b8a4156d89cbb4faf3c98f9dd4ec70b6c1232525bf07",erzincan:"08cc842db6ae0d3d4e4ad8f2cdb50557e8b68d33e9ec7e898c801f98abca2245",erzurum:"63147012cc277684e9d9be60eb80a69a0cf682cf8f885dd17da43307fac0f706",eskisehir:"1b5b5d1e324dceeb53163c8cf62967d7dd98687edca540b2f80a4803fc909f05",gaziantep:"567d40fbe532eedcfdb2312d703621345e86de412206496879da1b62ee3dfdac",giresun:"5d58928bb621511be28ac5a79c5c5dc76d78257577d906cd82d01607747238ed",gumushane:"6cd2192f5cf3f2af10483095a0e5acc007f870a6e4f6f1faca37afe0787a303b",hakkari:"32cd53b12fc4aec795fdd155522124d1f8c6edc08d146f921cdac8baa21b1a7d",hatay:"5261bb9dea05cb7e12402f25b6857215fa7c44cdcf77319546bb3b101983e53d",isparta:"0ced2de67ee191831470968ea95dfe4ff7944fdfe5f9a55ba791e223d0cb83b1",mersin:"0aacc9a4b94c09a0ef8f3c72c82820dfc8d68003aea4b8230072e4ca10887bfe",istanbul:"95b72df5ca10d39959bd1966534ffe021cdc893e1c157277c3691cf93ac3d643",izmir:"8a5ad2c6d13e12504f7806a3c493bbd760f610012e575da9498b353d179d993b",kars:"e46f1b1e7a118e346e1d52db1505437a820db7d85de2f241762276f9fc3eadcb",kastamonu:"2fb92ca6910364eccf0719394d126173442831b9479e8b1383625665819f760a",kayseri:"b797968767eaea1e56176390200a4f42b7a913c36602bbb9c110c0c700b32e7d",kirklareli:"96463909126054bac7e89dcbd2002bb3071cb5c05100387d8da4ed30b6909673",kirsehir:"52a3cfc1a2e4d6a7dd4aa15225799b23a9474971c8c04860c0041adf647b8e17",kocaeli:"c11389ef12eb0f68cbe78bd53635eba972ab9c25f439d7fcd65f356835d209fb",konya:"1a2e96d67e2191663512cc799abd72d748e4bea5b615c707d82a6910ed6899dd",kutahya:"de8d1fba5ae090610fed7b5537758482141315ac3b94dbc043c443106d555c28",malatya:"7d89b0fcb8deb57f6bf76cc3c9ef1619c3fbcd5176ff2c802f0c08878b5e69c1",manisa:"bad529232fe9d7b1622b567306722b4f040c11fe103906e713b49de229354ff0",kahramanmaras:"d3b236ff9f73b6b0f823629ab72ca8979dfcc195b45e4339f3ee06a933c55a08",mardin:"0e322a97ef25457632f91ae484ea46ed1ce34315fb5c526943fd985ef90ff81d",mus:"6bcf811318556dcf0b0bbc8199da31295629460a585a80abcc14cc5ea0018744",nevsehir:"81f91a8b689ca930307a1ac5e4ba11e091f545601b86b4b2be2152d681c09401",nigde:"281ae98e6733b9d5dbc9f662d3f982937951ee87cd776e6c799ce3e3c3d63a0f",ordu:"d469a282508ae9551f31b86e819fc5148ace9bfd80752aa234ccc65e3b6270b0",rize:"bedda4a6693b62032a95f34e47e6e2219da2884bbefaf2e802af1baa483cf5b1",sakarya:"fb5b46b1a6939f07c1e85061a6ff52cdad4614ac5d6a9ef8f18ad3cd98fe81f3",samsun:"29d9ab885131dd8d0a010ce3260d99b9e8d005ba37fc8d773e77a8c613822092",siirt:"ab3763a5ede73f11ee0f6f478ec989d38db4704630da36665de4871559329d15",sinop:"9d2784f259abb2bd988cbe8301b0ce8b4ccb4e8b1c805302cc477bcb25bde34a",sivas:"7a37212ac9b717fb8203ddf2ee67800756e3dff943f175ed5801b8977bedeb42",tekirdag:"0a9d75cf39acd33e8ad45cf693e04004bbbc83e9cbc5bbaa556dadb922713d66",tokat:"fdf1099b8933fa308c411e3bfa2d86e49858460f59743fbedf9dd4c45ebad6d0",trabzon:"50591a1993263d473489969945d919b610017ddfa7a8cb104d80cce069cf9fc8",tunceli:"38d17dddab53fd84debb5560d6ebee4386eb1a22a32bee7f4ffb526873f7914d",sanliurfa:"b1c4981be78d37d5bfeebf417f93cd2535e0f6c387fe66e293f4a57d66a55b45",usak:"95e6a2e1796caf7ebae58564f889249639f2544599bce21342061ac3f752ad1a",van:"58bdc4c348cf7f6f9ed0baaf3b06f57cfc5bd6efb0f8d1d36a5e46a4a1fe1b11",yozgat:"14d9fbfc0fee2e500ab996e30e2a8211a5e88c2d6ae8b521c1981b07207612ec",zonguldak:"4939b44d06563991697c1a6f2a1b459cc7f4dcd14a37e2b00d86798e797ad7fb",aksaray:"fd0e61887ebccda2107d1995f73229641b3c2d893eba298f9c214100ba7b1fb0",bayburt:"b1a9e2de29545ae1d18ba5ca367abc9aef7177377f35cb725d4d10904e1ee3df",karaman:"aa03fb2d89d4f255cd46221e1ab2927438afa3c205ce112fc4b020cae56bdb4c",kirikkale:"a24a07a0dbe77854d3182bbb5746f53329a8f8b2e492eb2c782160ceb30211e3",batman:"58a1ae78bba9b26012f4857683ab1a9033551e334214a1200c5d3e7982455742",sirnak:"09e0653acccd92f57bd82b0a46b802924f064ec5fddbab1c019cdd7a842b15bf",bartin:"5d815dcfcad8b34fea0d006ff1917166faca616a86a1b5d1f8bcb140392c2d50",ardahan:"3f7d9b0b9a5f71b3a6164a9cb45edd85e4d9bb73f6e758e39100a3491ec50b4f",igdir:"72b9a90dd9bff86870d66c8823ecdc4ad003b5386a3f7d2bc638728a9df5a30b",yalova:"4b735b332f6e4949a1e3d3db1d2c1df5318281157f8087b32285fab8290d5815",karabuk:"eb6232cd56b6756f74e31b57e776ece0151d602370b97ae2356d9739c199b9cc",kilis:"34133fb14f1dadb8a61c5ebf6da86fb733a30b4cc1abbef2df6afe847e0a3597",osmaniye:"6ea5db5e1cf9a7d965715b5dedfceb668030ca0dbd12d7185fb4b86c7120fc74",duzce:"f9ae0aa99f3e739c71b860bed8fc9e8c0f8176e968834feae97c2a3523d69f7d"};
-const UNLOCKED_SET=(()=>{try{const a=JSON.parse(localStorage.getItem(LS_KEY)||'[]');return new Set(Array.isArray(a)?a:[]);}catch(e){return new Set();}})();
-function saveUnlocked(){try{localStorage.setItem(LS_KEY,JSON.stringify([...UNLOCKED_SET]));}catch(e){}}
-const owns=slug=>slug===FREE_SLUG||UNLOCKED_SET.has(slug);   /* has access (gift or bought) */
-/* Shopier purchase links — TODO: gerçek ürün linklerini gir (her il bir Shopier ürünü) */
-const SHOPIER_STORE='https://www.shopier.com/tr81';
-const SHOPIER={/* antalya:'https://www.shopier.com/xxxxx', denizli:'https://www.shopier.com/yyyyy', */};
-const shopierFor=slug=>SHOPIER[slug]||SHOPIER_STORE;
-/* per-province price (flat default + optional overrides) */
-const PRICE_DEFAULT=LANG=>LANG==='tr'?'49 ₺':'€2.49';
-const PRICE={/* antalya:'79 ₺', */};
-const priceFor=(slug,lang)=>PRICE[slug]||PRICE_DEFAULT(lang);
+const LS_KEY='tr81-access';
+const MASTER=/*__MASTER__*/'ba076618f4da3cb262aad996095f8163520bcbc64d2ccb75f50f23d7b6488a4e';
+let ALL_UNLOCKED=(()=>{try{return localStorage.getItem(LS_KEY)==='granted';}catch(e){return false;}})();
+function grantAccess(){ALL_UNLOCKED=true;try{localStorage.setItem(LS_KEY,'granted');}catch(e){}}
+const owns=slug=>ALL_UNLOCKED||slug===FREE_SLUG;   /* full access (code) or free province */
+/* Shopier — tek ürün, tek kod tüm illeri açar */
+const SHOPIER_URL='https://www.shopier.com/35589307';
+const shopierFor=slug=>SHOPIER_URL;
+/* price label shown in modal (tüm 81 il, TODO: kullanıcı fiyatı) */
+const PRICE_DEFAULT=lang=>lang==='tr'?'149 ₺':'€4.99';
+const priceFor=(slug,lang)=>PRICE_DEFAULT(lang);
 /* SHA-256 (compact, works in any context incl. file://) for offline code check */
 function sha256hex(ascii){
   function rr(n,x){return(x>>>n)|(x<<(32-n));}
@@ -390,14 +388,14 @@ const FREE_TXT=LANG==='tr'?'Ücretsiz':'Free';
 const T={
   en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
     tap:'Open',freeTap:'Free',lockedTap:'Buy',unlockBtn:'Buy',ownTxt:'Owned',
-    pwMsg:n=>`Unlock every scenic location in <b>${n}</b> with exact coordinates.`,
+    pwMsg:n=>`Unlock <b>all 81 provinces</b> with one code — including ${n}.`,
     pwBuy:'Buy on Shopier',pwHaveCode:'I already have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
     pwCodeOk:'Unlocked! Opening…',pwCodeErr:'That code is not valid for this province.',pwCodeEmpty:'Enter your code.',
     pwSecure:'One-time payment · lifetime access · instant code',pwTry:'Try Muğla free',
     names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
   tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
     tap:'Aç',freeTap:'Ücretsiz',lockedTap:'Satın al',unlockBtn:'Satın Al',ownTxt:'Açık',
-    pwMsg:n=>`<b>${n}</b> ilinin tüm manzara konumlarını tam koordinatlarıyla aç.`,
+    pwMsg:n=>`Tek kodla <b>81 ilin tamamı</b> açılır — ${n} dahil.`,
     pwBuy:'Shopier’den Satın Al',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
     pwCodeOk:'Açıldı! Yönlendiriliyorsunuz…',pwCodeErr:'Bu kod bu il için geçerli değil.',pwCodeEmpty:'Lütfen kodunu gir.',
     pwSecure:'Tek seferlik ödeme · ömür boyu erişim · anında kod',pwTry:'Muğla’yı ücretsiz dene',
@@ -424,10 +422,9 @@ const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
 const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
 
 /* ---------- gating: owned provinces open; locked ones open the buy/unlock modal ---------- */
-const OWN_TXT=T.ownTxt;
 function badgeFor(slug){
+  if(ALL_UNLOCKED)return '';
   if(slug===FREE_SLUG)return `<span class="freepill">${FREE_TXT}</span>`;
-  if(UNLOCKED_SET.has(slug))return `<span class="ownpill">${ICON.check}${OWN_TXT}</span>`;
   return `<span class="lockpill">${ICON.lock}</span>`;
 }
 function goProvince(slug,name){
@@ -533,7 +530,7 @@ function openRegion(key,label,focusSlug){
   cur.forEach(([n,slug,name,rk],i)=>{
     const free=owns(slug);
     const d=document.createElement('div');d.className='cover'+(free?'':' locked');d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
-    const tapTxt=slug===FREE_SLUG?T.freeTap:(UNLOCKED_SET.has(slug)?T.tap:ICON.lock+'<span>'+T.lockedTap+'</span>');
+    const tapTxt=ALL_UNLOCKED?T.tap:(slug===FREE_SLUG?T.freeTap:ICON.lock+'<span>'+T.lockedTap+'</span>');
     d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>${badgeFor(slug)}<span class="tap">${tapTxt}</span>`;
     d.onclick=()=>{if(dragMoved)return;if(i===idx){goProvince(slug,name);}else{haptic(6);animateTo(i);}};
     flow.appendChild(d);
@@ -605,10 +602,10 @@ function closePaywall(fromPop){
 function submitCode(){
   const raw=normCode(pwCodeInput.value);
   if(!raw){pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeEmpty;return;}
-  const want=CODES[pwSlug];
+  const want=MASTER;
   const got=sha256hex(raw);
   if(want&&got===want){
-    UNLOCKED_SET.add(pwSlug);saveUnlocked();
+    grantAccess();
     haptic(20);
     pwCodeMsg.className='pw-codemsg ok';pwCodeMsg.textContent=T.pwCodeOk;
     pwCodeGo.disabled=true;
@@ -714,7 +711,7 @@ qEl.addEventListener('input',()=>{
   if(!hits.length){resultsEl.innerHTML=`<div class="nores">${NORES}</div>`;return;}
   hits.forEach(([n,slug,name,rk])=>{
     const d=document.createElement('div');d.className='ritem';d.tabIndex=0;d.setAttribute('role','button');
-    const mk=slug===FREE_SLUG?`<span class="rfree">${FREE_TXT}</span>`:(UNLOCKED_SET.has(slug)?`<span class="rown">${ICON.check}</span>`:`<span class="rlock">${ICON.lock}</span>`);
+    const mk=ALL_UNLOCKED?'':(slug===FREE_SLUG?`<span class="rfree">${FREE_TXT}</span>`:`<span class="rlock">${ICON.lock}</span>`);
     d.innerHTML=`<span class="rn">${name}</span>${mk}<span class="rr">${T.names[rk]}</span>`;
     const pick=()=>{openProvince(slug);clearSearch();qEl.blur();};
     d.onclick=pick;
