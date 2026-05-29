@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TR81 — Concept C · Minimal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#fafafa;color:#111;line-height:1.5;}
+.back{position:fixed;top:18px;left:18px;z-index:20;color:#999;font-size:13px;font-weight:500;}
+.back:hover{color:#111;}
+.wrap{max-width:960px;margin:0 auto;padding:0 28px;}
+.hero{padding:150px 0 70px;}
+.hero .small{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#aaa;margin-bottom:26px;}
+.hero h1{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(2.8rem,7vw,5rem);line-height:1.04;letter-spacing:-.01em;color:#111;}
+.hero h1 em{font-style:italic;}
+.hero p{margin-top:26px;max-width:440px;color:#666;font-size:1.05rem;}
+.search{margin-top:40px;max-width:340px;position:relative;}
+.search input{width:100%;border:0;border-bottom:1px solid #ddd;padding:10px 2px;font-size:16px;font-family:inherit;background:transparent;color:#111;}
+.search input::placeholder{color:#bbb;}
+.search input:focus{outline:none;border-color:#111;}
+.divider{height:1px;background:#eaeaea;margin:0;}
+.list{padding:50px 0 110px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0 56px;}
+.item{display:flex;align-items:baseline;gap:16px;padding:15px 0;border-bottom:1px solid #ededed;cursor:pointer;color:#111;transition:.2s;}
+.item:hover{color:#000;}
+.item .no{font-family:'Fraunces',serif;font-size:.95rem;color:#bbb;min-width:30px;transition:.2s;}
+.item:hover .no{color:#111;}
+.item .nm{font-size:1.06rem;font-weight:500;flex:1;}
+.item .ar{opacity:0;transition:.2s;color:#111;}
+.item:hover .ar{opacity:1;}
+@media(max-width:640px){.hero{padding:110px 0 50px;}.list{padding:36px 0 80px;}}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<div class="wrap">
+  <div class="hero">
+    <div class="small">TR · 81 Provinces</div>
+    <h1>Türkiye,<br><em>province by province.</em></h1>
+    <p>A quiet index of the country's most scenic places. Choose where to look.</p>
+    <div class="search"><input id="q" type="text" placeholder="Search a province"></div>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="wrap">
+  <div class="list" id="list"></div>
+</div>
+<script>
+const P=[[1,'adana','Adana'],[2,'adiyaman','Adıyaman'],[3,'afyon','Afyonkarahisar'],[4,'agri','Ağrı'],[5,'amasya','Amasya'],[6,'ankara','Ankara'],[7,'antalya','Antalya'],[8,'artvin','Artvin'],[9,'aydin','Aydın'],[10,'balikesir','Balıkesir'],[11,'bilecik','Bilecik'],[12,'bingol','Bingöl'],[13,'bitlis','Bitlis'],[14,'bolu','Bolu'],[15,'burdur','Burdur'],[16,'bursa','Bursa'],[17,'canakkale','Çanakkale'],[18,'cankiri','Çankırı'],[19,'corum','Çorum'],[20,'denizli','Denizli'],[21,'diyarbakir','Diyarbakır'],[22,'edirne','Edirne'],[23,'elazig','Elazığ'],[24,'erzincan','Erzincan'],[25,'erzurum','Erzurum'],[26,'eskisehir','Eskişehir'],[27,'gaziantep','Gaziantep'],[28,'giresun','Giresun'],[29,'gumushane','Gümüşhane'],[30,'hakkari','Hakkari'],[31,'hatay','Hatay'],[32,'isparta','Isparta'],[33,'mersin','Mersin'],[34,'istanbul','İstanbul'],[35,'izmir','İzmir'],[36,'kars','Kars'],[37,'kastamonu','Kastamonu'],[38,'kayseri','Kayseri'],[39,'kirklareli','Kırklareli'],[40,'kirsehir','Kırşehir'],[41,'kocaeli','Kocaeli'],[42,'konya','Konya'],[43,'kutahya','Kütahya'],[44,'malatya','Malatya'],[45,'manisa','Manisa'],[46,'kahramanmaras','Kahramanmaraş'],[47,'mardin','Mardin'],[48,'mugla','Muğla'],[49,'mus','Muş'],[50,'nevsehir','Nevşehir'],[51,'nigde','Niğde'],[52,'ordu','Ordu'],[53,'rize','Rize'],[54,'sakarya','Sakarya'],[55,'samsun','Samsun'],[56,'siirt','Siirt'],[57,'sinop','Sinop'],[58,'sivas','Sivas'],[59,'tekirdag','Tekirdağ'],[60,'tokat','Tokat'],[61,'trabzon','Trabzon'],[62,'tunceli','Tunceli'],[63,'sanliurfa','Şanlıurfa'],[64,'usak','Uşak'],[65,'van','Van'],[66,'yozgat','Yozgat'],[67,'zonguldak','Zonguldak'],[68,'aksaray','Aksaray'],[69,'bayburt','Bayburt'],[70,'karaman','Karaman'],[71,'kirikkale','Kırıkkale'],[72,'batman','Batman'],[73,'sirnak','Şırnak'],[74,'bartin','Bartın'],[75,'ardahan','Ardahan'],[76,'igdir','Iğdır'],[77,'yalova','Yalova'],[78,'karabuk','Karabük'],[79,'kilis','Kilis'],[80,'osmaniye','Osmaniye'],[81,'duzce','Düzce']];
+const norm=s=>s.toLowerCase().replace(/ı/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
+const l=document.getElementById('list');
+P.forEach(([n,slug,name])=>{const a=document.createElement('a');a.href=slug+'.html';a.className='item';a.dataset.s=norm(name);a.innerHTML=`<span class="no">${String(n).padStart(2,'0')}</span><span class="nm">${name}</span><span class="ar">→</span>`;l.appendChild(a);});
+document.getElementById('q').addEventListener('input',e=>{const v=norm(e.target.value);document.querySelectorAll('.item').forEach(t=>t.style.display=t.dataset.s.includes(v)?'':'none');});
+</script>
+</body>
+</html>

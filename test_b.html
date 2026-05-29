@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TR81 — Concept B · Cinematic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#0c0c0e;color:#fff;}
+.back{position:fixed;top:16px;left:16px;z-index:30;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:8px 14px;font-weight:600;font-size:13px;color:#fff;}
+/* hero */
+.hero{position:relative;height:100vh;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;padding:48px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.15) 45%,rgba(0,0,0,.85) 100%),
+  url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+  background-size:cover;background-position:center;}
+.hero .kicker{font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:14px;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3.5rem,13vw,9rem);line-height:.92;letter-spacing:.01em;}
+.hero p{max-width:480px;margin-top:18px;font-size:1.05rem;color:rgba(255,255,255,.85);}
+.scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);animation:bob 1.8s infinite;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+/* list */
+.section{padding:70px 48px 90px;max-width:1200px;margin:0 auto;}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.02em;margin-bottom:6px;}
+.section .sub{color:rgba(255,255,255,.55);margin-bottom:34px;font-size:14px;}
+.search{position:relative;margin-bottom:30px;max-width:420px;}
+.search input{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.25);padding:12px 4px;color:#fff;font-size:16px;font-family:inherit;}
+.search input::placeholder{color:rgba(255,255,255,.4);}
+.search input:focus{outline:none;border-color:#fff;}
+.rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0 48px;}
+.row{display:flex;align-items:baseline;gap:18px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.10);cursor:pointer;transition:.25s;color:#fff;}
+.row:hover{padding-left:12px;border-color:rgba(255,255,255,.5);}
+.row .no{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:rgba(255,255,255,.35);min-width:42px;transition:.25s;}
+.row:hover .no{color:#ffd9a0;}
+.row .nm{font-size:1.15rem;font-weight:500;flex:1;}
+.row .ar{opacity:0;transform:translateX(-6px);transition:.25s;color:#ffd9a0;}
+.row:hover .ar{opacity:1;transform:translateX(0);}
+@media(max-width:640px){.hero{padding:32px 22px;}.section{padding:54px 22px 70px;}}
+</style>
+</head>
+<body>
+<a class="back" href="test.html">← styles</a>
+<section class="hero">
+  <div class="kicker">TR · 81 Provinces</div>
+  <h1>Discover<br>Türkiye</h1>
+  <p>One country, eighty-one stories. Scroll to wander through every province and its most cinematic views.</p>
+  <div class="scroll">Scroll ↓</div>
+</section>
+<section class="section">
+  <h2>All Provinces</h2>
+  <div class="sub">Choose a destination</div>
+  <div class="search"><input id="q" type="text" placeholder="Search…"></div>
+  <div class="rows" id="rows"></div>
+</section>
+<script>
+const P=[[1,'adana','Adana'],[2,'adiyaman','Adıyaman'],[3,'afyon','Afyonkarahisar'],[4,'agri','Ağrı'],[5,'amasya','Amasya'],[6,'ankara','Ankara'],[7,'antalya','Antalya'],[8,'artvin','Artvin'],[9,'aydin','Aydın'],[10,'balikesir','Balıkesir'],[11,'bilecik','Bilecik'],[12,'bingol','Bingöl'],[13,'bitlis','Bitlis'],[14,'bolu','Bolu'],[15,'burdur','Burdur'],[16,'bursa','Bursa'],[17,'canakkale','Çanakkale'],[18,'cankiri','Çankırı'],[19,'corum','Çorum'],[20,'denizli','Denizli'],[21,'diyarbakir','Diyarbakır'],[22,'edirne','Edirne'],[23,'elazig','Elazığ'],[24,'erzincan','Erzincan'],[25,'erzurum','Erzurum'],[26,'eskisehir','Eskişehir'],[27,'gaziantep','Gaziantep'],[28,'giresun','Giresun'],[29,'gumushane','Gümüşhane'],[30,'hakkari','Hakkari'],[31,'hatay','Hatay'],[32,'isparta','Isparta'],[33,'mersin','Mersin'],[34,'istanbul','İstanbul'],[35,'izmir','İzmir'],[36,'kars','Kars'],[37,'kastamonu','Kastamonu'],[38,'kayseri','Kayseri'],[39,'kirklareli','Kırklareli'],[40,'kirsehir','Kırşehir'],[41,'kocaeli','Kocaeli'],[42,'konya','Konya'],[43,'kutahya','Kütahya'],[44,'malatya','Malatya'],[45,'manisa','Manisa'],[46,'kahramanmaras','Kahramanmaraş'],[47,'mardin','Mardin'],[48,'mugla','Muğla'],[49,'mus','Muş'],[50,'nevsehir','Nevşehir'],[51,'nigde','Niğde'],[52,'ordu','Ordu'],[53,'rize','Rize'],[54,'sakarya','Sakarya'],[55,'samsun','Samsun'],[56,'siirt','Siirt'],[57,'sinop','Sinop'],[58,'sivas','Sivas'],[59,'tekirdag','Tekirdağ'],[60,'tokat','Tokat'],[61,'trabzon','Trabzon'],[62,'tunceli','Tunceli'],[63,'sanliurfa','Şanlıurfa'],[64,'usak','Uşak'],[65,'van','Van'],[66,'yozgat','Yozgat'],[67,'zonguldak','Zonguldak'],[68,'aksaray','Aksaray'],[69,'bayburt','Bayburt'],[70,'karaman','Karaman'],[71,'kirikkale','Kırıkkale'],[72,'batman','Batman'],[73,'sirnak','Şırnak'],[74,'bartin','Bartın'],[75,'ardahan','Ardahan'],[76,'igdir','Iğdır'],[77,'yalova','Yalova'],[78,'karabuk','Karabük'],[79,'kilis','Kilis'],[80,'osmaniye','Osmaniye'],[81,'duzce','Düzce']];
+const norm=s=>s.toLowerCase().replace(/ı/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
+const r=document.getElementById('rows');
+P.forEach(([n,slug,name])=>{const a=document.createElement('a');a.href=slug+'.html';a.className='row';a.dataset.s=norm(name);a.innerHTML=`<span class="no">${String(n).padStart(2,'0')}</span><span class="nm">${name}</span><span class="ar">→</span>`;r.appendChild(a);});
+document.getElementById('q').addEventListener('input',e=>{const v=norm(e.target.value);document.querySelectorAll('.row').forEach(t=>t.style.display=t.dataset.s.includes(v)?'':'none');});
+</script>
+</body>
+</html>
