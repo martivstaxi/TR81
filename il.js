@@ -39,6 +39,10 @@ const LS_KEY='tr81-access';
 const MASTER='02e3d09f8f4c16e579f85af78587a0ce78123f28933223277fa7feae2d7ea449';
 function grantAccess(){try{localStorage.setItem(LS_KEY,'granted');}catch(e){}}
 const normCode=c=>(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+/* görsel-benzer karakter toleransı (0↔O,1↔I/L,8↔B,5↔S,2↔Z,6↔G) — bkz. index.html */
+const CONF_MAP={O:'0',Q:'0',D:'0',I:'1',L:'1',Z:'2',S:'5',B:'8',G:'6'};
+const skelCode=c=>normCode(c).replace(/[OQDILZSBG]/g,ch=>CONF_MAP[ch]);
+const MASTER_SK='f5d4f0f154f05cee1f41acc820ce37e5e563aeee585e261fcc055d95911d037a';
 function sha256hex(ascii){
   function rr(n,x){return(x>>>n)|(x<<(32-n));}
   const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
@@ -62,7 +66,7 @@ function wireCode(){
   function submitCode(){
     const raw=normCode(codeinput.value);
     if(!raw){codemsg.className='codemsg err';codemsg.textContent=T.codeEmpty;return;}
-    if(sha256hex(raw)===MASTER){
+    if(sha256hex(raw)===MASTER||sha256hex(skelCode(codeinput.value))===MASTER_SK){
       grantAccess();
       codemsg.className='codemsg ok';codemsg.textContent=T.codeOk;codego.disabled=true;
       setTimeout(()=>{location.href='index.html';},800);

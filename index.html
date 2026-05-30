@@ -385,6 +385,12 @@ function sha256hex(ascii){
   return H.map(x=>((x>>>0).toString(16).padStart(8,'0'))).join('');
 }
 const normCode=c=>(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+/* Görsel-benzer karakterleri (0↔O, 1↔I/L, 8↔B, 5↔S, 2↔Z, 6↔G) tek temsilciye indirgeyen "iskelet"
+   normalizasyonu — kullanıcı kodu yanlış-benzer karakterle (örn. TR8I-GL0BAL) girse de kabul edilir.
+   Tek geçerli kod olduğundan güvenli; yanlış kodlar yine reddedilir. */
+const CONF_MAP={O:'0',Q:'0',D:'0',I:'1',L:'1',Z:'2',S:'5',B:'8',G:'6'};
+const skelCode=c=>normCode(c).replace(/[OQDILZSBG]/g,ch=>CONF_MAP[ch]);
+const MASTER_SK='f5d4f0f154f05cee1f41acc820ce37e5e563aeee585e261fcc055d95911d037a';
 
 /* ---------- i18n: ortak 40-dil sözlüğü (i18n.js). Cihaz dili 40 dilden biriyse o dil, değilse İngilizce ---------- */
 const LANG=(window.I18N&&window.I18N.lang)||'en';
@@ -630,7 +636,8 @@ function submitCode(){
   if(!raw){pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeEmpty;return;}
   const want=MASTER;
   const got=sha256hex(raw);
-  if(want&&got===want){
+  const okCode=(want&&got===want)||(MASTER_SK&&sha256hex(skelCode(pwCodeInput.value))===MASTER_SK);
+  if(okCode){
     grantAccess();
     haptic(20);
     pwCodeMsg.className='pw-codemsg ok';pwCodeMsg.textContent=T.pwCodeOk;
