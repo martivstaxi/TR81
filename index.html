@@ -313,7 +313,7 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
     <h3 id="pwTitle"></h3>
     <div class="pw-actions">
       <a class="pw-free" id="pwBuy" href="#" target="_blank" rel="noopener"></a>
-      <a class="pw-primary" id="pwTry" href="mugla.html"></a>
+      <a class="pw-primary" id="pwTry" href="mugla_demo.html"></a>
       <button class="pw-codebtn" id="pwCodeBtn" type="button"></button>
     </div>
     <div class="pw-codebox" id="pwCodeBox">
@@ -424,8 +424,10 @@ function badgeFor(slug){
   if(slug===FREE_SLUG)return `<span class="giftpill" aria-label="${FREE_TXT}" title="${FREE_TXT}">${ICON.gift}</span>`;
   return `<span class="lockpill">${ICON.lock}</span>`;
 }
+/* Muğla (ücretsiz) yeni demo şablonuna gider; diğer iller slug.html */
+const hrefFor=slug=>slug==='mugla'?'mugla_demo.html':slug+'.html';
 function goProvince(slug,name){
-  if(owns(slug)){haptic();location.href=slug+'.html';return;}
+  if(owns(slug)){haptic();location.href=hrefFor(slug);return;}
   openPaywall(slug,name);
 }
 
@@ -450,7 +452,7 @@ const bySlug=Object.fromEntries(P.map(p=>[p[1],p]));
 const trendEl=document.getElementById('trend');
 let tMoved=false;   /* set during a horizontal drag so a dragged card doesn't navigate */
 TREND.forEach((slug,i)=>{const p=bySlug[slug];if(!p)return;const[n,sl,name,rk]=p;
-  const c=document.createElement('a');c.href=sl+'.html';c.className='tcard';c.style.backgroundImage=`url('${IMG[i%2]}')`;
+  const c=document.createElement('a');c.href=hrefFor(sl);c.className='tcard';c.style.backgroundImage=`url('${IMG[i%2]}')`;
   c.setAttribute('aria-label',name);c.dataset.slug=sl;c.dataset.name=name;
   c.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div>${badgeFor(sl)}<h3>${name}</h3>`;
   c.addEventListener('click',e=>e.preventDefault());  /* nav handled in pointerup — pointer-capture retargets the click to the container on desktop mouse */
@@ -612,7 +614,7 @@ function submitCode(){
     haptic(20);
     pwCodeMsg.className='pw-codemsg ok';pwCodeMsg.textContent=T.pwCodeOk;
     pwCodeGo.disabled=true;
-    setTimeout(()=>{location.href=pwSlug+'.html';},650);
+    setTimeout(()=>{location.href=hrefFor(pwSlug);},650);
   }else{
     haptic(30);
     pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeErr;
@@ -753,7 +755,7 @@ function update(){
   /* explore button reflects lock state — refined icon, minimal words */
   const locked=!owns(slug);
   capgo.classList.toggle('lock',locked);
-  capgo.href=locked?'#':slug+'.html';
+  capgo.href=locked?'#':hrefFor(slug);
   capgo.innerHTML=locked?ICON.cart+'<span>'+T.unlockBtn+'</span>':'<span>'+T.explore+' →</span>';
 }
 flow.addEventListener('scroll',()=>requestAnimationFrame(update),{passive:true});
