@@ -131,11 +131,10 @@ function renderLB(){
 function updateLB(){
   lbtrack.style.transform=`translateX(-${curP*100}%)`;
   lbdots.innerHTML=LOCS[curL].photos.map((_,i)=>`<i class="${i===curP?'on':''}"></i>`).join('');
-  lbprev.disabled=curP===0;lbnext.disabled=curP===LOCS[curL].photos.length-1;
 }
 function openLB(l,p){curL=l;curP=p;renderLB();lb.classList.add('open');document.body.style.overflow='hidden';}
 function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
-function stepLB(d){const n=LOCS[curL].photos.length;curP=Math.max(0,Math.min(n-1,curP+d));updateLB();}
+function stepLB(d){const n=LOCS[curL].photos.length;curP=(curP+d+n)%n;updateLB();}  /* sonsuz döngü: son->ilk, ilk->son */
 list.addEventListener('click',e=>{const t=e.target.closest('.ph');if(!t)return;e.preventDefault();openLB(+t.dataset.l,+t.dataset.p);});
 list.addEventListener('keydown',e=>{const t=e.target.closest('.ph');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openLB(+t.dataset.l,+t.dataset.p);}});
 lbprev.onclick=()=>stepLB(-1);lbnext.onclick=()=>stepLB(1);
