@@ -49,12 +49,12 @@ window.WORLD = (function () {
 
   const STR = {
     en:{kick:'The World',title:'Explore the World',sub:'Beautiful places in 150 countries',
-        search:'Search a country…',count:'150 countries',free:'Free',back:'Back',
-        popular:'Popular',all:'All countries',spotlight:'In the spotlight',open:'Open',
+        search:'Search a country…',count:'150 countries',back:'Back',
+        popular:'Popular',all:'All countries',regions:'By region',az:'A – Z',open:'Open',
         empty:'No countries found.'},
     tr:{kick:'Dünya',title:'Dünyayı Keşfet',sub:'150 ülkede güzel yerler',
-        search:'Ülke ara…',count:'150 ülke',free:'Ücretsiz',back:'Geri',
-        popular:'Popüler',all:'Tüm ülkeler',spotlight:'Öne çıkan',open:'Aç',
+        search:'Ülke ara…',count:'150 ülke',back:'Geri',
+        popular:'Popüler',all:'Tüm ülkeler',regions:'Bölgeye göre',az:'A – Z',open:'Aç',
         empty:'Ülke bulunamadı.'}
   };
 
