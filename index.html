@@ -177,6 +177,11 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
   padding-bottom:max(24px,env(safe-area-inset-bottom));background:rgba(0,0,0,.82);
   visibility:hidden;transition:visibility 0s linear .3s;}   /* backdrop-filter YOK: coverflow'daki iç içe blur+transform katmanlarını bulanıklaştırınca mobilde flicker yapıyordu */
 .paywall.open{visibility:visible;transition:visibility 0s;}
+/* KÖK SEBEP FİXİ: paywall açıkken alttaki coverflow'u tamamen gizle. .flowview'in
+   3D rotateY + will-change + backdrop-filter katmanları yarı saydam modalın arkasında
+   composite edilince mobilde sürekli repaint/flicker yapıyordu. Gizleyince arkada canlı
+   katman kalmaz (trending senaryosuyla aynı). display:none DEĞİL ki scroll pozisyonu kalsın. */
+body.pwflow .flowview{visibility:hidden;}
 .pw-card{position:relative;width:100%;max-width:360px;background:linear-gradient(180deg,#181922,#0b0c11);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:32px 24px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.7);opacity:0;transform:translateY(18px) scale(.97);transition:transform .32s cubic-bezier(.2,.7,.3,1),opacity .26s ease;}
 .paywall.open .pw-card{transform:none;opacity:1;}
 .pw-ic{width:56px;height:56px;margin:0 auto 16px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;}
@@ -587,11 +592,13 @@ function openPaywall(slug,name){
   setCodeBox(false);
   pwTry.style.display=(slug===FREE_SLUG)?'none':'';
   paywall.classList.add('open');pwOpen=true;pwOpenedAt=performance.now();document.body.style.overflow='hidden';
+  if(fv.classList.contains('open'))document.body.classList.add('pwflow');  /* coverflow üstüne açıldı → arkadaki katman yığınını gizle (flicker kök sebebi) */
   if(!(history.state&&history.state.pw)){try{history.pushState({pw:1},'');}catch(e){}}
   setTimeout(()=>{try{pwBuy.focus({preventScroll:true});}catch(e){}},60);
 }
 function closePaywall(fromPop){
   if(!pwOpen)return;pwOpen=false;paywall.classList.remove('open');
+  document.body.classList.remove('pwflow');  /* coverflow'u geri göster */
   if(!fv.classList.contains('open'))document.body.style.overflow='';
   if(!fromPop&&history.state&&history.state.pw){suppressPop=true;history.back();}
 }
