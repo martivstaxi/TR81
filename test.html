@@ -1,320 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<title>TR81 — Türkiye in 81 Provinces</title>
+<title>Muğla — 4 Versiyon · TR81</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-snap-type:y proximity;scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;}
-img{display:block;}
+:root{--gold:#e3c590;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;min-height:100vh;}
+svg{display:block;}
 :focus-visible{outline:2px solid rgba(255,255,255,.85);outline-offset:2px;border-radius:6px;}
+.wrap{max-width:1000px;margin:0 auto;padding:max(26px,env(safe-area-inset-top)) 22px 60px;}
 
-/* ambient blurred backdrop behind the centered column (desktop/tablet only) */
-body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:opacity .6s;
-  background:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public') center/cover;
-  filter:blur(70px) brightness(.22) saturate(1.2);transform:scale(1.1);}
+header{margin-bottom:30px;}
+.kick{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px;}
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2.8rem,9vw,4.4rem);line-height:.9;letter-spacing:.01em;}
+header p{margin-top:12px;color:rgba(255,255,255,.78);font-size:1.04rem;line-height:1.5;max-width:560px;}
 
-/* ---------- app shell (mobile-first, centered on desktop) ---------- */
-.app{max-width:480px;margin:0 auto;min-height:100vh;background:#08080b;box-shadow:0 0 80px rgba(0,0,0,.7);position:relative;overflow-x:hidden;}
-
-/* ---------- HERO (concept B) ---------- */
-.hero{position:relative;height:100vh;height:100dvh;min-height:560px;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
-  padding:max(44px,env(safe-area-inset-top)) max(26px,env(safe-area-inset-right)) max(30px,env(safe-area-inset-bottom)) max(26px,env(safe-area-inset-left));
-  background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.10) 42%,rgba(8,8,11,.55) 78%,#08080b 100%),
-  url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
-  background-size:cover;background-position:center;}
-.hero .kicker{font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:600;margin-bottom:14px;}
-.hero h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(4rem,19vw,7rem);line-height:.88;letter-spacing:.01em;}
-.hero h1 .sfx{font-family:'Inter',sans-serif;font-weight:500;font-size:.26em;letter-spacing:0;text-transform:none;vertical-align:.55em;margin-left:.02em;color:rgba(255,255,255,.92);}
-.hero p{max-width:430px;margin-top:18px;font-size:1.06rem;line-height:1.5;color:rgba(255,255,255,.88);}
-.scroll{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);animation:bob 1.9s infinite;}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-
-/* ---------- TRENDING strip (concept AU card look, horizontal) — full screen ---------- */
-.trend-sec{scroll-snap-align:start;display:flex;flex-direction:column;padding:58px 0 22px;}
-.trend-sec h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.02em;margin:0 22px 4px;line-height:1;}
-.trend-sec .sub{color:#9aa4b2;font-size:14px;margin:0 22px 16px;}
-.trendwrap{display:flex;align-items:flex-start;}
-.trend{display:flex;gap:15px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 22px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
-.trend::-webkit-scrollbar{display:none;}
-.tcard{flex:none;width:158px;height:224px;border-radius:18px;overflow:hidden;position:relative;background-size:cover;background-position:center;
-  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;scroll-snap-align:center;box-shadow:0 16px 38px rgba(0,0,0,.55);cursor:pointer;text-decoration:none;color:#fff;transition:transform .2s;}
-.tcard:active{transform:scale(.97);}
-.tcard .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
-.tcard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.82));}
-.tcard .rank{position:absolute;top:10px;left:12px;z-index:3;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);border-radius:50%;font-weight:800;font-size:14px;}
-.tcard .rk{position:relative;z-index:2;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;opacity:.85;}
-.tcard h3{position:relative;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:1.65rem;font-weight:400;letter-spacing:.02em;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
-
-/* ---------- REGIONS (concept F) ---------- */
-.regions-sec{min-height:100vh;min-height:100dvh;scroll-snap-align:start;padding:44px 22px 70px;}
-.regions-sec .mark{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#8a8f9c;font-weight:600;}
-.regions-sec h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.02em;margin:0 0 22px;line-height:1;}
-.regions{display:flex;flex-direction:column;gap:14px;}
-.reg{position:relative;height:150px;border-radius:20px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background-size:cover;background-position:center;
-  transform:translateY(14px);opacity:0;transition:transform .55s cubic-bezier(.2,.7,.3,1),opacity .55s;}
-.reg.in{transform:translateY(0);opacity:1;}
-.reg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.62));}
-.reg .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.9;}
-.reg>.z{position:relative;z-index:2;}
-.reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.02em;text-shadow:0 2px 16px rgba(0,0,0,.5);line-height:1;}
-.reg .ct{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;margin-top:4px;letter-spacing:.02em;}
-.reg .ar{position:absolute;right:20px;bottom:20px;z-index:2;font-size:22px;opacity:.9;transition:transform .25s;}
-.reg:active{transform:scale(.985);}
-.reg:active .ar{transform:translateX(4px);}
-
-/* ---------- province search (between trending & regions) ---------- */
-.search{position:relative;margin:18px 22px 0;}
-.search .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.5;pointer-events:none;}
-.search input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 16px 14px 40px;color:#fff;font-size:16px;font-family:inherit;}
-.search input::placeholder{color:rgba(255,255,255,.45);}
-.search input:focus{outline:none;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.09);}
-.results{display:flex;flex-direction:column;gap:2px;margin-top:8px;}
-.ritem{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;cursor:pointer;background:rgba(255,255,255,.04);transition:background .15s;}
-.ritem:active,.ritem:hover{background:rgba(255,255,255,.12);}
-.ritem .rn{font-size:1.05rem;font-weight:600;flex:1;}
-.ritem .rr{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa4b2;font-weight:600;}
-
-/* ---------- COVERFLOW overlay (concept I) ---------- */
-.flowview{position:fixed;inset:0;z-index:80;background:radial-gradient(120% 80% at 50% 0%,#15161d 0%,#000 72%);
-  display:flex;flex-direction:column;max-width:480px;margin:0 auto;
-  transform:translateY(100%);transition:transform .42s cubic-bezier(.2,.7,.3,1);visibility:hidden;}
-.flowview.open{transform:translateY(0);visibility:visible;}
-.fvh{display:flex;align-items:center;gap:14px;padding:max(26px,calc(env(safe-area-inset-top) + 10px)) 22px 6px;}
-.fvh .rg{flex:1;}
-.fvh .rg .mark{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#9aa4b2;font-weight:600;}
-.fvh .rg h2{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;letter-spacing:.02em;line-height:1;margin-top:3px;}
-.fvh .x{font-size:20px;line-height:1;color:#fff;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);border-radius:999px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;}
-
-.flow{flex:1;display:flex;align-items:center;overflow-x:scroll;scroll-snap-type:x mandatory;scrollbar-width:none;perspective:1100px;padding:0 calc(50% - 115px);}
-.flow::-webkit-scrollbar{display:none;}
-.cover{flex:none;width:230px;height:330px;scroll-snap-align:center;border-radius:22px;overflow:hidden;position:relative;margin:0 -22px;
-  background-size:cover;background-position:center;box-shadow:0 30px 60px rgba(0,0,0,.6);
-  transform:rotateY(38deg) scale(.82);transition:transform .35s ease,opacity .35s ease,margin .35s ease;opacity:.5;transform-origin:center;cursor:pointer;}
-.cover.active{transform:rotateY(0deg) scale(1);opacity:1;z-index:5;margin:0 8px;}
-.cover.prev{transform:rotateY(38deg) scale(.82);}
-.cover.next{transform:rotateY(-38deg) scale(.82);}
-.cover .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.78;}
-.cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.55));}
-.cover .pl{position:absolute;top:12px;left:12px;z-index:3;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);border-radius:9px;padding:5px 11px;font-weight:800;font-size:14px;}
-
-.cap{text-align:center;padding:10px 20px 14px;}
-.cap h3{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;font-weight:400;letter-spacing:.02em;line-height:1;margin-bottom:14px;}
-.cap .go{display:inline-flex;align-items:center;gap:9px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;text-decoration:none;}
-.dots{display:flex;justify-content:center;gap:6px;padding:6px 0 max(26px,calc(env(safe-area-inset-bottom) + 12px));flex-wrap:wrap;max-width:300px;margin:0 auto;}
-.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .2s;}
-.dot.on{background:#fff;}
-
-/* ---------- responsive ---------- */
-/* small phones */
-@media(max-width:380px){
-  .cover{width:200px;height:300px;}
-  .flow{padding:0 calc(50% - 100px);}
-  .hero h1{font-size:clamp(3.4rem,18vw,6rem);}
-  .hero p{font-size:1rem;}
-  .tcard{width:142px;height:204px;}
-}
-/* large phones / small tablets */
-@media(min-width:560px){
-  .app{max-width:560px;}
-  .tcard{width:172px;height:244px;}
-}
-/* tablets & desktop: wider column, ambient backdrop, 2-col regions */
-@media(min-width:760px){
-  body::before{opacity:1;}
-  .app{max-width:680px;border-radius:0;}
-  .hero{padding-left:max(40px,env(safe-area-inset-left));padding-right:max(40px,env(safe-area-inset-right));}
-  .trend-sec h2,.regions-sec h2{font-size:3rem;}
-  .trend-sec h2,.trend-sec .sub{margin-left:40px;margin-right:40px;}
-  .trend{padding-left:40px;padding-right:40px;}
-  .search{margin-left:40px;margin-right:40px;}
-  .regions-sec{padding:54px 40px 80px;}
-  .regions{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .reg{height:168px;}
-  .flowview{max-width:680px;}
-  .cover{width:250px;height:360px;}
-  .flow{padding:0 calc(50% - 125px);}
-}
-/* landscape phones: don't force a tall hero, let content breathe */
-@media(max-height:520px) and (orientation:landscape){
-  .hero{min-height:0;height:auto;padding-top:max(34px,env(safe-area-inset-top));padding-bottom:34px;}
-  .hero h1{font-size:clamp(2.8rem,12vh,4.2rem);}
-  .hero p{margin-top:10px;font-size:.95rem;}
-  .scroll{margin-top:14px;}
-  .trend-sec{padding-top:34px;}
-}
-/* respect reduced-motion */
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto;}
-  .scroll{animation:none;}
-  .reg{transform:none!important;opacity:1!important;transition:none;}
-  .cover{transition:opacity .2s ease;}
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;}
+.card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:14px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,background .2s;}
+.card:hover{transform:translateY(-4px);border-color:rgba(227,197,144,.5);background:rgba(255,255,255,.06);}
+.phone{position:relative;width:100%;aspect-ratio:9/17.5;border-radius:20px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 44px rgba(0,0,0,.55);}
+.phone iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;pointer-events:none;background:#08080b;}
+.phone .open{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;padding:14px;text-decoration:none;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.55));opacity:0;transition:opacity .2s;}
+.phone:hover .open,.phone:focus-within .open{opacity:1;}
+.phone .open span{background:var(--gold);color:#1a1407;font-weight:700;font-size:13px;padding:9px 18px;border-radius:999px;}
+.meta{padding:14px 6px 4px;}
+.tag{display:inline-flex;align-items:center;gap:7px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em;}
+.tag .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);}
+.meta .nm{font-weight:700;font-size:1.02rem;margin-top:2px;}
+.meta .ds{color:#9aa4b2;font-size:.9rem;line-height:1.45;margin-top:6px;}
+.fullbtn{margin-top:12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:600;font-size:13px;padding:11px;border-radius:12px;text-decoration:none;}
+.fullbtn:hover{background:rgba(227,197,144,.16);border-color:rgba(227,197,144,.5);}
+.fullbtn svg{width:15px;height:15px;}
+.note{margin-top:34px;color:#6b7280;font-size:.85rem;line-height:1.6;border-top:1px solid rgba(255,255,255,.08);padding-top:18px;}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="wrap">
+  <header>
+    <div class="kick">Muğla · İl Sayfası Denemeleri</div>
+    <h1>4 Versiyon</h1>
+    <p>Muğla için 4 farklı tasarım — hepsi sitenin premium koyu diliyle uyumlu, sadece 4 konumla (İztuzu, Kelebekler Vadisi, Ölüdeniz, Montana) test amaçlı. Bir telefona dokun → tam ekran aç. Beğendiğini söyle, <b>mugla.html</b>'i ona çeviririm.</p>
+  </header>
 
-  <!-- HERO (B) -->
-  <section class="hero">
-    <h1 id="hh1"></h1>
-    <p id="htag"></p>
-    <div class="scroll" id="hscroll"></div>
-  </section>
+  <div class="grid" id="grid"></div>
 
-  <!-- TRENDING (AU card look, horizontal scroll) -->
-  <section class="trend-sec">
-    <h2 id="htrend"></h2>
-    <div class="sub" id="htrendsub"></div>
-    <div class="trendwrap"><div class="trend" id="trend"></div></div>
-    <div class="search"><span class="ic">🔍</span><input id="q" type="text" autocomplete="off"><div class="results" id="results"></div></div>
-  </section>
-
-  <!-- REGIONS (F) -->
-  <section class="regions-sec" id="regionsSec">
-    <h2 id="hregions"></h2>
-    <div class="regions" id="regions"></div>
-  </section>
-
-</div>
-
-<!-- COVERFLOW (I) -->
-<div class="flowview" id="flowview">
-  <div class="fvh">
-    <div class="rg"><h2 id="fvtitle">Region</h2></div>
-    <div class="x" id="fvclose" role="button" tabindex="0" aria-label="Close">✕</div>
-  </div>
-  <div class="flow" id="flow"></div>
-  <div class="cap"><h3 id="capnm">—</h3><a class="go" id="capgo" href="#">Explore →</a></div>
-  <div class="dots" id="dots"></div>
+  <div class="note">Önizlemeler etkileşimsizdir (sadece görünüm). Gerçek kaydırma/lightbox için kartı açın. Konumlar ve fotoğraflar canlı CDN'den gelir.</div>
 </div>
 
 <script>
-/* ---------- i18n: cihaz dili TR ise Türkçe, değilse İngilizce ---------- */
-const LANG=(navigator.language||navigator.userLanguage||'en').toLowerCase().startsWith('tr')?'tr':'en';
-document.documentElement.lang=LANG;
-const T={
-  en:{h1:'Discover<br>Türkiye',tag:'Scenic places and their locations, province by province.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore →',
-    count:n=>`${n} provinces`,
-    names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
-  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'Her ilin manzaralı yerleri ve konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet →',
-    count:n=>`${n} il`,
-    names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
-}[LANG];
-document.getElementById('hh1').innerHTML=T.h1;
-document.getElementById('htag').textContent=T.tag;
-document.getElementById('hscroll').textContent=T.scroll;
-document.getElementById('hregions').textContent=T.regions;
-document.getElementById('htrend').textContent=T.trend;
-document.getElementById('htrendsub').textContent=T.trendsub;
-document.getElementById('q').placeholder=T.search;
-
-const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
-const REG=[['medit','#0f9d8f'],['marmara','#2563eb'],['aegean','#0891b2'],['black','#16a34a'],['central','#d97706'],['east','#7c3aed'],['southeast','#db2777']];
-const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
-const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
-
-/* ----- build region cards (F) ----- */
-const regionsEl=document.getElementById('regions');
-REG.forEach(([key,color],i)=>{
-  const label=T.names[key];
-  const d=document.createElement('div');d.className='reg';d.style.backgroundImage=`url('${IMG[i%2]}')`;
-  d.tabIndex=0;d.setAttribute('role','button');d.setAttribute('aria-label',label);
-  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3></div><div class="ar">→</div>`;
-  d.onclick=()=>openRegion(key,label);
-  d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openRegion(key,label);}};
-  regionsEl.appendChild(d);
+const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const VERSIONS=[
+  {id:'a',tag:'A',nm:'Editorial',ds:'Dikey dergi düzeni — büyük lead görsel, altında küçük fotoğraf şeridi ve gold "Yol tarifi" butonu.'},
+  {id:'b',tag:'B',nm:'Coverflow',ds:'Ana sayfanın imza 3B coverflow’u — konumlar arasında kaydır, karta dokun, fotoğraf galerisi açılır. En uyumlu.'},
+  {id:'c',tag:'C',nm:'Bento Izgara',ds:'Mozaik ızgara — ilk konum geniş, diğerleri kare. Karta dokun, kaydırmalı lightbox galeri açılır.'},
+  {id:'d',tag:'D',nm:'Stories',ds:'Tam ekran dikey snap — Instagram-stories hissi. Sağ/sol dokun fotoğraf değiştir, yukarı kaydır sonraki konum.'}
+];
+const grid=document.getElementById('grid');
+VERSIONS.forEach(v=>{
+  const url=`test_${v.id}.html`;
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML=`
+    <div class="phone">
+      <iframe src="${url}" title="Versiyon ${v.tag}" loading="lazy" scrolling="no"></iframe>
+      <a class="open" href="${url}"><span>Tam ekran aç</span></a>
+    </div>
+    <div class="meta">
+      <div class="tag"><span class="dot"></span>Versiyon ${v.tag}</div>
+      <div class="nm">${v.nm}</div>
+      <div class="ds">${v.ds}</div>
+    </div>
+    <a class="fullbtn" href="${url}">Aç ${ARROW}</a>`;
+  grid.appendChild(c);
 });
-/* staggered reveal on scroll */
-const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;const k=[...regionsEl.children].indexOf(el);setTimeout(()=>el.classList.add('in'),k*60);io.unobserve(el);}}),{threshold:.2});
-[...regionsEl.children].forEach(c=>io.observe(c));
-
-/* ----- trending strip (most-visited touristic provinces) ----- */
-const TREND=['mugla','antalya','istanbul','izmir','nevsehir','bursa','denizli','trabzon','canakkale','aydin'];
-const bySlug=Object.fromEntries(P.map(p=>[p[1],p]));
-const trendEl=document.getElementById('trend');
-TREND.forEach((slug,i)=>{const p=bySlug[slug];if(!p)return;const[n,sl,name,rk]=p;
-  const c=document.createElement('a');c.href=sl+'.html';c.className='tcard';c.style.backgroundImage=`url('${IMG[i%2]}')`;
-  c.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="rank">${i+1}</span><div class="rk">${T.names[rk]}</div><h3>${name}</h3>`;
-  trendEl.appendChild(c);
-});
-
-/* ----- coverflow overlay (I) ----- */
-const fv=document.getElementById('flowview'),flow=document.getElementById('flow'),dots=document.getElementById('dots');
-const fvtitle=document.getElementById('fvtitle');
-const capnm=document.getElementById('capnm'),capgo=document.getElementById('capgo');
-capgo.textContent=T.explore;
-let covers=[],dotEls=[],cur=[];
-
-function openRegion(key,label,focusSlug){
-  cur=P.filter(p=>p[3]===key);
-  fvtitle.textContent=label;
-  flow.innerHTML='';dots.innerHTML='';
-  cur.forEach(([n,slug,name,rk],i)=>{
-    const d=document.createElement('div');d.className='cover';d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
-    d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>`;
-    d.onclick=()=>{if(d.classList.contains('active')){location.href=slug+'.html';}else{d.scrollIntoView({behavior:'smooth',inline:'center'});}};
-    flow.appendChild(d);
-    const dt=document.createElement('span');dt.className='dot';dots.appendChild(dt);
-  });
-  covers=[...flow.querySelectorAll('.cover')];dotEls=[...dots.querySelectorAll('.dot')];
-  const fi=focusSlug?Math.max(0,cur.findIndex(p=>p[1]===focusSlug)):0;
-  fv.classList.add('open');document.body.style.overflow='hidden';
-  requestAnimationFrame(()=>{flow.scrollLeft=0;covers[fi]&&covers[fi].scrollIntoView({inline:'center',block:'nearest'});update();});
-}
-function openProvince(slug){const p=bySlug[slug];if(!p)return;const key=p[3];openRegion(key,T.names[key],slug);}
-function closeRegion(){fv.classList.remove('open');document.body.style.overflow='';}
-const fvcloseEl=document.getElementById('fvclose');
-fvcloseEl.onclick=closeRegion;
-fvcloseEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closeRegion();}};
-
-/* ----- province search ----- */
-const norm=s=>(s||'').toLowerCase().replace(/ı/g,'i').replace(/İ/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
-const qEl=document.getElementById('q'),resultsEl=document.getElementById('results');
-qEl.addEventListener('input',()=>{
-  const v=norm(qEl.value.trim());resultsEl.innerHTML='';if(!v)return;
-  P.filter(p=>norm(p[2]).includes(v)).slice(0,6).forEach(([n,slug,name,rk])=>{
-    const d=document.createElement('div');d.className='ritem';d.tabIndex=0;d.setAttribute('role','button');
-    d.innerHTML=`<span class="rn">${name}</span><span class="rr">${T.names[rk]}</span>`;
-    const pick=()=>{openProvince(slug);qEl.value='';qEl.blur();resultsEl.innerHTML='';};
-    d.onclick=pick;
-    d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};
-    resultsEl.appendChild(d);
-  });
-});
-
-function update(){
-  if(!covers.length)return;
-  const mid=flow.scrollLeft+flow.clientWidth/2;let best=0,bd=1e9;
-  covers.forEach((c,i)=>{const cx=c.offsetLeft+c.clientWidth/2;const dist=Math.abs(cx-mid);if(dist<bd){bd=dist;best=i;}});
-  covers.forEach((c,i)=>{c.classList.toggle('active',i===best);c.classList.toggle('prev',i<best);c.classList.toggle('next',i>best);});
-  dotEls.forEach((d,i)=>d.classList.toggle('on',i===best));
-  const [n,slug,name]=cur[best];capnm.textContent=name;capgo.href=slug+'.html';
-}
-flow.addEventListener('scroll',()=>requestAnimationFrame(update),{passive:true});
-
-/* ----- keyboard nav (coverflow) ----- */
-function curIndex(){return covers.findIndex(c=>c.classList.contains('active'));}
-document.addEventListener('keydown',e=>{
-  if(!fv.classList.contains('open'))return;
-  if(e.key==='Escape'){closeRegion();return;}
-  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
-    e.preventDefault();const i=curIndex();const ni=Math.min(covers.length-1,Math.max(0,i+(e.key==='ArrowRight'?1:-1)));
-    covers[ni]&&covers[ni].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
-  }
-  if((e.key==='Enter'||e.key===' ')&&cur[curIndex()]){e.preventDefault();location.href=cur[curIndex()][1]+'.html';}
-});
-
-/* ----- swipe-down on the header to dismiss coverflow ----- */
-const fvh=document.querySelector('.fvh');let sy=null;
-fvh.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;},{passive:true});
-fvh.addEventListener('touchmove',e=>{if(sy!==null&&e.touches[0].clientY-sy>70){closeRegion();sy=null;}},{passive:true});
-fvh.addEventListener('touchend',()=>{sy=null;});
 </script>
 </body>
 </html>
