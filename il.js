@@ -1,8 +1,10 @@
 /* TR81 — paylaşılan il sayfası motoru.
    Sayfa <script>window.IL={slug:'antalya',mode:'full'}</script> tanımlar, sonra bu dosyayı yükler.
    Veri: data/<slug>.json  ->  {name, locations:[{name, map, photos:[...]}]}
-   mode 'full' = kilit açık (alt CTA: Tüm Dünya Konumları -> world.html)
-   mode 'demo' = ücretsiz önizleme (alt CTA: Shopier 81 İL + "Kodum var" kod kutusu) */
+   mode 'full' = kilit açık il (alt CTA: Tüm Dünya Konumları -> world.html)
+   mode 'demo' = ücretsiz önizleme (alt CTA: Shopier 81 İL + "Kodum var" kod kutusu)
+   mode 'country' = dünya ülkesi (alt CTA: Ana Sayfa -> world.html)
+   data.name string VEYA {tr,en} olabilir (ülkeler iki-dilli). */
 (function(){
 const IL=window.IL||{slug:'',mode:'full'};
 const T=(window.I18N&&window.I18N.t)||{},LANG=(window.I18N&&window.I18N.lang)||'en';
@@ -13,9 +15,12 @@ const LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 const UNLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 15.6 5.6"/></svg>';
 const IG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.6"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>';
 const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>';
+const HOME='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>';
 
 const $=id=>document.getElementById(id);
 let LOCS=[];
+/* data.name string ya da {tr,en}; aktif dile göre seç */
+const pickName=n=>(n&&typeof n==='object')?(n[LANG]||n.en||n.tr||'') : (n||'');
 
 /* ---------------- alt CTA ---------------- */
 function buildCTA(){
@@ -33,6 +38,11 @@ function buildCTA(){
         <a class="codehelp" id="codehelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener">${IG}<span>${T.codeHelp||''} <b>@tr81.tr</b></span></a>
       </div>`;
     wireCode();
+  }else if(IL.mode==='country'){
+    const h=LANG==='tr'?'Keşfetmeye devam et':'Keep exploring',
+          p=LANG==='tr'?'Dünyanın dört bir yanında keşfedilecek daha çok yer var.':'There are many more places to discover around the world.',
+          b=LANG==='tr'?'Ana Sayfa':'Home';
+    cta.innerHTML=`<h3>${h}</h3><p>${p}</p><a href="world.html">${HOME}<span>${b}</span></a>`;
   }else{
     cta.innerHTML=`<h3>${T.fullH}</h3><p>${T.fullP}</p><a href="world.html">${GLOBE}<span>${T.fullB}</span></a>`;
   }
@@ -141,7 +151,8 @@ $('cnt').textContent=T.empty;
 fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
   .then(r=>{if(!r.ok)throw 0;return r.json();})
   .then(d=>{
-    if(d&&d.name){document.title=d.name+' — TR81';const h=document.querySelector('.intro h1');if(h)h.textContent=d.name;}
+    const nm=pickName(d&&d.name);
+    if(nm){document.title=nm+' — TR81';const h=document.querySelector('.intro h1');if(h)h.textContent=nm;}
     LOCS=(d&&d.locations)||[];
     renderList();
   })
