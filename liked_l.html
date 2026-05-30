@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<title>Muğla — TR81 · P</title>
+<title>Muğla — TR81 · L</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,21 +24,22 @@ img{display:block;}svg{display:block;}a{color:inherit;text-decoration:none;}
 .intro .kick{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px;}
 .intro h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3rem,15vw,4.4rem);line-height:.9;}
 
-main{padding:12px 16px 8px;display:flex;flex-direction:column;gap:22px;}
-.loc .coll{display:grid;grid-template-columns:1.6fr 1fr;grid-template-rows:1fr 1fr;gap:5px;height:220px;border-radius:18px;overflow:hidden;}
-.loc:nth-child(even) .coll{grid-template-columns:1fr 1.6fr;}
-.loc .coll a{overflow:hidden;background:#15161d;}
-.loc .coll a:first-child{grid-row:1 / 3;}
-.loc:nth-child(even) .coll a:first-child{grid-column:2;grid-row:1 / 3;}
-.loc .coll img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
-.loc .coll a:active img{transform:scale(1.05);}
-.lf{display:flex;align-items:center;gap:10px;padding:12px 6px 0;}
-.lf .no{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold);}
-.lf .nm{flex:1;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.02em;line-height:1;}
-.lf .maps{flex:none;display:inline-flex;align-items:center;gap:6px;color:var(--gold);font-size:13px;font-weight:700;}
-.lf .maps svg{width:15px;height:15px;}
+/* magazine collage list */
+main{padding:14px 16px 8px;display:flex;flex-direction:column;gap:18px;}
+.loc{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.5);}
+.collage{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:4px;height:230px;}
+.collage a{overflow:hidden;background:#15161d;}
+.collage a:first-child{grid-row:1 / 3;}
+.collage img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.collage a:active img{transform:scale(1.05);}
+.overlay{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 16px 14px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));}
+.overlay .no{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;color:var(--gold);}
+.overlay h2{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.02em;line-height:1;margin-top:2px;text-shadow:0 2px 12px rgba(0,0,0,.8);}
+.maps{position:absolute;right:14px;bottom:14px;z-index:3;display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#1a1407;font-weight:700;font-size:13px;padding:10px 16px;border-radius:12px;}
+.maps svg{width:15px;height:15px;}
 
-.cta{margin:18px 4px max(34px,env(safe-area-inset-bottom));padding:24px 20px;text-align:center;}
+.cta{margin:18px 0 max(34px,env(safe-area-inset-bottom));padding:24px 20px;text-align:center;}
 .cta h3{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.02em;}
 .cta p{color:#9aa4b2;font-size:.92rem;line-height:1.5;margin:8px auto 16px;max-width:360px;}
 .cta a{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1407;font-weight:700;font-size:15px;padding:14px 26px;border-radius:14px;}
@@ -81,12 +82,9 @@ const list=document.getElementById('list');
 LOCS.forEach((loc,i)=>{
   const el=document.createElement('div');el.className='loc';
   el.innerHTML=`
-    <div class="coll">${loc.photos.map(p=>`<a href="${img(p)}" target="_blank" rel="noopener"><img src="${img(p)}" alt="${loc.name}" loading="lazy"></a>`).join('')}</div>
-    <div class="lf">
-      <span class="no">${String(i+1).padStart(2,'0')}</span>
-      <span class="nm">${loc.name}</span>
-      <a class="maps" href="${loc.map}" target="_blank" rel="noopener">${PIN}<span>${TX.maps}</span></a>
-    </div>`;
+    <div class="collage">${loc.photos.map(p=>`<a href="${img(p)}" target="_blank" rel="noopener"><img src="${img(p)}" alt="${loc.name}" loading="lazy"></a>`).join('')}</div>
+    <div class="overlay"><div class="no">${String(i+1).padStart(2,'0')} / ${String(LOCS.length).padStart(2,'0')}</div><h2>${loc.name}</h2></div>
+    <a class="maps" href="${loc.map}" target="_blank" rel="noopener">${PIN}<span>${TX.maps}</span></a>`;
   list.appendChild(el);
 });
 </script>
