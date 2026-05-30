@@ -262,6 +262,7 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
   .pw-card{transition:none;}
 }
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 <div class="app">
@@ -380,24 +381,15 @@ function sha256hex(ascii){
 }
 const normCode=c=>(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
 
-/* ---------- i18n: cihaz dili TR ise Türkçe, değilse İngilizce ---------- */
-const LANG=(navigator.language||navigator.userLanguage||'en').toLowerCase().startsWith('tr')?'tr':'en';
-document.documentElement.lang=LANG;
-const FREE_TXT=LANG==='tr'?'Ücretsiz':'Free';
-const T={
-  en:{h1:'Discover<br>Türkiye',tag:'Scenic locations across 81 provinces.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
-    tap:'Open',freeTap:'Free',lockedTap:'Buy',unlockBtn:'Buy',ownTxt:'Owned',
-    pwBuy:'Unlock all 81',pwHaveCode:'I have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
-    pwCodeOk:'Unlocked! Opening…',pwCodeErr:'That code is not valid for this province.',pwCodeEmpty:'Enter your code.',
-    pwTry:'Explore Muğla now',pwLocked:'locked',
-    names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
-  tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'81 ilin manzaralı konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
-    tap:'Aç',freeTap:'Ücretsiz',lockedTap:'Satın al',unlockBtn:'Satın Al',ownTxt:'Açık',
-    pwBuy:'81 İl Kilidini Aç',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
-    pwCodeOk:'Açıldı! Yönlendiriliyorsunuz…',pwCodeErr:'Bu kod bu il için geçerli değil.',pwCodeEmpty:'Lütfen kodunu gir.',
-    pwTry:'Muğla konumlarına şimdi eriş',pwLocked:'kilitli',
-    names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
-}[LANG];
+/* ---------- i18n: ortak 40-dil sözlüğü (i18n.js). Cihaz dili 40 dilden biriyse o dil, değilse İngilizce ---------- */
+const LANG=(window.I18N&&window.I18N.lang)||'en';
+const _t=(window.I18N&&window.I18N.t)||{};
+const FREE_TXT=_t.freeTap||'Free';
+/* index.html'in beklediği pw* kod anahtarları, paylaşılan öneksiz anahtarlara köprülenir */
+const T=Object.assign({},_t,{
+  pwHaveCode:_t.haveCode,pwCodePh:_t.codePh,pwCodeGo:_t.codeGo,
+  pwCodeOk:_t.codeOk,pwCodeErr:_t.codeErr,pwCodeEmpty:_t.codeEmpty
+});
 document.getElementById('hh1').innerHTML=T.h1;
 document.getElementById('htag').textContent=T.tag;
 document.getElementById('hscroll').textContent=T.scroll;

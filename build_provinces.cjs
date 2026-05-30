@@ -62,6 +62,7 @@ function shell(name,slug,mode){
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="il.css">
+<script src="i18n.js"></script>
 </head>
 <body>
 <div class="app">
@@ -95,14 +96,16 @@ function shell(name,slug,mode){
 
 const report=[];
 for(const slug of slugs){
+  const jsonPath=path.join(DATA,slug+'.json');
   let data;
-  if(slug==='mugla'){
+  if(fs.existsSync(jsonPath)){
+    data=JSON.parse(fs.readFileSync(jsonPath,'utf8'));   /* veri zaten var: KORU, sadece kabuğu tazele (idempotent) */
+  }else if(slug==='mugla'){
     data=parseMugla();
   }else{
     const src=path.join(ROOT,slug+'.html');
     if(!fs.existsSync(src)){report.push([slug,'YOK','—']);continue;}
-    const html=fs.readFileSync(src,'utf8');
-    data=parseOld(html,slug);
+    data=parseOld(fs.readFileSync(src,'utf8'),slug);
   }
   data.slug=slug;
   const out={name:data.name,slug,locations:data.locations};

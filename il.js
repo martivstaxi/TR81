@@ -5,20 +5,7 @@
    mode 'demo' = ücretsiz önizleme (alt CTA: Shopier 81 İL + "Kodum var" kod kutusu) */
 (function(){
 const IL=window.IL||{slug:'',mode:'full'};
-const LANG=(navigator.language||'tr').toLowerCase().startsWith('tr')?'tr':'en';
-const TX=LANG==='tr'
-  ?{maps:'Konum',
-     cntFull:n=>n+' manzaralı yerin konumları',
-     fullH:'Sıradaki durak: dünya',fullP:'Türkiye’nin manzaralarını keşfettin. Şimdi tüm dünyanın konumları seni bekliyor.',fullB:'Tüm Dünya Konumları',
-     demoH:'Gezilecek o kadar çok yer var ki',demoP:'81 ilin her birinde keşfedilmeyi bekleyen özel konumlar var. Hepsinin kilidini aç.',demoB:'81 İL',
-     haveCode:'Kodum var',codePh:'Kodunu gir',codeGo:'Aç',codeOk:'Açıldı! Tüm iller açıldı, yönlendiriliyorsun…',codeErr:'Bu kod geçersiz.',codeEmpty:'Lütfen kodunu gir.',
-     empty:'Konumlar yükleniyor…',fail:'Konumlar yüklenemedi.'}
-  :{maps:'Directions',
-     cntFull:n=>n+' scenic spots to explore',
-     fullH:'Next stop: the world',fullP:'You’ve explored Türkiye’s scenery. Now every location in the world is waiting for you.',fullB:'All World Locations',
-     demoH:'So many places to explore',demoP:'Every one of the 81 provinces has special spots waiting to be discovered. Unlock them all.',demoB:'All 81',
-     haveCode:'I have a code',codePh:'Enter your code',codeGo:'Unlock',codeOk:'Unlocked! Redirecting…',codeErr:'That code is not valid.',codeEmpty:'Enter your code.',
-     empty:'Loading locations…',fail:'Could not load locations.'};
+const T=(window.I18N&&window.I18N.t)||{},LANG=(window.I18N&&window.I18N.lang)||'en';
 
 const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>';
 const GLOBE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 4 5.7 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.7-4-9s1.4-6.4 4-9Z"/></svg>';
@@ -32,18 +19,18 @@ let LOCS=[];
 function buildCTA(){
   const cta=$('cta');
   if(IL.mode==='demo'){
-    cta.innerHTML=`<h3>${TX.demoH}</h3><p>${TX.demoP}</p>
+    cta.innerHTML=`<h3>${T.demoH}</h3><p>${T.demoP}</p>
       <div class="ctabtns">
-        <a href="https://www.shopier.com/35589307" target="_blank" rel="noopener">${LOCK}<span>${TX.demoB}</span></a>
-        <button class="codebtn" id="codebtn">${UNLOCK}<span>${TX.haveCode}</span></button>
+        <a href="https://www.shopier.com/35589307" target="_blank" rel="noopener">${LOCK}<span>${T.demoB}</span></a>
+        <button class="codebtn" id="codebtn">${UNLOCK}<span>${T.haveCode}</span></button>
       </div>
       <div class="codebox" id="codebox">
-        <div class="crow"><input id="codeinput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${TX.codePh}"><button class="go" id="codego">${TX.codeGo}</button></div>
+        <div class="crow"><input id="codeinput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${T.codePh}"><button class="go" id="codego">${T.codeGo}</button></div>
         <div class="codemsg" id="codemsg"></div>
       </div>`;
     wireCode();
   }else{
-    cta.innerHTML=`<h3>${TX.fullH}</h3><p>${TX.fullP}</p><a href="world.html">${GLOBE}<span>${TX.fullB}</span></a>`;
+    cta.innerHTML=`<h3>${T.fullH}</h3><p>${T.fullP}</p><a href="world.html">${GLOBE}<span>${T.fullB}</span></a>`;
   }
 }
 
@@ -74,12 +61,12 @@ function wireCode(){
   codebtn.addEventListener('click',()=>{const open=codebox.classList.toggle('open');codebtn.classList.toggle('active',open);if(open)setTimeout(()=>{try{codeinput.focus();}catch(e){}},60);});
   function submitCode(){
     const raw=normCode(codeinput.value);
-    if(!raw){codemsg.className='codemsg err';codemsg.textContent=TX.codeEmpty;return;}
+    if(!raw){codemsg.className='codemsg err';codemsg.textContent=T.codeEmpty;return;}
     if(sha256hex(raw)===MASTER){
       grantAccess();
-      codemsg.className='codemsg ok';codemsg.textContent=TX.codeOk;codego.disabled=true;
+      codemsg.className='codemsg ok';codemsg.textContent=T.codeOk;codego.disabled=true;
       setTimeout(()=>{location.href='index.html';},800);
-    }else{codemsg.className='codemsg err';codemsg.textContent=TX.codeErr;codeinput.select();}
+    }else{codemsg.className='codemsg err';codemsg.textContent=T.codeErr;codeinput.select();}
   }
   codego.addEventListener('click',submitCode);
   codeinput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitCode();}});
@@ -87,14 +74,14 @@ function wireCode(){
 
 /* ---------------- liste + lightbox ---------------- */
 function renderList(){
-  $('cnt').textContent=TX.cntFull(LOCS.length);
+  $('cnt').textContent=LOCS.length+' '+T.spots;
   const list=$('list');list.innerHTML='';
   LOCS.forEach((loc,i)=>{
     const el=document.createElement('div');el.className='loc';
     el.innerHTML=`
       <div class="lh">
         <span class="nm">${loc.name}</span>
-        <a class="maps" href="${loc.map}" target="_blank" rel="noopener" aria-label="${TX.maps}">${PIN}<span class="ar">›</span></a>
+        <a class="maps" href="${loc.map}" target="_blank" rel="noopener" aria-label="${T.maps}">${PIN}<span class="ar">›</span></a>
       </div>
       <div class="trip">${loc.photos.map((p,k)=>`<a class="ph" data-l="${i}" data-p="${k}" role="button" tabindex="0" aria-label="${loc.name} — foto ${k+1}"><img src="${p}" alt="${loc.name}" loading="lazy"></a>`).join('')}</div>`;
     list.appendChild(el);
@@ -109,7 +96,7 @@ function wireLightbox(list){
     const loc=LOCS[curL];
     lbtrack.innerHTML=loc.photos.map(p=>`<div class="slide"><img src="${p}" alt="${loc.name}"></div>`).join('');
     lbnm.textContent=loc.name;
-    lbmap.href=loc.map;lbmap.innerHTML=PIN+'<span>'+TX.maps+'</span>';
+    lbmap.href=loc.map;lbmap.innerHTML=PIN+'<span>'+T.maps+'</span>';
     updateLB();
   }
   function updateLB(){
@@ -132,7 +119,7 @@ function wireLightbox(list){
 
 /* ---------------- başlat ---------------- */
 buildCTA();
-$('cnt').textContent=TX.empty;
+$('cnt').textContent=T.empty;
 fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
   .then(r=>{if(!r.ok)throw 0;return r.json();})
   .then(d=>{
@@ -140,5 +127,5 @@ fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
     LOCS=(d&&d.locations)||[];
     renderList();
   })
-  .catch(()=>{$('cnt').textContent=TX.fail;});
+  .catch(()=>{$('cnt').textContent=T.fail;});
 })();
