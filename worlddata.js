@@ -87,7 +87,8 @@ window.WORLD = (function () {
   /* her ülke için zenginleştirilmiş kayıt */
   const list = COUNTRIES.map(([iso, slug, cont]) => ({
     iso, slug, cont, name: name(iso), emoji: emoji(iso), flag: flagUrl(iso),
-    free: slug === FREE, popular: POPULAR.includes(iso), href: href(slug)
+    free: slug === FREE, popular: POPULAR.includes(iso),
+    href: slug === FREE ? 'index.html' : href(slug)
   }));
 
   return { lang, t: STR[lang], list, cont: CONT[lang], contOrder: CONT_ORDER,
