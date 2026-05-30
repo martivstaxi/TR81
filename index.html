@@ -210,7 +210,8 @@ body.pwflow .flowview{visibility:hidden;}
 .pw-codebtn:active{transform:scale(.98);}
 .pw-codebtn.active{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);}
 .pw-codebox{max-height:0;overflow:hidden;opacity:0;transition:max-height .32s cubic-bezier(.2,.7,.3,1),opacity .26s,margin .32s;margin-top:0;}
-.pw-codebox.open{max-height:140px;opacity:1;margin-top:10px;}
+.pw-codebox.open{max-height:260px;opacity:1;margin-top:10px;}
+.pw-codedeliver{font-size:12px;color:rgba(255,255,255,.5);text-align:left;padding:0 2px 8px;line-height:1.4;}
 .pw-codefield{display:flex;gap:8px;}
 .pw-codefield input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:13px 14px;color:#fff;font-size:16px;font-family:inherit;letter-spacing:.06em;text-transform:uppercase;}
 .pw-codefield input::placeholder{color:rgba(255,255,255,.32);letter-spacing:.04em;}
@@ -220,7 +221,16 @@ body.pwflow .flowview{visibility:hidden;}
 .pw-codefield button:disabled{opacity:.5;cursor:default;}
 .pw-codemsg{min-height:18px;font-size:13px;margin-top:9px;text-align:left;padding:0 2px;}
 .pw-codemsg.err{color:#ff8585;}
-.pw-codemsg.ok{color:#7ee0a8;}
+.pw-codemsg.ok{color:#7ee0a8;display:flex;align-items:center;gap:7px;font-weight:700;}
+.pw-codemsg.ok .tick{flex:none;width:20px;height:20px;border-radius:50%;background:#2ec27e;color:#0b0c11;display:inline-flex;align-items:center;justify-content:center;animation:tickpop .42s cubic-bezier(.18,.9,.32,1.3) both;}
+.pw-codemsg.ok .tick svg{width:12px;height:12px;display:block;}
+@keyframes tickpop{0%{transform:scale(0) rotate(-25deg);opacity:0;}60%{transform:scale(1.18) rotate(3deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+/* Instagram yardım/iletişim satırı — kod kutusunda her zaman görünür, yanlış kod sonrası vurgulanır */
+.pw-codehelp{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:11px;font-size:12.5px;color:rgba(255,255,255,.55);text-decoration:none;padding:7px;border-radius:10px;border:1px solid transparent;transition:color .2s,border-color .2s,background .2s;}
+.pw-codehelp svg{width:15px;height:15px;flex:none;}
+.pw-codehelp:hover{color:rgba(255,255,255,.85);}
+.pw-codehelp.hot{color:var(--gold);border-color:rgba(227,197,144,.45);background:rgba(227,197,144,.08);animation:helpnudge .5s ease;}
+@keyframes helpnudge{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
 /* owned (purchased) badges */
 .ownpill{position:absolute;top:11px;right:11px;z-index:4;display:inline-flex;align-items:center;gap:3px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;padding:5px 9px 5px 7px;border-radius:999px;color:#7ee0a8;background:rgba(126,224,168,.13);border:1px solid rgba(126,224,168,.45);backdrop-filter:blur(5px);}
 .ownpill svg{width:12px;height:12px;}
@@ -267,7 +277,7 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
   .pw-card{transition:none;}
 }
 </style>
-<script src="i18n.js?v=2"></script>
+<script src="i18n.js?v=3"></script>
 </head>
 <body>
 <div class="app">
@@ -323,11 +333,13 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
       <button class="pw-codebtn" id="pwCodeBtn" type="button"></button>
     </div>
     <div class="pw-codebox" id="pwCodeBox">
+      <div class="pw-codedeliver" id="pwCodeDeliver"></div>
       <div class="pw-codefield">
-        <input id="pwCodeInput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go" placeholder="TR81-XXXXX-XXXXX">
+        <input id="pwCodeInput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
         <button id="pwCodeGo" type="button"></button>
       </div>
       <div class="pw-codemsg" id="pwCodeMsg" aria-live="polite"></div>
+      <a class="pw-codehelp" id="pwCodeHelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener"></a>
     </div>
   </div>
 </div>
@@ -344,7 +356,8 @@ const ICON={
   pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
   cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></svg>',
-  gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M12 8.5V21"/><path d="M18.5 12.5v6.4a1.6 1.6 0 0 1-1.6 1.6H7.1a1.6 1.6 0 0 1-1.6-1.6v-6.4"/><path d="M7.6 8.5a2.5 2.5 0 0 1 0-5C10.3 3.5 12 8.5 12 8.5s1.7-5 4.4-5a2.5 2.5 0 0 1 0 5"/></svg>'
+  gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M12 8.5V21"/><path d="M18.5 12.5v6.4a1.6 1.6 0 0 1-1.6 1.6H7.1a1.6 1.6 0 0 1-1.6-1.6v-6.4"/><path d="M7.6 8.5a2.5 2.5 0 0 1 0-5C10.3 3.5 12 8.5 12 8.5s1.7-5 4.4-5a2.5 2.5 0 0 1 0 5"/></svg>',
+  instagram:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.6"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>'
 };
 document.getElementById('qic').innerHTML=ICON.search;
 document.getElementById('pwIc').innerHTML=ICON.lock;
@@ -576,11 +589,16 @@ const pwCodeBox=document.getElementById('pwCodeBox');
 const pwCodeInput=document.getElementById('pwCodeInput');
 const pwCodeGo=document.getElementById('pwCodeGo');
 const pwCodeMsg=document.getElementById('pwCodeMsg');
+const pwCodeDeliver=document.getElementById('pwCodeDeliver');
+const pwCodeHelp=document.getElementById('pwCodeHelp');
 const pwTry=document.getElementById('pwTry');
 pwCodeBtn.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
 pwCodeGo.textContent=T.pwCodeGo;
+pwCodeInput.placeholder=T.pwCodePh;
+pwCodeDeliver.textContent=_t.codeDeliver;
+pwCodeHelp.innerHTML=ICON.instagram+'<span>'+_t.codeHelp+'</span>';
 pwTry.innerHTML=ICON.pin+'<span>'+T.pwTry+'</span>';
-let pwOpen=false,pwSlug=null,suppressPop=false,pwOpenedAt=0;
+let pwOpen=false,pwSlug=null,suppressPop=false,pwOpenedAt=0,pwWrongCount=0;
 /* Klavye açılınca modalın altta kalmaması için: paywall'ı görünür viewport (klavye üstü) alanına hizala. */
 const vv=window.visualViewport;
 function syncPwViewport(){
@@ -616,6 +634,7 @@ function openPaywall(slug,name){
   pwBuy.href=shopierFor(slug);
   pwBuy.innerHTML=ICON.cart+'<span>'+T.pwBuy+'</span>';
   pwCodeInput.value='';pwCodeMsg.textContent='';pwCodeMsg.className='pw-codemsg';
+  pwWrongCount=0;pwCodeHelp.classList.remove('hot');pwCodeGo.disabled=false;pwCodeInput.disabled=false;
   setCodeBox(false);
   pwTry.style.display=(slug===FREE_SLUG)?'none':'';
   paywall.classList.add('open');pwOpen=true;pwOpenedAt=performance.now();document.body.style.overflow='hidden';
@@ -640,13 +659,16 @@ function submitCode(){
   if(okCode){
     grantAccess();
     haptic(20);
-    pwCodeMsg.className='pw-codemsg ok';pwCodeMsg.textContent=T.pwCodeOk;
-    pwCodeGo.disabled=true;
-    setTimeout(()=>{location.href=hrefFor(pwSlug);},650);
+    pwCodeMsg.className='pw-codemsg ok';
+    pwCodeMsg.innerHTML='<span class="tick">'+ICON.check+'</span><span>'+T.pwCodeOk+(_t.codeOkSub?' '+_t.codeOkSub:'')+'</span>';
+    pwCodeGo.disabled=true;pwCodeInput.disabled=true;pwCodeHelp.classList.remove('hot');
+    setTimeout(()=>{location.href=hrefFor(pwSlug);},950);
   }else{
     haptic(30);
+    pwWrongCount++;
     pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeErr;
     pwCodeInput.focus();pwCodeInput.select();
+    if(pwWrongCount>=2)pwCodeHelp.classList.add('hot');   /* 2. yanlış denemede iletişim linkini vurgula */
   }
 }
 /* swallow the trailing ghost-click that the opening tap produces (~within 350ms) so it can't

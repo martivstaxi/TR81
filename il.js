@@ -11,6 +11,8 @@ const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wid
 const GLOBE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 4 5.7 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.7-4-9s1.4-6.4 4-9Z"/></svg>';
 const LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 16 7.2v3.3"/></svg>';
 const UNLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 15.6 5.6"/></svg>';
+const IG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.6"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>';
+const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>';
 
 const $=id=>document.getElementById(id);
 let LOCS=[];
@@ -25,8 +27,10 @@ function buildCTA(){
         <button class="codebtn" id="codebtn">${UNLOCK}<span>${T.haveCode}</span></button>
       </div>
       <div class="codebox" id="codebox">
+        <div class="codedeliver">${T.codeDeliver||''}</div>
         <div class="crow"><input id="codeinput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${T.codePh}"><button class="go" id="codego">${T.codeGo}</button></div>
         <div class="codemsg" id="codemsg"></div>
+        <a class="codehelp" id="codehelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener">${IG}<span>${T.codeHelp||''}</span></a>
       </div>`;
     wireCode();
   }else{
@@ -61,16 +65,23 @@ function sha256hex(ascii){
   return H.map(x=>((x>>>0).toString(16).padStart(8,'0'))).join('');
 }
 function wireCode(){
-  const codebtn=$('codebtn'),codebox=$('codebox'),codeinput=$('codeinput'),codego=$('codego'),codemsg=$('codemsg');
+  const codebtn=$('codebtn'),codebox=$('codebox'),codeinput=$('codeinput'),codego=$('codego'),codemsg=$('codemsg'),codehelp=$('codehelp');
+  let wrong=0;
   codebtn.addEventListener('click',()=>{const open=codebox.classList.toggle('open');codebtn.classList.toggle('active',open);if(open)setTimeout(()=>{try{codeinput.focus();}catch(e){}setTimeout(()=>{try{codeinput.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}},300);},60);});
   function submitCode(){
     const raw=normCode(codeinput.value);
     if(!raw){codemsg.className='codemsg err';codemsg.textContent=T.codeEmpty;return;}
     if(sha256hex(raw)===MASTER||sha256hex(skelCode(codeinput.value))===MASTER_SK){
       grantAccess();
-      codemsg.className='codemsg ok';codemsg.textContent=T.codeOk;codego.disabled=true;
-      setTimeout(()=>{location.href='index.html';},800);
-    }else{codemsg.className='codemsg err';codemsg.textContent=T.codeErr;codeinput.select();}
+      codemsg.className='codemsg ok';
+      codemsg.innerHTML='<span class="tick">'+CHECK+'</span><span>'+T.codeOk+(T.codeOkSub?' '+T.codeOkSub:'')+'</span>';
+      codego.disabled=true;codeinput.disabled=true;if(codehelp)codehelp.classList.remove('hot');
+      setTimeout(()=>{location.href='index.html';},950);
+    }else{
+      wrong++;
+      codemsg.className='codemsg err';codemsg.textContent=T.codeErr;codeinput.select();
+      if(wrong>=2&&codehelp)codehelp.classList.add('hot');   /* 2. yanlışta iletişim linkini vurgula */
+    }
   }
   codego.addEventListener('click',submitCode);
   codeinput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitCode();}});
