@@ -175,8 +175,13 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
 /* ---------- unlock modal ---------- */
 .paywall{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:24px;
   padding-bottom:max(24px,env(safe-area-inset-bottom));background:rgba(0,0,0,.82);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
   visibility:hidden;transition:visibility 0s linear .3s;}   /* backdrop-filter YOK: coverflow'daki iç içe blur+transform katmanlarını bulanıklaştırınca mobilde flicker yapıyordu */
 .paywall.open{visibility:visible;transition:visibility 0s;}
+/* klavye açıkken (visualViewport ile yükseklik küçülür) modal üstten hizalanır ki kart+kod alanı
+   klavyenin arkasında kalmasın; kart görünür alandan uzunsa yukarı scroll edilebilir. */
+.paywall.kbd{align-items:flex-start;}
+.paywall.kbd .pw-card{margin-top:8px;}
 /* KÖK SEBEP FİXİ: paywall açıkken alttaki coverflow'u tamamen gizle. .flowview'in
    3D rotateY + will-change + backdrop-filter katmanları yarı saydam modalın arkasında
    composite edilince mobilde sürekli repaint/flicker yapıyordu. Gizleyince arkada canlı
@@ -570,10 +575,32 @@ pwCodeBtn.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
 pwCodeGo.textContent=T.pwCodeGo;
 pwTry.innerHTML=ICON.pin+'<span>'+T.pwTry+'</span>';
 let pwOpen=false,pwSlug=null,suppressPop=false,pwOpenedAt=0;
+/* Klavye açılınca modalın altta kalmaması için: paywall'ı görünür viewport (klavye üstü) alanına hizala. */
+const vv=window.visualViewport;
+function syncPwViewport(){
+  if(!pwOpen||!vv)return;
+  paywall.style.height=vv.height+'px';
+  paywall.style.top=vv.offsetTop+'px';
+  paywall.style.bottom='auto';
+  const kb=(window.innerHeight-vv.height)>120;   /* klavye açık mı? */
+  paywall.classList.toggle('kbd',kb);
+  if(kb&&pwCodeBox.classList.contains('open')){
+    try{pwCodeInput.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}
+  }
+}
+function resetPwViewport(){
+  paywall.style.height='';paywall.style.top='';paywall.style.bottom='';
+  paywall.classList.remove('kbd');
+}
+if(vv){vv.addEventListener('resize',syncPwViewport);vv.addEventListener('scroll',syncPwViewport);}
 function setCodeBox(open){
   pwCodeBox.classList.toggle('open',open);
   pwCodeBtn.classList.toggle('active',open);
-  if(open)setTimeout(()=>{try{pwCodeInput.focus({preventScroll:true});}catch(e){}},60);
+  if(open)setTimeout(()=>{
+    try{pwCodeInput.focus({preventScroll:true});}catch(e){}
+    /* klavye focus sonrası gecikmeli açılır; viewport oturunca input'u görünür alana getir */
+    setTimeout(()=>{try{pwCodeInput.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}},300);
+  },60);
 }
 function openPaywall(slug,name){
   if(pwOpen&&pwSlug===slug)return;   /* zaten açık — giriş animasyonunu yeniden tetikleme */
@@ -586,12 +613,14 @@ function openPaywall(slug,name){
   setCodeBox(false);
   pwTry.style.display=(slug===FREE_SLUG)?'none':'';
   paywall.classList.add('open');pwOpen=true;pwOpenedAt=performance.now();document.body.style.overflow='hidden';
+  syncPwViewport();
   if(fv.classList.contains('open'))document.body.classList.add('pwflow');  /* coverflow üstüne açıldı → arkadaki katman yığınını gizle (flicker kök sebebi) */
   if(!(history.state&&history.state.pw)){try{history.pushState({pw:1},'');}catch(e){}}
   setTimeout(()=>{try{pwBuy.focus({preventScroll:true});}catch(e){}},60);
 }
 function closePaywall(fromPop){
   if(!pwOpen)return;pwOpen=false;paywall.classList.remove('open');
+  resetPwViewport();
   document.body.classList.remove('pwflow');  /* coverflow'u geri göster */
   if(!fv.classList.contains('open'))document.body.style.overflow='';
   if(!fromPop&&history.state&&history.state.pw){suppressPop=true;history.back();}

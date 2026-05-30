@@ -58,7 +58,7 @@ function sha256hex(ascii){
 }
 function wireCode(){
   const codebtn=$('codebtn'),codebox=$('codebox'),codeinput=$('codeinput'),codego=$('codego'),codemsg=$('codemsg');
-  codebtn.addEventListener('click',()=>{const open=codebox.classList.toggle('open');codebtn.classList.toggle('active',open);if(open)setTimeout(()=>{try{codeinput.focus();}catch(e){}},60);});
+  codebtn.addEventListener('click',()=>{const open=codebox.classList.toggle('open');codebtn.classList.toggle('active',open);if(open)setTimeout(()=>{try{codeinput.focus();}catch(e){}setTimeout(()=>{try{codeinput.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}},300);},60);});
   function submitCode(){
     const raw=normCode(codeinput.value);
     if(!raw){codemsg.className='codemsg err';codemsg.textContent=T.codeEmpty;return;}
