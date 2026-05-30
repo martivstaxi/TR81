@@ -27,10 +27,10 @@ function buildCTA(){
         <button class="codebtn" id="codebtn">${UNLOCK}<span>${T.haveCode}</span></button>
       </div>
       <div class="codebox" id="codebox">
-        <div class="codedeliver">${T.codeDeliver||''}</div>
         <div class="crow"><input id="codeinput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${T.codePh}"><button class="go" id="codego">${T.codeGo}</button></div>
         <div class="codemsg" id="codemsg"></div>
-        <a class="codehelp" id="codehelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener">${IG}<span>${T.codeHelp||''}</span></a>
+        <div class="codedeliver">${T.codeDeliver||''}</div>
+        <a class="codehelp" id="codehelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener">${IG}<span>${T.codeHelp||''} <b>@tr81.tr</b></span></a>
       </div>`;
     wireCode();
   }else{
