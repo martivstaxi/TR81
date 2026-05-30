@@ -3,7 +3,8 @@
    Veri: data/<slug>.json  ->  {name, locations:[{name, map, photos:[...]}]}
    mode 'full' = kilit açık il (alt CTA: Tüm Dünya Konumları -> world.html)
    mode 'demo' = ücretsiz önizleme (alt CTA: Shopier 81 İL + "Kodum var" kod kutusu)
-   mode 'country' = dünya ülkesi (alt CTA: Ana Sayfa -> world.html)
+   mode 'country' = dünya ülkesi / ABD eyaleti (alt CTA: Ana Sayfa -> IL.home||world.html)
+   IL.home = "Ana Sayfa" butonunun hedefi (ülke->world.html, eyalet->unitedstates.html)
    data.name string VEYA {tr,en} olabilir (ülkeler iki-dilli). */
 (function(){
 const IL=window.IL||{slug:'',mode:'full'};
@@ -42,7 +43,7 @@ function buildCTA(){
     const h=LANG==='tr'?'Keşfetmeye devam et':'Keep exploring',
           p=LANG==='tr'?'Dünyanın dört bir yanında keşfedilecek daha çok yer var.':'There are many more places to discover around the world.',
           b=LANG==='tr'?'Ana Sayfa':'Home';
-    cta.innerHTML=`<h3>${h}</h3><p>${p}</p><a href="world.html">${HOME}<span>${b}</span></a>`;
+    cta.innerHTML=`<h3>${h}</h3><p>${p}</p><a href="${IL.home||'world.html'}">${HOME}<span>${b}</span></a>`;
   }else{
     cta.innerHTML=`<h3>${T.fullH}</h3><p>${T.fullP}</p><a href="world.html">${GLOBE}<span>${T.fullB}</span></a>`;
   }
