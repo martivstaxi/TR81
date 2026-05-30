@@ -1,1872 +1,473 @@
-<!DOCTYPE html>  
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Şehir</title>
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  
-  <style>
-    :root {
-      --primary: #3b82f6;
-      --primary-dark: #1d4ed8;
-      --secondary: #8b5cf6;
-      --accent: #f97316;
-      --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      --card-bg: rgba(255, 255, 255, 0.95);
-      --glass-bg: rgba(255, 255, 255, 0.60);
-      --glass-border: rgba(0, 0, 0, 0.08);
-      --text-primary: #334155;
-      --text-secondary: #64748b;
-      --shadow-lg: 0 6px 24px rgba(0, 0, 0, 0.08);
-      --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.12);
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: var(--text-primary);
-      line-height: 1.6;
-      padding: 12px;
-      overflow-y: auto;
-      padding-bottom: 100px;
-      min-height: 100vh;
-      position: relative;
-      background-color: #e2e8f0;
-    }
-    
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(248, 250, 252, 0.4);
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* Logo Style */
-    .logo {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      font-size: 26px;
-      text-decoration: none;
-      color: #1e293b;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .logo:hover {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      background: rgba(255, 255, 255, 1);
-    }
-    
-    /* Language Selector */
-    .lang-select {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 100;
-    }
-    
-    .lang-btn {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: var(--shadow-lg);
-      transition: 0.3s;
-      color: var(--text-primary);
-    }
-    
-    .lang-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-xl);
-      background: rgba(255, 255, 255, 1);
-    }
-    
-    .lang-list {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      box-shadow: var(--shadow-xl);
-      max-height: 320px;
-      overflow-y: auto;
-      display: none;
-      min-width: 160px;
-    }
-    
-    .lang-list.show {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-    
-    .lang-item {
-      padding: 10px 16px;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--text-primary);
-    }
-    
-    .lang-item:hover {
-      background: var(--glass-bg);
-      color: var(--primary);
-    }
-    
-    .lang-item.active {
-      background: var(--primary);
-      color: #fff;
-    }
-    
-    /* Header */
-    h1 { 
-      font-size: clamp(24px, 5vw, 38px);
-      margin: 70px 0 40px 0;
-      text-align: center;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    
-    .gradient-text {
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .camera-emoji {
-      color: #000;
-      background: none;
-      -webkit-text-fill-color: initial;
-      margin-right: 8px;
-    }
-    
-    .subtitle {
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 1rem;
-      margin-top: -30px;
-      margin-bottom: 30px;
-    }
-    
-    /* Search Box */
-    .search-box {
-      max-width: 600px;
-      margin: 0 auto 40px;
-      position: relative;
-    }
-    
-    .search {
-      width: 100%;
-      padding: 14px 48px 14px 20px;
-      font-size: 15px;
-      background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      border-radius: 20px;
-      transition: 0.3s;
-      color: var(--text-primary);
-    }
-    
-    .search:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-      background: rgba(255, 255, 255, 0.5);
-    }
-    
-    .search-icon {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-secondary);
-      pointer-events: none;
-    }
-    
-    /* City Section */
-    .city-section {
-      margin-bottom: 36px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 0;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.3s ease;
-    }
-    
-    .city-section:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    }
-    
-    .city-header {
-      padding: 18px 22px 12px 22px;
-      margin: 0;
-      border: none;
-      background: transparent;
-      text-align: left;
-    }
-    
-    .city-title {
-      margin: 0;
-      font-size: clamp(16px, 3.5vw, 20px);
-      color: #1e293b;
-      font-weight: 700;
-    }
-    
-    .city-photos {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      padding: 12px 22px 22px 22px;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .city-photos::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .photo-card {
-      flex: 0 0 auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-      scroll-snap-align: start;
-      background-color: white;
-      position: relative;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-    }
-    
-    .photo-card:hover {
-      transform: scale(1.05) translateY(-6px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
-    }
-    
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
-    }
-    
-    .photo-card:hover img {
-      transform: scale(1.1);
-    }
-    
-    .location-link {
-      text-decoration: none;
-      color: #3b82f6;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      border-radius: 25px;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-      transition: all 0.3s ease;
-      font-size: clamp(13px, 2.5vw, 16px);
-      font-weight: 600;
-      max-width: fit-content;
-      border: 2px solid transparent;
-    }
-    
-    .location-link:hover {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-      color: #1e293b;
-      text-decoration: none;
-      transform: translateY(-2px);
-      border-color: rgba(59, 130, 246, 0.3);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
-    }
-    
-    .click-icon {
-      color: #f97316;
-      display: inline-flex;
-    }
-    
-    .click-icon::before {
-      content: "➤";
-      display: inline-block;
-      font-size: 10px;
-    }
-
-    /* MODAL STYLES */
-    .photo-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
-      z-index: 3000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
-      opacity: 0;
-      transition: opacity 0.3s ease-out;
-    }
-
-    .photo-modal.show {
-      opacity: 1;
-    }
-
-    .modal-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transform: scale(0.8);
-      transition: transform 0.3s ease-out;
-    }
-
-    .photo-modal.show .modal-content {
-      transform: scale(1);
-    }
-
-    .modal-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: -50px;
-      right: -10px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #1e293b;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      z-index: 3001;
-    }
-
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 1);
-      transform: scale(1.1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-info {
-      position: absolute;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      color: #1e293b;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    /* Stats Section */
-    .stats-section {
-      max-width: 1000px;
-      margin: 40px auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 0 20px;
-    }
-    
-    .stat-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-    
-    .stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    }
-    
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 5px;
-    }
-    
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* Promotion Section */
-    .promotion-section {
-      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fde68a 100%);
-      color: #92400e;
-      padding: 24px;
-      border-radius: 20px;
-      margin: 36px auto;
-      text-align: center;
-      border: 2px solid #fbbf24;
-      max-width: 1000px;
-      box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .promotion-title {
-      font-size: clamp(20px, 4vw, 28px);
-      font-weight: 800;
-      margin-bottom: 14px;
-      color: #92400e;
-      position: relative;
-      z-index: 1;
-    }
-
-    .instagram-btn {
-      background: linear-gradient(135deg, #405de6 0%, #5851db 50%, #833ab4 75%, #c13584 90%, #e1306c 95%, #fd1d1d 100%);
-      color: white !important;
-      padding: 12px 24px;
-      border-radius: 25px;
-      text-decoration: none !important;
-      display: inline-block;
-      font-weight: 700;
-      font-size: clamp(16px, 2.5vw, 20px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      margin: 12px 0;
-      box-shadow: 0 6px 24px rgba(225, 48, 108, 0.4);
-      position: relative;
-      z-index: 1;
-      transform: perspective(1000px) rotateX(0deg);
-    }
-
-    .instagram-btn:hover {
-      transform: perspective(1000px) rotateX(-10deg) translateY(-3px);
-      box-shadow: 0 15px 45px rgba(225, 48, 108, 0.6);
-      color: white !important;
-      background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 5%, #c13584 10%, #833ab4 25%, #5851db 50%, #405de6 100%);
-    }
-
-    .promo-text {
-      margin: 16px 0;
-      font-size: clamp(17px, 3vw, 22px);
-      color: #92400e;
-      font-weight: 500;
-      position: relative;
-      z-index: 1;
-      line-height: 1.6;
-    }
-
-    .purchase-btn {
-      width: 100%;
-      max-width: 320px;
-      padding: 16px 24px;
-      background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff8c00 100%);
-      color: white;
-      text-decoration: none;
-      border-radius: 18px;
-      font-size: clamp(16px, 3vw, 20px);
-      font-weight: 800;
-      display: inline-block;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      margin: 16px 0 24px 0;
-      border: none;
-      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
-      box-sizing: border-box;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 1;
-      transform: perspective(1000px) rotateX(0deg);
-    }
-
-    .purchase-btn:hover {
-      transform: perspective(1000px) rotateX(-5deg) translateY(-4px);
-      box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
-      color: white;
-      text-decoration: none;
-      background: linear-gradient(135deg, #ff8c00 0%, #ffb347 50%, #ffd700 100%);
-    }
-
-    /* Mobile Responsive Styles */
-    @media (max-width: 768px) {
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-      }
-      body {
-        min-height: 100vh;
-        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        padding: 8px;
-        padding-bottom: 80px;
-      }
-      body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        z-index: -2;
-      }
-      body::after {
-        background: rgba(248, 250, 252, 0.2);
-        z-index: -1;
-      }
-      .container {
-        max-width: 100%;
-        min-height: 100vh;
-        position: relative;
-        z-index: 1;
-        padding-bottom: 50px;
-      }
-      .logo { top: 12px; left: 12px; font-size: 20px; width: 40px; height: 40px; }
-      .lang-select { top: 12px; right: 12px; }
-      .lang-btn { padding: 8px 12px; font-size: 13px; }
-      h1 { margin: 50px 0 24px 0; }
-      .subtitle { margin-top: -20px; margin-bottom: 20px; font-size: 0.875rem; }
-      .search-box { margin: 0 auto 30px; }
-      .search { padding: 12px 44px 12px 16px; font-size: 14px; }
-      .city-section { margin-bottom: 24px; border-radius: 16px; margin-left: 0; margin-right: 0; }
-      .city-header { padding: 12px 16px 8px 16px; }
-      .location-link { padding: 6px 12px; border-radius: 20px; width: 100%; justify-content: center; box-sizing: border-box; }
-      .city-photos { padding: 8px 16px 16px 16px; gap: 12px; }
-      .photo-card { width: 180px; height: 180px; border-radius: 10px; min-width: 180px; }
-      .photo-modal { padding: 10px; }
-      .modal-content { max-width: 95vw; max-height: 95vh; }
-      .modal-close { top: -40px; right: -5px; width: 35px; height: 35px; font-size: 18px; }
-      .modal-info { bottom: -50px; font-size: 12px; padding: 6px 12px; }
-      .stats-section { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 15px; }
-      .stat-card { padding: 15px; }
-      .stat-number { font-size: 1.5rem; }
-      .stat-label { font-size: 0.8rem; }
-      .promotion-section { margin: 24px auto; padding: 16px 12px; border-radius: 16px; margin-left: 0; margin-right: 0; }
-      .promotion-title { margin-bottom: 8px; }
-      .promo-text { margin: 10px 0; }
-      .instagram-btn { padding: 8px 16px; margin: 8px 0; border-radius: 20px; width: auto; max-width: 240px; box-sizing: border-box; }
-      .purchase-btn { padding: 10px 16px; margin: 10px 0 16px 0; border-radius: 12px; width: 100%; max-width: 100%; box-sizing: border-box; }
-    }
-
-    @media (max-width: 480px) {
-      body { padding: 6px; padding-bottom: 60px; }
-      .logo { font-size: 18px; top: 8px; left: 8px; width: 36px; height: 36px; }
-      h1 { margin: 40px 0 20px 0; }
-      .city-section { margin-bottom: 18px; border-radius: 12px; }
-      .city-header { padding: 10px 12px 6px 12px; }
-      .location-link { padding: 5px 10px; border-radius: 16px; width: 100%; justify-content: center; display: flex; box-sizing: border-box; }
-      .city-photos { padding: 6px 12px 12px 12px; gap: 10px; }
-      .photo-card { width: 150px; height: 150px; border-radius: 8px; min-width: 150px; }
-      .modal-close { top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; }
-      .modal-info { bottom: 10px; left: 10px; right: 10px; transform: none; font-size: 11px; }
-      .promotion-section { margin: 16px auto; padding: 12px 8px; border-radius: 12px; }
-      .promotion-title { margin-bottom: 6px; }
-      .promo-text { margin: 8px 0; }
-      .instagram-btn { padding: 6px 12px; margin: 6px 0; border-radius: 16px; width: 100%; max-width: 100%; }
-      .purchase-btn { padding: 8px 12px; margin: 8px 0 12px 0; border-radius: 10px; width: 100%; }
-    }
-
-    @media (max-width: 360px) {
-      .photo-card { width: 120px; height: 120px; min-width: 120px; }
-      .location-link { font-size: 11px; padding: 4px 8px; }
-      .city-header { padding: 8px 10px 4px 10px; }
-      .city-photos { padding: 4px 10px 10px 10px; gap: 8px; }
-    }
-
-    /* Editor Panel */
-    .edit-panel {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(15px);
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-      z-index: 2000;
-      max-height: 80vh;
-      overflow-y: auto;
-      display: none;
-      width: 450px;
-      font-size: 14px;
-    }
-    
-    .edit-panel h3 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: #1e293b;
-      font-size: 18px;
-      font-weight: 700;
-      text-align: center;
-      border-bottom: 2px solid #3b82f6;
-      padding-bottom: 10px;
-    }
-    
-    .edit-panel textarea, .edit-panel input, .edit-panel button {
-      margin: 8px 0;
-      padding: 12px;
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      font-family: inherit;
-    }
-    
-    .edit-panel input {
-      background: #f8fafc;
-    }
-    
-    .export-btn {
-      background: linear-gradient(135deg, #10b981, #047857);
-      margin-top: 10px;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .export-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
-    }
-    
-    .clear-btn {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .clear-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
-    }
-    
-    .process-btn {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-    
-    .process-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-    }
-    
-    #cityData {
-      font-family: 'Courier New', monospace;
-      resize: vertical;
-      height: 200px;
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-    }
-    
-    .info-box {
-      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-      border: 1px solid #0ea5e9;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 15px 0;
-      font-size: 12px;
-      text-align: left;
-      line-height: 1.5;
-    }
-    
-    .info-box strong {
-      color: #0c4a6e;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-    }
-    
-    .info-box code {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 3px 6px;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: #1e40af;
-      word-break: break-all;
-    }
-    
-    .edit-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      cursor: pointer;
-      font-size: 24px;
-      z-index: 1500;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .edit-btn:hover {
-      background: linear-gradient(135deg, #1d4ed8, #1e40af);
-      transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-    }
-
-    .edit-section {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
-    
-    .edit-section h4 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      color: #1e293b;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    
-    .bg-selector {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
-    }
-    
-    .bg-option {
-      padding: 8px;
-      background: white;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-      font-size: 13px;
-    }
-    
-    .bg-option:hover {
-      border-color: #3b82f6;
-      transform: translateY(-1px);
-    }
-    
-    .bg-option.active {
-      border-color: #3b82f6;
-      background: #eff6ff;
-      font-weight: 600;
-    }
-
-    @media (max-width: 768px) {
-      .edit-panel { top: 10px; right: 10px; left: 10px; width: auto; max-height: 70vh; padding: 16px; }
-      .edit-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 20px; }
-    }
-
-    @media (hover: none) and (pointer: coarse) {
-      .location-link, .instagram-btn, .purchase-btn { min-height: 44px; display: flex; align-items: center; justify-content: center; }
-      .modal-close { min-width: 44px; min-height: 44px; }
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>TR81 · Yönetim Paneli</title>
+<style>
+  :root{
+    --bg:#08080b; --bg2:#101015; --card:#15151c; --line:#26262f;
+    --txt:#e8e8ee; --mut:#9a9aa6; --gold:#e3c590; --gold2:#c9a96a;
+    --ok:#4fbf7a; --err:#e06a6a; --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+  a{color:var(--gold)}
+  h1,h2,h3{font-family:'Bebas Neue','Inter',sans-serif;letter-spacing:.04em;font-weight:600;margin:0}
+  .wrap{max-width:920px;margin:0 auto;padding:18px 16px 120px}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:rgba(8,8,11,.86);backdrop-filter:blur(10px);z-index:30}
+  .topbar .brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--gold)}
+  .topbar .sub{color:var(--mut);font-size:13px}
+  .spacer{flex:1}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;
+    border:1px solid var(--line);background:var(--card);color:var(--txt);
+    padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;transition:.15s;white-space:nowrap}
+  .btn:hover{border-color:var(--gold2);background:#1c1c24}
+  .btn.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#1a1407;border-color:transparent;font-weight:600}
+  .btn.gold:hover{filter:brightness(1.06)}
+  .btn.ghost{background:transparent}
+  .btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+  .btn.danger:hover{border-color:var(--err);color:var(--err)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  input,select,textarea{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);
+    padding:10px 12px;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+  input:focus,textarea:focus,select:focus{border-color:var(--gold2)}
+  label{display:block;font-size:12px;color:var(--mut);margin:0 0 5px;letter-spacing:.02em;text-transform:uppercase}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:16px 0}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .grow{flex:1;min-width:160px}
+  .muted{color:var(--mut)}
+  .hide{display:none!important}
+  .sec-h{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+  .sec-h h2{font-size:22px}
+  .pill{font-size:12px;color:var(--gold);border:1px solid var(--gold2);border-radius:999px;padding:3px 10px}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    background:#1c1c24;border:1px solid var(--line);border-radius:12px;padding:13px 20px;
+    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast.ok{border-color:var(--ok)} #toast.err{border-color:var(--err)}
+  .loc{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+  .loc-head{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  .loc-head .idx{font-family:'Bebas Neue',sans-serif;color:var(--gold);font-size:20px;min-width:30px}
+  .field{margin:10px 0}
+  .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.photos{grid-template-columns:1fr}}
+  .photo{position:relative;background:#0c0c10;border:1px solid var(--line);border-radius:10px;padding:8px}
+  .photo img{width:100%;height:96px;object-fit:cover;border-radius:7px;display:block;background:#000;margin-bottom:7px}
+  .photo img.bad{outline:1px solid var(--err)}
+  .photo .xph{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;
+    background:rgba(0,0,0,.7);border:1px solid var(--line);color:var(--err);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+  .savebar{position:fixed;left:0;right:0;bottom:0;background:rgba(8,8,11,.92);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;align-items:center;z-index:40}
+  .savebar .info{font-size:13px;color:var(--mut)}
+  .dirty-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:6px}
+  code{background:#0c0c10;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px}
+  .help{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.55}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+  .tab{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--mut);cursor:pointer}
+  .tab.on{color:var(--gold);border-color:var(--gold2)}
+  .list-scroll{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+  .li{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;gap:8px;align-items:center}
+  .li:last-child{border-bottom:0}
+  .li:hover{background:#1c1c24}
+  .li .sl{color:var(--mut);font-size:12px;font-family:ui-monospace,monospace}
+  .li.cur{background:#1c1c24;border-left:3px solid var(--gold)}
+  .badge{font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:auto}
+</style>
 </head>
 <body>
-  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
-  
-  <!-- Language Selector -->
-  <div class="lang-select">
-    <button class="lang-btn" onclick="toggleLang()">
-      <span id="langFlag">🇹🇷</span>
-      <span id="langName">TR</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-        <path d="M3 5L6 8L9 5"/>
-      </svg>
-    </button>
-    <div class="lang-list" id="langList"></div>
-  </div>
-  
-  <div class="container">
-    <h1 id="city-header"><span class="camera-emoji">📸</span><span class="gradient-text" id="city-name">Demo Şehir</span></h1>
-    <p class="subtitle" id="subtitle">Keşfedilecek güzel yerler</p>
-    
-    <!-- Stats Section -->
-    <div class="stats-section" id="stats-section">
-      <div class="stat-card">
-        <div class="stat-number" id="total-locations">0</div>
-        <div class="stat-label" id="locations-label">Konum</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="total-photos">0</div>
-        <div class="stat-label" id="photos-label">Fotoğraf</div>
-      </div>
-    </div>
-    
-    <div id="locations-container">
-      <!-- Demo konum -->
-      <div class="city-section">
-        <div class="city-header">
-          <h2 class="city-title">
-            <a href="https://maps.google.com/?q=Demo+Konum" target="_blank" class="location-link">
-              <span class="click-icon"></span>Demo Konum 📍
-            </a>
-          </h2>
-        </div>
-        <div class="city-photos">
-          <div class="photo-card" data-photo="https://picsum.photos/380/380?random=1" data-location="Demo Konum">
-            <img src="https://picsum.photos/380/380?random=1" alt="Demo Konum">
-          </div>
-          <div class="photo-card" data-photo="https://picsum.photos/380/380?random=2" data-location="Demo Konum">
-            <img src="https://picsum.photos/380/380?random=2" alt="Demo Konum">
-          </div>
-          <div class="photo-card" data-photo="https://picsum.photos/380/380?random=3" data-location="Demo Konum">
-            <img src="https://picsum.photos/380/380?random=3" alt="Demo Konum">
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Promosyon bölümü -->
-    <div class="promotion-section">
-      <div class="promotion-title" id="promoTitle">🎁İlk 10 Konum ücretsiz</div>
-      <p class="promo-text" id="mainPromoText" style="font-size: clamp(18px, 3.5vw, 24px); line-height: 1.5; margin: 20px 0;">Tüm konumlara⚡Sınırsız erişim için giriş yapın</p>
-      
-      <a href="https://tr81.tr/login.html" target="_blank" class="purchase-btn" id="loginBtn">
-        ➤ Giriş Yap
-      </a>
-      
-      <div class="promo-text" id="questionsText">Sorularınız için → Bize ulaşın!</div>
-      
-      <a href="https://www.instagram.com/tr81.tr/" target="_blank" class="instagram-btn" id="instagramBtn">
-        📩Bir tıkla bize ulaşın: @tr81.tr
-      </a>
-    </div>
-  </div>
+<div class="topbar">
+  <span class="brand">TR81</span><span class="sub">Yönetim Paneli</span>
+  <span class="spacer"></span>
+  <span id="repoInfo" class="sub"></span>
+  <button id="logoutBtn" class="btn sm ghost hide">Token'ı unut</button>
+</div>
 
-  <!-- EDİTOR PANEL -->
-  <button class="edit-btn" onclick="toggleEditPanel()" title="Editörü Aç">✎</button>
-  
-  <div class="edit-panel" id="editPanel">
-    <h3>🏙️ Şehir ve Konum Yöneticisi</h3>
-    
-    <div class="edit-section">
-      <h4>📍 Şehir Bilgileri</h4>
-      <input type="text" id="cityNameInput" placeholder="Şehir Adı (örn: İstanbul)" value="Demo Şehir">
+<div class="wrap">
+
+  <!-- 1) TOKEN GATE -->
+  <section id="gate" class="panel">
+    <div class="sec-h"><h2>GitHub Erişimi</h2></div>
+    <p class="muted" style="margin-top:0">
+      Bu panel değişiklikleri doğrudan <code>github.com/martivstaxi/TR81</code> deposuna işler.
+      Cloudflare Pages otomatik deploy eder → canlı sitede birkaç dakikada güncellenir.
+    </p>
+    <div class="field">
+      <label>GitHub Personal Access Token (Fine-grained · Contents: Read &amp; Write)</label>
+      <input id="tokenInput" type="password" placeholder="github_pat_..." autocomplete="off">
     </div>
-    
-    <div class="edit-section">
-      <h4>🎨 Arka Plan Seçimi</h4>
-      <div class="bg-selector">
-        <div class="bg-option active" onclick="selectBackground('default')">🌄 Varsayılan</div>
-        <div class="bg-option" onclick="selectBackground('mobile')">📱 Mobil</div>
-        <div class="bg-option" onclick="selectBackground('gradient')">🎨 Gradient</div>
-        <div class="bg-option" onclick="selectBackground('custom')">🖼️ Özel URL</div>
+    <div class="row">
+      <label style="margin:0;display:flex;align-items:center;gap:7px;text-transform:none;color:var(--txt)">
+        <input type="checkbox" id="rememberTok" style="width:auto" checked> Bu cihazda hatırla
+      </label>
+      <span class="spacer"></span>
+      <button id="connectBtn" class="btn gold">Bağlan</button>
+    </div>
+    <div class="help">
+      Token nasıl alınır: GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> →
+      Generate → Repository access: <b>Only select repositories → TR81</b> →
+      Permissions → Repository permissions → <b>Contents: Read and write</b>. Oluştur, kopyala, buraya yapıştır.
+      <br>Token yalnızca senin tarayıcında saklanır (localStorage), hiçbir yere gönderilmez.
+    </div>
+  </section>
+
+  <!-- 2) FILE PICKER -->
+  <section id="picker" class="panel hide">
+    <div class="sec-h"><h2>Sayfa Seç</h2><span id="fileCount" class="pill"></span></div>
+    <div class="row">
+      <input id="search" class="grow" placeholder="Ara: istanbul, france, usa_texas…">
+      <button id="reloadList" class="btn sm ghost">↻ Listeyi yenile</button>
+    </div>
+    <div class="tabs" id="catTabs">
+      <span class="tab on" data-cat="all">Tümü</span>
+      <span class="tab" data-cat="il">İller (TR)</span>
+      <span class="tab" data-cat="country">Ülkeler</span>
+      <span class="tab" data-cat="state">ABD Eyaletleri</span>
+    </div>
+    <div class="list-scroll" id="fileList"></div>
+  </section>
+
+  <!-- 3) EDITOR -->
+  <section id="editor" class="hide">
+    <div class="panel">
+      <div class="sec-h">
+        <h2 id="edTitle">—</h2>
+        <span id="edSlug" class="pill"></span>
+        <span class="spacer"></span>
+        <a id="viewLive" class="btn sm ghost" target="_blank" rel="noopener">Canlı sayfayı aç ↗</a>
       </div>
-      <input type="text" id="customBgUrl" placeholder="Özel arka plan URL'si" style="display: none; margin-top: 10px;">
+      <div id="nameFields"></div>
     </div>
-    
-    <div class="info-box">
-      <strong>📝 Veri Formatı:</strong>
-      <code>Konum1@@GoogleMapsLink@@Foto1@@Foto2@@Foto3@@@Konum2@@GoogleMapsLink@@Foto1@@Foto2@@Foto3</code>
-    </div>
-    
-    <textarea id="cityData" placeholder="Örnek:
-Beylerbeyi Sarayı@@https://maps.google.com/?q=Beylerbeyi+Sarayı@@https://picsum.photos/380/380?random=4@@https://picsum.photos/380/380?random=5@@https://picsum.photos/380/380?random=6@@@Galata Kulesi@@https://maps.google.com/?q=Galata+Kulesi@@https://picsum.photos/380/380?random=7@@https://picsum.photos/380/380?random=8@@https://picsum.photos/380/380?random=9"></textarea>
-    
-    <button class="process-btn" onclick="processCityData()">🔄 Şehir Verilerini İşle</button>
-    <button class="export-btn" onclick="exportHTML()">📁 HTML Kodunu Kopyala</button>
-    <button class="clear-btn" onclick="clearCityData()">🗑️ Verileri Temizle</button>
-    <button onclick="toggleEditPanel()">❌ Paneli Kapat</button>
-  </div>
 
-  <!-- PHOTO MODAL -->
-  <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closePhotoModal()" title="Kapat (ESC)">✕</button>
-      <img class="modal-image" id="modalImage" src="" alt="">
-      <div class="modal-info" id="modalInfo">Konum Adı</div>
+    <div class="sec-h" style="margin:18px 4px 8px"><h3 id="locCount" style="font-size:18px;color:var(--gold)"></h3>
+      <span class="spacer"></span>
+      <button id="addLoc" class="btn sm">+ Konum ekle</button>
     </div>
-  </div>
+    <div id="locs"></div>
+    <div class="row" style="justify-content:center;margin-top:16px">
+      <button id="addLoc2" class="btn">+ Konum ekle</button>
+    </div>
+  </section>
 
-  <script>
-    // Dil verileri - genişletilmiş
-    const translations = {
-      'tr': {
-        flag: '🇹🇷',
-        name: 'TR',
-        subtitle: 'Keşfedilecek güzel yerler',
-        locationsLabel: 'Konum',
-        photosLabel: 'Fotoğraf',
-        promoTitle: '🎁İlk 10 Konum ücretsiz',
-        mainPromoText: 'Tüm konumlara⚡Sınırsız erişim için giriş yapın',
-        loginBtn: '➤ Giriş Yap',
-        questionsText: 'Sorularınız için → Bize ulaşın!',
-        instagramBtn: '📩Bir tıkla bize ulaşın: @tr81.tr'
-      },
-      'en': {
-        flag: '🇬🇧',
-        name: 'EN',
-        subtitle: 'Beautiful places to discover',
-        locationsLabel: 'Locations',
-        photosLabel: 'Photos',
-        promoTitle: '🎁First 10 Locations Free',
-        mainPromoText: 'Sign in for⚡Unlimited access to all locations',
-        loginBtn: '➤ Sign In',
-        questionsText: 'Questions? → Contact us!',
-        instagramBtn: '📩Contact us with one click: @tr81.tr'
-      },
-      'zh': {
-        flag: '🇨🇳',
-        name: 'ZH',
-        subtitle: '待发现的美丽地方',
-        locationsLabel: '地点',
-        photosLabel: '照片',
-        promoTitle: '🎁前10个地点免费',
-        mainPromoText: '登录获取⚡无限访问所有地点',
-        loginBtn: '➤ 登录',
-        questionsText: '有问题？→ 联系我们！',
-        instagramBtn: '📩一键联系我们: @tr81.tr'
-      },
-      'hi': {
-        flag: '🇮🇳',
-        name: 'HI',
-        subtitle: 'खोजने के लिए सुंदर स्थान',
-        locationsLabel: 'स्थान',
-        photosLabel: 'तस्वीरें',
-        promoTitle: '🎁पहले 10 स्थान मुफ्त',
-        mainPromoText: 'सभी स्थानों तक⚡असीमित पहुंच के लिए साइन इन करें',
-        loginBtn: '➤ साइन इन करें',
-        questionsText: 'प्रश्न? → हमसे संपर्क करें!',
-        instagramBtn: '📩एक क्लिक में हमसे संपर्क करें: @tr81.tr'
-      },
-      'es': {
-        flag: '🇪🇸',
-        name: 'ES',
-        subtitle: 'Hermosos lugares por descubrir',
-        locationsLabel: 'Ubicaciones',
-        photosLabel: 'Fotos',
-        promoTitle: '🎁Primeros 10 lugares gratis',
-        mainPromoText: 'Inicia sesión para⚡Acceso ilimitado a todos los lugares',
-        loginBtn: '➤ Iniciar sesión',
-        questionsText: '¿Preguntas? → ¡Contáctanos!',
-        instagramBtn: '📩Contáctanos con un clic: @tr81.tr'
-      },
-      'fr': {
-        flag: '🇫🇷',
-        name: 'FR',
-        subtitle: 'Beaux endroits à découvrir',
-        locationsLabel: 'Lieux',
-        photosLabel: 'Photos',
-        promoTitle: '🎁10 premiers lieux gratuits',
-        mainPromoText: 'Connectez-vous pour⚡Accès illimité à tous les lieux',
-        loginBtn: '➤ Se connecter',
-        questionsText: 'Des questions? → Contactez-nous!',
-        instagramBtn: '📩Contactez-nous en un clic: @tr81.tr'
-      },
-      'ar': {
-        flag: '🇸🇦',
-        name: 'AR',
-        subtitle: 'أماكن جميلة للاكتشاف',
-        locationsLabel: 'المواقع',
-        photosLabel: 'الصور',
-        promoTitle: '🎁أول 10 مواقع مجاناً',
-        mainPromoText: 'سجل الدخول للحصول على⚡وصول غير محدود لجميع المواقع',
-        loginBtn: '➤ تسجيل الدخول',
-        questionsText: 'أسئلة؟ → اتصل بنا!',
-        instagramBtn: '📩تواصل معنا بنقرة واحدة: @tr81.tr'
-      },
-      'bn': {
-        flag: '🇧🇩',
-        name: 'BN',
-        subtitle: 'আবিষ্কার করার জন্য সুন্দর জায়গা',
-        locationsLabel: 'অবস্থান',
-        photosLabel: 'ছবি',
-        promoTitle: '🎁প্রথম 10টি স্থান বিনামূল্যে',
-        mainPromoText: 'সকল স্থানে⚡সীমাহীন প্রবেশের জন্য সাইন ইন করুন',
-        loginBtn: '➤ সাইন ইন করুন',
-        questionsText: 'প্রশ্ন? → আমাদের সাথে যোগাযোগ করুন!',
-        instagramBtn: '📩এক ক্লিকে আমাদের সাথে যোগাযোগ করুন: @tr81.tr'
-      },
-      'pt': {
-        flag: '🇵🇹',
-        name: 'PT',
-        subtitle: 'Lugares bonitos para descobrir',
-        locationsLabel: 'Locais',
-        photosLabel: 'Fotos',
-        promoTitle: '🎁Primeiros 10 locais grátis',
-        mainPromoText: 'Entre para⚡Acesso ilimitado a todos os locais',
-        loginBtn: '➤ Entrar',
-        questionsText: 'Dúvidas? → Fale conosco!',
-        instagramBtn: '📩Fale conosco com um clique: @tr81.tr'
-      },
-      'ru': {
-        flag: '🇷🇺',
-        name: 'RU',
-        subtitle: 'Красивые места для открытий',
-        locationsLabel: 'Места',
-        photosLabel: 'Фотографии',
-        promoTitle: '🎁Первые 10 мест бесплатно',
-        mainPromoText: 'Войдите для⚡Неограниченного доступа ко всем местам',
-        loginBtn: '➤ Войти',
-        questionsText: 'Вопросы? → Свяжитесь с нами!',
-        instagramBtn: '📩Свяжитесь с нами одним кликом: @tr81.tr'
-      },
-      'ur': {
-        flag: '🇵🇰',
-        name: 'UR',
-        subtitle: 'دریافت کرنے کے لیے خوبصورت جگہیں',
-        locationsLabel: 'مقامات',
-        photosLabel: 'تصاویر',
-        promoTitle: '🎁پہلی 10 جگہیں مفت',
-        mainPromoText: 'تمام جگہوں تک⚡لامحدود رسائی کے لیے سائن ان کریں',
-        loginBtn: '➤ سائن ان کریں',
-        questionsText: 'سوالات؟ → ہم سے رابطہ کریں!',
-        instagramBtn: '📩ایک کلک میں ہم سے رابطہ کریں: @tr81.tr'
-      },
-      'id': {
-        flag: '🇮🇩',
-        name: 'ID',
-        subtitle: 'Tempat indah untuk ditemukan',
-        locationsLabel: 'Lokasi',
-        photosLabel: 'Foto',
-        promoTitle: '🎁10 Lokasi Pertama Gratis',
-        mainPromoText: 'Masuk untuk⚡Akses tak terbatas ke semua lokasi',
-        loginBtn: '➤ Masuk',
-        questionsText: 'Pertanyaan? → Hubungi kami!',
-        instagramBtn: '📩Hubungi kami dengan satu klik: @tr81.tr'
-      },
-      'de': {
-        flag: '🇩🇪',
-        name: 'DE',
-        subtitle: 'Schöne Orte zu entdecken',
-        locationsLabel: 'Standorte',
-        photosLabel: 'Fotos',
-        promoTitle: '🎁Erste 10 Standorte kostenlos',
-        mainPromoText: 'Anmelden für⚡Unbegrenzten Zugang zu allen Standorten',
-        loginBtn: '➤ Anmelden',
-        questionsText: 'Fragen? → Kontaktiere uns!',
-        instagramBtn: '📩Mit einem Klick erreichen: @tr81.tr'
-      },
-      'ja': {
-        flag: '🇯🇵',
-        name: 'JA',
-        subtitle: '発見する美しい場所',
-        locationsLabel: '場所',
-        photosLabel: '写真',
-        promoTitle: '🎁最初の10か所無料',
-        mainPromoText: 'サインインして⚡すべての場所への無制限アクセス',
-        loginBtn: '➤ サインイン',
-        questionsText: 'ご質問は？→ お問い合わせください！',
-        instagramBtn: '📩ワンクリックでお問い合わせ: @tr81.tr'
-      },
-      'sw': {
-        flag: '🇰🇪',
-        name: 'SW',
-        subtitle: 'Maeneo mazuri ya kugundua',
-        locationsLabel: 'Maeneo',
-        photosLabel: 'Picha',
-        promoTitle: '🎁Maeneo 10 ya Kwanza Bure',
-        mainPromoText: 'Ingia kwa⚡Ufikiaji usio na kikomo kwa maeneo yote',
-        loginBtn: '➤ Ingia',
-        questionsText: 'Maswali? → Wasiliana nasi!',
-        instagramBtn: '📩Wasiliana nasi kwa kubofya mara moja: @tr81.tr'
-      },
-      'mr': {
-        flag: '🇮🇳',
-        name: 'MR',
-        subtitle: 'शोधण्यासाठी सुंदर ठिकाणे',
-        locationsLabel: 'स्थाने',
-        photosLabel: 'फोटो',
-        promoTitle: '🎁पहिली 10 स्थाने मोफत',
-        mainPromoText: 'सर्व स्थानांसाठी⚡अमर्यादित प्रवेशासाठी साइन इन करा',
-        loginBtn: '➤ साइन इन करा',
-        questionsText: 'प्रश्न? → आमच्याशी संपर्क साधा!',
-        instagramBtn: '📩एका क्लिकमध्ये आमच्याशी संपर्क साधा: @tr81.tr'
-      },
-      'te': {
-        flag: '🇮🇳',
-        name: 'TE',
-        subtitle: 'కనుగొనడానికి అందమైన ప్రదేశాలు',
-        locationsLabel: 'స్థానాలు',
-        photosLabel: 'ఫోటోలు',
-        promoTitle: '🎁మొదటి 10 స్థానాలు ఉచితం',
-        mainPromoText: 'అన్ని స్థానాలకు⚡అపరిమిత యాక్సెస్ కోసం సైన్ ఇన్ చేయండి',
-        loginBtn: '➤ సైన్ ఇన్ చేయండి',
-        questionsText: 'ప్రశ్నలు? → మమ్మల్ని సంప్రదించండి!',
-        instagramBtn: '📩ఒక క్లిక్‌లో మమ్మల్ని సంప్రదించండి: @tr81.tr'
-      },
-      'vi': {
-        flag: '🇻🇳',
-        name: 'VI',
-        subtitle: 'Những nơi đẹp để khám phá',
-        locationsLabel: 'Địa điểm',
-        photosLabel: 'Ảnh',
-        promoTitle: '🎁10 Địa điểm đầu tiên miễn phí',
-        mainPromoText: 'Đăng nhập để⚡Truy cập không giới hạn đến tất cả địa điểm',
-        loginBtn: '➤ Đăng nhập',
-        questionsText: 'Câu hỏi? → Liên hệ chúng tôi!',
-        instagramBtn: '📩Liên hệ chúng tôi chỉ với một cú nhấp chuột: @tr81.tr'
-      },
-      'ko': {
-        flag: '🇰🇷',
-        name: 'KO',
-        subtitle: '발견할 아름다운 장소',
-        locationsLabel: '위치',
-        photosLabel: '사진',
-        promoTitle: '🎁처음 10개 장소 무료',
-        mainPromoText: '모든 장소에⚡무제한 액세스를 위해 로그인',
-        loginBtn: '➤ 로그인',
-        questionsText: '질문이 있으신가요? → 문의하세요!',
-        instagramBtn: '📩원클릭으로 문의하기: @tr81.tr'
-      },
-      'it': {
-        flag: '🇮🇹',
-        name: 'IT',
-        subtitle: 'Bei posti da scoprire',
-        locationsLabel: 'Posizioni',
-        photosLabel: 'Foto',
-        promoTitle: '🎁Prime 10 posizioni gratis',
-        mainPromoText: 'Accedi per⚡Accesso illimitato a tutte le posizioni',
-        loginBtn: '➤ Accedi',
-        questionsText: 'Domande? → Contattaci!',
-        instagramBtn: '📩Contattaci con un clic: @tr81.tr'
-      }
+</div>
+
+<!-- SAVE BAR -->
+<div id="savebar" class="savebar hide">
+  <span class="info"><span id="dirtyTag"></span><span id="saveInfo">Değişiklik yok</span></span>
+  <span class="spacer"></span>
+  <button id="discardBtn" class="btn ghost sm">Geri al</button>
+  <button id="saveBtn" class="btn gold" disabled>Kaydet &amp; Yayınla</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const OWNER='martivstaxi', REPO='TR81';
+const API='https://api.github.com';
+let TOKEN='', BRANCH='main';
+let FILES=[];            // [{slug}]
+let CUR=null;            // current slug
+let DATA=null;           // current parsed json
+let SHA=null;            // current file sha
+let DIRTY=false;
+let CAT='all';
+
+const $=id=>document.getElementById(id);
+const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---- UTF-8 safe base64 (Türkçe karakterler için) ---- */
+const b64encode=str=>btoa(unescape(encodeURIComponent(str)));
+const b64decode=b64=>decodeURIComponent(escape(atob(b64.replace(/\n/g,''))));
+
+/* ---- toast ---- */
+let toastT;
+function toast(msg,kind){
+  const t=$('toast'); t.textContent=msg; t.className='show '+(kind||'');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.className='', kind==='err'?5000:2800);
+}
+
+/* ---- GitHub API ---- */
+async function gh(path,opts){
+  const r=await fetch(API+path,Object.assign({
+    headers:{'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
+  },opts||{}));
+  if(!r.ok){
+    let m=r.status+' '+r.statusText;
+    try{const j=await r.json(); if(j.message) m=j.message;}catch(e){}
+    throw new Error(m);
+  }
+  return r.json();
+}
+
+/* ================= TOKEN GATE ================= */
+function showApp(){
+  $('gate').classList.add('hide');
+  $('picker').classList.remove('hide');
+  $('logoutBtn').classList.remove('hide');
+  $('repoInfo').textContent=OWNER+'/'+REPO+' · '+BRANCH;
+  loadFileList();
+}
+async function connect(){
+  const tok=$('tokenInput').value.trim();
+  if(!tok){toast('Token gir','err');return;}
+  TOKEN=tok;
+  $('connectBtn').disabled=true; $('connectBtn').textContent='Bağlanıyor…';
+  try{
+    const repo=await gh('/repos/'+OWNER+'/'+REPO);
+    BRANCH=repo.default_branch||'main';
+    if($('rememberTok').checked) localStorage.setItem('tr81-gh-token',tok);
+    else localStorage.removeItem('tr81-gh-token');
+    toast('Bağlandı ✓','ok');
+    showApp();
+  }catch(e){
+    toast('Bağlanamadı: '+e.message,'err'); TOKEN='';
+  }finally{
+    $('connectBtn').disabled=false; $('connectBtn').textContent='Bağlan';
+  }
+}
+$('connectBtn').onclick=connect;
+$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
+$('logoutBtn').onclick=()=>{
+  if(DIRTY && !confirm('Kaydedilmemiş değişiklikler var. Token silinsin mi?'))return;
+  localStorage.removeItem('tr81-gh-token'); location.reload();
+};
+
+/* ================= FILE LIST ================= */
+// 81 Türkiye ili (kategori ayrımı için)
+const IL81=new Set('adana adiyaman afyonkarahisar agri amasya ankara antalya artvin aydin balikesir bilecik bingol bitlis bolu burdur bursa canakkale cankiri corum denizli diyarbakir edirne elazig erzincan erzurum eskisehir gaziantep giresun gumushane hakkari hatay isparta mersin istanbul izmir kars kastamonu kayseri kirklareli kirsehir kocaeli konya kutahya malatya manisa kahramanmaras mardin mugla mus nevsehir nigde ordu rize sakarya samsun siirt sinop sivas tekirdag tokat trabzon tunceli sanliurfa usak van yozgat zonguldak aksaray bayburt karaman kirikkale batman sirnak bartin ardahan igdir yalova karabuk kilis osmaniye duzce'.split(' '));
+function categorize(slug){
+  if(slug==='index'||slug==='world'||slug==='unitedstates')return 'other';
+  if(slug.startsWith('usa_'))return 'state';
+  if(IL81.has(slug))return 'il';
+  return 'country';
+}
+
+async function loadFileList(){
+  $('fileList').innerHTML='<div class="li muted">Yükleniyor…</div>';
+  try{
+    const items=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data?ref='+BRANCH);
+    FILES=items.filter(x=>x.type==='file'&&x.name.endsWith('.json'))
+      .map(x=>({slug:x.name.replace(/\.json$/,'')}))
+      .filter(f=>!f.slug.startsWith('_'))
+      .sort((a,b)=>a.slug.localeCompare(b.slug));
+    $('fileCount').textContent=FILES.length+' sayfa';
+    renderFileList();
+  }catch(e){
+    $('fileList').innerHTML='<div class="li" style="color:var(--err)">Liste alınamadı: '+esc(e.message)+'</div>';
+  }
+}
+function renderFileList(){
+  const q=$('search').value.trim().toLowerCase();
+  const rows=FILES.filter(f=>{
+    if(CAT!=='all' && categorize(f.slug)!==CAT)return false;
+    return !q || f.slug.includes(q);
+  });
+  if(!rows.length){$('fileList').innerHTML='<div class="li muted">Sonuç yok</div>';return;}
+  $('fileList').innerHTML=rows.map(f=>{
+    const lbl={il:'İl',country:'Ülke',state:'Eyalet',other:'Özel'}[categorize(f.slug)]||'';
+    return `<div class="li ${f.slug===CUR?'cur':''}" data-slug="${esc(f.slug)}">
+      <span class="sl">${esc(f.slug)}</span><span class="badge">${lbl}</span></div>`;
+  }).join('');
+  [...$('fileList').querySelectorAll('.li[data-slug]')].forEach(el=>el.onclick=()=>openFile(el.dataset.slug));
+}
+$('search').addEventListener('input',renderFileList);
+$('reloadList').onclick=loadFileList;
+[...$('catTabs').querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{
+  CAT=t.dataset.cat;
+  [...$('catTabs').querySelectorAll('.tab')].forEach(x=>x.classList.toggle('on',x===t));
+  renderFileList();
+});
+
+/* ================= OPEN / EDIT ================= */
+async function openFile(slug){
+  if(DIRTY && !confirm('Kaydedilmemiş değişiklikler var. Başka sayfaya geçilsin mi?'))return;
+  try{
+    const r=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data/'+encodeURIComponent(slug)+'.json?ref='+BRANCH);
+    DATA=JSON.parse(b64decode(r.content));
+    SHA=r.sha; CUR=slug;
+    if(!DATA.locations) DATA.locations=[];
+    if(!('slug' in DATA)) DATA.slug=slug;
+    setDirty(false);
+    renderEditor();
+    renderFileList();
+    $('editor').classList.remove('hide');
+    $('savebar').classList.remove('hide');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){
+    toast('Açılamadı: '+e.message,'err');
+  }
+}
+
+function isBilingual(){return DATA && DATA.name && typeof DATA.name==='object';}
+function displayName(){
+  const n=DATA.name;
+  if(n&&typeof n==='object')return n.tr||n.en||DATA.slug;
+  return n||DATA.slug;
+}
+
+function renderEditor(){
+  $('edTitle').textContent=displayName();
+  $('edSlug').textContent=DATA.slug;
+  $('viewLive').href='https://tr81.tr/'+DATA.slug+'.html';
+  renderNameFields();
+  renderLocs();
+}
+
+function renderNameFields(){
+  if(isBilingual()){
+    $('nameFields').innerHTML=`<div class="row">
+      <div class="grow"><label>Sayfa adı (TR)</label><input id="nameTr" value="${esc(DATA.name.tr||'')}"></div>
+      <div class="grow"><label>Sayfa adı (EN)</label><input id="nameEn" value="${esc(DATA.name.en||'')}"></div>
+    </div>
+    <div class="help">İki dilli ad (ülke sayfası). <a href="#" id="toMono">Tek dile çevir →</a></div>`;
+    $('nameTr').oninput=e=>{DATA.name.tr=e.target.value;setDirty(true);$('edTitle').textContent=displayName();};
+    $('nameEn').oninput=e=>{DATA.name.en=e.target.value;setDirty(true);};
+    $('toMono').onclick=ev=>{ev.preventDefault();DATA.name=DATA.name.tr||DATA.name.en||'';setDirty(true);renderNameFields();};
+  }else{
+    $('nameFields').innerHTML=`<div class="field"><label>Sayfa adı</label><input id="nameMono" value="${esc(DATA.name||'')}"></div>
+    <div class="help">Tek dilli ad. <a href="#" id="toBi">İki dilli yap (TR/EN) →</a></div>`;
+    $('nameMono').oninput=e=>{DATA.name=e.target.value;setDirty(true);$('edTitle').textContent=displayName();};
+    $('toBi').onclick=ev=>{ev.preventDefault();const s=DATA.name||'';DATA.name={tr:s,en:s};setDirty(true);renderNameFields();};
+  }
+}
+
+function renderLocs(){
+  const L=DATA.locations;
+  $('locCount').textContent=L.length+' konum';
+  $('locs').innerHTML=L.map((loc,i)=>locCard(loc,i,L.length)).join('');
+  bindLocs();
+}
+function locCard(loc,i,n){
+  const photos=loc.photos||[];
+  const phHtml=photos.map((p,k)=>`
+    <div class="photo">
+      <span class="xph" data-act="delph" data-i="${i}" data-k="${k}" title="Fotoğrafı sil">✕</span>
+      <img src="${esc(p)}" onerror="this.classList.add('bad')" onload="this.classList.remove('bad')">
+      <input data-fld="photo" data-i="${i}" data-k="${k}" value="${esc(p)}" placeholder="Foto URL ${k+1}">
+    </div>`).join('');
+  const addPh=photos.length<3?`<div class="photo" style="display:flex;align-items:center;justify-content:center;min-height:96px">
+      <button class="btn sm ghost" data-act="addph" data-i="${i}">+ Foto</button></div>`:'';
+  return `<div class="loc" data-loc="${i}">
+    <div class="loc-head">
+      <span class="idx">${String(i+1).padStart(2,'0')}</span>
+      <input data-fld="name" data-i="${i}" value="${esc(loc.name||'')}" placeholder="Konum adı">
+      <div class="toolbar">
+        <button class="btn sm ghost" data-act="up" data-i="${i}" ${i===0?'disabled':''} title="Yukarı">↑</button>
+        <button class="btn sm ghost" data-act="down" data-i="${i}" ${i===n-1?'disabled':''} title="Aşağı">↓</button>
+        <button class="btn sm ghost danger" data-act="del" data-i="${i}" title="Konumu sil">🗑</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Google Maps bağlantısı</label>
+      <input data-fld="map" data-i="${i}" value="${esc(loc.map||'')}" placeholder="https://maps.google.com/...">
+    </div>
+    <label>Fotoğraflar (en fazla 3)</label>
+    <div class="photos">${phHtml}${addPh}</div>
+  </div>`;
+}
+function bindLocs(){
+  const root=$('locs');
+  root.querySelectorAll('input[data-fld]').forEach(inp=>{
+    inp.oninput=()=>{
+      const i=+inp.dataset.i, fld=inp.dataset.fld, loc=DATA.locations[i];
+      if(fld==='name')loc.name=inp.value;
+      else if(fld==='map')loc.map=inp.value;
+      else if(fld==='photo'){const k=+inp.dataset.k; loc.photos[k]=inp.value;
+        inp.parentElement.querySelector('img').src=inp.value;}
+      setDirty(true);
     };
+  });
+  root.querySelectorAll('[data-act]').forEach(btn=>{
+    btn.onclick=()=>locAction(btn.dataset.act,+btn.dataset.i,btn.dataset.k!=null?+btn.dataset.k:null);
+  });
+}
+function locAction(act,i,k){
+  const L=DATA.locations;
+  if(act==='del'){ if(!confirm('“'+(L[i].name||'konum')+'” silinsin mi?'))return; L.splice(i,1); }
+  else if(act==='up'){ [L[i-1],L[i]]=[L[i],L[i-1]]; }
+  else if(act==='down'){ [L[i+1],L[i]]=[L[i],L[i+1]]; }
+  else if(act==='addph'){ if(!L[i].photos)L[i].photos=[]; if(L[i].photos.length<3)L[i].photos.push(''); }
+  else if(act==='delph'){ L[i].photos.splice(k,1); }
+  setDirty(true); renderLocs();
+}
+function addLocation(){
+  DATA.locations.push({name:'',map:'',photos:['','','']});
+  setDirty(true); renderLocs();
+  const last=$('locs').lastElementChild;
+  if(last){last.scrollIntoView({behavior:'smooth',block:'center'}); last.querySelector('input[data-fld="name"]').focus();}
+}
+$('addLoc').onclick=addLocation;
+$('addLoc2').onclick=addLocation;
 
-    // Memory-based data storage
-    let cityData = {
-      cityName: 'Demo Şehir',
-      background: 'default',
-      customBgUrl: '',
-      locations: [
-        {
-          name: 'Demo Konum',
-          photos: [
-            'https://picsum.photos/380/380?random=1',
-            'https://picsum.photos/380/380?random=2', 
-            'https://picsum.photos/380/380?random=3'
-          ],
-          link: 'https://maps.google.com/?q=Demo+Konum'
-        }
-      ]
+/* ================= DIRTY / SAVE ================= */
+function setDirty(d){
+  DIRTY=d;
+  $('saveBtn').disabled=!d;
+  $('dirtyTag').innerHTML=d?'<span class="dirty-dot"></span>':'';
+  $('saveInfo').textContent=d?'Kaydedilmemiş değişiklik var':'Değişiklik yok';
+}
+$('discardBtn').onclick=()=>{
+  if(DIRTY && !confirm('Tüm değişiklikler geri alınsın mı?'))return;
+  if(CUR){DIRTY=false;openFile(CUR);}
+};
+
+function cleanData(){
+  const out=JSON.parse(JSON.stringify(DATA));
+  out.locations.forEach(l=>{
+    l.photos=(l.photos||[]).map(p=>(p||'').trim()).filter(Boolean);
+    l.name=(l.name||'').trim();
+    l.map=(l.map||'').trim();
+  });
+  return out;
+}
+async function save(){
+  if(!DIRTY)return;
+  const out=cleanData();
+  const empties=out.locations.filter(l=>!l.name);
+  if(empties.length && !confirm(empties.length+' konumun adı boş. Yine de kaydedilsin mi?'))return;
+  $('saveBtn').disabled=true; $('saveBtn').textContent='Kaydediliyor…';
+  try{
+    const body={
+      message:'admin: '+DATA.slug+'.json güncellendi ('+out.locations.length+' konum)',
+      content:b64encode(JSON.stringify(out,null,1)),
+      sha:SHA, branch:BRANCH
     };
-
-    let currentLang = 'tr';
-    let selectedBackground = 'default';
-
-    // Background URLs
-    const backgrounds = {
-      default: 'https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public',
-      mobile: 'https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public',
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      custom: ''
-    };
-
-    // Normalize text for search
-    const norm = t => t.toLowerCase().replace(/[çğıöşü]/g, ch => ({ ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' }[ch]));
-
-    // Dil algılama fonksiyonu
-    function detectLanguage() {
-      const savedLang = localStorage.getItem('preferred-language');
-      if (savedLang && translations[savedLang]) {
-        return savedLang;
-      }
-      
-      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-      
-      for (const lang in translations) {
-        if (browserLang.startsWith(lang)) {
-          return lang;
-        }
-      }
-      
-      return 'tr';
-    }
-
-    // Create language menu
-    function createLangMenu() {
-      const list = document.getElementById('langList');
-      for (const [code, data] of Object.entries(translations)) {
-        const item = document.createElement('div');
-        item.className = 'lang-item';
-        item.dataset.lang = code;
-        item.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
-        item.onclick = () => { setLang(code); toggleLang(false); };
-        list.appendChild(item);
-      }
-    }
-
-    // Set language
-    function setLang(code) {
-      currentLang = code;
-      const t = translations[code];
-      
-      document.getElementById('subtitle').textContent = t.subtitle;
-      document.getElementById('locations-label').textContent = t.locationsLabel;
-      document.getElementById('photos-label').textContent = t.photosLabel;
-      document.getElementById('langFlag').textContent = t.flag;
-      document.getElementById('langName').textContent = t.name;
-      
-      // Promosyon metinleri
-      document.getElementById('promoTitle').textContent = t.promoTitle;
-      document.getElementById('mainPromoText').textContent = t.mainPromoText;
-      document.getElementById('loginBtn').innerHTML = t.loginBtn;
-      document.getElementById('questionsText').textContent = t.questionsText;
-      document.getElementById('instagramBtn').innerHTML = t.instagramBtn;
-      
-      document.documentElement.lang = code;
-      localStorage.setItem('preferred-language', code);
-      
-      document.querySelectorAll('.lang-item').forEach(i => i.classList.toggle('active', i.dataset.lang === code));
-    }
-
-    // Toggle language menu
-    function toggleLang(force) {
-      const list = document.getElementById('langList');
-      if (force === false) {
-        list.classList.remove('show');
-      } else {
-        list.classList.toggle('show');
-      }
-    }
-
-    // Select background
-    function selectBackground(type) {
-      selectedBackground = type;
-      cityData.background = type;
-      
-      document.querySelectorAll('.bg-option').forEach(opt => {
-        opt.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      const customInput = document.getElementById('customBgUrl');
-      if (type === 'custom') {
-        customInput.style.display = 'block';
-      } else {
-        customInput.style.display = 'none';
-      }
-      
-      applyBackground(type);
-    }
-
-    // Apply background
-    function applyBackground(type) {
-      if (type === 'gradient') {
-        document.body.style.backgroundImage = backgrounds.gradient;
-      } else if (type === 'custom') {
-        const customUrl = document.getElementById('customBgUrl').value;
-        if (customUrl) {
-          document.body.style.backgroundImage = `url('${customUrl}')`;
-          cityData.customBgUrl = customUrl;
-        }
-      } else {
-        document.body.style.backgroundImage = `url('${backgrounds[type]}')`;
-      }
-    }
-
-    // Photo modal functions
-    function openPhotoModal(imageUrl, locationName) {
-      const modal = document.getElementById('photoModal');
-      const modalImage = document.getElementById('modalImage');
-      const modalInfo = document.getElementById('modalInfo');
-      
-      modalImage.src = imageUrl;
-      modalImage.alt = locationName;
-      modalInfo.textContent = locationName;
-      
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      
-      setTimeout(() => {
-        modal.classList.add('show');
-      }, 10);
-    }
-
-    function closePhotoModal() {
-      const modal = document.getElementById('photoModal');
-      
-      modal.classList.remove('show');
-      
-      setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }, 300);
-    }
-
-    // ESC tuşu ile modal kapatma
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        closePhotoModal();
-      }
+    const r=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data/'+encodeURIComponent(DATA.slug)+'.json',{
+      method:'PUT', body:JSON.stringify(body)
     });
+    SHA=r.content.sha;
+    DATA=out; if(!DATA.locations)DATA.locations=[];
+    setDirty(false);
+    renderEditor();
+    toast('Kaydedildi ✓ Cloudflare birkaç dk içinde yayınlar','ok');
+  }catch(e){
+    if(/sha|409|does not match/i.test(e.message)){
+      toast('Çakışma: dosya değişmiş. Listeyi yenileyip tekrar açın.','err');
+    }else toast('Kaydedilemedi: '+e.message,'err');
+  }finally{
+    $('saveBtn').disabled=false; $('saveBtn').textContent='Kaydet & Yayınla';
+  }
+}
+$('saveBtn').onclick=save;
 
-    // Fotoğraf kartlarına tıklama olayları ekle
-    document.addEventListener('click', function(e) {
-      if (e.target.closest('.photo-card')) {
-        const card = e.target.closest('.photo-card');
-        const img = card.querySelector('img');
-        if (img) {
-          const imageUrl = img.src;
-          const locationName = img.alt;
-          openPhotoModal(imageUrl, locationName);
-        }
-      }
-    });
+/* kazara çıkış koruması */
+window.addEventListener('beforeunload',e=>{if(DIRTY){e.preventDefault();e.returnValue='';}});
 
-    function toggleEditPanel() {
-      const panel = document.getElementById('editPanel');
-      if (panel.style.display === 'none' || panel.style.display === '') {
-        panel.style.display = 'block';
-        // Load current values
-        document.getElementById('cityNameInput').value = cityData.cityName;
-        if (cityData.customBgUrl) {
-          document.getElementById('customBgUrl').value = cityData.customBgUrl;
-        }
-      } else {
-        panel.style.display = 'none';
-      }
-    }
-
-    function processCityData() {
-      const cityDataText = document.getElementById('cityData').value;
-      const cityName = document.getElementById('cityNameInput').value.trim();
-      
-      if (!cityName) {
-        alert('Lütfen şehir adını girin!');
-        return;
-      }
-      
-      if (!cityDataText.trim()) {
-        alert('Lütfen konum verilerini girin!');
-        return;
-      }
-
-      try {
-        // Update city info
-        cityData.cityName = cityName;
-        
-        // Parse locations
-        const parts = cityDataText.split('@@@');
-        const locations = [];
-        
-        for (let i = 0; i < parts.length; i++) {
-          const locationData = parts[i].trim();
-          if (!locationData) continue;
-
-          const locationParts = locationData.split('@@');
-          
-          if (locationParts.length < 2) {
-            console.log('Konum ' + (i + 1) + ': Eksik veri - "' + locationData + '"');
-            continue;
-          }
-
-          const name = locationParts[0].trim();
-          const link = locationParts[1].trim();
-          const photos = [];
-
-          for (let j = 2; j < locationParts.length && j < 5; j++) {
-            if (locationParts[j] && locationParts[j].trim().startsWith('http')) {
-              photos.push(locationParts[j].trim());
-            }
-          }
-
-          if (!name || !link) {
-            console.log('Konum ' + (i + 1) + ': Ad veya link eksik - "' + locationData + '"');
-            continue;
-          }
-
-          locations.push({
-            name: name,
-            photos: photos,
-            link: link
-          });
-        }
-
-        // Save custom background URL if exists
-        if (selectedBackground === 'custom') {
-          cityData.customBgUrl = document.getElementById('customBgUrl').value;
-        }
-        
-        // Update locations
-        cityData.locations = locations;
-        
-        updatePageTitle();
-        renderLocations();
-        updateStats();
-        
-        document.getElementById('cityData').value = '';
-        alert('✅ Şehir verileri başarıyla işlendi! ' + locations.length + ' konum eklendi.');
-        
-      } catch (error) {
-        console.error('Veri işleme hatası:', error);
-        alert('Veri işlenirken bir hata oluştu. Formatı kontrol edin.');
-      }
-    }
-
-    function renderLocations() {
-      const container = document.getElementById('locations-container');
-      container.innerHTML = '';
-      
-      for(let i = 0; i < cityData.locations.length; i++) {
-        const location = cityData.locations[i];
-        const section = document.createElement('div');
-        section.className = 'city-section';
-        
-        let photosHTML = '';
-        for(let j = 0; j < location.photos.length; j++) {
-          photosHTML += '<div class="photo-card" data-photo="' + location.photos[j] + '" data-location="' + location.name + '"><img src="' + location.photos[j] + '" alt="' + location.name + '"></div>';
-        }
-        
-        section.innerHTML = 
-          '<div class="city-header"><h2 class="city-title"><a href="' + location.link + '" target="_blank" class="location-link"><span class="click-icon"></span>' + location.name + ' 📍</a></h2></div><div class="city-photos">' + photosHTML + '</div>';
-        
-        container.appendChild(section);
-      }
-    }
-
-    function updatePageTitle() {
-      document.getElementById('city-name').textContent = cityData.cityName;
-      document.getElementById('page-title').textContent = cityData.cityName;
-    }
-
-    function updateStats() {
-      const totalLocations = cityData.locations.length;
-      const totalPhotos = cityData.locations.reduce((sum, loc) => sum + loc.photos.length, 0);
-      
-      document.getElementById('total-locations').textContent = totalLocations;
-      document.getElementById('total-photos').textContent = totalPhotos;
-    }
-
-    function clearCityData() {
-      if (confirm('Tüm şehir verilerini temizleyip demo durumuna dönmek istediğinizden emin misiniz?')) {
-        cityData = {
-          cityName: 'Demo Şehir',
-          background: 'default',
-          customBgUrl: '',
-          locations: [{
-            name: 'Demo Konum',
-            photos: [
-              'https://picsum.photos/380/380?random=1',
-              'https://picsum.photos/380/380?random=2',
-              'https://picsum.photos/380/380?random=3'
-            ],
-            link: 'https://maps.google.com/?q=Demo+Konum'
-          }]
-        };
-        updatePageTitle();
-        renderLocations();
-        updateStats();
-        document.getElementById('cityData').value = '';
-        document.getElementById('cityNameInput').value = cityData.cityName;
-        document.getElementById('customBgUrl').value = '';
-        selectBackground('default');
-        alert('🗑️ Veriler temizlendi ve demo verileri yüklendi.');
-      }
-    }
-
-    function exportHTML() {
-      if (cityData.locations.length === 0) {
-        alert('Önce konum ekleyin!');
-        return;
-      }
-      
-      // Generate background style based on selection
-      let bgStyle = '';
-      let mobileStyle = '';
-      if (cityData.background === 'gradient') {
-        bgStyle = `background-image: ${backgrounds.gradient};`;
-      } else if (cityData.background === 'custom' && cityData.customBgUrl) {
-        bgStyle = `background-image: url('${cityData.customBgUrl}');`;
-        mobileStyle = bgStyle;
-      } else if (cityData.background === 'mobile') {
-        bgStyle = `background-image: url('${backgrounds.mobile}');`;
-        mobileStyle = bgStyle;
-      } else {
-        bgStyle = `background-image: url('${backgrounds.default}');`;
-        mobileStyle = `background-image: url('${backgrounds.mobile}');`;
-      }
-      
-      let locationsHTML = '';
-      for(let i = 0; i < cityData.locations.length; i++) {
-        const location = cityData.locations[i];
-        let photosHTML = '';
-        
-        for(let j = 0; j < location.photos.length; j++) {
-          photosHTML += '        <div class="photo-card" data-photo="' + location.photos[j] + '" data-location="' + location.name + '"><img src="' + location.photos[j] + '" alt="' + location.name + '"></div>\n';
-        }
-        
-        locationsHTML += '    <div class="city-section">\n      <div class="city-header">\n        <h2 class="city-title">\n          <a href="' + location.link + '" target="_blank" class="location-link">\n            <span class="click-icon"></span>' + location.name + ' 📍\n          </a>\n        </h2>\n      </div>\n      <div class="city-photos">\n' + photosHTML + '      </div>\n    </div>\n';
-      }
-
-      // Calculate stats
-      const totalLocations = cityData.locations.length;
-      const totalPhotos = cityData.locations.reduce((sum, loc) => sum + loc.photos.length, 0);
-
-      const fullHTML = `<!DOCTYPE html>  
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${cityData.cityName}</title>
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  
-  <style>
-    ${document.querySelector('style').innerHTML.replace('background-image: url(\'https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public\');', bgStyle).replace('background-image: url(\'https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public\');', mobileStyle)}
-  </style>
-</head>
-<body>
-  <a href="https://tr81.tr/login.html" class="logo" onclick="window.open(this.href, '_blank'); return false;">🌐</a>
-  
-  <!-- Language Selector -->
-  <div class="lang-select">
-    <button class="lang-btn" onclick="toggleLang()">
-      <span id="langFlag">🇹🇷</span>
-      <span id="langName">TR</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-        <path d="M3 5L6 8L9 5"/>
-      </svg>
-    </button>
-    <div class="lang-list" id="langList"></div>
-  </div>
-  
-  <div class="container">
-    <h1><span class="camera-emoji">📸</span><span class="gradient-text">${cityData.cityName}</span></h1>
-    <p class="subtitle" id="subtitle"></p>
-    
-    <!-- Stats Section -->
-    <div class="stats-section">
-      <div class="stat-card">
-        <div class="stat-number">${totalLocations}</div>
-        <div class="stat-label" id="locations-label">Konum</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">${totalPhotos}</div>
-        <div class="stat-label" id="photos-label">Fotoğraf</div>
-      </div>
-    </div>
-    
-    <div id="locations-container">
-${locationsHTML}    </div>
-    
-    ${document.querySelector('.promotion-section').outerHTML}
-  </div>
-
-  <!-- PHOTO MODAL -->
-  ${document.querySelector('.photo-modal').outerHTML}
-
-  <script>
-    // Dil verileri
-    const translations = ${JSON.stringify(translations, null, 4)};
-
-    let currentLang = 'tr';
-
-    // Normalize text for search
-    const norm = t => t.toLowerCase().replace(/[çğıöşü]/g, ch => ({ ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' }[ch]));
-
-    // Dil algılama fonksiyonu
-    function detectLanguage() {
-      const savedLang = localStorage.getItem('preferred-language');
-      if (savedLang && translations[savedLang]) {
-        return savedLang;
-      }
-      
-      const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-      
-      for (const lang in translations) {
-        if (browserLang.startsWith(lang)) {
-          return lang;
-        }
-      }
-      
-      return 'tr';
-    }
-
-    // Create language menu
-    function createLangMenu() {
-      const list = document.getElementById('langList');
-      for (const [code, data] of Object.entries(translations)) {
-        const item = document.createElement('div');
-        item.className = 'lang-item';
-        item.dataset.lang = code;
-        item.innerHTML = \`<span>\${data.flag}</span><span>\${data.name}</span>\`;
-        item.onclick = () => { setLang(code); toggleLang(false); };
-        list.appendChild(item);
-      }
-    }
-
-    // Set language
-    function setLang(code) {
-      currentLang = code;
-      const t = translations[code];
-      
-      document.getElementById('subtitle').textContent = t.subtitle;
-      document.getElementById('locations-label').textContent = t.locationsLabel;
-      document.getElementById('photos-label').textContent = t.photosLabel;
-      document.getElementById('langFlag').textContent = t.flag;
-      document.getElementById('langName').textContent = t.name;
-      
-      // Promosyon metinleri
-      document.getElementById('promoTitle').textContent = t.promoTitle;
-      document.getElementById('mainPromoText').textContent = t.mainPromoText;
-      document.getElementById('loginBtn').innerHTML = t.loginBtn;
-      document.getElementById('questionsText').textContent = t.questionsText;
-      document.getElementById('instagramBtn').innerHTML = t.instagramBtn;
-      
-      document.documentElement.lang = code;
-      localStorage.setItem('preferred-language', code);
-      
-      document.querySelectorAll('.lang-item').forEach(i => i.classList.toggle('active', i.dataset.lang === code));
-    }
-
-    // Toggle language menu
-    function toggleLang(force) {
-      const list = document.getElementById('langList');
-      if (force === false) {
-        list.classList.remove('show');
-      } else {
-        list.classList.toggle('show');
-      }
-    }
-
-    // Photo modal functions
-    function openPhotoModal(imageUrl, locationName) {
-      const modal = document.getElementById('photoModal');
-      const modalImage = document.getElementById('modalImage');
-      const modalInfo = document.getElementById('modalInfo');
-      
-      modalImage.src = imageUrl;
-      modalImage.alt = locationName;
-      modalInfo.textContent = locationName;
-      
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      
-      setTimeout(() => {
-        modal.classList.add('show');
-      }, 10);
-    }
-
-    function closePhotoModal() {
-      const modal = document.getElementById('photoModal');
-      
-      modal.classList.remove('show');
-      
-      setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }, 300);
-    }
-
-    // ESC tuşu ile modal kapatma
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        closePhotoModal();
-      }
-    });
-
-    // Fotoğraf kartlarına tıklama olayları ekle
-    document.addEventListener('click', function(e) {
-      if (e.target.closest('.photo-card')) {
-        const card = e.target.closest('.photo-card');
-        const img = card.querySelector('img');
-        if (img) {
-          const imageUrl = img.src;
-          const locationName = img.alt;
-          openPhotoModal(imageUrl, locationName);
-        }
-      }
-    });
-
-    // Dropdown kapat
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.lang-select')) toggleLang(false);
-    });
-
-    // Mobile viewport height fix
-    function setViewportHeight() {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', \`\${vh}px\`);
-    }
-    
-    // Sayfa yüklendiğinde çalışacak
-    document.addEventListener('DOMContentLoaded', function() {
-      createLangMenu();
-      const detectedLang = detectLanguage();
-      setLang(detectedLang);
-      setViewportHeight();
-    });
-
-    window.addEventListener('resize', setViewportHeight);
-    window.addEventListener('orientationchange', setViewportHeight);
-  <\/script>
-</body>
-</html>`;
-      
-      try {
-        navigator.clipboard.writeText(fullHTML);
-        alert('✅ HTML kodu kopyalandı! (Geliştirilmiş özelliklerle)');
-      } catch(err) {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = fullHTML;
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-          document.execCommand('copy');
-          alert('✅ HTML kodu kopyalandı!');
-        } catch(e) {
-          prompt('HTML kodu (Ctrl+C ile kopyalayın):', fullHTML);
-        }
-        document.body.removeChild(textarea);
-      }
-    }
-
-    // Dropdown kapat
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.lang-select')) toggleLang(false);
-    });
-
-    // Custom background URL change listener
-    document.getElementById('customBgUrl').addEventListener('input', function(e) {
-      if (selectedBackground === 'custom' && e.target.value) {
-        applyBackground('custom');
-      }
-    });
-
-    // Mobile viewport height fix
-    function setViewportHeight() {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-
-    // Sayfa yüklendiğinde çalışacak
-    window.addEventListener('DOMContentLoaded', function() {
-      createLangMenu();
-      const detectedLang = detectLanguage();
-      setLang(detectedLang);
-      updatePageTitle();
-      renderLocations();
-      updateStats();
-      setViewportHeight();
-    });
-
-    window.addEventListener('resize', setViewportHeight);
-    window.addEventListener('orientationchange', setViewportHeight);
-  </script>
+/* ================= INIT ================= */
+(function init(){
+  const saved=localStorage.getItem('tr81-gh-token');
+  if(saved){ TOKEN=saved; $('tokenInput').value=saved;
+    gh('/repos/'+OWNER+'/'+REPO).then(repo=>{BRANCH=repo.default_branch||'main';showApp();})
+      .catch(()=>{toast('Kayıtlı token geçersiz, tekrar gir','err');TOKEN='';localStorage.removeItem('tr81-gh-token');});
+  }
+})();
+</script>
 </body>
 </html>
