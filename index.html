@@ -406,6 +406,9 @@ const normCode=c=>(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
 const CONF_MAP={O:'0',Q:'0',D:'0',I:'1',L:'1',Z:'2',S:'5',B:'8',G:'6'};
 const skelCode=c=>normCode(c).replace(/[OQDILZSBG]/g,ch=>CONF_MAP[ch]);
 const MASTER_SK='f5d4f0f154f05cee1f41acc820ce37e5e563aeee585e261fcc055d95911d037a';
+/* kullanıcı sadece "GLOBAL" (TR81 öneki olmadan) girse de kabul — ikinci kabul edilen iskelet hash'i */
+const MASTER_SK2='1e42b2640c5332245212c3dbe4e5b64fbcedb296d4899791b63b2b94a05cc5ff';
+const codeOK=v=>{const s=sha256hex(skelCode(v));return s===MASTER_SK||s===MASTER_SK2;};
 
 /* ---------- i18n: ortak 40-dil sözlüğü (i18n.js). Cihaz dili 40 dilden biriyse o dil, değilse İngilizce ---------- */
 const LANG=(window.I18N&&window.I18N.lang)||'en';
@@ -657,7 +660,7 @@ function submitCode(){
   if(!raw){pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeEmpty;return;}
   const want=MASTER;
   const got=sha256hex(raw);
-  const okCode=(want&&got===want)||(MASTER_SK&&sha256hex(skelCode(pwCodeInput.value))===MASTER_SK);
+  const okCode=(want&&got===want)||codeOK(pwCodeInput.value);
   if(okCode){
     grantAccess();
     haptic(20);
