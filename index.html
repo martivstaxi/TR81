@@ -387,15 +387,15 @@ const FREE_TXT=LANG==='tr'?'Ücretsiz':'Free';
 const T={
   en:{h1:'Discover<br>Türkiye',tag:'Scenic locations across 81 provinces.',scroll:'Scroll ↓',trend:'Trending',trendsub:'The most-visited places.',regions:'Regions',search:'Search a province…',explore:'Explore',swipe:'Swipe',
     tap:'Open',freeTap:'Free',lockedTap:'Buy',unlockBtn:'Buy',ownTxt:'Owned',
-    pwBuy:'81 Provinces Access',pwHaveCode:'I have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
+    pwBuy:'Unlock all 81',pwHaveCode:'I have a code',pwCodePh:'Enter your code',pwCodeGo:'Unlock',
     pwCodeOk:'Unlocked! Opening…',pwCodeErr:'That code is not valid for this province.',pwCodeEmpty:'Enter your code.',
-    pwTry:'See Muğla free',
+    pwTry:'Explore Muğla now',pwLocked:'locked',
     names:{medit:'Mediterranean',marmara:'Marmara',aegean:'Aegean',black:'Black Sea',central:'Central Anatolia',east:'Eastern Anatolia',southeast:'Southeastern Anatolia'}},
   tr:{h1:'Türkiye<span class="sfx">’yi</span><br>Keşfet',tag:'81 ilin manzaralı konumları.',scroll:'Kaydır ↓',trend:'Popüler',trendsub:'En çok ziyaret edilen yerler.',regions:'Bölgeler',search:'İl ara…',explore:'Keşfet',swipe:'Kaydır',
     tap:'Aç',freeTap:'Ücretsiz',lockedTap:'Satın al',unlockBtn:'Satın Al',ownTxt:'Açık',
-    pwBuy:'81 İle Erişim',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
+    pwBuy:'81 İl Kilidini Aç',pwHaveCode:'Kodum var',pwCodePh:'Kodunu gir',pwCodeGo:'Aç',
     pwCodeOk:'Açıldı! Yönlendiriliyorsunuz…',pwCodeErr:'Bu kod bu il için geçerli değil.',pwCodeEmpty:'Lütfen kodunu gir.',
-    pwTry:'Muğla’yı Ücretsiz Gör',
+    pwTry:'Muğla konumlarına şimdi eriş',pwLocked:'kilitli',
     names:{medit:'Akdeniz',marmara:'Marmara',aegean:'Ege',black:'Karadeniz',central:'İç Anadolu',east:'Doğu Anadolu',southeast:'Güneydoğu Anadolu'}}
 }[LANG];
 document.getElementById('hh1').innerHTML=T.h1;
@@ -585,7 +585,7 @@ function openPaywall(slug,name){
   if(pwOpen&&pwSlug===slug)return;   /* zaten açık — giriş animasyonunu yeniden tetikleme */
   haptic(14);pwSlug=slug;
   const nm=name||(LANG==='tr'?'Bu il':'This province');
-  pwTitleEl.textContent=nm;
+  pwTitleEl.textContent=nm+' '+T.pwLocked;   /* ör. "Çanakkale kilitli" */
   pwBuy.href=shopierFor(slug);
   pwBuy.innerHTML=ICON.cart+'<span>'+T.pwBuy+'</span>';
   pwCodeInput.value='';pwCodeMsg.textContent='';pwCodeMsg.className='pw-codemsg';
