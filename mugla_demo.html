@@ -36,9 +36,28 @@ main{padding:10px 16px 8px;display:flex;flex-direction:column;gap:14px;}
 .lh .maps svg{width:18px;height:18px;color:var(--gold);}
 .lh .maps .ar{font-size:17px;line-height:1;margin-left:-1px;opacity:.5;}
 .trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;}
-.trip a{aspect-ratio:3/4;overflow:hidden;background:#15161d;}
+.trip a{aspect-ratio:3/4;overflow:hidden;background:#15161d;cursor:pointer;}
 .trip img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
 .trip a:active img{transform:scale(1.06);}
+
+/* ---- sayfa içi foto lightbox (aynı yüklü görsel; Cloudflare'e EKSTRA istek yok) ---- */
+.lb{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.95);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s linear .25s;touch-action:none;}
+.lb.open{opacity:1;visibility:visible;transition:opacity .25s;}
+.lb .stage{position:relative;flex:1;min-height:0;display:flex;align-items:center;overflow:hidden;}
+.lb .track{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.2,.7,.3,1);}
+.lb .slide{flex:0 0 100%;display:flex;align-items:center;justify-content:center;padding:0 14px;}
+.lb .slide img{max-width:100%;max-height:76vh;object-fit:contain;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.7);}
+.lb .lbx{position:absolute;top:max(16px,env(safe-area-inset-top));right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;}
+.lb .nav.l{left:8px;}.lb .nav.r{right:8px;}
+.lb .nav[disabled]{opacity:.22;pointer-events:none;}
+.lb .foot{padding:14px 20px max(24px,calc(env(safe-area-inset-bottom) + 12px));text-align:center;}
+.lb .foot .nm{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.03em;}
+.lb .dots{display:flex;justify-content:center;gap:7px;margin-top:10px;}
+.lb .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);transition:.2s;}
+.lb .dots i.on{background:var(--gold);width:20px;border-radius:3px;}
+.lb .maplink{margin-top:14px;display:inline-flex;align-items:center;gap:7px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:13px;font-weight:600;padding:9px 16px;border-radius:999px;text-decoration:none;}
+.lb .maplink svg{width:15px;height:15px;color:var(--gold);}
 
 .cta{margin:18px 0 max(34px,env(safe-area-inset-bottom));padding:24px 20px;text-align:center;}
 .cta h3{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.02em;}
@@ -56,6 +75,20 @@ main{padding:10px 16px 8px;display:flex;flex-direction:column;gap:14px;}
   <section class="intro"><h1>Muğla</h1><div class="cnt" id="cnt"></div></section>
   <main id="list"></main>
   <div class="cta"><h3 id="ctaH"></h3><p id="ctaP"></p><a href="index.html" id="ctaB"></a></div>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Fotoğraflar">
+  <div class="lbx" id="lbx" role="button" aria-label="Kapat">✕</div>
+  <div class="stage">
+    <div class="nav l" id="lbprev" role="button" aria-label="Önceki">‹</div>
+    <div class="track" id="lbtrack"></div>
+    <div class="nav r" id="lbnext" role="button" aria-label="Sonraki">›</div>
+  </div>
+  <div class="foot">
+    <div class="nm" id="lbnm"></div>
+    <div class="dots" id="lbdots"></div>
+    <a class="maplink" id="lbmap" href="#" target="_blank" rel="noopener"></a>
+  </div>
 </div>
 
 <script>
@@ -80,9 +113,38 @@ LOCS.forEach((loc,i)=>{
       <span class="nm">${loc.name}</span>
       <a class="maps" href="${loc.map}" target="_blank" rel="noopener" aria-label="${TX.maps}">${PIN}<span class="ar">›</span></a>
     </div>
-    <div class="trip">${loc.photos.map(p=>`<a href="${img(p)}" target="_blank" rel="noopener"><img src="${img(p)}" alt="${loc.name}" loading="lazy"></a>`).join('')}</div>`;
+    <div class="trip">${loc.photos.map((p,k)=>`<a class="ph" data-l="${i}" data-p="${k}" role="button" tabindex="0" aria-label="${loc.name} — foto ${k+1}"><img src="${img(p)}" alt="${loc.name}" loading="lazy"></a>`).join('')}</div>`;
   list.appendChild(el);
 });
+
+/* ---- sayfa içi lightbox: tıklanan konumun 3 fotoğrafı arasında kaydır (yeni istek yok) ---- */
+const lb=document.getElementById('lb'),lbtrack=document.getElementById('lbtrack'),lbnm=document.getElementById('lbnm'),lbdots=document.getElementById('lbdots'),lbmap=document.getElementById('lbmap');
+const lbprev=document.getElementById('lbprev'),lbnext=document.getElementById('lbnext');
+let curL=0,curP=0;
+function renderLB(){
+  const loc=LOCS[curL];
+  lbtrack.innerHTML=loc.photos.map(p=>`<div class="slide"><img src="${img(p)}" alt="${loc.name}"></div>`).join('');
+  lbnm.textContent=loc.name;
+  lbmap.href=loc.map;lbmap.innerHTML=PIN+'<span>'+TX.maps+'</span>';
+  updateLB();
+}
+function updateLB(){
+  lbtrack.style.transform=`translateX(-${curP*100}%)`;
+  lbdots.innerHTML=LOCS[curL].photos.map((_,i)=>`<i class="${i===curP?'on':''}"></i>`).join('');
+  lbprev.disabled=curP===0;lbnext.disabled=curP===LOCS[curL].photos.length-1;
+}
+function openLB(l,p){curL=l;curP=p;renderLB();lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+function stepLB(d){const n=LOCS[curL].photos.length;curP=Math.max(0,Math.min(n-1,curP+d));updateLB();}
+list.addEventListener('click',e=>{const t=e.target.closest('.ph');if(!t)return;e.preventDefault();openLB(+t.dataset.l,+t.dataset.p);});
+list.addEventListener('keydown',e=>{const t=e.target.closest('.ph');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openLB(+t.dataset.l,+t.dataset.p);}});
+lbprev.onclick=()=>stepLB(-1);lbnext.onclick=()=>stepLB(1);
+document.getElementById('lbx').onclick=closeLB;
+lb.addEventListener('click',e=>{if(e.target===lb||e.target.classList.contains('stage'))closeLB();});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();else if(e.key==='ArrowRight')stepLB(1);else if(e.key==='ArrowLeft')stepLB(-1);});
+let sx=null,sy=null;
+lb.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+lb.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))stepLB(dx<0?1:-1);else if(dy>70&&Math.abs(dy)>Math.abs(dx))closeLB();sx=sy=null;});
 </script>
 </body>
 </html>
