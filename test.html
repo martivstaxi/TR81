@@ -59,17 +59,17 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:o
 .trend-sec .sub{color:#9aa4b2;font-size:14px;margin:0 22px 16px;}
 .trendwrap{display:flex;align-items:flex-start;}
 /* controlled-drag carousel — same physics/feel as the coverflow (touch-action:pan-y lets the page still scroll vertically) */
-.trend{display:flex;gap:15px;overflow:hidden;touch-action:pan-y;padding:4px 22px 12px;scrollbar-width:none;cursor:grab;
+.trend{display:flex;gap:10px;overflow:hidden;touch-action:pan-y;padding:4px 22px 12px;scrollbar-width:none;cursor:grab;
   -webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent);}
 .trend.grabbing{cursor:grabbing;}
 .trend::-webkit-scrollbar{display:none;}
-.tcard{flex:none;width:clamp(140px,42vw,178px);aspect-ratio:79/112;border-radius:18px;overflow:hidden;position:relative;background-size:cover;background-position:center;
-  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;box-shadow:0 16px 38px rgba(0,0,0,.55);cursor:pointer;text-decoration:none;color:#fff;opacity:.72;transition:transform .25s ease,opacity .35s ease;}
+.tcard{flex:none;width:calc((100vw - 67px)/3.5);aspect-ratio:79/112;border-radius:14px;overflow:hidden;position:relative;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:10px;box-shadow:0 16px 38px rgba(0,0,0,.55);cursor:pointer;text-decoration:none;color:#fff;opacity:.72;transition:transform .25s ease,opacity .35s ease;}
 .tcard.foc{opacity:1;}
 .tcard:active{transform:scale(.97);}
 .tcard .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
 .tcard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.82));}
-.tcard h3{position:relative;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:1.65rem;font-weight:400;letter-spacing:.02em;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+.tcard h3{position:relative;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:clamp(.98rem,3.4vw,1.35rem);font-weight:400;letter-spacing:.02em;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
 
 /* ---------- REGIONS (concept F) ---------- */
 .regions-sec{min-height:100vh;min-height:100svh;scroll-snap-align:start;padding:44px 22px 70px;}
@@ -287,12 +287,13 @@ body.flowopen .snav{opacity:0;pointer-events:none;}
 .foot-sec svg{width:15px;height:15px;color:var(--gold);}
 
 /* ---------- responsive column sizing ---------- */
-@media(min-width:560px){.app{max-width:560px;}}
+@media(min-width:560px){.app{max-width:560px;}.tcard{width:145px;}}
 @media(min-width:760px){
   body::before{opacity:1;}
   .app{max-width:700px;}
   .trend-sec h2,.trend-sec .sub{margin-left:40px;margin-right:40px;}
   .trend{padding-left:40px;padding-right:40px;}
+  .tcard{width:180px;}
   .search{margin-left:40px;margin-right:40px;}
   .regions-sec{padding:54px 40px 80px;}
   .hero2{padding-left:40px;padding-right:40px;}
@@ -436,7 +437,7 @@ const LS_KEY='tr81-access';
 const MASTER=/*__MASTER__*/'02e3d09f8f4c16e579f85af78587a0ce78123f28933223277fa7feae2d7ea449';
 let ALL_UNLOCKED=(()=>{try{return localStorage.getItem(LS_KEY)==='granted';}catch(e){return false;}})();
 function grantAccess(){ALL_UNLOCKED=true;try{localStorage.setItem(LS_KEY,'granted');}catch(e){}}
-const owns=slug=>ALL_UNLOCKED||slug===FREE_SLUG;   /* full access (code) or free province */
+const owns=slug=>true;   /* TEST modeli: tüm Türkiye herkese ücretsiz; ödeme sadece dünya için */
 /* Shopier — tek ürün, tek kod tüm illeri açar */
 const SHOPIER_URL='https://www.shopier.com/35589307';
 const shopierFor=slug=>SHOPIER_URL;
@@ -489,8 +490,8 @@ document.getElementById('swipehinttext').textContent=T.swipe;
 
 /* ---------- TEST v3: canlı demo destesi ---------- */
 const X=LANG==='tr'
- ?{h1:'TR81',sub:'özel konumlar',dir:'Yol Tarifi',hint:'Kaydır',unlock:'Kilidi Aç',per:'tek seferlik',ptitle:'81 İl · Tek Kod',pwAllTitle:'Tüm illerin kilidini aç',navDeck:'Keşfet',navPick:'İller',navAccess:'Erişim'}
- :{h1:'TR81',sub:'special locations',dir:'Directions',hint:'Swipe',unlock:'Unlock All',per:'one-time',ptitle:'All 81 · One Code',pwAllTitle:'Unlock all provinces',navDeck:'Explore',navPick:'Provinces',navAccess:'Access'};
+ ?{h1:'TR81',sub:'özel konumlar',dir:'Yol Tarifi',hint:'Kaydır',unlock:'Kilidi Aç',per:'tek seferlik',ptitle:'Tüm Dünya · Tek Kod',pwAllTitle:'Dünya konumlarının kilidini aç',navDeck:'Keşfet',navPick:'İller',navAccess:'Erişim'}
+ :{h1:'TR81',sub:'special locations',dir:'Directions',hint:'Swipe',unlock:'Unlock All',per:'one-time',ptitle:'World · One Code',pwAllTitle:'Unlock world locations',navDeck:'Explore',navPick:'Provinces',navAccess:'Access'};
 const DECK=[{"n": "İztuzu Manzara Noktası", "img": "https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mugla_iztuzu_manzara_noktasi_1/public", "map": "https://www.google.com/maps/place/Iztuzu+View+Point/@36.7682289,28.6117555,13.83z/data=!4m14!1m7!3m6!1s0x14bf8982f7c91e33:0xd603ed24fefac7c4!2sRadar+Tepe+Manzara+Noktas%C4%B1!8m2!3d36.7681658!4d28.6356396!16s%2Fg%2F11j2w71t9k!3m5!1s0x14bf89986c799659:0xda9f1b83ab969f1d!8m2!3d36.7680094!4d28.6364684!16s%2Fg%2F11fyxfmsrc?entry=ttu&g_ep=EgoyMDI1MDYxMC4xIKXMDSoASAFQAw%3D%3D"}, {"n": "Kelebekler Vadisi", "img": "https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mugla_kelebekler_vadisi_1/public", "map": "https://maps.google.com/?q=Kelebekler+Vadisi%2C+Mu%C4%9Fla"}, {"n": "Babadağ", "img": "https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mugla_babadag_1/public", "map": "https://maps.google.com/?q=Babada%C4%9F%2C+Mu%C4%9Fla"}, {"n": "Saklıkent Kanyonu", "img": "https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/mugla_saklikent_kanyonu_1/public", "map": "https://www.google.com/maps/place/Saklikent+National+Park/@36.4740122,29.3997234,17z/data=!4m7!3m6!1s0x14c04aa8d2b88d5f:0x73cd5e161507819d!8m2!3d36.4737581!4d29.403431!15sChpTYWtsxLFrZW50IEthbnlvbnUsIE11xJ9sYVobIhlzYWtsxLFrZW50IGthbnlvbnUgbXXEn2xhkgENbmF0aW9uYWxfcGFya6oBUQoNL2cvMTFiYzVtMHJtehABMh8QASIb9dNH_XuEhVwrAOiZatd8nGu7hbexuuPUB_uPMh0QAiIZc2FrbMSxa2VudCBrYW55b251IG11xJ9sYeABAA!16s%2Fg%2F11bc5m0rmz?entry=tts&g_ep=EgoyMDI1MDYxMC4xIPu8ASoASAFQAw%3D%3D&skid=ac7c0186-cf5f-41d5-ab58-02ff4cd95625"}];
 const DTOTAL=573;
 document.getElementById('h2t').textContent=X.h1;
@@ -573,7 +574,7 @@ document.getElementById('pprice').innerHTML=priceFor('',LANG)+'<span class="per"
 const pBuy=document.getElementById('pBuy'),pCodeBtn2=document.getElementById('pCode');
 pBuy.href=SHOPIER_URL;pBuy.innerHTML=ICON.cart+'<span>'+X.unlock+'</span>';
 pCodeBtn2.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
-pCodeBtn2.onclick=()=>{openPaywall('__all__','');pwTitleEl.textContent=X.pwAllTitle;setCodeBox(true);};
+pCodeBtn2.onclick=()=>{openPaywall('__all__','');pwTitleEl.textContent=X.pwAllTitle;pwTry.style.display='none';setCodeBox(true);};
 document.getElementById('footIg').innerHTML=ICON.instagram+'<span><b>@tr81.tr</b></span>';
 if(ALL_UNLOCKED)document.getElementById('priceSec').style.display='none';
 
@@ -588,13 +589,9 @@ const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
 const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
 
 /* ---------- gating: owned provinces open; locked ones open the buy/unlock modal ---------- */
-function badgeFor(slug){
-  if(ALL_UNLOCKED)return '';
-  if(slug===FREE_SLUG)return `<span class="giftpill" aria-label="${FREE_TXT}" title="${FREE_TXT}">${ICON.gift}</span>`;
-  return `<span class="lockpill">${ICON.lock}</span>`;
-}
+function badgeFor(slug){return '';}   /* iller ücretsiz: rozet yok */
 /* Muğla: kilit açıksa tam sürüm (mugla.html, world butonlu), açık değilse ücretsiz demo (mugla_demo.html); diğer iller slug.html */
-const hrefFor=slug=>slug==='mugla'?(ALL_UNLOCKED?'mugla.html':'mugla_demo.html'):slug+'.html';
+const hrefFor=slug=>slug+'.html';
 function goProvince(slug,name){
   if(owns(slug)){haptic();location.href=hrefFor(slug);return;}
   openPaywall(slug,name);
@@ -705,7 +702,7 @@ function openRegion(key,label,focusSlug){
   cur.forEach(([n,slug,name,rk],i)=>{
     const free=owns(slug);
     const d=document.createElement('div');d.className='cover'+(free?'':' locked');d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
-    const tapTxt=ALL_UNLOCKED?T.tap:(slug===FREE_SLUG?T.freeTap:ICON.lock+'<span>'+T.lockedTap+'</span>');
+    const tapTxt=T.tap;
     d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>${badgeFor(slug)}<span class="tap">${tapTxt}</span>`;
     /* tap/navigation handled on the flow pointerup (pointer capture retargets click to the container on desktop mouse) */
     flow.appendChild(d);
@@ -936,7 +933,7 @@ qEl.addEventListener('input',()=>{
   if(!hits.length){resultsEl.innerHTML=`<div class="nores">${NORES}</div>`;return;}
   hits.forEach(([n,slug,name,rk])=>{
     const d=document.createElement('div');d.className='ritem';d.tabIndex=0;d.setAttribute('role','button');
-    const mk=ALL_UNLOCKED?'':(slug===FREE_SLUG?`<span class="rfree">${FREE_TXT}</span>`:`<span class="rlock">${ICON.lock}</span>`);
+    const mk='';
     d.innerHTML=`<span class="rn">${name}</span>${mk}<span class="rr">${T.names[rk]}</span>`;
     const pick=()=>{openProvince(slug);clearSearch();qEl.blur();};
     d.onclick=pick;
