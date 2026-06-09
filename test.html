@@ -1,83 +1,988 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<title>world.html — 4 Tasarım · TR81</title>
+<meta name="theme-color" content="#08080b">
+<meta name="description" content="Discover Türkiye in 81 provinces — scenic places and their locations.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TR81">
+<title>TR81 — Türkiye in 81 Provinces</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#e3c590;}
+:root{
+  --cw:clamp(190px,62vw,250px);   /* fluid coverflow card width */
+  --ch:clamp(260px,52vh,360px);   /* fluid coverflow card height (scales with screen height) */
+  --gold:#e3c590;                 /* premium accent for the free / gift cue */
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;min-height:100vh;}
+html{scroll-behavior:smooth;}  /* scroll-snap kaldırıldı: proximity snap kaydırma bitince ekranı kendiliğinden hafif oynatıyordu (gıcık) */
+body{font-family:'Inter',sans-serif;background:#08080b;color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden;overscroll-behavior-y:none;}
+img{display:block;}
+button{font-family:inherit;}
 svg{display:block;}
+.reg,.tcard,.cover,.farrow,.snav button,.ritem,.fvh .x,.scroll,.swipehint{-webkit-user-select:none;user-select:none;}
 :focus-visible{outline:2px solid rgba(255,255,255,.85);outline-offset:2px;border-radius:6px;}
-.wrap{max-width:1000px;margin:0 auto;padding:max(26px,env(safe-area-inset-top)) 22px 60px;}
 
-header{margin-bottom:30px;}
-.kick{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px;}
-h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2.8rem,9vw,4.4rem);line-height:.9;letter-spacing:.01em;}
-header p{margin-top:12px;color:rgba(255,255,255,.78);font-size:1.04rem;line-height:1.5;max-width:560px;}
+/* ambient blurred backdrop behind the centered column (desktop/tablet only) */
+body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0;transition:opacity .6s;
+  background:url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public') center/cover;
+  filter:blur(70px) brightness(.22) saturate(1.2);transform:scale(1.1);}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;}
-.card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:14px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,background .2s;}
-.card:hover{transform:translateY(-4px);border-color:rgba(227,197,144,.5);background:rgba(255,255,255,.06);}
-.phone{position:relative;width:100%;aspect-ratio:9/17.5;border-radius:20px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 44px rgba(0,0,0,.55);}
-.phone iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;pointer-events:none;background:#08080b;}
-.phone .open{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;padding:14px;text-decoration:none;
-  background:linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.55));opacity:0;transition:opacity .2s;}
-.phone:hover .open,.phone:focus-within .open{opacity:1;}
-.phone .open span{background:var(--gold);color:#1a1407;font-weight:700;font-size:13px;padding:9px 18px;border-radius:999px;}
-.meta{padding:14px 6px 4px;}
-.tag{display:inline-flex;align-items:center;gap:7px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em;}
-.tag .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);}
-.meta .nm{font-weight:700;font-size:1.02rem;margin-top:2px;}
-.meta .ds{color:#9aa4b2;font-size:.9rem;line-height:1.45;margin-top:6px;}
-.fullbtn{margin-top:12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:600;font-size:13px;padding:11px;border-radius:12px;text-decoration:none;}
-.fullbtn:hover{background:rgba(227,197,144,.16);border-color:rgba(227,197,144,.5);}
-.fullbtn svg{width:15px;height:15px;}
-.note{margin-top:34px;color:#6b7280;font-size:.85rem;line-height:1.6;border-top:1px solid rgba(255,255,255,.08);padding-top:18px;}
+/* ---------- app shell (mobile-first, centered on desktop) ---------- */
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:#08080b;box-shadow:0 0 80px rgba(0,0,0,.7);position:relative;overflow-x:hidden;}
+
+/* ---------- HERO (concept B) ---------- */
+.hero{position:relative;height:100vh;height:100svh;min-height:540px;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+  padding:max(44px,env(safe-area-inset-top)) max(26px,env(safe-area-inset-right)) max(30px,env(safe-area-inset-bottom)) max(26px,env(safe-area-inset-left));
+  background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.10) 42%,rgba(8,8,11,.55) 78%,#08080b 100%),
+  url('https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public');
+  background-size:cover;background-position:center;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(4rem,19vw,7rem);line-height:.88;letter-spacing:.01em;}
+.hero h1 .sfx{font-family:'Inter',sans-serif;font-weight:500;font-size:.26em;letter-spacing:0;text-transform:none;vertical-align:.55em;margin-left:.02em;color:rgba(255,255,255,.92);}
+.hero p{max-width:430px;margin-top:18px;font-size:clamp(.98rem,3.6vw,1.12rem);line-height:1.5;color:rgba(255,255,255,.88);}
+.scroll{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);animation:bob 1.9s infinite;cursor:pointer;align-self:flex-start;padding:6px 0;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+/* hero intro: text rises in on load */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.hero h1,.hero p,.hero .scroll{animation:rise .8s cubic-bezier(.2,.7,.3,1) both;}
+.hero p{animation-delay:.14s;}
+.hero .scroll{animation-delay:.26s;}
+
+/* ---------- TRENDING strip (concept AU card look, horizontal) ---------- */
+.trend-sec{scroll-snap-align:start;display:flex;flex-direction:column;padding:58px 0 22px;}
+.trend-sec h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,9vw,3rem);letter-spacing:.02em;margin:0 22px 4px;line-height:1;}
+.trend-sec .sub{color:#9aa4b2;font-size:14px;margin:0 22px 16px;}
+.trendwrap{display:flex;align-items:flex-start;}
+/* controlled-drag carousel — same physics/feel as the coverflow (touch-action:pan-y lets the page still scroll vertically) */
+.trend{display:flex;gap:15px;overflow:hidden;touch-action:pan-y;padding:4px 22px 12px;scrollbar-width:none;cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent);}
+.trend.grabbing{cursor:grabbing;}
+.trend::-webkit-scrollbar{display:none;}
+.tcard{flex:none;width:clamp(140px,42vw,178px);aspect-ratio:79/112;border-radius:18px;overflow:hidden;position:relative;background-size:cover;background-position:center;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;box-shadow:0 16px 38px rgba(0,0,0,.55);cursor:pointer;text-decoration:none;color:#fff;opacity:.72;transition:transform .25s ease,opacity .35s ease;}
+.tcard.foc{opacity:1;}
+.tcard:active{transform:scale(.97);}
+.tcard .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.72;}
+.tcard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.82));}
+.tcard h3{position:relative;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:1.65rem;font-weight:400;letter-spacing:.02em;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6);}
+
+/* ---------- REGIONS (concept F) ---------- */
+.regions-sec{min-height:100vh;min-height:100svh;scroll-snap-align:start;padding:44px 22px 70px;}
+.regions-sec h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,9vw,3rem);letter-spacing:.02em;margin:0 0 22px;line-height:1;}
+.regions{display:flex;flex-direction:column;gap:14px;}
+.reg{position:relative;height:clamp(138px,19vh,172px);border-radius:20px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background-size:cover;background-position:center;
+  transform:translateY(14px);opacity:0;transition:transform .42s cubic-bezier(.2,.7,.3,1),opacity .42s;}
+.reg.in{transform:translateY(0);opacity:1;}
+.reg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.62));}
+.reg .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.9;}
+.reg>.z{position:relative;z-index:2;}
+.reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.02em;text-shadow:0 2px 16px rgba(0,0,0,.5);line-height:1;}
+.reg .ar{position:absolute;right:20px;bottom:20px;z-index:2;font-size:22px;opacity:.9;transition:transform .25s;}
+.reg:active{transform:scale(.985);}
+.reg:active .ar{transform:translateX(4px);}
+
+/* ---------- province search (between trending & regions) ---------- */
+.search{margin:18px 22px 0;}
+.field{position:relative;}
+.field .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.5;cursor:text;color:#fff;}
+.field .ic svg{width:16px;height:16px;}
+.field input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:15px 46px 15px 42px;color:#fff;font-size:16px;font-family:inherit;}
+.field input::placeholder{color:rgba(255,255,255,.45);}
+.field input:focus{outline:none;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.09);}
+.field .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:none;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.field .clr:active{transform:translateY(-50%) scale(.88);}
+.search.has .clr{display:flex;}
+.results{display:flex;flex-direction:column;gap:2px;margin-top:8px;overscroll-behavior:contain;}
+.nores{padding:13px 14px;color:#9aa4b2;font-size:14px;}
+.ritem{display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;cursor:pointer;background:rgba(255,255,255,.04);transition:background .15s;}
+.ritem:active,.ritem:hover{background:rgba(255,255,255,.12);}
+.ritem .rn{font-size:1.05rem;font-weight:600;flex:1;}
+.ritem .rlock{color:rgba(255,255,255,.55);}
+.ritem .rlock svg{width:14px;height:14px;}
+.ritem .rfree{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold);}
+.ritem .rr{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa4b2;font-weight:600;}
+
+/* ---------- lock / free badges on cards ---------- */
+.lockpill{position:absolute;top:11px;right:11px;z-index:4;width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(5px);color:rgba(255,255,255,.92);}
+.lockpill svg{width:14px;height:14px;}
+.giftpill{position:absolute;top:11px;right:11px;z-index:4;width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(227,197,144,.6);backdrop-filter:blur(5px);color:var(--gold);}
+.giftpill svg{width:15px;height:15px;}
+
+/* ---------- COVERFLOW overlay (concept I) ---------- */
+.flowview{position:fixed;inset:0;z-index:80;background:radial-gradient(120% 80% at 50% 0%,#15161d 0%,#000 72%);
+  display:flex;flex-direction:column;max-width:480px;margin:0 auto;
+  transform:translateY(100%);transition:transform .42s cubic-bezier(.2,.7,.3,1);visibility:hidden;}
+.flowview.open{transform:translateY(0);visibility:visible;}
+.fvh{display:flex;align-items:center;gap:14px;padding:max(26px,calc(env(safe-area-inset-top) + 10px)) 22px 6px;}
+.fvh .rg{flex:1;}
+.fvh .rg h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.9rem,7vw,2.3rem);letter-spacing:.02em;line-height:1;}
+.fvh .x{font-size:21px;line-height:1;color:#fff;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);border-radius:999px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;}
+
+.flowwrap{position:relative;flex:1;min-height:0;display:flex;}
+/* controlled drag carousel (no native momentum) — feels weightier */
+.flow{flex:1;display:flex;align-items:center;overflow:hidden;touch-action:none;scrollbar-width:none;perspective:1100px;padding:0 calc(50% - var(--cw)/2);cursor:grab;}
+.flow.grabbing{cursor:grabbing;}
+.flow::-webkit-scrollbar{display:none;}
+.cover{flex:none;width:var(--cw);height:var(--ch);border-radius:22px;overflow:hidden;position:relative;margin:0 calc(var(--cw) * -.095);
+  background-size:cover;background-position:center;box-shadow:0 30px 60px rgba(0,0,0,.6);
+  transform:rotateY(40deg) scale(.8);transition:transform .42s cubic-bezier(.22,.61,.36,1),opacity .42s ease;opacity:.45;transform-origin:center;cursor:pointer;will-change:transform;}
+.cover.active{transform:rotateY(0deg) scale(1);opacity:1;z-index:5;}
+.cover.prev{transform:rotateY(40deg) scale(.8);}
+.cover.next{transform:rotateY(-40deg) scale(.8);}
+.cover .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.78;}
+.cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.55));}
+.cover .pl{position:absolute;top:12px;left:12px;z-index:3;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);border-radius:9px;padding:5px 11px;font-weight:800;font-size:14px;}
+.cover.locked.active .tint{opacity:.9;}
+/* gentle hint shown only on the active card */
+.cover .tap{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:3;opacity:0;transition:opacity .3s;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 13px;white-space:nowrap;pointer-events:none;display:inline-flex;align-items:center;gap:5px;}
+.cover.active .tap{opacity:.92;}
+.cover .tap svg{width:12px;height:12px;}
+
+.cap{text-align:center;padding:10px 20px 14px;}
+.cap h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.3rem,10vw,2.9rem);font-weight:400;letter-spacing:.02em;line-height:1;margin-bottom:6px;}
+.cap .capcount{font-size:12px;letter-spacing:.22em;color:#9aa4b2;font-weight:700;margin-bottom:14px;}
+.cap .go{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:14px 32px;border-radius:999px;text-decoration:none;}
+.cap .go.lock{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.3);}
+.cap .go svg{width:16px;height:16px;}
+.cap .go:active{transform:scale(.96);}
+.dots{display:flex;justify-content:center;gap:6px;padding:6px 0 max(26px,calc(env(safe-area-inset-bottom) + 12px));flex-wrap:wrap;max-width:300px;margin:0 auto;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .2s;}
+.dot.on{background:#fff;}
+
+/* ---------- coverflow side arrows ---------- */
+.farrow{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:50px;height:50px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.35);backdrop-filter:blur(8px);color:#fff;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6;transition:opacity .2s,transform .15s;}
+.farrow:hover{opacity:1;}
+.farrow:active{transform:translateY(-50%) scale(.9);}
+.farrow.l{left:8px;}
+.farrow.r{right:8px;}
+.farrow[disabled]{opacity:.12;pointer-events:none;}
+
+/* ---------- first-run swipe hint (coverflow) ---------- */
+.swipehint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:7;display:flex;align-items:center;gap:14px;pointer-events:none;opacity:0;transition:opacity .4s;color:rgba(255,255,255,.95);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-shadow:0 2px 12px rgba(0,0,0,.85);}
+.swipehint.show{opacity:1;}
+.swipehint .ch{font-size:30px;line-height:1;}
+.swipehint .ch.l{animation:swl 1.4s ease-in-out infinite;}
+.swipehint .ch.r{animation:swr 1.4s ease-in-out infinite;}
+.swipehint .ht{background:rgba(0,0,0,.55);backdrop-filter:blur(6px);padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.22);}
+@keyframes swl{0%,100%{transform:translateX(0);opacity:.45}50%{transform:translateX(-7px);opacity:1}}
+@keyframes swr{0%,100%{transform:translateX(0);opacity:.45}50%{transform:translateX(7px);opacity:1}}
+
+/* ---------- unlock modal ---------- */
+.paywall{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:24px;
+  padding-bottom:max(24px,env(safe-area-inset-bottom));background:rgba(0,0,0,.82);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  visibility:hidden;transition:visibility 0s linear .3s;}   /* backdrop-filter YOK: coverflow'daki iç içe blur+transform katmanlarını bulanıklaştırınca mobilde flicker yapıyordu */
+.paywall.open{visibility:visible;transition:visibility 0s;}
+/* klavye açıkken (visualViewport ile yükseklik küçülür) modal üstten hizalanır ki kart+kod alanı
+   klavyenin arkasında kalmasın; kart görünür alandan uzunsa yukarı scroll edilebilir. */
+.paywall.kbd{align-items:flex-start;}
+.paywall.kbd .pw-card{margin-top:8px;}
+/* KÖK SEBEP FİXİ: paywall açıkken alttaki coverflow'u tamamen gizle. .flowview'in
+   3D rotateY + will-change + backdrop-filter katmanları yarı saydam modalın arkasında
+   composite edilince mobilde sürekli repaint/flicker yapıyordu. Gizleyince arkada canlı
+   katman kalmaz (trending senaryosuyla aynı). display:none DEĞİL ki scroll pozisyonu kalsın. */
+body.pwflow .flowview{visibility:hidden;}
+.pw-card{position:relative;width:100%;max-width:360px;background:linear-gradient(180deg,#181922,#0b0c11);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:32px 24px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.7);opacity:0;transform:translateY(18px) scale(.97);transition:transform .32s cubic-bezier(.2,.7,.3,1),opacity .26s ease;}
+.paywall.open .pw-card{transform:none;opacity:1;}
+.pw-ic{width:56px;height:56px;margin:0 auto 16px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;}
+.pw-ic svg{width:25px;height:25px;}
+.pw-card h3{font-family:'Bebas Neue',sans-serif;font-size:2.3rem;letter-spacing:.03em;line-height:1;margin-bottom:9px;}
+.pw-card p{color:rgba(255,255,255,.78);font-size:.96rem;line-height:1.5;margin-bottom:16px;}
+.pw-card p b{color:#fff;font-weight:700;}
+.pw-gift{font-size:.8rem;letter-spacing:.04em;font-weight:600;color:var(--gold);margin-bottom:18px;}
+.pw-actions{display:flex;flex-direction:column;gap:10px;}
+.pw-primary{display:flex;align-items:center;justify-content:center;gap:9px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:15px;border-radius:14px;text-decoration:none;}
+.pw-primary svg{width:17px;height:17px;}
+.pw-primary:active{transform:scale(.97);}
+.pw-free{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#ecd6a4,#d8b878);border:1px solid rgba(255,255,255,.35);color:#1c1407;font-weight:800;font-size:15px;padding:16px;border-radius:14px;text-decoration:none;box-shadow:0 10px 26px rgba(216,184,120,.32);letter-spacing:.01em;}
+.pw-free svg{width:17px;height:17px;}
+.pw-free:active{transform:scale(.97);}
+.pw-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border:none;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.pw-close:active{transform:scale(.9);}
+/* buy/code flow */
+.pw-codebtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.86);font-weight:600;font-size:14px;padding:13px;border-radius:14px;cursor:pointer;transition:background .2s,border-color .2s;}
+.pw-codebtn svg{width:16px;height:16px;}
+.pw-codebtn:active{transform:scale(.98);}
+.pw-codebtn.active{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);}
+.pw-codebox{max-height:0;overflow:hidden;opacity:0;transition:max-height .32s cubic-bezier(.2,.7,.3,1),opacity .26s,margin .32s;margin-top:0;}
+.pw-codebox.open{max-height:260px;opacity:1;margin-top:10px;}
+.pw-codedeliver{font-size:12px;color:rgba(255,255,255,.5);text-align:center;margin-top:11px;padding:0 2px;line-height:1.4;}
+.pw-codefield{display:flex;gap:8px;}
+.pw-codefield input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:13px 14px;color:#fff;font-size:16px;font-family:inherit;letter-spacing:.06em;text-transform:uppercase;}
+.pw-codefield input::placeholder{color:rgba(255,255,255,.32);letter-spacing:.04em;}
+.pw-codefield input:focus{outline:none;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.09);}
+.pw-codefield button{flex:none;background:#fff;color:#111;font-weight:700;font-size:14px;padding:0 18px;border:none;border-radius:12px;cursor:pointer;}
+.pw-codefield button:active{transform:scale(.96);}
+.pw-codefield button:disabled{opacity:.5;cursor:default;}
+.pw-codemsg{min-height:18px;font-size:13px;margin-top:9px;text-align:left;padding:0 2px;}
+.pw-codemsg.err{color:#ff8585;}
+.pw-codemsg.ok{color:#7ee0a8;display:flex;align-items:center;gap:7px;font-weight:700;}
+.pw-codemsg.ok .tick{flex:none;width:20px;height:20px;border-radius:50%;background:#2ec27e;color:#0b0c11;display:inline-flex;align-items:center;justify-content:center;animation:tickpop .42s cubic-bezier(.18,.9,.32,1.3) both;}
+.pw-codemsg.ok .tick svg{width:12px;height:12px;display:block;}
+@keyframes tickpop{0%{transform:scale(0) rotate(-25deg);opacity:0;}60%{transform:scale(1.18) rotate(3deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+/* Instagram yardım/iletişim satırı — kod kutusunda her zaman görünür, yanlış kod sonrası vurgulanır */
+.pw-codehelp{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;font-size:12.5px;color:rgba(255,255,255,.55);text-decoration:none;padding:7px;border-radius:10px;border:1px solid transparent;transition:color .2s,border-color .2s,background .2s;}
+.pw-codehelp svg{width:15px;height:15px;flex:none;color:var(--gold);}
+.pw-codehelp b{color:var(--gold);font-weight:700;text-decoration:underline;text-underline-offset:2px;}
+.pw-codehelp:hover{color:rgba(255,255,255,.85);}
+.pw-codehelp:hover b{text-decoration-thickness:2px;}
+.pw-codehelp.hot{color:var(--gold);border-color:rgba(227,197,144,.45);background:rgba(227,197,144,.08);animation:helpnudge .5s ease;}
+@keyframes helpnudge{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+/* owned (purchased) badges */
+.ownpill{position:absolute;top:11px;right:11px;z-index:4;display:inline-flex;align-items:center;gap:3px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;padding:5px 9px 5px 7px;border-radius:999px;color:#7ee0a8;background:rgba(126,224,168,.13);border:1px solid rgba(126,224,168,.45);backdrop-filter:blur(5px);}
+.ownpill svg{width:12px;height:12px;}
+.ritem .rown{color:#7ee0a8;display:inline-flex;}
+.ritem .rown svg{width:15px;height:15px;}
+
+/* ---------- right-edge section indicator ---------- */
+.snav{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:11px;transition:opacity .3s;}
+.snav button{width:9px;height:9px;padding:0;border:none;border-radius:50%;background:rgba(255,255,255,.28);cursor:pointer;transition:background .25s,transform .25s;}
+.snav button.on{background:#fff;transform:scale(1.35);}
+body.flowopen .snav{opacity:0;pointer-events:none;}
+@media(max-width:380px){.snav{right:9px;}}
+@media(hover:none) and (pointer:coarse){.farrow{display:none;}} /* touch: arrows off, swipe instead */
+
+/* ---------- TEST: anlaşılırlık eklemeleri (hero CTA, nasıl çalışır, erişim kartı, footer) ---------- */
+.hcta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:15px;padding:14px 22px;border-radius:999px;text-decoration:none;cursor:pointer;border:none;font-family:inherit;}
+.cta svg{width:17px;height:17px;}
+.cta:active{transform:scale(.96);}
+.cta.gold{background:linear-gradient(180deg,#ecd6a4,#d8b878);color:#1c1407;box-shadow:0 10px 26px rgba(216,184,120,.32);}
+.cta.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(6px);}
+.hmeta{margin-top:13px;font-size:12.5px;letter-spacing:.04em;color:rgba(255,255,255,.62);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.hmeta b{color:var(--gold);font-weight:700;}
+.hmeta .d{opacity:.4;}
+.hero .hcta{animation:rise .8s cubic-bezier(.2,.7,.3,1) both;animation-delay:.22s;}
+.hero .hmeta{animation:rise .8s cubic-bezier(.2,.7,.3,1) both;animation-delay:.3s;}
+.hero .scroll{animation-delay:.4s;}
+
+.how-sec{padding:56px 22px 6px;}
+.how-sec h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,9vw,3rem);letter-spacing:.02em;line-height:1;margin-bottom:4px;}
+.how-sec .sub{color:#9aa4b2;font-size:14px;margin-bottom:18px;}
+.steps{display:flex;flex-direction:column;gap:12px;}
+.step{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:16px;}
+.step .sic{flex:none;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--gold);position:relative;}
+.step .sic svg{width:21px;height:21px;}
+.step .sn{position:absolute;top:-7px;left:-7px;width:20px;height:20px;border-radius:50%;background:#fff;color:#111;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.step h3{font-size:1.04rem;font-weight:700;margin-bottom:3px;}
+.step p{font-size:.9rem;color:#9aa4b2;line-height:1.45;}
+
+.price-sec{padding:40px 22px 26px;}
+.pcard{position:relative;background:linear-gradient(180deg,#1a1922,#0b0c11);border:1px solid rgba(227,197,144,.38);border-radius:26px;padding:26px 22px 20px;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+.pcard::before{content:'';position:absolute;inset:0;border-radius:26px;background:radial-gradient(80% 50% at 50% 0%,rgba(227,197,144,.12),transparent 70%);pointer-events:none;}
+.pbadge{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--gold);border:1px solid rgba(227,197,144,.45);border-radius:999px;padding:6px 12px;background:rgba(227,197,144,.08);}
+.pcard h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,8.5vw,2.7rem);letter-spacing:.02em;line-height:1;margin:12px 0 6px;}
+.pprice{font-size:1.6rem;font-weight:800;margin-bottom:16px;}
+.pprice .per{font-size:.82rem;color:#9aa4b2;font-weight:600;margin-left:8px;letter-spacing:.02em;}
+.plist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.plist li{display:flex;gap:10px;align-items:flex-start;font-size:.93rem;color:rgba(255,255,255,.88);line-height:1.45;}
+.plist .ck{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(126,224,168,.13);border:1px solid rgba(126,224,168,.4);color:#7ee0a8;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.plist .ck svg{width:11px;height:11px;}
+
+.foot-sec{padding:6px 22px max(44px,env(safe-area-inset-bottom));text-align:center;color:rgba(255,255,255,.45);font-size:12.5px;line-height:1.6;}
+.foot-sec a{color:var(--gold);text-decoration:none;font-weight:700;}
+
+/* ---------- responsive column sizing ---------- */
+@media(min-width:560px){.app{max-width:560px;}}
+@media(min-width:760px){
+  body::before{opacity:1;}
+  .app{max-width:700px;}
+  .trend-sec h2,.trend-sec .sub{margin-left:40px;margin-right:40px;}
+  .trend{padding-left:40px;padding-right:40px;}
+  .search{margin-left:40px;margin-right:40px;}
+  .regions-sec{padding:54px 40px 80px;}
+  .how-sec{padding-left:40px;padding-right:40px;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);}
+  .price-sec{padding-left:40px;padding-right:40px;}
+  .pcard{padding:30px 28px 24px;}
+  .regions{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .flowview{max-width:700px;}
+  .farrow{display:flex;}
+}
+/* landscape phones: don't force a tall hero, let content breathe */
+@media(max-height:520px) and (orientation:landscape){
+  .hero{min-height:0;height:auto;padding-top:max(34px,env(safe-area-inset-top));padding-bottom:34px;}
+  .hero h1{font-size:clamp(2.8rem,12vh,4.2rem);}
+  .hero p{margin-top:10px;}
+  .scroll{margin-top:14px;}
+  .trend-sec{padding-top:34px;}
+}
+/* respect reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .scroll{animation:none;}
+  .reg{transform:none!important;opacity:1!important;transition:none;}
+  .cover{transition:opacity .2s ease;}
+  .hero h1,.hero p,.hero .scroll,.hero .hcta,.hero .hmeta{animation:none;}
+  .swipehint .ch{animation:none;}
+  .pw-card{transition:none;}
+}
 </style>
+<script src="i18n.js?v=4"></script>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="kick">world.html · Yeni Tasarım Denemeleri</div>
-    <h1>4 Tasarım</h1>
-    <p>Dünya konumları sayfası (<b>150 ülke</b>) için 4 farklı koyu-premium tasarım — hepsi site temasıyla uyumlu (Bebas Neue + gold), <b>EN+TR</b> ve canlı bayraklarla. Bir telefona dokun → tam ekran aç. Beğendiğini söyle, onu <code style="color:#e3c590">world.html</code>'e uygularım.</p>
-  </header>
+<div class="app">
 
-  <div class="grid" id="grid"></div>
+  <!-- HERO (B) -->
+  <section class="hero">
+    <h1 id="hh1"></h1>
+    <p id="htag"></p>
+    <div class="hcta">
+      <a class="cta gold" id="ctaFree" href="mugla_demo.html"></a>
+      <button class="cta ghost" id="ctaHow" type="button"></button>
+    </div>
+    <div class="hmeta" id="hmeta"></div>
+    <div class="scroll" id="hscroll"></div>
+  </section>
 
-  <div class="note">Önizlemeler canlı çalışır (arama dahil). Ülke kartları gerçek ülke sayfalarına (<code>{slug}.html</code>) linklidir. Bayraklar flagcdn CDN'den gelir; erişim/kilit mantığı seçim sonrası bağlanacak.</div>
+  <!-- HOW IT WORKS (test: siteyi 3 adımda anlat) -->
+  <section class="how-sec" id="howSec">
+    <h2 id="hhow"></h2>
+    <div class="sub" id="hhowsub"></div>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <!-- TRENDING (AU card look, horizontal scroll) -->
+  <section class="trend-sec">
+    <h2 id="htrend"></h2>
+    <div class="sub" id="htrendsub"></div>
+    <div class="trendwrap"><div class="trend" id="trend"></div></div>
+    <div class="search" id="searchBox"><div class="field"><span class="ic" id="qic"></span><input id="q" type="text" autocomplete="off" enterkeyhint="search"><button class="clr" id="qclear" aria-label="Clear">✕</button></div><div class="results" id="results" aria-live="polite"></div></div>
+  </section>
+
+  <!-- REGIONS (F) -->
+  <section class="regions-sec" id="regionsSec">
+    <h2 id="hregions"></h2>
+    <div class="regions" id="regions"></div>
+  </section>
+
+  <!-- ACCESS / PRICING (test: fiyatı ve modeli ana sayfada netleştir) -->
+  <section class="price-sec" id="priceSec">
+    <div class="pcard">
+      <div class="pbadge" id="pbadge"></div>
+      <h2 id="ptitle"></h2>
+      <div class="pprice" id="pprice"></div>
+      <ul class="plist" id="plist"></ul>
+      <div class="pw-actions">
+        <a class="pw-free" id="pBuy" href="#" target="_blank" rel="noopener"></a>
+        <a class="pw-primary" id="pTry" href="mugla_demo.html"></a>
+        <button class="pw-codebtn" id="pCode" type="button"></button>
+      </div>
+      <div class="pw-codedeliver" id="pNote"></div>
+    </div>
+  </section>
+
+  <footer class="foot-sec" id="footSec"></footer>
+
 </div>
 
+<!-- COVERFLOW (I) -->
+<div class="flowview" id="flowview" role="dialog" aria-modal="true" aria-label="Province browser">
+  <div class="fvh">
+    <div class="rg"><h2 id="fvtitle">Region</h2></div>
+    <div class="x" id="fvclose" role="button" tabindex="0" aria-label="Close">✕</div>
+  </div>
+  <div class="flowwrap">
+    <button class="farrow l" id="fprev" aria-label="Previous">‹</button>
+    <button class="farrow r" id="fnext" aria-label="Next">›</button>
+    <div class="flow" id="flow"></div>
+    <div class="swipehint" id="swipehint" aria-hidden="true"><span class="ch l">‹</span><span class="ht" id="swipehinttext"></span><span class="ch r">›</span></div>
+  </div>
+  <div class="cap"><h3 id="capnm">—</h3><div class="capcount" id="capcount"></div><a class="go" id="capgo" href="#">Explore</a></div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<!-- BUY / UNLOCK modal (per-province, Shopier + code) -->
+<div class="paywall" id="paywall" role="dialog" aria-modal="true" aria-labelledby="pwTitle">
+  <div class="pw-card">
+    <button class="pw-close" id="pwClose" aria-label="Close">✕</button>
+    <div class="pw-ic" id="pwIc"></div>
+    <h3 id="pwTitle"></h3>
+    <div class="pw-actions">
+      <a class="pw-free" id="pwBuy" href="#" target="_blank" rel="noopener"></a>
+      <a class="pw-primary" id="pwTry" href="mugla_demo.html"></a>
+      <button class="pw-codebtn" id="pwCodeBtn" type="button"></button>
+    </div>
+    <div class="pw-codebox" id="pwCodeBox">
+      <div class="pw-codefield">
+        <input id="pwCodeInput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+        <button id="pwCodeGo" type="button"></button>
+      </div>
+      <div class="pw-codemsg" id="pwCodeMsg" aria-live="polite"></div>
+      <div class="pw-codedeliver" id="pwCodeDeliver"></div>
+      <a class="pw-codehelp" id="pwCodeHelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+</div>
+
+<!-- right-edge section indicator -->
+<nav class="snav" id="snav" aria-label="Sections"></nav>
+
 <script>
-const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-const VERSIONS=[
-  {id:'world_a',tag:'A',nm:'Atlas Grid',ds:'✅ Beğenilen. Premium 3-kolon bayrak ızgarası, yapışkan arama çubuğu, hero başlık. Koyu-premium, sade.'},
-  {id:'world_b',tag:'B',nm:'Kıta Sekmeleri',ds:'YENİ. Üstte yapışkan kıta sekmeleri (Avrupa/Asya/…); dokununca alttaki ızgara o kıtaya göre filtrelenir. Arama hepsinde çalışır.'},
-  {id:'world_c',tag:'C',nm:'A–Z İndeks',ds:'YENİ. Alfabetik liste; yapışkan harf başlıkları + sağda A–Z atlama rayı (iOS-rehber tarzı). Bayrak-thumbnailli, hızlı.'},
-  {id:'world_d',tag:'D',nm:'Immersive Mozaik',ds:'YENİ. 2-kolon büyük kartlar; bayrak kartı doldurur, gradyan üzerine kalın ülke adı. Görsel, lookbook hissi.'}
-];
-const grid=document.getElementById('grid');
-VERSIONS.forEach(v=>{
-  const url=`${v.id}.html`;
-  const c=document.createElement('div');c.className='card';
-  c.innerHTML=`
-    <div class="phone">
-      <iframe src="${url}" title="Versiyon ${v.tag}" loading="lazy" scrolling="no"></iframe>
-      <a class="open" href="${url}"><span>Tam ekran aç</span></a>
-    </div>
-    <div class="meta">
-      <div class="tag"><span class="dot"></span>Versiyon ${v.tag}</div>
-      <div class="nm">${v.nm}</div>
-      <div class="ds">${v.ds}</div>
-    </div>
-    <a class="fullbtn" href="${url}">Aç ${ARROW}</a>`;
-  grid.appendChild(c);
+/* ---------- refined line icons (match the cinematic, minimal aesthetic) ---------- */
+const ICON={
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 16 7.2v3.3"/></svg>',
+  unlock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8 10.5V7.2A4 4 0 0 1 15.6 5.6"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m20 20-4.6-4.6"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
+  cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.2l2.3 12.2a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.3L21 7H6"/></svg>',
+  gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M12 8.5V21"/><path d="M18.5 12.5v6.4a1.6 1.6 0 0 1-1.6 1.6H7.1a1.6 1.6 0 0 1-1.6-1.6v-6.4"/><path d="M7.6 8.5a2.5 2.5 0 0 1 0-5C10.3 3.5 12 8.5 12 8.5s1.7-5 4.4-5a2.5 2.5 0 0 1 0 5"/></svg>',
+  instagram:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.6"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>',
+  route:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>'
+};
+document.getElementById('qic').innerHTML=ICON.search;
+document.getElementById('pwIc').innerHTML=ICON.lock;
+
+/* ---------- access model: single master code (no backend) ----------
+   One code (sold on Shopier) unlocks ALL 81 provinces. We store ONLY the
+   SHA-256 hash of that code here, so the plaintext never appears in source.
+   Entering the right code grants access, remembered in localStorage["tr81-access"].
+   Muğla stays free for everyone. */
+const FREE_SLUG='mugla';
+const LS_KEY='tr81-access';
+const MASTER=/*__MASTER__*/'02e3d09f8f4c16e579f85af78587a0ce78123f28933223277fa7feae2d7ea449';
+let ALL_UNLOCKED=(()=>{try{return localStorage.getItem(LS_KEY)==='granted';}catch(e){return false;}})();
+function grantAccess(){ALL_UNLOCKED=true;try{localStorage.setItem(LS_KEY,'granted');}catch(e){}}
+const owns=slug=>ALL_UNLOCKED||slug===FREE_SLUG;   /* full access (code) or free province */
+/* Shopier — tek ürün, tek kod tüm illeri açar */
+const SHOPIER_URL='https://www.shopier.com/35589307';
+const shopierFor=slug=>SHOPIER_URL;
+/* price label shown in modal (tüm 81 il, TODO: kullanıcı fiyatı) */
+const PRICE_DEFAULT=lang=>lang==='tr'?'1200 ₺':'€34';
+const priceFor=(slug,lang)=>PRICE_DEFAULT(lang);
+/* SHA-256 (compact, works in any context incl. file://) for offline code check */
+function sha256hex(ascii){
+  function rr(n,x){return(x>>>n)|(x<<(32-n));}
+  const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  let H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const bytes=[];for(let i=0;i<ascii.length;i++)bytes.push(ascii.charCodeAt(i)&0xff);
+  const l=bytes.length;bytes.push(0x80);while(bytes.length%64!==56)bytes.push(0);
+  const bl=l*8;for(let i=7;i>=0;i--)bytes.push((bl/Math.pow(2,i*8))&0xff);
+  const w=new Array(64);
+  for(let j=0;j<bytes.length;j+=64){
+    for(let i=0;i<16;i++)w[i]=(bytes[j+i*4]<<24)|(bytes[j+i*4+1]<<16)|(bytes[j+i*4+2]<<8)|(bytes[j+i*4+3]);
+    for(let i=16;i<64;i++){const s0=rr(7,w[i-15])^rr(18,w[i-15])^(w[i-15]>>>3),s1=rr(17,w[i-2])^rr(19,w[i-2])^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)|0;}
+    let a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(let i=0;i<64;i++){const S1=rr(6,e)^rr(11,e)^rr(25,e),ch=(e&f)^(~e&g),t1=(h+S1+ch+K[i]+w[i])|0,S0=rr(2,a)^rr(13,a)^rr(22,a),mj=(a&b)^(a&c)^(b&c),t2=(S0+mj)|0;h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;}
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;
+  }
+  return H.map(x=>((x>>>0).toString(16).padStart(8,'0'))).join('');
+}
+const normCode=c=>(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+/* Görsel-benzer karakterleri (0↔O, 1↔I/L, 8↔B, 5↔S, 2↔Z, 6↔G) tek temsilciye indirgeyen "iskelet"
+   normalizasyonu — kullanıcı kodu yanlış-benzer karakterle (örn. TR8I-GL0BAL) girse de kabul edilir.
+   Tek geçerli kod olduğundan güvenli; yanlış kodlar yine reddedilir. */
+const CONF_MAP={O:'0',Q:'0',D:'0',I:'1',L:'1',Z:'2',S:'5',B:'8',G:'6'};
+const skelCode=c=>normCode(c).replace(/[OQDILZSBG]/g,ch=>CONF_MAP[ch]);
+const MASTER_SK='f5d4f0f154f05cee1f41acc820ce37e5e563aeee585e261fcc055d95911d037a';
+/* kullanıcı sadece "GLOBAL" (TR81 öneki olmadan) girse de kabul — ikinci kabul edilen iskelet hash'i */
+const MASTER_SK2='1e42b2640c5332245212c3dbe4e5b64fbcedb296d4899791b63b2b94a05cc5ff';
+const codeOK=v=>{const s=sha256hex(skelCode(v));return s===MASTER_SK||s===MASTER_SK2;};
+
+/* ---------- i18n: ortak 40-dil sözlüğü (i18n.js). Cihaz dili 40 dilden biriyse o dil, değilse İngilizce ---------- */
+const LANG=(window.I18N&&window.I18N.lang)||'en';
+const _t=(window.I18N&&window.I18N.t)||{};
+const FREE_TXT=_t.freeTap||'Free';
+/* index.html'in beklediği pw* kod anahtarları, paylaşılan öneksiz anahtarlara köprülenir */
+const T=Object.assign({},_t,{
+  pwHaveCode:_t.haveCode,pwCodePh:_t.codePh,pwCodeGo:_t.codeGo,
+  pwCodeOk:_t.codeOk,pwCodeErr:_t.codeErr,pwCodeEmpty:_t.codeEmpty
 });
+document.getElementById('hh1').innerHTML=T.h1;
+document.getElementById('htag').textContent=T.tag;
+document.getElementById('hscroll').textContent=T.scroll;
+document.getElementById('hregions').textContent=T.regions;
+document.getElementById('htrend').textContent=T.trend;
+document.getElementById('htrendsub').textContent=T.trendsub;
+document.getElementById('q').placeholder=T.search;
+document.getElementById('swipehinttext').textContent=T.swipe;
+document.getElementById('hscroll').onclick=()=>document.querySelector('.trend-sec').scrollIntoView({behavior:'smooth',block:'start'});
+
+/* ---------- TEST sayfası: anlaşılırlık metinleri + yeni bölümler ---------- */
+const X=LANG==='tr'?{
+  tag:'81 ilin el ile seçilmiş manzara noktaları. Konumu aç, tek dokunuşla Google Haritalar yol tarifini al.',
+  ctaFree:'Muğla’yı Ücretsiz Keşfet',ctaHow:'Nasıl çalışır?',ctaUnlocked:'Keşfetmeye Başla',
+  meta:['<b>573</b> seçilmiş konum','<b>81</b> il','Muğla <b>ücretsiz</b>'],
+  how:'Nasıl çalışır?',howsub:'Üç adımda manzaradasın.',
+  steps:[['İlini seç','81 il bölgelere ayrılmış — listeden seç ya da adıyla ara.'],
+         ['Konumları gör','Her ilde el ile seçilmiş manzara noktaları ve fotoğrafları.'],
+         ['Yola çık','Konumun yanındaki butonla Google Haritalar yol tarifi açılır.']],
+  pbadge:'Tek kod · Sınırsız erişim',ptitle:'Tüm Türkiye, tek kodla',per:'tek seferlik — abonelik yok',
+  plist:['81 ilin tamamı — 573 el ile seçilmiş manzara konumu',
+         'Her konum için fotoğraflar + Google Haritalar yol tarifi',
+         'Bonus: dünya konumları — 148 ülke + 50 ABD eyaleti',
+         'Kodun Shopier siparişinle anında iletilir'],
+  pbuy:'Kilidi Aç',ptry:'Önce Muğla’yı ücretsiz dene',pwAllTitle:'Tüm illerin kilidini aç',
+  unlockedBadge:'Erişimin açık',unlockedTitle:'Tüm Türkiye senin',
+  foot:'Soruların için Instagram’dan yaz: ',navHow:'Nasıl',navAccess:'Erişim'
+}:{
+  tag:'Hand-picked scenic spots across all 81 provinces. Open a location, get Google Maps directions in one tap.',
+  ctaFree:'Explore Muğla for Free',ctaHow:'How it works',ctaUnlocked:'Start Exploring',
+  meta:['<b>573</b> curated spots','<b>81</b> provinces','Muğla is <b>free</b>'],
+  how:'How it works',howsub:'Three steps to the view.',
+  steps:[['Pick a province','81 provinces grouped by region — browse or search by name.'],
+         ['See the spots','Hand-picked scenic locations with photos in every province.'],
+         ['Get going','One tap opens Google Maps directions for any spot.']],
+  pbadge:'One code · Unlimited access',ptitle:'All of Türkiye, one code',per:'one-time — no subscription',
+  plist:['All 81 provinces — 573 hand-picked scenic spots',
+         'Photos + Google Maps directions for every location',
+         'Bonus: world locations — 148 countries + 50 US states',
+         'Your code is delivered instantly with your Shopier order'],
+  pbuy:'Unlock Everything',ptry:'Try Muğla for free first',pwAllTitle:'Unlock all provinces',
+  unlockedBadge:'Access active',unlockedTitle:'All of Türkiye is yours',
+  foot:'Questions? Message us on Instagram: ',navHow:'How',navAccess:'Access'
+};
+document.getElementById('htag').textContent=X.tag;
+const ctaFree=document.getElementById('ctaFree'),ctaHow=document.getElementById('ctaHow');
+ctaFree.innerHTML=(ALL_UNLOCKED?'':ICON.gift)+'<span>'+(ALL_UNLOCKED?X.ctaUnlocked:X.ctaFree)+'</span>';
+if(ALL_UNLOCKED){ctaFree.href='#';ctaFree.addEventListener('click',e=>{e.preventDefault();document.getElementById('regionsSec').scrollIntoView({behavior:'smooth',block:'start'});});}
+ctaHow.innerHTML='<span>'+X.ctaHow+'</span>';
+ctaHow.onclick=()=>document.getElementById('howSec').scrollIntoView({behavior:'smooth',block:'start'});
+document.getElementById('hmeta').innerHTML=X.meta.join('<span class="d">•</span>');
+document.getElementById('hhow').textContent=X.how;
+document.getElementById('hhowsub').textContent=X.howsub;
+const STEP_IC=[ICON.search,ICON.pin,ICON.route];
+document.getElementById('steps').innerHTML=X.steps.map((s,i)=>`<div class="step"><div class="sic">${STEP_IC[i]}<span class="sn">${i+1}</span></div><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join('');
+document.getElementById('pbadge').textContent=ALL_UNLOCKED?X.unlockedBadge:X.pbadge;
+document.getElementById('ptitle').textContent=ALL_UNLOCKED?X.unlockedTitle:X.ptitle;
+document.getElementById('pprice').innerHTML=priceFor('',LANG)+'<span class="per">'+X.per+'</span>';
+document.getElementById('plist').innerHTML=X.plist.map(li=>`<li><span class="ck">${ICON.check}</span><span>${li}</span></li>`).join('');
+const pBuy=document.getElementById('pBuy'),pTry=document.getElementById('pTry'),pCodeBtn2=document.getElementById('pCode');
+pBuy.href=SHOPIER_URL;pBuy.innerHTML=ICON.cart+'<span>'+X.pbuy+' — '+priceFor('',LANG)+'</span>';
+pTry.innerHTML=ICON.pin+'<span>'+X.ptry+'</span>';
+pCodeBtn2.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
+pCodeBtn2.onclick=()=>{openPaywall('__all__','');pwTitleEl.textContent=X.pwAllTitle;setCodeBox(true);};
+document.getElementById('pNote').textContent=_t.codeDeliver;
+document.getElementById('footSec').innerHTML=X.foot+'<a href="https://instagram.com/tr81.tr" target="_blank" rel="noopener">@tr81.tr</a>';
+if(ALL_UNLOCKED){document.getElementById('pprice').style.display='none';document.querySelector('#priceSec .pw-actions').style.display='none';document.getElementById('pNote').style.display='none';}
+
+const IMG=['https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/df156335-417a-4600-a36a-a78c69799c00/public','https://imagedelivery.net/hvHh954PgWT-gbZ25oXErA/ce399dec-ddac-4455-521d-697751d46300/public'];
+/* preload hero/cover imagery so cards don't pop in (perceived performance) */
+IMG.forEach(u=>{const im=new Image();im.src=u;});
+/* shared horizontal-swipe physics — medium feel: finger 1:1 + capped momentum, snaps to a card.
+   used identically by the trending strip and the coverflow so the whole site swipes the same. */
+const SETTLE=300,MOMENTUM=180,GLIDE=3.5;
+const REG=[['medit','#0f9d8f'],['marmara','#2563eb'],['aegean','#0891b2'],['black','#16a34a'],['central','#d97706'],['east','#7c3aed'],['southeast','#db2777']];
+const COL=Object.fromEntries(REG.map(r=>[r[0],r[1]]));
+const P=[[1,'adana','Adana','medit'],[2,'adiyaman','Adıyaman','southeast'],[3,'afyon','Afyonkarahisar','aegean'],[4,'agri','Ağrı','east'],[5,'amasya','Amasya','black'],[6,'ankara','Ankara','central'],[7,'antalya','Antalya','medit'],[8,'artvin','Artvin','black'],[9,'aydin','Aydın','aegean'],[10,'balikesir','Balıkesir','marmara'],[11,'bilecik','Bilecik','marmara'],[12,'bingol','Bingöl','east'],[13,'bitlis','Bitlis','east'],[14,'bolu','Bolu','black'],[15,'burdur','Burdur','medit'],[16,'bursa','Bursa','marmara'],[17,'canakkale','Çanakkale','marmara'],[18,'cankiri','Çankırı','central'],[19,'corum','Çorum','black'],[20,'denizli','Denizli','aegean'],[21,'diyarbakir','Diyarbakır','southeast'],[22,'edirne','Edirne','marmara'],[23,'elazig','Elazığ','east'],[24,'erzincan','Erzincan','east'],[25,'erzurum','Erzurum','east'],[26,'eskisehir','Eskişehir','central'],[27,'gaziantep','Gaziantep','southeast'],[28,'giresun','Giresun','black'],[29,'gumushane','Gümüşhane','black'],[30,'hakkari','Hakkari','east'],[31,'hatay','Hatay','medit'],[32,'isparta','Isparta','medit'],[33,'mersin','Mersin','medit'],[34,'istanbul','İstanbul','marmara'],[35,'izmir','İzmir','aegean'],[36,'kars','Kars','east'],[37,'kastamonu','Kastamonu','black'],[38,'kayseri','Kayseri','central'],[39,'kirklareli','Kırklareli','marmara'],[40,'kirsehir','Kırşehir','central'],[41,'kocaeli','Kocaeli','marmara'],[42,'konya','Konya','central'],[43,'kutahya','Kütahya','aegean'],[44,'malatya','Malatya','east'],[45,'manisa','Manisa','aegean'],[46,'kahramanmaras','Kahramanmaraş','medit'],[47,'mardin','Mardin','southeast'],[48,'mugla','Muğla','aegean'],[49,'mus','Muş','east'],[50,'nevsehir','Nevşehir','central'],[51,'nigde','Niğde','central'],[52,'ordu','Ordu','black'],[53,'rize','Rize','black'],[54,'sakarya','Sakarya','marmara'],[55,'samsun','Samsun','black'],[56,'siirt','Siirt','southeast'],[57,'sinop','Sinop','black'],[58,'sivas','Sivas','central'],[59,'tekirdag','Tekirdağ','marmara'],[60,'tokat','Tokat','black'],[61,'trabzon','Trabzon','black'],[62,'tunceli','Tunceli','east'],[63,'sanliurfa','Şanlıurfa','southeast'],[64,'usak','Uşak','aegean'],[65,'van','Van','east'],[66,'yozgat','Yozgat','central'],[67,'zonguldak','Zonguldak','black'],[68,'aksaray','Aksaray','central'],[69,'bayburt','Bayburt','black'],[70,'karaman','Karaman','central'],[71,'kirikkale','Kırıkkale','central'],[72,'batman','Batman','southeast'],[73,'sirnak','Şırnak','southeast'],[74,'bartin','Bartın','black'],[75,'ardahan','Ardahan','east'],[76,'igdir','Iğdır','east'],[77,'yalova','Yalova','marmara'],[78,'karabuk','Karabük','black'],[79,'kilis','Kilis','southeast'],[80,'osmaniye','Osmaniye','medit'],[81,'duzce','Düzce','black']];
+
+/* ---------- gating: owned provinces open; locked ones open the buy/unlock modal ---------- */
+function badgeFor(slug){
+  if(ALL_UNLOCKED)return '';
+  if(slug===FREE_SLUG)return `<span class="giftpill" aria-label="${FREE_TXT}" title="${FREE_TXT}">${ICON.gift}</span>`;
+  return `<span class="lockpill">${ICON.lock}</span>`;
+}
+/* Muğla: kilit açıksa tam sürüm (mugla.html, world butonlu), açık değilse ücretsiz demo (mugla_demo.html); diğer iller slug.html */
+const hrefFor=slug=>slug==='mugla'?(ALL_UNLOCKED?'mugla.html':'mugla_demo.html'):slug+'.html';
+function goProvince(slug,name){
+  if(owns(slug)){haptic();location.href=hrefFor(slug);return;}
+  openPaywall(slug,name);
+}
+
+/* ----- build region cards (F) ----- */
+const regionsEl=document.getElementById('regions');
+REG.forEach(([key,color],i)=>{
+  const label=T.names[key];
+  const d=document.createElement('div');d.className='reg';d.style.backgroundImage=`url('${IMG[i%2]}')`;
+  d.tabIndex=0;d.setAttribute('role','button');d.setAttribute('aria-label',label);
+  d.innerHTML=`<div class="tint" style="background:${color}"></div><div class="z"><h3>${label}</h3></div><div class="ar">→</div>`;
+  d.onclick=()=>openRegion(key,label);
+  d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openRegion(key,label);}};
+  regionsEl.appendChild(d);
+});
+/* staggered reveal on scroll */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;const k=[...regionsEl.children].indexOf(el);setTimeout(()=>el.classList.add('in'),k*38);io.unobserve(el);}}),{threshold:.2});
+[...regionsEl.children].forEach(c=>io.observe(c));
+
+/* ----- trending strip (most-visited touristic provinces) ----- */
+const TREND=['mugla','antalya','istanbul','izmir','nevsehir','bursa','denizli','trabzon','canakkale','aydin'];
+const bySlug=Object.fromEntries(P.map(p=>[p[1],p]));
+const trendEl=document.getElementById('trend');
+let tMoved=false;   /* set during a horizontal drag so a dragged card doesn't navigate */
+TREND.forEach((slug,i)=>{const p=bySlug[slug];if(!p)return;const[n,sl,name,rk]=p;
+  const c=document.createElement('a');c.href=hrefFor(sl);c.className='tcard';c.style.backgroundImage=`url('${IMG[i%2]}')`;
+  c.setAttribute('aria-label',name);c.dataset.slug=sl;c.dataset.name=name;
+  c.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div>${badgeFor(sl)}<h3>${name}</h3>`;
+  c.addEventListener('click',e=>e.preventDefault());  /* nav handled in pointerup — pointer-capture retargets the click to the container on desktop mouse */
+  trendEl.appendChild(c);
+});
+const tcards=[...trendEl.children];
+const trendPad=()=>parseFloat(getComputedStyle(trendEl).paddingLeft)||22;
+/* highlight the left-most (focused) card — matches the coverflow's focused-card feel */
+function focusTrend(){
+  const base=trendEl.getBoundingClientRect().left+trendPad();let best=0,bd=1e9;
+  tcards.forEach((c,i)=>{const d=Math.abs(c.getBoundingClientRect().left-base);if(d<bd){bd=d;best=i;}});
+  tcards.forEach((c,i)=>c.classList.toggle('foc',i===best));
+}
+trendEl.addEventListener('scroll',()=>requestAnimationFrame(focusTrend),{passive:true});
+focusTrend();
+
+/* ----- trending strip: SAME swipe physics as the coverflow (finger 1:1 + capped momentum, snaps to card) ----- */
+let tIdx=0,tAnim=0;
+const tClamp=i=>Math.max(0,Math.min(tcards.length-1,i));
+const tMax=()=>Math.max(0,trendEl.scrollWidth-trendEl.clientWidth);
+function tTarget(i){return Math.max(0,Math.min(tMax(),tcards[i].offsetLeft-trendPad()));}
+function tNearest(val){let best=0,bd=1e9;for(let i=0;i<tcards.length;i++){const d=Math.abs(tTarget(i)-val);if(d<bd){bd=d;best=i;}}return best;}
+function tJump(i){cancelAnimationFrame(tAnim);tIdx=tClamp(i);trendEl.scrollLeft=tTarget(tIdx);focusTrend();}
+function tAnimate(i,dur=SETTLE){
+  i=tClamp(i);tIdx=i;cancelAnimationFrame(tAnim);
+  const from=trendEl.scrollLeft,to=tTarget(i),delta=to-from,t0=performance.now();
+  if(Math.abs(delta)<1){trendEl.scrollLeft=to;focusTrend();return;}
+  (function f(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3);trendEl.scrollLeft=from+delta*e;focusTrend();if(p<1)tAnim=requestAnimationFrame(f);})(t0);
+}
+let tDrag=false,tStart=0,tRest=0,tLast=0,tLT=0,tVel=0,downTcard=null;
+trendEl.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  downTcard=e.target.closest?e.target.closest('.tcard'):null;
+  tDrag=true;tMoved=false;tStart=tLast=e.clientX;tLT=performance.now();tVel=0;
+  tRest=trendEl.scrollLeft;cancelAnimationFrame(tAnim);trendEl.classList.add('grabbing');
+  try{trendEl.setPointerCapture(e.pointerId);}catch(_){}
+});
+trendEl.addEventListener('pointermove',e=>{
+  if(!tDrag)return;
+  const dx=e.clientX-tStart;if(Math.abs(dx)>6)tMoved=true;
+  const now=performance.now();if(now>tLT){tVel=(e.clientX-tLast)/(now-tLT);tLast=e.clientX;tLT=now;}
+  trendEl.scrollLeft=Math.max(0,Math.min(tMax(),tRest-dx));  /* finger 1:1 */
+  focusTrend();
+});
+function tEnd(){
+  if(!tDrag)return;tDrag=false;trendEl.classList.remove('grabbing');
+  const cw=tcards[tIdx]?tcards[tIdx].clientWidth:160;
+  let proj=trendEl.scrollLeft-tVel*MOMENTUM;                 /* glide on with momentum... */
+  const cap=cw*GLIDE;proj=Math.max(trendEl.scrollLeft-cap,Math.min(trendEl.scrollLeft+cap,proj)); /* ...but capped */
+  const ni=tNearest(proj);if(ni!==tIdx)haptic(6);
+  tAnimate(ni);
+}
+trendEl.addEventListener('pointerup',e=>{
+  if(tDrag&&!tMoved){          /* a tap, not a drag → navigate (click is unreliable under pointer capture) */
+    const t=downTcard;downTcard=null;tDrag=false;trendEl.classList.remove('grabbing');
+    if(t)goProvince(t.dataset.slug,t.dataset.name);
+    return;
+  }
+  downTcard=null;tEnd();
+});
+trendEl.addEventListener('pointercancel',()=>{downTcard=null;tEnd();});
+
+/* ----- coverflow overlay (I) ----- */
+const fv=document.getElementById('flowview'),flow=document.getElementById('flow'),dots=document.getElementById('dots');
+const fvtitle=document.getElementById('fvtitle');
+const capnm=document.getElementById('capnm'),capgo=document.getElementById('capgo'),capcount=document.getElementById('capcount');
+let covers=[],dotEls=[],cur=[],idx=0,dragMoved=false,lastFocused=null;
+/* subtle haptic feedback (mobile, app-like) */
+const haptic=(ms=8)=>{try{navigator.vibrate&&navigator.vibrate(ms);}catch(e){}};
+
+/* ----- first-run swipe hint ----- */
+const swipehint=document.getElementById('swipehint');
+let hintSeen=false,hintTimer=0;try{hintSeen=localStorage.getItem('tr81_swipehint')==='1';}catch(e){}
+function showHint(){if(hintSeen)return;swipehint.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(dismissHint,3600);}
+function dismissHint(){clearTimeout(hintTimer);if(!swipehint.classList.contains('show'))return;swipehint.classList.remove('show');hintSeen=true;try{localStorage.setItem('tr81_swipehint','1');}catch(e){}}
+
+function openRegion(key,label,focusSlug){
+  haptic(10);lastFocused=document.activeElement;
+  cur=P.filter(p=>p[3]===key);
+  fvtitle.textContent=label;
+  flow.innerHTML='';dots.innerHTML='';
+  cur.forEach(([n,slug,name,rk],i)=>{
+    const free=owns(slug);
+    const d=document.createElement('div');d.className='cover'+(free?'':' locked');d.dataset.i=i;d.style.backgroundImage=`url('${IMG[i%2]}')`;
+    const tapTxt=ALL_UNLOCKED?T.tap:(slug===FREE_SLUG?T.freeTap:ICON.lock+'<span>'+T.lockedTap+'</span>');
+    d.innerHTML=`<div class="tint" style="background:${COL[rk]}"></div><span class="pl">${String(n).padStart(2,'0')}</span>${badgeFor(slug)}<span class="tap">${tapTxt}</span>`;
+    /* tap/navigation handled on the flow pointerup (pointer capture retargets click to the container on desktop mouse) */
+    flow.appendChild(d);
+    const dt=document.createElement('span');dt.className='dot';dots.appendChild(dt);
+  });
+  covers=[...flow.querySelectorAll('.cover')];dotEls=[...dots.querySelectorAll('.dot')];
+  const fi=focusSlug?Math.max(0,cur.findIndex(p=>p[1]===focusSlug)):0;
+  const wasOpen=fv.classList.contains('open');
+  fv.classList.add('open');document.body.style.overflow='hidden';document.body.classList.add('flowopen');
+  if(!wasOpen){try{history.pushState({fv:1},'');}catch(e){}}
+  requestAnimationFrame(()=>{jumpTo(fi);if(covers.length>1)showHint();document.getElementById('fvclose').focus({preventScroll:true});});
+}
+function openProvince(slug){const p=bySlug[slug];if(!p)return;const key=p[3];openRegion(key,T.names[key],slug);}
+function closeRegion(fromPop){
+  if(!fv.classList.contains('open'))return;
+  dismissHint();
+  fv.classList.remove('open');document.body.classList.remove('flowopen');
+  if(!pwOpen)document.body.style.overflow='';
+  if(!fromPop&&history.state&&history.state.fv){suppressPop=true;history.back();}
+  if(lastFocused&&lastFocused.focus){try{lastFocused.focus({preventScroll:true});}catch(e){}}
+}
+const fvcloseEl=document.getElementById('fvclose');
+fvcloseEl.onclick=()=>closeRegion();
+fvcloseEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closeRegion();}};
+
+/* ---------- buy / unlock modal (per-province) ---------- */
+const paywall=document.getElementById('paywall');
+const pwTitleEl=document.getElementById('pwTitle');
+const pwCloseEl=document.getElementById('pwClose');
+const pwBuy=document.getElementById('pwBuy');
+const pwCodeBtn=document.getElementById('pwCodeBtn');
+const pwCodeBox=document.getElementById('pwCodeBox');
+const pwCodeInput=document.getElementById('pwCodeInput');
+const pwCodeGo=document.getElementById('pwCodeGo');
+const pwCodeMsg=document.getElementById('pwCodeMsg');
+const pwCodeDeliver=document.getElementById('pwCodeDeliver');
+const pwCodeHelp=document.getElementById('pwCodeHelp');
+const pwTry=document.getElementById('pwTry');
+pwCodeBtn.innerHTML=ICON.unlock+'<span>'+T.pwHaveCode+'</span>';
+pwCodeGo.textContent=T.pwCodeGo;
+pwCodeInput.placeholder=T.pwCodePh;
+pwCodeDeliver.textContent=_t.codeDeliver;
+pwCodeHelp.innerHTML=ICON.instagram+'<span>'+_t.codeHelp+' <b>@tr81.tr</b></span>';
+pwTry.innerHTML=ICON.pin+'<span>'+T.pwTry+'</span>';
+let pwOpen=false,pwSlug=null,suppressPop=false,pwOpenedAt=0,pwWrongCount=0;
+/* Klavye açılınca modalın altta kalmaması için: paywall'ı görünür viewport (klavye üstü) alanına hizala. */
+const vv=window.visualViewport;
+function syncPwViewport(){
+  if(!pwOpen||!vv)return;
+  paywall.style.height=vv.height+'px';
+  paywall.style.top=vv.offsetTop+'px';
+  paywall.style.bottom='auto';
+  const kb=(window.innerHeight-vv.height)>120;   /* klavye açık mı? */
+  paywall.classList.toggle('kbd',kb);
+  if(kb&&pwCodeBox.classList.contains('open')){
+    try{pwCodeInput.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}
+  }
+}
+function resetPwViewport(){
+  paywall.style.height='';paywall.style.top='';paywall.style.bottom='';
+  paywall.classList.remove('kbd');
+}
+if(vv){vv.addEventListener('resize',syncPwViewport);vv.addEventListener('scroll',syncPwViewport);}
+function setCodeBox(open){
+  pwCodeBox.classList.toggle('open',open);
+  pwCodeBtn.classList.toggle('active',open);
+  if(open)setTimeout(()=>{
+    try{pwCodeInput.focus({preventScroll:true});}catch(e){}
+    /* klavye focus sonrası gecikmeli açılır; viewport oturunca input'u görünür alana getir */
+    setTimeout(()=>{try{pwCodeInput.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}},300);
+  },60);
+}
+function openPaywall(slug,name){
+  if(pwOpen&&pwSlug===slug)return;   /* zaten açık — giriş animasyonunu yeniden tetikleme */
+  haptic(14);pwSlug=slug;
+  const nm=name||(LANG==='tr'?'Bu il':'This province');
+  pwTitleEl.textContent=nm+' '+T.pwLocked;   /* ör. "Çanakkale kilitli" */
+  pwBuy.href=shopierFor(slug);
+  pwBuy.innerHTML=ICON.cart+'<span>'+T.pwBuy+'</span>';
+  pwCodeInput.value='';pwCodeMsg.textContent='';pwCodeMsg.className='pw-codemsg';
+  pwWrongCount=0;pwCodeHelp.classList.remove('hot');pwCodeGo.disabled=false;pwCodeInput.disabled=false;
+  setCodeBox(false);
+  pwTry.style.display=(slug===FREE_SLUG)?'none':'';
+  paywall.classList.add('open');pwOpen=true;pwOpenedAt=performance.now();document.body.style.overflow='hidden';
+  syncPwViewport();
+  if(fv.classList.contains('open'))document.body.classList.add('pwflow');  /* coverflow üstüne açıldı → arkadaki katman yığınını gizle (flicker kök sebebi) */
+  if(!(history.state&&history.state.pw)){try{history.pushState({pw:1},'');}catch(e){}}
+  setTimeout(()=>{try{pwBuy.focus({preventScroll:true});}catch(e){}},60);
+}
+function closePaywall(fromPop){
+  if(!pwOpen)return;pwOpen=false;paywall.classList.remove('open');
+  resetPwViewport();
+  document.body.classList.remove('pwflow');  /* coverflow'u geri göster */
+  if(!fv.classList.contains('open'))document.body.style.overflow='';
+  if(!fromPop&&history.state&&history.state.pw){suppressPop=true;history.back();}
+}
+function submitCode(){
+  const raw=normCode(pwCodeInput.value);
+  if(!raw){pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeEmpty;return;}
+  const want=MASTER;
+  const got=sha256hex(raw);
+  const okCode=(want&&got===want)||codeOK(pwCodeInput.value);
+  if(okCode){
+    grantAccess();
+    haptic(20);
+    pwCodeMsg.className='pw-codemsg ok';
+    pwCodeMsg.innerHTML='<span class="tick">'+ICON.check+'</span><span>'+T.pwCodeOk+(_t.codeOkSub?' '+_t.codeOkSub:'')+'</span>';
+    pwCodeGo.disabled=true;pwCodeInput.disabled=true;pwCodeHelp.classList.remove('hot');
+    setTimeout(()=>{if(pwSlug==='__all__'){location.reload();}else{location.href=hrefFor(pwSlug);}},950);
+  }else{
+    haptic(30);
+    pwWrongCount++;
+    pwCodeMsg.className='pw-codemsg err';pwCodeMsg.textContent=T.pwCodeErr;
+    pwCodeInput.focus();pwCodeInput.select();
+    if(pwWrongCount>=2)pwCodeHelp.classList.add('hot');   /* 2. yanlış denemede iletişim linkini vurgula */
+  }
+}
+/* swallow the trailing ghost-click that the opening tap produces (~within 350ms) so it can't
+   close the modal, open Shopier, or hit Muğla — deterministic, no reliance on a removal timer */
+paywall.addEventListener('click',e=>{if(performance.now()-pwOpenedAt<350){e.stopPropagation();e.preventDefault();}},true);
+pwCloseEl.onclick=()=>closePaywall();
+paywall.addEventListener('click',e=>{if(e.target===paywall)closePaywall();});
+pwBuy.addEventListener('click',()=>haptic());
+pwCodeBtn.addEventListener('click',()=>{haptic(6);setCodeBox(!pwCodeBox.classList.contains('open'));});
+pwCodeGo.addEventListener('click',submitCode);
+pwCodeInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitCode();}});
+pwTry.addEventListener('click',()=>haptic());
+
+/* single popstate handler for both overlays (modal sits above coverflow) */
+window.addEventListener('popstate',()=>{
+  if(suppressPop){suppressPop=false;return;}  /* this popstate came from our own history.back() — already handled */
+  if(pwOpen){closePaywall(true);return;}
+  if(fv.classList.contains('open'))closeRegion(true);
+});
+
+/* ---------- controlled drag carousel engine (weighty, one card per gesture) ---------- */
+const clampIdx=i=>Math.max(0,Math.min(covers.length-1,i));
+function centerOf(i){return covers[i].offsetLeft+covers[i].clientWidth/2-flow.clientWidth/2;}
+function flowMax(){return Math.max(0,flow.scrollWidth-flow.clientWidth);}
+function nearestFlow(val){let best=0,bd=1e9;for(let i=0;i<covers.length;i++){const d=Math.abs(centerOf(i)-val);if(d<bd){bd=d;best=i;}}return best;}
+let animRaf=0;
+function jumpTo(i){cancelAnimationFrame(animRaf);idx=clampIdx(i);flow.scrollLeft=centerOf(idx);update();}
+function animateTo(i,dur=SETTLE){
+  i=clampIdx(i);idx=i;cancelAnimationFrame(animRaf);
+  const from=flow.scrollLeft,to=centerOf(i),delta=to-from,t0=performance.now();
+  if(Math.abs(delta)<1){flow.scrollLeft=to;update();return;}
+  (function frame(now){
+    const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3); /* easeOutCubic — heavy settle */
+    flow.scrollLeft=from+delta*e;update();
+    if(p<1)animRaf=requestAnimationFrame(frame);
+  })(t0);
+}
+function step(dir){const ni=clampIdx(idx+dir);if(ni!==idx){haptic(6);animateTo(ni);}}
+
+/* pointer drag: finger 1:1, then capped momentum that snaps to a card (same feel as the strip) */
+let dragging=false,startX=0,restScroll=0,lastX=0,lastT=0,vel=0,downCover=null;
+flow.addEventListener('pointerdown',e=>{
+  dragging=true;dragMoved=false;startX=lastX=e.clientX;lastT=performance.now();vel=0;
+  downCover=e.target.closest?e.target.closest('.cover'):null;
+  restScroll=flow.scrollLeft;cancelAnimationFrame(animRaf);
+  flow.classList.add('grabbing');try{flow.setPointerCapture(e.pointerId);}catch(_){}
+});
+flow.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  const dx=e.clientX-startX;if(Math.abs(dx)>6){dragMoved=true;dismissHint();}
+  const now=performance.now();if(now>lastT){vel=(e.clientX-lastX)/(now-lastT);lastX=e.clientX;lastT=now;}
+  flow.scrollLeft=Math.max(0,Math.min(flowMax(),restScroll-dx));  /* finger 1:1 */
+  update();
+});
+function endDrag(){
+  if(!dragging)return;dragging=false;flow.classList.remove('grabbing');
+  const cw=covers[idx]?covers[idx].clientWidth:220;
+  let proj=flow.scrollLeft-vel*MOMENTUM;            /* glide on with momentum... */
+  const cap=cw*GLIDE;proj=Math.max(flow.scrollLeft-cap,Math.min(flow.scrollLeft+cap,proj)); /* ...but capped */
+  const ni=nearestFlow(proj);if(ni!==idx)haptic(6);
+  animateTo(ni);
+}
+flow.addEventListener('pointerup',e=>{
+  if(dragging&&!dragMoved){    /* a tap, not a drag */
+    const t=downCover;downCover=null;dragging=false;flow.classList.remove('grabbing');
+    if(t){const i=+t.dataset.i;if(i===idx){goProvince(cur[i][1],cur[i][2]);}else{haptic(6);animateTo(i);}}
+    return;
+  }
+  downCover=null;endDrag();
+});
+flow.addEventListener('pointercancel',()=>{downCover=null;endDrag();});
+flow.addEventListener('pointerleave',()=>{downCover=null;endDrag();});
+
+/* desktop: mouse-wheel / trackpad scrolls the coverflow (throttled, one card per tick) */
+let wheelLock=false;
+flow.addEventListener('wheel',e=>{
+  if(!fv.classList.contains('open'))return;
+  const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+  if(Math.abs(d)<6)return;
+  e.preventDefault();
+  if(wheelLock)return;
+  dismissHint();step(d>0?1:-1);
+  wheelLock=true;setTimeout(()=>{wheelLock=false;},360);
+},{passive:false});
+
+/* coverflow side arrows */
+const fprev=document.getElementById('fprev'),fnext=document.getElementById('fnext');
+fprev.onclick=()=>{dismissHint();step(-1);};fnext.onclick=()=>{dismissHint();step(1);};
+let lastW=window.innerWidth;
+window.addEventListener('resize',()=>{
+  const w=window.innerWidth;
+  if(w===lastW)return;   /* yalnızca yükseklik değişen resize'ları (mobil adres çubuğu) yok say — coverflow'u re-jump edip arkada flicker yapıyordu */
+  lastW=w;
+  if(fv.classList.contains('open'))jumpTo(idx);tJump(tIdx);
+});
+
+/* ----- province search ----- */
+const norm=s=>(s||'').toLowerCase().replace(/ı/g,'i').replace(/İ/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ö/g,'o').replace(/ç/g,'c');
+const qEl=document.getElementById('q'),resultsEl=document.getElementById('results');
+const searchBox=document.getElementById('searchBox'),qclear=document.getElementById('qclear');
+const NORES=LANG==='tr'?'Sonuç yok':'No results';
+function clearSearch(){qEl.value='';resultsEl.innerHTML='';searchBox.classList.remove('has');qEl.focus();}
+qclear.onclick=clearSearch;
+document.getElementById('qic').addEventListener('click',()=>qEl.focus());
+qEl.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){clearSearch();qEl.blur();return;}
+  if(e.key==='Enter'){const v=norm(qEl.value.trim());if(!v)return;const hit=P.find(p=>norm(p[2]).includes(v));if(hit){openProvince(hit[1]);clearSearch();qEl.blur();}}
+});
+qEl.addEventListener('input',()=>{
+  const raw=qEl.value.trim();searchBox.classList.toggle('has',!!raw);
+  const v=norm(raw);resultsEl.innerHTML='';if(!v)return;
+  const hits=P.filter(p=>norm(p[2]).includes(v)).slice(0,6);
+  if(!hits.length){resultsEl.innerHTML=`<div class="nores">${NORES}</div>`;return;}
+  hits.forEach(([n,slug,name,rk])=>{
+    const d=document.createElement('div');d.className='ritem';d.tabIndex=0;d.setAttribute('role','button');
+    const mk=ALL_UNLOCKED?'':(slug===FREE_SLUG?`<span class="rfree">${FREE_TXT}</span>`:`<span class="rlock">${ICON.lock}</span>`);
+    d.innerHTML=`<span class="rn">${name}</span>${mk}<span class="rr">${T.names[rk]}</span>`;
+    const pick=()=>{openProvince(slug);clearSearch();qEl.blur();};
+    d.onclick=pick;
+    d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};
+    resultsEl.appendChild(d);
+  });
+});
+
+function update(){
+  if(!covers.length)return;
+  const mid=flow.scrollLeft+flow.clientWidth/2;let best=0,bd=1e9;
+  covers.forEach((c,i)=>{const cx=c.offsetLeft+c.clientWidth/2;const dist=Math.abs(cx-mid);if(dist<bd){bd=dist;best=i;}});
+  covers.forEach((c,i)=>{c.classList.toggle('active',i===best);c.classList.toggle('prev',i<best);c.classList.toggle('next',i>best);});
+  dotEls.forEach((d,i)=>d.classList.toggle('on',i===best));
+  fprev.disabled=best===0;fnext.disabled=best===covers.length-1;
+  const [n,slug,name]=cur[best];capnm.textContent=name;
+  capcount.textContent=`${best+1} / ${covers.length}`;
+  /* explore button reflects lock state — refined icon, minimal words */
+  const locked=!owns(slug);
+  capgo.classList.toggle('lock',locked);
+  capgo.href=locked?'#':hrefFor(slug);
+  capgo.innerHTML=locked?ICON.cart+'<span>'+T.unlockBtn+'</span>':'<span>'+T.explore+' →</span>';
+}
+flow.addEventListener('scroll',()=>requestAnimationFrame(update),{passive:true});
+capgo.addEventListener('click',e=>{e.preventDefault();if(!cur[idx])return;haptic();goProvince(cur[idx][1],cur[idx][2]);});
+
+/* ----- keyboard nav (coverflow) ----- */
+document.addEventListener('keydown',e=>{
+  if(pwOpen){if(e.key==='Escape')closePaywall();return;}
+  if(!fv.classList.contains('open'))return;
+  if(e.key==='Escape'){closeRegion();return;}
+  if(e.key==='ArrowRight'){e.preventDefault();dismissHint();step(1);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();dismissHint();step(-1);}
+  else if((e.key==='Enter'||e.key===' ')&&cur[idx]){e.preventDefault();goProvince(cur[idx][1],cur[idx][2]);}
+});
+
+/* ----- "/" focuses province search (when nothing is open) ----- */
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&!fv.classList.contains('open')&&!pwOpen&&document.activeElement!==qEl){
+    e.preventDefault();document.querySelector('.trend-sec').scrollIntoView({behavior:'smooth',block:'start'});qEl.focus();
+  }
+});
+
+/* ----- swipe-down on the header to dismiss coverflow ----- */
+const fvh=document.querySelector('.fvh');let sy=null;
+fvh.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;},{passive:true});
+fvh.addEventListener('touchmove',e=>{if(sy!==null&&e.touches[0].clientY-sy>70){closeRegion();sy=null;}},{passive:true});
+fvh.addEventListener('touchend',()=>{sy=null;});
+
+/* ----- right-edge section indicator: shows position + jumps on tap ----- */
+const SECTS=[...document.querySelectorAll('.hero,.how-sec,.trend-sec,.regions-sec,.price-sec')];
+const snav=document.getElementById('snav');
+const navBtns=SECTS.map((sec,i)=>{
+  const labels=LANG==='tr'?['Giriş',X.navHow,T.trend,T.regions,X.navAccess]:['Home',X.navHow,T.trend,T.regions,X.navAccess];
+  const b=document.createElement('button');b.setAttribute('aria-label',labels[i]||'');
+  b.onclick=()=>{sec.scrollIntoView({behavior:'smooth',block:'start'});haptic(6);};
+  snav.appendChild(b);return b;
+});
+const snavIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=SECTS.indexOf(e.target);navBtns.forEach((b,k)=>b.classList.toggle('on',k===i));}});},{threshold:.55});
+SECTS.forEach(s=>snavIO.observe(s));
 </script>
 </body>
 </html>
