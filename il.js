@@ -23,9 +23,32 @@ let LOCS=[];
 /* data.name string ya da {tr,en}; aktif dile göre seç */
 const pickName=n=>(n&&typeof n==='object')?(n[LANG]||n.en||n.tr||'') : (n||'');
 
+/* ---------------- yükleme iskeleti ----------------
+   CTA, konumlar gelmeden basılırsa liste boşken sayfanın tepesinde görünüp
+   sonra aşağı itiliyordu (çirkin flaş). Çözüm: önce shimmer iskelet kartlar,
+   CTA yalnızca veri geldikten sonra (yumuşak girişle). */
+function showSkeleton(){
+  if(!document.getElementById('skelcss')){
+    const st=document.createElement('style');st.id='skelcss';
+    st.textContent='.sk .skb{position:relative;overflow:hidden;background:rgba(255,255,255,.06);}'+
+      '.sk .skb::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);animation:sksh 1.1s infinite;}'+
+      '@keyframes sksh{from{transform:translateX(-100%)}to{transform:translateX(100%)}}'+
+      '.sk .skt{height:20px;width:56%;border-radius:7px;}'+
+      '.sk .trip .skb{aspect-ratio:3/4;}'+
+      '.ctain{animation:ctain .45s cubic-bezier(.2,.7,.3,1) both;}'+
+      '@keyframes ctain{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}'+
+      '@media(prefers-reduced-motion:reduce){.sk .skb::after{animation:none;}.ctain{animation:none;}}';
+    document.head.appendChild(st);
+  }
+  $('list').innerHTML=Array.from({length:3},()=>
+    '<div class="loc sk"><div class="lh"><span class="skb skt"></span></div>'+
+    '<div class="trip"><span class="skb"></span><span class="skb"></span><span class="skb"></span></div></div>').join('');
+}
+
 /* ---------------- alt CTA ---------------- */
 function buildCTA(){
   const cta=$('cta');
+  cta.classList.add('ctain');
   if(IL.mode==='demo'){
     cta.innerHTML=`<h3>${T.demoH}</h3><p>${T.demoP}</p>
       <div class="ctabtns">
@@ -147,7 +170,7 @@ function wireLightbox(list){
 }
 
 /* ---------------- başlat ---------------- */
-buildCTA();
+showSkeleton();
 $('cnt').textContent=T.empty;
 fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
   .then(r=>{if(!r.ok)throw 0;return r.json();})
@@ -156,6 +179,7 @@ fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
     if(nm){document.title=nm+' — TR81';const h=document.querySelector('.intro h1');if(h)h.textContent=nm;}
     LOCS=(d&&d.locations)||[];
     renderList();
+    buildCTA();              /* CTA artık içerikle birlikte, altta doğar */
   })
-  .catch(()=>{$('cnt').textContent=T.fail;});
+  .catch(()=>{$('cnt').textContent=T.fail;$('list').innerHTML='';buildCTA();});
 })();
