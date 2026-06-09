@@ -1,472 +1,835 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
-<title>TR81 · Yönetim Paneli</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#08080b">
+<title>TR81 — Yönetim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#08080b; --bg2:#101015; --card:#15151c; --line:#26262f;
-    --txt:#e8e8ee; --mut:#9a9aa6; --gold:#e3c590; --gold2:#c9a96a;
-    --ok:#4fbf7a; --err:#e06a6a; --r:14px;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--txt);
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    -webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
-  a{color:var(--gold)}
-  h1,h2,h3{font-family:'Bebas Neue','Inter',sans-serif;letter-spacing:.04em;font-weight:600;margin:0}
-  .wrap{max-width:920px;margin:0 auto;padding:18px 16px 120px}
-  .topbar{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);
-    position:sticky;top:0;background:rgba(8,8,11,.86);backdrop-filter:blur(10px);z-index:30}
-  .topbar .brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--gold)}
-  .topbar .sub{color:var(--mut);font-size:13px}
-  .spacer{flex:1}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;
-    border:1px solid var(--line);background:var(--card);color:var(--txt);
-    padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;transition:.15s;white-space:nowrap}
-  .btn:hover{border-color:var(--gold2);background:#1c1c24}
-  .btn.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#1a1407;border-color:transparent;font-weight:600}
-  .btn.gold:hover{filter:brightness(1.06)}
-  .btn.ghost{background:transparent}
-  .btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
-  .btn.danger:hover{border-color:var(--err);color:var(--err)}
-  .btn:disabled{opacity:.4;cursor:not-allowed}
-  input,select,textarea{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);
-    padding:10px 12px;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
-  input:focus,textarea:focus,select:focus{border-color:var(--gold2)}
-  label{display:block;font-size:12px;color:var(--mut);margin:0 0 5px;letter-spacing:.02em;text-transform:uppercase}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:16px 0}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .grow{flex:1;min-width:160px}
-  .muted{color:var(--mut)}
-  .hide{display:none!important}
-  .sec-h{display:flex;align-items:center;gap:10px;margin:0 0 14px}
-  .sec-h h2{font-size:22px}
-  .pill{font-size:12px;color:var(--gold);border:1px solid var(--gold2);border-radius:999px;padding:3px 10px}
-  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
-    background:#1c1c24;border:1px solid var(--line);border-radius:12px;padding:13px 20px;
-    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw}
-  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  #toast.ok{border-color:var(--ok)} #toast.err{border-color:var(--err)}
-  .loc{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
-  .loc-head{display:flex;gap:8px;align-items:center;margin-bottom:10px}
-  .loc-head .idx{font-family:'Bebas Neue',sans-serif;color:var(--gold);font-size:20px;min-width:30px}
-  .field{margin:10px 0}
-  .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
-  @media(max-width:560px){.photos{grid-template-columns:1fr}}
-  .photo{position:relative;background:#0c0c10;border:1px solid var(--line);border-radius:10px;padding:8px}
-  .photo img{width:100%;height:96px;object-fit:cover;border-radius:7px;display:block;background:#000;margin-bottom:7px}
-  .photo img.bad{outline:1px solid var(--err)}
-  .photo .xph{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;
-    background:rgba(0,0,0,.7);border:1px solid var(--line);color:var(--err);cursor:pointer;
-    display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1}
-  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
-  .savebar{position:fixed;left:0;right:0;bottom:0;background:rgba(8,8,11,.92);backdrop-filter:blur(10px);
-    border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;align-items:center;z-index:40}
-  .savebar .info{font-size:13px;color:var(--mut)}
-  .dirty-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:6px}
-  code{background:#0c0c10;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px}
-  .help{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.55}
-  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
-  .tab{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);
-    color:var(--mut);cursor:pointer}
-  .tab.on{color:var(--gold);border-color:var(--gold2)}
-  .list-scroll{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
-  .li{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;gap:8px;align-items:center}
-  .li:last-child{border-bottom:0}
-  .li:hover{background:#1c1c24}
-  .li .sl{color:var(--mut);font-size:12px;font-family:ui-monospace,monospace}
-  .li.cur{background:#1c1c24;border-left:3px solid var(--gold)}
-  .badge{font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:auto}
+:root{--bg:#08080b;--card:#121319;--card2:#181922;--line:rgba(255,255,255,.1);--mut:#9aa4b2;--gold:#e3c590;--gold2:#d8b878;--ok:#7ee0a8;--err:#ff8585;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased;padding-bottom:86px;}
+img{display:block;}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit;}
+a{color:var(--gold);text-decoration:none;}
+.hide{display:none!important;}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px;}
+
+/* üst bar */
+.top{display:flex;align-items:center;gap:10px;padding:max(14px,env(safe-area-inset-top)) 16px 10px;max-width:780px;margin:0 auto;}
+.top .logo{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:.04em;line-height:1;}
+.top .sub{font-size:11px;color:var(--mut);margin-top:2px;}
+.top .sp{flex:1;}
+.top .out{font-size:12px;font-weight:600;color:var(--mut);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;}
+
+/* alt sekme çubuğu */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(10,10,14,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  display:flex;justify-content:center;gap:2px;padding:6px 8px max(8px,env(safe-area-inset-bottom));}
+.tabbar button{flex:1;max-width:190px;background:none;border:none;border-radius:12px;padding:8px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--mut);font-size:10.5px;font-weight:700;letter-spacing:.02em;}
+.tabbar button svg{width:20px;height:20px;}
+.tabbar button.on{color:var(--gold);background:rgba(227,197,144,.09);}
+
+/* kartlar */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;}
+.card h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.5rem;letter-spacing:.03em;margin-bottom:10px;}
+.card .desc{font-size:13px;color:var(--mut);line-height:1.5;margin-bottom:12px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:12px;padding:12px 18px;font-weight:700;font-size:14px;cursor:pointer;}
+.btn.gold{background:linear-gradient(180deg,#ecd6a4,#d8b878);color:#1c1407;box-shadow:0 8px 20px rgba(216,184,120,.25);}
+.btn.gold:disabled{opacity:.45;cursor:default;box-shadow:none;}
+.btn.ghost{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#fff;}
+.btn.sm{padding:8px 13px;font-size:12.5px;border-radius:10px;}
+.btn.danger{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.4);color:#ff9b9b;}
+.btn:active{transform:scale(.97);}
+input[type=text],input[type=password],input[type=url],select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:11px;padding:11px 12px;color:#fff;font-size:14px;}
+input:focus,select:focus{outline:none;border-color:rgba(227,197,144,.6);}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239aa4b2' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+label.f{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--mut);margin:10px 0 5px;}
+
+/* gate */
+#gate .card{margin-top:8vh;}
+#gate p{font-size:13.5px;color:var(--mut);line-height:1.55;margin-bottom:10px;}
+#gate code{background:rgba(255,255,255,.07);padding:1px 6px;border-radius:6px;font-size:12px;}
+
+/* özet istatistik */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:10px;}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;}
+.stat b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.7rem;color:var(--gold);line-height:1;}
+.stat span{font-size:11px;color:var(--mut);font-weight:600;}
+.commit{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;}
+.commit:last-child{border-bottom:none;}
+.commit .msg{flex:1;color:rgba(255,255,255,.85);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.commit .when{flex:none;color:var(--mut);font-size:11.5px;}
+.gaps .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;cursor:pointer;}
+.gaps .row:hover{color:var(--gold);}
+.gaps .row b{color:var(--err);font-weight:700;}
+
+/* sayfa listesi */
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px;}
+.chip{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;color:var(--mut);cursor:pointer;}
+.chip.on{color:#1c1407;background:linear-gradient(180deg,#ecd6a4,#d8b878);border-color:transparent;}
+.plist{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.pli{display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:12px 14px;cursor:pointer;}
+.pli:hover{border-color:rgba(227,197,144,.4);}
+.pli .nm{flex:1;font-weight:700;font-size:14.5px;}
+.pli .ct{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--mut);background:rgba(255,255,255,.06);border-radius:999px;padding:4px 9px;}
+.pli .n{font-size:11.5px;color:var(--mut);}
+
+/* editör */
+.edhead{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.edhead h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.9rem;letter-spacing:.03em;flex:1;line-height:1;}
+.back{flex:none;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--line);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.back svg{width:17px;height:17px;}
+.loc{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:10px;}
+.loc .lr{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.loc .lr input{flex:1;}
+.loc .ix{flex:none;width:26px;height:26px;border-radius:8px;background:rgba(227,197,144,.1);color:var(--gold);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.loc .mini{flex:none;width:34px;height:34px;border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:15px;}
+.loc .mini:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+.loc .mini.del:hover{color:var(--err);border-color:rgba(255,107,107,.5);}
+.phrow{display:flex;gap:8px;margin-top:4px;}
+.ph{flex:1;min-width:0;}
+.ph img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:9px;background:#0c0d12;border:1px solid var(--line);}
+.ph img.bad{border-color:rgba(255,107,107,.6);}
+.ph input{margin-top:5px;font-size:11px;padding:7px 8px;}
+.lacts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;}
+.savebar{position:fixed;left:0;right:0;bottom:64px;z-index:49;display:flex;justify-content:center;pointer-events:none;padding:0 16px max(0px,env(safe-area-inset-bottom));}
+.savebar .in{pointer-events:auto;display:flex;gap:9px;align-items:center;background:rgba(18,19,25,.95);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;padding:9px 12px;box-shadow:0 14px 40px rgba(0,0,0,.55);}
+.dirty-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-right:7px;animation:pulse 1.4s infinite;}
+@keyframes pulse{50%{opacity:.35}}
+
+/* ana sayfa: kapaklar */
+.covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:9px;}
+.cov{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--line);aspect-ratio:79/100;background:#0c0d12;}
+.cov img{width:100%;height:100%;object-fit:cover;}
+.cov::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.88));}
+.cov span{position:absolute;left:7px;right:7px;bottom:6px;z-index:2;font-size:10.5px;font-weight:800;letter-spacing:.02em;text-shadow:0 1px 6px #000;}
+.cov.ch{border-color:var(--gold);box-shadow:0 0 0 1.5px var(--gold);}
+.cov .dot{position:absolute;top:6px;right:6px;z-index:2;width:9px;height:9px;border-radius:50%;background:var(--gold);}
+
+/* deste editörü */
+.slot{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:10px;display:flex;gap:12px;}
+.slot .pv{flex:none;width:84px;aspect-ratio:79/112;border-radius:11px;object-fit:cover;background:#0c0d12;border:1px solid var(--line);}
+.slot .fr{flex:1;min-width:0;}
+.slot .fr select{margin-bottom:7px;}
+.slot .tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--gold);margin-bottom:6px;display:block;}
+.thumbs{display:flex;gap:6px;}
+.thumbs img{width:52px;aspect-ratio:4/3;object-fit:cover;border-radius:7px;border:2px solid transparent;cursor:pointer;background:#0c0d12;}
+.thumbs img.sel{border-color:var(--gold);}
+
+/* foto seçici modal */
+.modal{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.78);display:flex;align-items:flex-end;justify-content:center;}
+.modal .mc{width:100%;max-width:680px;max-height:82vh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:22px 22px 0 0;padding:18px 16px max(20px,env(safe-area-inset-bottom));}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.5rem;letter-spacing:.03em;margin-bottom:12px;display:flex;align-items:center;}
+.modal h3 .x{margin-left:auto;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:#fff;font-size:14px;cursor:pointer;}
+.pick{margin-bottom:14px;}
+.pick .pn{font-size:12.5px;font-weight:700;color:var(--mut);margin-bottom:6px;}
+.pick .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.pick img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:9px;cursor:pointer;border:2px solid transparent;background:#0c0d12;}
+.pick img:hover{border-color:rgba(227,197,144,.6);}
+
+/* araçlar */
+.tool .res{margin-top:10px;font-size:13px;}
+.tool .bad{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.tool .bad .u{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--err);font-size:11.5px;}
+.prog{height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;margin-top:10px;}
+.prog i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#ecd6a4,#d8b878);transition:width .25s;}
+.hist .commit{cursor:default;}
+.note{font-size:12px;color:var(--mut);line-height:1.5;margin-top:8px;}
+.note b{color:var(--gold);}
+
+#toast{position:fixed;left:50%;transform:translateX(-50%) translateY(14px);bottom:108px;z-index:99;background:#1d1f28;border:1px solid var(--line);border-radius:13px;padding:11px 17px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:88vw;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.ok{border-color:rgba(126,224,168,.5);color:var(--ok);}
+#toast.err{border-color:rgba(255,107,107,.5);color:var(--err);}
+@media(min-width:700px){.covers{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <span class="brand">TR81</span><span class="sub">Yönetim Paneli</span>
-  <span class="spacer"></span>
-  <span id="repoInfo" class="sub"></span>
-  <button id="logoutBtn" class="btn sm ghost hide">Token'ı unut</button>
+
+<div class="top">
+  <div><div class="logo">TR81</div><div class="sub" id="repoInfo">Yönetim Paneli</div></div>
+  <span class="sp"></span>
+  <button class="out hide" id="logoutBtn">Çıkış</button>
 </div>
 
-<div class="wrap">
+<!-- TOKEN GATE -->
+<div id="gate" class="wrap">
+  <div class="card">
+    <h2>GitHub Erişimi</h2>
+    <p>Panel değişiklikleri doğrudan <code>github.com/martivstaxi/TR81</code> deposuna işler; Cloudflare birkaç dakikada canlıya alır.</p>
+    <label class="f">Personal Access Token (fine-grained · Contents: Read &amp; Write)</label>
+    <input type="password" id="tokenInput" placeholder="github_pat_…" autocomplete="off">
+    <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+      <label style="font-size:13px;display:flex;align-items:center;gap:7px;"><input type="checkbox" id="rememberTok" checked style="width:auto;">Bu cihazda hatırla</label>
+      <span class="sp" style="flex:1;"></span>
+      <button class="btn gold" id="connectBtn">Bağlan</button>
+    </div>
+    <p class="note" style="margin-top:14px;">Token alma: GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> → Generate → Repository: <b>TR81</b> → Permissions → Contents: <b>Read and write</b>. Token yalnızca bu tarayıcıda saklanır.</p>
+  </div>
+</div>
 
-  <!-- 1) TOKEN GATE -->
-  <section id="gate" class="panel">
-    <div class="sec-h"><h2>GitHub Erişimi</h2></div>
-    <p class="muted" style="margin-top:0">
-      Bu panel değişiklikleri doğrudan <code>github.com/martivstaxi/TR81</code> deposuna işler.
-      Cloudflare Pages otomatik deploy eder → canlı sitede birkaç dakikada güncellenir.
-    </p>
-    <div class="field">
-      <label>GitHub Personal Access Token (Fine-grained · Contents: Read &amp; Write)</label>
-      <input id="tokenInput" type="password" placeholder="github_pat_..." autocomplete="off">
-    </div>
-    <div class="row">
-      <label style="margin:0;display:flex;align-items:center;gap:7px;text-transform:none;color:var(--txt)">
-        <input type="checkbox" id="rememberTok" style="width:auto" checked> Bu cihazda hatırla
-      </label>
-      <span class="spacer"></span>
-      <button id="connectBtn" class="btn gold">Bağlan</button>
-    </div>
-    <div class="help">
-      Token nasıl alınır: GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> →
-      Generate → Repository access: <b>Only select repositories → TR81</b> →
-      Permissions → Repository permissions → <b>Contents: Read and write</b>. Oluştur, kopyala, buraya yapıştır.
-      <br>Token yalnızca senin tarayıcında saklanır (localStorage), hiçbir yere gönderilmez.
-    </div>
-  </section>
+<!-- APP -->
+<div id="app" class="wrap hide">
 
-  <!-- 2) FILE PICKER -->
-  <section id="picker" class="panel hide">
-    <div class="sec-h"><h2>Sayfa Seç</h2><span id="fileCount" class="pill"></span></div>
-    <div class="row">
-      <input id="search" class="grow" placeholder="Ara: istanbul, france, usa_texas…">
-      <button id="reloadList" class="btn sm ghost">↻ Listeyi yenile</button>
-    </div>
-    <div class="tabs" id="catTabs">
-      <span class="tab on" data-cat="all">Tümü</span>
-      <span class="tab" data-cat="il">İller (TR)</span>
-      <span class="tab" data-cat="country">Ülkeler</span>
-      <span class="tab" data-cat="state">ABD Eyaletleri</span>
-    </div>
-    <div class="list-scroll" id="fileList"></div>
-  </section>
-
-  <!-- 3) EDITOR -->
-  <section id="editor" class="hide">
-    <div class="panel">
-      <div class="sec-h">
-        <h2 id="edTitle">—</h2>
-        <span id="edSlug" class="pill"></span>
-        <span class="spacer"></span>
-        <a id="viewLive" class="btn sm ghost" target="_blank" rel="noopener">Canlı sayfayı aç ↗</a>
+  <!-- ÖZET -->
+  <section id="sec-ozet">
+    <div class="card">
+      <h2>Özet</h2>
+      <div class="stats" id="stats"><div class="stat"><b>…</b><span>yükleniyor</span></div></div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+        <button class="btn ghost sm" id="calcStats">Konum istatistiklerini hesapla</button>
       </div>
-      <div id="nameFields"></div>
     </div>
+    <div class="card gaps hide" id="gapsCard">
+      <h2>En Az Konumlu Sayfalar</h2>
+      <div class="desc">İçerik eklemek için en kolay kazanımlar — tıkla, düzenle.</div>
+      <div id="gaps"></div>
+    </div>
+    <div class="card">
+      <h2>Son İşlemler</h2>
+      <div id="commits" class="hist"><div class="note">Yükleniyor…</div></div>
+    </div>
+  </section>
 
-    <div class="sec-h" style="margin:18px 4px 8px"><h3 id="locCount" style="font-size:18px;color:var(--gold)"></h3>
-      <span class="spacer"></span>
-      <button id="addLoc" class="btn sm">+ Konum ekle</button>
+  <!-- SAYFALAR -->
+  <section id="sec-sayfalar" class="hide">
+    <div id="picker">
+      <div class="card">
+        <h2>Sayfalar</h2>
+        <input type="text" id="search" placeholder="Sayfa ara… (mugla, france, usa_texas)">
+        <div class="chips" style="margin-top:10px;">
+          <button class="chip on" data-cat="all">Tümü</button>
+          <button class="chip" data-cat="il">İller</button>
+          <button class="chip" data-cat="country">Ülkeler</button>
+          <button class="chip" data-cat="state">ABD Eyaletleri</button>
+        </div>
+        <div style="font-size:12px;color:var(--mut);" id="fileCount"></div>
+        <div class="plist" id="fileList"></div>
+      </div>
     </div>
-    <div id="locs"></div>
-    <div class="row" style="justify-content:center;margin-top:16px">
-      <button id="addLoc2" class="btn">+ Konum ekle</button>
+    <div id="editor" class="hide">
+      <div class="edhead">
+        <button class="back" id="backBtn" aria-label="Geri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <h2 id="edTitle">—</h2>
+        <button class="btn ghost sm" id="addLoc">+ Konum</button>
+      </div>
+      <input type="text" id="locFilter" placeholder="Bu sayfada konum ara…" style="margin-bottom:10px;">
+      <div id="nameBox" class="card" style="padding:13px;"></div>
+      <div id="locs"></div>
+      <button class="btn ghost" id="addLoc2" style="width:100%;">+ Konum Ekle</button>
+    </div>
+  </section>
+
+  <!-- ANA SAYFA -->
+  <section id="sec-anasayfa" class="hide">
+    <div class="card">
+      <h2>Kapak Fotoğrafları</h2>
+      <div class="desc">Ana sayfadaki 81 il kartının kapağı. Karta tıkla → o ilin fotoğraflarından seç. Değişenler altın çerçeveli olur.</div>
+      <div class="covers" id="covers"><div class="note">Yükleniyor…</div></div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button class="btn gold" id="saveCovers" disabled>Kapakları Kaydet</button>
+        <button class="btn ghost sm" id="resetCovers">Vazgeç</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Karşılama Destesi</h2>
+      <div class="desc">Ana sayfanın en üstündeki kaydırılabilir 4 kart. İl → konum → fotoğraf seç.</div>
+      <div id="slots"><div class="note">Yükleniyor…</div></div>
+      <button class="btn gold" id="saveDeck" disabled>Desteyi Kaydet</button>
+    </div>
+    <div class="card">
+      <h2>Fiyat &amp; Satış</h2>
+      <label class="f">Fiyat (Türkçe görünüm)</label>
+      <input type="text" id="priceTr" placeholder="1200 ₺">
+      <label class="f">Fiyat (İngilizce görünüm)</label>
+      <input type="text" id="priceEn" placeholder="€34">
+      <label class="f">Shopier ürün linki</label>
+      <input type="url" id="shopUrl" placeholder="https://www.shopier.com/35589307">
+      <div class="note">Bu ayarlar ana sayfayı günceller. <b>Not:</b> ülke sayfalarındaki kilit ekranının Shopier linki ayrı dosyadadır (il.js) — Shopier linkin değişirse bana söyle, onu da güncelleyeyim.</div>
+      <button class="btn gold" id="saveSettings" style="margin-top:12px;" disabled>Ayarları Kaydet</button>
+    </div>
+  </section>
+
+  <!-- ARAÇLAR -->
+  <section id="sec-araclar" class="hide">
+    <div class="card tool">
+      <h2>Bozuk Fotoğraf Tarayıcı</h2>
+      <div class="desc">Seçilen gruptaki tüm fotoğrafları dener; yüklenmeyenleri listeler.</div>
+      <div style="display:flex;gap:8px;">
+        <select id="scanCat" style="flex:1;"><option value="il">İller (81)</option><option value="country">Ülkeler (148)</option><option value="state">ABD Eyaletleri (50)</option></select>
+        <button class="btn gold sm" id="scanBtn">Tara</button>
+      </div>
+      <div class="prog hide" id="scanProg"><i></i></div>
+      <div class="res" id="scanRes"></div>
+    </div>
+    <div class="card tool">
+      <h2>Geçmiş &amp; Geri Al</h2>
+      <div class="desc">Bir sayfanın eski sürümlerini gör, tek tıkla geri dön.</div>
+      <input type="text" id="histSlug" list="slugList" placeholder="Sayfa yaz… (örn. mugla)">
+      <datalist id="slugList"></datalist>
+      <button class="btn ghost sm" id="histBtn" style="margin-top:9px;">Geçmişi Göster</button>
+      <div class="res hist" id="histRes"></div>
+    </div>
+    <div class="card tool">
+      <h2>Yedek</h2>
+      <div class="desc">279 sayfanın tüm verisini tek dosyada indir (felakete karşı sigorta).</div>
+      <button class="btn ghost" id="backupBtn">Yedeği İndir (.json)</button>
+      <div class="res" id="backupRes"></div>
     </div>
   </section>
 
 </div>
 
-<!-- SAVE BAR -->
-<div id="savebar" class="savebar hide">
-  <span class="info"><span id="dirtyTag"></span><span id="saveInfo">Değişiklik yok</span></span>
-  <span class="spacer"></span>
-  <button id="discardBtn" class="btn ghost sm">Geri al</button>
-  <button id="saveBtn" class="btn gold" disabled>Kaydet &amp; Yayınla</button>
-</div>
+<!-- SAYFA KAYDET ÇUBUĞU -->
+<div id="savebar" class="savebar hide"><div class="in">
+  <span id="dirtyTag"></span><span id="saveInfo" style="font-size:12.5px;color:var(--mut);">Değişiklik yok</span>
+  <button id="discardBtn" class="btn ghost sm">Vazgeç</button>
+  <button id="saveBtn" class="btn gold sm" disabled>Kaydet &amp; Yayınla</button>
+</div></div>
+
+<!-- ALT SEKMELER -->
+<nav class="tabbar" id="tabbar">
+  <button data-sec="ozet" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V21h14V9.5"/></svg>Özet</button>
+  <button data-sec="sayfalar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>Sayfalar</button>
+  <button data-sec="anasayfa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17"/></svg>Ana Sayfa</button>
+  <button data-sec="araclar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4.5 4.5 0 0 0-6 6L3 18l3 3 5.7-5.7a4.5 4.5 0 0 0 6-6L14 13l-3-3 3.7-3.7Z"/></svg>Araçlar</button>
+</nav>
 
 <div id="toast"></div>
 
 <script>
-const OWNER='martivstaxi', REPO='TR81';
-const API='https://api.github.com';
-let TOKEN='', BRANCH='main';
-let FILES=[];            // [{slug}]
-let CUR=null;            // current slug
-let DATA=null;           // current parsed json
-let SHA=null;            // current file sha
-let DIRTY=false;
-let CAT='all';
+const OWNER='martivstaxi',REPO='TR81',API='https://api.github.com';
+let TOKEN='',BRANCH='main';
+let FILES=[],CUR=null,DATA=null,SHA=null,PDIRTY=false,CAT='all';
+let STATS=null;                    // {slug:{locs,photos}}
+let HOME=null;                     // {sha,text,tphoto,deck,priceTr,priceEn,shop}
+let COVERS_DIRTY=new Set(),DECK_DIRTY=false,SET_DIRTY=false;
+const PJ={};                       // data json cache (same-origin)
 
 const $=id=>document.getElementById(id);
 const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-/* ---- UTF-8 safe base64 (Türkçe karakterler için) ---- */
-const b64encode=str=>btoa(unescape(encodeURIComponent(str)));
-const b64decode=b64=>decodeURIComponent(escape(atob(b64.replace(/\n/g,''))));
-
-/* ---- toast ---- */
+const b64e=s=>btoa(unescape(encodeURIComponent(s)));
+const b64d=b=>decodeURIComponent(escape(atob(b.replace(/\n/g,''))));
 let toastT;
-function toast(msg,kind){
-  const t=$('toast'); t.textContent=msg; t.className='show '+(kind||'');
-  clearTimeout(toastT); toastT=setTimeout(()=>t.className='', kind==='err'?5000:2800);
+function toast(m,k){const t=$('toast');t.textContent=m;t.className='show '+(k||'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',k==='err'?5200:2800);}
+
+/* 81 il: slug → görünen ad */
+const IL_ADI={adana:'Adana',adiyaman:'Adıyaman',afyon:'Afyonkarahisar',agri:'Ağrı',amasya:'Amasya',ankara:'Ankara',antalya:'Antalya',artvin:'Artvin',aydin:'Aydın',balikesir:'Balıkesir',bilecik:'Bilecik',bingol:'Bingöl',bitlis:'Bitlis',bolu:'Bolu',burdur:'Burdur',bursa:'Bursa',canakkale:'Çanakkale',cankiri:'Çankırı',corum:'Çorum',denizli:'Denizli',diyarbakir:'Diyarbakır',edirne:'Edirne',elazig:'Elazığ',erzincan:'Erzincan',erzurum:'Erzurum',eskisehir:'Eskişehir',gaziantep:'Gaziantep',giresun:'Giresun',gumushane:'Gümüşhane',hakkari:'Hakkari',hatay:'Hatay',isparta:'Isparta',mersin:'Mersin',istanbul:'İstanbul',izmir:'İzmir',kars:'Kars',kastamonu:'Kastamonu',kayseri:'Kayseri',kirklareli:'Kırklareli',kirsehir:'Kırşehir',kocaeli:'Kocaeli',konya:'Konya',kutahya:'Kütahya',malatya:'Malatya',manisa:'Manisa',kahramanmaras:'Kahramanmaraş',mardin:'Mardin',mugla:'Muğla',mus:'Muş',nevsehir:'Nevşehir',nigde:'Niğde',ordu:'Ordu',rize:'Rize',sakarya:'Sakarya',samsun:'Samsun',siirt:'Siirt',sinop:'Sinop',sivas:'Sivas',tekirdag:'Tekirdağ',tokat:'Tokat',trabzon:'Trabzon',tunceli:'Tunceli',sanliurfa:'Şanlıurfa',usak:'Uşak',van:'Van',yozgat:'Yozgat',zonguldak:'Zonguldak',aksaray:'Aksaray',bayburt:'Bayburt',karaman:'Karaman',kirikkale:'Kırıkkale',batman:'Batman',sirnak:'Şırnak',bartin:'Bartın',ardahan:'Ardahan',igdir:'Iğdır',yalova:'Yalova',karabuk:'Karabük',kilis:'Kilis',osmaniye:'Osmaniye',duzce:'Düzce'};
+const IL81=new Set(Object.keys(IL_ADI));
+function categorize(s){if(s==='index'||s==='world'||s==='unitedstates')return 'other';if(s.startsWith('usa_'))return 'state';if(IL81.has(s))return 'il';return 'country';}
+function dispName(slug,data){
+  if(IL_ADI[slug])return IL_ADI[slug];
+  const n=data&&data.name;
+  if(typeof n==='string')return n;
+  if(n&&typeof n==='object')return n.tr||n.en||slug;
+  return slug;
 }
 
 /* ---- GitHub API ---- */
 async function gh(path,opts){
-  const r=await fetch(API+path,Object.assign({
-    headers:{'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
-  },opts||{}));
-  if(!r.ok){
-    let m=r.status+' '+r.statusText;
-    try{const j=await r.json(); if(j.message) m=j.message;}catch(e){}
-    throw new Error(m);
-  }
+  const r=await fetch(API+path,Object.assign({headers:{'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}},opts||{}));
+  if(!r.ok){let m=r.status+' '+r.statusText;try{const j=await r.json();if(j.message)m=j.message;}catch(e){}
+    if(r.status===401||r.status===403)m='Token geçersiz/yetkisiz görünüyor — '+m;
+    throw new Error(m);}
   return r.json();
 }
-
-/* ================= TOKEN GATE ================= */
-function showApp(){
-  $('gate').classList.add('hide');
-  $('picker').classList.remove('hide');
-  $('logoutBtn').classList.remove('hide');
-  $('repoInfo').textContent=OWNER+'/'+REPO+' · '+BRANCH;
-  loadFileList();
+async function ghGet(path){return gh('/repos/'+OWNER+'/'+REPO+'/contents/'+path+'?ref='+BRANCH);}
+/* sha çakışmasında bir kez otomatik tazele+tekrar dene */
+async function ghPut(path,content,message,sha){
+  const body={message,content:b64e(content),branch:BRANCH};if(sha)body.sha=sha;
+  try{return await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+path,{method:'PUT',body:JSON.stringify(body)});}
+  catch(e){
+    if(/sha|409|match/i.test(e.message)){
+      const fresh=await ghGet(path);body.sha=fresh.sha;
+      return gh('/repos/'+OWNER+'/'+REPO+'/contents/'+path,{method:'PUT',body:JSON.stringify(body)});
+    }
+    throw e;
+  }
 }
+/* canlı siteden veri (hızlı, kota yemez); olmadı API'den */
+async function fetchData(slug){
+  if(PJ[slug])return PJ[slug];
+  try{const r=await fetch('data/'+slug+'.json',{cache:'no-cache'});if(!r.ok)throw 0;PJ[slug]=await r.json();}
+  catch(e){const r=await ghGet('data/'+slug+'.json');PJ[slug]=JSON.parse(b64d(r.content));}
+  return PJ[slug];
+}
+
+/* ================= GATE ================= */
 async function connect(){
   const tok=$('tokenInput').value.trim();
   if(!tok){toast('Token gir','err');return;}
-  TOKEN=tok;
-  $('connectBtn').disabled=true; $('connectBtn').textContent='Bağlanıyor…';
+  TOKEN=tok;$('connectBtn').disabled=true;$('connectBtn').textContent='Bağlanıyor…';
   try{
-    const repo=await gh('/repos/'+OWNER+'/'+REPO);
-    BRANCH=repo.default_branch||'main';
-    if($('rememberTok').checked) localStorage.setItem('tr81-gh-token',tok);
-    else localStorage.removeItem('tr81-gh-token');
-    toast('Bağlandı ✓','ok');
-    showApp();
-  }catch(e){
-    toast('Bağlanamadı: '+e.message,'err'); TOKEN='';
-  }finally{
-    $('connectBtn').disabled=false; $('connectBtn').textContent='Bağlan';
-  }
+    const repo=await gh('/repos/'+OWNER+'/'+REPO);BRANCH=repo.default_branch||'main';
+    if($('rememberTok').checked)localStorage.setItem('tr81-gh-token',tok);else localStorage.removeItem('tr81-gh-token');
+    showApp();toast('Bağlandı ✓','ok');
+  }catch(e){toast('Bağlanamadı: '+e.message,'err');TOKEN='';}
+  finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Bağlan';}
 }
 $('connectBtn').onclick=connect;
 $('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('logoutBtn').onclick=()=>{
-  if(DIRTY && !confirm('Kaydedilmemiş değişiklikler var. Token silinsin mi?'))return;
-  localStorage.removeItem('tr81-gh-token'); location.reload();
+  if(anyDirty()&&!confirm('Kaydedilmemiş değişiklikler var. Çıkılsın mı?'))return;
+  localStorage.removeItem('tr81-gh-token');location.reload();
 };
+function anyDirty(){return PDIRTY||COVERS_DIRTY.size>0||DECK_DIRTY||SET_DIRTY;}
+window.addEventListener('beforeunload',e=>{if(anyDirty()){e.preventDefault();e.returnValue='';}});
 
-/* ================= FILE LIST ================= */
-// 81 Türkiye ili (kategori ayrımı için)
-const IL81=new Set('adana adiyaman afyonkarahisar agri amasya ankara antalya artvin aydin balikesir bilecik bingol bitlis bolu burdur bursa canakkale cankiri corum denizli diyarbakir edirne elazig erzincan erzurum eskisehir gaziantep giresun gumushane hakkari hatay isparta mersin istanbul izmir kars kastamonu kayseri kirklareli kirsehir kocaeli konya kutahya malatya manisa kahramanmaras mardin mugla mus nevsehir nigde ordu rize sakarya samsun siirt sinop sivas tekirdag tokat trabzon tunceli sanliurfa usak van yozgat zonguldak aksaray bayburt karaman kirikkale batman sirnak bartin ardahan igdir yalova karabuk kilis osmaniye duzce'.split(' '));
-function categorize(slug){
-  if(slug==='index'||slug==='world'||slug==='unitedstates')return 'other';
-  if(slug.startsWith('usa_'))return 'state';
-  if(IL81.has(slug))return 'il';
-  return 'country';
+function showApp(){
+  $('gate').classList.add('hide');$('app').classList.remove('hide');$('logoutBtn').classList.remove('hide');
+  $('repoInfo').textContent=OWNER+'/'+REPO+' · '+BRANCH;
+  loadFileList();loadCommits();loadHome();
 }
 
+/* ================= SEKMELER ================= */
+[...$('tabbar').querySelectorAll('button')].forEach(b=>b.onclick=()=>{
+  [...$('tabbar').querySelectorAll('button')].forEach(x=>x.classList.toggle('on',x===b));
+  ['ozet','sayfalar','anasayfa','araclar'].forEach(s=>$('sec-'+s).classList.toggle('hide',s!==b.dataset.sec));
+  window.scrollTo({top:0});
+});
+function gotoTab(sec){[...$('tabbar').querySelectorAll('button')].find(b=>b.dataset.sec===sec).click();}
+
+/* ================= ÖZET ================= */
+function renderStats(){
+  const c={il:0,country:0,state:0};FILES.forEach(f=>{const k=categorize(f.slug);if(c[k]!=null)c[k]++;});
+  let extra='';
+  if(STATS){
+    let locs=0,phs=0;Object.values(STATS).forEach(s=>{locs+=s.locs;phs+=s.photos;});
+    extra=`<div class="stat"><b>${locs}</b><span>konum</span></div><div class="stat"><b>${phs}</b><span>fotoğraf</span></div>`;
+  }
+  $('stats').innerHTML=`<div class="stat"><b>${c.il}</b><span>il</span></div>
+    <div class="stat"><b>${c.country}</b><span>ülke</span></div>
+    <div class="stat"><b>${c.state}</b><span>eyalet</span></div>`+extra;
+}
+$('calcStats').onclick=async()=>{
+  $('calcStats').disabled=true;$('calcStats').textContent='Hesaplanıyor…';
+  STATS={};
+  const slugs=FILES.map(f=>f.slug);
+  let done=0;
+  async function worker(){
+    while(slugs.length){
+      const s=slugs.shift();
+      try{const d=await fetchData(s);const L=d.locations||[];STATS[s]={locs:L.length,photos:L.reduce((a,l)=>a+(l.photos||[]).length,0)};}
+      catch(e){STATS[s]={locs:0,photos:0};}
+      done++;if(done%30===0)$('calcStats').textContent='Hesaplanıyor… '+done;
+    }
+  }
+  await Promise.all(Array.from({length:10},worker));
+  renderStats();renderGaps();renderFileList();
+  $('calcStats').disabled=false;$('calcStats').textContent='Yeniden hesapla';
+  toast('İstatistikler hazır ✓','ok');
+};
+function renderGaps(){
+  if(!STATS)return;
+  const rows=FILES.map(f=>({slug:f.slug,n:(STATS[f.slug]||{locs:0}).locs}))
+    .filter(r=>categorize(r.slug)!=='other').sort((a,b)=>a.n-b.n).slice(0,10);
+  $('gapsCard').classList.remove('hide');
+  $('gaps').innerHTML=rows.map(r=>`<div class="row" data-slug="${esc(r.slug)}"><span>${esc(dispName(r.slug,PJ[r.slug]))}</span><b>${r.n} konum</b></div>`).join('');
+  [...$('gaps').querySelectorAll('.row')].forEach(el=>el.onclick=()=>{gotoTab('sayfalar');openFile(el.dataset.slug);});
+}
+function rel(d){
+  const s=(Date.now()-new Date(d).getTime())/1000;
+  if(s<3600)return Math.max(1,Math.round(s/60))+' dk önce';
+  if(s<86400)return Math.round(s/3600)+' sa önce';
+  return Math.round(s/86400)+' gün önce';
+}
+async function loadCommits(){
+  try{
+    const cs=await gh('/repos/'+OWNER+'/'+REPO+'/commits?per_page=7');
+    $('commits').innerHTML=cs.map(c=>`<div class="commit"><span class="msg">${esc(c.commit.message.split('\n')[0])}</span><span class="when">${rel(c.commit.author.date)}</span></div>`).join('');
+  }catch(e){$('commits').innerHTML='<div class="note">Alınamadı: '+esc(e.message)+'</div>';}
+}
+
+/* ================= SAYFALAR ================= */
 async function loadFileList(){
-  $('fileList').innerHTML='<div class="li muted">Yükleniyor…</div>';
+  $('fileList').innerHTML='<div class="note">Yükleniyor…</div>';
   try{
     const items=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data?ref='+BRANCH);
     FILES=items.filter(x=>x.type==='file'&&x.name.endsWith('.json'))
       .map(x=>({slug:x.name.replace(/\.json$/,'')}))
-      .filter(f=>!f.slug.startsWith('_'))
+      .filter(f=>!f.slug.startsWith('_')&&categorize(f.slug)!=='other')
       .sort((a,b)=>a.slug.localeCompare(b.slug));
-    $('fileCount').textContent=FILES.length+' sayfa';
-    renderFileList();
-  }catch(e){
-    $('fileList').innerHTML='<div class="li" style="color:var(--err)">Liste alınamadı: '+esc(e.message)+'</div>';
-  }
+    renderStats();renderFileList();
+    $('slugList').innerHTML=FILES.map(f=>`<option value="${esc(f.slug)}">`).join('');
+  }catch(e){$('fileList').innerHTML='<div class="note" style="color:var(--err)">Liste alınamadı: '+esc(e.message)+'</div>';}
 }
 function renderFileList(){
-  const q=$('search').value.trim().toLowerCase();
+  const q=($('search').value||'').trim().toLowerCase();
   const rows=FILES.filter(f=>{
-    if(CAT!=='all' && categorize(f.slug)!==CAT)return false;
-    return !q || f.slug.includes(q);
+    if(CAT!=='all'&&categorize(f.slug)!==CAT)return false;
+    const nm=dispName(f.slug,PJ[f.slug]).toLowerCase();
+    return !q||f.slug.includes(q)||nm.includes(q);
   });
-  if(!rows.length){$('fileList').innerHTML='<div class="li muted">Sonuç yok</div>';return;}
-  $('fileList').innerHTML=rows.map(f=>{
-    const lbl={il:'İl',country:'Ülke',state:'Eyalet',other:'Özel'}[categorize(f.slug)]||'';
-    return `<div class="li ${f.slug===CUR?'cur':''}" data-slug="${esc(f.slug)}">
-      <span class="sl">${esc(f.slug)}</span><span class="badge">${lbl}</span></div>`;
-  }).join('');
-  [...$('fileList').querySelectorAll('.li[data-slug]')].forEach(el=>el.onclick=()=>openFile(el.dataset.slug));
+  $('fileCount').textContent=rows.length+' sayfa';
+  $('fileList').innerHTML=rows.length?rows.map(f=>{
+    const lbl={il:'İl',country:'Ülke',state:'Eyalet'}[categorize(f.slug)]||'';
+    const n=STATS&&STATS[f.slug]?`<span class="n">${STATS[f.slug].locs} konum</span>`:'';
+    return `<div class="pli" data-slug="${esc(f.slug)}"><span class="nm">${esc(dispName(f.slug,PJ[f.slug]))}</span>${n}<span class="ct">${lbl}</span></div>`;
+  }).join(''):'<div class="note">Sonuç yok</div>';
+  [...$('fileList').querySelectorAll('.pli')].forEach(el=>el.onclick=()=>openFile(el.dataset.slug));
 }
 $('search').addEventListener('input',renderFileList);
-$('reloadList').onclick=loadFileList;
-[...$('catTabs').querySelectorAll('.tab')].forEach(t=>t.onclick=()=>{
-  CAT=t.dataset.cat;
-  [...$('catTabs').querySelectorAll('.tab')].forEach(x=>x.classList.toggle('on',x===t));
+[...document.querySelectorAll('#sec-sayfalar .chip')].forEach(c=>c.onclick=()=>{
+  CAT=c.dataset.cat;
+  [...document.querySelectorAll('#sec-sayfalar .chip')].forEach(x=>x.classList.toggle('on',x===c));
   renderFileList();
 });
 
-/* ================= OPEN / EDIT ================= */
 async function openFile(slug){
-  if(DIRTY && !confirm('Kaydedilmemiş değişiklikler var. Başka sayfaya geçilsin mi?'))return;
+  if(PDIRTY&&!confirm('Kaydedilmemiş değişiklikler var. Başka sayfaya geçilsin mi?'))return;
   try{
-    const r=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data/'+encodeURIComponent(slug)+'.json?ref='+BRANCH);
-    DATA=JSON.parse(b64decode(r.content));
-    SHA=r.sha; CUR=slug;
-    if(!DATA.locations) DATA.locations=[];
-    if(!('slug' in DATA)) DATA.slug=slug;
-    setDirty(false);
+    const r=await ghGet('data/'+encodeURIComponent(slug)+'.json');
+    DATA=JSON.parse(b64d(r.content));SHA=r.sha;CUR=slug;PJ[slug]=JSON.parse(JSON.stringify(DATA));
+    if(!DATA.locations)DATA.locations=[];if(!('slug' in DATA))DATA.slug=slug;
+    setPDirty(false);
+    $('locFilter').value='';
     renderEditor();
-    renderFileList();
-    $('editor').classList.remove('hide');
-    $('savebar').classList.remove('hide');
-    window.scrollTo({top:0,behavior:'smooth'});
-  }catch(e){
-    toast('Açılamadı: '+e.message,'err');
-  }
+    $('picker').classList.add('hide');$('editor').classList.remove('hide');$('savebar').classList.remove('hide');
+    window.scrollTo({top:0});
+  }catch(e){toast('Açılamadı: '+e.message,'err');}
 }
-
-function isBilingual(){return DATA && DATA.name && typeof DATA.name==='object';}
-function displayName(){
-  const n=DATA.name;
-  if(n&&typeof n==='object')return n.tr||n.en||DATA.slug;
-  return n||DATA.slug;
-}
-
+$('backBtn').onclick=()=>{
+  if(PDIRTY&&!confirm('Kaydedilmemiş değişiklikler var. Listeye dönülsün mü?'))return;
+  setPDirty(false);CUR=null;
+  $('editor').classList.add('hide');$('savebar').classList.add('hide');$('picker').classList.remove('hide');
+};
 function renderEditor(){
-  $('edTitle').textContent=displayName();
-  $('edSlug').textContent=DATA.slug;
-  $('viewLive').href='https://tr81.tr/'+DATA.slug+'.html';
-  renderNameFields();
-  renderLocs();
+  $('edTitle').textContent=dispName(CUR,DATA);
+  renderNameBox();renderLocs();
 }
-
-function renderNameFields(){
-  if(isBilingual()){
-    $('nameFields').innerHTML=`<div class="row">
-      <div class="grow"><label>Sayfa adı (TR)</label><input id="nameTr" value="${esc(DATA.name.tr||'')}"></div>
-      <div class="grow"><label>Sayfa adı (EN)</label><input id="nameEn" value="${esc(DATA.name.en||'')}"></div>
-    </div>
-    <div class="help">İki dilli ad (ülke sayfası). <a href="#" id="toMono">Tek dile çevir →</a></div>`;
-    $('nameTr').oninput=e=>{DATA.name.tr=e.target.value;setDirty(true);$('edTitle').textContent=displayName();};
-    $('nameEn').oninput=e=>{DATA.name.en=e.target.value;setDirty(true);};
-    $('toMono').onclick=ev=>{ev.preventDefault();DATA.name=DATA.name.tr||DATA.name.en||'';setDirty(true);renderNameFields();};
+function renderNameBox(){
+  const n=DATA.name;
+  if(n&&typeof n==='object'){
+    $('nameBox').innerHTML=`<label class="f">Ad (Türkçe)</label><input type="text" id="nameTr" value="${esc(n.tr||'')}">
+      <label class="f">Ad (İngilizce)</label><input type="text" id="nameEn" value="${esc(n.en||'')}">`;
+    $('nameTr').oninput=e=>{DATA.name.tr=e.target.value;setPDirty(true);$('edTitle').textContent=dispName(CUR,DATA);};
+    $('nameEn').oninput=e=>{DATA.name.en=e.target.value;setPDirty(true);};
   }else{
-    $('nameFields').innerHTML=`<div class="field"><label>Sayfa adı</label><input id="nameMono" value="${esc(DATA.name||'')}"></div>
-    <div class="help">Tek dilli ad. <a href="#" id="toBi">İki dilli yap (TR/EN) →</a></div>`;
-    $('nameMono').oninput=e=>{DATA.name=e.target.value;setDirty(true);$('edTitle').textContent=displayName();};
-    $('toBi').onclick=ev=>{ev.preventDefault();const s=DATA.name||'';DATA.name={tr:s,en:s};setDirty(true);renderNameFields();};
+    $('nameBox').innerHTML=`<label class="f">Sayfa adı</label><input type="text" id="nameMono" value="${esc(n||'')}">`;
+    $('nameMono').oninput=e=>{DATA.name=e.target.value;setPDirty(true);$('edTitle').textContent=dispName(CUR,DATA);};
   }
 }
-
 function renderLocs(){
+  const q=($('locFilter').value||'').toLowerCase();
   const L=DATA.locations;
-  $('locCount').textContent=L.length+' konum';
-  $('locs').innerHTML=L.map((loc,i)=>locCard(loc,i,L.length)).join('');
+  $('locs').innerHTML=L.map((loc,i)=>{
+    if(q&&!(loc.name||'').toLowerCase().includes(q))return '';
+    const ph=(loc.photos&&loc.photos.length?loc.photos:['','','']).slice(0,3);
+    while(ph.length<3)ph.push('');
+    return `<div class="loc" data-i="${i}">
+      <div class="lr"><span class="ix">${i+1}</span>
+        <input type="text" data-fld="name" data-i="${i}" value="${esc(loc.name||'')}" placeholder="Konum adı">
+        <button class="mini" data-act="up" data-i="${i}" ${i===0?'disabled':''} title="Yukarı">↑</button>
+        <button class="mini" data-act="down" data-i="${i}" ${i===L.length-1?'disabled':''} title="Aşağı">↓</button>
+        <button class="mini del" data-act="del" data-i="${i}" title="Sil">✕</button></div>
+      <div class="lr"><input type="text" data-fld="map" data-i="${i}" value="${esc(loc.map||'')}" placeholder="Google Maps linki">
+        ${loc.map?`<a class="mini" href="${esc(loc.map)}" target="_blank" rel="noopener" title="Haritada aç" style="display:flex;text-decoration:none;">↗</a>`:''}</div>
+      <div class="phrow">${ph.map((p,k)=>`<div class="ph">
+        <img src="${esc(p||'')}" loading="lazy" onerror="this.classList.add('bad')" onload="this.classList.remove('bad')" alt="">
+        <input type="text" data-fld="photo" data-i="${i}" data-k="${k}" value="${esc(p||'')}" placeholder="Foto URL ${k+1}"></div>`).join('')}</div>
+      <div class="lacts"><button class="btn ghost sm" data-act="move" data-i="${i}">⇄ Başka sayfaya taşı</button></div>
+    </div>`;
+  }).join('')||'<div class="note">Konum yok — "+ Konum Ekle" ile başla.</div>';
   bindLocs();
 }
-function locCard(loc,i,n){
-  const photos=loc.photos||[];
-  const phHtml=photos.map((p,k)=>`
-    <div class="photo">
-      <span class="xph" data-act="delph" data-i="${i}" data-k="${k}" title="Fotoğrafı sil">✕</span>
-      <img src="${esc(p)}" onerror="this.classList.add('bad')" onload="this.classList.remove('bad')">
-      <input data-fld="photo" data-i="${i}" data-k="${k}" value="${esc(p)}" placeholder="Foto URL ${k+1}">
-    </div>`).join('');
-  const addPh=photos.length<3?`<div class="photo" style="display:flex;align-items:center;justify-content:center;min-height:96px">
-      <button class="btn sm ghost" data-act="addph" data-i="${i}">+ Foto</button></div>`:'';
-  return `<div class="loc" data-loc="${i}">
-    <div class="loc-head">
-      <span class="idx">${String(i+1).padStart(2,'0')}</span>
-      <input data-fld="name" data-i="${i}" value="${esc(loc.name||'')}" placeholder="Konum adı">
-      <div class="toolbar">
-        <button class="btn sm ghost" data-act="up" data-i="${i}" ${i===0?'disabled':''} title="Yukarı">↑</button>
-        <button class="btn sm ghost" data-act="down" data-i="${i}" ${i===n-1?'disabled':''} title="Aşağı">↓</button>
-        <button class="btn sm ghost danger" data-act="del" data-i="${i}" title="Konumu sil">🗑</button>
-      </div>
-    </div>
-    <div class="field">
-      <label>Google Maps bağlantısı</label>
-      <input data-fld="map" data-i="${i}" value="${esc(loc.map||'')}" placeholder="https://maps.google.com/...">
-    </div>
-    <label>Fotoğraflar (en fazla 3)</label>
-    <div class="photos">${phHtml}${addPh}</div>
-  </div>`;
-}
+$('locFilter').addEventListener('input',renderLocs);
 function bindLocs(){
   const root=$('locs');
   root.querySelectorAll('input[data-fld]').forEach(inp=>{
     inp.oninput=()=>{
-      const i=+inp.dataset.i, fld=inp.dataset.fld, loc=DATA.locations[i];
-      if(fld==='name')loc.name=inp.value;
-      else if(fld==='map')loc.map=inp.value;
-      else if(fld==='photo'){const k=+inp.dataset.k; loc.photos[k]=inp.value;
-        inp.parentElement.querySelector('img').src=inp.value;}
-      setDirty(true);
+      const i=+inp.dataset.i,f=inp.dataset.fld,loc=DATA.locations[i];
+      if(f==='name')loc.name=inp.value;
+      else if(f==='map')loc.map=inp.value;
+      else{if(!loc.photos)loc.photos=['','',''];loc.photos[+inp.dataset.k]=inp.value;
+        const im=inp.parentElement.querySelector('img');im.src=inp.value;}
+      setPDirty(true);
     };
   });
-  root.querySelectorAll('[data-act]').forEach(btn=>{
-    btn.onclick=()=>locAction(btn.dataset.act,+btn.dataset.i,btn.dataset.k!=null?+btn.dataset.k:null);
-  });
+  root.querySelectorAll('button[data-act]').forEach(b=>b.onclick=()=>locAction(b.dataset.act,+b.dataset.i));
 }
-function locAction(act,i,k){
+function locAction(act,i){
   const L=DATA.locations;
-  if(act==='del'){ if(!confirm('“'+(L[i].name||'konum')+'” silinsin mi?'))return; L.splice(i,1); }
-  else if(act==='up'){ [L[i-1],L[i]]=[L[i],L[i-1]]; }
-  else if(act==='down'){ [L[i+1],L[i]]=[L[i],L[i+1]]; }
-  else if(act==='addph'){ if(!L[i].photos)L[i].photos=[]; if(L[i].photos.length<3)L[i].photos.push(''); }
-  else if(act==='delph'){ L[i].photos.splice(k,1); }
-  setDirty(true); renderLocs();
+  if(act==='del'){if(!confirm('“'+(L[i].name||'konum')+'” silinsin mi?'))return;L.splice(i,1);}
+  else if(act==='up'){[L[i-1],L[i]]=[L[i],L[i-1]];}
+  else if(act==='down'){[L[i+1],L[i]]=[L[i],L[i+1]];}
+  else if(act==='move'){moveLoc(i);return;}
+  setPDirty(true);renderLocs();
 }
 function addLocation(){
   DATA.locations.push({name:'',map:'',photos:['','','']});
-  setDirty(true); renderLocs();
+  setPDirty(true);$('locFilter').value='';renderLocs();
   const last=$('locs').lastElementChild;
-  if(last){last.scrollIntoView({behavior:'smooth',block:'center'}); last.querySelector('input[data-fld="name"]').focus();}
+  if(last&&last.scrollIntoView){last.scrollIntoView({behavior:'smooth',block:'center'});const f=last.querySelector('input[data-fld="name"]');if(f)f.focus();}
 }
-$('addLoc').onclick=addLocation;
-$('addLoc2').onclick=addLocation;
+$('addLoc').onclick=addLocation;$('addLoc2').onclick=addLocation;
 
-/* ================= DIRTY / SAVE ================= */
-function setDirty(d){
-  DIRTY=d;
+/* konumu başka sayfaya taşı (iki dosya da hemen kaydedilir) */
+async function moveLoc(i){
+  const loc=DATA.locations[i];
+  const hedef=prompt('Hedef sayfa (örn: antalya, france, usa_texas):','');
+  if(!hedef)return;
+  const slug=hedef.trim().toLowerCase();
+  if(slug===CUR){toast('Zaten bu sayfada','err');return;}
+  if(!FILES.some(f=>f.slug===slug)){toast('Sayfa bulunamadı: '+slug,'err');return;}
+  if(!confirm('“'+(loc.name||'konum')+'” → '+dispName(slug)+' sayfasına taşınacak ve İKİ sayfa da hemen kaydedilecek. Onaylıyor musun?'))return;
+  try{
+    const tr=await ghGet('data/'+slug+'.json');
+    const tdata=JSON.parse(b64d(tr.content));
+    if(!tdata.locations)tdata.locations=[];
+    tdata.locations.push(JSON.parse(JSON.stringify(loc)));
+    await ghPut('data/'+slug+'.json',JSON.stringify(tdata,null,1),'admin: '+(loc.name||'konum')+' → '+slug+' (taşıma)',tr.sha);
+    PJ[slug]=tdata;
+    DATA.locations.splice(i,1);
+    const out=cleanData();
+    const r=await ghPut('data/'+CUR+'.json',JSON.stringify(out,null,1),'admin: '+CUR+'.json güncellendi (taşıma sonrası '+out.locations.length+' konum)',SHA);
+    SHA=r.content.sha;DATA=out;PJ[CUR]=out;setPDirty(false);renderLocs();
+    toast('Taşındı ✓ ('+dispName(slug)+')','ok');
+  }catch(e){toast('Taşınamadı: '+e.message,'err');}
+}
+
+function setPDirty(d){
+  PDIRTY=d;
   $('saveBtn').disabled=!d;
   $('dirtyTag').innerHTML=d?'<span class="dirty-dot"></span>':'';
-  $('saveInfo').textContent=d?'Kaydedilmemiş değişiklik var':'Değişiklik yok';
+  $('saveInfo').textContent=d?'Kaydedilmemiş değişiklik':'Değişiklik yok';
 }
-$('discardBtn').onclick=()=>{
-  if(DIRTY && !confirm('Tüm değişiklikler geri alınsın mı?'))return;
-  if(CUR){DIRTY=false;openFile(CUR);}
-};
-
+$('discardBtn').onclick=()=>{if(PDIRTY&&!confirm('Değişiklikler geri alınsın mı?'))return;if(CUR){PDIRTY=false;openFile(CUR);}};
 function cleanData(){
   const out=JSON.parse(JSON.stringify(DATA));
-  out.locations.forEach(l=>{
-    l.photos=(l.photos||[]).map(p=>(p||'').trim()).filter(Boolean);
-    l.name=(l.name||'').trim();
-    l.map=(l.map||'').trim();
-  });
+  out.locations.forEach(l=>{l.photos=(l.photos||[]).map(p=>(p||'').trim()).filter(Boolean);l.name=(l.name||'').trim();l.map=(l.map||'').trim();});
   return out;
 }
-async function save(){
-  if(!DIRTY)return;
+$('saveBtn').onclick=async()=>{
+  if(!PDIRTY)return;
   const out=cleanData();
-  const empties=out.locations.filter(l=>!l.name);
-  if(empties.length && !confirm(empties.length+' konumun adı boş. Yine de kaydedilsin mi?'))return;
-  $('saveBtn').disabled=true; $('saveBtn').textContent='Kaydediliyor…';
+  const empt=out.locations.filter(l=>!l.name).length;
+  if(empt&&!confirm(empt+' konumun adı boş. Yine de kaydedilsin mi?'))return;
+  $('saveBtn').disabled=true;$('saveBtn').textContent='Kaydediliyor…';
   try{
-    const body={
-      message:'admin: '+DATA.slug+'.json güncellendi ('+out.locations.length+' konum)',
-      content:b64encode(JSON.stringify(out,null,1)),
-      sha:SHA, branch:BRANCH
-    };
-    const r=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data/'+encodeURIComponent(DATA.slug)+'.json',{
-      method:'PUT', body:JSON.stringify(body)
-    });
-    SHA=r.content.sha;
-    DATA=out; if(!DATA.locations)DATA.locations=[];
-    setDirty(false);
-    renderEditor();
-    toast('Kaydedildi ✓ Cloudflare birkaç dk içinde yayınlar','ok');
-  }catch(e){
-    if(/sha|409|does not match/i.test(e.message)){
-      toast('Çakışma: dosya değişmiş. Listeyi yenileyip tekrar açın.','err');
-    }else toast('Kaydedilemedi: '+e.message,'err');
-  }finally{
-    $('saveBtn').disabled=false; $('saveBtn').textContent='Kaydet & Yayınla';
-  }
-}
-$('saveBtn').onclick=save;
+    const r=await ghPut('data/'+CUR+'.json',JSON.stringify(out,null,1),'admin: '+CUR+'.json güncellendi ('+out.locations.length+' konum)',SHA);
+    SHA=r.content.sha;DATA=out;PJ[CUR]=out;if(!DATA.locations)DATA.locations=[];
+    setPDirty(false);renderEditor();
+    toast('Kaydedildi ✓ Birkaç dk içinde canlıda','ok');
+  }catch(e){toast('Kaydedilemedi: '+e.message,'err');}
+  finally{$('saveBtn').disabled=PDIRTY?false:true;$('saveBtn').textContent='Kaydet & Yayınla';}
+};
 
-/* kazara çıkış koruması */
-window.addEventListener('beforeunload',e=>{if(DIRTY){e.preventDefault();e.returnValue='';}});
+/* ================= ANA SAYFA ================= */
+async function loadHome(){
+  try{
+    const r=await ghGet('index.html');
+    const text=b64d(r.content);
+    const mT=text.match(/const TPHOTO=(\{.*?\});/s);
+    const mD=text.match(/const DECK=(\[.*?\]);/s);
+    const mP=text.match(/const PRICE_DEFAULT=lang=>lang==='tr'\?'([^']*)':'([^']*)';/);
+    const mS=text.match(/const SHOPIER_URL='([^']*)';/);
+    if(!mT||!mD||!mP||!mS)throw new Error('index.html desenleri bulunamadı (panel güncellenmeli)');
+    HOME={sha:r.sha,tphoto:JSON.parse(mT[1]),deck:JSON.parse(mD[1].replace(/'/g,'"')),priceTr:mP[1],priceEn:mP[2],shop:mS[1]};
+  }catch(e){
+    /* DECK tek tırnaklıysa JSON.parse patlar — güvenli yol: Function ile değerlendir */
+    try{
+      const r=await ghGet('index.html');const text=b64d(r.content);
+      const mT=text.match(/const TPHOTO=(\{.*?\});/s),mD=text.match(/const DECK=(\[.*?\]);/s),
+            mP=text.match(/const PRICE_DEFAULT=lang=>lang==='tr'\?'([^']*)':'([^']*)';/),mS=text.match(/const SHOPIER_URL='([^']*)';/);
+      if(!mT||!mD||!mP||!mS)throw new Error('index.html desenleri bulunamadı');
+      HOME={sha:r.sha,tphoto:(new Function('return '+mT[1]))(),deck:(new Function('return '+mD[1]))(),priceTr:mP[1],priceEn:mP[2],shop:mS[1]};
+    }catch(e2){
+      $('covers').innerHTML='<div class="note" style="color:var(--err)">Ana sayfa okunamadı: '+esc(e2.message)+'</div>';
+      $('slots').innerHTML='';return;
+    }
+  }
+  COVERS_DIRTY.clear();DECK_DIRTY=false;SET_DIRTY=false;
+  renderCovers();renderSlots();
+  $('priceTr').value=HOME.priceTr;$('priceEn').value=HOME.priceEn;$('shopUrl').value=HOME.shop;
+  ['priceTr','priceEn','shopUrl'].forEach(id=>$(id).oninput=()=>{SET_DIRTY=true;$('saveSettings').disabled=false;});
+  $('saveCovers').disabled=true;$('saveDeck').disabled=true;$('saveSettings').disabled=true;
+}
+function renderCovers(){
+  $('covers').innerHTML=Object.keys(HOME.tphoto).map(s=>`
+    <div class="cov ${COVERS_DIRTY.has(s)?'ch':''}" data-slug="${esc(s)}">
+      <img src="${esc(HOME.tphoto[s])}" loading="lazy" alt="">${COVERS_DIRTY.has(s)?'<span class="dot"></span>':''}
+      <span>${esc(IL_ADI[s]||s)}</span>
+    </div>`).join('');
+  [...$('covers').querySelectorAll('.cov')].forEach(el=>el.onclick=()=>pickPhoto(el.dataset.slug,url=>{
+    HOME.tphoto[el.dataset.slug]=url;COVERS_DIRTY.add(el.dataset.slug);
+    $('saveCovers').disabled=false;renderCovers();
+  }));
+}
+$('resetCovers').onclick=()=>{if(COVERS_DIRTY.size&&!confirm('Kapak değişiklikleri geri alınsın mı?'))return;loadHome();};
+$('saveCovers').onclick=()=>saveHome('covers');
+function renderSlots(){
+  const ils=Object.keys(IL_ADI).sort((a,b)=>IL_ADI[a].localeCompare(IL_ADI[b],'tr'));
+  $('slots').innerHTML=HOME.deck.map((d,i)=>`
+    <div class="slot" data-i="${i}">
+      <img class="pv" src="${esc(d.img)}" alt="">
+      <div class="fr"><span class="tag">Kart ${i+1} — ${esc(d.n||'')}</span>
+        <select data-role="il">${ils.map(s=>`<option value="${s}" ${IL_ADI[s]===(d.il||'Muğla')?'selected':''}>${IL_ADI[s]}</option>`).join('')}</select>
+        <select data-role="loc"><option>Yükleniyor…</option></select>
+        <div class="thumbs" data-role="ph"></div>
+      </div>
+    </div>`).join('');
+  [...$('slots').querySelectorAll('.slot')].forEach(slot=>{
+    const i=+slot.dataset.i;
+    const ilSel=slot.querySelector('[data-role=il]'),locSel=slot.querySelector('[data-role=loc]'),phBox=slot.querySelector('[data-role=ph]'),pv=slot.querySelector('.pv');
+    async function fillLocs(keepName){
+      const slug=ilSel.value;
+      locSel.innerHTML='<option>Yükleniyor…</option>';
+      const d=await fetchData(slug).catch(()=>null);
+      if(!d){locSel.innerHTML='<option>Veri alınamadı</option>';return;}
+      const L=d.locations||[];
+      locSel.innerHTML=L.map((l,k)=>`<option value="${k}" ${keepName&&l.name===HOME.deck[i].n?'selected':''}>${esc(l.name)}</option>`).join('');
+      fillPhotos();
+    }
+    function fillPhotos(){
+      const d=PJ[ilSel.value];if(!d)return;
+      const loc=(d.locations||[])[+locSel.value||0];if(!loc)return;
+      phBox.innerHTML=(loc.photos||[]).map(p=>`<img src="${esc(p)}" class="${p===HOME.deck[i].img?'sel':''}" loading="lazy">`).join('');
+      [...phBox.querySelectorAll('img')].forEach(im=>im.onclick=()=>{
+        HOME.deck[i]={n:loc.name,img:im.src,map:loc.map,il:IL_ADI[ilSel.value]};
+        DECK_DIRTY=true;$('saveDeck').disabled=false;
+        pv.src=im.src;slot.querySelector('.tag').textContent='Kart '+(i+1)+' — '+loc.name;
+        [...phBox.querySelectorAll('img')].forEach(x=>x.classList.toggle('sel',x===im));
+      });
+    }
+    ilSel.onchange=()=>fillLocs(false);
+    locSel.onchange=fillPhotos;
+    fillLocs(true);
+  });
+}
+$('saveDeck').onclick=()=>saveHome('deck');
+$('saveSettings').onclick=()=>saveHome('settings');
+
+/* il fotoğrafı seçici modal */
+async function pickPhoto(slug,cb){
+  const d=await fetchData(slug).catch(()=>null);
+  if(!d){toast('Veri alınamadı','err');return;}
+  const m=document.createElement('div');m.className='modal';
+  m.innerHTML=`<div class="mc"><h3>${esc(IL_ADI[slug]||slug)} — fotoğraf seç<button class="x">✕</button></h3>
+    ${(d.locations||[]).map(l=>`<div class="pick"><div class="pn">${esc(l.name)}</div>
+      <div class="pg">${(l.photos||[]).map(p=>`<img src="${esc(p)}" loading="lazy" data-u="${esc(p)}">`).join('')}</div></div>`).join('')}</div>`;
+  document.body.appendChild(m);document.body.style.overflow='hidden';
+  const close=()=>{m.remove();document.body.style.overflow='';};
+  m.querySelector('.x').onclick=close;
+  m.addEventListener('click',e=>{if(e.target===m)close();});
+  [...m.querySelectorAll('.pg img')].forEach(im=>im.onclick=()=>{cb(im.dataset.u);close();});
+}
+
+/* index.html + test.html'i yeniden yaz */
+async function saveHome(which){
+  const btn={covers:$('saveCovers'),deck:$('saveDeck'),settings:$('saveSettings')}[which];
+  btn.disabled=true;const old=btn.textContent;btn.textContent='Kaydediliyor…';
+  try{
+    const r=await ghGet('index.html');
+    let text=b64d(r.content);
+    const chk=(re)=>{if(!re.test(text))throw new Error('desen bulunamadı — panel güncellenmeli');};
+    if(which==='covers'){
+      const re=/const TPHOTO=\{.*?\};/s;chk(re);
+      text=text.replace(re,'const TPHOTO='+JSON.stringify(HOME.tphoto)+';');
+    }else if(which==='deck'){
+      const re=/const DECK=\[.*?\];/s;chk(re);
+      text=text.replace(re,'const DECK='+JSON.stringify(HOME.deck)+';');
+    }else{
+      HOME.priceTr=$('priceTr').value.trim()||'1200 ₺';HOME.priceEn=$('priceEn').value.trim()||'€34';HOME.shop=$('shopUrl').value.trim()||HOME.shop;
+      const reP=/const PRICE_DEFAULT=lang=>lang==='tr'\?'[^']*':'[^']*';/;chk(reP);
+      text=text.replace(reP,"const PRICE_DEFAULT=lang=>lang==='tr'?'"+HOME.priceTr+"':'"+HOME.priceEn+"';");
+      const reS=/const SHOPIER_URL='[^']*';/;chk(reS);
+      text=text.replace(reS,"const SHOPIER_URL='"+HOME.shop+"';");
+    }
+    const msg={covers:'admin: ana sayfa kapakları güncellendi ('+COVERS_DIRTY.size+' il)',deck:'admin: karşılama destesi güncellendi',settings:'admin: fiyat/Shopier ayarları'}[which];
+    const res=await ghPut('index.html',text,msg,r.sha);
+    HOME.sha=res.content.sha;
+    /* test.html'i de eşitle (başarısız olursa kritik değil) */
+    try{const t=await ghGet('test.html');await ghPut('test.html',text,msg+' (test senkron)',t.sha);}catch(e){}
+    if(which==='covers'){COVERS_DIRTY.clear();renderCovers();}
+    if(which==='deck')DECK_DIRTY=false;
+    if(which==='settings')SET_DIRTY=false;
+    toast('Kaydedildi ✓ Birkaç dk içinde canlıda','ok');
+  }catch(e){btn.disabled=false;toast('Kaydedilemedi: '+e.message,'err');}
+  finally{btn.textContent=old;}
+}
+
+/* ================= ARAÇLAR ================= */
+function imgOk(url){return new Promise(res=>{const im=new Image();const t=setTimeout(()=>res(false),9000);
+  im.onload=()=>{clearTimeout(t);res(true);};im.onerror=()=>{clearTimeout(t);res(false);};im.src=url;});}
+$('scanBtn').onclick=async()=>{
+  const cat=$('scanCat').value;
+  const slugs=FILES.filter(f=>categorize(f.slug)===cat).map(f=>f.slug);
+  $('scanBtn').disabled=true;$('scanProg').classList.remove('hide');$('scanRes').innerHTML='';
+  const jobs=[];
+  for(const s of slugs){
+    const d=await fetchData(s).catch(()=>null);if(!d)continue;
+    (d.locations||[]).forEach(l=>(l.photos||[]).forEach(p=>jobs.push({slug:s,loc:l.name,url:p})));
+  }
+  let done=0;const bad=[];
+  async function worker(){
+    while(jobs.length){
+      const j=jobs.shift();
+      if(!(await imgOk(j.url)))bad.push(j);
+      done++;
+      $('scanProg').querySelector('i').style.width=Math.round(done/(done+jobs.length)*100)+'%';
+    }
+  }
+  await Promise.all(Array.from({length:12},worker));
+  $('scanProg').classList.add('hide');$('scanBtn').disabled=false;
+  $('scanRes').innerHTML=bad.length
+    ? `<div class="note" style="color:var(--err);margin-bottom:6px;">${bad.length} bozuk fotoğraf:</div>`+bad.map(b=>`
+        <div class="bad"><span style="font-weight:700;">${esc(dispName(b.slug,PJ[b.slug]))}</span>
+        <span style="color:var(--mut);">${esc(b.loc||'')}</span><span class="u">${esc(b.url)}</span>
+        <button class="btn ghost sm" data-slug="${esc(b.slug)}">Aç</button></div>`).join('')
+    : '<div class="note" style="color:var(--ok)">Hepsi sağlam ✓ ('+done+' fotoğraf denendi)</div>';
+  [...$('scanRes').querySelectorAll('button[data-slug]')].forEach(b=>b.onclick=()=>{gotoTab('sayfalar');openFile(b.dataset.slug);});
+};
+
+$('histBtn').onclick=async()=>{
+  const slug=($('histSlug').value||'').trim().toLowerCase();
+  if(!FILES.some(f=>f.slug===slug)){toast('Sayfa bulunamadı','err');return;}
+  $('histRes').innerHTML='<div class="note">Yükleniyor…</div>';
+  try{
+    const cs=await gh('/repos/'+OWNER+'/'+REPO+'/commits?path=data/'+encodeURIComponent(slug)+'.json&per_page=10');
+    $('histRes').innerHTML=cs.map((c,i)=>`<div class="commit">
+      <span class="msg">${esc(c.commit.message.split('\n')[0])}</span>
+      <span class="when">${rel(c.commit.author.date)}</span>
+      ${i>0?`<button class="btn ghost sm" data-sha="${c.sha}">Bu sürüme dön</button>`:'<span class="when" style="color:var(--ok)">güncel</span>'}
+    </div>`).join('')||'<div class="note">Geçmiş yok</div>';
+    [...$('histRes').querySelectorAll('button[data-sha]')].forEach(b=>b.onclick=async()=>{
+      if(!confirm(dispName(slug)+' bu eski sürüme döndürülecek. Emin misin?'))return;
+      b.disabled=true;
+      try{
+        const oldF=await gh('/repos/'+OWNER+'/'+REPO+'/contents/data/'+encodeURIComponent(slug)+'.json?ref='+b.dataset.sha);
+        const cur=await ghGet('data/'+slug+'.json');
+        await ghPut('data/'+slug+'.json',b64d(oldF.content),'admin: '+slug+'.json eski sürüme döndürüldü ('+b.dataset.sha.slice(0,7)+')',cur.sha);
+        delete PJ[slug];
+        toast('Geri alındı ✓','ok');$('histBtn').click();
+      }catch(e){toast('Olmadı: '+e.message,'err');b.disabled=false;}
+    });
+  }catch(e){$('histRes').innerHTML='<div class="note" style="color:var(--err)">'+esc(e.message)+'</div>';}
+};
+
+$('backupBtn').onclick=async()=>{
+  $('backupBtn').disabled=true;$('backupRes').innerHTML='<div class="note">Toplanıyor… (biraz sürebilir)</div>';
+  try{
+    const out={};const slugs=FILES.map(f=>f.slug);let done=0;
+    async function worker(){while(slugs.length){const s=slugs.shift();try{out[s]=await fetchData(s);}catch(e){out[s]=null;}done++;
+      if(done%40===0)$('backupRes').innerHTML='<div class="note">Toplanıyor… '+done+'</div>';}}
+    await Promise.all(Array.from({length:10},worker));
+    const blob=new Blob([JSON.stringify(out,null,1)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='tr81-data-yedek-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+    $('backupRes').innerHTML='<div class="note" style="color:var(--ok)">İndirildi ✓ ('+Object.keys(out).length+' sayfa)</div>';
+  }catch(e){$('backupRes').innerHTML='<div class="note" style="color:var(--err)">'+esc(e.message)+'</div>';}
+  finally{$('backupBtn').disabled=false;}
+};
 
 /* ================= INIT ================= */
 (function init(){
   const saved=localStorage.getItem('tr81-gh-token');
-  if(saved){ TOKEN=saved; $('tokenInput').value=saved;
+  if(saved){TOKEN=saved;$('tokenInput').value=saved;
     gh('/repos/'+OWNER+'/'+REPO).then(repo=>{BRANCH=repo.default_branch||'main';showApp();})
-      .catch(()=>{toast('Kayıtlı token geçersiz, tekrar gir','err');TOKEN='';localStorage.removeItem('tr81-gh-token');});
-  }
+      .catch(()=>{toast('Kayıtlı token geçersiz — yeniden gir','err');TOKEN='';localStorage.removeItem('tr81-gh-token');});}
 })();
 </script>
 </body>
