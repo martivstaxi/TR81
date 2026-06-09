@@ -113,7 +113,8 @@ function wireCode(){
       codemsg.className='codemsg ok';
       codemsg.innerHTML='<span class="tick">'+CHECK+'</span><span>'+T.codeOk+(T.codeOkSub?' '+T.codeOkSub:'')+'</span>';
       codego.disabled=true;codeinput.disabled=true;if(codehelp)codehelp.classList.remove('hot');
-      setTimeout(()=>{location.href='index.html';},950);
+      /* ülke sayfasında kod girildiyse aynı sayfayı aç (içerik yüklensin), değilse ana sayfa */
+      setTimeout(()=>{if(IL.mode==='country'){location.reload();}else{location.href='index.html';}},950);
     }else{
       wrong++;
       codemsg.className='codemsg err';codemsg.textContent=T.codeErr;codeinput.select();
@@ -122,6 +123,30 @@ function wireCode(){
   }
   codego.addEventListener('click',submitCode);
   codeinput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitCode();}});
+}
+
+/* ---------------- ülke kilidi: dünya = 1 yıllık erişim (kod) ----------------
+   Yeni model: tüm Türkiye ücretsiz, 150 ülke kodla açılır. mode 'country' sayfaları
+   erişim yoksa içerik yüklemez; sakin bir kilit ekranı gösterir. */
+const HAS_ACCESS=(()=>{try{return localStorage.getItem(LS_KEY)==='granted';}catch(e){return false;}})();
+const WL=LANG==='tr'
+  ?{h:'Kilitli',p:'Tüm dünya · 1 yıllık erişim',buy:'150 Ülke · 1 Yıllık Erişim'}
+  :{h:'Locked',p:'All world locations · 1-year access',buy:'150 Countries · 1-Year Access'};
+function buildLockedCTA(){
+  const cta=$('cta');
+  cta.classList.add('ctain');
+  cta.innerHTML=`<h3>${WL.h}</h3><p>${WL.p}</p>
+    <div class="ctabtns">
+      <a href="https://www.shopier.com/35589307" target="_blank" rel="noopener">${LOCK}<span>${WL.buy}</span></a>
+      <button class="codebtn" id="codebtn">${UNLOCK}<span>${T.haveCode}</span></button>
+    </div>
+    <div class="codebox" id="codebox">
+      <div class="crow"><input id="codeinput" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${T.codePh}"><button class="go" id="codego">${T.codeGo}</button></div>
+      <div class="codemsg" id="codemsg"></div>
+      <div class="codedeliver">${T.codeDeliver||''}</div>
+      <a class="codehelp" id="codehelp" href="https://instagram.com/tr81.tr" target="_blank" rel="noopener">${IG}<span>${T.codeHelp||''} <b>@tr81.tr</b></span></a>
+    </div>`;
+  wireCode();
 }
 
 /* ---------------- liste + lightbox ---------------- */
@@ -170,6 +195,12 @@ function wireLightbox(list){
 }
 
 /* ---------------- başlat ---------------- */
+if(IL.mode==='country'&&!HAS_ACCESS){
+  showSkeleton();              /* stil enjeksiyonu için */
+  $('list').innerHTML='';      /* içerik yok: iskelet de yok */
+  $('cnt').textContent=WL.p;
+  buildLockedCTA();
+}else{
 showSkeleton();
 $('cnt').textContent=T.empty;
 fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
@@ -182,4 +213,5 @@ fetch('data/'+IL.slug+'.json',{cache:'no-cache'})
     buildCTA();              /* CTA artık içerikle birlikte, altta doğar */
   })
   .catch(()=>{$('cnt').textContent=T.fail;$('list').innerHTML='';buildCTA();});
+}
 })();
